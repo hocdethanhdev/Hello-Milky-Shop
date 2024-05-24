@@ -1,7 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
+
 module.exports = (sequelize) => {
-  return sequelize.define('Product', {
+  const Product = sequelize.define('Product', {
     ProductID: {
       type: DataTypes.STRING(6),
       allowNull: false,
@@ -55,4 +56,13 @@ module.exports = (sequelize) => {
     timestamps: false,
     tableName: 'Product',
   });
+
+  Product.associate = (models) => {
+    Product.belongsToMany(models.Promotion, {
+      through: 'ProductPromotionList',
+      foreignKey: 'ProductID',
+    });
+  };
+
+  return Product;
 };

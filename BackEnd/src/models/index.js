@@ -43,6 +43,11 @@ OrderDetail.belongsTo(Product, { foreignKey: 'ProductID' });
 ProductPromotionList.belongsTo(Product, { foreignKey: 'ProductID' });
 ProductPromotionList.belongsTo(Promotion, { foreignKey: 'PromotionID' });
 
+// Thêm mối quan hệ giữa Product và Promotion
+Product.belongsToMany(Promotion, { through: ProductPromotionList, foreignKey: 'ProductID' });
+Promotion.belongsToMany(Product, { through: ProductPromotionList, foreignKey: 'PromotionID' });
+
+
 // Export các model và đối tượng Sequelize
 module.exports = {
   Role,

@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
+
 module.exports = (sequelize) => {
   return sequelize.define('Promotion', {
     PromotionID: {
