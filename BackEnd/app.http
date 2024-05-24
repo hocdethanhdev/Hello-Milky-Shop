@@ -1,0 +1,18 @@
+GET http://localhost:3000/api/v1/user/getUsers
+###
+POST http://localhost:3000/api/v1/user/registerByPhone
+Content-Type: application/json
+
+{
+    "username": "Nhan",
+    "phonenumber": "203720124",
+    "password": "1"
+}
+###
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "phonenumber": "203720124",
+    "password": "1"
+}
