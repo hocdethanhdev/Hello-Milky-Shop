@@ -32,6 +32,10 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(30),
       allowNull: false,
     },
+    Quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   }, {
     timestamps: false,
     tableName: 'Voucher',

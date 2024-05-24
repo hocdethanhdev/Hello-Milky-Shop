@@ -23,15 +23,7 @@ module.exports = (sequelize) => {
         model: 'Promotion',
         key: 'PromotionID',
       },
-    },
-    ProductNumber: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    DiscountPercentage: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    }
   }, {
     timestamps: false,
     tableName: 'ProductPromotionList',
