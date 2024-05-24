@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const { User } = require('../models');
 const { sequelize } = require('../models');
 const bcrypt = require('bcrypt');
@@ -5,6 +6,34 @@ const bcrypt = require('bcrypt');
 const getUsers = async (req, res) => {
   try {
     const users = await User.findAll();
+    res.json(users);
+  } catch (error) {
+    console.error('Error while fetching users:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const getUserByID = async (req, res) => {
+  try {
+
+    const id = req.params.id;
+
+    const user = await User.findOne({where: {UserID: id}});
+    if(!user) return res.status(404).send('Not found');
+    res.json(user);
+  } catch (error) {
+    console.error('Error while fetching users:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const getUserByRole = async (req, res) => {
+  try {
+
+    const id = parseInt(req.params.id);
+
+    const users = await User.findAll({where: {RoleID: id}});
+    if(!users) return res.status(404).send('Not found');
     res.json(users);
   } catch (error) {
     console.error('Error while fetching users:', error);
@@ -53,5 +82,7 @@ const registerByPhone = async (req, res) => {
 
 module.exports = {
   getUsers,
-  registerByPhone
+  registerByPhone,
+  getUserByID,
+  getUserByRole
 }

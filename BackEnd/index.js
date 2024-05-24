@@ -32,6 +32,7 @@ connectionDatabase()
   .catch((err) => {
     console.error("Error connecting to the database:", err);
   });
+  
   closeConnection()
 
 //controllers: thanh điều hướng, nhận yêu cầu API gửi lên rồi đưa cho service. Sau khi nhận respone từ  services sẽ đem đưa cho API. (điều hướng)

@@ -9,15 +9,19 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
     DiscountPercentage: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
-    StartedDate: {
+    StartDate: {
       type: DataTypes.DATE,
       allowNull: false,
     },
     EndDate: {
       type: DataTypes.DATE,
+      allowNull: false,
+    },
+    PromotionName: {
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
   }, {

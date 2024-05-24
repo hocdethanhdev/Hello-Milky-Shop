@@ -6,10 +6,11 @@ const config = {
     server: 'localhost',     
     port: 1433,              
     database: 'HelloMilkyShop', 
-
+    
     options: {
-        encrypt: false,       
+        encrypt: false,
         trustServerCertificate: true 
+        
     }
 };
 
