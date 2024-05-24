@@ -21,6 +21,8 @@ GET http://localhost:3000/api/v1/user/getUserByID/A0000001
 ###
 GET http://localhost:3000/api/v1/user/getUserByRole/3
 ###
-GET http://localhost:3000/api/v1/product/getAllProducts
+GET http://localhost:3000/api/v1/product/getProductsByCategory/2
 ###
-GET http://localhost:3000/api/v1/product/getProductsByCategory/1
+GET http://localhost:3000/api/v1/product/getPromotionalProducts
+###
+GET http://localhost:3000/api/v1/product/getTop6ProductsByCategory/1
