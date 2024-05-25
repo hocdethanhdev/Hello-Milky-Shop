@@ -13,6 +13,10 @@ module.exports = (sequelize) => {
       type: DataTypes.DOUBLE,
       allowNull: false,
     },
+    Description: {
+      type: DataTypes.STRING(3000),
+      allowNull: true,
+    },
     StartDate: {
       type: DataTypes.DATE,
       allowNull: false,
