@@ -1,9 +1,10 @@
-module.exports = app => {
-    const userController = require("../controller/userController");
+const router = require('express').Router();
 
-    
-  
-    app.get('/', (req, res) => {
-        res.send('Server on')
-    })
-  };
+const userController = require("../controller/userController");
+     
+router.get('/getAllUsers', userController.getAllUsers);
+
+module.exports = router
+
+
+

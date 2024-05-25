@@ -1,11 +1,24 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
+require("dotenv").config();
+const initRouters = require("./routes/index");
 
 const app = express();
 
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL, 
+    methods: ["GET", "POST", "PUT", "DELETE"], 
+  })
+);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-require('./routes/userRouter')(app)
-app.listen(5000, () => {
-  console.log("Server is running on port 5000.");
+
+initRouters(app);
+
+const PORT = process.env.PORT || 8888;
+const listener = app.listen(PORT, () => {
+  console.log("Server is running at " + listener.address().port);
 });
