@@ -16,10 +16,12 @@ router.get('/getAllBrands', productController.getAllBrands);
 
 router.get('/getAllProductCategory', productController.getAllProductCategory);
 
-router.get('/searchWithBrand/:name/:brand', productController.searchWithBrand)
+router.get('/searchWithBrand/:name/:brand', productController.searchWithBrand);
 
-router.get('/searchWithProductCategory/:name/:pc', productController.searchWithProductCategory)
+router.get('/searchWithProductCategory/:name/:pc', productController.searchWithProductCategory);
 
-router.get('/searchWithPrice/:name/:min_price/:max_price', productController.searchWithPrice)
+router.get('/searchWithPrice/:name/:min_price/:max_price', productController.searchWithPrice);
+
+router.get('/searchWithName/:name', productController.searchWithName);
 
 module.exports = router

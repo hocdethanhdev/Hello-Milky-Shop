@@ -115,6 +115,25 @@ const productDAO = {
       });
     });
   },
+  searchWithName: (name) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request()
+        .input("Name", mssql.NVarChar,`%${name}%`);
+        request.query(
+          `SELECT ProductID, ProductName, ProductCategoryName, Status 
+          FROM Product p 
+          JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
+          JOIN Brand b ON p.BrandID = b.BrandID
+          WHERE ProductName LIKE @Name`,
+          (err, res) => {
+            if (err) reject(err);
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
   findInfoProductsDetail: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {

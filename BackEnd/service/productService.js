@@ -20,6 +20,9 @@ const productService = {
     searchWithPrice : async (name, min, max) => {
       return await productRepository.searchWithPrice(name, min, max);
     },
+    searchWithName : async (name) => {
+      return await productRepository.searchWithName(name);
+    },
     getInfoProductsDetail : async (req, res) => {
       return await productRepository.getInfoProductsDetail();
     },

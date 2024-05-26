@@ -25,6 +25,10 @@ const productRepository = {
     return await productDAO.searchWithPrice(name, min, max);
   },
 
+  searchWithName: async (name) => {
+    return await productDAO.searchWithName(name);
+  },
+
   getInfoProductsDetail: async () => {
     return await productDAO.findInfoProductsDetail();
   },

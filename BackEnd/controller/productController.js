@@ -50,6 +50,16 @@ const searchWithPrice = async (req, res) => {
     }
 };
 
+const searchWithName = async (req, res) => {
+    try {
+        const obj = await productService.searchWithName(req.params.name);
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all users:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 const getAllProductCategory = async (req, res) => {
     try {
         const obj = await productService.getAllProductCategory();
@@ -111,4 +121,5 @@ module.exports = {
     searchWithBrand,
     searchWithProductCategory,
     searchWithPrice,
+    searchWithName,
 }

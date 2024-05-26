@@ -12,6 +12,8 @@ GET http://localhost:5000/api/v1/product/searchWithProductCategory/Phy/Sữa cho
 ###
 GET http://localhost:5000/api/v1/product/searchWithPrice/Phy/0/19999999
 ###
+GET http://localhost:5000/api/v1/product/searchWithName/Phy
+###
 GET http://localhost:5000/api/v1/product/getInfoProductsDetail
 ###
 POST http://localhost:5000/api/v1/product/createProduct
