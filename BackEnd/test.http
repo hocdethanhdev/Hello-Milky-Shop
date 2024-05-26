@@ -1,1 +1,50 @@
 GET http://localhost:5000/api/v1/user/getAllUsers
+###
+GET http://localhost:5000/api/v1/product/getAllProducts
+###
+GET http://localhost:5000/api/v1/product/getAllBrands
+###
+GET http://localhost:5000/api/v1/product/searchWithBrand/Phy/Enfamil
+###
+GET http://localhost:5000/api/v1/product/getAllProductCategory
+###
+GET http://localhost:5000/api/v1/product/searchWithProductCategory/Phy/Sữa cho mẹ bầu
+###
+GET http://localhost:5000/api/v1/product/searchWithPrice/Phy/0/19999999
+###
+GET http://localhost:5000/api/v1/product/searchWithName/Phy
+###
+GET http://localhost:5000/api/v1/product/getInfoProductsDetail
+###
+POST http://localhost:5000/api/v1/product/createProduct
+Content-Type: application/json
+
+{
+    "ProductName": "Enfamil NeuroPro",
+    "Description": "Infant formula with MFGM and DHA",
+    "Price": "540000",
+    "StockQuantity": "8000",
+    "Image": "enfamil_neuropro.jpg",
+    "ExpirationDate": "2025-12-31",
+    "ManufacturingDate": "2024-01-01",
+    "BrandName": "Enfamil",
+    "ProductCategoryName": "Sữa cho em bé",
+    "Status": "Deleted"
+}
+###
+PUT http://localhost:5000/api/v1/product/editProduct/SE0002
+Content-Type: application/json
+
+{
+    "ProductName": "Enfamil NeuroPro",
+    "Description": "Infant formula with MFGM and DHA",
+    "Price": "540000",
+    "StockQuantity": "802",
+    "Image": "enfamil_neuropro.jpg",
+    "ExpirationDate": "2025-12-31",
+    "ManufacturingDate": "2024-01-01",
+    "BrandName": "Enfamil",
+    "ProductCategoryName": "Sữa cho em bé"
+}
+###
+PUT http://localhost:5000/api/v1/product/deleteProduct/SE0002

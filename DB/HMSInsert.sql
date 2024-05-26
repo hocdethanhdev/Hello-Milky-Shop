@@ -68,14 +68,14 @@ INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, 
 INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
 ('P024', N'XO Infant Formula', N'Korean infant formula for 0-6 months', 510000, 80, 'xo_infant_formula.jpg', '2025-12-31', '2024-01-01', 6, 2)
 
-INSERT INTO Voucher (Code, DiscountPercentage, MaxDiscount, MinDiscount, ExpiryDate, VoucherName, Quantity)
+INSERT INTO Voucher (Code, DiscountPercentage, MaxDiscount, MinDiscount, StartDate, ExpiryDate, VoucherName, Quantity)
 VALUES
-  ('VOUCHER1', 10, 100000, 0, '2024-12-31', 'Voucher 1',10),
-  ('VOUCHER2', 15, 150000, 0, '2024-12-31', 'Voucher 2',10),
-  ('VOUCHER3', 20, 200000, 0, '2024-12-31', 'Voucher 3',10),
-  ('VOUCHER4', 25, 250000, 0, '2024-12-31', 'Voucher 4',10),
-  ('VOUCHER5', 30, 300000, 0, '2024-12-31', 'Voucher 5',10),
-  ('VOUCHER6', 35, 350000, 0, '2024-12-31', 'Voucher 6',10);
+  ('VOUCHER1', 10, 100000, 0,'2024-12-30', '2024-12-31', 'Voucher 1',10),
+  ('VOUCHER2', 15, 150000, 0,'2024-12-30', '2024-12-31', 'Voucher 2',10),
+  ('VOUCHER3', 20, 200000, 0,'2024-12-30', '2024-12-31', 'Voucher 3',10),
+  ('VOUCHER4', 25, 250000, 0,'2024-12-30', '2024-12-31', 'Voucher 4',10),
+  ('VOUCHER5', 30, 300000, 0,'2024-12-30', '2024-12-31', 'Voucher 5',10),
+  ('VOUCHER6', 35, 350000, 0,'2024-12-30', '2024-12-31', 'Voucher 6',10);
 
 
 INSERT INTO ArticleCategory VALUES (N'Tổng hợp'), (N'Tin khuyến mãi'), (N'Tư vấn mua sắm')
