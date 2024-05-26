@@ -1,9 +1,9 @@
 {
   "name": "nodejs3layer",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "BackEnd/index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon BackEnd/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
