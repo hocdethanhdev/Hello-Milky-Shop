@@ -1,0 +1,91 @@
+.voucher-store {
+    padding: 20px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .voucher-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .voucher-wrapper {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 10px;
+  }
+  
+  .voucher-item {
+    display: flex;
+    align-items: center;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    padding: 10px;
+  }
+  
+  .voucher-item:hover {
+    transform: translateY(-2px);
+  }
+  
+  .voucher-discount {
+    background-color: #ff5722;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    text-align: center;
+    border-radius: 4px;
+  }
+  
+  .voucher-details {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+  }
+  
+  .voucher-info {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .voucher-info p {
+    margin: 5px 0;
+  }
+  
+  .redeem-button {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  
+  .redeem-button:hover {
+    background-color: #e64a19;
+  }
+  

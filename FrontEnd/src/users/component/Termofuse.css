@@ -1,0 +1,13 @@
+h1 {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.main-container-termofuse {
+    border: 1px solid #ccc; /* Thêm border với màu xám */
+    padding: 20px; /* Thêm padding để tạo khoảng cách giữa border và nội dung */
+    max-width: 900px; /* Đặt chiều rộng tối đa của phần tử main */
+    margin: 0 auto; /* Canh giữa phần tử main */
+    
+  }
+  
