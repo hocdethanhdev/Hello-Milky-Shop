@@ -1,0 +1,39 @@
+.login-button {
+  background-color: #0f7fc1; /* Màu nền của nút */
+  color: whitesmoke; /* Màu chữ của nút */
+  border: 1px solid #ddd; /* Viền của nút */
+  border-radius: 20px; /* Bo góc của nút */
+  padding: 10px 20px; /* Kích thước padding của nút */
+  font-size: 16px; /* Kích thước font chữ của nút */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.login-button:hover {
+  background-color: rgb(201, 166, 101); /* Màu nền của nút khi hover */
+}
+
+
+.google-signup-button {
+  display: inline-block;
+  color: whitesmoke;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+  background-color: rgb(194, 57, 11);
+  transition: background-color 0.3s ease;
+}
+
+.google-signup-button:hover {
+  background-color: rgb(201, 166, 101);
+}
+
+.google-icon {
+  margin-right: 10px;
+}
+
+.button-text {
+  vertical-align: middle;
+}
