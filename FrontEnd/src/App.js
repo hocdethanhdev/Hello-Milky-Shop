@@ -8,7 +8,7 @@ import Login from "./users/component/Login";
 import Signup from "./users/component/Signup";
 import Termofuse from "./users/component/Termofuse";
 import VoucherStore from "./users/component/VoucherStore";
-import Sales from ".users/component/Sales";
+//import Sales from ".users/component/Sales";
 
 function App() {
   return (
