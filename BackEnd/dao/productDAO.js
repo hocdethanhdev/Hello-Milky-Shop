@@ -27,7 +27,8 @@ const productDAO = {
         const request = new mssql.Request();
         request.query(
           `SELECT BrandName
-          FROM Brand;`,
+          FROM Product p
+          JOIN Brand b ON p.BrandID = b.BrandID;`,
           (err, res) => {
             if (err) reject(err);
 
