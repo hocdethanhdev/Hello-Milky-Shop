@@ -96,7 +96,7 @@ CREATE TABLE Voucher (
 VoucherID int IDENTITY NOT NULL, 
 Code varchar(10) NOT NULL, 
 Quantity int NOT NULL,
-DiscountPercentage int NOT NULL, 
+DiscountPercentage float NOT NULL, 
 MaxDiscount int NOT NULL, 
 MinDiscount int NOT NULL, 
 Status nvarchar(20),
