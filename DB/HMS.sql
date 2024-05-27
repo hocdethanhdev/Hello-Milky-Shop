@@ -40,7 +40,7 @@ ArticleID int IDENTITY NOT NULL,
 Title nvarchar(150) NOT NULL,
 HeaderImage varchar(50),
 Content nvarchar(3000) NOT NULL, 
-PublisDate date default getdate() NOT NULL, 
+PublishDate date default getdate() NOT NULL, 
 AuthorID varchar(8) foreign key references Users(UserID), 
 ArticleCategoryID int foreign key references ArticleCategory(ArticleCategoryID), 
 PRIMARY KEY (ArticleID));
