@@ -1,17 +1,9 @@
-
-
-
-
 import React from "react";
 import Slider from "react-slick";
 import { TiThMenu } from "react-icons/ti";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Product1.css";
-
-
-
-
 
 function Product1() {
   const sliderSettings = {
@@ -40,68 +32,67 @@ function Product1() {
                   </tr>
                 </thead>
                 <tbody>
-                <tr>
-                  <td>
-                    <a href="KhuyenMaiLon.html" className="cate_li_title">
-                      <img
-                        className="img_icon icon_hover"
-                        src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
-                        alt="Khuyến mại lớn"
-                      />
-                      Khuyến mại lớn
-                    </a>
-                  </td>
-                </tr>
-                
-                <tr>
-                  <td>
-                    <a href="SuaChoMe.html" className="cate_li_title">
-                      <img
-                        className="img_icon icon_hover"
-                        src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
-                        alt="Đồ dùng cho mẹ"
-                      />
-                      Sữa cho mẹ
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="SuaChoBe.html" className="cate_li_title">
-                      <img
-                        className="img_icon icon_hover"
-                        src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
-                        alt="Đồ dùng cho mẹ"
-                      />
-                      Sữa cho bé
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="/Voucher" className="cate_li_title">
-                      <img
-                        className="img_icon icon_hover"
-                        src="./voucher.png"
-                        
-                        alt="Voucher"
-                      />
-                     Voucher
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a href="/" className="cate_li_title">
-                      <img
-                        className="img_icon icon_hover"
-                        src="./news.png"
-                        alt="Tin tức"
-                      />
-                      Tin tức
-                    </a>
-                  </td>
-                </tr>
+                  <tr>
+                    <td>
+                      <a href="KhuyenMaiLon.html" className="cate_li_title">
+                        <img
+                          className="img_icon icon_hover"
+                          src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
+                          alt="Khuyến mại lớn"
+                        />
+                        Khuyến mại lớn
+                      </a>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <a href="SuaChoMe.html" className="cate_li_title">
+                        <img
+                          className="img_icon icon_hover"
+                          src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
+                          alt="Đồ dùng cho mẹ"
+                        />
+                        Sữa cho mẹ
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href="SuaChoBe.html" className="cate_li_title">
+                        <img
+                          className="img_icon icon_hover"
+                          src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
+                          alt="Đồ dùng cho mẹ"
+                        />
+                        Sữa cho bé
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href="/Voucher" className="cate_li_title">
+                        <img
+                          className="img_icon icon_hover"
+                          src="./voucher.png"
+                          alt="Voucher"
+                        />
+                        Voucher
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href="/" className="cate_li_title">
+                        <img
+                          className="img_icon icon_hover"
+                          src="./news.png"
+                          alt="Tin tức"
+                        />
+                        Tin tức
+                      </a>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -127,7 +118,7 @@ function Product1() {
           </div>
         </div>
       </div>
-{/* Product 2 */}
+      {/* Product 2 */}
       <section
         id="list_product_cate"
         className="width-common boxx-common tm-d superSale"
@@ -254,15 +245,62 @@ function Product1() {
               </div>
             </div>
           </div>
-          
-        </div>      
-        </section>
+        </div>
       </section>
+
+      <section>
+        <div className="row">
+          <div className="col-md-2">
+            <div className="box_title_cate">
+              <span className="number_flo"></span>
+              <a href="/danh-muc/combo-tiet-kiem-cho-me-va-be">
+                <img
+                  src="https://media.shoptretho.com.vn/upload/image/category/20221109/icon2.png?mode=max&amp;width=60&amp;height=60"
+                  alt="Combo siêu tiết kiệm"
+                />
+                <h2>Sữa cho mẹ</h2>
+              </a>
+            </div>
+          </div>
+          <div className="col-md-3">
+            <a>
+              <img
+                src="https://media.shoptretho.com.vn/upload/category/20230112/banner-tang.png?mode=max&amp;width=375&amp;height=423"
+                alt=""
+              />
+            </a>
+          </div>
+          <div className="col-md-7 row">
+            <div className="item col-md-4">
+              <div className="image_item">
+                <a
+                  href="/combo-8-lon-sua-meiji-so-9-800gr-1-3-tuoi"
+                  target="_blank"
+                >
+                  <img
+                    src="https://media.shoptretho.com.vn/upload/image/product/20230609/combo-8-lon-sua-meiji-so-9.jpg?mode=max&amp;width=400&amp;height=400"
+                    alt="Combo 8 lon sữa Meiji số 9 - (800gr) (1-3 tuổi)"
+                  />
+                </a>
+              </div>
+              <h3>
+                <a
+                  href="/combo-8-lon-sua-meiji-so-9-800gr-1-3-tuoi"
+                  target="_blank"
+                >
+                  Combo 8 lon sữa Meiji số 9 - (800gr) (1-3 tuổi)
+                </a>
+              </h3>
+              <div className="price">
+                <span className="price_item">3.512.000đ</span>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+    </section>
   );
 }
 
 export default Product1;
-
-
-
-
