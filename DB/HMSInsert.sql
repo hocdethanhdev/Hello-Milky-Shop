@@ -104,3 +104,4 @@ FROM (SELECT PromotionID FROM Promotion) p
 CROSS JOIN (SELECT ProductID FROM RandomProducts WHERE rn <= 5) rp
 ORDER BY p.PromotionID;
 */
+
