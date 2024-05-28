@@ -14,8 +14,11 @@ const productDAO = {
         ;`,
           (err, res) => {
             if (err) reject(err);
-
-            resolve(res.recordset);
+            const product = res.recordset;
+            if (!product[0]) resolve({
+              err: "Empty"
+            })
+            resolve(product);
           }
         );
       });
@@ -31,8 +34,11 @@ const productDAO = {
           JOIN Brand b ON p.BrandID = b.BrandID;`,
           (err, res) => {
             if (err) reject(err);
-
-            resolve(res.recordset);
+            const brand = res.recordset;
+            if (!brand[0]) resolve({
+              err: "Empty"
+            })
+            resolve(brand);
           }
         );
       });
@@ -52,8 +58,11 @@ const productDAO = {
           WHERE ProductName LIKE @Name AND BrandName = @BrandName`,
           (err, res) => {
             if (err) reject(err);
-
-            resolve(res.recordset);
+            const product = res.recordset;
+            if (!product[0]) resolve({
+              err: "Not found"
+            })
+            resolve(product);
           }
         );
       });
@@ -68,8 +77,11 @@ const productDAO = {
           FROM ProductCategory;`,
           (err, res) => {
             if (err) reject(err);
-
-            resolve(res.recordset);
+            const category = res.recordset;
+            if (!category[0]) resolve({
+              err: "Not found"
+            })
+            resolve(category);
           }
         );
       });
@@ -89,7 +101,11 @@ const productDAO = {
           WHERE ProductName LIKE @Name AND ProductCategoryName = @pc`,
           (err, res) => {
             if (err) reject(err);
-            resolve(res.recordset);
+            const product = res.recordset;
+            if (!product[0]) resolve({
+              err: "Not found"
+            })
+            resolve(product);
           }
         );
       });
@@ -110,7 +126,11 @@ const productDAO = {
           WHERE ProductName LIKE @Name AND Price >= @Min AND Price <= @Max`,
           (err, res) => {
             if (err) reject(err);
-            resolve(res.recordset);
+            const product = res.recordset;
+            if (!product[0]) resolve({
+              err: "Not found"
+            })
+            resolve(product);
           }
         );
       });
@@ -129,7 +149,11 @@ const productDAO = {
           WHERE ProductName LIKE @Name`,
           (err, res) => {
             if (err) reject(err);
-            resolve(res.recordset);
+            const product = res.recordset;
+            if (!product[0]) resolve({
+              err: "Not found"
+            })
+            resolve(product);
           }
         );
       });
@@ -146,7 +170,11 @@ const productDAO = {
         JOIN Brand b ON p.BrandID = b.BrandID`,
           (err, res) => {
             if (err) reject(err);
-            resolve(res.recordset);
+            const product = res.recordset;
+            if (!product[0]) resolve({
+              err: "Not found"
+            })
+            resolve(product);
           }
         );
       });
