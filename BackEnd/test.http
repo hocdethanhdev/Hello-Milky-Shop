@@ -23,7 +23,7 @@ Content-Type: application/json
     "ProductName": "Enfamil NeuroPro",
     "Description": "Infant formula with MFGM and DHA",
     "Price": "540000",
-    "StockQuantity": "8000",
+    "StockQuantity": "800",
     "Image": "enfamil_neuropro.jpg",
     "ExpirationDate": "2025-12-31",
     "ManufacturingDate": "2024-01-01",
@@ -39,7 +39,7 @@ Content-Type: application/json
     "ProductName": "Enfamil NeuroPro",
     "Description": "Infant formula with MFGM and DHA",
     "Price": "540000",
-    "StockQuantity": "802",
+    "StockQuantity": "0",
     "Image": "enfamil_neuropro.jpg",
     "ExpirationDate": "2025-12-31",
     "ManufacturingDate": "2024-01-01",
@@ -66,3 +66,5 @@ Content-Type: application/json
     "PhoneNumber": "0987654321",
     "Password": "1"
 }
+###
+POST http://localhost:5000/api/v1/auth/logout

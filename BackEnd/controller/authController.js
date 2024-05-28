@@ -10,6 +10,13 @@ const login = async (req, res) => {
     }
 };
 
+let checkLoggedOut = (req, res) => {
+    if(req.isAuthenticated()){
+        return res.redirect("/");
+    }
+    next();
+};
+
 const register = async (req, res) => {
     try {
         const obj = await authService.register(req.body);
@@ -19,12 +26,16 @@ const register = async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 };
-/*
+
 const logout = async (req, res) => {
-    
+    req.session.destroy(function(err) {
+        return res.redirect("/");
+    });
 };
-*/
+
 module.exports = {
+    checkLoggedOut,
     login,
     register,
+    logout,
 }

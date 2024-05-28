@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require('express-session');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
@@ -12,6 +13,13 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"], 
   })
 );
+
+app.use(session({
+  secret: 'HelloMilkyShop', //secret key: dat gi cung dc
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } //dung https thi dat true
+}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

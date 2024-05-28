@@ -3,6 +3,7 @@ const dbConfig = require("../config/db.config");
 const User = require("../bo/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 
 const userDAO = {
   findAllUsers: () => {
@@ -24,7 +25,10 @@ const userDAO = {
           .input("PhoneNumber", mssql.VarChar, login.PhoneNumber)
           .input("Password", mssql.VarChar, login.Password);
         request.query(
-          `SELECT UserID, UserName, RoleID, Password FROM Users WHERE PhoneNumber = @PhoneNumber`,
+          `SELECT UserID, UserName, u.RoleID, Password, RoleName 
+          FROM Users u
+          JOIN Role r ON u.RoleID = r.RoleID
+          WHERE PhoneNumber = @PhoneNumber`,
           (err, res) => {
             if (err) reject(err);
 
@@ -32,7 +36,7 @@ const userDAO = {
 
             if (!user) {
               return resolve({
-                err: "Phone number is not exist"
+                err: login.PhoneNumber + " is not exist"
               });
             }
 
@@ -61,9 +65,12 @@ const userDAO = {
               auth: true,
               token: token,
               user: {
-                id: user.UserID,
-                name: user.UserName,
-                role: user.RoleID,
+                UserID: user.UserID,
+                UserName: user.UserName,
+                Role: {
+                  RoleID: user.RoleID,
+                  RoleName: user.RoleName
+                }
               },
             });
           }
@@ -127,11 +134,6 @@ const userDAO = {
       });
     });
   },
-  /*
-  logout: (token) => {
-    
-  },
-  */
 };
 
 module.exports = userDAO;
