@@ -19,7 +19,14 @@ let checkLoggedOut = (req, res) => {
 
 const register = async (req, res) => {
     try {
-        const obj = await authService.register(req.body);
+        let userName = req.body.UserName;
+        let userPhone = req.body.PhoneNumber;
+        let userPassword = req.body.Password;
+        let userRole = req.body.RoleID;
+
+        const password = authService.hasPassword(userPassword);
+
+        const obj = await authService.register(userName, userPhone, password, userRole);
         res.send(obj);
     } catch (error) {
         console.error("Error while getting all users:", error);
