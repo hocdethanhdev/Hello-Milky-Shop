@@ -28,12 +28,19 @@
   
   /* Button styling */
   .signup-button {
-    background-color: #1266f1; /* Màu nền của nút */
-    color: #fff; /* Màu chữ của nút */
+    background-color: #0f7fc1; /* Màu nền của nút */
+    color: whitesmoke; /* Màu chữ của nút */
+    border: 1px solid #ddd; /* Viền của nút */
+    border-radius: 20px; /* Bo góc của nút */
+    padding: 10px 20px; /* Kích thước padding của nút */
+    font-size: 16px; /* Kích thước font chữ của nút */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
   }
   
   .signup-button:hover {
-    background-color: #0d55c4; /* Màu nền của nút khi hover */
+    background-color: rgb(201, 166, 101); /* Màu nền của nút khi hover */
   }
   
   /* Social buttons */
@@ -71,3 +78,4 @@
   .checkbox-label input {
     margin-right: 5px;
   }
+

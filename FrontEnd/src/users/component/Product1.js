@@ -4,6 +4,7 @@ import { TiThMenu } from "react-icons/ti";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Product1.css";
+import Menu from "./Menu";
 
 function Product1() {
   const sliderSettings = {
@@ -19,83 +20,7 @@ function Product1() {
       <div className="wrap">
         <div className="row">
           <div className="col-md-3">
-            <div className="menu_cate">
-              <table className="category_table">
-                <thead>
-                  <tr>
-                    <th className="danhmuc">
-                      <div className="icon_danhmuc">
-                        <TiThMenu />
-                      </div>
-                      Danh mục
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <a href="KhuyenMaiLon.html" className="cate_li_title">
-                        <img
-                          className="img_icon icon_hover"
-                          src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
-                          alt="Khuyến mại lớn"
-                        />
-                        Khuyến mại lớn
-                      </a>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <a href="SuaChoMe.html" className="cate_li_title">
-                        <img
-                          className="img_icon icon_hover"
-                          src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
-                          alt="Đồ dùng cho mẹ"
-                        />
-                        Sữa cho mẹ
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="SuaChoBe.html" className="cate_li_title">
-                        <img
-                          className="img_icon icon_hover"
-                          src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
-                          alt="Đồ dùng cho mẹ"
-                        />
-                        Sữa cho bé
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="/Voucher" className="cate_li_title">
-                        <img
-                          className="img_icon icon_hover"
-                          src="./voucher.png"
-                          alt="Voucher"
-                        />
-                        Voucher
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="/" className="cate_li_title">
-                        <img
-                          className="img_icon icon_hover"
-                          src="./news.png"
-                          alt="Tin tức"
-                        />
-                        Tin tức
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <Menu />
           </div>
           <div className="col-md-9">
             <div className="main_slide">
@@ -248,57 +173,137 @@ function Product1() {
         </div>
       </section>
 
-      <section>
-        <div className="row">
-          <div className="col-md-2">
-            <div className="box_title_cate">
-              <span className="number_flo"></span>
-              <a href="/danh-muc/combo-tiet-kiem-cho-me-va-be">
-                <img
-                  src="https://media.shoptretho.com.vn/upload/image/category/20221109/icon2.png?mode=max&amp;width=60&amp;height=60"
-                  alt="Combo siêu tiết kiệm"
-                />
-                <h2>Sữa cho mẹ</h2>
-              </a>
+
+{/* PRODUCT 3 */}
+<section
+        id="list_product_cate"
+        className="width-common boxx-common tm-d superSale"
+        data-recoedwidget="true"
+      >
+        <div className="wrap">
+          <div className="category width-common" id="relative-btnMore">
+            <div className="box-container-header">
+              <div className="box-title box-title-Sgg">1F - Sữa cho mẹ</div>
+              <div className="box-time box-time-allDay"></div>
             </div>
-          </div>
-          <div className="col-md-3">
-            <a>
-              <img
-                src="https://media.shoptretho.com.vn/upload/category/20230112/banner-tang.png?mode=max&amp;width=375&amp;height=423"
-                alt=""
-              />
-            </a>
-          </div>
-          <div className="col-md-7 row">
-            <div className="item col-md-4">
-              <div className="image_item">
-                <a
-                  href="/combo-8-lon-sua-meiji-so-9-800gr-1-3-tuoi"
-                  target="_blank"
-                >
-                  <img
-                    src="https://media.shoptretho.com.vn/upload/image/product/20230609/combo-8-lon-sua-meiji-so-9.jpg?mode=max&amp;width=400&amp;height=400"
-                    alt="Combo 8 lon sữa Meiji số 9 - (800gr) (1-3 tuổi)"
-                  />
-                </a>
+            <div className="box-container-bottom">
+              <div className="item item-giasoc">
+                <div className="image_item">
+                  <a
+                    href="/sua-kid-essentials-nestle-800g-1-10-tuoi"
+                    target="_blank"
+                  >
+                    <img
+                      src="https://media.shoptretho.com.vn/upload/image/product/20230606/sua-kid-essentials-nestle-800g-1-10-tuoi.jpg?mode=max&width=400&height=400"
+                      alt="Sữa Kid Essentials Nestle 800g (1-10 tuổi)"
+                    />
+                  </a>
+                </div>
+                <div className="price">
+                  <h3 className="title-giasoc">
+                    <a
+                      href="/sua-kid-essentials-nestle-800g-1-10-tuoi"
+                      target="_blank"
+                    >
+                      Sữa Kid Essentials Nestle 800g (1-10 tuổi)
+                    </a>
+                  </h3>
+                  <span className="price_item price_item-Sgg">580.000đ</span>
+                  <span className="old_price">625.000đ</span>
+                  <span className="discount discount-Sgg">-45k</span>
+                </div>
               </div>
-              <h3>
-                <a
-                  href="/combo-8-lon-sua-meiji-so-9-800gr-1-3-tuoi"
-                  target="_blank"
-                >
-                  Combo 8 lon sữa Meiji số 9 - (800gr) (1-3 tuổi)
-                </a>
-              </h3>
-              <div className="price">
-                <span className="price_item">3.512.000đ</span>
+              <div className="item item-giasoc">
+                <div className="image_item">
+                  <a
+                    href="/sua-aptamil-new-zealand-so-2-900g-12-24-thang"
+                    target="_blank"
+                  >
+                    <img
+                      src="https://media.shoptretho.com.vn/upload/image/product/20230529/sua-aptamil-newzealand-2.jpg?mode=max&width=400&height=400"
+                      alt="Sữa Aptamil New Zealand số 2 900g (12-24 tháng)"
+                    />
+                  </a>
+                </div>
+                <div className="price">
+                  <h3 className="title-giasoc">
+                    <a
+                      href="/sua-aptamil-new-zealand-so-2-900g-12-24-thang"
+                      target="_blank"
+                    >
+                      Sữa Aptamil New Zealand số 2 900g (12-24 tháng)
+                    </a>
+                  </h3>
+                  <span className="price_item price_item-Sgg">659.000đ</span>
+                  <span className="old_price">664.000đ</span>
+                  <span className="discount discount-Sgg">-5k</span>
+                </div>
+              </div>
+              <div className="item item-giasoc">
+                <div className="image_item">
+                  <a href="/sua-glico-icreo-so-1-nhat-ban" target="_blank">
+                    <img
+                      src="https://media.shoptretho.com.vn/upload/image/product/20200331/sua-icreo-glico-so-1-2020-1.png?mode=max&width=400&height=400"
+                      alt="Glico Icreo Nhật Bản số 1 (9-36 tháng)"
+                    />
+                  </a>
+                </div>
+                <div className="price">
+                  <h3 className="title-giasoc">
+                    <a href="/sua-glico-icreo-so-1-nhat-ban" target="_blank">
+                      Glico Icreo Nhật Bản số 1 (9-36 tháng)
+                    </a>
+                  </h3>
+                  <span className="price_item price_item-Sgg">520.000đ</span>
+                  <span className="old_price">565.000đ</span>
+                  <span className="discount discount-Sgg">-45k</span>
+                </div>
+              </div>
+              <div className="item item-giasoc">
+                <div className="image_item">
+                  <a href="/sua-glico-icreo-so-1-nhat-ban" target="_blank">
+                    <img
+                      src="https://media.shoptretho.com.vn/upload/image/product/20200331/sua-icreo-glico-so-1-2020-1.png?mode=max&width=400&height=400"
+                      alt="Glico Icreo Nhật Bản số 1 (9-36 tháng)"
+                    />
+                  </a>
+                </div>
+                <div className="price">
+                  <h3 className="title-giasoc">
+                    <a href="/sua-glico-icreo-so-1-nhat-ban" target="_blank">
+                      Glico Icreo Nhật Bản số 1 (9-36 tháng)
+                    </a>
+                  </h3>
+                  <span className="price_item price_item-Sgg">520.000đ</span>
+                  <span className="old_price">565.000đ</span>
+                  <span className="discount discount-Sgg">-45k</span>
+                </div>
+              </div>
+              <div className="item item-giasoc">
+                <div className="image_item">
+                  <a href="/sua-glico-icreo-so-1-nhat-ban" target="_blank">
+                    <img
+                      src="https://media.shoptretho.com.vn/upload/image/product/20200331/sua-icreo-glico-so-1-2020-1.png?mode=max&width=400&height=400"
+                      alt="Glico Icreo Nhật Bản số 1 (9-36 tháng)"
+                    />
+                  </a>
+                </div>
+                <div className="price">
+                  <h3 className="title-giasoc">
+                    <a href="/sua-glico-icreo-so-1-nhat-ban" target="_blank">
+                      Glico Icreo Nhật Bản số 1 (9-36 tháng)
+                    </a>
+                  </h3>
+                  <span className="price_item price_item-Sgg">520.000đ</span>
+                  <span className="old_price">565.000đ</span>
+                  <span className="discount discount-Sgg">-45k</span>
+                </div>
               </div>
             </div>
-            
           </div>
         </div>
       </section>
+
     </section>
   );
 }
