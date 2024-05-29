@@ -1,88 +1,84 @@
-/* Trong file Product1.css */
-
 /* Danh mục */
 .menu_cate {
-    margin-top: 20px;
-    margin-left: 100px;
-    border: 1px solid ;
-    border-radius: 5px;
-    background-color: #0f7fc1;
-  }
-
-  .category_table {
-    width: 100%;
-  }
- /* Trong file Product1.css */
-.danhmuc {
-    text-align: center;
+  margin-top: 20px;
+  margin-left: 100px;
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: #0f7fc1;
 }
+
+.category_table {
+  width: 100%;
+}
+
+.danhmuc {
+  text-align: center;
+  color: #f9f9f9;
+}
+
 /* Mỗi hàng trong bảng danh mục */
 .category_table tbody tr:nth-child(even) {
-    background-color: #f0f0f0; /* Màu nền cho các hàng chẵn */
-  }
-  
-  .category_table tbody tr:nth-child(odd) {
-    background-color: #ffffff; /* Màu nền cho các hàng lẻ */
-  }
-  
-  /* Màu nền của ô khi di chuột qua */
-  .category_table tbody tr:hover td {
-    background-color: #fd3b36; /* Màu hồng khi di chuột qua */
-  }
-  
-
-  .cate_li_title {
-    display: block;
-    padding: 10px 0;
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .icon_danhmuc {
-    display: inline-block;
-    margin-right: 10px;
-    font-size: 20px;
-  }
-  
-  .img_icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  /* Slider */
-  .main_slide {
-    margin-top: 20px;
-  }
-  
-  .box_slider img {
-    width: 80%;
-    height: auto;
-  }
-  
-  .box_product_suggest {
-    margin-top: 20px;
-  }
-  
-  .clear {
-    clear: both;
-  }
-  
-  .slick-dots {
-    position: absolute;
-    bottom: -30px;
-    display: block;
-    width: 80%;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    text-align: center;
+  background-color: #f0f0f0; /* Màu nền cho các hàng chẵn */
 }
 
-/* Product 2 */
+.category_table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* Màu nền cho các hàng lẻ */
+}
 
-/* Trong tập tin CSS */
+/* Màu nền của ô khi di chuột qua */
+.category_table tbody tr:hover td {
+  background-color: #fd3b36; /* Màu hồng khi di chuột qua */
+}
+
+.cate_li_title {
+  display: block;
+  padding: 10px 0;
+  color: #333;
+  text-decoration: none;
+}
+
+.icon_danhmuc {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.img_icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Slider */
+.main_slide {
+  margin-top: 20px;
+}
+
+.box_slider img {
+  width: 80%;
+  height: auto;
+}
+
+.box_product_suggest {
+  margin-top: 20px;
+}
+
+.clear {
+  clear: both;
+}
+
+.slick-dots {
+  position: absolute;
+  bottom: -30px;
+  display: block;
+  width: 80%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+}
+
 /* Product 2 */
 #list_product_cate {
   margin-top: 20px;
@@ -106,6 +102,7 @@
   font-size: 20px;
   font-weight: bold;
   color: #333;
+  background-color: #ec2c26;
 }
 
 .box-container-bottom {
@@ -158,3 +155,5 @@
   color: #ff1493; /* Màu hồng */
 }
 
+
+/* PRODUCT 3 */

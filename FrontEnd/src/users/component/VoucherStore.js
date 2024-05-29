@@ -1,6 +1,6 @@
 import React from "react";
 import "./VoucherStore.css";
-
+import Menu from "./Menu";
 function VoucherStore() {
   const vouchers = [
     { discount: "Voucher 50%", maxDiscount: "150k", minDiscount: "50k", validUntil: "15-04-2021" },

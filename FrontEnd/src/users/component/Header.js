@@ -35,7 +35,7 @@ function Header() {
               </div>
             </div>
             <div className="box_cart">
-              <Link to="/pay">
+              <Link to="/ShoppingCart">
                 <i className="fa fa-shopping-cart"></i>
                 <p>Giỏ hàng</p>
               </Link>

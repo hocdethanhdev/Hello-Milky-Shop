@@ -74,9 +74,9 @@ function Signup() {
             </label>
           </div>
 
-          <MDBBtn className="signup-button w-100 mb-4" size="md">
-            Đăng kí
-          </MDBBtn>
+          <button className="signup-button" type="button">
+            <span className="button-text">Đăng kí</span>
+          </button>
 
           <div className="text-center social-buttons">
             <p>hoặc</p>
