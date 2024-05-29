@@ -8,23 +8,26 @@ import Login from "./users/component/Login";
 import Signup from "./users/component/Signup";
 import Termofuse from "./users/component/Termofuse";
 import VoucherStore from "./users/component/VoucherStore";
-//import Sales from ".users/component/Sales";
+
+
+
 
 function App() {
   return (
     <div>
       <Router>
         <Header />
+
         <Routes>
           <Route path="/" element={<Product1 />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/Termofuse" element={<Termofuse/>} />
-          <Route path="/voucher" element={<VoucherStore/>} />
-          {/* <Route path="/sales" element= {<Sales/>} /> */}
+          <Route path="/Termofuse" element={<Termofuse />} />
+          <Route path="/voucher" element={<VoucherStore />} />
+
           {/* Add more routes here as needed */}
         </Routes>
-        <Footer/>
+        <Footer />
       </Router>
     </div>
   );

@@ -1,0 +1,71 @@
+ 
+  
+  .product-list {
+    margin-bottom: 20px;
+  }
+  
+  .product-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+  }
+  
+  .product-list th, .product-list td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .product-list th {
+    background-color: #f4f4f4;
+  }
+  
+  .product-image {
+    width: 50px;
+    height: auto;
+  }
+.nut-pro{
+    display: flex;
+    
+}
+.product-container{
+    padding-right: 30px;
+    padding-top: 20px;
+}
+  /* ______________________________________________________________________ */
+
+   .create-product {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 10px;
+  }
+  
+  .create-product h2 {
+    margin-bottom: 20px;
+  }
+  
+  #create-product-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+  }
+  
+  label {
+    margin-bottom: 5px;
+  }
+  
+ .product-form input,  textarea, select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+   
