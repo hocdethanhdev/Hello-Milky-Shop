@@ -55,8 +55,8 @@ Content-Type: application/json
 {
     "UserName": "Nhan",
     "PhoneNumber": "0987654321",
-    "Password": "1",
-    "RoleID": 2
+    "Password": "1"
+    //"RoleID": 2
 }
 ###
 POST http://localhost:5000/api/v1/auth/login
@@ -64,7 +64,7 @@ Content-Type: application/json
 
 {
     "PhoneNumber": "0987654321",
-    "Password": "1"
+    "Password": "12"
 }
 ###
 POST http://localhost:5000/api/v1/auth/logout

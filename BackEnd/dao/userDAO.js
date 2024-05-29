@@ -40,7 +40,6 @@ const userDAO = {
               });
             }
 
-            console.log(login.Password);
             const passwordIsValid = bcrypt.compareSync(
               login.Password,
               user.Password
@@ -78,13 +77,13 @@ const userDAO = {
       });
     });
   },
-  register: (register) => {
+  register: (name, phone, password, role) => {
     const UserID = "a";
     const user = new User(
       UserID,
-      register.UserName,
-      register.PhoneNumber,
-      register.Password
+      name,
+      phone,
+      password
     );
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -106,14 +105,12 @@ const userDAO = {
               });
             }
 
-            const passwordHash = bcrypt.hashSync(user.Password, 10);
-
             const insertRequest = new mssql.Request()
               .input("UserID", user.UserID)
               .input("UserName", mssql.NVarChar, user.UserName)
               .input("PhoneNumber", user.PhoneNumber)
-              .input("PasswordHash", passwordHash)
-              .input("RoleID", mssql.Int, user.RoleID || 3);
+              .input("PasswordHash", user.Password)
+              .input("RoleID", mssql.Int, role || 3);
             insertRequest.query(
               `INSERT INTO Users (UserID, UserName, PhoneNumber, Password, RoleID) VALUES (@UserID, @UserName, @PhoneNumber, @PasswordHash, @RoleID);`,
               (err, res) => {
