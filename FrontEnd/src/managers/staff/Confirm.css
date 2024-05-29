@@ -1,0 +1,107 @@
+.confirm-container {
+    padding: 20px;
+  }
+  
+  .orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .orders-header h2 {
+    color: #333;
+  }
+  
+  .orders-header button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .orders-header button:hover {
+    background-color: #0056b3;
+  }
+  
+  .search-orders {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-orders input {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .search-orders button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  table th, table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  table th {
+    background-color: #f4f4f4;
+  }
+  
+  .paid {
+    color: green;
+  }
+  
+  .processing {
+    color: orange;
+  }
+  
+  .cancelled {
+    color: red;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .page-dot {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .page-dot.active {
+    background-color: #007bff;
+  }
+  
+  .save-all {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .save-all:hover {
+    background-color: #0056b3;
+  }
+  

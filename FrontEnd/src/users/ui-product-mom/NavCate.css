@@ -1,0 +1,122 @@
+.nav_cate ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Sử dụng flexbox cho các mục trong ul */
+}
+.box_list_cate ul {
+    display: block;
+}
+.nav_cate {
+    padding-top: 10px;
+}
+.nav_top {
+    display: flex;
+    align-items: center;
+}
+
+.nav_top a {
+    text-decoration: none;
+    color: #000;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.nav_top i {
+    margin-right: 5px;
+}
+
+.main_cate a {
+    font-weight: bold;
+}
+
+.cate_li_title img {
+    margin-right: 10px;
+}
+
+.cate_home {
+    background: #0f7fc1;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 75px; /* Đảm bảo độ dài của "Danh mục" */
+}
+
+.cate_home i {
+    color: #fff;
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.nav_cate ul li.cate_home.nav_top {
+    position: relative;
+} /* xổ ra*/
+
+.cate_home.nav_top:hover .box_list_cate {
+    display: flex !important;
+    flex-direction: column; /* Sắp xếp theo chiều dọc */
+}
+
+.box_list_cate {
+    position: absolute;
+    left: 0;
+    top: 100%; /* Align right below the "Danh mục" */
+    background: #fff;
+    width: 250px; /* Adjust width as needed */
+    z-index: 999;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column; /* Sắp xếp theo chiều dọc */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+.box_list_cate ul li a {
+    color: #333 !important;
+    font-weight: normal;
+}
+
+.menu_cate {
+    width: 100%; /* Adjust width as needed */
+    border-radius: 2px;
+    background: #fff;
+}
+
+.menu_cate ul {
+    padding: 0;
+    margin: 0;
+}
+
+.menu_cate ul li {
+    float: none;
+    width: 100%; /* Adjust width as needed */
+}
+
+.menu_cate ul li.cate_li img.img_icon.icon_hover {
+    display: none;
+}
+
+.menu_cate ul li.cate_li.hover img.img_icon.icon_hover {
+    display: block;
+}
+
+.menu_cate ul li.cate_li.hover a.cate_li_title {
+    color: #fff;
+}
+
+.menu_cate ul li.cate_li.hover img.img_icon.icon_color {
+    display: none;
+}
+
+.submenu_cate_hover li a:hover {
+    color: #15c !important;
+    text-decoration: underline !important;
+}
+
+.submenu_cate {
+    margin-top: 8px;
+}
+.box_list_cate {
+    display: flex !important;
+}

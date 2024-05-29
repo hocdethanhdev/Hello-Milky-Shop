@@ -1,0 +1,142 @@
+
+  
+  .voucher-header {
+    background-color: #007BFF;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .voucher-header .icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .voucher-body {
+    display: flex;
+    flex: 1;
+  }
+  
+  .voucher-sidebar {
+    width: 200px;
+    background-color: #ffae33;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .voucher-sidebar a {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .voucher-sidebar a:hover,
+  .voucher-sidebar a.active {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .voucher-main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: white;
+  }
+  
+  .voucher-main-content h1 {
+    margin-bottom: 20px;
+  }
+  
+  .voucher-form,
+  .voucher-list {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-right: 30px;
+    margin-top: 10px;
+  }
+  
+  .voucher-form h2,
+  .voucher-list h2 {
+    margin-top: 0;
+  }
+  
+  .voucher-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .voucher-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .voucher-form button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .voucher-form button:hover {
+    /* background-color: #0056b3; */
+  }
+  
+  .voucher-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .voucher-list th,
+  .voucher-list td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .voucher-list th {
+    background-color: #f4f4f4;
+  }
+  
+  .voucher-list .active {
+    color: green;
+  }
+  
+  .voucher-list .expired {
+    color: black;
+  }
+  
+  .voucher-list button {
+    /* background-color: #007BFF; */
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .voucher-list button:hover {
+    background-color: #0056b3;
+  }
+  .voucher-container{
+    padding-right: 50px    ;
+    
+  }
+  .button-add-voucher{
+    background-color: none;
+  }

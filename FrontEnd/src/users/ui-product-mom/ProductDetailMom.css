@@ -1,0 +1,214 @@
+.product_detail {
+    background: #f2f2f2;
+}
+.des_detail {
+    padding: 10px;
+    box-sizing: border-box;
+    background: #fff;
+    width: 81%;
+    float: left;
+}
+.basic_info {
+    border-bottom: 1px solid #ddd;
+}
+.basic_info .ul1 {
+    width: 50%;
+    list-style-type: disc;
+}
+.basic_info .ul2 {
+    width: 40%;
+    list-style-type: disc;
+}
+.brand .name_brand a {
+    color: #f97d17;
+    font-size: 16px;
+    padding-left: 5px;
+}
+.brand .detail_brand img {
+    float: left;
+    padding: 15px 15px 10px 5px;
+}
+.name_brand {
+    color: #15c;
+    margin-right: 2%;
+}
+.pro_detail_brand {
+    width: 50%;
+    float: left;
+    margin-left: 2%;
+    white-space: nowrap;
+}
+.pro_detail_brand p {
+    color: #6b6b6b;
+    display: inline-block;
+    font-size: 15px;
+}
+#review .title_comment {
+    height: 48px;
+    line-height: 48px;
+    padding: 0 15px;
+    font-size: 18px;
+    color: #000;
+    display: block;
+    border-top: 1px solid #ddd;
+}
+#review .review_detail {
+    padding: 10px;
+}
+#review .review_detail form {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+}
+#review .review_detail form textarea {
+    width: calc(100% - 12px);
+    min-height: 100px;
+    padding: 5px;
+    margin-bottom: -8px;
+    border: 1px solid #cacaca;
+    border-radius: 4px 4px 0 0;
+    font-family: sans-serif;
+    font-size: 1.2em;
+}
+#review .comment_submit {
+    width: calc(100% - 12px);
+    height: 40px;
+    padding: 0 5px;
+    border: 1px solid #cacaca;
+    border-top: none;
+    overflow: hidden;
+}
+#review .comment_submit .btn_submit {
+    float: right;
+}
+#review .comment_submit .btn_submit a {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    margin: 5px 0;
+    padding: 0 25px;
+    font-size: 14px;
+    color: #fff;
+    text-transform: uppercase;
+    border: 1px solid #288ad6;
+    border-radius: 4px;
+    background: #288ad6;
+}
+.comment-popup,
+.thong-bao,
+.reply-popup {
+    background: rgba(100, 100, 100, 0.6);
+    position: fixed;
+    display: none;
+    z-index: 5000;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.comment-popup .wrapper_popup,
+.reply-popup .wrapper_popup {
+    border: 1px solid #cacaca;
+    position: fixed;
+    background: #ffffff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
+    width: 70%;
+    max-width: 600px;
+    z-index: 5001;
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+}
+.btn_close_cart {
+    position: relative;
+}
+#btn_close_cart {
+    float: right;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+.form_info {
+    display: block;
+    overflow: hidden;
+    background: #fff;
+    padding: 10px;
+}
+.form_info input[type="text"] {
+    display: block;
+    padding: 8px;
+    width: 100%;
+    margin: 10px 0;
+    height: 35px;
+    border: 1px solid #dadada;
+    background: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.form_info button {
+    display: block;
+    width: 100%;
+    margin: 0 auto 10px;
+    padding: 8px;
+    height: 40px;
+    font-size: 14px;
+    color: #fff;
+    text-transform: uppercase;
+    border: 1px solid #4a90e2;
+    border-radius: 4px;
+    background: #4a90e2;
+    cursor: pointer;
+}
+.form_info_login input[type="radio"] {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.form_info_login .error-message {
+    color: red;
+    float: left;
+    display: none;
+}
+.cgd,
+#divStar {
+    margin: 0 0 10px;
+}
+.rating-stars ul {
+    list-style-type: none;
+    padding: 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+.rating-stars ul > li.star {
+    display: inline-block;
+}
+.rating-stars ul > li.star > i.fa {
+    font-size: 1.5em;
+    color: #ccc;
+    cursor: pointer;
+}
+.rating-stars ul > li.star.hover > i.fa {
+    color: #ffcc36;
+}
+.rating-stars ul > li.star.selected > i.fa {
+    color: #ff912c;
+}
+.cate_detail_title a,
+.cate_detail_title span,
+.cate_detail_title ul,
+.cate_detail_title .rating-stars {
+    float: left;
+}
+.name_brand a {
+    text-decoration: none;
+}
+/* .product_detail {
+    padding-right: -100px;
+} */

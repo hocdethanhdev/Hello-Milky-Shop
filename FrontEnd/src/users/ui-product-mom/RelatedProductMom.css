@@ -1,0 +1,38 @@
+#cart_product_viewed .product_related {
+    width: 14%;
+    float: left;
+    margin-right: 3px;
+}
+.product_related {
+    position: relative;
+    margin: 8px 0;
+}
+.title_product_related {
+    height: 30px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 30px;
+    font-weight: bold;
+}
+.product_related .img_product_related img {
+    max-width: 100%;
+    max-height: 100%;
+}
+.product_related a {
+    text-decoration: none;
+    font-size: small;
+    color: black;
+    font-weight: 500;
+}
+.price_product_related {
+    font-weight: bold;
+    color: #fd6a02;
+}
+.product_related {
+    display: flex;
+}
+.img_product_related {
+    height: 90px;
+    width: 90px;
+}
