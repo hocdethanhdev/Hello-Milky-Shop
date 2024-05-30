@@ -92,17 +92,5 @@ INSERT INTO Promotion (PromotionName, Description, StartDate, EndDate, DiscountP
 ('Halloween Sale', 'Halloween special discounts', '2024-05-25', '2024-10-31', 50),
 ('Anniversary Sale', 'Anniversary special discounts', '2024-09-01', '2024-09-10', 55);
 
-/*
-WITH RandomProducts AS (
-    SELECT ProductID, 
-           ROW_NUMBER() OVER (PARTITION BY ProductCategoryID ORDER BY NEWID()) AS rn
-    FROM Product
-)
-INSERT INTO ProductPromotionList (PromotionID, ProductID, PriceAfterDiscount)
-SELECT p.PromotionID, rp.ProductID, 0
-FROM (SELECT PromotionID FROM Promotion) p
-CROSS JOIN (SELECT ProductID FROM RandomProducts WHERE rn <= 5) rp
-ORDER BY p.PromotionID;
-*/
 insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
 values(1, 'SM0001', 0)
