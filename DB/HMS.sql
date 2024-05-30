@@ -23,12 +23,17 @@ RoleID int foreign key references Role(RoleID) default 3,
 PRIMARY KEY (UserID));
 
 CREATE TABLE Chat (
-ChatID int IDENTITY NOT NULL, 
-Message nvarchar(750), 
-TimeStamp date default getdate(), 
+ChatID int IDENTITY NOT NULL,  
 MemberID varchar(8) foreign key references Users(UserID),
 StaffID varchar(8) foreign key references Users(UserID), 
 PRIMARY KEY (ChatID));
+
+create table Message (
+MessageID int IDENTITY NOT NULL,
+Message nvarchar(750),
+TimeStamp date default getdate(),
+ChatID int foreign key references Chat(ChatID)
+)
 
 CREATE TABLE ArticleCategory (
 ArticleCategoryID int IDENTITY NOT NULL, 
@@ -87,7 +92,7 @@ CREATE TABLE Orders (
 OrderID int IDENTITY NOT NULL, 
 OrderDate date NULL, 
 TotalAmount int NULL, 
-Status nvarchar(15), 
+Status bit, 
 UserID varchar(8) foreign key references Users(UserID), 
 PaymentID int foreign key references Payment(PaymentID), 
 PRIMARY KEY (OrderID));
@@ -99,7 +104,7 @@ Quantity int NOT NULL,
 DiscountPercentage float NOT NULL, 
 MaxDiscount int NOT NULL, 
 MinDiscount int NOT NULL, 
-Status nvarchar(20),
+Status bit default 1,
 StartDate date not null,
 ExpiryDate date NOT NULL, 
 VoucherName nvarchar(30) NOT NULL, 
