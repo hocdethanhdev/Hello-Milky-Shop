@@ -50,13 +50,12 @@ AuthorID varchar(8) foreign key references Users(UserID),
 ArticleCategoryID int foreign key references ArticleCategory(ArticleCategoryID), 
 PRIMARY KEY (ArticleID));
 
-CREATE TABLE Report (
-ReportID int IDENTITY NOT NULL, 
+CREATE TABLE Comment (
+CommentID int IDENTITY NOT NULL, 
 Description nvarchar(3000) NULL, 
-ReportDate date default getdate() NULL, 
-Status nvarchar(20) NULL, 
+CommentDate date default getdate() NULL, 
 UserID varchar(8) foreign key references Users(UserID), 
-PRIMARY KEY (ReportID));
+PRIMARY KEY (CommentID));
 
 CREATE TABLE Brand (
 BrandID int identity NOT NULL, 
