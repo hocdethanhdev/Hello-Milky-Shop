@@ -139,9 +139,38 @@ PRIMARY KEY (PromotionID));
 
 CREATE TABLE ProductPromotionList (
 ProductPromotionID int IDENTITY NOT NULL, 
+PriceAfterDiscount int,
 ProductID varchar(6) NOT NULL foreign key references Product(ProductID), 
 PromotionID int NOT NULL foreign key references Promotion(PromotionID), 
 PRIMARY KEY (ProductPromotionID));
+
+go
+create trigger trg_PriceAfterDiscount
+ON ProductPromotionList
+After insert
+as
+	DECLARE @PromotionID int
+	SELECT @PromotionID = PromotionID
+	FROM inserted
+
+	DECLARe @DiscountPercentage float
+	SELECT @DiscountPercentage = DiscountPercentage
+	FROM Promotion
+	WHERE @PromotionID = PromotionID
+
+	DEClARE @ProductID varchar(6)
+	SELECT @ProductID = ProductID
+	FROM inserted
+
+	DECLARE @Price int
+	SELECT @Price = Price
+	FROM Product
+	WHERE ProductID = @ProductID
+
+	Update ProductPromotionList
+	SET PriceAfterDiscount = @Price - @Price * @DiscountPercentage /100
+	WHERE ProductID = @ProductID
+
 
 go
 CREATE TRIGGER trg_InsertUserID

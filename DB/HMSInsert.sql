@@ -98,10 +98,11 @@ WITH RandomProducts AS (
            ROW_NUMBER() OVER (PARTITION BY ProductCategoryID ORDER BY NEWID()) AS rn
     FROM Product
 )
-INSERT INTO ProductPromotionList (PromotionID, ProductID)
-SELECT p.PromotionID, rp.ProductID
+INSERT INTO ProductPromotionList (PromotionID, ProductID, PriceAfterDiscount)
+SELECT p.PromotionID, rp.ProductID, 0
 FROM (SELECT PromotionID FROM Promotion) p
 CROSS JOIN (SELECT ProductID FROM RandomProducts WHERE rn <= 5) rp
 ORDER BY p.PromotionID;
 */
-
+insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
+values(1, 'SM0001', 0)
