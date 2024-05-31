@@ -14,7 +14,7 @@ PRIMARY KEY (RoleID));
 CREATE TABLE Users (
 UserID varchar(8) NOT NULL, 
 UserName nvarchar(50) NULL, 
-PhoneNumber varchar(15) NULL Unique, 
+PhoneNumber varchar(15) NULL, 
 Email varchar(30) NULL, 
 Password varchar(100) NULL, 
 Address nvarchar(255) NULL, 
@@ -50,13 +50,6 @@ AuthorID varchar(8) foreign key references Users(UserID),
 ArticleCategoryID int foreign key references ArticleCategory(ArticleCategoryID), 
 PRIMARY KEY (ArticleID));
 
-CREATE TABLE Comment (
-CommentID int IDENTITY NOT NULL, 
-Description nvarchar(3000) NULL, 
-CommentDate date default getdate() NULL, 
-UserID varchar(8) foreign key references Users(UserID), 
-PRIMARY KEY (CommentID));
-
 CREATE TABLE Brand (
 BrandID int identity NOT NULL, 
 BrandName nvarchar(255) NULL, 
@@ -80,6 +73,15 @@ Status varchar(20) NULL default('Still in stock'),
 BrandID int foreign key references Brand(BrandID),
 ProductCategoryID int foreign key references ProductCategory(ProductCategoryID), 
 PRIMARY KEY (ProductID));
+
+CREATE TABLE Comment (
+CommentID int IDENTITY NOT NULL, 
+Description nvarchar(3000) NULL, 
+CommentDate date default getdate() NULL, 
+Rep nvarchar(3000) null,
+ProductID varchar(6) foreign key references Product(ProductID),
+UserID varchar(8) foreign key references Users(UserID), 
+PRIMARY KEY (CommentID));
 
 CREATE TABLE Payment (
 PaymentID int IDENTITY NOT NULL, 
@@ -169,8 +171,6 @@ as
 	Update ProductPromotionList
 	SET PriceAfterDiscount = @Price - @Price * @DiscountPercentage /100
 	WHERE ProductID = @ProductID
-
-
 go
 CREATE TRIGGER trg_InsertUserID
 ON Users
@@ -234,4 +234,3 @@ AS
 		INNER JOIN Product p ON i.ProductID = p.ProductID
 		WHERE p.ProductID = i.ProductID;
 	END
-

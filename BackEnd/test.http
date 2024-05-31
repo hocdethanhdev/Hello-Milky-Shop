@@ -10,7 +10,7 @@ GET http://localhost:5000/api/v1/product/getAllProductCategory
 ###
 GET http://localhost:5000/api/v1/product/searchWithProductCategory/Phy/Sữa cho mẹ bầu
 ###
-GET http://localhost:5000/api/v1/product/searchWithPrice/Phy/0/400999
+GET http://localhost:5000/api/v1/product/searchWithPrice/Phy/0/10000000
 ###
 GET http://localhost:5000/api/v1/product/searchWithName/phy
 ###
@@ -56,7 +56,6 @@ Content-Type: application/json
     "UserName": "Nhan",
     "PhoneNumber": "0987654321",
     "Password": "1"
-    //"RoleID": 2
 }
 ###
 POST http://localhost:5000/api/v1/auth/login
@@ -64,7 +63,21 @@ Content-Type: application/json
 
 {
     "PhoneNumber": "0987654321",
-    "Password": "12"
+    "Password": "1"
 }
 ###
 POST http://localhost:5000/api/v1/auth/logout
+###
+GET http://localhost:5000/api/v1/comment/getAllComments
+###
+GET http://localhost:5000/api/v1/comment/getUnansweredComments
+###
+POST http://localhost:5000/api/v1/comment/repComment/6
+Content-Type: application/json
+
+{
+    "Rep": "Cảm ơn bạn"
+}
+###
+GET http://localhost:5000/api/v1/auth/google
+

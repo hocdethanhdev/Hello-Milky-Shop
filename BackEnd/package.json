@@ -10,6 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@firebase/auth": "^1.7.4",
+    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -20,6 +22,8 @@
     "jsonwebtoken": "^9.0.2",
     "mssql": "^10.0.2",
     "nodemon": "^3.1.1",
-    "passport": "^0.7.0"
+    "npm": "^10.8.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
   }
 }

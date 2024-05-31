@@ -35,6 +35,9 @@ const productService = {
     deleteProduct : async (product_id) => {
       return await productRepository.deleteProduct(product_id);
     },
+    getProductDetailByID : async (product_id) => {
+      return await productRepository.getProductDetailByID(product_id);
+    },
   }
 
 module.exports = productService;

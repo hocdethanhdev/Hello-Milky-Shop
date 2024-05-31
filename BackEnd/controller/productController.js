@@ -161,6 +161,16 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const getProductDetailByID = async (req, res) => {
+  try {
+    const obj = await productService.getProductDetailByID(req.params.product_id);
+    res.send(obj);
+  } catch (error) {
+    console.error("Error while getting all users:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   getAllProducts,
   getInfoProductsDetail,
@@ -173,4 +183,5 @@ module.exports = {
   searchWithProductCategory,
   searchWithPrice,
   searchWithName,
+  getProductDetailByID,
 };

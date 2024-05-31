@@ -94,3 +94,22 @@ INSERT INTO Promotion (PromotionName, Description, StartDate, EndDate, DiscountP
 
 insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
 values(1, 'SM0001', 0)
+
+/*
+INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Hello there!', '2024-05-30', 1);
+INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('How are you doing?', '2024-05-30', 1);
+INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('I hope you are well.', '2024-05-30', 1);
+INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Yes, I am good.', '2024-05-30', 1);
+INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('What about you?', '2024-05-30', 1);
+INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('I am also fine, thanks.', '2024-05-30', 1);
+INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Can I help you with something?', '2024-05-30', 1);
+INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('No, I am good.', '2024-05-30', 1);
+INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Thanks for asking though.', '2024-05-30', 1);
+INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('You are welcome!', '2024-05-30', 1);
+*/
+
+/*
+insert into Comment(UserID, ProductID, Description) values ('M0000001', 'SE0001', N'Tốt')
+insert into Comment(UserID, ProductID, Description) values ('M0000001', 'SE0002', N'Tốt')
+insert into Comment(UserID, ProductID, Description) values ('M0000001', 'SE0003', N'Tốt')
+*/
