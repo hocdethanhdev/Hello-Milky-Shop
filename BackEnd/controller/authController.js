@@ -1,14 +1,17 @@
 const authService = require("../service/authService");
+const passport = require('passport');
+const User = require('../bo/user');
+
 
 const login = async (req, res) => {
     try {
-        const obj = await authService.login(req.body);
-        res.send(obj);
+      const obj = await authService.login(req.body);
+      res.send(obj);
     } catch (error) {
-        console.error("Error while getting all users:", error);
-        res.status(500).send("Internal Server Error");
+      console.error("Error while logging in:", error);
+      res.status(500).send("Internal Server Error");
     }
-};
+  };
 
 let checkLoggedOut = (req, res) => {
     if(req.isAuthenticated()){
@@ -18,26 +21,36 @@ let checkLoggedOut = (req, res) => {
 };
 
 const register = async (req, res) => {
-    try {
-        let userName = req.body.UserName;
-        let userPhone = req.body.PhoneNumber;
-        let userPassword = req.body.Password;
-        let userRole = req.body.RoleID;
-
-        const password = authService.hasPassword(userPassword);
-
-        const obj = await authService.register(userName, userPhone, password, userRole);
-        res.send(obj);
-    } catch (error) {
-        console.error("Error while getting all users:", error);
-        res.status(500).send("Internal Server Error");
-    }
+  try {
+    const { UserName, PhoneNumber, Password, RoleID } = req.body;
+    const hashedPassword = await authService.hashPassword(Password);
+    const obj = await authService.register(UserName, PhoneNumber, hashedPassword, RoleID);
+    res.send(obj);
+  } catch (error) {
+    console.error("Error while registering:", error);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
 const logout = async (req, res) => {
-    req.session.destroy(function(err) {
-        return res.redirect("/");
-    });
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error while logging out:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.redirect("/");
+    }
+  });
+};
+
+const loginEmail = async () => {
+  try {
+    const obj = await authService.loginEmail(req.params.email);
+    res.send(obj);
+  } catch (error) {
+    console.error("Error while logging in:", error);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
 module.exports = {
@@ -45,4 +58,5 @@ module.exports = {
     login,
     register,
     logout,
+    loginEmail,
 }
