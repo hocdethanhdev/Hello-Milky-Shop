@@ -67,7 +67,7 @@ body {
   border-color: #28a745;
   box-shadow: 0 0 10px rgba(40, 167, 69, 0.2); /* Đổ bóng cho trường hợp lệ */
 }
-.login-button {
+.login-button-trid {
   background-color: #0f7fc1;
   color: #fff;
   border: none;
@@ -77,7 +77,7 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   transition: background-color 0.3s ease;
-
+}
 .login-button-trid {
   background-color: #0f7fc1; /* Màu nền của nút thinh sua phan  */
   color: whitesmoke; /* Màu chữ của nút */
