@@ -4,9 +4,9 @@ import './Footer.css';
 function Footer() {
     return (
         <footer>
-            <div className="footer-container">
+            <div className="footer-tri-container">
                 <p>&copy; Hello Milky Shop. All rights reserved.</p>
-                <div className="social-links">
+                <div className="social-links-tri">
                     <a href="#">Facebook</a>
                     <a href="#">Instagram</a>
                     <a href="#">Twitter</a>

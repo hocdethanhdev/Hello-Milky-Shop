@@ -174,8 +174,8 @@ function Product1() {
       </section>
 
 
-{/* PRODUCT 3 */}
-<section
+      {/* PRODUCT 3 */}
+      <section
         id="list_product_cate"
         className="width-common boxx-common tm-d superSale"
         data-recoedwidget="true"

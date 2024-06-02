@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
+import TextEditor from './TextEditor';
 import './Posts.css';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';  // Import CSS cho ReactQuill
 
 function PostsAdd() {
     const [content, setContent] = useState('');
@@ -12,12 +11,11 @@ function PostsAdd() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Xử lý logic submit form ở đây
         console.log('Staff ID:', e.target['staff-id'].value);
         console.log('Categories:', e.target.catergo.value);
         console.log('Post Title:', e.target.title.value);
         console.log('Content:', content);
-        // Gửi dữ liệu này đến server hoặc API của bạn
+        // Send this data to your server or API
     };
 
     return (
@@ -47,13 +45,9 @@ function PostsAdd() {
                 <div className="row mb-3">
                     <div className="col">
                         <label htmlFor="content">Content</label>
-                        <ReactQuill
-                            id="content"
-                            value={content}
-                            onChange={handleContentChange}
-                            required
-                            className="full-width"
-                        />
+                        <div className="editor">
+                            <TextEditor onChange={handleContentChange} />
+                        </div>
                     </div>
                 </div>
                 <button type="submit" className="btn btn-primary">Create Post</button>

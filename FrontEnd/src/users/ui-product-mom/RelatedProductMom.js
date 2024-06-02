@@ -54,23 +54,26 @@ const relatedProducts = [
 
 const RelatedProducts = () => {
     return (
-        <div className="section_product_related">
-            <div className="list_product_related">
-                <div className="title_product_related">Sản phẩm tương tự</div>
+
+
+        <div className="section_product_related_sp_thinh">
+
+            <div className="list_product_related_sp_thinh">
+                <div className="title_product_related_sp_thinh">Sản phẩm tương tự</div>
                 {relatedProducts.map((product, index) => (
-                    <div className="product_related" key={index}>
-                        <div className="img_product_related">
+                    <div className="product_related_sp_thinh" key={index}>
+                        <div className="img_product_related_sp_thinh">
                             <a href={product.href} title={product.title}>
                                 <img src={product.imgSrc} alt={product.imgAlt} />
                             </a>
                         </div>
-                        <div className="info_product_related">
-                            <h3 className="name_product_related">
+                        <div className="info_product_related_sp_thinh">
+                            <h3 className="name_product_related_sp_thinh">
                                 <a href={product.href} title={product.title}>
                                     {product.name}
                                 </a>
                             </h3>
-                            <span className="price_product_related">{product.price}</span>
+                            <span className="price_product_related_sp_thinh">{product.price}</span>
 
                         </div>
                         <div className="clear"></div>
@@ -78,6 +81,7 @@ const RelatedProducts = () => {
                 ))}
             </div>
         </div>
+
     );
 };
 
