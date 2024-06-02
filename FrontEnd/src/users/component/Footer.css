@@ -24,3 +24,43 @@
 .footer-tri-container {
     text-align: center;
 }
+/* Nút cuộn lên */
+.scroll-to-top-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease, opacity 0.3s ease; /* Áp dụng transition cho opacity */
+    opacity: 0; /* Ban đầu ẩn nút */
+}
+
+/* Khi nút được hover, hiển thị đầy đủ opacity */
+.scroll-to-top-button:hover {
+    opacity: 1;
+}
+
+.scroll-to-top-button i {
+    transition: opacity 0.3s ease; /* Áp dụng transition cho opacity của icon */
+    opacity: 0.7; /* Đặt opacity mặc định của icon */
+}
+
+/* Khi nút được hover, icon sẽ không bị mờ đi */
+.scroll-to-top-button:hover i {
+    opacity: 1;
+}
+
+/* Điều chỉnh độ mờ của nút khi không hover */
+.scroll-to-top-button:not(:hover) {
+    opacity: 0.7;
+}
+

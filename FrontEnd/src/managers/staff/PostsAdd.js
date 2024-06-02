@@ -45,9 +45,11 @@ function PostsAdd() {
                 <div className="row mb-3">
                     <div className="col">
                         <label htmlFor="content">Content</label>
+
                         <div className="editor">
                             <TextEditor onChange={handleContentChange} />
                         </div>
+
                     </div>
                 </div>
                 <button type="submit" className="btn btn-primary">Create Post</button>

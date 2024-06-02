@@ -27,7 +27,7 @@ function Login() {
                 Please enter your login and password!
               </p>
 
-              <MDBInput
+              <MDBInput className="login-nd"
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-dark"
                 placeholder="Số điện thoại"
@@ -35,7 +35,7 @@ function Login() {
                 type="tel"
                 size="lg"
               />
-              <MDBInput
+              <MDBInput className="login-nd"
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-dark"
                 placeholder="Mật Khẩu"
@@ -61,7 +61,9 @@ function Login() {
                     size="lg"
                     className="google-icon-trid"
                   />
+
                   <span className="button-text-trid">Đăng kí với Google</span>
+
                 </a>
               </div>
 

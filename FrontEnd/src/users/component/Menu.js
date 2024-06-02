@@ -1,5 +1,6 @@
 import React from "react";
 import { TiThMenu } from "react-icons/ti";
+import "./Menu.css";
 function Menu() {
   return (
 
@@ -55,6 +56,7 @@ function Menu() {
           </tr>
           <tr>
             <td>
+
               <a href="/Voucher" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
@@ -67,9 +69,11 @@ function Menu() {
           </tr>
           <tr>
             <td>
+
               <a href="/News" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
+
                   src="./news.png"
                   alt="Tin tức"
                 />
@@ -80,7 +84,6 @@ function Menu() {
         </tbody>
       </table>
     </div>
-
   );
 }
 export default Menu;

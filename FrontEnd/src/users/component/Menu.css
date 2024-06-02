@@ -1,9 +1,11 @@
+
 .menu_cate-trid {
   margin-top: 20px;
   margin-left: 100px;
   border: 1px solid;
   border-radius: 5px;
   background-color: #0f7fc1;
+
 }
 
 .category_table-trid {
@@ -35,6 +37,7 @@
   color: #333;
   text-decoration: none;
 }
+
 
 .icon_danhmuc-trid {
   display: inline-block;

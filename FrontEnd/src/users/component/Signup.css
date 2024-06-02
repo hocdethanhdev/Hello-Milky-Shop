@@ -2,80 +2,108 @@
 
 /* Background image */
 .bg-image {
-    
-    background-size: cover;
-    background-position: center;
-  }
-  
-  /* Card styling */
-  .signup-card {
-    margin: 0 auto;
-    max-width: 600px;
-    border-radius: 1rem;
-    background: hsla(0, 0%, 100%, 0.8);
-    backdrop-filter: blur(30px);
-  }
-  
-  /* Form input wrapper */
-  .input-wrapper {
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Checkbox wrapper */
-  .checkbox-wrapper {
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Button styling */
-  .signup-button {
-    background-color: #0f7fc1; /* Màu nền của nút */
-    color: whitesmoke; /* Màu chữ của nút */
-    border: 1px solid #ddd; /* Viền của nút */
-    border-radius: 20px; /* Bo góc của nút */
-    padding: 10px 20px; /* Kích thước padding của nút */
-    font-size: 16px; /* Kích thước font chữ của nút */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-  }
-  
-  .signup-button:hover {
-    background-color: rgb(201, 166, 101); /* Màu nền của nút khi hover */
-  }
-  
-  /* Social buttons */
-  .social-buttons {
-    margin-top: 1.5rem;
-  }
-  
-  .social-buttons .btn {
-    margin-right: 0.5rem;
-  }
-  
-  .social-buttons .btn:last-child {
-    margin-right: 0;
-  }
-  
+ 
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
 
-  .google-signup-button {
-    display: inline-block;
-    color: whitesmoke;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    border: 1px solid black;
-    background-color: rgb(194, 57, 11);
-    transition: background-color 0.3s ease;
-    margin-left: 80px;
-    margin-top: 15px;
-  }
+/* Card styling */
+.signup-card {
+  margin: 0 auto;
+  max-width: 600px;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+}
 
-  .terms-link {
-    margin-left: 5px;
-    margin-right: 5px;
-  }
+/* Form input wrapper */
+.input-wrapper-sign {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
 
-  .checkbox-label input {
-    margin-right: 5px;
-  }
 
+
+.input-wrapper-sign .input-icon {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+/* Checkbox wrapper */
+.checkbox-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+/* Button styling */
+.signup-button {
+  background-color: #0f7fc1;
+  color: whitesmoke;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: #0a5b8d;
+}
+
+/* Social buttons */
+.social-buttons {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.social-buttons .btn {
+  margin-right: 0.5rem;
+}
+
+.social-buttons .btn:last-child {
+  margin-right: 0;
+}
+
+.google-signup-button {
+  display: inline-flex;
+  align-items: center;
+  color: whitesmoke;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+  background-color: rgb(194, 57, 11);
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+.google-signup-button:hover {
+  background-color: rgb(161, 47, 9);
+}
+
+.google-icon {
+  margin-right: 0.5rem;
+}
+
+.terms-link {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: #0f7fc1;
+  text-decoration: none;
+}
+
+.terms-link:hover {
+  text-decoration: underline;
+}
+
+.checkbox-label input {
+  margin-right: 5px;
+}

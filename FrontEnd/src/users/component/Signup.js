@@ -2,14 +2,10 @@ import React, { useState } from "react";
 import "./Signup.css";
 
 import {
-  MDBBtn,
   MDBContainer,
   MDBCard,
   MDBCardBody,
-  MDBCol,
-  MDBRow,
   MDBInput,
-  MDBCheckbox,
   MDBIcon,
 } from "mdb-react-ui-kit";
 
@@ -23,38 +19,44 @@ function Signup() {
         className="signup-card mx-auto mb-5 p-5 shadow-5"
         style={{ maxWidth: "600px", marginTop: "50px" }}
       >
-        <MDBCardBody className="p-5">
+        <MDBCardBody className="p-5s">
           <h2 className="fw-bold mb-5 text-center">Tạo một tài khoản mới</h2>
 
-          <MDBRow>
-            <MDBCol col="6">
-              <MDBInput
-                wrapperClass="input-wrapper"
-                placeholder="Họ và tên"
-                id="form1"
-                type="text"
-              />
-            </MDBCol>
-          </MDBRow>
+          <MDBInput
+            wrapperClass="input-wrapper-sign"
+            placeholder="Họ và tên"
+            id="name"
+            type="text"
+            name="name"
+           
+          />
 
           <MDBInput
-            wrapperClass="input-wrapper"
+            wrapperClass="input-wrapper-sign"
             placeholder="Số điện thoại"
-            id="form1"
+            id="phone"
             type="tel"
+            name="phone"
+            
+            
           />
 
           <MDBInput
-            wrapperClass="input-wrapper"
+            wrapperClass="input-wrapper-sign"
             placeholder="Mật khẩu"
-            id="form1"
+            id="password"
             type="password"
-          />
+            name="password"
+            />
+           
           <MDBInput
-            wrapperClass="input-wrapper"
+            wrapperClass="input-wrapper-sign"
             placeholder="Nhập lại mật khẩu"
-            id="form1"
+            id="confirmPassword"
             type="password"
+            name="confirmPassword"
+            
+            
           />
 
           <div className="checkbox-wrapper">
@@ -62,8 +64,9 @@ function Signup() {
               <input
                 type="checkbox"
                 id="flexCheckDefault"
-                name="flexCheck"
-                value=""
+                name="termsAccepted"
+                
+                
                 className="form-check-input"
               />
               Đồng ý với
@@ -74,7 +77,11 @@ function Signup() {
             </label>
           </div>
 
-          <button className="signup-button" type="button">
+          <button
+            className="signup-button"
+            type="button"
+           
+          >
             <span className="button-text">Đăng kí</span>
           </button>
 
