@@ -1,4 +1,4 @@
-.login-button {
+.login-button-trid {
   background-color: #0f7fc1; /* Màu nền của nút */
   color: whitesmoke; /* Màu chữ của nút */
   border: 1px solid #ddd; /* Viền của nút */
@@ -10,12 +10,11 @@
   align-items: center;
 }
 
-.login-button:hover {
+.login-button-trid:hover {
   background-color: rgb(201, 166, 101); /* Màu nền của nút khi hover */
 }
 
-
-.google-signup-button {
+.google-signup-button-trid {
   display: inline-block;
   color: whitesmoke;
   text-decoration: none;
@@ -26,14 +25,14 @@
   transition: background-color 0.3s ease;
 }
 
-.google-signup-button:hover {
+.google-signup-button-trid:hover {
   background-color: rgb(201, 166, 101);
 }
 
-.google-icon {
+.google-icon-trid {
   margin-right: 10px;
 }
 
-.button-text {
+.button-text-trid {
   vertical-align: middle;
 }

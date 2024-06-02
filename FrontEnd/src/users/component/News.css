@@ -1,27 +1,27 @@
 /* News.css */
-.box-banner {
+.box-banner-trid {
   width: 100%;
   margin: 0 auto;
 }
 
-.main-banner {
+.main-banner-trid {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.main-banner img {
+.main-banner-trid img {
   max-width: 100%;
   height: auto;
 }
 
-.center-promotion {
+.center-promotion-trid {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-.box-menu-prom ul {
+.box-menu-prom-trid ul {
   list-style: none;
   padding: 0;
   display: flex;
@@ -29,39 +29,39 @@
   flex-wrap: wrap;
 }
 
-.box-menu-prom ul li {
+.box-menu-prom-trid ul li {
   width: 48%;
   margin-bottom: 20px;
 }
 
-.box-menu-prom ul li img {
+.box-menu-prom-trid ul li img {
   width: 100%;
   height: auto;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.tgkm-promo {
+.tgkm-promo-trid {
   text-align: center;
   padding: 10px 0;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 0 0 10px 10px;
 }
 
-.bg-head {
+.bg-head-trid {
   font-size: 24px;
   font-weight: bold;
   margin: 20px 0;
   text-align: center;
 }
 
-.ds-spm {
+.ds-spm-trid {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.item-spm {
+.item-spm-trid {
   width: 23%;
   background-color: #fff;
   border-radius: 10px;
@@ -71,7 +71,7 @@
   text-align: center;
 }
 
-.item-spm a {
+.item-spm-trid a {
   display: block;
   font-size: 16px;
   font-weight: bold;
@@ -80,41 +80,40 @@
   text-decoration: none;
 }
 
-.item-spm img {
+.item-spm-trid img {
   max-width: 100%;
   height: auto;
   margin-bottom: 10px;
 }
 
-.percent {
-  
-    position: absolute;
-    top: 10px;
-    color: black;
-    font-size: 15px;
-    text-align: center;
-    right: 13px;
-    font-family: Arial, Tahoma;
-    font-weight: bold !important;
-    background: #f72f2f;
-    padding: 3px 7px;
-    z-index: 9;
-    border-radius: 3px;
+.percent-trid {
+  position: absolute;
+  top: 10px;
+  color: black;
+  font-size: 15px;
+  text-align: center;
+  right: 13px;
+  font-family: Arial, Tahoma;
+  font-weight: bold !important;
+  background: #f72f2f;
+  padding: 3px 7px;
+  z-index: 9;
+  border-radius: 3px;
 }
 
-
-.id-sp, .price {
+.id-sp-trid,
+.price-trid {
   display: block;
   font-size: 14px;
   color: #666;
 }
 
-.price-home {
+.price-home-trid {
   text-decoration: line-through;
   margin-right: 10px;
 }
 
-.price-sell {
+.price-sell-trid {
   color: red;
   font-weight: bold;
 }

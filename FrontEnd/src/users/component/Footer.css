@@ -1,28 +1,26 @@
 /* Footer.css */
-footer {
+.footer-tri {
     background-color: #0f7fc1;
     color: #fff;
     padding: 2rem 0;
     text-align: center;
- 
 }
 
-footer .container {
+.footer-tri .container {
     max-width: 1200px;
     margin: 0 auto;
-    
 }
 
-footer .social-links a {
+.footer-tri .social-links a {
     margin: 0 0.5rem;
     color: #fff;
     text-decoration: none;
 }
 
-footer .social-links a:hover {
+.footer-tri .social-links a:hover {
     color: #007bff;
 }
 
-.footer-container {
+.footer-tri-container {
     text-align: center;
 }

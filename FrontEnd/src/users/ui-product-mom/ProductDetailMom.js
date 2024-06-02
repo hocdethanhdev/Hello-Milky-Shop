@@ -4,8 +4,7 @@ const ProductDetail = () => {
     return (
         <div>
             <section className="product_detail width-common">
-                <br />
-                <br />
+
                 <div className="wrap">
                     <div className="des_detail css-content">
                         <div className="basic_info" id="basic_info">
