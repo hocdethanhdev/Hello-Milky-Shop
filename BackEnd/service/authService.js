@@ -1,4 +1,3 @@
-// service/authService.js
 const userDAO = require("../dao/userDAO");
 const bcrypt = require("bcryptjs");
 

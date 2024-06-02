@@ -80,4 +80,24 @@ Content-Type: application/json
 }
 ###
 GET http://localhost:5000/api/v1/auth/google
+###
+POST  http://localhost:5000/api/v1/payment/create_payment_url
+Content-Type: application/json
 
+{
+    "orderID": 20,
+    "amount": 100000,
+    "language": "vn"
+}
+// Ngân hàng: NCB
+// Số thẻ: 9704198526191432198
+// Tên chủ thẻ: NGUYEN VAN A
+// Ngày phát hành: 07/15
+// OTP: 123456
+
+###
+POST https://sandbox.vnpayment.vn/qrpayauth/api/merchant/get_bank_list
+Content-Type: application/x-www-form-urlencoded
+
+tmn_code=8VGHK1JI
+###
