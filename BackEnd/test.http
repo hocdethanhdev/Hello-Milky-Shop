@@ -101,3 +101,9 @@ Content-Type: application/x-www-form-urlencoded
 
 tmn_code=8VGHK1JI
 ###
+POST http://localhost:5000/api/v1/otp/register
+Content-Type: application/json
+
+{
+    "phoneNumber": "84933802522"
+}
