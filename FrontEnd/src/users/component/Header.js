@@ -12,7 +12,7 @@ function Header() {
               <img src="/ImageMilkShop/Logo.jpg" alt="LogoMilky" />
             </Link>
           </div>
-          <div className="box_search left">
+          <div className="box_search-app left">
             <form action="/Desktop/SearchDesktop/SearchTemp" id="fromSearch" method="post">
               <input 
                 type="text" 
@@ -21,7 +21,7 @@ function Header() {
                 placeholder="Bố mẹ tìm gì cho bé hôm nay ?" 
                 id="search_suggest"
               />
-              <button className="" type="submit" id="btnSearch">
+              <button className="app" type="submit" id="btnSearch">
                 <i className="fa fa-search"></i>
               </button>
             </form>                        

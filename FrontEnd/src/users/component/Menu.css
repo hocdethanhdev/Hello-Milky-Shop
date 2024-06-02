@@ -1,50 +1,54 @@
-.menu_cate {
-    margin-top: 20px;
-    margin-left: 100px;
-    border: 1px solid;
-    border-radius: 5px;
-    background-color: #0f7fc1;
-  }
-  
-  .category_table {
-    width: 100%;
-  }
-  
-  .danhmuc {
-    text-align: center;
-    color: #f9f9f9;
-  }
-  
-  /* Mỗi hàng trong bảng danh mục */
-  .category_table tbody tr:nth-child(even) {
-    background-color: #f0f0f0; /* Màu nền cho các hàng chẵn */
-  }
-  
-  .category_table tbody tr:nth-child(odd) {
-    background-color: #ffffff; /* Màu nền cho các hàng lẻ */
-  }
-  
-  /* Màu nền của ô khi di chuột qua */
-  .category_table tbody tr:hover td {
-    background-color: #fd3b36; /* Màu hồng khi di chuột qua */
-  }
-  
-  .cate_li_title {
-    display: block;
-    padding: 10px 0;
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .icon_danhmuc {
-    display: inline-block;
-    margin-right: 10px;
-    font-size: 20px;
-  }
-  
-  .img_icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
+.menu-cate {
+  margin-top: 20px;
+  margin-left: 100px;
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: #0f7fc1;
+  padding: 20px; /* Thêm padding để tạo khoảng cách giữa viền và nội dung */
+}
+
+.menu-category-table {
+  width: 100%;
+  border-collapse: collapse; /* Gộp viền của các ô trong bảng */
+}
+
+.menu-danhmuc {
+  text-align: center;
+  color: #f9f9f9;
+  font-size: 24px; /* Tăng kích thước chữ cho tiêu đề danh mục */
+}
+
+/* Mỗi hàng trong bảng danh mục */
+.menu-category-table tbody tr {
+  border-bottom: 1px solid #ccc; /* Thêm đường kẻ phân chia giữa các hàng */
+}
+
+.menu-category-table tbody tr:last-child {
+  border-bottom: none; /* Loại bỏ đường kẻ phân chia ở hàng cuối cùng */
+}
+
+/* Màu nền của ô khi di chuột qua */
+.menu-category-table tbody tr:hover {
+  background-color: #f0f0f0; /* Màu nền khi di chuột qua */
+}
+
+.menu-cate-li-title {
+  display: flex;
+  align-items: center; /* Căn giữa các phần tử ngang hàng */
+  padding: 10px 0;
+  color: #333;
+  text-decoration: none;
+}
+
+.menu-icon-danhmuc {
+  font-size: 24px;
+  margin-right: 10px;
+  color: #333; /* Màu của biểu tượng */
+}
+
+.menu-img-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}

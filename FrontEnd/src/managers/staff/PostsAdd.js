@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './Posts.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';  // Import CSS cho ReactQuill
+import TextEditor from './TextEditor';
+
 
 function PostsAdd() {
     const [content, setContent] = useState('');
@@ -47,13 +49,7 @@ function PostsAdd() {
                 <div className="row mb-3">
                     <div className="col">
                         <label htmlFor="content">Content</label>
-                        <ReactQuill
-                            id="content"
-                            value={content}
-                            onChange={handleContentChange}
-                            required
-                            className="full-width"
-                        />
+                        <TextEditor/>
                     </div>
                 </div>
                 <button type="submit" className="btn btn-primary">Create Post</button>
