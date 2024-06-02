@@ -86,7 +86,11 @@ PRIMARY KEY (CommentID));
 CREATE TABLE Payment (
 PaymentID int IDENTITY NOT NULL, 
 PayMethod varchar(50) NOT NULL, 
-PayTime date default getdate() NOT NULL, 
+TradingCode varchar(20) NULL,
+CardType varchar(10)Null,
+PayDetail varchar(255) null,
+Amount int,
+PayTime Datetime default getdate() NOT NULL, 
 PRIMARY KEY (PaymentID));
 
 CREATE TABLE Orders (
