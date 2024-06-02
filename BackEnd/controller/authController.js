@@ -43,9 +43,10 @@ const logout = async (req, res) => {
   });
 };
 
-const loginEmail = async () => {
+const loginEmail = async (req, res) => {
   try {
     const obj = await authService.loginEmail(req.params.email);
+    console.log(JSON.parse(obj))
     res.send(obj);
   } catch (error) {
     console.error("Error while logging in:", error);
