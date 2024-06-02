@@ -27,7 +27,7 @@ function Footer() {
 
     return (
         <footer>
-            <div className="footer-container">
+            <div className="footer-tri-container">
                 <p>&copy; Hello Milky Shop. All rights reserved.</p>
                 <div className="social-links">
                     <a href="#" className="social-link"><i className="fab fa-facebook-f"></i></a>

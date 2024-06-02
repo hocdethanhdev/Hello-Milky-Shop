@@ -108,7 +108,7 @@ const productDAO = {
             const product = res.recordset;
             if (!product[0])
               resolve({
-                err: "Not found",
+                err: "Do not have any product with this category",
               });
             resolve(product);
           }
@@ -134,7 +134,7 @@ const productDAO = {
             const product = res.recordset;
             if (!product[0])
               resolve({
-                err: "Not found",
+                err: "Don't have any product with this price",
               });
             resolve(product);
           }
@@ -161,7 +161,7 @@ const productDAO = {
             const product = res.recordset;
             if (!product[0])
               resolve({
-                err: "Not found",
+                err: "Do not have any product with this names",
               });
             resolve(product);
           }
@@ -214,7 +214,7 @@ const productDAO = {
           (err, res) => {
             if (err) reject(err);
             resolve({
-              message: "Edit successfully"
+              message: "Edit successfully",
             });
           }
         );
@@ -254,13 +254,21 @@ const productDAO = {
             product.ProductCategoryName
           )
           .input("Status", product.Status);
+          request.query(`Select ProductID FROM Product WHERE ProductName = @ProductName`,
+          (err, res) => {
+            if (err) reject(err);
+            if(res.recordset[0]) resolve({
+              message: "This product already exists"
+            })
+          }
+          );
         request.query(
           `INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID, Status) VALUES
           (@ProductID, @ProductName, @Description, @Price, @StockQuantity, @Image, @ExpirationDate, @ManufacturingDate, (SELECT BrandID FROM Brand WHERE BrandName = @BrandName), (SELECT ProductCategoryID FROM ProductCategory WHERE ProductCategoryName = @ProductCategoryName), @Status);`,
           (err, res) => {
             if (err) reject(err);
             resolve({
-              message: "Create successfully"
+              message: "Create successfully",
             });
           }
         );
@@ -279,7 +287,7 @@ const productDAO = {
           (err, res) => {
             if (err) reject(err);
             resolve({
-              message: "Deleted"
+              message: "Deleted",
             });
           }
         );

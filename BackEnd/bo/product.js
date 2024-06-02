@@ -23,6 +23,6 @@ class Product {
     this.ProductCategoryName = ProductCategoryName;
     this.BrandName = BrandName;
     this.Status = Status;
-  }
+  };
 }
 module.exports = Product;

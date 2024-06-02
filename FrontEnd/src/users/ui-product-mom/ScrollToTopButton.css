@@ -1,0 +1,12 @@
+.btn-scrollTop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    display: none; /* Ẩn nút mặc định */
+}
+
+.btn-scrollTop img {
+    height: 50px;
+    width: 50px;
+}

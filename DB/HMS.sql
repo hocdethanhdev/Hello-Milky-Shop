@@ -14,7 +14,7 @@ PRIMARY KEY (RoleID));
 CREATE TABLE Users (
 UserID varchar(8) NOT NULL, 
 UserName nvarchar(50) NULL, 
-PhoneNumber varchar(15) NULL Unique, 
+PhoneNumber varchar(15) NULL, 
 Email varchar(30) NULL, 
 Password varchar(100) NULL, 
 Address nvarchar(255) NULL, 
@@ -23,12 +23,17 @@ RoleID int foreign key references Role(RoleID) default 3,
 PRIMARY KEY (UserID));
 
 CREATE TABLE Chat (
-ChatID int IDENTITY NOT NULL, 
-Message nvarchar(750), 
-TimeStamp date default getdate(), 
+ChatID int IDENTITY NOT NULL,  
 MemberID varchar(8) foreign key references Users(UserID),
 StaffID varchar(8) foreign key references Users(UserID), 
 PRIMARY KEY (ChatID));
+
+create table Message (
+MessageID int IDENTITY NOT NULL,
+Message nvarchar(750),
+TimeStamp date default getdate(),
+ChatID int foreign key references Chat(ChatID)
+)
 
 CREATE TABLE ArticleCategory (
 ArticleCategoryID int IDENTITY NOT NULL, 
@@ -44,14 +49,6 @@ PublishDate date default getdate() NOT NULL,
 AuthorID varchar(8) foreign key references Users(UserID), 
 ArticleCategoryID int foreign key references ArticleCategory(ArticleCategoryID), 
 PRIMARY KEY (ArticleID));
-
-CREATE TABLE Report (
-ReportID int IDENTITY NOT NULL, 
-Description nvarchar(3000) NULL, 
-ReportDate date default getdate() NULL, 
-Status nvarchar(20) NULL, 
-UserID varchar(8) foreign key references Users(UserID), 
-PRIMARY KEY (ReportID));
 
 CREATE TABLE Brand (
 BrandID int identity NOT NULL, 
@@ -77,17 +74,30 @@ BrandID int foreign key references Brand(BrandID),
 ProductCategoryID int foreign key references ProductCategory(ProductCategoryID), 
 PRIMARY KEY (ProductID));
 
+CREATE TABLE Comment (
+CommentID int IDENTITY NOT NULL, 
+Description nvarchar(3000) NULL, 
+CommentDate date default getdate() NULL, 
+Rep nvarchar(3000) null,
+ProductID varchar(6) foreign key references Product(ProductID),
+UserID varchar(8) foreign key references Users(UserID), 
+PRIMARY KEY (CommentID));
+
 CREATE TABLE Payment (
 PaymentID int IDENTITY NOT NULL, 
 PayMethod varchar(50) NOT NULL, 
-PayTime date default getdate() NOT NULL, 
+TradingCode varchar(20) NULL,
+CardType varchar(10)Null,
+PayDetail varchar(255) null,
+Amount int,
+PayTime Datetime default getdate() NOT NULL, 
 PRIMARY KEY (PaymentID));
 
 CREATE TABLE Orders (
 OrderID int IDENTITY NOT NULL, 
 OrderDate date NULL, 
 TotalAmount int NULL, 
-Status nvarchar(15), 
+Status bit, 
 UserID varchar(8) foreign key references Users(UserID), 
 PaymentID int foreign key references Payment(PaymentID), 
 PRIMARY KEY (OrderID));
@@ -99,7 +109,7 @@ Quantity int NOT NULL,
 DiscountPercentage float NOT NULL, 
 MaxDiscount int NOT NULL, 
 MinDiscount int NOT NULL, 
-Status nvarchar(20),
+Status bit default 1,
 StartDate date not null,
 ExpiryDate date NOT NULL, 
 VoucherName nvarchar(30) NOT NULL, 
@@ -134,10 +144,37 @@ PRIMARY KEY (PromotionID));
 
 CREATE TABLE ProductPromotionList (
 ProductPromotionID int IDENTITY NOT NULL, 
+PriceAfterDiscount int,
 ProductID varchar(6) NOT NULL foreign key references Product(ProductID), 
 PromotionID int NOT NULL foreign key references Promotion(PromotionID), 
 PRIMARY KEY (ProductPromotionID));
 
+go
+create trigger trg_PriceAfterDiscount
+ON ProductPromotionList
+After insert
+as
+	DECLARE @PromotionID int
+	SELECT @PromotionID = PromotionID
+	FROM inserted
+
+	DECLARe @DiscountPercentage float
+	SELECT @DiscountPercentage = DiscountPercentage
+	FROM Promotion
+	WHERE @PromotionID = PromotionID
+
+	DEClARE @ProductID varchar(6)
+	SELECT @ProductID = ProductID
+	FROM inserted
+
+	DECLARE @Price int
+	SELECT @Price = Price
+	FROM Product
+	WHERE ProductID = @ProductID
+
+	Update ProductPromotionList
+	SET PriceAfterDiscount = @Price - @Price * @DiscountPercentage /100
+	WHERE ProductID = @ProductID
 go
 CREATE TRIGGER trg_InsertUserID
 ON Users
@@ -201,4 +238,3 @@ AS
 		INNER JOIN Product p ON i.ProductID = p.ProductID
 		WHERE p.ProductID = i.ProductID;
 	END
-

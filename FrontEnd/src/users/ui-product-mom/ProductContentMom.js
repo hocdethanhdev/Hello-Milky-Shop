@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ProductContentMom.css'; // Assuming you have a CSS file for styling
-// import './Product-detail-css.css'
+import CartPopup from './CartPopup'; // Import the CartPopup component
+
 const ProductContentMom = () => {
+    const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
+
+    const openCartPopup = () => {
+        setIsCartPopupOpen(true);
+    };
+
+    const closeCartPopup = () => {
+        setIsCartPopupOpen(false);
+    };
+
     return (
         <section className="product_content width-common">
             <div className="wrap">
@@ -46,14 +57,14 @@ const ProductContentMom = () => {
                         </div>
                         <div className="box_btn">
                             <button className="btn_order_now">Mua ngay</button>
-                            <button className="btn_add_cart">Thêm vào giỏ hàng</button>
+                            <button className="btn_add_cart" onClick={openCartPopup}>Thêm vào giỏ hàng</button>
                             <div className="clear"></div>
                         </div>
                     </div>
                     <div className='cuc_icon left'>
                         <div className='cuc_icon_item left'>
-                            <span class="hinh_icon icon fas fa-shipping-fast"></span>
-                            <span class="icon_title">
+                            <span className="hinh_icon icon fas fa-shipping-fast"></span>
+                            <span className="icon_title">
                                 <div>
                                     Giao hàng
                                 </div>
@@ -61,30 +72,27 @@ const ProductContentMom = () => {
                                     toàn quốc
                                 </div>
                             </span>
-
                         </div>
-
-                        <div className=' cuc_icon_item left'>
-                            <span class="hinh_icon icon far fa-check-circle"></span>
-                            <span class="icon_title">
+                        <div className='cuc_icon_item left'>
+                            <span className="hinh_icon icon far fa-check-circle"></span>
+                            <span className="icon_title">
                                 <div>
                                     Đảm bảo hàng
                                 </div>
                                 <div>
                                     chính hãng
                                 </div>
-
                             </span>
                         </div>
-
                     </div>
-                    <div class="box_phone">
-                        Tổng đài mua hàng miễn cước <a href="tel:0852793879 - Zalo:0393892623" class="hot_phone">0852793879 - Zalo:0393892623</a> (Từ 8h00 đến 21h30 hàng ngày)
+                    <div className="box_phone">
+                        Tổng đài mua hàng miễn cước <a href="tel:0852793879 - Zalo:0393892623" className="hot_phone">0852793879 - Zalo:0393892623</a> (Từ 8h00 đến 21h30 hàng ngày)
                     </div>
                     <div className="box_banner"></div>
                 </div>
                 <div className="clear"></div>
             </div>
+            <CartPopup isOpen={isCartPopupOpen} onClose={closeCartPopup} />
         </section>
     );
 };

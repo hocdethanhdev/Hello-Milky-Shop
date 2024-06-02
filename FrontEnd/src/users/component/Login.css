@@ -1,3 +1,4 @@
+
 /* Login.css */
 
 body {
@@ -76,6 +77,16 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   transition: background-color 0.3s ease;
+
+.login-button-trid {
+  background-color: #0f7fc1; /* Màu nền của nút thinh sua phan  */
+  color: whitesmoke; /* Màu chữ của nút */
+  border: 1px solid #ddd; /* Viền của nút */
+  border-radius: 20px; /* Bo góc của nút */
+  padding: 10px 20px; /* Kích thước padding của nút */
+  font-size: 16px; /* Kích thước font chữ của nút */
+  cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,15 +94,15 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.login-button:hover {
-  background-color: #0a5b8d;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+
+.login-button-trid:hover {
+  background-color: rgb(201, 166, 101); /* Màu nền của nút khi hover */
 }
 
-.google-signup-button {
-  display: inline-flex;
-  align-items: center;
-  color: #fff;
+.google-signup-button-trid {
+  display: inline-block;
+  color: whitesmoke;
+
   text-decoration: none;
   padding: 10px 20px;
   border-radius: 20px;
@@ -101,17 +112,16 @@ body {
   margin-top: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+.google-signup-button-trid:hover {
+  background-color: rgb(201, 166, 101);
 
-.google-signup-button:hover {
-  background-color: #c23321;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
-.google-icon {
+.google-icon-trid {
   margin-right: 10px;
 }
 
-.button-text {
+.button-text-trid {
   vertical-align: middle;
 }
 

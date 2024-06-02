@@ -3,7 +3,8 @@ const session = require('express-session');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
-const initRouters = require("./routes/index");
+const initRouters = require("./routes");
+require('./config/passport')
 
 const app = express();
 

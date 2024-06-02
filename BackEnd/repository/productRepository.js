@@ -41,6 +41,9 @@ const productRepository = {
   deleteProduct: async (product_id) => {
     return await productDAO.deleteProduct(product_id);
   },
+  getProductDetailByID: async (product_id) => {
+    return await productDAO.getProductDetailByID(product_id);
+  },
 };
 
 module.exports = productRepository;

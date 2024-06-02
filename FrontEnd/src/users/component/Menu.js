@@ -3,12 +3,13 @@ import { TiThMenu } from "react-icons/ti";
 import "./Menu.css";
 function Menu() {
   return (
-    <div className="menu_cate">
-      <table className="category_table">
+
+    <div className="menu_cate-trid">
+      <table className="category_table-trid">
         <thead>
           <tr>
-            <th className="danhmuc">
-              <div className="icon_danhmuc">
+            <th className="danhmuc-trid">
+              <div className="icon_danhmuc-trid">
                 <TiThMenu />
               </div>
               Danh mục
@@ -18,9 +19,9 @@ function Menu() {
         <tbody>
           <tr>
             <td>
-              <a href="/Bigsales" className="cate_li_title">
+              <a href="KhuyenMaiLon.html" className="cate_li_title-trid">
                 <img
-                  className="img_icon icon_hover"
+                  className="img_icon-trid icon_hover-trid"
                   src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
                   alt="Khuyến mại lớn"
                 />
@@ -31,9 +32,9 @@ function Menu() {
 
           <tr>
             <td>
-              <a href="SuaChoMe.html" className="cate_li_title">
+              <a href="SuaChoMe.html" className="cate_li_title-trid">
                 <img
-                  className="img_icon icon_hover"
+                  className="img_icon-trid icon_hover-trid"
                   src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
                   alt="Đồ dùng cho mẹ"
                 />
@@ -43,9 +44,9 @@ function Menu() {
           </tr>
           <tr>
             <td>
-              <a href="SuaChoBe.html" className="cate_li_title">
+              <a href="SuaChoBe.html" className="cate_li_title-trid">
                 <img
-                  className="img_icon icon_hover"
+                  className="img_icon-trid icon_hover-trid"
                   src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
                   alt="Đồ dùng cho mẹ"
                 />
@@ -55,9 +56,10 @@ function Menu() {
           </tr>
           <tr>
             <td>
-              <a href="/Voucher" className="cate_li_title">
+
+              <a href="/Voucher" className="cate_li_title-trid">
                 <img
-                  className="img_icon icon_hover"
+                  className="img_icon-trid icon_hover-trid"
                   src="./voucher.png"
                   alt="Voucher"
                 />
@@ -67,9 +69,11 @@ function Menu() {
           </tr>
           <tr>
             <td>
-              <a href="/News" className="cate_li_title">
+
+              <a href="/News" className="cate_li_title-trid">
                 <img
-                  className="img_icon icon_hover"
+                  className="img_icon-trid icon_hover-trid"
+
                   src="./news.png"
                   alt="Tin tức"
                 />

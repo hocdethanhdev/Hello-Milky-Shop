@@ -24,4 +24,6 @@ router.get('/searchWithPrice/:name/:min_price/:max_price', productController.sea
 
 router.get('/searchWithName/:name', productController.searchWithName);
 
+router.get('/getProductDetailByID/:id', productController.getProductDetailByID);
+
 module.exports = router

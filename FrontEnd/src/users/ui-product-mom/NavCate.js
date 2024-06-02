@@ -3,13 +3,7 @@ import './NavCate.css'; // Assume styles are defined in NavCate.css or you can u
 
 const NavCate = () => {
     const [showMenu, setShowMenu] = useState(false);
-    /*
-    Khuyến mại lớn
-     Sữa cho mẹ
-     Sữa cho bé   
-    Voucher
-    Tin tức
-    */
+
     return (
         <div className="nav_cate width-common">
             <ul>
@@ -21,7 +15,7 @@ const NavCate = () => {
                     <i className="fa fa-bars"></i>Danh mục
                     {showMenu && (
                         <div className="box_list_cate">
-                            <div className="menu_cate">
+                            <div className="menu_cate-thinh">
                                 <div>
                                     <ul>
                                         <li className="cate_li menu-30">

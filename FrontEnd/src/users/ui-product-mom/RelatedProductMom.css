@@ -1,13 +1,13 @@
-#cart_product_viewed .product_related {
+#cart_product_viewed_sp_thinh .product_related_sp_thinh {
     width: 14%;
     float: left;
     margin-right: 3px;
 }
-.product_related {
+.product_related_sp_thinh {
     position: relative;
     margin: 8px 0;
 }
-.title_product_related {
+.title_product_related_sp_thinh {
     height: 30px;
     border-bottom: 1px solid #ddd;
     text-align: center;
@@ -15,24 +15,24 @@
     line-height: 30px;
     font-weight: bold;
 }
-.product_related .img_product_related img {
+.product_related_sp_thinh .img_product_related_sp_thinh img {
     max-width: 100%;
     max-height: 100%;
 }
-.product_related a {
+.product_related_sp_thinh a {
     text-decoration: none;
     font-size: small;
     color: black;
     font-weight: 500;
 }
-.price_product_related {
+.price_product_related_sp_thinh {
     font-weight: bold;
     color: #fd6a02;
 }
-.product_related {
+.product_related_sp_thinh {
     display: flex;
 }
-.img_product_related {
+.img_product_related_sp_thinh {
     height: 90px;
     width: 90px;
 }
