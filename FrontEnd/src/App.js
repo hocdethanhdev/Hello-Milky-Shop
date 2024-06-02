@@ -37,7 +37,10 @@ import ListProductMom from './users/ui-list-product-mom/ListProductMom';
 import SliderMoney from './users/ui-list-product-mom/SliderMoney';
 import ScrollToTopButton from './users/ui-product-mom/ScrollToTopButton';
 import ThrowPage from './users/ui-list-product-mom/ThrowPage';
-
+import Termofuse  from './users/component/Termofuse';
+import VoucherStore from './users/component/VoucherStore';
+import ShoppingCart from './users/component/ShoppingCart';
+import Bigsales from './users/component/Bigsales';
 
 function App() {
   return (
@@ -45,6 +48,7 @@ function App() {
       <Router>
         <Header />
         <Routes>  
+          
           <Route path="/" element={<Product1 />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

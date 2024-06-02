@@ -19,7 +19,7 @@ function Menu() {
         <tbody>
           <tr>
             <td>
-              <a href="KhuyenMaiLon.html" className="cate_li_title-trid">
+              <a href="/Bigsales" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
                   src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
@@ -32,7 +32,7 @@ function Menu() {
 
           <tr>
             <td>
-              <a href="SuaChoMe.html" className="cate_li_title-trid">
+              <a href="/" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
                   src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
@@ -44,7 +44,7 @@ function Menu() {
           </tr>
           <tr>
             <td>
-              <a href="SuaChoBe.html" className="cate_li_title-trid">
+              <a href="/" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
                   src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
