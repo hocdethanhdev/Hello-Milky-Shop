@@ -2,8 +2,6 @@ const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 const Article = require("../bo/article");
 
-
-
 const articleDAO = {
   findArticlesByID: (ID) => {
     return new Promise((resolve, reject) => {

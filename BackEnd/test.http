@@ -29,7 +29,7 @@ Content-Type: application/json
     "ManufacturingDate": "2024-01-01",
     "BrandName": "Enfamil",
     "ProductCategoryName": "Sữa cho em bé",
-    "Status": "Deleted"
+    "Status": 0
 }
 ###
 PUT http://localhost:5000/api/v1/product/editProduct/SE0002
