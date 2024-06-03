@@ -10,6 +10,40 @@ const getAllUsers = async (req, res) => {
     }
 };
 
+const deleteUser = async (req, res) => {
+    try {
+      const obj = await userService.deleteUser(req.params.user_id);
+      res.send(obj);
+    } catch (error) {
+      console.error("Error while getting all users:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  };
+
+
+  const updateUser = async (req, res) => {
+  try {
+    const user = req.body;
+    const obj = await userService.updateUser(req.params.user_id, user);
+    res.send(obj);
+  } catch (error) {
+    console.error("Error while getting all users:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const getUserByRole = async (req, res) => {
+  try {
+      const obj = await userService.getUserByRole (req.params.ID);
+      res.send(obj);
+  } catch (error) {
+      console.error("Error while getting all users:", error);
+      res.status(500).send("Internal Server Error");
+  }
+};
 module.exports = {
-    getAllUsers
+    getAllUsers,
+    deleteUser,
+    updateUser,
+    getUserByRole
 }
