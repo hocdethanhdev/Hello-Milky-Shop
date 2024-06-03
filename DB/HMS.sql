@@ -69,7 +69,7 @@ StockQuantity int NULL,
 Image varchar(255) NULL, 
 ExpirationDate date NULL, 
 ManufacturingDate date NULL, 
-Status default 0,
+Status bit default 0,
 BrandID int foreign key references Brand(BrandID),
 ProductCategoryID int foreign key references ProductCategory(ProductCategoryID), 
 PRIMARY KEY (ProductID));
