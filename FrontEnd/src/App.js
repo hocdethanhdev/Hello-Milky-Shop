@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './managers/staff/Navbar';
@@ -37,16 +36,21 @@ import ListProductMom from './users/ui-list-product-mom/ListProductMom';
 import SliderMoney from './users/ui-list-product-mom/SliderMoney';
 import ScrollToTopButton from './users/ui-product-mom/ScrollToTopButton';
 import ThrowPage from './users/ui-list-product-mom/ThrowPage';
+
+
+
 import Termofuse  from './users/component/Termofuse';
 import VoucherStore from './users/component/VoucherStore';
 import ShoppingCart from './users/component/ShoppingCart';
 import Bigsales from './users/component/Bigsales';
 import LoginEmail from './users/component/LoginEmail';
 
+
 function App() {
   return (
     <div >
       <Router>
+
         <Header />
         <Routes>  
           <Route path="/ListProductMom" element={<ListProductMom/>} />
@@ -62,6 +66,7 @@ function App() {
           {/* Add more routes here as needed */}
         </Routes>
         <Footer />
+
       </Router>
     </div>
   );

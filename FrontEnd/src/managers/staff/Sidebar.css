@@ -1,4 +1,5 @@
 .sidebar {
+
     width: 200px;
     background-color: #ffae33;
     color: white;
@@ -57,4 +58,5 @@
   }
 .dashboard{
     margin-right: 30px;
+
 }

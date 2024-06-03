@@ -1,15 +1,13 @@
-
 /* Login.css */
 
 body {
-  
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 #login-page {
-  background-image: url('https://source.unsplash.com/random/1920x1080/?nature');
+  background-image: url("https://source.unsplash.com/random/1920x1080/?nature");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -44,7 +42,9 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   position: relative;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Thêm hiệu ứng chuyển đổi cho box-shadow */
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease; /* Thêm hiệu ứng chuyển đổi cho box-shadow */
 }
 .thinhdan {
   padding-right: 380px;
@@ -52,8 +52,9 @@ body {
 
 
 .p-5 {
- 
-  
+
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); */
+
   border-radius: 20px;
 }
 .login-form .form-control:focus {
@@ -98,7 +99,6 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-
 .login-button-trid:hover {
   background-color: rgb(201, 166, 101); /* Màu nền của nút khi hover */
 }
@@ -119,7 +119,6 @@ body {
 }
 .google-signup-button-trid:hover {
   background-color: rgb(201, 166, 101);
-
 }
 
 .google-icon-trid {
