@@ -1,4 +1,5 @@
 const authService = require("../service/authService");
+const otpService = require("../service/otpService");
 const passport = require('passport');
 const User = require('../bo/user');
 
@@ -45,8 +46,12 @@ const logout = async (req, res) => {
 
 const loginEmail = async (req, res) => {
   try {
-    const obj = await authService.loginEmail(req.params.email);
-    console.log(JSON.parse(obj))
+    const { email } = req?.body;
+    if (!email) res.status(404).send({
+      err: 1,
+      message: 'Missing input'
+    })
+    const obj = await authService.loginEmail(email);
     res.send(obj);
   } catch (error) {
     console.error("Error while logging in:", error);

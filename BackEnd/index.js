@@ -4,7 +4,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const initRouters = require("./routes");
-require('./config/passport')
+require('./config/passport');
+const io = require('socket.io');
 
 const app = express();
 
@@ -31,3 +32,4 @@ const PORT = process.env.PORT || 8888;
 const listener = app.listen(PORT, () => {
   console.log("Server is running at " + listener.address().port);
 });
+

@@ -13,6 +13,10 @@ import {
 } from "mdb-react-ui-kit";
 
 function Login() {
+  const loginGoogle = () => {
+    window.open('http://localhost:5000/api/v1/auth/google', '_self');
+  }
+
   return (
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
@@ -62,7 +66,7 @@ function Login() {
                     className="google-icon-trid"
                   />
 
-                  <span className="button-text-trid">Đăng nhập với Google</span>
+                  <span onClick={loginGoogle} className="button-text-trid">Đăng nhập với Google</span>
 
                 </a>
               </div>

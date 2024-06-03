@@ -53,6 +53,10 @@ function Signup() {
     }
   };
 
+  const loginGoogle = () => {
+    window.open('http://localhost:5000/api/v1/auth/google', '_self');
+  }
+
   return (
     <MDBContainer
       fluid
@@ -136,7 +140,7 @@ function Signup() {
             <div className="d-flex flex-row mt-3">
               <a href="#" className="google-signup-button">
                 <MDBIcon fab icon="google" size="lg" className="google-icon" />
-                <span className="button-text">Đăng nhập với Google</span>
+                <span onClick={loginGoogle} className="button-text">Đăng nhập với Google</span>
               </a>
             </div>
           </div>

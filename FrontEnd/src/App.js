@@ -47,11 +47,13 @@ function App() {
   return (
     <div>
       <Router>
+
         <Header />
         <Routes>
           <Route path="/ListProductMom" element={<ListProductMom />} />
           <Route path="/" element={<Product1 />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/login-email/:email" element={<LoginEmail />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/Termofuse" element={<Termofuse />} />
           <Route path="/voucher" element={<VoucherStore />} />
@@ -62,6 +64,7 @@ function App() {
           {/* Add more routes here as needed */}
         </Routes>
         <Footer />
+
       </Router>
     </div>
   );

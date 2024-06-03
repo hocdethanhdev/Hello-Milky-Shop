@@ -277,7 +277,7 @@ const productDAO = {
   },
   deleteProduct: (param_id) => {
     return new Promise((resolve, reject) => {
-      const Status = "Deleted";
+      const Status = 0;
       mssql.connect(dbConfig, function (err, result) {
         var request = new mssql.Request()
           .input("ProductID", param_id)
