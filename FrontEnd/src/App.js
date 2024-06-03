@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './managers/staff/Navbar';
@@ -37,29 +36,65 @@ import ListProductMom from './users/ui-list-product-mom/ListProductMom';
 import SliderMoney from './users/ui-list-product-mom/SliderMoney';
 import ScrollToTopButton from './users/ui-product-mom/ScrollToTopButton';
 import ThrowPage from './users/ui-list-product-mom/ThrowPage';
-import Termofuse  from './users/component/Termofuse';
-import VoucherStore from './users/component/VoucherStore';
-import ShoppingCart from './users/component/ShoppingCart';
-import Bigsales from './users/component/Bigsales';
+
 
 function App() {
   return (
     <div >
       <Router>
-        <Header />
-        <Routes>  
-          
-          <Route path="/" element={<Product1 />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/Termofuse" element={<Termofuse />} />
-          <Route path="/voucher" element={<VoucherStore />} />
-          <Route path="/ShoppingCart" element={<ShoppingCart />} />
-          <Route path="/Bigsales" element={<Bigsales />} />
-          <Route path="/News" element={<News />} />
-          {/* Add more routes here as needed */}
-        </Routes>
-        <Footer />
+
+        <Navbar />
+        {/* <NavCate /> */}
+        <div className='some row'>
+          <div className='some-thang col-md-2'>
+            <Sidebar />
+            {/* <AdminSlidebar /> */}
+
+          </div>
+
+          <div className='col-md-10'>
+            {/* <ProductContentMom /> */}
+            {/* <ListProductMom /> */}
+            <div className='row'>
+
+
+              <div className='col-md-9'>
+                {/* <ProductDetail /> */}
+              </div>
+              <div className='col-md-3'>
+                {/* <RelatedProducts /> */}
+              </div>
+            </div>
+
+            <ScrollToTopButton />
+            <Routes>
+
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/voucher" element={<Voucher />} />
+              <Route path="/report" element={<Report />} />
+              <Route path="/posts" element={<Posts />} />
+              <Route path="/confirm" element={<Confirm />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/addingvoucher" element={<VoucherAdd />} />
+              <Route path="/addingproduct" element={<ProductAdd />} />
+              <Route path="/addingpost" element={<PostsAdd />} />
+              <Route path="/manage-admin" element={<MangageAdmin />} />
+              <Route path="/admin-dashboard" element={<MainDash />} />
+              <Route path="/adding-account-admin" element={<Signup />} />
+              <Route path="/manage-staff" element={<ManageStaff />} />
+              <Route path="/adding-account-staff" element={<SignupSt />} />
+              <Route path="/manage-member" element={<ManageMember />} />
+              <Route path="/adding-account-member" element={<SignupMem />} />
+            </Routes>
+
+
+          </div>
+
+
+
+
+        </div>
+        <Footer2 />
       </Router>
     </div>
   );
