@@ -11,7 +11,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@vonage/server-sdk": "^3.14.1",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
