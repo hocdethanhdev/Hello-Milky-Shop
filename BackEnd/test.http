@@ -101,3 +101,136 @@ Content-Type: application/x-www-form-urlencoded
 
 tmn_code=8VGHK1JI
 ###
+
+GET http://localhost:5000/api/v1/voucher/getAllVouchers
+###
+POST http://localhost:5000/api/v1/voucher/addVoucher
+Content-Type: application/json
+
+{
+    "code": "VOUCHER17",
+    "quantity": 22,
+    "discountPercentage": 20,
+    "maxDiscount": 150000,
+    "minDiscount": 120000,
+    "startDate": "2024-10-10",
+    "expiryDate": "2024-11-31",
+    "voucherName": "Voucher 16"
+}
+###
+GET http://localhost:5000/api/v1/voucher/searchVoucherByDate?startDate=2023-01-01&expiryDate=2024-12-31
+
+###
+PUT http://localhost:5000/api/v1/voucher/updateVoucher/2
+Content-Type: application/json
+
+{
+    "code": "HAPPYMONDA",
+    "quantity": 50,
+    "discountPercentage": 20,
+    "maxDiscount": 100000,
+    "minDiscount": 10000,
+    "startDate": "2024-01-02",
+    "expiryDate": "2024-10-31",
+    "voucherName": "New Year Special"
+}
+
+### Lưu mã voucher cho user
+POST http://localhost:5000/api/v1/voucher/saveVoucherForUser
+Content-Type: application/json
+
+{
+  "userID": "M0000001",
+  "voucherID": 3
+}
+###
+GET http://localhost:5000/api/v1/voucher/getVouchersByUserID/M0000001
+
+###
+GET http://localhost:5000/api/v1/promotion/getAllPromotions
+
+
+###
+GET http://localhost:5000/api/v1/promotion/searchPromotionByName?name=Summer
+
+###
+POST http://localhost:5000/api/v1/promotion/addPromotion
+Content-Type: application/json
+
+{
+    "promotionName": "Summer Sale",
+    "description": "Discount for summer season",
+    "discountPercentage": 20,
+    "startDate": "2024-06-01",
+    "endDate": "2024-08-31"
+}
+
+###
+
+PUT http://localhost:5000/api/v1/promotion/updatePromotion/1
+Content-Type: application/json
+
+{
+    "promotionName": "Summer Sale Updated",
+    "description": "Updated discount for summer season",
+    "discountPercentage": 25,
+    "startDate": "2024-06-01",
+    "endDate": "2024-08-31"
+}
+
+###
+GET http://localhost:5000/api/v1/promotion/getAllProductsApplyPromotion/1
+
+###
+POST http://localhost:5000/api/v1/promotion/applyPromotionToProduct
+Content-Type: application/json
+
+{
+    "productID": "SE0001",
+    "promotionID": 1
+}
+
+
+###
+GET http://localhost:5000/api/v1/order/getAllOrders
+
+
+###
+POST http://localhost:5000/api/v1/order/createOrder
+Content-Type: application/json
+
+{
+  "userID": "M0000001"
+}
+
+### Thêm sản phẩm vào đơn hàng hiện tại
+POST http://localhost:5000/api/v1/order/addProductToOrder
+Content-Type: application/json
+
+{
+  "userID": "M0000001",
+  "productID": "SE0005",
+  "quantity": 3,
+  "price": 1500
+}
+### Trả về orders dựa vào ID
+GET http://localhost:5000/api/v1/order/getOrder/30
+
+
+### Check out đơn hàng để có thể tạo ra đơn mới
+POST http://localhost:5000/api/v1/order/checkoutOrder
+Content-Type: application/json
+
+{
+    "userID": "M0000001",
+    "paymentID": 1
+}
+
+### Lấy tất cả các đơn hàng của một user theo userID
+GET http://localhost:5000/api/v1/order/getOrdersByUserID/M0000001
+
+### Lấy các voucher có thể áp dụng cho đơn hàng
+GET  http://localhost:5000/api/v1/order/getApplicableVouchers/M0000001/1
+
+### Áp dụng voucher vào đơn hàng
+POST http://localhost:5000/api/v1/order/applyVoucherToOrder
