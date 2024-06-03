@@ -1,39 +1,134 @@
-.login-button {
-  background-color: #0f7fc1; /* Màu nền của nút */
+
+/* Login.css */
+
+body {
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+#login-page {
+  background-image: url('https://source.unsplash.com/random/1920x1080/?nature');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.login-form {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 40px;
+  backdrop-filter: blur(10px);
+  max-width: 500px; /* Thêm chiều rộng tối đa */
+  margin: 0 auto; /* Căn giữa khối */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.login-form h2 {
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Login.css */
+
+.login-form .form-control {
+  border-radius: 20px;
+  padding: 10px 15px 10px 40px;
+  border: 1px solid #ddd; /* Viền mặc định */
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Thêm hiệu ứng chuyển đổi cho box-shadow */
+}
+
+.p-5 {
+ 
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+.login-form .form-control:focus {
+  outline: none;
+  border-color: #0f7fc1; /* Màu viền khi focus */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Đổ bóng khi focus */
+}
+
+.login-form .form-control.invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 10px rgba(220, 53, 69, 0.2); /* Đổ bóng cho trường không hợp lệ */
+}
+
+.login-form .form-control.valid {
+  border-color: #28a745;
+  box-shadow: 0 0 10px rgba(40, 167, 69, 0.2); /* Đổ bóng cho trường hợp lệ */
+}
+.login-button-trid {
+  background-color: #0f7fc1;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+.login-button-trid {
+  background-color: #0f7fc1; /* Màu nền của nút thinh sua phan  */
   color: whitesmoke; /* Màu chữ của nút */
   border: 1px solid #ddd; /* Viền của nút */
   border-radius: 20px; /* Bo góc của nút */
   padding: 10px 20px; /* Kích thước padding của nút */
   font-size: 16px; /* Kích thước font chữ của nút */
   cursor: pointer;
+
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin: 30px auto 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.login-button:hover {
+
+.login-button-trid:hover {
   background-color: rgb(201, 166, 101); /* Màu nền của nút khi hover */
 }
 
-
-.google-signup-button {
+.google-signup-button-trid {
   display: inline-block;
   color: whitesmoke;
+
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  border: 1px solid black;
-  background-color: rgb(194, 57, 11);
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: #dd4b39;
   transition: background-color 0.3s ease;
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-
-.google-signup-button:hover {
+.google-signup-button-trid:hover {
   background-color: rgb(201, 166, 101);
+
 }
 
-.google-icon {
+.google-icon-trid {
   margin-right: 10px;
 }
 
-.button-text {
+.button-text-trid {
   vertical-align: middle;
+}
+
+.text-uppercase {
+  text-align: center;
+}
+
+.login-nd {
+  font-size: 16px;
 }

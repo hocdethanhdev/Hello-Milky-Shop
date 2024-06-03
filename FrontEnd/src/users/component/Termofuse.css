@@ -1,4 +1,4 @@
-h1 {
+.entry-header h1 {
     margin-top: 20px;
     text-align: center;
 }
@@ -8,6 +8,4 @@ h1 {
     padding: 20px; /* Thêm padding để tạo khoảng cách giữa border và nội dung */
     max-width: 900px; /* Đặt chiều rộng tối đa của phần tử main */
     margin: 0 auto; /* Canh giữa phần tử main */
-    
-  }
-  
+}
