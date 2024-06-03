@@ -32,7 +32,7 @@ function Menu() {
 
           <tr>
             <td>
-              <a href="/" className="cate_li_title-trid">
+              <a href="/ListProductMom" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
                   src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
@@ -47,7 +47,7 @@ function Menu() {
               <a href="/" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
-                  src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
+                  src="https://momslove.com.vn/wp-content/uploads/2021/07/icon-sua.svg"
                   alt="Đồ dùng cho mẹ"
                 />
                 Sữa cho bé

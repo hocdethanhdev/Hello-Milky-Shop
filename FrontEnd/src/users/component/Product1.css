@@ -7,12 +7,10 @@
 
 .category_table {
   width: 100%;
+ 
 }
 
-.danhmuc {
-  text-align: center;
-  color: #f9f9f9;
-}
+
 
 /* Mỗi hàng trong bảng danh mục */
 .category_table tbody tr:nth-child(even) {
@@ -54,8 +52,9 @@
 }
 
 .box_slider img {
-  width: 100%;
+  width: 80%;
   height: auto;
+  margin-left: 80px;
 }
 
 .box_product_suggest {

@@ -10,7 +10,7 @@ import Confirm from './managers/staff/Confirm';
 import Products from './managers/staff/Products';
 import './App.css';
 import Sidebar from './managers/staff/Slidebar';
-import Footer2 from './managers/staff/Footer';
+import Footer from './users/component/Footer';
 import VoucherAdd from './managers/staff/VoucherAdd';
 import ProductAdd from './managers/staff/ProductAdd';
 import PostsAdd from './managers/staff/PostsAdd';
@@ -18,7 +18,7 @@ import AdminSlidebar from './managers/admin/AdminSlidebar';
 import MainDash from './managers/admin/MainDash';
 import MangageAdmin from './managers/admin/ManageAdmin';
 import ManageStaff from './managers/admin/ManageStaff';
-import Signup from './managers/admin/SignupAd';
+import Signup from './users/component/Signup2';
 import SignupSt from './managers/admin/SignupSt';
 import ManageMember from './managers/admin/ManageMember';
 import SignupMem from './managers/admin/SignupMem';
@@ -27,7 +27,7 @@ import ProductContentMom from './users/ui-product-mom/ProductContentMom';
 import ProductDetail from './users/ui-product-mom/ProductDetailMom';
 import NavCate from './users/ui-product-mom/NavCate';
 import RelatedProducts from './users/ui-product-mom/RelatedProductMom';
-import Footer from './users/component/Footer';
+// import Footer from './users/component/Footer';
 import Header from './users/component/Header';
 import Login from './users/component/Login';
 import Menu from './users/component/Menu';
@@ -48,7 +48,7 @@ function App() {
       <Router>
         <Header />
         <Routes>  
-          
+          <Route path="/ListProductMom" element={<ListProductMom/>} />
           <Route path="/" element={<Product1 />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
