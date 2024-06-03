@@ -1,5 +1,4 @@
-/* General Styles */
-
+/* Header.css */
 
 .header-compo-tri {
   background-color: #0f7fc1;
@@ -42,16 +41,16 @@
   margin-top: 20px;
 }
 
-.box_search-compo-tri button {
+.search-button {
   background-color: #ff6a00;
   border: none;
-  padding: 15px;
+  padding: 10px 15px;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
   margin-top: 20px;
 }
 
-.box_search-compo-tri button i {
+.search-button i {
   color: #fff;
 }
 
