@@ -131,7 +131,7 @@ const userDAO = {
     });
   },
   register: (name, phone, password, role) => {
-    const user = new User(UserID, name, phone, null, password, role);
+    const user = new User(UserID, name, phone, null, password, null, 1, role);
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input(
@@ -243,7 +243,7 @@ const userDAO = {
                 expiresIn: 60, //thời gian(s)
               }
             );
-
+            
             resolve({
               auth: true,
               token: token,

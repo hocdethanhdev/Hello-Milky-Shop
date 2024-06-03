@@ -1,5 +1,4 @@
 
-const Article = require("../bo/article");
 const articleRepository = require("../repository/articleRepository");
 
 const articleService = {
