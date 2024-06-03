@@ -1,7 +1,7 @@
 module.exports = {
     server: "localhost",
     user: "sa",
-    password: "123456",
+    password: "12345",
     database: "HelloMilkyShop",
     trustServerCertificate: true
 };
