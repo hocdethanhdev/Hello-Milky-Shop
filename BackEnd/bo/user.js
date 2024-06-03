@@ -1,12 +1,23 @@
 class User {
-    constructor(UserID, UserName, PhoneNumber, Mail, Password, RoleID) {
-      this.UserID = UserID;
-      this.UserName = UserName;
-      this.PhoneNumber = PhoneNumber;
-      this.Password = Password;
-      this.Mail = Mail;
-      this.RoleID = RoleID;
-    };
-  }
-  module.exports = User;
-  
+    constructor(
+        UserID,
+        UserName,
+        PhoneNumber,
+        Email,
+        Password,
+        Address,
+        Status,
+        RoleID
+     ) {
+    this.UserID = UserID;
+    this.UserName = UserName;
+    this.PhoneNumber = PhoneNumber;
+    this.Email = Email;
+    this.Password = Password;
+    this.Address = Address;
+    this.Status = Status;
+    this.RoleID = RoleID;
+}
+}
+
+module.exports = User;
