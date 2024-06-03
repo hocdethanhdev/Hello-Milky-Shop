@@ -46,10 +46,14 @@ body {
   position: relative;
   transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Thêm hiệu ứng chuyển đổi cho box-shadow */
 }
+.thinhdan {
+  padding-right: 380px;
+}
+
 
 .p-5 {
  
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  
   border-radius: 20px;
 }
 .login-form .form-control:focus {
@@ -111,6 +115,7 @@ body {
   transition: background-color 0.3s ease;
   margin-top: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
 }
 .google-signup-button-trid:hover {
   background-color: rgb(201, 166, 101);

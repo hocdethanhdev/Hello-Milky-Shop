@@ -2,7 +2,7 @@
 
 /* Background image */
 .bg-image {
- 
+  background-image: url('https://source.unsplash.com/random/1920x1080/?nature');
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -79,7 +79,7 @@
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
-  border: 20px solid black;
+  border: 1px solid black;
   background-color: rgb(194, 57, 11);
   transition: background-color 0.3s ease;
   margin-top: 15px;
