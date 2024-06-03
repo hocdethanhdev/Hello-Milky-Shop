@@ -13,10 +13,14 @@ import {
 } from "mdb-react-ui-kit";
 
 function Login() {
+  const loginGoogle = () => {
+    window.open('http://localhost:5000/api/v1/auth/google', '_self');
+  }
+
   return (
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
-        <MDBCol col="12">
+        <MDBCol >
           <MDBCard
             className="bg-light text-dark my-5 mx-auto"
             style={{ borderRadius: "1rem", maxWidth: "500px" }}
@@ -24,7 +28,7 @@ function Login() {
             <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100">
               <h2 className="fw-bold mb-2 text-uppercase">Đăng nhập</h2>
               <p className="text-dark-50 mb-5">
-                Please enter your login and password!
+                
               </p>
 
               <MDBInput className="login-nd"
@@ -53,8 +57,8 @@ function Login() {
                 <span className="button-text-trid">Đăng nhập</span>
               </button>
 
-              <div className="d-flex flex-row mt-3 mb-5">
-                <a href="#" className="google-signup-button-trid m-3">
+              <div className=" flex-row">
+                <a href="#" className="google-signup-button-trid">
                   <MDBIcon
                     fab
                     icon="google"
@@ -62,7 +66,7 @@ function Login() {
                     className="google-icon-trid"
                   />
 
-                  <span className="button-text-trid">Đăng kí với Google</span>
+                  <span onClick={loginGoogle} className="button-text-trid">Đăng nhập với Google</span>
 
                 </a>
               </div>

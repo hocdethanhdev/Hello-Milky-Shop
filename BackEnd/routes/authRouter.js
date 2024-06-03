@@ -17,9 +17,9 @@ router.get("/google/callback", (req, res, next) => {
     next();
   })(req, res, next);
 }, (req, res) => {
-    res.redirect(`${process.env.CLIENT_URL}/loginEmail/${req.user?.emails[0].value}`)
+    res.redirect(`${process.env.CLIENT_URL}/login-email/${req.user?.emails[0].value}`)
 });
 
-router.post('/loginEmail/:email', authController.loginEmail);
+router.post('/loginEmail', authController.loginEmail);
 
 module.exports = router;

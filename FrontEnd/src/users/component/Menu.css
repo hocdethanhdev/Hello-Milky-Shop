@@ -1,21 +1,24 @@
 
 .menu_cate-trid {
   margin-top: 20px;
-  margin-left: 100px;
-  border: 1px solid;
-  border-radius: 5px;
-  background-color: #0f7fc1;
-
+  border: 10px;
+  border-radius: 10px;
+  
 }
 
 .category_table-trid {
-  width: 100%;
+  margin-left: 80px;
+  width: 80%;
+  border: 10px;
+  border-radius: 10px;
+  margin-right: 200px;
 }
 
-.danhmuc-trid {
-  text-align: center;
-  color: #f9f9f9;
+.body {
+  margin-right: auto;
 }
+
+
 
 /* Mỗi hàng trong bảng danh mục */
 .category_table-trid tbody tr:nth-child(even) {
@@ -28,7 +31,7 @@
 
 /* Màu nền của ô khi di chuột qua */
 .category_table-trid tbody tr:hover td {
-  background-color: #fd3b36; /* Màu hồng khi di chuột qua */
+  background-color: #ff6a00; /* Màu hồng khi di chuột qua */
 }
 
 .cate_li_title-trid {

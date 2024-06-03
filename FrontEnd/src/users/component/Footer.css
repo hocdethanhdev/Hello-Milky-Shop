@@ -1,5 +1,5 @@
 /* Footer.css */
-.footer-tri {
+.footer-tri-container {
     background-color: #0f7fc1;
     color: #fff;
     padding: 2rem 0;
@@ -9,10 +9,11 @@
 .footer-tri .container {
     max-width: 1200px;
     margin: 0 auto;
+   
 }
 
-.footer-tri .social-links a {
-    margin: 0 0.5rem;
+.footer-tri-container .social-links a {
+    margin: 0 1rem;
     color: #fff;
     text-decoration: none;
 }

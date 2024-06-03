@@ -7,23 +7,6 @@ const passport = require("passport");
 
 const UserID = "a";
 
-const createUserWithEmail = (profile) => {
-  mssql.connect(dbConfig, function (err, result) {
-    const request = new mssql.Request()
-      .input("Email", profile.emails[0]?.value)
-      .input("UserName", mssql.NVarChar, profile.displayName)
-      .input("UserID", UserID)
-      .input("RoleID", mssql.Int, 3);
-    request.query(
-      `INSERT INTO Users(UserID, Email, UserName, RoleID) values (@UserID, @Email, @UserName, @RoleID);`,
-      (err, res) => {
-        if (err) return false;
-        return true;
-      }
-    );
-  });
-};
-
 const userDAO = {
   findAllUsers: () => {
     return new Promise((resolve, reject) => {
@@ -34,6 +17,64 @@ const userDAO = {
 
           resolve(res.recordset);
         });
+      });
+    });
+  },
+  deleteUser: (param_id) => {
+    return new Promise((resolve, reject) => {
+      const Status = "0";
+      mssql.connect(dbConfig, function (err, result) {
+        var request = new mssql.Request()
+          .input("UserID", param_id)
+          .input("Status",  Status);
+        request.query(
+          `UPDATE Users SET Status = @Status WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) reject(err);
+            resolve({
+              message: "0"
+            });
+          }
+        );
+      });
+    });
+  },
+  updateUser: (param_id, userObject) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        var request = new mssql.Request()
+          .input("UserID", param_id)
+          .input("Status", mssql.Bit, userObject.Status)
+          .input("RoleID", mssql.Int, userObject.RoleID);
+         
+        request.query(
+          `UPDATE Users SET  Status = @Status , RoleID = @RoleID  WHERE UserID = @UserID
+          ;`,
+          (err, res) => {
+            if (err) reject(err);
+            resolve({
+              message: "Edit successfully"
+            });
+          }
+        );
+      });
+    });
+  },
+  findUserByRole: (ID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input("ID", ID);
+        request.query(
+          `SELECT *
+          FROM Users
+          WHERE RoleID = @ID
+           
+          `,
+          (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+          }
+        );
       });
     });
   },
@@ -90,7 +131,7 @@ const userDAO = {
     });
   },
   register: (name, phone, password, role) => {
-    const user = new User(UserID, name, phone, null, password, role);
+    const user = new User(UserID, name, phone, null, password, null, 1, role);
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input(
@@ -168,7 +209,6 @@ const userDAO = {
       });
     });
   },
-
   loginEmail: (email) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -203,7 +243,7 @@ const userDAO = {
                 expiresIn: 60, //thời gian(s)
               }
             );
-
+            
             resolve({
               auth: true,
               token: token,
@@ -213,6 +253,6 @@ const userDAO = {
       });
     });
   },
-};
+}
 
 module.exports = userDAO;

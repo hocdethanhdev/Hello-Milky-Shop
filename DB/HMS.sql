@@ -69,7 +69,7 @@ StockQuantity int NULL,
 Image varchar(255) NULL, 
 ExpirationDate date NULL, 
 ManufacturingDate date NULL, 
-Status varchar(20) NULL default('Still in stock'),
+Status bit default 0,
 BrandID int foreign key references Brand(BrandID),
 ProductCategoryID int foreign key references ProductCategory(ProductCategoryID), 
 PRIMARY KEY (ProductID));
@@ -104,7 +104,6 @@ PRIMARY KEY (OrderID));
 
 CREATE TABLE Voucher (
 VoucherID int IDENTITY NOT NULL, 
-Code varchar(10) NOT NULL, 
 Quantity int NOT NULL,
 DiscountPercentage float NOT NULL, 
 MaxDiscount int NOT NULL, 
@@ -148,6 +147,17 @@ PriceAfterDiscount int,
 ProductID varchar(6) NOT NULL foreign key references Product(ProductID), 
 PromotionID int NOT NULL foreign key references Promotion(PromotionID), 
 PRIMARY KEY (ProductPromotionID));
+
+CREATE TABLE City (
+    ID INT IDENTITY PRIMARY KEY,
+    CityName VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE District (
+    ID INT IDENTITY PRIMARY KEY,
+    DistrictName VARCHAR(100) NOT NULL,
+    CityID INT FOREIGN KEY REFERENCES City(ID)
+);
 
 go
 create trigger trg_PriceAfterDiscount

@@ -8,7 +8,7 @@ GET http://localhost:5000/api/v1/product/searchWithBrand/Phy/Enfamil
 ###
 GET http://localhost:5000/api/v1/product/getAllProductCategory
 ###
-GET http://localhost:5000/api/v1/product/searchWithProductCategory/Phy/Sữa cho mẹ bầu
+GET http://localhost:5000/api/v1/product/searchWithProductCategory/phy/Sữa cho mẹ bầu
 ###
 GET http://localhost:5000/api/v1/product/searchWithPrice/Phy/0/10000000
 ###
@@ -29,7 +29,7 @@ Content-Type: application/json
     "ManufacturingDate": "2024-01-01",
     "BrandName": "Enfamil",
     "ProductCategoryName": "Sữa cho em bé",
-    "Status": "Deleted"
+    "Status": 0
 }
 ###
 PUT http://localhost:5000/api/v1/product/editProduct/SE0002
@@ -54,7 +54,7 @@ Content-Type: application/json
 
 {
     "UserName": "Nhan",
-    "PhoneNumber": "0987654321",
+    "PhoneNumber": "84933802522",
     "Password": "1"
 }
 ###
@@ -62,7 +62,7 @@ POST http://localhost:5000/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "PhoneNumber": "0987654321",
+    "PhoneNumber": "84933802522",
     "Password": "1"
 }
 ###
@@ -85,7 +85,7 @@ POST  http://localhost:5000/api/v1/payment/create_payment_url
 Content-Type: application/json
 
 {
-    "orderID": 20,
+    "orderID": 21,
     "amount": 100000,
     "language": "vn"
 }
