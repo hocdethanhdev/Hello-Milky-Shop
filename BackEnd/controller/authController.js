@@ -45,17 +45,19 @@ const logout = async (req, res) => {
 };
 
 const loginEmail = async (req, res) => {
+  const { email } = req?.body;
   try {
-    const { email } = req?.body;
-    if (!email) res.status(404).send({
+    if (!email) res.status(404).json({
       err: 1,
       message: 'Missing input'
     })
     const obj = await authService.loginEmail(email);
-    res.send(obj);
+    res.status(200).json(obj);
   } catch (error) {
-    console.error("Error while logging in:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({
+      err: -1,
+      message: "Internal Server Error"
+    });
   }
 };
 

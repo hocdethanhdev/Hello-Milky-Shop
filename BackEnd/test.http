@@ -1,21 +1,27 @@
+
+### lay tat ca user
 GET http://localhost:5000/api/v1/user/getAllUsers
-###
+### lay tat ca san pham thong tin don gian
 GET http://localhost:5000/api/v1/product/getAllProducts
-###
+### lay tat ca brand dang co
 GET http://localhost:5000/api/v1/product/getAllBrands
-###
+### tim sua theo brand
 GET http://localhost:5000/api/v1/product/searchWithBrand/Phy/Enfamil
-###
+### lay tat ca san pham cho me
+GET http://localhost:5000/api/v1/product/getProductByCategory/1/
+### lay tat ca san pham cho be
+GET http://localhost:5000/api/v1/product/getProductByCategory/2/
+### lay tat ca category
 GET http://localhost:5000/api/v1/product/getAllProductCategory
-###
+### tim kiem sua bang cate
 GET http://localhost:5000/api/v1/product/searchWithProductCategory/phy/Sữa cho mẹ bầu
-###
+### tim voi gia
 GET http://localhost:5000/api/v1/product/searchWithPrice/Phy/0/10000000
-###
+### tim theo ten
 GET http://localhost:5000/api/v1/product/searchWithName/phy
-###
+### lay tat ca san pham voi day du thong tin
 GET http://localhost:5000/api/v1/product/getInfoProductsDetail
-###
+### tao san pham
 POST http://localhost:5000/api/v1/product/createProduct
 Content-Type: application/json
 
@@ -31,7 +37,7 @@ Content-Type: application/json
     "ProductCategoryName": "Sữa cho em bé",
     "Status": 0
 }
-###
+### sua san pham
 PUT http://localhost:5000/api/v1/product/editProduct/SE0002
 Content-Type: application/json
 
@@ -46,9 +52,9 @@ Content-Type: application/json
     "BrandName": "Enfamil",
     "ProductCategoryName": "Sữa cho em bé"
 }
-###
+###xoa san pham
 PUT http://localhost:5000/api/v1/product/deleteProduct/SE0002
-###
+### dang ki user
 POST http://localhost:5000/api/v1/auth/register
 Content-Type: application/json
 
@@ -57,7 +63,7 @@ Content-Type: application/json
     "PhoneNumber": "84933802522",
     "Password": "1"
 }
-###
+### login
 POST http://localhost:5000/api/v1/auth/login
 Content-Type: application/json
 
@@ -65,9 +71,9 @@ Content-Type: application/json
     "PhoneNumber": "84933802522",
     "Password": "1"
 }
-###
+### logout
 POST http://localhost:5000/api/v1/auth/logout
-###
+### 
 GET http://localhost:5000/api/v1/comment/getAllComments
 ###
 GET http://localhost:5000/api/v1/comment/getUnansweredComments
@@ -78,9 +84,9 @@ Content-Type: application/json
 {
     "Rep": "Cảm ơn bạn"
 }
-###
+### dang nhap gg
 GET http://localhost:5000/api/v1/auth/google
-###
+### paymen vnpay
 POST  http://localhost:5000/api/v1/payment/create_payment_url
 Content-Type: application/json
 
@@ -95,13 +101,12 @@ Content-Type: application/json
 // Ngày phát hành: 07/15
 // OTP: 123456
 
-###
+### k can dung cai nay
 POST https://sandbox.vnpayment.vn/qrpayauth/api/merchant/get_bank_list
 Content-Type: application/x-www-form-urlencoded
 
 tmn_code=8VGHK1JI
 ###
-
 GET http://localhost:5000/api/v1/voucher/getAllVouchers
 ###
 POST http://localhost:5000/api/v1/voucher/addVoucher
@@ -234,3 +239,5 @@ GET  http://localhost:5000/api/v1/order/getApplicableVouchers/M0000001/1
 
 ### Áp dụng voucher vào đơn hàng
 POST http://localhost:5000/api/v1/order/applyVoucherToOrder
+
+//
