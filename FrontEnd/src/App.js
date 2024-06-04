@@ -41,7 +41,7 @@ import VoucherStore from "./users/component/VoucherStore";
 import ShoppingCart from "./users/component/ShoppingCart";
 import Bigsales from "./users/component/Bigsales";
 import Dealsoc from "./users/component/Dealsoc";
-
+import LoginEmail from "./users/component/LoginEmail"
 
 function App() {
   return (
@@ -53,7 +53,7 @@ function App() {
           <Route path="/ListProductMom" element={<ListProductMom />} />
           <Route path="/" element={<Product1 />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/login-email/:email" element={<LoginEmail />} />
+          <Route path="/login-email/:email" element={<LoginEmail />} /> 
           <Route path="/signup" element={<Signup />} />
           <Route path="/Termofuse" element={<Termofuse />} />
           <Route path="/voucher" element={<VoucherStore />} />

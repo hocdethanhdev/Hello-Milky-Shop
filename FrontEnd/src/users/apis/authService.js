@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 export const apiLoginEmail = (email) => new Promise(async(resolve, reject) => {
     try {
         let response = await axios({
