@@ -3,6 +3,30 @@ const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
 
 const productDAO = {
+  getProductByCategory: (pc) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request()
+          .input("pc", mssql.Int, pc);
+        request.query(
+          `SELECT p.ProductID, ProductName, Image, Price, PriceAfterDiscount
+          From Product p
+          LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+          WHERE p.ProductCategoryID = @pc
+          `,
+          (err, res) => {
+            if (err) reject(err);
+            const product = res.recordset;
+            if (!product[0])
+              resolve({
+                err: "Do not have any product with this category",
+              });
+            resolve(product);
+          }
+        );
+      });
+    });
+  },
   findAllProducts: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
