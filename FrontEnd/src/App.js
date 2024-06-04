@@ -41,7 +41,7 @@ import VoucherStore from "./users/component/VoucherStore";
 import ShoppingCart from "./users/component/ShoppingCart";
 import Bigsales from "./users/component/Bigsales";
 import Dealsoc from "./users/component/Dealsoc";
-
+import LoginEmail from "./users/component/LoginEmail"
 
 function App() {
   return (

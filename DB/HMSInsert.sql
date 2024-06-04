@@ -94,6 +94,8 @@ INSERT INTO Promotion (PromotionName, Description, StartDate, EndDate, DiscountP
 
 insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
 values(1, 'SM0001', 0)
+insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
+values(2, 'SM0001', 0)
 
 /*
 INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Hello there!', '2024-05-30', 1);

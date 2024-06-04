@@ -6,20 +6,20 @@ const productDAO = {
   getProductByCategory: (pc) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request()
-          .input("pc", mssql.Int, pc);
+        const request = new mssql.Request().input("pc", mssql.Int, pc);
         request.query(
-          `SELECT p.ProductID, ProductName, Image, Price, PriceAfterDiscount
+          `SELECT p.ProductID, ProductName, Image, Price, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts
           From Product p
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
           WHERE p.ProductCategoryID = @pc
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price;
           `,
           (err, res) => {
             if (err) reject(err);
             const product = res.recordset;
             if (!product[0])
               resolve({
-                err: "Do not have any product with this category",
+                err: "Do not have any product with this category"
               });
             resolve(product);
           }
@@ -278,14 +278,16 @@ const productDAO = {
             product.ProductCategoryName
           )
           .input("Status", product.Status);
-          request.query(`Select ProductID FROM Product WHERE ProductName = @ProductName`,
+        request.query(
+          `Select ProductID FROM Product WHERE ProductName = @ProductName`,
           (err, res) => {
             if (err) reject(err);
-            if(res.recordset[0]) resolve({
-              message: "This product already exists"
-            })
+            if (res.recordset[0])
+              resolve({
+                message: "This product already exists",
+              });
           }
-          );
+        );
         request.query(
           `INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID, Status) VALUES
           (@ProductID, @ProductName, @Description, @Price, @StockQuantity, @Image, @ExpirationDate, @ManufacturingDate, (SELECT BrandID FROM Brand WHERE BrandName = @BrandName), (SELECT ProductCategoryID FROM ProductCategory WHERE ProductCategoryName = @ProductCategoryName), @Status);`,

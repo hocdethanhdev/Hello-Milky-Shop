@@ -1,31 +1,37 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
 const productController = require("../controller/productController");
-     
-router.get('/getAllProducts', productController.getAllProducts);
 
-router.get('/getInfoProductsDetail', productController.getInfoProductsDetail);
+router.get("/getAllProducts", productController.getAllProducts);
 
-router.put('/editProduct/:product_id', productController.updateProduct);
+router.get("/getInfoProductsDetail", productController.getInfoProductsDetail);
 
-router.post('/createProduct', productController.createProduct);
+router.put("/editProduct/:product_id", productController.updateProduct);
 
-router.put('/deleteProduct/:product_id', productController.deleteProduct);
+router.post("/createProduct", productController.createProduct);
 
-router.get('/getAllBrands', productController.getAllBrands);
+router.put("/deleteProduct/:product_id", productController.deleteProduct);
 
-router.get('/getAllProductCategory', productController.getAllProductCategory);
+router.get("/getAllBrands", productController.getAllBrands);
 
-router.get('/searchWithBrand/:name/:brand', productController.searchWithBrand);
+router.get("/getAllProductCategory", productController.getAllProductCategory);
 
-router.get('/searchWithProductCategory/:name/:pc', productController.searchWithProductCategory);
+router.get("/searchWithBrand/:name/:brand", productController.searchWithBrand);
 
-router.get('/searchWithPrice/:name/:min_price/:max_price', productController.searchWithPrice);
+router.get(
+  "/searchWithProductCategory/:name/:pc",
+  productController.searchWithProductCategory
+);
 
-router.get('/searchWithName/:name', productController.searchWithName);
+router.get(
+  "/searchWithPrice/:name/:min_price/:max_price",
+  productController.searchWithPrice
+);
 
-router.get('/getProductDetailByID/:id', productController.getProductDetailByID);
+router.get("/searchWithName/:name", productController.searchWithName);
 
-router.get('/getProductByCategory/:pc', productController.getProductByCategory)
+router.get("/getProductDetailByID/:id", productController.getProductDetailByID);
 
-module.exports = router
+router.get("/getProductByCategory/:pc", productController.getProductByCategory);
+
+module.exports = router;

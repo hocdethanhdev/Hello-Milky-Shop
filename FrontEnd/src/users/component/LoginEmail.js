@@ -1,21 +1,18 @@
-import React, {useEffect} from "react";
-import { apiLoginEmail } from "../apis/authService";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { loginEmail } from "../store/actions/authAction";
+import { useParams, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const LoginEmail = () => {
-    const { email } = useParams();
+  const { email } = useParams();
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
-    useEffect(() => {
-        const fetchToken = async () => {
-            let response = await apiLoginEmail(email);
-            console.log(response);
-        }
-        fetchToken();
-    }, []);
+  useEffect(() => {
+    dispatch(loginEmail(email));
+  }, []);
 
-    return (
-        <div>LoginEmail</div>
-    )
-}
+  return <div>{isLoggedIn && <Navigate to={"/"} replace={true} />}</div>;
+};
 
 export default LoginEmail;
