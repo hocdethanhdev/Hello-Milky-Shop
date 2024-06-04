@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@nextui-org/react": "^2.4.0",
+    "rc-slider": "^10.6.2"
+  }
+}
