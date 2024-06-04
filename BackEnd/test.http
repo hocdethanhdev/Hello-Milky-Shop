@@ -60,7 +60,7 @@ Content-Type: application/json
 
 {
     "UserName": "Nhan",
-    "PhoneNumber": "84933802522",
+    "PhoneNumber": "849334123802522",
     "Password": "1"
 }
 ### login

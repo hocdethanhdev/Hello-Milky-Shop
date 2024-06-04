@@ -8,11 +8,12 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("pc", mssql.Int, pc);
         request.query(
-          `SELECT p.ProductID, ProductName, Image, Price, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts
+          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts
           From Product p
+          JOIN Brand b ON b.BrandID = p.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
           WHERE p.ProductCategoryID = @pc
-          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price;
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName;
           `,
           (err, res) => {
             if (err) reject(err);
