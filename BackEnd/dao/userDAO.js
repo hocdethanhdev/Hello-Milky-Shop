@@ -95,7 +95,8 @@ const userDAO = {
 
             if (!user) {
               return resolve({
-                err: login.PhoneNumber + " is not exist",
+                err: 1,
+                mes: login.PhoneNumber + " is not exist",
               });
             }
 
@@ -106,7 +107,8 @@ const userDAO = {
 
             if (!passwordIsValid)
               return resolve({
-                err: "Incorrect password",
+                err: 2,
+                mes: "Incorrect password",
               });
 
             const token = jwt.sign(
@@ -122,6 +124,7 @@ const userDAO = {
             );
 
             resolve({
+              err: 0,
               auth: true,
               token: token,
             });
