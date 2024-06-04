@@ -34,6 +34,8 @@
 .title_cate_right {
     position: relative;
     border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
 }
 #product_seemore .box_title_cate,
 .viewed_title_detail {
@@ -417,6 +419,11 @@
 .product .product_price {
     padding-left: 20px;
 }
+.product_price,
+.name_pro {
+    text-align: center;
+}
+
 .box_product_suggest {
     display: none;
 }
@@ -506,5 +513,12 @@ span.discount.discount-Sgg {
     height: 40px;
 }
 .pagani {
-    padding-left: 400px;
+    width: 100%;
+    padding-left: 700px;
+}
+.loc-theo-gia-list-mom {
+    width: 25%;
+}
+.center-text-list-promom {
+    text-align: center;
 }
