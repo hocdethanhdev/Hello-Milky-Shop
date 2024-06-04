@@ -1,6 +1,7 @@
 const productRepository = require("../repository/productRepository");
 
 const productService = {
+
   getProductByCategory: async (pc) => {
     return await productRepository.getProductByCategory(pc);
   },

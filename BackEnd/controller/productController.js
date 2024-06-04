@@ -2,12 +2,12 @@ const productService = require("../service/productService");
 
 const getProductByCategory = async (req, res) => {
   try {
-    const obj = await productService.getProductByCategory(res.params.pc);
-    res.send(obj);
+    const obj = await productService.getProductByCategory(req.params.pc);
+    res.status(200).json(obj);
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
-}
+};
 
 const getAllProducts = async (req, res) => {
   try {
@@ -99,8 +99,7 @@ const checkDateValid = (ExpirationDate, ManufacturingDate) => {
 };
 
 const checkStockQuantity = (StockQuantity) => {
-  if (Number.parseInt(StockQuantity) < 0)
-    return false;
+  if (Number.parseInt(StockQuantity) < 0) return false;
   return true;
 };
 
@@ -161,7 +160,9 @@ const deleteProduct = async (req, res) => {
 
 const getProductDetailByID = async (req, res) => {
   try {
-    const obj = await productService.getProductDetailByID(req.params.product_id);
+    const obj = await productService.getProductDetailByID(
+      req.params.product_id
+    );
     res.send(obj);
   } catch (error) {
     res.status(500).send("Internal Server Error");
