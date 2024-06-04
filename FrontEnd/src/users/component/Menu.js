@@ -1,7 +1,11 @@
 import React from "react";
 import { TiThMenu } from "react-icons/ti";
 import "./Menu.css";
+import { useState } from 'react';
+import { useSelector } from "react-redux";
+
 function Menu() {
+  const { isLoggedIn } = useSelector((state) => state.auth);
   return (
 
     <div className="menu_cate-trid">
@@ -55,8 +59,9 @@ function Menu() {
             </td>
           </tr>
           <tr>
-            <td>
-
+            {
+              isLoggedIn
+              ? <td>
               <a href="/Voucher" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
@@ -66,6 +71,8 @@ function Menu() {
                 Voucher
               </a>
             </td>
+            : <div></div>
+            }
           </tr>
           <tr>
             <td>
