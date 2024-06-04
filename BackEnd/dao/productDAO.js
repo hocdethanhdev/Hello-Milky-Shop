@@ -56,7 +56,8 @@ const productDAO = {
         request.query(
           `SELECT BrandName
           FROM Product p
-          JOIN Brand b ON p.BrandID = b.BrandID;`,
+          JOIN Brand b ON p.BrandID = b.BrandID
+          GROUP BY BrandName;`,
           (err, res) => {
             if (err) reject(err);
             const brand = res.recordset;
