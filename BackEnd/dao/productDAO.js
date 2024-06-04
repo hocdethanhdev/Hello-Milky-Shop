@@ -39,7 +39,7 @@ const productDAO = {
           From Product p
           JOIN Brand b ON b.BrandID = p.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
-          WHERE p.ProductCategoryID = @pc
+          WHERE p.ProductCategoryID = @pc AND StockQuantity > 0 AND Status =1
           GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName;
           `,
           (err, res) => {
@@ -63,6 +63,7 @@ const productDAO = {
           `SELECT ProductID, ProductName, ProductCategoryName, Status 
           FROM Product p 
           JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
+          WHERE StockQuantity > 0 AND Status =1
         ;`,
           (err, res) => {
             if (err) reject(err);
@@ -85,6 +86,7 @@ const productDAO = {
           `SELECT BrandName
           FROM Product p
           JOIN Brand b ON p.BrandID = b.BrandID
+          WHERE StockQuantity > 0 AND Status =1
           GROUP BY BrandName;`,
           (err, res) => {
             if (err) reject(err);
@@ -208,7 +210,7 @@ const productDAO = {
           From Product p
           JOIN Brand b ON b.BrandID = p.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
-          WHERE ProductName LIKE @Name
+          WHERE ProductName LIKE @Name AND StockQuantity > 0 AND Status =1
           GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName
           `,
           (err, res) => {
@@ -232,7 +234,8 @@ const productDAO = {
           `SELECT ProductID, ProductName, Description, Price, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
-        JOIN Brand b ON p.BrandID = b.BrandID`,
+        JOIN Brand b ON p.BrandID = b.BrandID
+        WHERE StockQuantity > 0 AND Status =1`,
           (err, res) => {
             if (err) reject(err);
             const product = res.recordset;

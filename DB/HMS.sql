@@ -62,14 +62,14 @@ PRIMARY KEY (ProductCategoryID));
 
 CREATE TABLE Product (
 ProductID varchar(6) NOT NULL, 
-ProductName nvarchar(50) NULL, 
+ProductName nvarchar(100) NULL, 
 Description nvarchar(3000) NULL, 
 Price int NULL, 
 StockQuantity int NULL, 
 Image varchar(255) NULL, 
 ExpirationDate date NULL, 
 ManufacturingDate date NULL, 
-Status bit default 0,
+Status bit default 1,
 BrandID int foreign key references Brand(BrandID),
 ProductCategoryID int foreign key references ProductCategory(ProductCategoryID), 
 PRIMARY KEY (ProductID));

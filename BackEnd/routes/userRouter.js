@@ -10,5 +10,6 @@ router.put('/editUser/:user_id', userController.updateUser);
 
 router.get('/getUserByRoleID/:ID', userController.getUserByRole);
 
+router.get('/getOne', userController.getOne);
 
 module.exports = router
