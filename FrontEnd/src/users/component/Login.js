@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
 import {
@@ -11,11 +11,56 @@ import {
   MDBInput,
   MDBIcon,
 } from "mdb-react-ui-kit";
+import axios from "axios";
 
 function Login() {
+
   const loginGoogle = () => {
     window.open('http://localhost:5000/api/v1/auth/google', '_self');
-  }
+  };
+
+  const [formData, setFormData] = useState({
+    phone: "",
+    password: ""
+  });
+
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setMessage("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/auth/login",
+        {
+          PhoneNumber: formData.phone,
+          Password: formData.password
+        }
+      );
+      if (response.data.err === 0) {
+        console.log(response.data.mes);
+        setMessage("Sign up successful!");
+      } else {
+        console.log(response.data.mes);
+        setMessage("Account exist !!");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("Error signing up. Please try again.");
+    }
+  };
 
   return (
     <MDBContainer fluid>
