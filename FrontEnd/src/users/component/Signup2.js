@@ -40,13 +40,21 @@ function Signup() {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/signup", {
-        name: formData.name,
-        phone: formData.phone,
-        password: formData.password,
-      });
-      console.log(response.data);
-      setMessage("Sign up successful!");
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/auth/register",
+        {
+          UserName: formData.name,
+          PhoneNumber: formData.phone,
+          Password: formData.password,
+        }
+      );
+      if (response.data.err === 0) {
+        console.log(response.data.mes);
+        setMessage("Sign up successful!");
+      } else if (response.data.err === 2) {
+        console.log(response.data.mes);
+        setMessage("Account exist !!");
+      }
     } catch (error) {
       console.error(error);
       setMessage("Error signing up. Please try again.");
@@ -54,8 +62,8 @@ function Signup() {
   };
 
   const loginGoogle = () => {
-    window.open('http://localhost:5000/api/v1/auth/google', '_self');
-  }
+    window.open("http://localhost:5000/api/v1/auth/google", "_self");
+  };
 
   return (
     <MDBContainer
@@ -140,7 +148,9 @@ function Signup() {
             <div className="d-flex flex-row mt-3">
               <a href="#" className="google-signup-button">
                 <MDBIcon fab icon="google" size="lg" className="google-icon" />
-                <span onClick={loginGoogle} className="button-text">Đăng nhập với Google</span>
+                <span onClick={loginGoogle} className="button-text">
+                  Đăng nhập với Google
+                </span>
               </a>
             </div>
           </div>
