@@ -5,29 +5,28 @@
   border-radius: 10px;
   
 }
-
 .category_table-trid {
   margin-left: 80px;
   width: 80%;
   border: 10px;
   border-radius: 10px;
   margin-right: 200px;
+ 
+}
+
+.category_table-trid tr {
+  background-color: white;
 }
 
 .body {
   margin-right: auto;
 }
-
-
-
 /* Mỗi hàng trong bảng danh mục */
-.category_table-trid tbody tr:nth-child(even) {
-  background-color: #f0f0f0; /* Màu nền cho các hàng chẵn */
+.category_table-trid tbody tr {
+  background-color: white; /* Màu nền cho các hàng chẵn */
 }
 
-.category_table-trid tbody tr:nth-child(odd) {
-  background-color: #ffffff; /* Màu nền cho các hàng lẻ */
-}
+
 
 /* Màu nền của ô khi di chuột qua */
 .category_table-trid tbody tr:hover td {
@@ -53,4 +52,9 @@
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
+}
+
+.danhmuc-trid {
+  background-color: #0f7fc1;
+  color: white;
 }

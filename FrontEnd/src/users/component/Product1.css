@@ -77,17 +77,23 @@
 }
 
 /* Product 2 */
-#list_product_cate {
+#list_product_cate-tri {
   margin-top: 20px;
 }
 
 .boxx-common {
   padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: white;
+  width: 90%;
   border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 
+.width-common-product-tri{
+  background-color: #f5f5f5;
+}
 .box-container-header {
   display: flex;
   justify-content: space-between;
@@ -118,7 +124,7 @@
 }
 
 .item-giasoc {
-  border: 1px solid #ddd;
+
   border-radius: 5px;
   overflow: hidden;
   margin-top: 20px;
@@ -138,6 +144,7 @@
 .title-giasoc a {
   text-decoration: none;
   color: #333;
+  font-size: 20px;
 }
 
 .price_item {
@@ -199,13 +206,7 @@
 
 /* PRODUCT 3 */
 
-.combo-1f-section {
-  padding: 20px;
-  background-color: #f5f5f5;
-  margin-top: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
+
 
 .combo-1f-wrap {
   display: flex;
@@ -218,7 +219,7 @@
   height: 120px;
   width: 30%;
   margin-top: 20px;
-  margin-right: 20px;
+  
 }
 
 .combo-1f-icon img {
@@ -256,15 +257,19 @@
 }
 
 .combo-1f-main img {
-  width: 450px;
-  height: 640px;
+  width: 400px;
+  height: 510px;
   margin-top: 20px;
 }
 
 .combo-1f-section {
-  background-color: #f5f5f5;
+  border: 1px solid #ddd;
   padding: 20px;
   margin-top: 20px;
+  background-color: white;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .combo-header h2 {
@@ -279,19 +284,18 @@
 }
 
 .combo-item {
-  background-color: #fff;
+ 
   border: 1px solid #ddd;
   width: 200px;
   text-align: center;
   height: fit-content;
-  margin-right: 25px;
   margin-left: 20px;
   margin-top: 20px;
   transition: transform 0.1s ease-in-out;
 }
 
 .combo-item img {
-  max-width: 100%;
+  width: 70%;
   height: auto;
   transition: transform 0.1s ease-in-out;
 }
@@ -315,10 +319,13 @@
 /* DÀNH CHO BÉ */
 .combo-2f-section {
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: white;
   margin-top: 20px;
-  border: 1px solid #ddd;
   border-radius: 5px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #ddd;
 }
 
 .combo-2f-wrap {
@@ -332,7 +339,7 @@
   height: 120px;
   width: 30%;
   margin-top: 20px;
-  margin-right: 20px;
+ 
 }
 
 .combo-2f-icon img {
@@ -345,7 +352,7 @@
 .combo-2f-title h2 {
   font-size: 20px;
   color: whitesmoke;
-  margin-right: 10px;
+  
   margin-left: 10px;
 }
 
@@ -370,16 +377,12 @@
 }
 
 .combo-2f-main img {
-  width: 450px;
-  height: 640px;
+  width: 400px;
+  height: 510px;
   margin-top: 20px;
 }
 
-.combo-2f-section {
-  background-color: #f5f5f5;
-  padding: 20px;
-  margin-top: 20px;
-}
+
 
 .combo-content-1 {
   display: flex;
@@ -388,19 +391,19 @@
 }
 
 .combo-item-1 {
-  background-color: #fff;
+ 
   border: 1px solid #ddd;
   width: 200px;
   text-align: center;
   height: fit-content;
-  margin-right: 25px;
+ 
   margin-left: 20px;
   margin-top: 20px;
   transition: transform 0.1s ease-in-out;
 }
 
 .combo-item-1 img {
-  max-width: 100%;
+  width: 70%;
   height: auto;
   transition: transform 0.1s ease-in-out;
 }

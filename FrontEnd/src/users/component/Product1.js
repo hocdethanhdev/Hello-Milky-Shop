@@ -42,7 +42,7 @@ function Product1() {
   };
 
   return (
-    <section id="list_category" className="width-common-product">
+    <section id="list_category" className="width-common-product-tri">
       <div className="wrap">
         <div className="row">
           <div className="col-md-3 tri">
@@ -72,7 +72,7 @@ function Product1() {
 
       {/* Product 2 */}
       <section
-        id="list_product_cate"
+        id="list_product_cate-tri"
         className="width-common boxx-common tm-d superSale"
         data-recoedwidget="true"
       >
