@@ -34,7 +34,7 @@
     text-align: center;
     flex: 1 1 calc(33.333% - 40px);
     box-sizing: border-box;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); */
   }
   
   .card h2 {

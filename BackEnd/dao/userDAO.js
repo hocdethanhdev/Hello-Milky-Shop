@@ -245,6 +245,7 @@ const userDAO = {
             );
             
             resolve({
+              err: 0,
               auth: true,
               token: token,
             });

@@ -1,4 +1,4 @@
-/* News.css */
+/* Bigsales.css */
 .box-banner {
   width: 100%;
   margin: 0 auto;
@@ -57,18 +57,19 @@
 
 .ds-spm {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
 .item-spm {
-  width: 23%;
+  width: 20%;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  margin: 10px;
   padding: 10px;
   text-align: center;
+  position: relative; /* Add this */
 }
 
 .item-spm a {
@@ -81,12 +82,13 @@
 }
 
 .item-spm img {
-  max-width: 100%;
+  max-width: 80%;
   height: auto;
   margin-bottom: 10px;
 }
 
-.id-sp, .price {
+.id-sp,
+.price {
   display: block;
   font-size: 14px;
   color: #666;
@@ -99,5 +101,16 @@
 
 .price-sell {
   color: red;
+  font-weight: bold;
+}
+
+.percent {
+  position: absolute; /* Add this */
+  right: 10px; /* Adjust as needed */
+  background-color: #ff0000;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
   font-weight: bold;
 }

@@ -1,11 +1,19 @@
 const productService = require("../service/productService");
 
+const getProductByCategory = async (req, res) => {
+  try {
+    const obj = await productService.getProductByCategory(req.params.pc);
+    res.status(200).json(obj);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const getAllProducts = async (req, res) => {
   try {
     const obj = await productService.getAllProducts();
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -15,7 +23,6 @@ const getAllBrands = async (req, res) => {
     const obj = await productService.getAllBrands();
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -28,7 +35,6 @@ const searchWithBrand = async (req, res) => {
     );
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -41,7 +47,6 @@ const searchWithProductCategory = async (req, res) => {
     );
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -55,7 +60,6 @@ const searchWithPrice = async (req, res) => {
     );
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -65,7 +69,6 @@ const searchWithName = async (req, res) => {
     const obj = await productService.searchWithName(req.params.name);
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -75,7 +78,6 @@ const getAllProductCategory = async (req, res) => {
     const obj = await productService.getAllProductCategory();
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -85,7 +87,6 @@ const getInfoProductsDetail = async (req, res) => {
     const obj = await productService.getInfoProductsDetail();
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -98,8 +99,7 @@ const checkDateValid = (ExpirationDate, ManufacturingDate) => {
 };
 
 const checkStockQuantity = (StockQuantity) => {
-  if (Number.parseInt(StockQuantity) < 0)
-    return false;
+  if (Number.parseInt(StockQuantity) < 0) return false;
   return true;
 };
 
@@ -124,7 +124,6 @@ const updateProduct = async (req, res) => {
     );
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -146,7 +145,6 @@ const createProduct = async (req, res) => {
     const obj = await productService.createProduct(req.body);
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -156,17 +154,17 @@ const deleteProduct = async (req, res) => {
     const obj = await productService.deleteProduct(req.params.product_id);
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
 
 const getProductDetailByID = async (req, res) => {
   try {
-    const obj = await productService.getProductDetailByID(req.params.product_id);
+    const obj = await productService.getProductDetailByID(
+      req.params.product_id
+    );
     res.send(obj);
   } catch (error) {
-    console.error("Error while getting all users:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -184,4 +182,5 @@ module.exports = {
   searchWithPrice,
   searchWithName,
   getProductDetailByID,
+  getProductByCategory,
 };
