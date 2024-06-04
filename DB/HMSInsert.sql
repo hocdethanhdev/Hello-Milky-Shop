@@ -17,9 +17,12 @@ INSERT INTO Brand (BrandName) VALUES
 ('Abbott'),
 ('Ensure'),
 ('XO'),
-('VinaMilk');
-INSERT INTO Brand (BrandName) VALUES
-	('Abbott Grow');
+('VinaMilk'),
+('Grow'),
+('Celia'),
+('Meiji'),
+('Nestle'),
+('Abbott Grow');
 select * from Brand
 insert into ProductCategory values (N'Sữa cho mẹ bầu'), (N'Sữa cho em bé')
 
