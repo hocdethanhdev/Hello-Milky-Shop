@@ -26,13 +26,13 @@ const userDAO = {
       mssql.connect(dbConfig, function (err, result) {
         var request = new mssql.Request()
           .input("UserID", param_id)
-          .input("Status",  Status);
+          .input("Status", Status);
         request.query(
           `UPDATE Users SET Status = @Status WHERE UserID = @UserID;`,
           (err, res) => {
             if (err) reject(err);
             resolve({
-              message: "0"
+              message: "0",
             });
           }
         );
@@ -46,14 +46,14 @@ const userDAO = {
           .input("UserID", param_id)
           .input("Status", mssql.Bit, userObject.Status)
           .input("RoleID", mssql.Int, userObject.RoleID);
-         
+
         request.query(
           `UPDATE Users SET  Status = @Status , RoleID = @RoleID  WHERE UserID = @UserID
           ;`,
           (err, res) => {
             if (err) reject(err);
             resolve({
-              message: "Edit successfully"
+              message: "Edit successfully",
             });
           }
         );
@@ -148,7 +148,8 @@ const userDAO = {
 
             if (res.recordset.length > 0) {
               return resolve({
-                err: "Phone number already in use",
+                err: 2,
+                mes: "Phone number already in use",
               });
             }
 
@@ -164,11 +165,13 @@ const userDAO = {
                 if (err) {
                   console.error("Insert query execution error:", err);
                   return reject({
+                    err: 1,
                     mes: "Internal server error",
                   });
                 }
 
                 resolve({
+                  err: 0,
                   mes: "User registered successfully",
                 });
               }
@@ -243,7 +246,7 @@ const userDAO = {
                 expiresIn: 60, //thời gian(s)
               }
             );
-            
+
             resolve({
               err: 0,
               auth: true,
@@ -254,6 +257,6 @@ const userDAO = {
       });
     });
   },
-}
+};
 
 module.exports = userDAO;
