@@ -1,6 +1,10 @@
 const productDAO = require("../dao/productDAO");
 
 const productRepository = {
+  getAllBrandByCategory: async (pc) => {
+    return await productDAO.getAllBrandByCategory(pc);
+  },
+
   getProductByCategory: async (pc) => {
     return await productDAO.getProductByCategory(pc);
   },

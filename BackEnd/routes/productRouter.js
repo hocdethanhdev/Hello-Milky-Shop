@@ -34,4 +34,6 @@ router.get("/getProductDetailByID/:id", productController.getProductDetailByID);
 
 router.get("/getProductByCategory/:pc", productController.getProductByCategory);
 
+router.get("/getAllBrandByCategory/:pc", productController.getAllBrandByCategory)
+
 module.exports = router;
