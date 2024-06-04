@@ -62,7 +62,7 @@ PRIMARY KEY (ProductCategoryID));
 
 CREATE TABLE Product (
 ProductID varchar(6) NOT NULL, 
-ProductName nvarchar(50) NULL, 
+ProductName nvarchar(100) NULL, 
 Description nvarchar(3000) NULL, 
 Price int NULL, 
 StockQuantity int NULL, 
