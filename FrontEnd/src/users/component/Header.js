@@ -1,8 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 
 function Header() {
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const keyword = document.getElementById('search_suggest-compo-tri').value;
+    navigate(`/all-products/${keyword}`);
+  };
+
   return (
     <header className="header-compo-tri">
       <div className="container-compo-tri">
@@ -13,10 +21,9 @@ function Header() {
         </div>
 
         <div className="box_search-compo-tri">
-          <form action="/Desktop/SearchDesktop/SearchTemp" id="fromSearch" method="post">
+          <form onSubmit={handleSearch} id="fromSearch">
             <input
               type="text"
-              data-url="/Product/SuggestProduct"
               name="keyword"
               placeholder="Bố mẹ tìm gì cho bé hôm nay?"
               id="search_suggest-compo-tri"

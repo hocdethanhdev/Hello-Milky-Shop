@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './ListProductMom.css';
 import SliderMoney from './SliderMoney';
 import ThrowPage from './ThrowPage';
+
 
 const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 };
 
-const ListProductMom = () => {
+
+const AllProduct = () => {
+    const { keyword } = useParams();
     const [sortOption, setSortOption] = useState("");
     const [originalProducts, setOriginalProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -20,11 +24,11 @@ const ListProductMom = () => {
     useEffect(() => {
         fetchProducts();
         fetchBrands();
-    }, []);
+    }, [keyword]);
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/v1/product/getProductByCategory/1/'); // Replace with your API URL
+            const response = await fetch(`http://localhost:5000/api/v1/product/searchWithName/${keyword}`);
             const data = await response.json();
             setOriginalProducts(data);
             setFilteredProducts(data);
@@ -35,7 +39,7 @@ const ListProductMom = () => {
 
     const fetchBrands = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/v1/product/getAllBrandByCategory/1'); // Replace with your API URL for fetching brands
+            const response = await fetch('http://localhost:5000/api/v1/product/getAllBrands');
             const data = await response.json();
             setBrands(data);
         } catch (error) {
@@ -214,4 +218,4 @@ const ListProductMom = () => {
     );
 };
 
-export default ListProductMom;
+export default AllProduct;

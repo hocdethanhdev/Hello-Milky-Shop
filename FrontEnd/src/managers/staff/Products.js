@@ -42,7 +42,7 @@ const Products = () => {
 
         // Apply status filter
         if (statusFilter !== 'All') {
-            updatedProducts = updatedProducts.filter(product => product.Status === statusFilter);
+            updatedProducts = updatedProducts.filter(product => (product.Status ? 'Still in stock' : 'Out of stock') === statusFilter);
         }
 
         // Apply sorting
@@ -150,7 +150,7 @@ const Products = () => {
                                     <td>{product.ProductID}</td>
                                     <td>{product.ProductName}</td>
                                     <td>{product.ProductCategoryName}</td>
-                                    <td>{product.Status}</td>
+                                    <td>{product.Status ? 'Still in stock' : 'Out of stock'}</td>
                                     <td>
                                         <button className='button-product btn btn-warning'>Edit</button>
                                         <button className='button-product btn btn-danger'>Delete</button>

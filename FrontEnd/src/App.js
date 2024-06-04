@@ -42,6 +42,10 @@ import ShoppingCart from "./users/component/ShoppingCart";
 import Bigsales from "./users/component/Bigsales";
 import Dealsoc from "./users/component/Dealsoc";
 import LoginEmail from "./users/component/LoginEmail"
+import ListProductMomScreen from "./users/ui-list-product-mom/ListProductMomScreen";
+import ListProductBbScreen from "./users/ui-list-product-mom/ListProductBbScreen";
+import AllProductScreen from "./users/ui-list-product-mom/AllProductScreen";
+import StaffScreen from "./managers/staff/StaffScreen";
 
 function App() {
   return (
@@ -50,10 +54,23 @@ function App() {
 
         <Header />
         <Routes>
-          <Route path="/ListProductMom" element={<ListProductMom />} />
+          <Route path="/sidebar" element={<Sidebar />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/voucher" element={<Voucher />} />
+          <Route path="/report" element={<Report />} />
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/confirm" element={<Confirm />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/addingvoucher" element={<VoucherAdd />} />
+          <Route path="/addingproduct" element={<ProductAdd />} />
+          <Route path="/addingpost" element={<PostsAdd />} />
+          <Route path="/Staff" element={<StaffScreen />} />
+          <Route path="/all-products/:keyword" element={<AllProductScreen />} />
+          <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
+          <Route path="/sua-cho-me" element={<ListProductMomScreen />} />
           <Route path="/" element={<Product1 />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/login-email/:email" element={<LoginEmail />} /> 
+          <Route path="/login-email/:email" element={<LoginEmail />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/Termofuse" element={<Termofuse />} />
           <Route path="/voucher" element={<VoucherStore />} />
