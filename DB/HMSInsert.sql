@@ -14,68 +14,60 @@ INSERT INTO Brand (BrandName) VALUES
 ('Nestle Mom & Me'),
 ('Morinaga'),
 ('NutiFood'),
-('Abbott');
+('Abbott'),
+('Ensure'),
+('XO'),
+('Vinamilk');
 
 insert into ProductCategory values (N'Sữa cho mẹ bầu'), (N'Sữa cho em bé')
 
 INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P001', N'Anmum Materna', N'Nutritional milk for pregnant and breastfeeding mothers', 350000, 50, 'anmum_materna.jpg', '2025-12-31', '2024-01-01', 1, 1)
+('P001', N'Sữa Ensure Úc vị Vanilla 850g', N'Sữa Ensure Úc vị Vanilla 850g là một thức uống dinh dưỡng chất lượng cao cho những người cần thêm dinh dưỡng. ENSURE chứa các nhu cầu dinh dưỡng cần thiết bao gồm các carbohydrate, protein, 15 vitamin và 14 khoáng chất, thích hợp làm nguồn dinh dưỡng chính cho người đang dưỡng bệnh hay nguồn dinh dưỡng bổ sung cho các bữa ăn hàng ngày. Với ENSURE bạn có thể chắc chắn mình đang có những gì tốt nhất mà khoa học dinh dưỡng mang đến.', 780000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20230613/sua-ensure-uc-vi-vanilla-850g.jpg', '2025-12-31', '2024-01-01', 13, 1)
 INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P002', N'Enfamama A+', N'Milk powder with DHA and calcium for mothers', 320000, 60, 'enfamama.jpg', '2025-12-31', '2024-01-01', 2, 1)
+('P001', N'Sữa FrisoMum Gold 900g (hương cam)', N'Sữa Friso hương cam là thực phẩm bổ sung dành cho bà mẹ mang thai và cho con bú, cung cấp dưỡng chất quan trọng đáp ứng nhu cầu dinh dưỡng đặc biệt của mẹ bầu. Người mẹ suốt giai đoạn mang thai và cho con bú có nhu cầu gia tăng năng lượng cà các dưỡng chất thiết yếu.', 509000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20200928/friso-mom-orange-900g.png', '2025-12-31', '2024-01-01', 7, 1)
 INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P003', N'Similac Mom', N'Milk powder with essential nutrients for mothers', 370000, 40, 'similac_mom.jpg', '2025-12-31', '2024-01-01', 3, 1)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P007', N'Friso Mum Gold', N'Milk formula with prebiotics for pregnant mothers', 340000, 30, 'friso_mum_gold.jpg', '2025-12-31', '2024-01-01', 7, 1)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P008', N'Dielac Mama Gold', N'Milk powder with DHA for pregnant and lactating mothers', 300000, 45, 'dielac_mama_gold.jpg', '2025-12-31', '2024-01-01', 8, 1)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P009', N'Nestle Mom & Me', N'Milk for pregnant and breastfeeding mothers', 360000, 55, 'nestle_mom_me.jpg', '2025-12-31', '2024-01-01', 9, 1)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P010', N'Morinaga Mama', N'Japanese milk for pregnant women', 380000, 50, 'morinaga_mama.jpg', '2025-12-31', '2024-01-01', 10, 1)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P011', N'NutiFood Nuti IQ Mum', N'Nutritional milk for pregnant women', 310000, 35, 'nutifood_nuti_iq_mum.jpg', '2025-12-31', '2024-01-01', 11, 1)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P012', N'Abbott Similac Mom', N'Milk powder with essential nutrients for mothers', 370000, 40, 'abbott_similac_mom.jpg', '2025-12-31', '2024-01-01', 12, 1)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P013', N'Meiji Mama', N'Japanese nutritional milk for pregnant women', 390000, 50, 'meiji_mama.jpg', '2025-12-31', '2024-01-01', 4, 1)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P014', N'Physiolac Mom', N'Nutritional milk for pregnant and breastfeeding mothers', 330000, 45, 'physiolac_mom.jpg', '2025-12-31', '2024-01-01', 5, 1)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P015', N'XO Mom', N'Korean milk powder for pregnant women', 350000, 50, 'xo_mom.jpg', '2025-12-31', '2024-01-01', 6, 1)
+('P001', N'Sữa Frisomum Gold hương Vani - 900g', N'Sữa Friso Mum Gold Vanilla là thực phẩm bổ sung dành cho bà mẹ mang thai và cho con bú, cung cấp dưỡng chất quan trọng đáp ứng nhu cầu dinh dưỡng đặc biệt của mẹ bầu. Người mẹ suốt giai đoạn mang thai và cho con bú có nhu cầu gia tăng năng lượng cà các dưỡng chất thiết yếu. 
 
+Các nghiên cứu khoa học đã chứng minh não trẻ bắt đầu phát triển khoảng tuần thứ 8 và giai đoạn trí não phát triển nhanh nhất là khoảng thời gian giữa thai kỳ tới 18 tháng sau khi sinh. Trong giai đoạn này, sự can thiệp bằng dinh dưỡng đặc biệt quan trọng với sự phát triển trí não trẻ.', 575000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20200928/mum-vani-mh2-900.png', '2025-12-31', '2024-01-01', 7, 1)
 INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P004', N'Similac Pro-Advance', N'Infant formula', 500000, 100, 'similac_pro_advance.jpg', '2025-12-31', '2024-01-01', 4, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P005', N'Enfamil NeuroPro', N'Infant formula with MFGM and DHA', 540000, 80, 'enfamil_neuropro.jpg', '2025-12-31', '2024-01-01', 5, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P006', N'Aptamil Gold+', N'Infant formula with prebiotics and DHA', 600000, 70, 'aptamil_gold.jpg', '2025-12-31', '2024-01-01', 6, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P016', N'Friso Gold 1', N'Infant formula with prebiotics for 0-6 months', 480000, 90, 'friso_gold_1.jpg', '2025-12-31', '2024-01-01', 7, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P017', N'Dielac Alpha Step 1', N'Milk powder for infants from 0-6 months', 450000, 85, 'dielac_alpha_step_1.jpg', '2025-12-31', '2024-01-01', 8, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P018', N'Nestle NAN Optipro 1', N'Infant formula for 0-6 months', 520000, 75, 'nestle_nan_optipro_1.jpg', '2025-12-31', '2024-01-01', 9, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P019', N'Morinaga Hagukumi', N'Japanese infant formula for 0-6 months', 550000, 80, 'morinaga_hagukumi.jpg', '2025-12-31', '2024-01-01', 10, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P020', N'NutiFood GrowPLUS+ Red', N'Infant formula for weight gain', 530000, 65, 'nutifood_growplus_red.jpg', '2025-12-31', '2024-01-01', 11, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P021', N'Abbott Pediasure', N'Nutritional supplement for children', 570000, 90, 'abbott_pediasure.jpg', '2025-12-31', '2024-01-01', 12, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P022', N'Meiji Hohoemi', N'Japanese milk powder for infants', 560000, 70, 'meiji_hohoemi.jpg', '2025-12-31', '2024-01-01', 4, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P023', N'Physiolac Relais 1', N'Infant formula for 0-6 months', 490000, 85, 'physiolac_relais_1.jpg', '2025-12-31', '2024-01-01', 5, 2)
-INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
-('P024', N'XO Infant Formula', N'Korean infant formula for 0-6 months', 510000, 80, 'xo_infant_formula.jpg', '2025-12-31', '2024-01-01', 6, 2)
+('P001', N'Sữa Frisomum Gold hương Vani - 400g', N'Sữa Friso Mum Gold Vanilla là thực phẩm bổ sung dành cho bà mẹ mang thai và cho con bú, cung cấp dưỡng chất quan trọng đáp ứng nhu cầu dinh dưỡng đặc biệt của mẹ bầu. Người mẹ suốt giai đoạn mang thai và cho con bú có nhu cầu gia tăng năng lượng cà các dưỡng chất thiết yếu. 
 
-INSERT INTO Voucher (Code, DiscountPercentage, MaxDiscount, MinDiscount, StartDate, ExpiryDate, VoucherName, Quantity)
+Các nghiên cứu khoa học đã chứng minh não trẻ bắt đầu phát triển khoảng tuần thứ 8 và giai đoạn trí não phát triển nhanh nhất là khoảng thời gian giữa thai kỳ tới 18 tháng sau khi sinh. Trong giai đoạn này, sự can thiệp bằng dinh dưỡng đặc biệt quan trọng với sự phát triển trí não trẻ.', 260000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20200928/mum-vani-mh2-400g.png', '2025-12-31', '2024-01-01', 7, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa Frisomum Gold hương cam - 400g', N'Sữa Friso hương cam là thực phẩm bổ sung dành cho bà mẹ mang thai và cho con bú, cung cấp dưỡng chất quan trọng đáp ứng nhu cầu dinh dưỡng đặc biệt của mẹ bầu. Người mẹ suốt giai đoạn mang thai và cho con bú có nhu cầu gia tăng năng lượng cà các dưỡng chất thiết yếu.', 260000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20200928/friso-mom-orange-400g.png', '2025-12-31', '2024-01-01', 13, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa Ensure Gold Vigor nước chai 237ml (lốc 6 chai)', N'Sữa Ensure Gold Vigor nước chai 237ml là công thức dinh dưỡng đầy đủ và cân đối dạng lỏng, bổ sung dinh dưỡng giúp duy trì và tăng cường sức khỏe, rất thích hợp cho người ốm mệt, suy dinh dưỡng hoặc làm việc nhiều. Sản phẩm được đóng chai 237ml tiện dụng và dễ mang theo cũng như sử dụng.', 390000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20230414/sua-ensure-gold-vigor-nuoc-chai-237ml-loc-6-chai.png', '2025-12-31', '2024-01-01', 13, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa Ensure Đức vị vani 400g', N'Sữa Ensure Đức vị vani 400g là sản phẩm nổi tiếng và được ưa chuộng của hãng Abbott sản xuất dành cho thị trường Đức. Sản phẩm với hàm lượng chất dinh dưỡng cao gồm protein, vitamin, khoáng chất,... hỗ trợ cung cấp đầy đủ dưỡng chất cho người gầy, người suy dinh dưỡng đặc biệt người già người sau phẫu thuật, người mới ốm dậy.', 380000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20230419/sua-ensure-duc-vi-vani-400g-1.png', '2025-12-31', '2024-01-01', 13, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa Ensure Gold 850g - hương vani', N'Ensure gold là dòng sản phẩm dinh dưỡng đặc biệt cho người lớn tuổi. Công thức sữa rất thích hợp với người kém ăn và vừa mới ốm dậy.Công thức sữa Ensure Gold 850g có bổ sung nhiều lợi khuẩn tiêu hóa với các chuỗi FOS. Hệ dưỡng chất này giúp người lớn tuổi có thể tiêu hóa và hấp thu tốt các dưỡng chất trong sữa và thực phẩm. Khi lớn tuổi thì chức năng tiêu hóa đã giảm nên việc hấp thu thức ăn cũng giảm sút. Điều này khiến triệu chứng đầy bụng, khó tiêu trầm trọng hơn.Mặt khác hấp thu kém khiến đề kháng của cơ thể yếu và nhận được ít dưỡng chất hơn. Giải pháp dinh dưỡng Ensure gold đặc biệt giúp người mới ốm dậy, người cao tuổi có thể tiêu hóa tốt và hấp thu tối đa các dưỡng chất. Công thức còn bổ xung các chất xơ hòa tan để tránh tình trạng táo bón.
+
+Chất béo trong Ensure gold rất tốt cho hệ tim mạch. Do có chứa các axit béo và cholesterol thấp nên đây có thể nói là nguồn thực phẩm lành mạnh cho người lớn tuổi. Các cholesterol xấu bị hạn chế khiến cho nguy cơ mắc bệnh về tim mạch ( bệnh thường gặp và gây tử vong cao ở người cao tuổi) giảm.Uống Ensure gold hàng ngày, người cao tuổi có thể nhận được nhiều vitamin và khoáng chất để có một cơ thể khỏe mạnh. Nguồn đạm, chất béo được hấp thu để cơ thể nhận được nhiều dinh dưỡng và nhanh chóng hồi phục. Đồng thời cơ thể ngày càng khỏe mạnh để lao động nhẹ hay vui chơi bên giai đình.
+
+Ensure gold hoàn toàn có thể thay thế bữa ăn vì công thức sữa có chứa đầy đủ dưỡng chất, vitamin. Đặc biệt lượng canxi cao cho người cao tuổi khắc phục tình trạng loãng xương. Điều này giúp người cao tuổi khỏe mạnh hơn tuy nhiên lượng canxi này được magie, vitamin D hỗ trợ nên không khiến người dùng bị nóng hay gây dư thừa canxi.', 879000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20230322/sua-ensure-gold-850g.png', '2025-12-31', '2024-01-01', 13, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa Ensure Gold 400g - hương vani', N'Sữa Ensure Gold 400g - hương vani cung cấp dinh dưỡng đấy đủ và cân đối, dùng thay thế bữa ăn, hoặc bổ sung cho chế độ ăn hàng ngày. Ensure Gold thích hợp cho người lớn, người ăn uống kém, đặc biệt cho người bệnh cần phục hồi nhanh.', 415000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20200424/sua-ensure-gold-400g-huong-vani.png', '2025-12-31', '2024-01-01', 13, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa bột XO Mom - 800g', N'Sữa bột XO Mom - 800g  là sản phẩm của tập đoàn Namyang, Hàn Quốc. Được thành lập từ 13/3/1964, trải qua hơn 40 năm nghiên cứu và phát triển, Namyang trở thành Tập đoàn nghiên cứu và sản xuất các sản phẩm bơ sữa dinh dưỡng hàng đầu của Hàn Quốc.', 528000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20230603/sua-bot-xo-mom-800g.jpg', '2025-12-31', '2024-01-01', 14, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa bột XO Mom - 400g', N'Sữa bột XO Mom - 400g  là sản phẩm của tập đoàn Namyang, Hàn Quốc.  XO Mom với công thức đặc biệt đầy đủ các vitamin và khoáng chất cùng chất đạm, DHA, prebiotic là nguồn dinh dưỡng bổ sung rất tốt cho bà mẹ mang thai và cho con bú. Không chỉ vậy, sữa với thành phần tách kem bổ sung vào khẩu phần ăn cho phụ nữ mang thai, duy trì sức khỏe và vẻ đẹp của bạn. ', 286000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20230603/sua-bot-xo-mom-400g.jpg', '2025-12-31', '2024-01-01', 14, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa bột Vinamilk Canxi Pro 900g', N'Sữa bột Vinamilk Canxi Pro 900g là sản phẩm dinh dưỡng ít béo, bổ sung Canxi, được đặc chế một cách khoa học, giúp hấp thu canxi tối ưu, xây dựng hệ xương chắc khỏe, cùng với sự kết hợp độc đáo Collagen thủy phân để giúp phòng ngừa thoái hóa khớp hiệu quả. Với hương vị ngọt nhẹ, ít béo và giá trị dinh dưỡng cao, sữa bột Vinamilk Canxi Pro sẽ là món quà ý nghĩa cho sức khỏe gia đình bạn.', 357000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20230324/sua-bot-vinamilk-canxi-pro-900g-it-beo-bo-sung-canxi.png', '2025-12-31', '2024-01-01', 15, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa bột Optimum Mama Gold 900g', N'Sữa bột Optimum Mama Gold 900g  với hương vị Vani thơm ngon, thay thế bữa ăn phụ, bổ sung DHA, Canxi, Sắt cùng vitamin và khoáng chất thiết yếu, bổ sung cho chế độ ăn thiếu đạm và vi chất dinh dưỡng, giúp duy trì sức khoẻ của bà mẹ trước và sau khi sinh.', 397000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20221228/sua-bot-vinamilk-optimum-mama-gold-hop-thiec-900g-1.png', '2025-12-31', '2024-01-01', 15, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa bột Dielac Mama Gold Vani 900g', N'Sữa bột Dielac Mama Gold Vani 900g là sản phẩm dinh dưỡng dành riêng cho bà mẹ mang thai và cho con bú, giúp tăng cường sức khỏe cho mẹ và hỗ trợ sự phát triển lành mạnh của thai nhi. Với hương vị thơm ngon, ít béo, uống 2 ly mỗi ngày giúp đáp ứng nhu cầu Axit Folic cho bà mẹ mang thai. Đồng thời, Dielac Mama Gold còn tăng cường DHA, Canxi, Sắt cùng 28 loại vitamin và khoáng chất thiết yếu khác.', 237000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20230324/sua-bot-dielac-mama-gold-vani-900g.png', '2025-12-31', '2024-01-01', 15, 1)
+INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
+('P001', N'Sữa bột pha sẵn Sure Prevent Gold - Hộp 6 chai', N'Sữa bột pha sẵn Sure Prevent Gold - Hộp 6 chai với thiết kế tiện lợi, dễ dàng mang theo và sử dụng, giúp cung cấp dinh dưỡng đầy đủ và cân đối cho người lớn tuổi, hỗ trợ tăng cường sức khỏe tổng thể. Chất lượng quốc tế với các dưỡng chất được nhập khẩu 100% từ Châu Âu, Hoa Kỳ và Hàn Quốc.', 162000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20221229/sua-bot-pha-san-sure-prevent-gold-hop-6-chai-1.png', '2025-12-31', '2024-01-01', 15, 1)
+
+INSERT INTO Voucher (DiscountPercentage, MaxDiscount, MinDiscount, StartDate, ExpiryDate, VoucherName, Quantity)
 VALUES
-  ('VOUCHER1', 10, 100000, 0,'2024-12-30', '2024-12-31', 'Voucher 1',10),
-  ('VOUCHER2', 15, 150000, 0,'2024-12-30', '2024-12-31', 'Voucher 2',10),
-  ('VOUCHER3', 20, 200000, 0,'2024-12-30', '2024-12-31', 'Voucher 3',10),
-  ('VOUCHER4', 25, 250000, 0,'2024-12-30', '2024-12-31', 'Voucher 4',10),
-  ('VOUCHER5', 30, 300000, 0,'2024-12-30', '2024-12-31', 'Voucher 5',10),
-  ('VOUCHER6', 35, 350000, 0,'2024-12-30', '2024-12-31', 'Voucher 6',10);
+  ( 10, 100000, 0,'2024-12-30', '2024-12-31', 'Voucher 1',10),
+  (15, 150000, 0,'2024-12-30', '2024-12-31', 'Voucher 2',10),
+  (20, 200000, 0,'2024-12-30', '2024-12-31', 'Voucher 3',10),
+  ( 25, 250000, 0,'2024-12-30', '2024-12-31', 'Voucher 4',10),
+  ( 30, 300000, 0,'2024-12-30', '2024-12-31', 'Voucher 5',10),
+  ( 35, 350000, 0,'2024-12-30', '2024-12-31', 'Voucher 6',10);
 
 
 INSERT INTO ArticleCategory VALUES (N'Tổng hợp'), (N'Tin khuyến mãi'), (N'Tư vấn mua sắm')
