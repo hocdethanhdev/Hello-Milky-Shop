@@ -204,11 +204,13 @@ const productDAO = {
           `%${name}%`
         );
         request.query(
-          `SELECT ProductID, ProductName, ProductCategoryName, Status 
-          FROM Product p 
-          JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
-          JOIN Brand b ON p.BrandID = b.BrandID
-          WHERE ProductName LIKE @Name`,
+          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts
+          From Product p
+          JOIN Brand b ON b.BrandID = p.BrandID
+          LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+          WHERE ProductName LIKE @Name
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName
+          `,
           (err, res) => {
             if (err) reject(err);
             const product = res.recordset;

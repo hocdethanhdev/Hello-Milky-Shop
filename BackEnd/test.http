@@ -22,7 +22,7 @@ GET http://localhost:5000/api/v1/product/searchWithProductCategory/phy/Sữa cho
 ### tim voi gia
 GET http://localhost:5000/api/v1/product/searchWithPrice/Phy/0/10000000
 ### tim theo ten
-GET http://localhost:5000/api/v1/product/searchWithName/phy
+GET http://localhost:5000/api/v1/product/searchWithName/en
 ### lay tat ca san pham voi day du thong tin
 GET http://localhost:5000/api/v1/product/getInfoProductsDetail
 ### tao san pham
