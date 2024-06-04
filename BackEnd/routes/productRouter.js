@@ -26,4 +26,6 @@ router.get('/searchWithName/:name', productController.searchWithName);
 
 router.get('/getProductDetailByID/:id', productController.getProductDetailByID);
 
+router.get('/getProductByCategory/:pc', productController.getProductByCategory)
+
 module.exports = router
