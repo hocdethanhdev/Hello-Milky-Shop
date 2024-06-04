@@ -3,12 +3,16 @@
 GET http://localhost:5000/api/v1/user/getAllUsers
 ### lay tat ca san pham thong tin don gian
 GET http://localhost:5000/api/v1/product/getAllProducts
+### lay Brand theo category cho me
+GET http://localhost:5000/api/v1/product/getAllBrandByCategory/1
+### lay Brand theo category cho be
+GET http://localhost:5000/api/v1/product/getAllBrandByCategory/2
 ### lay tat ca brand dang co
 GET http://localhost:5000/api/v1/product/getAllBrands
 ### tim sua theo brand
 GET http://localhost:5000/api/v1/product/searchWithBrand/Phy/Enfamil
 ### lay tat ca san pham cho me
-GET http://localhost:5000/api/v1/product/getProductByCategory/1/
+GET http://localhost:5000/api/v1/product/getProductByCategory/1
 ### lay tat ca san pham cho be
 GET http://localhost:5000/api/v1/product/getProductByCategory/2/
 ### lay tat ca category
@@ -60,7 +64,7 @@ Content-Type: application/json
 
 {
     "UserName": "Nhan",
-    "PhoneNumber": "849334123802522",
+    "PhoneNumber": "84933802522",
     "Password": "1"
 }
 ### login

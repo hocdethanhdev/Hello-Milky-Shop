@@ -169,6 +169,15 @@ const getProductDetailByID = async (req, res) => {
   }
 };
 
+const getAllBrandByCategory = async (req, res) => {
+  try {
+    const obj = await productService.getAllBrandByCategory(req.params.pc);
+    res.send(obj);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   getAllProducts,
   getInfoProductsDetail,
@@ -183,4 +192,5 @@ module.exports = {
   searchWithName,
   getProductDetailByID,
   getProductByCategory,
+  getAllBrandByCategory,
 };

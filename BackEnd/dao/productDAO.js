@@ -3,6 +3,33 @@ const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
 
 const productDAO = {
+  getAllBrandByCategory: (pc) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request()
+        .input("pc", mssql.Int, pc);
+        request.query(
+          `SELECT BrandName 
+          FROM Brand b
+          JOIN Product p ON b.BrandID = p.BrandID
+          WHERE p.ProductCategoryID = @pc
+          GROUP BY BrandName
+        ;`,
+          (err, res) => {
+            if (err) reject(err);
+            const brand = res.recordset;
+            if (!brand[0])
+              resolve({
+                err: 1,
+                mes: "Empty",
+              });
+            resolve(brand);
+          }
+        );
+      });
+    });
+  },
+
   getProductByCategory: (pc) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
