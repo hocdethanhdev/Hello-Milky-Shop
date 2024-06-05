@@ -14,13 +14,17 @@ const userDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request()
         .input("UserID", id);
-        request.query(`SELECT * FROM Users WHERE UserID = @UserID;`, (err, res) => {
+        request.query(`
+        SELECT UserName, u.RoleID, RoleName
+        FROM Users u
+        JOIN Role r ON u.RoleID = r.RoleID
+        WHERE UserID = @UserID;`, (err, res) => {
           if (err) reject(err);
-          if(res.recordset.length > 0)
+          if(res.recordset[0])
             resolve({
               err: 0,
               mes: "OK",
-              data: res.recordset
+              data: res.recordset[0]
           })
           else{
             resolve({

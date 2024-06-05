@@ -4,19 +4,30 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import "./Header.css";
 import { logout } from "../store/actions/authAction";
+import { apiGetOne } from "../apis/userService";
 
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, token } = useSelector((state) => state.auth);
   const [showMenu, setShowMenu] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [userData, setUserData] = useState({});
 
   const handleSearch = (e) => {
     e.preventDefault();
     const keyword = document.getElementById("search_suggest-compo-tri").value;
     navigate(`/all-products/${keyword}`);
   };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      let response = await apiGetOne(token)
+      if (response?.data.err === 0)
+        setUserData(response.data?.data)
+    }
+    token && fetchUser()
+  }, [token])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -66,7 +77,7 @@ function Header() {
           {isLoggedIn ? (
             <div className="account-menu-Nhan">
               <span>
-                <i className="fas fa-user"></i>Tài khoản
+                <i className="fas fa-user"></i>{userData?.UserName}
               </span>
             </div>
           ) : (

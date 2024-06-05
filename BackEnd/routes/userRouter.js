@@ -1,6 +1,8 @@
 const router = require('express').Router();
 
 const userController = require("../controller/userController");
+
+const verifyToken = require('../middleware/verifyToken')
      
 router.get('/getAllUsers', userController.getAllUsers);
 
@@ -10,6 +12,6 @@ router.put('/editUser/:user_id', userController.updateUser);
 
 router.get('/getUserByRoleID/:ID', userController.getUserByRole);
 
-router.get('/getOne', userController.getOne);
+router.get('/getOne', verifyToken, userController.getOne);
 
 module.exports = router
