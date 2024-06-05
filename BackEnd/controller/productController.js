@@ -66,7 +66,12 @@ const searchWithPrice = async (req, res) => {
 
 const searchWithName = async (req, res) => {
   try {
-    const obj = await productService.searchWithName(req.params.name);
+    const name = req.query.search; // Lấy giá trị từ query parameter 'timkiem'
+
+  if (!name) {
+    return res.status(400).json({ error: 'Query không hợp lệ' });
+  }
+    const obj = await productService.searchWithName(name);
     res.send(obj);
   } catch (error) {
     res.status(500).send("Internal Server Error");

@@ -28,7 +28,7 @@ router.get(
   productController.searchWithPrice
 );
 
-router.get("/searchWithName/:name", productController.searchWithName);
+router.get("/searchWithName", productController.searchWithName);
 
 router.get("/getProductDetailByID/:id", productController.getProductDetailByID);
 
