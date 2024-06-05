@@ -17,10 +17,6 @@ function Header() {
     navigate(`/all-products/${keyword}`);
   };
 
-  const handleToggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
-
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -60,15 +56,15 @@ function Header() {
         <div className="box_right_header-compo-tri">
           {isLoggedIn ? (
 
-            <div onClick={handleToggleMenu} className="account-menu-Nhan">
-              <span>Tài khoản</span>
+            <div  className="account-menu-Nhan">
+              <span onClick={() => setShowMenu(!showMenu)}>Tài khoản</span>
               {showMenu && (
                 <ul className="dropdown-menu-Nhan">
                   <li>
-                    <Link to="/profile">Tài khoản</Link>
+                    <Link to="/profile"><i className="fas fa-user"></i>Tài khoản</Link>
                   </li>
                   <li>
-                    <span onClick={() => dispatch(logout())}>Đăng xuất</span>
+                    <span onClick={() => dispatch(logout())}><i className="fas fa-sign-out-alt"></i>Đăng xuất</span>
                   </li>
                 </ul>
               )}
