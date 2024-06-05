@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Bigsales.css";
 import Menu from "./Menu";
+import { Link } from "react-router-dom";
 
 const fetchPromotions = async () => {
   // This is a mock function. Replace it with a real API call.
@@ -18,7 +19,7 @@ const fetchPromotions = async () => {
       title: "Bé Khỏe Mẹ Vui - Giảm đến 50%",
       imageUrl:
         "https://media.shoptretho.com.vn/upload/image/km/20230713/banner-768x399.png",
-      link: "/khuyen-mai/be-khoe-me-vui-giam-den-50",
+      link: "./Dealsoc",
       promotionPeriod: "11/07 - 14/11",
     },
   ];

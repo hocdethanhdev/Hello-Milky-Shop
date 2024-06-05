@@ -20,7 +20,7 @@ const News = () => {
 
   return (
     <div>
-      <h1>News App</h1>
+      <h1>ĐƯA API NEWS CHO TAO</h1>
       <ul>
         {news.map((article, index) => (
           <li key={index}>

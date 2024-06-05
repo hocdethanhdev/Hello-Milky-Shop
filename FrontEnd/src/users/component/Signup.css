@@ -2,7 +2,6 @@
 
 /* Background image */
 .bg-image {
- 
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -24,8 +23,6 @@
   margin-bottom: 1.5rem;
   position: relative;
 }
-
-
 
 .input-wrapper-sign .input-icon {
   position: absolute;
@@ -79,7 +76,6 @@
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
-  border: 20px solid black;
   background-color: rgb(194, 57, 11);
   transition: background-color 0.3s ease;
   margin-top: 15px;
@@ -104,6 +100,9 @@
   text-decoration: underline;
 }
 
-.checkbox-label input {
-  margin-right: 5px;
+
+
+
+.error {
+  color: red;
 }
