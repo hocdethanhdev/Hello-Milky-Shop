@@ -6,7 +6,7 @@ export const apiGetOne = (token) => new Promise(async(resolve, reject) => {
             method: 'get',
             url: 'http://localhost:5000/api/v1/user/getOne',
             headers: {
-                'access-token': token
+                Authorization: token
             }
         })
         resolve(response);
