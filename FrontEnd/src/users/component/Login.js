@@ -14,14 +14,14 @@ import {
 import axios from "axios";
 
 function Login() {
-
   const loginGoogle = () => {
     window.open('http://localhost:5000/api/v1/auth/google', '_self');
   };
 
   const [formData, setFormData] = useState({
     phone: "",
-    password: ""
+    password: "",
+    confirmPassword: ""
   });
 
   const [message, setMessage] = useState("");
@@ -36,8 +36,15 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Kiểm tra xem các giá trị input có null không
+    if (!formData.phone || !formData.password) {
+      setMessage("Vui lòng điền đầy đủ thông tin!");
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
-      setMessage("Passwords do not match!");
+      setMessage("Mật khẩu không khớp!");
       return;
     }
 
@@ -51,14 +58,14 @@ function Login() {
       );
       if (response.data.err === 0) {
         console.log(response.data.mes);
-        setMessage("Sign up successful!");
+        setMessage("Đăng nhập thành công!");
       } else {
         console.log(response.data.mes);
-        setMessage("Account exist !!");
+        setMessage("Tài khoản đã tồn tại!");
       }
     } catch (error) {
       console.error(error);
-      setMessage("Error signing up. Please try again.");
+      setMessage("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
     }
   };
 
@@ -76,21 +83,29 @@ function Login() {
                 
               </p>
 
+              {message && <p className="text-danger">{message}</p>}
+
               <MDBInput className="login-nd"
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-dark"
                 placeholder="Số điện thoại"
-                id="formControlLg"
+                id="phone"
+                name="phone"
                 type="tel"
                 size="lg"
+                value={formData.phone}
+                onChange={handleChange}
               />
               <MDBInput className="login-nd"
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-dark"
-                placeholder="Mật Khẩu"
-                id="formControlLg"
+                placeholder="Mật khẩu"
+                id="password"
+                name="password"
                 type="password"
                 size="lg"
+                value={formData.password}
+                onChange={handleChange}
               />
 
               <p className="small mb-3 pb-lg-2">
@@ -98,7 +113,7 @@ function Login() {
                   Quên mật khẩu?
                 </a>
               </p>
-              <button className="login-button-trid" type="button">
+              <button className="login-button-trid" type="button" onClick={handleSubmit}>
                 <span className="button-text-trid">Đăng nhập</span>
               </button>
 

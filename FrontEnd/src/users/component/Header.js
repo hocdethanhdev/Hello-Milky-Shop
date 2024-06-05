@@ -1,22 +1,19 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "./Header.css";
 import { useState } from 'react';
+import "./Header.css";
 
 function Header() {
-
   const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const [dropDown, setDropDown] = useState(false);
 
   const handleSearch = (e) => {
     e.preventDefault();
     const keyword = document.getElementById('search_suggest-compo-tri').value;
     navigate(`/all-products/${keyword}`);
   };
-
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  const [dropDown, setDropDown] = useState(false);
 
   return (
     <header className="header-compo-tri">
@@ -28,15 +25,7 @@ function Header() {
         </div>
 
         <div className="box_search-compo-tri">
-
           <form onSubmit={handleSearch} id="fromSearch">
-
-          <form
-            action="/Desktop/SearchDesktop/SearchTemp"
-            id="fromSearch"
-            method="post"
-          >
-
             <input
               type="text"
               name="keyword"
@@ -51,8 +40,7 @@ function Header() {
 
         <div className="box_right_header-compo-tri">
           {isLoggedIn ? (
-            <div onClick={() => { setDropDown(!dropDown) }}> Tài khoản </div>
-            
+            <div onClick={() => { setDropDown(!dropDown); }}> Tài khoản </div>
           ) : (
             <div className="box_user-compo-tri">
               <i className="fa fa-user"></i>

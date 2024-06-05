@@ -25,14 +25,22 @@
   position: relative;
 }
 
-
-
 .input-wrapper-sign .input-icon {
   position: absolute;
   left: 0.8rem;
   top: 50%;
   transform: translateY(-50%);
   color: #888;
+}
+
+/* Error box styling */
+.error-box {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 5px;
 }
 
 /* Checkbox wrapper */

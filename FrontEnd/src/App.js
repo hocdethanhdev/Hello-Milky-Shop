@@ -17,7 +17,7 @@ import AdminSlidebar from "./managers/admin/AdminSlidebar";
 import MainDash from "./managers/admin/MainDash";
 import MangageAdmin from "./managers/admin/ManageAdmin";
 import ManageStaff from "./managers/admin/ManageStaff";
-import Signup from "./users/component/Signup2";
+import Signup from "./users/component/Signup";
 import SignupSt from "./managers/admin/SignupSt";
 import ManageMember from "./managers/admin/ManageMember";
 import SignupMem from "./managers/admin/SignupMem";
@@ -46,6 +46,7 @@ import ListProductMomScreen from "./users/ui-list-product-mom/ListProductMomScre
 import ListProductBbScreen from "./users/ui-list-product-mom/ListProductBbScreen";
 import AllProductScreen from "./users/ui-list-product-mom/AllProductScreen";
 import StaffScreen from "./managers/staff/StaffScreen";
+import Signup2 from "./users/component/Signup2";
 
 function App() {
   return (
@@ -56,7 +57,7 @@ function App() {
         <Routes>
           <Route path="/sidebar" element={<Sidebar />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/voucher" element={<Voucher />} />
+          <Route path="/voucher-staff" element={<Voucher />} />
           <Route path="/report" element={<Report />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/confirm" element={<Confirm />} />
@@ -71,7 +72,7 @@ function App() {
           <Route path="/" element={<Product1 />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login-email/:email" element={<LoginEmail />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup" element={<Signup/>} />
           <Route path="/Termofuse" element={<Termofuse />} />
           <Route path="/voucher" element={<VoucherStore />} />
           <Route path="/ShoppingCart" element={<ShoppingCart />} />

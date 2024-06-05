@@ -16,14 +16,14 @@
 }
 
 .logo-compo-tri img {
-  max-height: 60px;
+  max-height: 80px;
 }
 
 .box_search-compo-tri {
   flex: 1;
   display: flex;
   justify-content: center;
-  margin: 0 20px;
+  margin: 0 20px 10px;
 }
 
 .box_search-compo-tri form {

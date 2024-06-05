@@ -10,8 +10,6 @@
  
 }
 
-
-
 /* Mỗi hàng trong bảng danh mục */
 .category_table tbody tr:nth-child(even) {
   background-color: #e0dbdb; /* Màu nền cho các hàng chẵn */
