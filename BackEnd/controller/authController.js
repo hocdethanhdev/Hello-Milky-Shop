@@ -2,7 +2,7 @@ const authService = require("../service/authService");
 const otpService = require("../service/otpService");
 const passport = require('passport');
 const User = require('../bo/user');
-
+const jwt = require('jsonwebtoken');
 
 const login = async (req, res) => {
     try {

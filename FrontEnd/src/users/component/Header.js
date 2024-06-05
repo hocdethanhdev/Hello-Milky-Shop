@@ -1,19 +1,38 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from 'react';
 import "./Header.css";
+import { logout } from '../store/actions/authAction';
 
 function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const [dropDown, setDropDown] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const handleSearch = (e) => {
     e.preventDefault();
     const keyword = document.getElementById('search_suggest-compo-tri').value;
     navigate(`/all-products/${keyword}`);
   };
+
+  const handleToggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showMenu && !event.target.closest('.account-menu')) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMenu]);
 
   return (
     <header className="header-compo-tri">
@@ -40,7 +59,20 @@ function Header() {
 
         <div className="box_right_header-compo-tri">
           {isLoggedIn ? (
-            <div onClick={() => { setDropDown(!dropDown); }}> Tài khoản </div>
+
+            <div onClick={handleToggleMenu} className="account-menu-Nhan">
+              <span>Tài khoản</span>
+              {showMenu && (
+                <ul className="dropdown-menu-Nhan">
+                  <li>
+                    <Link to="/profile">Tài khoản</Link>
+                  </li>
+                  <li>
+                    <span onClick={() => dispatch(logout())}>Đăng xuất</span>
+                  </li>
+                </ul>
+              )}
+            </div>
           ) : (
             <div className="box_user-compo-tri">
               <i className="fa fa-user"></i>
