@@ -161,13 +161,14 @@
 }
 .dangxuatNhan {
   margin-left: 20px;
+  cursor: pointer;
 }
 .dangxuatNhan span {
   color: white;
-  text-decoration: none;
 }
 .dangxuatNhan :hover {
   color: #f8b400;
+  text-decoration: none;
 }
 
 .confirmation-dialog {
@@ -184,11 +185,10 @@
   text-align: center;
   z-index: 9999; /* Đặt lớp trên cùng */
 }
-
 .confirmation-dialog p {
   font-size: 18px;
   margin-bottom: 20px;
-  color: #0f7fc1
+  color: #0f7fc1;
 }
 
 .confirmation-dialog button {
@@ -213,6 +213,8 @@
 
 .DongY,
 .Huy {
+  margin-left: 35px;
+  margin-right: 35px;
   transition: background-color 0.3s ease, color 0.3s ease; /* Thêm hiệu ứng chuyển đổi */
 }
 
@@ -223,4 +225,13 @@
 .Huy:hover {
   background-color: #fff; /* Màu nền sáng khi di chuột qua */
   color: #dc3545; /* Màu chữ khi di chuột qua */
+}
+
+.logout-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.logout-link:hover {
+  text-decoration: none;
 }

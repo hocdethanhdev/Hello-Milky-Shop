@@ -66,7 +66,7 @@ function Header() {
           {isLoggedIn ? (
             <div className="account-menu-Nhan">
               <span>
-                <i className="fas fa-user"></i> Tài khoản
+                <i className="fas fa-user"></i>Tài khoản
               </span>
             </div>
           ) : (
@@ -85,26 +85,22 @@ function Header() {
             </Link>
           </div>
           {isLoggedIn && (
-<<<<<<< HEAD
-            <Link to="/">
-              <div>
-                <div className="dangxuatNhan" >
-                <span onClick={confirmLogout}>
-                  <i className="fas fa-sign-out-alt"></i> Đăng xuất
-=======
             <div>
               <div className="dangxuatNhan">
                 <span className="logout-link" onClick={confirmLogout}>
                   <i className="fas fa-sign-out-alt"></i>Đăng xuất
->>>>>>> d8089682107877a8be96c208ea4ffcc29b254569
                 </span>
               </div>
 
               {showConfirmation && (
                 <div className="confirmation-dialog">
                   <p>Bạn có chắc chắn muốn đăng xuất không?</p>
-                  <button className="DongY" onClick={() => dispatch(logout())}>Đồng ý</button>
-                  <button className="Huy" onClick={cancelLogout}>Hủy bỏ</button>
+                  <button className="DongY" onClick={() => dispatch(logout())}>
+                    Đồng ý
+                  </button>
+                  <button className="Huy" onClick={cancelLogout}>
+                    Hủy bỏ
+                  </button>
                 </div>
               )}
             </div>
