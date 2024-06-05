@@ -66,7 +66,7 @@ function Header() {
           {isLoggedIn ? (
             <div className="account-menu-Nhan">
               <span>
-                <i className="fas fa-user"></i>Tài khoản
+                <i className="fas fa-user"></i> Tài khoản
               </span>
             </div>
           ) : (
@@ -86,10 +86,10 @@ function Header() {
           </div>
           {isLoggedIn && (
             <Link to="/">
-              <div >
+              <div>
                 <div className="dangxuatNhan" >
                 <span onClick={confirmLogout}>
-                  <i className="fas fa-sign-out-alt"></i>Đăng xuất
+                  <i className="fas fa-sign-out-alt"></i> Đăng xuất
                 </span>
                 </div>
                 

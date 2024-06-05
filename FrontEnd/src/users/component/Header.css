@@ -162,10 +162,12 @@
 .dangxuatNhan {
   margin-left: 20px;
 }
+
 .dangxuatNhan span {
   color: white;
   text-decoration: none;
 }
+
 .dangxuatNhan :hover {
   color: #f8b400;
 }
