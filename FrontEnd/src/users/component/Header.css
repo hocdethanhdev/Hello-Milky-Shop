@@ -165,7 +165,6 @@
 }
 .dangxuatNhan span {
   color: white;
-  
 }
 .dangxuatNhan :hover {
   color: #f8b400;
@@ -186,11 +185,10 @@
   text-align: center;
   z-index: 9999; /* Đặt lớp trên cùng */
 }
-
 .confirmation-dialog p {
   font-size: 18px;
   margin-bottom: 20px;
-  color: #0f7fc1
+  color: #0f7fc1;
 }
 
 .confirmation-dialog button {
@@ -215,6 +213,8 @@
 
 .DongY,
 .Huy {
+  margin-left: 35px;
+  margin-right: 35px;
   transition: background-color 0.3s ease, color 0.3s ease; /* Thêm hiệu ứng chuyển đổi */
 }
 
@@ -233,5 +233,5 @@
 }
 
 .logout-link:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
