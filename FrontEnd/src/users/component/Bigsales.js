@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Bigsales.css";
 import Menu from "./Menu";
 import { Link } from "react-router-dom";
+import NavCate from '../ui-product-mom/NavCate';
 
 const fetchPromotions = async () => {
   // This is a mock function. Replace it with a real API call.
@@ -90,10 +91,11 @@ function Bigsales() {
 
   return (
     <div className="box-banner">
+      <NavCate/>
       <div className="main-banner">
         <img src="/khuyenmailon/bannertop.png" alt="Main banner" />
       </div>
-
+      
       <div className="center-promotion">
         <div className="box-menu-prom">
           <ul>
