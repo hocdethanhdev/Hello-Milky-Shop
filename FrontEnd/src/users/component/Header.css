@@ -116,3 +116,42 @@
     margin: 5px 0;
   }
 }
+
+
+.account-menu-Nhan {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.dropdown-menu-Nhan {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.account-menu-Nhan .dropdown-menu-Nhan {
+  display: block;
+}
+
+.dropdown-menu-Nhan li {
+  padding: 12px 16px;
+}
+
+.dropdown-menu-Nhan li a, .dropdown-menu-Nhan li span {
+  color: black;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdown-menu-Nhan li a:hover, .dropdown-menu-Nhan li span:hover {
+  background-color: #f1f1f1;
+}

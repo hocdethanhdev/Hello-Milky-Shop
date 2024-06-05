@@ -1,4 +1,4 @@
-import { apiLoginEmail, loginSuccessService } from '../../apis/authService'
+import { apiLoginEmail } from '../../apis/authService'
 import actionTypes from './actionTypes'
 
 export const loginEmail = (email) => async (dispatch) => {
@@ -21,7 +21,7 @@ export const loginEmail = (email) => async (dispatch) => {
             date: null
         })
     }
-}
+};
 
 export const logout = () => ({
     type: actionTypes.LOGOUT
