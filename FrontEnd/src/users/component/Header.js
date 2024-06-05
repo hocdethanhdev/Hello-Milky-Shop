@@ -85,23 +85,21 @@ function Header() {
             </Link>
           </div>
           {isLoggedIn && (
-            <Link to="/">
-              <div >
-                <div className="dangxuatNhan" >
-                <span onClick={confirmLogout}>
+            <div>
+              <div className="dangxuatNhan">
+                <span className="logout-link" onClick={confirmLogout}>
                   <i className="fas fa-sign-out-alt"></i>Đăng xuất
                 </span>
-                </div>
-                
-                {showConfirmation && (
-                  <div className="confirmation-dialog">
-                    <p>Bạn có chắc chắn muốn đăng xuất không?</p>
-                    <button className="DongY" onClick={() => dispatch(logout())}>Đồng ý</button>
-                    <button className="Huy" onClick={cancelLogout}>Hủy bỏ</button>
-                  </div>
-                )}
               </div>
-            </Link>
+
+              {showConfirmation && (
+                <div className="confirmation-dialog">
+                  <p>Bạn có chắc chắn muốn đăng xuất không?</p>
+                  <button className="DongY" onClick={() => dispatch(logout())}>Đồng ý</button>
+                  <button className="Huy" onClick={cancelLogout}>Hủy bỏ</button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>

@@ -161,13 +161,15 @@
 }
 .dangxuatNhan {
   margin-left: 20px;
+  cursor: pointer;
 }
 .dangxuatNhan span {
   color: white;
-  text-decoration: none;
+  
 }
 .dangxuatNhan :hover {
   color: #f8b400;
+  text-decoration: none;
 }
 
 .confirmation-dialog {
@@ -222,4 +224,13 @@
 .Huy:hover {
   background-color: #fff; /* Màu nền sáng khi di chuột qua */
   color: #dc3545; /* Màu chữ khi di chuột qua */
+}
+
+.logout-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.logout-link:hover {
+  text-decoration: underline;
 }
