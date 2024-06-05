@@ -12,6 +12,8 @@ import {
   MDBIcon,
 } from "mdb-react-ui-kit";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+
 
 function Login() {
   const loginGoogle = () => {
@@ -19,20 +21,19 @@ function Login() {
   };
 
   const [formData, setFormData] = useState({
-    phone: "",
-    password: "",
-    confirmPassword: ""
+    phone: '',
+    password: ''
   });
 
-  const [message, setMessage] = useState("");
-
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value
     });
   };
+
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,11 +41,6 @@ function Login() {
     // Kiểm tra xem các giá trị input có null không
     if (!formData.phone || !formData.password) {
       setMessage("Vui lòng điền đầy đủ thông tin!");
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setMessage("Mật khẩu không khớp!");
       return;
     }
 
@@ -57,17 +53,17 @@ function Login() {
         }
       );
       if (response.data.err === 0) {
-        console.log(response.data.mes);
-        setMessage("Đăng nhập thành công!");
-      } else {
-        console.log(response.data.mes);
-        setMessage("Tài khoản đã tồn tại!");
+        window.open(`http://localhost:5000/api/v1/auth/loginSuccess?token=${response.data.token}`, '_self');
+      } else if (response.data.err === 1){
+        setMessage("Số điện thoại " + formData.phone + " chưa được đăng kí");
+      }else {
+        setMessage("Sai mật khẩu");
       }
     } catch (error) {
-      console.error(error);
       setMessage("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
     }
   };
+
 
   return (
     <MDBContainer fluid>
@@ -84,7 +80,7 @@ function Login() {
               </p>
 
               {message && <p className="text-danger">{message}</p>}
-
+              
               <MDBInput className="login-nd"
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-dark"

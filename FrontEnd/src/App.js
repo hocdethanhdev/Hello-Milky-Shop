@@ -47,6 +47,7 @@ import ListProductBbScreen from "./users/ui-list-product-mom/ListProductBbScreen
 import AllProductScreen from "./users/ui-list-product-mom/AllProductScreen";
 import StaffScreen from "./managers/staff/StaffScreen";
 import Signup2 from "./users/component/Signup2";
+import LoginSuccess from "./users/component/LoginSuccess";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
           <Route path="/" element={<Product1 />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login-email/:email" element={<LoginEmail />} />
+          <Route path="/LoginSuccess/:token" element={<LoginSuccess />} />
           <Route path="/signup" element={<Signup/>} />
           <Route path="/Termofuse" element={<Termofuse />} />
           <Route path="/voucher" element={<VoucherStore />} />
