@@ -8,6 +8,7 @@ const passport = require("passport");
 const UserID = "a";
 
 const userDAO = {
+
   getOne: (id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -142,7 +143,7 @@ const userDAO = {
               },
               "HelloMilkyShop",
               {
-                expiresIn: 60, //thời gian(s)
+                expiresIn: 1800, //thời gian(s)
               }
             );
 
@@ -269,7 +270,7 @@ const userDAO = {
               },
               "HelloMilkyShop",
               {
-                expiresIn: 60, //thời gian(s)
+                expiresIn: 60 * 30, //thời gian(s)
               }
             );
 
