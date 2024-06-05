@@ -77,7 +77,7 @@ function Login() {
             className="bg-light text-dark my-5 mx-auto"
             style={{ borderRadius: "1rem", maxWidth: "500px" }}
           >
-            <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100">
+            <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100" style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.2)' }}>
               <h2 className="fw-bold mb-2 text-uppercase">Đăng nhập</h2>
               <p className="text-dark-50 mb-5">
                 
