@@ -262,7 +262,8 @@ const userDAO = {
 
             if (!user) {
               return resolve({
-                err: email + " is not exist",
+                err: 1,
+                message: email + " is not exist"
               });
             }
 

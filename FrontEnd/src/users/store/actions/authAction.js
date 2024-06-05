@@ -23,6 +23,27 @@ export const loginEmail = (email) => async (dispatch) => {
     }
 };
 
+export const login = (token) => async (dispatch) => {
+    try {
+        if (token){
+            dispatch({
+                type: actionTypes.LOGIN_SUCCESS,
+                data: token
+            })
+        }else{
+            dispatch({
+                type: actionTypes.LOGIN_SUCCESS,
+                date: null
+            })
+        }
+    } catch (error) {
+        dispatch({
+            type: actionTypes.LOGIN_SUCCESS,
+            date: null
+        })
+    }
+};
+
 export const logout = () => ({
     type: actionTypes.LOGOUT
 })
