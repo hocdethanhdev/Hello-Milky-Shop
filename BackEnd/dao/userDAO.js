@@ -147,7 +147,7 @@ const userDAO = {
               },
               "HelloMilkyShop",
               {
-                expiresIn: 1800, //thời gian(s)
+                expiresIn: 60 * 30, //thời gian(s)
               }
             );
 
