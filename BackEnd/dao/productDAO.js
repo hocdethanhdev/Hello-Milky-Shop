@@ -3,11 +3,37 @@ const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
 
 const productDAO = {
+  getProductInforID: (id) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input("id", mssql.VarChar, id);
+        request.query(
+          `Select p.ProductID, ProductName, BrandName, StockQuantity, Price, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts, Description, Image
+          From Product p 
+          JOIN Brand b ON p.BrandId = b.BrandID
+          LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+          WHERE p.ProductID = @id AND StockQuantity > 0 AND Status =1
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName, StockQuantity, Description;
+        ;`,
+          (err, res) => {
+            if (err) reject(err);
+            const brand = res.recordset;
+            if (!brand[0])
+              resolve({
+                err: 1,
+                mes: "Empty",
+              });
+            resolve(brand);
+          }
+        );
+      });
+    });
+  },
+
   getAllBrandByCategory: (pc) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request()
-        .input("pc", mssql.Int, pc);
+        const request = new mssql.Request().input("pc", mssql.Int, pc);
         request.query(
           `SELECT BrandName 
           FROM Brand b
@@ -47,7 +73,7 @@ const productDAO = {
             const product = res.recordset;
             if (!product[0])
               resolve({
-                err: "Do not have any product with this category"
+                err: "Do not have any product with this category",
               });
             resolve(product);
           }
