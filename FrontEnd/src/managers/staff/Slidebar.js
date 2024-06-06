@@ -1,7 +1,6 @@
 import React from 'react';
 import './Sidebar.css';
-import Card from './Card';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Link } from 'react-router-dom';
 function Slidebar() {
     return (
         <div className=' bang row'>
@@ -10,7 +9,7 @@ function Slidebar() {
                     <Link className="active" to="/dashboard">
                         <img src="/ImageMilkShop/dashboard.png" alt="Dashboard Icon" style={{ width: '24px' }} /> Dashboard
                     </Link>
-                    <Link to="/voucher">
+                    <Link to="/voucher-staff">
                         <img src="/ImageMilkShop/CreateVoucher.jpg" alt="Voucher Icon" style={{ width: '24px' }} /> Tạo voucher
                     </Link>
                     <Link to="/report">

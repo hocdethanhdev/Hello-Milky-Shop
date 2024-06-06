@@ -106,10 +106,10 @@ function Header() {
               {showConfirmation && (
                 <div className="confirmation-dialog">
                   <p>Bạn có chắc chắn muốn đăng xuất không?</p>
-                  <button className="DongY" onClick={() => dispatch(logout())}>
+                  <button className="DongY btn btn-success" onClick={() => dispatch(logout())}>
                     Đồng ý
                   </button>
-                  <button className="Huy" onClick={cancelLogout}>
+                  <button className="Huy btn btn-danger" onClick={cancelLogout}>
                     Hủy bỏ
                   </button>
                 </div>

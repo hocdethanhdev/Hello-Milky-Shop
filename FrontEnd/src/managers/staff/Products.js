@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
 import ThrowPage from '../../users/ui-list-product-mom/ThrowPage'; // Adjust the import path as necessary
+import ProductDetailModal from './ProductDetailModal'; // Adjust the import path as necessary
 
 const Products = () => {
     const [products, setProducts] = useState([]);
@@ -14,10 +15,11 @@ const Products = () => {
     const [statusFilter, setStatusFilter] = useState('All');
     const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
     const [showStatusDropdown, setShowStatusDropdown] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null); // New state for the modal
     const productsPerPage = 10; // Show 10 products per page
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/v1/product/getAllProducts') // Replace with your actual API endpoint
+        fetch('http://localhost:5000/api/v1/product/getInfoProductsDetail') // Replace with your actual API endpoint
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -97,6 +99,14 @@ const Products = () => {
         };
     }, [showCategoryDropdown, showStatusDropdown]);
 
+    const handleDetailClick = (product) => {
+        setSelectedProduct(product);
+    };
+
+    const handleCloseModal = () => {
+        setSelectedProduct(null);
+    };
+
     // Calculate the products to display on the current page
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -114,6 +124,7 @@ const Products = () => {
                     </div>
                 </Link>
                 <div className="product-list">
+
                     <table>
                         <thead>
                             <tr>
@@ -154,6 +165,7 @@ const Products = () => {
                                     <td>
                                         <button className='button-product btn btn-warning'>Edit</button>
                                         <button className='button-product btn btn-danger'>Delete</button>
+                                        <button className='button-product btn btn-info' onClick={() => handleDetailClick(product)}>Detail</button>
                                     </td>
                                 </tr>
                             ))}
@@ -169,6 +181,9 @@ const Products = () => {
                     />
                 </div>
             </div>
+            {selectedProduct && (
+                <ProductDetailModal product={selectedProduct} onClose={handleCloseModal} />
+            )}
         </div>
     );
 };

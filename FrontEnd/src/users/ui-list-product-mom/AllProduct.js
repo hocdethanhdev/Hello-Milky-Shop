@@ -4,11 +4,9 @@ import './ListProductMom.css';
 import SliderMoney from './SliderMoney';
 import ThrowPage from './ThrowPage';
 
-
 const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 };
-
 
 const AllProduct = () => {
     const { keyword } = useParams();
@@ -30,10 +28,18 @@ const AllProduct = () => {
         try {
             const response = await fetch(`http://localhost:5000/api/v1/product/searchWithName?search=${keyword}`);
             const data = await response.json();
-            setOriginalProducts(data);
-            setFilteredProducts(data);
+
+            if (data && data.length > 0) {
+                setOriginalProducts(data);
+                setFilteredProducts(data);
+            } else {
+                setOriginalProducts([]);
+                setFilteredProducts([]);
+            }
         } catch (error) {
             console.error('Error fetching products:', error);
+            setOriginalProducts([]);
+            setFilteredProducts([]);
         }
     };
 
@@ -181,28 +187,32 @@ const AllProduct = () => {
 
                         <div className="clear"></div>
                         <div className="list_item_cate">
-                            {currentProducts.map((product, index) => (
-                                <div className="product" key={index}>
-                                    <div className="product_child">
-                                        <div className="pro_img">
-                                            <a href={product.link} target="_blank" rel="noopener noreferrer" title={product.ProductName}>
-                                                <img src={product.Image} alt={product.ProductName} />
-                                            </a>
+                            {filteredProducts.length > 0 ? (
+                                currentProducts.map((product, index) => (
+                                    <div className="product" key={index}>
+                                        <div className="product_child">
+                                            <div className="pro_img">
+                                                <a href={product.link} target="_blank" rel="noopener noreferrer" title={product.ProductName}>
+                                                    <img src={product.Image} alt={product.ProductName} />
+                                                </a>
+                                            </div>
+                                            <h3 className="name_pro">
+                                                <a href={product.link} target="_blank" rel="noopener noreferrer" title={product.ProductName}>
+                                                    {product.ProductName}
+                                                </a>
+                                            </h3>
+                                            <div className="product_price">
+                                                <span className="price_item">{formatPrice(product.PriceAfterDiscounts)}₫</span>
+                                                {product.Price !== product.PriceAfterDiscounts && <span className="old_price">{formatPrice(product.Price)}₫</span>}
+                                            </div>
+                                            {product.Price !== product.PriceAfterDiscounts && <span className="discount">-{formatPrice((product.Price - product.PriceAfterDiscounts) / 1000)}K</span>}
                                         </div>
-                                        <h3 className="name_pro">
-                                            <a href={product.link} target="_blank" rel="noopener noreferrer" title={product.ProductName}>
-                                                {product.ProductName}
-                                            </a>
-                                        </h3>
-                                        <div className="product_price">
-                                            <span className="price_item">{formatPrice(product.PriceAfterDiscounts)}₫</span>
-                                            {product.Price !== product.PriceAfterDiscounts && <span className="old_price">{formatPrice(product.Price)}₫</span>}
-
-                                        </div>
-                                        {product.Price !== product.PriceAfterDiscounts && <span className="discount">-{formatPrice((product.Price - product.PriceAfterDiscounts) / 1000)}K</span>}
                                     </div>
-                                </div>
-                            ))}
+                                ))
+                            ) : (
+                                <p className='khong-tim-search'>Không tìm được sản phẩm</p>
+
+                            )}
                             <div className="clear"></div>
                         </div>
                         <div className="clear"></div>
