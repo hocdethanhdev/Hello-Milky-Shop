@@ -21,6 +21,10 @@
     float: right;
     width: 82%;
 }
+.khong-tim-search {
+    text-align: center;
+    font-size: larger;
+}
 
 .title_cate_right .title_cate {
     float: left;

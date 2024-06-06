@@ -201,31 +201,33 @@
 }
 
 .DongY {
-  background-color: #14d83f; /* Màu xanh cho nút "Đồng ý" */
-  color: #fff;
+  /* background-color: #14d83f; 
+  color: #fff; */
   margin-right: 10px;
 }
 
 .Huy {
-  background-color: #dc3545; /* Màu đỏ cho nút "Hủy bỏ" */
-  color: #fff;
+  /* background-color: #dc3545; 
+  color: #fff; */
 }
 
 .DongY,
 .Huy {
   margin-left: 35px;
   margin-right: 35px;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Thêm hiệu ứng chuyển đổi */
+  /* transition:
+    background-color 0.3s ease,
+    color 0.3s ease;  */
 }
 
-.DongY:hover {
-  background-color: #fff; /* Màu nền sáng khi di chuột qua */
-  color: #14d83f; /* Màu chữ khi di chuột qua */
+/* .DongY:hover {
+  background-color: #fff; 
+  color: #14d83f; 
 }
 .Huy:hover {
-  background-color: #fff; /* Màu nền sáng khi di chuột qua */
-  color: #dc3545; /* Màu chữ khi di chuột qua */
-}
+  background-color: #fff; 
+  color: #dc3545; 
+} */
 
 .logout-link {
   text-decoration: none;
