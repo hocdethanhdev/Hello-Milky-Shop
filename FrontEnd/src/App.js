@@ -55,7 +55,7 @@ function App() {
   return (
     <div>
       <Router>
-        {(role === 0 || role === 3) && <Header />}
+         <Header />
         
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -68,12 +68,14 @@ function App() {
           {role === 2 && <Route path="/report" element={<Report />} />}
           {role === 2 && <Route path="/posts" element={<Posts />} />}
           {role === 2 && <Route path="/confirm" element={<Confirm />} />}
+          {role === 2 && <Route path="/products" element={<Products />} />}
+          {role === 2 && <Route path="/addingvoucher" element={<VoucherAdd />} />}
+          {role === 2 && <Route path="/addingproduct" element={<ProductAdd />} />}
+          {role === 2 && <Route path="/addingpost" element={<PostsAdd />} />}
+          {role === 2 && <Route path="/addingpost" element={<PostsAdd />} />}
+      
           
-          <Route path="/products" element={<Products />} />
-          <Route path="/addingvoucher" element={<VoucherAdd />} />
-          <Route path="/addingproduct" element={<ProductAdd />} />
-          <Route path="/addingpost" element={<PostsAdd />} />
-          <Route path="/Staff" element={<StaffScreen />} />
+          {/* <Route path="/Staff" element={<StaffScreen />} /> */}
           <Route path="/all-products/:keyword" element={<AllProductScreen />} />
           <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
           <Route path="/sua-cho-me" element={<ListProductMomScreen />} />

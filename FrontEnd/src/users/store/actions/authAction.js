@@ -11,6 +11,15 @@ const getRoleFromToken = (token) => {
     }
   };
 
+const getUserIdFromToken = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      return decoded.UserID;
+    } catch (error) {
+      return 0;
+    }
+  };
+
 export const loginEmail = (email) => async (dispatch) => {
     try {
         let response = await apiLoginEmail(email);
