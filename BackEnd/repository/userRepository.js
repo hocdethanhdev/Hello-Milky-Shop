@@ -11,8 +11,8 @@ const userRepository = {
   updateUser: async (user_id, user) => {
     return await userDAO.updateUser(user_id, user);
   },
-  getUserByRole: async (ID) => {
-    return await userDAO.findUserByRole(ID);
+  getUserByRoleID: async (ID) => {
+    return await userDAO.findUserByRoleID(ID);
   },
 }
 

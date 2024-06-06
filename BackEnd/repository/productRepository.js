@@ -44,6 +44,18 @@ const productRepository = {
   getProductDetailByID: async (product_id) => {
     return await productDAO.getProductDetailByID(product_id);
   },
+  getProductInfoByID: async (product_idd) => {
+    return await productDAO.getProductInfoByID(product_idd);
+  },
+  get5ProductsLowestFinalPrice: async () => {
+    return await productDAO.get5ProductsLowestFinalPrice();
+  },
+  getTop6MilksForPregnantMother: async () => {
+    return await productDAO.getTop6MilksForPregnantMother();
+  },
+  getTop6MilkForBaby: async () => {
+    return await productDAO.getTop6MilkForBaby();
+  },
 };
 
 module.exports = productRepository;

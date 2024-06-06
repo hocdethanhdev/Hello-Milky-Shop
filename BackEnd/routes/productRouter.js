@@ -26,4 +26,13 @@ router.get('/searchWithName/:name', productController.searchWithName);
 
 router.get('/getProductDetailByID/:id', productController.getProductDetailByID);
 
+router.get('/getProductInfoByID/:product_id', productController.getProductInfoByID);
+
+router.get('/get5ProductsLowestFinalPrice', productController.get5ProductsLowestFinalPrice);
+
+router.get('/getTop6MilksForPregnantMother', productController.getTop6MilksForPregnantMother);
+
+router.get('/getTop6MilkForBaby', productController.getTop6MilkForBaby);
+
+
 module.exports = router

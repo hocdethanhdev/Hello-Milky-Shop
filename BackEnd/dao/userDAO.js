@@ -48,7 +48,7 @@ const userDAO = {
           .input("RoleID", mssql.Int, userObject.RoleID);
          
         request.query(
-          `UPDATE Users SET  Status = @Status , RoleID = @RoleID  WHERE UserID = @UserID
+          `UPDATE Users SET RoleID = @RoleID  WHERE UserID = @UserID
           ;`,
           (err, res) => {
             if (err) reject(err);
@@ -60,7 +60,7 @@ const userDAO = {
       });
     });
   },
-  findUserByRole: (ID) => {
+  findUserByRoleID: (ID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("ID", ID);

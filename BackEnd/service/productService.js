@@ -38,6 +38,18 @@ const productService = {
     getProductDetailByID : async (product_id) => {
       return await productRepository.getProductDetailByID(product_id);
     },
+    getProductInfoByID : async (product_id) => {
+      return await productRepository.getProductInfoByID(product_id);
+    },
+    get5ProductsLowestFinalPrice : async () => {
+      return await productRepository.get5ProductsLowestFinalPrice();
+    },
+    getTop6MilksForPregnantMother : async () => {
+      return await productRepository.getTop6MilksForPregnantMother();
+    },
+    getTop6MilkForBaby : async () => {
+      return await productRepository.getTop6MilkForBaby();
+    },
   }
 
 module.exports = productService;

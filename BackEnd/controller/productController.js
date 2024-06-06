@@ -82,7 +82,7 @@ const getAllProductCategory = async (req, res) => {
 
 const getInfoProductsDetail = async (req, res) => {
   try {
-    const obj = await productService.getInfoProductsDetail();
+    const obj = await productService.getInfoProductsDetail(id);
     res.send(obj);
   } catch (error) {
     console.error("Error while getting all users:", error);
@@ -171,6 +171,42 @@ const getProductDetailByID = async (req, res) => {
   }
 };
 
+const getProductInfoByID = async (req, res) => {
+  try {
+    const obj = await productService.getProductInfoByID(req.params.product_id);
+    res.send(obj);
+  } catch (error) {
+    console.error("Error while getting all users:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+const get5ProductsLowestFinalPrice = async (req, res) => {
+  try {
+    const obj = await productService.get5ProductsLowestFinalPrice();
+    res.send(obj);
+  } catch (error) {
+    console.error("Error while getting all users:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+  const getTop6MilksForPregnantMother = async (req, res) => {
+    try {
+      const obj = await productService.getTop6MilksForPregnantMother();
+      res.send(obj);
+    } catch (error) {
+      console.error("Error while getting all users:", error);
+      res.status(500).send("Internal Server Error");
+    }
+};
+const getTop6MilkForBaby = async (req, res) => {
+  try {
+    const obj = await productService.getTop6MilkForBaby();
+    res.send(obj);
+  } catch (error) {
+    console.error("Error while getting all users:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
 module.exports = {
   getAllProducts,
   getInfoProductsDetail,
@@ -184,4 +220,8 @@ module.exports = {
   searchWithPrice,
   searchWithName,
   getProductDetailByID,
+  getProductInfoByID,
+  get5ProductsLowestFinalPrice,
+  getTop6MilksForPregnantMother,
+  getTop6MilkForBaby
 };

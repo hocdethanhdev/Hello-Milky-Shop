@@ -7,7 +7,9 @@ const articleService = {
   getArticlesByID : async (ID) => {
       return await articleRepository.getArticlesByID(ID);
     },
-
+  getArticlesByContent : async (Content) => {
+      return await articleRepository.getArticlesByContent(Content);
+    },
   getAllArticles : async (req, res) => {
     return await articleRepository.getAllArticles();
   },

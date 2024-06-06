@@ -12,8 +12,8 @@ const userService = {
     updateUser : async (user_id, user) => {
       return await userRepository.updateUser(user_id, user);
     },
-    getUserByRole : async (ID) => {
-      return await userRepository.getUserByRole(ID);
+    getUserByRoleID : async (ID) => {
+      return await userRepository.getUserByRoleID(ID);
     },
   }
 

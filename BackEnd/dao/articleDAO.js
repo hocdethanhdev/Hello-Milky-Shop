@@ -25,6 +25,26 @@ const articleDAO = {
     });
   },
 
+  findArticlesByContent: (Content) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input("Content", Content);
+        request.query(
+          `SELECT *
+          FROM Article
+          WHERE Content = @Content
+           
+          `,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
+
   findAllArticles: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function(err, result) {
@@ -74,15 +94,17 @@ const articleDAO = {
           .input("Content", mssql.NVarChar, article.Content)
           .input("PublishDate", mssql.Date, article.PublishDate)
           .input("AuthorID", mssql.VarChar, article.AuthorID)
-          .input("ArticleCategoryName", mssql.NVarChar, article.ArticleCategoryName);
+          .input("ArticleCategoryID", article.ArticleCategoryID);
       
         request.query(
           `INSERT INTO Article (Title, HeaderImage, Content, PublishDate, AuthorID, ArticleCategoryID)
-          VALUES (@Title, @HeaderImage, @Content, @PublishDate, @AuthorID, (SELECT ArticleCategoryID FROM ArticleCategory WHERE ArticleCategoryName = @ArticleCategoryName))
+          VALUES (@Title, @HeaderImage, @Content, @PublishDate, @AuthorID, @ArticleCategoryID)
           ;`,
           (err, res) => {
             if (err) reject(err);
-            resolve(res.recordset);
+            resolve({
+              message: "Create successfully"
+            });
           }
         );
       });
@@ -98,7 +120,9 @@ const articleDAO = {
           `DELETE FROM Article WHERE ArticleID = @ArticleID;`,
           (err, res) => {
             if (err) reject(err);
-            resolve(res.recordset);
+           resolve({
+            message: "Delete successfully"
+          });
           }
         );
       });
@@ -116,9 +140,9 @@ updateArticle: (param_id, articleObject) => {
       .input("Content", mssql.NVarChar, articleObject.Content)
       .input("PublishDate", mssql.Date, articleObject.PublishDate)
       .input("AuthorID", mssql.VarChar, articleObject.AuthorID)
-      .input("ArticleCategoryName", mssql.NVarChar, articleObject.ArticleCategoryName);
+      .input("ArticleCategoryID",  articleObject.ArticleCategoryID);
       request.query(
-        `UPDATE Article SET Title =  @Title, HeaderImage = @HeaderImage, Content = @Content, PublishDate = @PublishDate, AuthorID = @AuthorID, ArticleCategoryID = (SELECT ArticleCategoryID FROM ArticleCategory WHERE ArticleCategoryName = @ArticleCategoryName) WHERE ArticleID = @ArticleID
+        `UPDATE Article SET Title =  @Title, HeaderImage = @HeaderImage, Content = @Content, PublishDate = @PublishDate, AuthorID = @AuthorID, ArticleCategoryID = @ArticleCategoryID WHERE ArticleID = @ArticleID
         ;`,
         (err, res) => {
           if (err) reject(err);

@@ -32,9 +32,9 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const getUserByRole = async (req, res) => {
+const getUserByRoleID = async (req, res) => {
   try {
-      const obj = await userService.getUserByRole (req.params.ID);
+      const obj = await userService.getUserByRoleID(req.params.ID);
       res.send(obj);
   } catch (error) {
       console.error("Error while getting all users:", error);
@@ -45,5 +45,5 @@ module.exports = {
     getAllUsers,
     deleteUser,
     updateUser,
-    getUserByRole
+    getUserByRoleID
 }
