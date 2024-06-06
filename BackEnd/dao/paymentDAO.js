@@ -36,7 +36,9 @@ const paymenttDAO = {
         ;`,
           (err, res) => {
             if (err) reject(err);
-            resolve({ status: res?.rowsAffected[0] > 0 ? 0 : 1 });
+            resolve({ 
+              status: res?.rowsAffected[0] > 0 ? 0 : 1
+            });
           }
         );
       });

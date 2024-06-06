@@ -41,27 +41,34 @@ import VoucherStore from "./users/component/VoucherStore";
 import ShoppingCart from "./users/component/ShoppingCart";
 import Bigsales from "./users/component/Bigsales";
 import Dealsoc from "./users/component/Dealsoc";
-import LoginEmail from "./users/component/LoginEmail"
+import LoginEmail from "./users/component/LoginEmail";
 import ListProductMomScreen from "./users/ui-list-product-mom/ListProductMomScreen";
 import ListProductBbScreen from "./users/ui-list-product-mom/ListProductBbScreen";
 import AllProductScreen from "./users/ui-list-product-mom/AllProductScreen";
 import StaffScreen from "./managers/staff/StaffScreen";
 import Signup2 from "./users/component/Signup2";
 import LoginSuccess from "./users/component/LoginSuccess";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { role } = useSelector((state) => state.auth);
   return (
     <div>
       <Router>
-
-        <Header />
+        {(role === 0 || role === 3) && <Header />}
+        
         <Routes>
-          <Route path="/sidebar" element={<Sidebar />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/voucher-staff" element={<Voucher />} />
-          <Route path="/report" element={<Report />} />
-          <Route path="/posts" element={<Posts />} />
-          <Route path="/confirm" element={<Confirm />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/login-email/:email" element={<LoginEmail />} />
+          <Route path="/LoginSuccess/:token" element={<LoginSuccess />} />
+          <Route path="/signup" element={<Signup />} />
+          {role === 2 && <Route path="/dashboard" element={<Dashboard />} />}
+          {role === 2 && <Route path="/sidebar" element={<Sidebar />} />}
+          {role === 2 && <Route path="/voucher-staff" element={<Voucher />} />}
+          {role === 2 && <Route path="/report" element={<Report />} />}
+          {role === 2 && <Route path="/posts" element={<Posts />} />}
+          {role === 2 && <Route path="/confirm" element={<Confirm />} />}
+          
           <Route path="/products" element={<Products />} />
           <Route path="/addingvoucher" element={<VoucherAdd />} />
           <Route path="/addingproduct" element={<ProductAdd />} />
@@ -71,20 +78,15 @@ function App() {
           <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
           <Route path="/sua-cho-me" element={<ListProductMomScreen />} />
           <Route path="/" element={<Product1 />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/login-email/:email" element={<LoginEmail />} />
-          <Route path="/LoginSuccess/:token" element={<LoginSuccess />} />
-          <Route path="/signup" element={<Signup/>} />
+
           <Route path="/Termofuse" element={<Termofuse />} />
           <Route path="/voucher" element={<VoucherStore />} />
           <Route path="/ShoppingCart" element={<ShoppingCart />} />
           <Route path="/Bigsales" element={<Bigsales />} />
           <Route path="/News" element={<News />} />
           <Route path="/Dealsoc" element={<Dealsoc />} />
-          {/* Add more routes here as needed */}
         </Routes>
-        <Footer />
-
+        {(role === 0 || role === 3) && <Footer />}
       </Router>
     </div>
   );

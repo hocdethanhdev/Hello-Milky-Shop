@@ -66,8 +66,9 @@ Content-Type: application/json
 
 {
     "UserName": "Nhan",
-    "PhoneNumber": "0987654321",
-    "Password": "1"
+    "PhoneNumber": "0909090908",
+    "Password": "1",
+    "RoleID": 2
 }
 ### login
 POST http://localhost:5000/api/v1/auth/login
@@ -97,7 +98,7 @@ POST  http://localhost:5000/api/v1/payment/create_payment_url
 Content-Type: application/json
 
 {
-    "orderID": 21,
+    "orderID": 2,
     "amount": 100000,
     "language": "vn"
 }
