@@ -8,6 +8,7 @@ import {
   MDBInput,
   MDBIcon,
 } from "mdb-react-ui-kit";
+import { redirect } from "react-router-dom";
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -94,8 +95,23 @@ function Signup() {
       );
 
       if (response.data.err === 0) {
-        console.log(response.data.mes);
-        setMessage("Sign up successful!");
+        //nếu muốn sửa sau khi đăng kí thành công chuyển qua trang login thì xóa toàn bộ nội dung trong if này rồi thêm dòng sau vào
+        //window.open('http://localhost:3000/login', '_self');
+        const login = await axios.post(
+          "http://localhost:5000/api/v1/auth/login",
+          {
+            PhoneNumber: formData.phone,
+            Password: formData.password,
+          }
+        );
+        if (login.data.err === 0) {
+          window.open(`http://localhost:5000/api/v1/auth/loginSuccess?token=${login.data.token}`, '_self');
+        } else if (response.data.err === 1) {
+          setMessage("Số điện thoại " + formData.phone + " chưa được đăng kí");
+        } else {
+          setMessage("Sai mật khẩu");
+        }
+        
       } else if (response.data.err === 2) {
         console.log(response.data.mes);
         setMessage("An account with this phone number already exists.");
@@ -171,7 +187,9 @@ function Signup() {
               value={formData.confirmPassword}
               onChange={handleChange}
             />
-            {errors.confirmPassword && <div className="error">{errors.confirmPassword}</div>}
+            {errors.confirmPassword && (
+              <div className="error">{errors.confirmPassword}</div>
+            )}
           </div>
 
           <div className="checkbox-wrapper mb-4">
@@ -190,7 +208,9 @@ function Signup() {
               </a>
               tại Hello Milky Shop
             </label>
-            {errors.termsAccepted && <div className="error">{errors.termsAccepted}</div>}
+            {errors.termsAccepted && (
+              <div className="error">{errors.termsAccepted}</div>
+            )}
           </div>
 
           <button
@@ -213,8 +233,6 @@ function Signup() {
               </a>
             </div>
           </div>
-
-          
         </MDBCardBody>
       </MDBCard>
     </MDBContainer>
