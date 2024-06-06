@@ -380,6 +380,158 @@ const productDAO = {
       });
     });
   },
+
+  getProductInfoByID: (product_id) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input("ProductID", product_id);
+        request.query(
+          `SELECT p.ProductID, ProductName, Description, Price, PriceAfterDiscount, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+        FROM Product p 
+        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
+        JOIN Brand b ON p.BrandID = b.BrandID
+        LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+        WHERE p.ProductID = @ProductID`,
+        (err, res) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+
+          if (!res || !res.recordset || res.recordset.length === 0) {
+            resolve({
+              err: "Not found",
+            });
+            return;
+          }
+
+          resolve(res.recordset);
+        }
+      );
+    });
+  });
+},
+
+get5ProductsLowestFinalPrice: () => {
+  return new Promise((resolve, reject) => {
+    mssql.connect(dbConfig, function (err, result) {
+      const request = new mssql.Request();
+      request.query(
+        `SELECT TOP 5 p.ProductID, p.ProductName, p.Price,
+        COALESCE(ppl.PriceAfterDiscount, p.Price) AS FinalPrice
+    FROM
+        Product p
+        LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+        JOIN Brand b ON p.BrandID = b.BrandID
+        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
+    ORDER BY
+        COALESCE(ppl.PriceAfterDiscount, p.Price) ASC;
+      ;`,
+      (err, res) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        if (!res || !res.recordset || res.recordset.length === 0) {
+          resolve({
+            err: "Not found",
+          });
+          return;
+        }
+
+        resolve(res.recordset);
+      }
+    );
+  });
+});
+},
+
+getTop6MilksForPregnantMother: () => {
+  return new Promise((resolve, reject) => {
+    mssql.connect(dbConfig, function (err, result) {
+      const request = new mssql.Request();
+      request.query(
+        `SELECT TOP 6 p.ProductID, p.ProductName, p.Description,p.Price,
+        SUM(od.Quantity) AS TotalSold
+        FROM Product p
+        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
+        JOIN Orders o ON o.OrderID IN (
+            SELECT OrderID
+            FROM OrderDetail od
+            WHERE od.ProductID = p.ProductID
+        )
+        LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID
+        WHERE pc.ProductCategoryName = 'Sữa cho mẹ bầu' AND o.Status = 1
+        GROUP BY p.ProductID, p.ProductName, p.Description, p.Price
+        ORDER BY TotalSold DESC;
+      ;`,
+      (err, res) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        if (!res || !res.recordset || res.recordset.length === 0) {
+          resolve({
+            err: "Not found",
+          });
+          return;
+        }
+
+        resolve(res.recordset);
+      }
+    );
+  });
+});
+},
+
+getTop6MilkForBaby: () => {
+  return new Promise((resolve, reject) => {
+    mssql.connect(dbConfig, function (err, result) {
+      const request = new mssql.Request();
+      request.query(
+        `SELECT TOP 6 p.ProductID, p.ProductName, p.Description, p.Price,
+        SUM(od.Quantity) AS TotalSold
+    FROM
+        Product p
+        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
+        JOIN Orders o ON o.OrderID IN (
+            SELECT OrderID
+            FROM OrderDetail od
+            WHERE od.ProductID = p.ProductID
+        )
+        LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID
+    WHERE
+        pc.ProductCategoryName = 'Sữa cho em bé'
+        AND o.Status = 1
+    GROUP BY
+        p.ProductID,
+        p.ProductName,
+        p.Description,
+        p.Price
+    ORDER BY
+        TotalSold DESC;
+      ;`,
+      (err, res) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        if (!res || !res.recordset || res.recordset.length === 0) {
+          resolve({
+            err: "Not found",
+          });
+          return;
+        }
+
+        resolve(res.recordset);
+      }
+    );
+  });
+});
+},
 };
 
 module.exports = productDAO;

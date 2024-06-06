@@ -7,6 +7,9 @@ const articleRepository = {
   getArticlesByID: async (ID) => {
     return await articleDAO.findArticlesByID(ID);
   },
+  getArticlesByContent: async (Content) => {
+    return await articleDAO.findArticlesByContent(Content);
+  },
   getAllArticles: async () => {
     return await articleDAO.findAllArticles();
   },
