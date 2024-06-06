@@ -38,4 +38,12 @@ router.get("/getAllBrandByCategory/:pc", productController.getAllBrandByCategory
 
 router.get("/getProductInforID/:id", productController.getProductInforID);
 
+router.get('/getProductInfoByID/:product_id', productController.getProductInfoByID);
+
+router.get('/get5ProductsLowestFinalPrice', productController.get5ProductsLowestFinalPrice);
+
+router.get('/getTop6MilksForPregnantMother', productController.getTop6MilksForPregnantMother);
+
+router.get('/getTop6MilkForBaby', productController.getTop6MilkForBaby);
+
 module.exports = router;

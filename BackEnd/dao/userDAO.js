@@ -54,13 +54,13 @@ const userDAO = {
       mssql.connect(dbConfig, function (err, result) {
         var request = new mssql.Request()
           .input("UserID", param_id)
-          .input("Status", Status);
+          .input("Status",  Status);
         request.query(
           `UPDATE Users SET Status = @Status WHERE UserID = @UserID;`,
           (err, res) => {
             if (err) reject(err);
             resolve({
-              message: "0",
+              message: "0"
             });
           }
         );
@@ -74,21 +74,21 @@ const userDAO = {
           .input("UserID", param_id)
           .input("Status", mssql.Bit, userObject.Status)
           .input("RoleID", mssql.Int, userObject.RoleID);
-
+         
         request.query(
-          `UPDATE Users SET  Status = @Status , RoleID = @RoleID  WHERE UserID = @UserID
+          `UPDATE Users SET RoleID = @RoleID  WHERE UserID = @UserID
           ;`,
           (err, res) => {
             if (err) reject(err);
             resolve({
-              message: "Edit successfully",
+              message: "Edit successfully"
             });
           }
         );
       });
     });
   },
-  findUserByRole: (ID) => {
+  findUserByRoleID: (ID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("ID", ID);

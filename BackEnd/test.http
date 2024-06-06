@@ -60,6 +60,14 @@ Content-Type: application/json
 }
 ###xoa san pham
 PUT http://localhost:5000/api/v1/product/deleteProduct/SE0002
+###
+GET http://localhost:5000/api/v1/product/getProductInfoByID/SE0009
+###
+GET http://localhost:5000/api/v1/product/get5ProductsLowestFinalPrice/
+###
+GET http://localhost:5000/api/v1/product/getTop6MilksForPregnantMother/
+###
+GET http://localhost:5000/api/v1/product/getTop6MilkForBaby/
 ### dang ki user
 POST http://localhost:5000/api/v1/auth/register
 Content-Type: application/json
@@ -245,3 +253,55 @@ GET  http://localhost:5000/api/v1/order/getApplicableVouchers/M0000001/1
 
 ### Áp dụng voucher vào đơn hàng
 POST http://localhost:5000/api/v1/order/applyVoucherToOrder
+###
+GET http://localhost:5000/api/v1/article/getAllArticles/
+###
+GEt http://localhost:5000/api/v1/article/getArticlesByID/M0000001/
+###
+GEt http://localhost:5000/api/v1/article/getArticlesByContent/Tin tức/
+###
+GET http://localhost:5000/api/v1/article/getAllArticleCategory/
+###
+POST http://localhost:5000/api/v1/article/createArticle/
+Content-Type: application/json
+
+{
+    "Title": "Chất lượng sữa mẹ theo thời gian có gì thay đổi?",
+    "HeaderImage": "image5.png",
+    "Content": "Sữa cho mẹ bầu",
+    "PublishDate": "2021-05-16",
+    "AuthorID": "M0000001",
+    "ArticleCategoryID": 1
+}
+###
+PUT http://localhost:5000/api/v1/article/deleteArticle/20
+###
+PUT http://localhost:5000/api/v1/article/editArticle/14
+Content-Type: application/json
+
+{
+    "Title": "Chất lượng sữa mẹ theo thời gian có gì thay đổi?",
+    "HeaderImage": "image5.png",
+    "Content": "Tin tức",
+    "PublishDate": "2021-05-16",
+    "AuthorID": "M0000001",
+    "ArticleCategoryID": 2
+}
+###
+GET http://localhost:5000/api/v1/user/getAllUsers/
+###
+PUT http://localhost:5000/api/v1/user/editUser/M0000001/
+Content-Type: application/json
+
+{
+    "RoleID": "2"
+}
+###
+GET http://localhost:5000/api/v1/user/getUserByRoleID/3/
+###
+PUT http://localhost:5000/api/v1/user/disableUser/M0000002/
+Content-Type: application/json
+
+{
+    "Status": "False"
+}
