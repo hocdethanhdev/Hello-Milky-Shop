@@ -247,5 +247,6 @@ module.exports = {
   getProductInfoByID,
   get5ProductsLowestFinalPrice,
   getTop6MilksForPregnantMother,
-  getTop6MilkForBaby
+  getTop6MilkForBaby,
+  getProductInforID,
 };
