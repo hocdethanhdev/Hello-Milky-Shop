@@ -2,6 +2,10 @@ const productRepository = require("../repository/productRepository");
 
 const productService = {
 
+  getProductInforID: async (id) => {
+    return await productRepository.getProductInforID(id);
+  },
+
   getAllBrandByCategory: async (pc) => {
     return await productRepository.getAllBrandByCategory(pc);
   },
