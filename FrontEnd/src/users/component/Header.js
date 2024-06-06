@@ -13,6 +13,7 @@ function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [userData, setUserData] = useState({});
+  const { role } = useSelector((state) => state.auth);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -22,12 +23,11 @@ function Header() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      let response = await apiGetOne(token)
-      if (response?.data.err === 0)
-        setUserData(response.data?.data)
-    }
-    token && fetchUser()
-  }, [token])
+      let response = await apiGetOne(token);
+      if (response?.data.err === 0) setUserData(response.data?.data);
+    };
+    token && fetchUser();
+  }, [token]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -54,24 +54,29 @@ function Header() {
     <header className="header-compo-tri">
       <div className="container-compo-tri">
         <div className="logo-compo-tri">
-          <Link to="/">
+          {role === 0 || role === 3 ? (
+            <Link to="/">
+              <img src="/ImageMilkShop/Logo.jpg" alt="LogoMilky" />
+            </Link>
+          ) : (
             <img src="/ImageMilkShop/Logo.jpg" alt="LogoMilky" />
-          </Link>
+          )}
         </div>
-
-        <div className="box_search-compo-tri">
-          <form onSubmit={handleSearch} id="fromSearch">
-            <input
-              type="text"
-              name="keyword"
-              placeholder="Bố mẹ tìm gì cho bé hôm nay?"
-              id="search_suggest-compo-tri"
-            />
-            <button className="search-button" type="submit" id="btnSearch">
-              <i className="fa fa-search"></i>
-            </button>
-          </form>
-        </div>
+        {(role === 0 || role === 3) && (
+          <div className="box_search-compo-tri">
+            <form onSubmit={handleSearch} id="fromSearch">
+              <input
+                type="text"
+                name="keyword"
+                placeholder="Bố mẹ tìm gì cho bé hôm nay?"
+                id="search_suggest-compo-tri"
+              />
+              <button className="search-button" type="submit" id="btnSearch">
+                <i className="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        )}
 
         <div className="box_right_header-compo-tri">
           {isLoggedIn ? (
@@ -88,13 +93,15 @@ function Header() {
               <Link to="/signup">Đăng ký</Link>
             </div>
           )}
+          {(role === 0 || role === 3) && (
+            <div className="box_cart-compo-tri">
+              <Link to="/ShoppingCart">
+                <i className="fa fa-shopping-cart"></i>
+                <p>Giỏ hàng</p>
+              </Link>
+            </div>
+          )}
 
-          <div className="box_cart-compo-tri">
-            <Link to="/ShoppingCart">
-              <i className="fa fa-shopping-cart"></i>
-              <p>Giỏ hàng</p>
-            </Link>
-          </div>
           {isLoggedIn && (
             <div>
               <div className="dangxuatNhan">
@@ -106,7 +113,10 @@ function Header() {
               {showConfirmation && (
                 <div className="confirmation-dialog">
                   <p>Bạn có chắc chắn muốn đăng xuất không?</p>
-                  <button className="DongY btn btn-success" onClick={() => dispatch(logout())}>
+                  <button
+                    className="DongY btn btn-success"
+                    onClick={() => dispatch(logout())}
+                  >
                     Đồng ý
                   </button>
                   <button className="Huy btn btn-danger" onClick={cancelLogout}>
