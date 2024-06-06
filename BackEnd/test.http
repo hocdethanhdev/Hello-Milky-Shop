@@ -1,6 +1,8 @@
 
 ### lay tat ca user
 GET http://localhost:5000/api/v1/user/getAllUsers
+### lay san pham bang id 
+GET http://localhost:5000/api/v1/product/getProductInforID/SE0001
 ### lay tat ca san pham thong tin don gian
 GET http://localhost:5000/api/v1/product/getAllProducts
 ### lay Brand theo category cho me

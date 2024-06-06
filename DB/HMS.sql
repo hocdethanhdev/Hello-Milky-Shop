@@ -6,6 +6,7 @@ create database HelloMilkyShop
 
 use HelloMilkyShop
 
+
 CREATE TABLE Role (
 RoleID int IDENTITY NOT NULL, 
 RoleName varchar(10) NOT NULL, 
@@ -248,3 +249,26 @@ AS
 		INNER JOIN Product p ON i.ProductID = p.ProductID
 		WHERE p.ProductID = i.ProductID;
 	END
+
+go
+create trigger trg_Quantity_In_Stock 
+ON Orders
+after update
+as
+	DECLARE @PaymentID int
+	DECLARE @OrderID int
+
+	SELECT @PaymentID = PaymentID
+	FROM Orders
+	WHERE OrderID = @OrderID
+
+	SELECT @OrderID = OrderID
+	FROM inserted
+
+	UPDATE Product 
+	SET StockQuantity = (StockQuantity - Quantity)
+	FROM OrderDetail od
+	JOIN Orders o ON o.OrderID = od.OrderID
+	JOIN Product p on od.ProductID = p.ProductID
+	WHERE od.OrderID = @OrderID
+

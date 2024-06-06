@@ -34,7 +34,9 @@ router.get("/getProductDetailByID/:id", productController.getProductDetailByID);
 
 router.get("/getProductByCategory/:pc", productController.getProductByCategory);
 
-router.get("/getAllBrandByCategory/:pc", productController.getAllBrandByCategory)
+router.get("/getAllBrandByCategory/:pc", productController.getAllBrandByCategory);
+
+router.get("/getProductInforID/:id", productController.getProductInforID);
 
 router.get('/getProductInfoByID/:product_id', productController.getProductInfoByID);
 
