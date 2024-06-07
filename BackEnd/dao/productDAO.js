@@ -290,7 +290,7 @@ const productDAO = {
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
         JOIN Brand b ON p.BrandID = b.BrandID
-        WHERE StockQuantity > 0 AND Status =1`,
+        `,
           (err, res) => {
             if (err) reject(err);
             const product = res.recordset;
@@ -321,9 +321,10 @@ const productDAO = {
             "ProductCategoryName",
             mssql.NVarChar,
             productObject.ProductCategoryName
-          );
+          )
+          .input("Status", mssql.Bit, productObject.Status);
         request.query(
-          `UPDATE Product SET ProductName = @ProductName, Description = @Description, Price = @Price , StockQuantity = @StockQuantity , Image = @Image , ExpirationDate = @ExpirationDate , ManufacturingDate = @ManufacturingDate, BrandID = (SELECT BrandID FROM Brand WHERE BrandName = @BrandName), ProductCategoryID = (SELECT ProductCategoryID FROM ProductCategory WHERE ProductCategoryName = @ProductCategoryName) WHERE ProductID = @ProductID;`,
+          `UPDATE Product SET ProductName = @ProductName, Description = @Description, Price = @Price , StockQuantity = @StockQuantity , Image = @Image , ExpirationDate = @ExpirationDate , ManufacturingDate = @ManufacturingDate, BrandID = (SELECT BrandID FROM Brand WHERE BrandName = @BrandName), ProductCategoryID = (SELECT ProductCategoryID FROM ProductCategory WHERE ProductCategoryName = @ProductCategoryName), Status = @Status WHERE ProductID = @ProductID;`,
           (err, res) => {
             if (err) reject(err);
             resolve({
