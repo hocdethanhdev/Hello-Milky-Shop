@@ -1,4 +1,8 @@
 
+
+### top 6 product by brand
+GET http://localhost:5000/api/v1/product/getTop6ProductByBrand/ensure
+
 ### lay tat ca user
 GET http://localhost:5000/api/v1/user/getAllUsers
 ### lay san pham bang id 
@@ -41,7 +45,7 @@ Content-Type: application/json
     "ManufacturingDate": "2024-01-01",
     "BrandName": "Enfamil",
     "ProductCategoryName": "Sữa cho em bé",
-    "Status": 0
+    "Status": 1
 }
 ### sua san pham
 PUT http://localhost:5000/api/v1/product/editProduct/SE0002

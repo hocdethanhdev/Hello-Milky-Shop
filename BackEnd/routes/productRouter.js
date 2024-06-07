@@ -46,4 +46,6 @@ router.get('/getTop6MilksForPregnantMother', productController.getTop6MilksForPr
 
 router.get('/getTop6MilkForBaby', productController.getTop6MilkForBaby);
 
+router.get('/getTop6ProductByBrand/:brand', productController.getTop6ProductByBrand)
+
 module.exports = router;

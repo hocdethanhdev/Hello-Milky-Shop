@@ -6,7 +6,6 @@ require("dotenv").config();
 const initRouters = require("./routes");
 require('./config/passport');
 const io = require('socket.io');
-
 const app = express();
 
 app.use(
