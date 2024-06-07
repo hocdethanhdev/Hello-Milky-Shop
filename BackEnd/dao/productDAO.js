@@ -290,7 +290,7 @@ const productDAO = {
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
         JOIN Brand b ON p.BrandID = b.BrandID
-        WHERE StockQuantity > 0 AND Status =1`,
+        `,
           (err, res) => {
             if (err) reject(err);
             const product = res.recordset;
