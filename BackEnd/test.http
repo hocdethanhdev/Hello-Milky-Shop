@@ -60,7 +60,8 @@ Content-Type: application/json
     "ExpirationDate": "2025-12-31",
     "ManufacturingDate": "2024-01-01",
     "BrandName": "Enfamil",
-    "ProductCategoryName": "Sữa cho em bé"
+    "ProductCategoryName": "Sữa cho em bé",
+    "Status": 1
 }
 ###xoa san pham
 PUT http://localhost:5000/api/v1/product/deleteProduct/SE0002
