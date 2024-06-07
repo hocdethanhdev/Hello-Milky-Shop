@@ -3,6 +3,35 @@ const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
 
 const productDAO = {
+
+  getTop6ProductByBrand: (brand) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input("brand", mssql.VarChar, brand);
+        request.query(
+          `SELECT TOP 6 p.ProductID, ProductName, Price, Image, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts
+          FROM Product p
+          JOIN Brand b ON p.BrandID = b.BrandID
+          LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+          WHERE BrandName = @brand AND StockQuantity > 0 AND Status =1
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price;
+        ;`,
+          (err, res) => {
+            if (err) reject(err);
+            const brand = res.recordset;
+            if (!brand[0])
+              resolve({
+                err: 1,
+                mes: "Empty",
+              });
+            resolve(brand);
+          }
+        );
+      });
+    });
+  },
+
+
   getProductInforID: (id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
