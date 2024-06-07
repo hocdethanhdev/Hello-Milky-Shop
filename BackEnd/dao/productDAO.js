@@ -342,20 +342,22 @@ const productDAO = {
           `Select ProductID FROM Product WHERE ProductName = @ProductName`,
           (err, res) => {
             if (err) reject(err);
-            if (res.recordset[0])
+            if (res.recordset[0]) {
               resolve({
                 message: "This product already exists",
               });
-          }
-        );
-        request.query(
-          `INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID, Status) VALUES
-          (@ProductID, @ProductName, @Description, @Price, @StockQuantity, @Image, @ExpirationDate, @ManufacturingDate, (SELECT BrandID FROM Brand WHERE BrandName = @BrandName), (SELECT ProductCategoryID FROM ProductCategory WHERE ProductCategoryName = @ProductCategoryName), @Status);`,
-          (err, res) => {
-            if (err) reject(err);
-            resolve({
-              message: "Create successfully",
-            });
+            } else {
+              request.query(
+                `INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID, Status) VALUES
+                (@ProductID, @ProductName, @Description, @Price, @StockQuantity, @Image, @ExpirationDate, @ManufacturingDate, (SELECT BrandID FROM Brand WHERE BrandName = @BrandName), (SELECT ProductCategoryID FROM ProductCategory WHERE ProductCategoryName = @ProductCategoryName), @Status);`,
+                (err, res) => {
+                  if (err) reject(err);
+                  resolve({
+                    message: "Create successfully",
+                  });
+                }
+              );
+            }
           }
         );
       });
@@ -392,32 +394,32 @@ const productDAO = {
         JOIN Brand b ON p.BrandID = b.BrandID
         LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
         WHERE p.ProductID = @ProductID`,
-        (err, res) => {
-          if (err) {
-            reject(err);
-            return;
-          }
+          (err, res) => {
+            if (err) {
+              reject(err);
+              return;
+            }
 
-          if (!res || !res.recordset || res.recordset.length === 0) {
-            resolve({
-              err: "Not found",
-            });
-            return;
-          }
+            if (!res || !res.recordset || res.recordset.length === 0) {
+              resolve({
+                err: "Not found",
+              });
+              return;
+            }
 
-          resolve(res.recordset);
-        }
-      );
+            resolve(res.recordset);
+          }
+        );
+      });
     });
-  });
-},
+  },
 
-get5ProductsLowestFinalPrice: () => {
-  return new Promise((resolve, reject) => {
-    mssql.connect(dbConfig, function (err, result) {
-      const request = new mssql.Request();
-      request.query(
-        `SELECT TOP 5 p.ProductID, p.ProductName, p.Price,
+  get5ProductsLowestFinalPrice: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT TOP 5 p.ProductID, p.ProductName, p.Price,
         COALESCE(ppl.PriceAfterDiscount, p.Price) AS FinalPrice
     FROM
         Product p
@@ -427,32 +429,32 @@ get5ProductsLowestFinalPrice: () => {
     ORDER BY
         COALESCE(ppl.PriceAfterDiscount, p.Price) ASC;
       ;`,
-      (err, res) => {
-        if (err) {
-          reject(err);
-          return;
-        }
+          (err, res) => {
+            if (err) {
+              reject(err);
+              return;
+            }
 
-        if (!res || !res.recordset || res.recordset.length === 0) {
-          resolve({
-            err: "Not found",
-          });
-          return;
-        }
+            if (!res || !res.recordset || res.recordset.length === 0) {
+              resolve({
+                err: "Not found",
+              });
+              return;
+            }
 
-        resolve(res.recordset);
-      }
-    );
-  });
-});
-},
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
 
-getTop6MilksForPregnantMother: () => {
-  return new Promise((resolve, reject) => {
-    mssql.connect(dbConfig, function (err, result) {
-      const request = new mssql.Request();
-      request.query(
-        `SELECT TOP 6 p.ProductID, p.ProductName, p.Description,p.Price,
+  getTop6MilksForPregnantMother: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT TOP 6 p.ProductID, p.ProductName, p.Description,p.Price,
         SUM(od.Quantity) AS TotalSold
         FROM Product p
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
@@ -466,32 +468,32 @@ getTop6MilksForPregnantMother: () => {
         GROUP BY p.ProductID, p.ProductName, p.Description, p.Price
         ORDER BY TotalSold DESC;
       ;`,
-      (err, res) => {
-        if (err) {
-          reject(err);
-          return;
-        }
+          (err, res) => {
+            if (err) {
+              reject(err);
+              return;
+            }
 
-        if (!res || !res.recordset || res.recordset.length === 0) {
-          resolve({
-            err: "Not found",
-          });
-          return;
-        }
+            if (!res || !res.recordset || res.recordset.length === 0) {
+              resolve({
+                err: "Not found",
+              });
+              return;
+            }
 
-        resolve(res.recordset);
-      }
-    );
-  });
-});
-},
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
 
-getTop6MilkForBaby: () => {
-  return new Promise((resolve, reject) => {
-    mssql.connect(dbConfig, function (err, result) {
-      const request = new mssql.Request();
-      request.query(
-        `SELECT TOP 6 p.ProductID, p.ProductName, p.Description, p.Price,
+  getTop6MilkForBaby: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT TOP 6 p.ProductID, p.ProductName, p.Description, p.Price,
         SUM(od.Quantity) AS TotalSold
     FROM
         Product p
@@ -513,25 +515,25 @@ getTop6MilkForBaby: () => {
     ORDER BY
         TotalSold DESC;
       ;`,
-      (err, res) => {
-        if (err) {
-          reject(err);
-          return;
-        }
+          (err, res) => {
+            if (err) {
+              reject(err);
+              return;
+            }
 
-        if (!res || !res.recordset || res.recordset.length === 0) {
-          resolve({
-            err: "Not found",
-          });
-          return;
-        }
+            if (!res || !res.recordset || res.recordset.length === 0) {
+              resolve({
+                err: "Not found",
+              });
+              return;
+            }
 
-        resolve(res.recordset);
-      }
-    );
-  });
-});
-},
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
 };
 
 module.exports = productDAO;
