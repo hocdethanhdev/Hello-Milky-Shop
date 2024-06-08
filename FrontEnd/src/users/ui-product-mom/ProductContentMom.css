@@ -274,3 +274,10 @@
 .product_content {
     margin-bottom: 50px;
 }
+.thuong-hieu-san-pham {
+    padding-right: 10px;
+}
+.thuong-hieu-san-pham-api {
+    font-weight: bolder;
+    color: #0c93e4;
+}

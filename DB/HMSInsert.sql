@@ -24,7 +24,7 @@ INSERT INTO Brand (BrandName) VALUES
 ('Nestle'),
 ('Abbott Grow');
 
-
+select*from Brand
 insert into ProductCategory values (N'Sữa cho mẹ bầu'), (N'Sữa cho em bé')
 
 

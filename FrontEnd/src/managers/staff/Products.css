@@ -25,13 +25,16 @@
   width: 50px;
   height: auto;
 }
+
 .nut-pro {
   display: flex;
 }
+
 .product-container {
   padding-right: 30px;
   padding-top: 20px;
 }
+
 /* ______________________________________________________________________ */
 
 .create-product {
@@ -68,6 +71,7 @@ select {
   border-radius: 4px;
   width: 100%;
 }
+
 .dropdown-thinh-staff {
   position: absolute;
   background-color: white;
@@ -87,25 +91,26 @@ select {
 .dropdown-thinh-staff li:hover {
   background-color: #f0f0f0;
 }
-.dropdown-thinh-staff {
-  position: absolute;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  margin-top: 5px;
-  list-style-type: none;
-  padding: 0;
-  width: 200px;
-  font-weight: normal; /* Ensure the dropdown text is not bold */
-  font-size: smaller;
-}
 
 .dropdown-li-thinh {
   padding: 8px;
   cursor: pointer;
-  font-weight: normal; /* Ensure the dropdown text is not bold */
+  font-weight: normal;
+  font-size: smaller;
 }
 
 .dropdown-li-thinh:hover {
   background-color: #f0f0f0;
+}
+.success-message {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.success-message.success {
+  color: green;
+}
+
+.success-message.error {
+  color: red;
 }

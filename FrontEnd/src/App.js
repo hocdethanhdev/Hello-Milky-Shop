@@ -49,15 +49,21 @@ import StaffScreen from "./managers/staff/StaffScreen";
 import Signup2 from "./users/component/Signup2";
 import LoginSuccess from "./users/component/LoginSuccess";
 import { useSelector } from "react-redux";
+<<<<<<< HEAD
+import ProductScreen from "./users/ui-product-mom/ProductScreen";
+
+
+=======
 import ResetPassword from './users/component/ResetPassword';
+>>>>>>> f076ed038fee5041e1a6371642c6de8351c483c9
 
 function App() {
   const { role } = useSelector((state) => state.auth);
   return (
     <div>
       <Router>
-         <Header />
-        
+        <Header />
+
         <Routes>
           <Route path="/ResetPassword" element={<ResetPassword />} />
           <Route path="/login" element={<Login />} />
@@ -75,12 +81,13 @@ function App() {
           {role === 2 && <Route path="/addingproduct" element={<ProductAdd />} />}
           {role === 2 && <Route path="/addingpost" element={<PostsAdd />} />}
           {role === 2 && <Route path="/addingpost" element={<PostsAdd />} />}
-      
-          
+
+
           {/* <Route path="/Staff" element={<StaffScreen />} /> */}
           <Route path="/all-products/:keyword" element={<AllProductScreen />} />
           <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
           <Route path="/sua-cho-me" element={<ListProductMomScreen />} />
+          <Route path="/product/:productId" element={<ProductScreen />} />
           <Route path="/" element={<Product1 />} />
 
           <Route path="/Termofuse" element={<Termofuse />} />
