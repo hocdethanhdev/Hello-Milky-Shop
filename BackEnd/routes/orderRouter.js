@@ -4,10 +4,6 @@ const orderController = require("../controller/orderController");
 
 router.get('/getAllOrders', orderController.getAllOrders);
 
-//router.post('/addOrder', orderController.addOrder);
-
-//router.put('/updateOrder/:id', orderController.updateOrder);
-
 // Tạo một đơn hàng mới cho user
 router.post('/createOrder', orderController.createOrder);
 
@@ -28,5 +24,11 @@ router.get('/getApplicableVouchers/:userID/:orderID', orderController.getApplica
 
 // Áp dụng voucher vào đơn hàng
 router.post('/applyVoucherToOrder', orderController.applyVoucherToOrder);
+
+// Lấy order trước đó của user
+router.get('/getPreviousOrderAddress/:userID', orderController.getPreviousOrderAddress);
+
+
+router.get('/searchOrderByUserName/:userName', orderController.searchOrderByUserName);
 
 module.exports = router

@@ -9,8 +9,8 @@ const getOrderByID = async (order_id) => {
   return payment;
 };
 
-const createPayment = async (PayMethod, TradingCode, CardType, PayDetail, Amount, PayTime) => {
-  const payment = await paymentRepository.createPayment(PayMethod, TradingCode, CardType, PayDetail, Amount, PayTime);
+const createPayment = async (PayMethod, TradingCode, CardType, PayDetail, Amount, PayTime, OrderID) => {
+  const payment = await paymentRepository.createPayment(PayMethod, TradingCode, CardType, PayDetail, Amount, PayTime, OrderID);
   if (payment.err) {
     return { err: payment.err };
   }
@@ -18,6 +18,6 @@ const createPayment = async (PayMethod, TradingCode, CardType, PayDetail, Amount
 };
 
 module.exports = {
-    getOrderByID,
-    createPayment,
+  getOrderByID,
+  createPayment,
 };

@@ -64,11 +64,24 @@ const getVouchersByUserID = async (req, res) => {
     }
 };
 
+const getVouchersforUser = async (req, res) => {
+    try {
+        const obj = await voucherService.getVouchersforUser();
+        if (!obj)
+            res.status(404).send('Not found')
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all voucher:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 module.exports = {
     getAllVouchers,
     addVoucher,
     searchVoucherByDate,
     updateVoucher,
     saveVoucherForUser,
-    getVouchersByUserID
+    getVouchersByUserID,
+    getVouchersforUser
 };

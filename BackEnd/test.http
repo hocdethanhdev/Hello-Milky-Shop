@@ -248,7 +248,6 @@ Content-Type: application/json
 
 {
     "userID": "M0000001",
-    "paymentID": 1
 }
 
 ### Lấy tất cả các đơn hàng của một user theo userID
@@ -311,3 +310,11 @@ Content-Type: application/json
 {
     "Status": "False"
 }
+### Lấy những voucher mà có thể lưu cho user
+GET http://localhost:5000/api/v1/voucher/getVouchersForUser
+
+### Lấy order trước đó của user
+GET  http://localhost:5000/api/v1/order/getPreviousOrderAddress/M0000001
+
+### Search order dựa vào username
+GET http://localhost:5000/api/v1/order/searchOrderByUserName/A
