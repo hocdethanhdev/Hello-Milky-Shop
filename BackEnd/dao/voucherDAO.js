@@ -16,6 +16,21 @@ const voucherDAO = {
             });
         });
     },
+
+    getVouchersforUser: () => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err, res) {
+                const request = new mssql.Request();
+                request.query(`SELECT * FROM VOUCHER WHERE GETDATE() <= VOUCHER.EXPIRYDATE;`,
+                    (err, res) => {
+                        if (err) reject(err);
+
+                        resolve(res.recordset);
+                    });
+            });
+        });
+    },
+
     addVoucher: (voucherObject) => {
         const VoucherID = 1;
         const voucher = new Voucher(VoucherID, voucherObject.code, voucherObject.quantity, voucherObject.discountPercentage,

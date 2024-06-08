@@ -14,6 +14,8 @@ router.post('/saveVoucherForUser', voucherController.saveVoucherForUser);
 
 router.get('/getVouchersByUserID/:userID', voucherController.getVouchersByUserID);
 
+router.get('/getVouchersforUser', voucherController.getVouchersforUser);
+
 module.exports = router
 
 

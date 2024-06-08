@@ -7,7 +7,8 @@ const orderDAO = {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err, result) {
                 const request = new mssql.Request();
-                request.query(`SELECT * FROM Orders;`,
+                request.query(`SELECT * FROM Orders 
+                                WHERE ORDERS.STATUS=1;`,
                     (err, res) => {
                         if (err) reject(err);
 
@@ -16,6 +17,33 @@ const orderDAO = {
             });
         });
     },
+    searchOrderByUserName: (userName) => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err) {
+                if (err) return reject(err);
+
+                const trimmedUserName = userName.trim().replace(/\s+/g, ' ');
+
+                const request = new mssql.Request();
+
+                request.input('userName', mssql.VarChar, `%${trimmedUserName}%`);
+
+
+                const selectQuery = `
+                    SELECT o.*
+                FROM Orders o
+                JOIN Users u ON o.UserID = u.UserID
+                WHERE u.UserName COLLATE SQL_Latin1_General_CP1_CI_AS LIKE @userName
+                `;
+
+                request.query(selectQuery, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result.recordset);
+                });
+            });
+        });
+    },
+
     createOrder: (userID) => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err) {
@@ -28,8 +56,8 @@ const orderDAO = {
                     .input('totalAmount', mssql.Float, 0);
 
                 const insertQuery = `
-                    INSERT INTO Orders (orderDate, totalAmount, status, userID, paymentID)
-                    VALUES (@orderDate, @totalAmount, @status, @userID, NULL);
+                    INSERT INTO Orders (orderDate, totalAmount, status, userID)
+                    VALUES (@orderDate, @totalAmount, @status, @userID);
                     SELECT SCOPE_IDENTITY() AS orderID;
                 `;
 
@@ -98,7 +126,7 @@ const orderDAO = {
         });
     },
 
-    checkoutOrder: (orderID, paymentID) => {
+    checkoutOrder: (orderID) => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err) {
                 if (err) return reject(err);
@@ -109,11 +137,11 @@ const orderDAO = {
 
                     const request = new mssql.Request(transaction);
                     request.input('orderID', mssql.Int, orderID)
-                        .input('paymentID', mssql.Int, paymentID);
+
 
                     const updateOrderQuery = `
                         UPDATE Orders
-                        SET status = 1, paymentID = @paymentID
+                        SET status = 1
                         WHERE orderID = @orderID
                     `;
 
@@ -226,6 +254,30 @@ const orderDAO = {
                 });
             });
         });
+    },
+
+    getPreviousOrderAddress: (userID) => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err) {
+                if (err) return reject(err);
+
+                const request = new mssql.Request();
+                request.input('userID', mssql.VarChar, userID);
+
+                const selectQuery = `
+                    SELECT TOP 1 Address
+                    FROM Orders
+                    WHERE UserID = @userID
+                    ORDER BY OrderID DESC
+                `;
+
+                request.query(selectQuery, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result.recordset.length > 0 ? result.recordset[0].Address : null);
+                });
+            });
+        });
     }
+
 }
 module.exports = orderDAO;

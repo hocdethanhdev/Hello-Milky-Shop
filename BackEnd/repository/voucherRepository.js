@@ -18,7 +18,11 @@ const voucherRepository = {
     },
     getVouchersByUserID: async (userID) => {
         return await voucherDAO.getVouchersByUserID(userID);
+    },
+    getVouchersforUser: async () => {
+        return await voucherDAO.getVouchersforUser();
     }
+
 
 }
 

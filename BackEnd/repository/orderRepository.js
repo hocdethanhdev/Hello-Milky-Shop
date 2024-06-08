@@ -5,6 +5,10 @@ const orderRepository = {
         return orderDAO.getAllOrders();
     },
 
+    searchOrderByUserName: (userName) => {
+        return orderDAO.searchOrderByUserName(userName);
+    },
+
     createOrder: (userID) => {
         return orderDAO.createOrder(userID);
     },
@@ -21,8 +25,8 @@ const orderRepository = {
         return orderDAO.getOpenOrderForUser(userID);
     },
 
-    checkoutOrder: (orderID, paymentID) => {
-        return orderDAO.checkoutOrder(orderID, paymentID);
+    checkoutOrder: (orderID) => {
+        return orderDAO.checkoutOrder(orderID);
     },
 
     getOrdersByUserID: (userID) => {
@@ -35,7 +39,11 @@ const orderRepository = {
 
     applyVoucherToOrder: (orderID, voucherID) => {
         return orderDAO.applyVoucherToOrder(orderID, voucherID);
+    },
+    getPreviousOrderAddress: (userID) => {
+        return orderDAO.getPreviousOrderAddress(userID);
     }
+
 };
 
 module.exports = orderRepository;
