@@ -1,3 +1,4 @@
+const { getOrderDetailByOrderID } = require('../dao/orderDAO');
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
@@ -60,14 +61,6 @@ const orderService = {
         }
     },
 
-    getOrdersByUserID: async (userID) => {
-        try {
-            const orders = await orderRepository.getOrdersByUserID(userID);
-            return orders;
-        } catch (error) {
-            throw new Error(`Error getting orders for user: ${error.message}`);
-        }
-    },
     getApplicableVouchers: async (userID, orderID) => {
         try {
             const order = await orderRepository.getOrder(orderID);
@@ -91,9 +84,27 @@ const orderService = {
         }
     },
 
+    getOrdersByUserID: async (userID) => {
+        try {
+            const orders = await orderRepository.getOrdersByUserID(userID);
+            return orders;
+        } catch (error) {
+            throw new Error(`Error getting orders for user: ${error.message}`);
+        }
+    },
+
     getPreviousOrderAddress: async (userID) => {
         try {
-            await orderRepository.getPreviousOrderAddress(userID);
+            const order = await orderRepository.getPreviousOrderAddress(userID);
+            return order;
+        } catch (error) {
+            throw new Error(`Error getting the previous order address: ${error.message}`);
+        }
+    },
+    getOrderDetailByOrderID: async (orderID) => {
+        try {
+            const orderDetail = await orderRepository.getOrderDetailByOrderID(orderID);
+            return orderDetail;
         } catch (error) {
             throw new Error(`Error getting the previous order address: ${error.message}`);
         }

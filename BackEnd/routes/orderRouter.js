@@ -28,6 +28,7 @@ router.post('/applyVoucherToOrder', orderController.applyVoucherToOrder);
 // Lấy order trước đó của user
 router.get('/getPreviousOrderAddress/:userID', orderController.getPreviousOrderAddress);
 
+router.get('/getOrderDetailByOrderID/:orderID', orderController.getOrderDetailByOrderID);
 
 router.get('/searchOrderByUserName/:userName', orderController.searchOrderByUserName);
 

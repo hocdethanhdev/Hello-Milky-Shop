@@ -29,10 +29,6 @@ const orderRepository = {
         return orderDAO.checkoutOrder(orderID);
     },
 
-    getOrdersByUserID: (userID) => {
-        return orderDAO.getOrdersByUserID(userID);
-    },
-
     getApplicableVouchers: (userID, orderTotal, currentDate) => {
         return orderDAO.getApplicableVouchers(userID, orderTotal, currentDate);
     },
@@ -42,7 +38,13 @@ const orderRepository = {
     },
     getPreviousOrderAddress: (userID) => {
         return orderDAO.getPreviousOrderAddress(userID);
-    }
+    },
+    getOrderDetailByOrderID: (orderID) => {
+        return orderDAO.getOrderDetailByOrderID(orderID);
+    },
+    getOrdersByUserID: (userID) => {
+        return orderDAO.getOrdersByUserID(userID);
+    },
 
 };
 

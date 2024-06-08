@@ -277,7 +277,31 @@ const orderDAO = {
                 });
             });
         });
-    }
+    },
+    getOrderDetailByOrderID: (orderID) => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err) {
+                if (err) return reject(err);
+
+                const request = new mssql.Request();
+
+                request.input('orderID', mssql.Int, orderID);
+
+                const selectQuery = `
+                    SELECT o.*, od.*
+                    FROM Orders o
+                    JOIN OrderDetail od ON o.OrderID = od.OrderID
+                    WHERE o.OrderID = @orderID
+                `;
+
+                request.query(selectQuery, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result.recordset);
+                });
+            });
+        });
+    },
+
 
 }
 module.exports = orderDAO;
