@@ -18,7 +18,6 @@ UserName nvarchar(50) NULL,
 PhoneNumber varchar(15) NULL, 
 Email varchar(30) NULL, 
 Password varchar(100) NULL, 
-Address nvarchar(255) NULL, 
 Status bit default 1,
 RoleID int foreign key references Role(RoleID) default 3, 
 PRIMARY KEY (UserID));
@@ -45,7 +44,7 @@ CREATE TABLE Article (
 ArticleID int IDENTITY NOT NULL, 
 Title nvarchar(150) NOT NULL,
 HeaderImage varchar(50),
-Content nvarchar(3000) NOT NULL, 
+Content nvarchar(4000) NOT NULL, 
 PublishDate date default getdate() NOT NULL, 
 AuthorID varchar(8) foreign key references Users(UserID), 
 ArticleCategoryID int foreign key references ArticleCategory(ArticleCategoryID), 
@@ -92,15 +91,16 @@ CardType varchar(10)Null,
 PayDetail varchar(255) null,
 Amount int,
 PayTime Datetime default getdate() NOT NULL, 
+OrderID int foreign key references Orders(OrderID),
 PRIMARY KEY (PaymentID));
 
 CREATE TABLE Orders (
 OrderID int IDENTITY NOT NULL, 
 OrderDate date NULL, 
 TotalAmount int NULL, 
-Status bit, 
+Status bit,
+Address nvarchar(255) NULL, 
 UserID varchar(8) foreign key references Users(UserID), 
-PaymentID int foreign key references Payment(PaymentID), 
 PRIMARY KEY (OrderID));
 
 CREATE TABLE Voucher (
@@ -250,25 +250,21 @@ AS
 		WHERE p.ProductID = i.ProductID;
 	END
 
-go
-create trigger trg_Quantity_In_Stock 
-ON Orders
-after update
-as
-	DECLARE @PaymentID int
-	DECLARE @OrderID int
+CREATE TRIGGER trg_Quantity_In_Stock 
+ON Payment
+AFTER UPDATE
+AS
+BEGIN
+    DECLARE @OrderID int;
 
-	SELECT @PaymentID = PaymentID
-	FROM Orders
-	WHERE OrderID = @OrderID
+    -- Retrieve OrderID from the inserted table
+    SELECT @OrderID = i.OrderID
+    FROM inserted i;
 
-	SELECT @OrderID = OrderID
-	FROM inserted
-
-	UPDATE Product 
-	SET StockQuantity = (StockQuantity - Quantity)
-	FROM OrderDetail od
-	JOIN Orders o ON o.OrderID = od.OrderID
-	JOIN Product p on od.ProductID = p.ProductID
-	WHERE od.OrderID = @OrderID
-
+    -- Update the Product table to reflect the new stock quantity
+    UPDATE p
+    SET p.StockQuantity = p.StockQuantity - od.Quantity
+    FROM Product p
+    JOIN OrderDetail od ON p.ProductID = od.ProductID
+    WHERE od.OrderID = @OrderID;
+END;

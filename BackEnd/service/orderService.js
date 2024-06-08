@@ -5,6 +5,15 @@ const orderService = {
         return await orderRepository.getAllOrders();
     },
 
+    searchOrderByUserName: async (userName) => {
+        try {
+            const orders = await orderRepository.searchOrderByUserName(userName);
+            return orders;
+        } catch (error) {
+            throw new Error(`Error searching orders by user name: ${error.message}`);
+        }
+    },
+
     createOrder: async (userID) => {
         try {
             const orderID = await orderRepository.createOrder(userID);
@@ -39,13 +48,13 @@ const orderService = {
         }
     },
 
-    checkoutOrder: async (userID, paymentID) => {
+    checkoutOrder: async (userID) => {
         try {
             let openOrder = await orderRepository.getOpenOrderForUser(userID);
             if (!openOrder) {
                 throw new Error('No open order to checkout');
             }
-            await orderRepository.checkoutOrder(openOrder.OrderID, paymentID);
+            await orderRepository.checkoutOrder(openOrder.OrderID);
         } catch (error) {
             throw new Error(`Error checking out order: ${error.message}`);
         }
@@ -80,7 +89,16 @@ const orderService = {
         } catch (error) {
             throw new Error(`Error applying voucher to order: ${error.message}`);
         }
+    },
+
+    getPreviousOrderAddress: async (userID) => {
+        try {
+            await orderRepository.getPreviousOrderAddress(userID);
+        } catch (error) {
+            throw new Error(`Error getting the previous order address: ${error.message}`);
+        }
     }
+
 };
 
 module.exports = orderService;
