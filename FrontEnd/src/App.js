@@ -49,13 +49,10 @@ import StaffScreen from "./managers/staff/StaffScreen";
 import Signup2 from "./users/component/Signup2";
 import LoginSuccess from "./users/component/LoginSuccess";
 import { useSelector } from "react-redux";
-<<<<<<< HEAD
+
 import ProductScreen from "./users/ui-product-mom/ProductScreen";
-
-
-=======
 import ResetPassword from './users/component/ResetPassword';
->>>>>>> f076ed038fee5041e1a6371642c6de8351c483c9
+
 
 function App() {
   const { role } = useSelector((state) => state.auth);
