@@ -58,15 +58,6 @@ const checkoutOrder = async (req, res) => {
     }
 };
 
-const getOrdersByUserID = async (req, res) => {
-    try {
-        const userID = req.params.userID;
-        const orders = await orderService.getOrdersByUserID(userID);
-        res.status(200).json(orders);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
 const getApplicableVouchers = async (req, res) => {
     try {
         const { userID, orderID } = req.params;
@@ -87,10 +78,29 @@ const applyVoucherToOrder = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const getOrdersByUserID = async (req, res) => {
+    try {
+        const userID = req.params.userID;
+        const orders = await orderService.getOrdersByUserID(userID);
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 const getPreviousOrderAddress = async (req, res) => {
     try {
-        const { userID } = req.params;
+        const userID = req.params.userID;
         const address = await orderService.getPreviousOrderAddress(userID);
+        res.status(200).json({ address });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const getOrderDetailByOrderID = async (req, res) => {
+    try {
+        const orderID = req.params.orderID;
+        const address = await orderService.getOrderDetailByOrderID(orderID);
         res.status(200).json({ address });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -107,5 +117,6 @@ module.exports = {
     getApplicableVouchers,
     applyVoucherToOrder,
     getPreviousOrderAddress,
-    searchOrderByUserName
+    searchOrderByUserName,
+    getOrderDetailByOrderID
 };
