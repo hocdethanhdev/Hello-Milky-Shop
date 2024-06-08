@@ -176,7 +176,7 @@ GET http://localhost:5000/api/v1/promotion/getAllPromotions
 
 
 ###
-GET http://localhost:5000/api/v1/promotion/searchPromotionByName?name=Summer
+GET http://localhost:5000/api/v1/promotion/searchPromotionByName?name=Summer      
 
 ###
 POST http://localhost:5000/api/v1/promotion/addPromotion

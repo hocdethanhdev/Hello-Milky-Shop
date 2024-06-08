@@ -115,7 +115,7 @@ const OTP = () => {
                 htmlFor=""
                 className="font-bold text-2xl text-black text-center"
               >
-                Xác nhận số điện thoại của bạn
+                Nhập số điện thoại của bạn
               </label>
               <PhoneInput country={"vn"} value={ph} onChange={setPh} />
               <button
