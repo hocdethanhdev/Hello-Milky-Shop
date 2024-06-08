@@ -83,6 +83,15 @@ ProductID varchar(6) foreign key references Product(ProductID),
 UserID varchar(8) foreign key references Users(UserID), 
 PRIMARY KEY (CommentID));
 
+CREATE TABLE Orders (
+OrderID int IDENTITY NOT NULL, 
+OrderDate date NULL, 
+TotalAmount int NULL, 
+Status bit,
+Address nvarchar(255) NULL, 
+UserID varchar(8) foreign key references Users(UserID), 
+PRIMARY KEY (OrderID));
+
 CREATE TABLE Payment (
 PaymentID int IDENTITY NOT NULL, 
 PayMethod varchar(50) NOT NULL, 
@@ -93,15 +102,6 @@ Amount int,
 PayTime Datetime default getdate() NOT NULL, 
 OrderID int foreign key references Orders(OrderID),
 PRIMARY KEY (PaymentID));
-
-CREATE TABLE Orders (
-OrderID int IDENTITY NOT NULL, 
-OrderDate date NULL, 
-TotalAmount int NULL, 
-Status bit,
-Address nvarchar(255) NULL, 
-UserID varchar(8) foreign key references Users(UserID), 
-PRIMARY KEY (OrderID));
 
 CREATE TABLE Voucher (
 VoucherID int IDENTITY NOT NULL, 
@@ -250,6 +250,7 @@ AS
 		WHERE p.ProductID = i.ProductID;
 	END
 
+go
 CREATE TRIGGER trg_Quantity_In_Stock 
 ON Payment
 AFTER UPDATE
@@ -257,22 +258,6 @@ AS
 BEGIN
     DECLARE @OrderID int;
 
-<<<<<<< HEAD
-	SELECT @PaymentID = PaymentID
-	FROM Orders
-	WHERE OrderID = @OrderID
-
-	SELECT @OrderID = OrderID
-	FROM inserted
-
-	UPDATE Product 
-	SET StockQuantity = (StockQuantity - Quantity)
-	FROM OrderDetail od
-	JOIN Orders o ON o.OrderID = od.OrderID
-	JOIN Product p on od.ProductID = p.ProductID
-	WHERE od.OrderID = @OrderID
-go
-=======
     -- Retrieve OrderID from the inserted table
     SELECT @OrderID = i.OrderID
     FROM inserted i;
@@ -284,4 +269,4 @@ go
     JOIN OrderDetail od ON p.ProductID = od.ProductID
     WHERE od.OrderID = @OrderID;
 END;
->>>>>>> f22bda0f9f1bb2fbe7c9bf46e2f6f5949c4123da
+
