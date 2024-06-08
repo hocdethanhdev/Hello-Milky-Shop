@@ -2,8 +2,8 @@ const productRepository = require("../repository/productRepository");
 
 const productService = {
 
-  getTop6ProductByBrand: async (brand) => {
-    return await productRepository.getTop6ProductByBrand(brand);
+  getTop6ProductByBrand: async (id) => {
+    return await productRepository.getTop6ProductByBrand(id);
   },
 
   getProductInforID: async (id) => {

@@ -2,7 +2,7 @@ const productService = require("../service/productService");
 
 const getTop6ProductByBrand = async (req, res) => {
   try {
-    const obj = await productService.getTop6ProductByBrand(req.params.brand);
+    const obj = await productService.getTop6ProductByBrand(req.params.id);
     res.status(200).json(obj)
   } catch (error) {
     res.status(500).send("Internal Server Error");
