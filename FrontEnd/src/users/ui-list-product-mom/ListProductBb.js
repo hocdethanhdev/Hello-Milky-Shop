@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ListProductMom.css';
 import SliderMoney from './SliderMoney';
 import ThrowPage from './ThrowPage';
@@ -13,9 +14,10 @@ const ListProductBb = () => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [brands, setBrands] = useState([]);
     const [selectedBrand, setSelectedBrand] = useState("");
-    const [priceRange, setPriceRange] = useState([0, 1000000]);
+    const [priceRange, setPriceRange] = useState([0, 5000000]);
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 12;
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchProducts();
@@ -128,6 +130,10 @@ const ListProductBb = () => {
         setCurrentPage(page);
     };
 
+    const handleProductClick = (productId) => {
+        navigate(`/product/${productId}`);
+    };
+
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -178,22 +184,21 @@ const ListProductBb = () => {
                         <div className="clear"></div>
                         <div className="list_item_cate">
                             {currentProducts.map((product, index) => (
-                                <div className="product" key={index}>
+                                <div className="product" key={index} onClick={() => handleProductClick(product.ProductID)}>
                                     <div className="product_child">
                                         <div className="pro_img">
-                                            <a href={product.link} target="_blank" rel="noopener noreferrer" title={product.ProductName}>
+                                            <a href="#" title={product.ProductName}>
                                                 <img src={product.Image} alt={product.ProductName} />
                                             </a>
                                         </div>
                                         <h3 className="name_pro">
-                                            <a href={product.link} target="_blank" rel="noopener noreferrer" title={product.ProductName}>
+                                            <a href="#" title={product.ProductName}>
                                                 {product.ProductName}
                                             </a>
                                         </h3>
                                         <div className="product_price">
                                             <span className="price_item">{formatPrice(product.PriceAfterDiscounts)}₫</span>
                                             {product.Price !== product.PriceAfterDiscounts && <span className="old_price">{formatPrice(product.Price)}₫</span>}
-
                                         </div>
                                         {product.Price !== product.PriceAfterDiscounts && <span className="discount">-{formatPrice((product.Price - product.PriceAfterDiscounts) / 1000)}K</span>}
                                     </div>

@@ -4,17 +4,21 @@ const Product = require("../bo/product");
 
 const productDAO = {
 
-  getTop6ProductByBrand: (brand) => {
+  getTop6ProductByBrand: (id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request().input("brand", mssql.VarChar, brand);
+        const request = new mssql.Request().input("id", mssql.VarChar, id);
         request.query(
           `SELECT TOP 6 p.ProductID, ProductName, Price, Image, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts
           FROM Product p
           JOIN Brand b ON p.BrandID = b.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
-          WHERE BrandName = @brand AND StockQuantity > 0 AND Status =1
-          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price;
+          WHERE BrandName = 
+          (Select BrandName 
+          FROM Product p 
+          JOIN Brand b ON b.BrandID = p.BrandID WHERE ProductID = 'SE0001') 
+          AND StockQuantity > 0 AND Status =1
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price;;
         ;`,
           (err, res) => {
             if (err) reject(err);
@@ -265,7 +269,7 @@ const productDAO = {
           From Product p
           JOIN Brand b ON b.BrandID = p.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
-          WHERE ProductName LIKE @Name AND StockQuantity > 0 AND Status =1
+          WHERE ProductName COLLATE SQL_Latin1_General_CP1_CI_AS LIKE @Name AND StockQuantity > 0 AND Status =1
           GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName
           `,
           (err, res) => {
