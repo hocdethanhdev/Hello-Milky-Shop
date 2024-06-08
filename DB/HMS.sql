@@ -271,4 +271,4 @@ as
 	JOIN Orders o ON o.OrderID = od.OrderID
 	JOIN Product p on od.ProductID = p.ProductID
 	WHERE od.OrderID = @OrderID
-
+go
