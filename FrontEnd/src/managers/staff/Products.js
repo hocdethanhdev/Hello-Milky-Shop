@@ -3,8 +3,9 @@ import './Products.css';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
-import ThrowPage from '../../users/ui-list-product-mom/ThrowPage'; // Adjust the import path as necessary
-import ProductDetailModal from './ProductDetailModal'; // Adjust the import path as necessary
+import ThrowPage from '../../users/ui-list-product-mom/ThrowPage';
+import ProductDetailModal from './ProductDetailModal';
+import EditProductModal from './EditProductModal'; // Import EditProductModal
 
 const Products = () => {
     const [products, setProducts] = useState([]);
@@ -15,11 +16,13 @@ const Products = () => {
     const [statusFilter, setStatusFilter] = useState('All');
     const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
     const [showStatusDropdown, setShowStatusDropdown] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null); // New state for the modal
-    const productsPerPage = 10; // Show 10 products per page
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [selectedProductForEdit, setSelectedProductForEdit] = useState(null); // State for edit modal
+    const [successMessage, setSuccessMessage] = useState('');
+    const productsPerPage = 10;
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/v1/product/getInfoProductsDetail') // Replace with your actual API endpoint
+        fetch('http://localhost:5000/api/v1/product/getInfoProductsDetail')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -27,7 +30,6 @@ const Products = () => {
                 return response.json();
             })
             .then(data => {
-                console.log('Fetched data:', data); // Debugging statement
                 setProducts(data);
                 setFilteredProducts(data);
             })
@@ -37,17 +39,14 @@ const Products = () => {
     useEffect(() => {
         let updatedProducts = [...products];
 
-        // Apply category filter
         if (categoryFilter !== 'All') {
             updatedProducts = updatedProducts.filter(product => product.ProductCategoryName === categoryFilter);
         }
 
-        // Apply status filter
         if (statusFilter !== 'All') {
             updatedProducts = updatedProducts.filter(product => (product.Status ? 'Still in stock' : 'Out of stock') === statusFilter);
         }
 
-        // Apply sorting
         if (sortOrder === 'asc') {
             updatedProducts.sort((a, b) => a.ProductName.localeCompare(b.ProductName));
         } else {
@@ -105,9 +104,70 @@ const Products = () => {
 
     const handleCloseModal = () => {
         setSelectedProduct(null);
+        setSelectedProductForEdit(null);
     };
 
-    // Calculate the products to display on the current page
+    const handleDeleteClick = (productId) => {
+        const confirmDelete = window.confirm("Bạn có chắc muốn xóa sản phẩm này không?");
+        if (confirmDelete) {
+            fetch(`http://localhost:5000/api/v1/product/deleteProduct/${productId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.message !== 'Deleted') {
+                        setSuccessMessage('Lỗi khi xóa sản phẩm.');
+                    } else {
+                        setProducts(products.map(product =>
+                            product.ProductID === productId ? { ...product, Status: 0 } : product
+                        ));
+                        setSuccessMessage('Xóa sản phẩm thành công!');
+                    }
+                })
+                .catch(error => {
+                    setSuccessMessage('Lỗi khi xóa sản phẩm: ' + error.message);
+                });
+        }
+    };
+
+    const handleEditClick = (product) => {
+        setSelectedProductForEdit(product);
+    };
+
+    const handleSaveProduct = (updatedProduct) => {
+        fetch(`http://localhost:5000/api/v1/product/editProduct/${updatedProduct.ProductID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedProduct)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setProducts(products.map(product =>
+                    product.ProductID === updatedProduct.ProductID ? updatedProduct : product
+                ));
+                setSuccessMessage('Sản phẩm đã được cập nhật thành công!');
+                setSelectedProductForEdit(null);
+            })
+            .catch(error => {
+                setSuccessMessage('Lỗi khi cập nhật sản phẩm: ' + error.message);
+            });
+    };
+
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -123,8 +183,10 @@ const Products = () => {
                         </button>
                     </div>
                 </Link>
+                {successMessage && (
+                    <p className={`success-message ${successMessage.includes('Error') ? 'error' : 'success'}`}>{successMessage}</p>
+                )}
                 <div className="product-list">
-
                     <table>
                         <thead>
                             <tr>
@@ -146,9 +208,9 @@ const Products = () => {
                                     Status <FontAwesomeIcon icon={faFilter} onClick={toggleStatusDropdown} />
                                     {showStatusDropdown && (
                                         <ul className="dropdown-thinh-staff">
-                                            <li className="dropdown-li-thinh" data-value="All" onClick={handleStatusFilter}>All</li>
-                                            <li className="dropdown-li-thinh" data-value="Still in stock" onClick={handleStatusFilter}>Still in stock</li>
-                                            <li className="dropdown-li-thinh" data-value="Out of stock" onClick={handleStatusFilter}>Out of stock</li>
+                                            <li className="dropdown-li-thinh" data-value="All" onClick={handleStatusFilter}>Tất cả</li>
+                                            <li className="dropdown-li-thinh" data-value="Still in stock" onClick={handleStatusFilter}>Còn hàng</li>
+                                            <li className="dropdown-li-thinh" data-value="Out of stock" onClick={handleStatusFilter}>Hết hàng</li>
                                         </ul>
                                     )}
                                 </th>
@@ -156,19 +218,21 @@ const Products = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentProducts.map(product => (
-                                <tr key={product.ProductID}>
-                                    <td>{product.ProductID}</td>
-                                    <td>{product.ProductName}</td>
-                                    <td>{product.ProductCategoryName}</td>
-                                    <td>{product.Status ? 'Still in stock' : 'Out of stock'}</td>
-                                    <td>
-                                        <button className='button-product btn btn-warning'>Edit</button>
-                                        <button className='button-product btn btn-danger'>Delete</button>
-                                        <button className='button-product btn btn-info' onClick={() => handleDetailClick(product)}>Detail</button>
-                                    </td>
-                                </tr>
-                            ))}
+                            {currentProducts
+
+                                .map(product => (
+                                    <tr key={product.ProductID}>
+                                        <td>{product.ProductID}</td>
+                                        <td>{product.ProductName}</td>
+                                        <td>{product.ProductCategoryName}</td>
+                                        <td>{product.Status ? 'Còn hàng' : 'Hết hàng'}</td>
+                                        <td>
+                                            <button className='button-product btn btn-warning' onClick={() => handleEditClick(product)}>Edit</button>
+                                            <button className='button-product btn btn-danger' onClick={() => handleDeleteClick(product.ProductID)}>Delete</button>
+                                            <button className='button-product btn btn-info' onClick={() => handleDetailClick(product)}>Detail</button>
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>
@@ -183,6 +247,13 @@ const Products = () => {
             </div>
             {selectedProduct && (
                 <ProductDetailModal product={selectedProduct} onClose={handleCloseModal} />
+            )}
+            {selectedProductForEdit && (
+                <EditProductModal
+                    product={selectedProductForEdit}
+                    onClose={handleCloseModal}
+                    onSave={handleSaveProduct}
+                />
             )}
         </div>
     );

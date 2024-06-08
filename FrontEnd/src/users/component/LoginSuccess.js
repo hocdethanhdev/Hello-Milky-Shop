@@ -16,11 +16,11 @@ const LoginSuccess = () => {
 
   return (
     <div>
-  {isLoggedIn && (
-    (role === 2 && <Navigate to="/dashboard" replace />) || 
-    ((role === 0 || role === 3) && <Navigate to="/" replace />) 
-  )}
-</div>
+      {isLoggedIn && (
+        (role === 2 && <Navigate to="/dashboard" replace />) ||
+        ((role === 0 || role === 3) && <Navigate to="/" replace />)
+      )}
+    </div>
 
   );
 };

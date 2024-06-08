@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './ListProductMom.css';
 import SliderMoney from './SliderMoney';
 import ThrowPage from './ThrowPage';
@@ -13,7 +14,7 @@ const ListProductMom = () => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [brands, setBrands] = useState([]);
     const [selectedBrand, setSelectedBrand] = useState("");
-    const [priceRange, setPriceRange] = useState([0, 1000000]);
+    const [priceRange, setPriceRange] = useState([0, 5000000]);
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 12;
 
@@ -181,14 +182,14 @@ const ListProductMom = () => {
                                 <div className="product" key={index}>
                                     <div className="product_child">
                                         <div className="pro_img">
-                                            <a href={product.link} target="_blank" rel="noopener noreferrer" title={product.ProductName}>
+                                            <Link to={`/product/${product.ProductID}`} title={product.ProductName}>
                                                 <img src={product.Image} alt={product.ProductName} />
-                                            </a>
+                                            </Link>
                                         </div>
                                         <h3 className="name_pro">
-                                            <a href={product.link} target="_blank" rel="noopener noreferrer" title={product.ProductName}>
+                                            <Link to={`/product/${product.ProductID}`} title={product.ProductName}>
                                                 {product.ProductName}
-                                            </a>
+                                            </Link>
                                         </h3>
                                         <div className="product_price">
                                             <span className="price_item">{formatPrice(product.PriceAfterDiscounts)}₫</span>

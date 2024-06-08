@@ -18,6 +18,7 @@
     "draftjs-to-html": "^0.9.1",
     "express": "^4.19.2",
     "framer-motion": "^11.2.9",
+    "jwt-decode": "^4.0.0",
     "mdb-react-ui-kit": "^8.0.0",
     "purgecss": "^6.0.0",
     "rc-slider": "^10.6.2",
