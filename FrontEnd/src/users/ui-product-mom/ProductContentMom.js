@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
-import './ProductContentMom.css'; // Assuming you have a CSS file for styling
-import CartPopup from './CartPopup'; // Import the CartPopup component
+import './ProductContentMom.css';
+import CartPopup from './CartPopup';
 
-const ProductContentMom = () => {
+const formatPrice = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+};
+
+const calculateDiscount = (originalPrice, discountedPrice) => {
+    if (originalPrice === discountedPrice) {
+        return 0;
+    }
+    return originalPrice - discountedPrice;
+};
+
+const formatDiscount = (discount) => {
+    return `-${Math.round(discount / 1000)}K`;
+};
+
+const ProductContentMom = ({ product }) => {
     const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
 
     const openCartPopup = () => {
@@ -13,6 +28,12 @@ const ProductContentMom = () => {
         setIsCartPopupOpen(false);
     };
 
+    if (!product) {
+        return <div>Loading...</div>;
+    }
+
+    const discountAmount = calculateDiscount(product.Price, product.PriceAfterDiscounts);
+
     return (
         <section className="product_content width-common">
             <div className="wrap">
@@ -21,22 +42,25 @@ const ProductContentMom = () => {
                     <div className="img_detail">
                         <div id="java_zoom_"></div>
                         <div id="showImg">
-                            <div className="img_zoom" id="img_1" data-zoom-image="https://media.shoptretho.com.vn/upload/image/product/20230613/sua-ensure-uc-vi-vanilla-850g.jpg">
+                            <div className="img_zoom" id="img_1">
                                 <img
                                     id="zoom_03"
-                                    src="https://media.shoptretho.com.vn/upload/image/product/20230613/sua-ensure-uc-vi-vanilla-850g.jpg"
-                                    data-zoom-image="https://media.shoptretho.com.vn/upload/image/product/20230613/sua-ensure-uc-vi-vanilla-850g.jpg"
-                                    alt="Sữa Ensure Úc vị Vanilla 850g"
+                                    src={product.Image}
+                                    alt={product.ProductName}
                                 />
+                                {discountAmount > 0 && (
+                                    <div className="discount-badge-thinh">
+                                        {formatDiscount(discountAmount)}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
                     <div className="detail_right">
-                        <h1>Sữa Ensure Úc vị Vanilla 850g</h1>
+                        <h1>{product.ProductName}</h1>
                         <div className="pro_detail_brand">
-                            <p>Thương hiệu:</p>
-                            <a href="/thuong-hieu/ensure" className="name_brand">Ensure</a>
-                            <p>Mã SP: <span id="barcodeMain">TP-313</span></p>
+                            <p className='thuong-hieu-san-pham'>Thương hiệu: <span className='thuong-hieu-san-pham-api'>{product.BrandName}</span></p>
+                            <p>Mã SP: <span id="barcodeMain">{product.ProductID}</span></p>
                         </div>
                         <div className="pro_info">
                             <div className="box_info">
@@ -45,13 +69,16 @@ const ProductContentMom = () => {
                             <div id="divPrice" className="box_info box_price">
                                 <span className="box_info_txt right">Giá:</span>
                                 <span className="pro_price right">
-                                    <span className="price_show price_item">765.000đ</span>
+                                    <span className="price_show price_item">{formatPrice(product.PriceAfterDiscounts)}₫</span>
+                                    {product.Price !== product.PriceAfterDiscounts && (
+                                        <span className="old_price">{formatPrice(product.Price)}₫</span>
+                                    )}
                                 </span>
                                 <div className="clear"></div>
                             </div>
                             <div className="box_info box_status">
                                 <span className="box_info_txt left">Kho: </span>
-                                <span className="pro_status left">128</span>
+                                <span className="pro_status left">{product.StockQuantity}</span>
                                 <div className="clear"></div>
                             </div>
                         </div>
