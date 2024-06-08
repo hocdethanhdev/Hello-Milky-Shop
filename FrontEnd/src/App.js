@@ -49,6 +49,7 @@ import StaffScreen from "./managers/staff/StaffScreen";
 import Signup2 from "./users/component/Signup2";
 import LoginSuccess from "./users/component/LoginSuccess";
 import { useSelector } from "react-redux";
+import ResetPassword from './users/component/ResetPassword';
 
 function App() {
   const { role } = useSelector((state) => state.auth);
@@ -58,6 +59,7 @@ function App() {
          <Header />
         
         <Routes>
+          <Route path="/ResetPassword" element={<ResetPassword />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login-email/:email" element={<LoginEmail />} />
           <Route path="/LoginSuccess/:token" element={<LoginSuccess />} />
