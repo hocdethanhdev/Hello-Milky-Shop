@@ -12,7 +12,9 @@ router.put('/updatePromotion/:id', promotionController.updatePromotion);
 
 router.post('/applyPromotionToProduct', promotionController.applyPromotionToProduct);
 
-router.get('/getAllProductsApplyPromotion/:promotionID', promotionController.getAllProductsApplyPromotion);
+router.get('/getProductsApplyAnPromotion/:promotionID', promotionController.getProductsApplyAnPromotion);
+
+router.get('/getCurrentProductsHavingPromotion', promotionController.getCurrentProductsHavingPromotion);
 
 module.exports = router
 
