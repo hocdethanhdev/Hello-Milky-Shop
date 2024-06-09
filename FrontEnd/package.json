@@ -22,6 +22,7 @@
     "express": "^4.19.2",
     "firebase": "^10.12.2",
     "framer-motion": "^11.2.9",
+    "html2pdf": "^0.0.11",
     "html2pdf.js": "^0.10.1",
     "jwt-decode": "^4.0.0",
     "mdb-react-ui-kit": "^8.0.0",

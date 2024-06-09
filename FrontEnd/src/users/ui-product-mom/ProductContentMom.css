@@ -281,3 +281,28 @@
     font-weight: bolder;
     color: #0c93e4;
 }
+
+/* Existing CSS content */
+
+/* Quantity selector */
+.quantity-selector-thinh-cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.quantity-button-thinh-cart {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+}
+
+.quantity-input-thinh-cart {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    margin: 0 5px;
+}

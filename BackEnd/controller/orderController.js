@@ -35,15 +35,15 @@ const createOrder = async (req, res) => {
     }
 };
 
-    const addProductToOrder = async (req, res) => {
-        try {
-            const { userID, productID, quantity, price } = req.body;
-            await orderService.addProductToOrder(userID, productID, quantity, price);
-            res.status(200).json({ message: 'Product added to order' });
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    };
+const addProductToOrder = async (req, res) => {
+    try {
+        const { userID, productID, quantity, price } = req.body;
+        await orderService.addProductToOrder(userID, productID, quantity, price);
+        res.status(200).json({ message: 'Product added to order' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 const getOrder = async (req, res) => {
     try {
@@ -55,12 +55,12 @@ const getOrder = async (req, res) => {
     }
 };
 
-const checkoutOrder = async (req, res, next) => {
+const checkoutOrder = async (req, res) => {
     try {
         const { userID } = req.body;
         await orderService.checkoutOrder(userID);
         res.status(200).json({ message: 'Order checked out successfully' });
-        next();
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
