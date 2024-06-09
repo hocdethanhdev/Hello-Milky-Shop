@@ -53,6 +53,7 @@ import { useSelector } from "react-redux";
 import ProductScreen from "./users/ui-product-mom/ProductScreen";
 import ResetPassword from './users/component/ResetPassword';
 
+import RichTextEditor from "./users/component/RichTextEditor"; // Đảm bảo đường dẫn đúng
 
 function App() {
   const { role } = useSelector((state) => state.auth);
@@ -62,6 +63,7 @@ function App() {
         <Header />
 
         <Routes>
+          <Route path="/RichTextEditor" element={<RichTextEditor />} />
           <Route path="/ResetPassword" element={<ResetPassword />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login-email/:email" element={<LoginEmail />} />
@@ -79,8 +81,6 @@ function App() {
           {role === 2 && <Route path="/addingpost" element={<PostsAdd />} />}
           {role === 2 && <Route path="/addingpost" element={<PostsAdd />} />}
 
-
-          {/* <Route path="/Staff" element={<StaffScreen />} /> */}
           <Route path="/all-products/:keyword" element={<AllProductScreen />} />
           <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
           <Route path="/sua-cho-me" element={<ListProductMomScreen />} />

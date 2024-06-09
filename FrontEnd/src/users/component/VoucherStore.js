@@ -1,62 +1,102 @@
+// VoucherStore.js
 
-    // { discount: "Voucher 50%", maxDiscount: "150k", minDiscount: "50k", validUntil: "15-04-2021" },
-    // { discount: "Voucher 30%", maxDiscount: "100k", minDiscount: "40k", validUntil: "30-09-2024" },
-    // { discount: "Voucher 20%", maxDiscount: "50k", minDiscount: "20k", validUntil: "31-12-2024" },
-    // { discount: "Voucher 25%", maxDiscount: "75k", minDiscount: "30k", validUntil: "01-01-2024" },
-    // { discount: "Voucher 40%", maxDiscount: "120k", minDiscount: "50k", validUntil: "15-05-2024" },
-    // { discount: "Voucher 35%", maxDiscount: "110k", minDiscount: "45k", validUntil: "20-06-2024" },
-    // { discount: "Voucher 45%", maxDiscount: "140k", minDiscount: "60k", validUntil: "10-07-2024" },
-    // { discount: "Voucher 55%", maxDiscount: "160k", minDiscount: "70k", validUntil: "25-08-2024" },
-    // { discount: "Voucher 60%", maxDiscount: "170k", minDiscount: "80k", validUntil: "30-09-2024" },
-    // { discount: "Voucher 70%", maxDiscount: "200k", minDiscount: "90k", validUntil: "31-10-2024" },
-    import React, { useState, useEffect } from "react";
-    import "./VoucherStore.css";
-    import Menu from "./Menu";
-    
-    function VoucherStore() {
-      const [vouchers, setVouchers] = useState([]);
-    
-      useEffect(() => {
-        // Simulate an API call to fetch vouchers
-        const fetchVouchers = async () => {
-          const response = await fetch('/api/vouchers'); // Replace with your API endpoint
-          const data = await response.json();
-          setVouchers(data);
-        };
-    
-        fetchVouchers();
-      }, []);
-    
-      return (
-        <div className="voucher-store-container-tri">
-          <div className="menu-col-tri">
-            <Menu />
-          </div>
-          <div className="vouchers-col-tri">
-            <div className="voucher-store">
-              
-              <div className="voucher-list-tri">
-                {vouchers.map((voucher, index) => (
-                  <div className="voucher-wrapper-tri" key={index}>
-                    <div className="voucher-item-tri">
-                      <div className="voucher-discount-tri">{voucher.discount}</div>
-                      <div className="voucher-details-tri">
-                        <div className="voucher-info-tri">
-                          <p>Giảm tối đa: {voucher.maxDiscount}</p>
-                          <p>Đơn tối thiểu: {voucher.minDiscount}</p>
-                          <p>Ngày hết hạn: {voucher.validUntil}</p>
-                        </div>
-                      </div>
-                      <button className="redeem-button-tri">Lưu</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import NavCate from '../ui-product-mom/NavCate';
+import './VoucherStore.css';
+
+function VoucherItem({ voucher, onSave }) {
+  const handleSave = async () => {
+    try {
+      await onSave(voucher.VoucherID);
+    } catch (error) {
+      console.error("Error saving voucher:", error);
     }
-    
-    export default VoucherStore;
-    
+  };
+
+  return (
+    <div className="voucher-item">
+      <p>Voucher ID: {voucher.VoucherID}</p>
+      <p>Discount Percentage: {voucher.DiscountPercentage}%</p>
+      <button onClick={handleSave}>Lưu</button>
+    </div>
+  );
+}
+
+function SavedVouchers({ savedVouchers }) {
+  return (
+    <div className="saved-vouchers-container">
+      <h2 className="saved-vouchers-header">Danh sách các voucher đã lưu</h2>
+      {savedVouchers.length > 0 ? (
+        <ul className="saved-vouchers-list">
+          {savedVouchers.map((savedVoucher) => (
+            <li key={savedVoucher.UserVoucherID} className="saved-voucher-item">
+              <p className="saved-voucher-info">
+                <span className="voucher-info-label">Voucher ID:</span> {savedVoucher.VoucherID}
+              </p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Không có voucher nào được lưu.</p>
+      )}
+    </div>
+  );
+}
+
+
+function VoucherStore() {
+  const [vouchers, setVouchers] = useState([]);
+  const [savedVouchers, setSavedVouchers] = useState([]);
+
+  useEffect(() => {
+    const fetchVouchers = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/v1/voucher/getAllVouchers");
+        setVouchers(response.data);
+      } catch (error) {
+        console.error("Error fetching vouchers:", error);
+      }
+    };
+
+    fetchVouchers();
+  }, []);
+
+  const saveVoucher = async (voucherID) => {
+    try {
+      await axios.post("http://localhost:5000/api/v1/voucher/saveVoucherForUser", {
+        userID: "M0000001", 
+        voucherID: voucherID,
+      });
+      fetchSavedVouchers();
+    } catch (error) {
+      console.error("Error saving voucher:", error);
+    }
+  };
+
+  const fetchSavedVouchers = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/v1/voucher/getVouchersByUserID/M0000001");
+      setSavedVouchers(response.data);
+    } catch (error) {
+      console.error("Error fetching saved vouchers:", error);
+    }
+  };
+
+  return (
+    <div>
+      
+      
+      <div className="voucher-store-container">
+        {vouchers.map((voucher) => (
+          <VoucherItem key={voucher.VoucherID} voucher={voucher} onSave={saveVoucher} />
+        ))}
+      </div>
+      <div className="voucher-store-saved">
+        <SavedVouchers savedVouchers={savedVouchers} />
+      </div>
+    </div>
+  );
+}
+
+export default VoucherStore;
