@@ -15,7 +15,9 @@ router.post('/addProductToOrder', orderController.addProductToOrder);
 router.get('/getOrder/:orderID', orderController.getOrder);
 
 // Thanh toán đơn hàng hiện tại của user
-router.post('/checkoutOrder', orderController.checkoutOrder);
+router.post('/checkoutOrder', orderController.checkoutOrder, (req, res) => {
+    res.redirect(`${process.env.CLIENT_URL}/`)
+});
 
 // Lấy tất cả các đơn hàng của một user theo userID
 router.get('/getOrdersByUserID/:userID', orderController.getOrdersByUserID);
@@ -39,8 +41,6 @@ router.post('/changeQuantityOfProductInOrder', orderController.changeQuantityOfP
 // Cập nhật trạng thái đơn hàng
 router.post('/updateStatusOrderID/:OrderID', orderController.updateStatusOrderID);
 
-router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser, (req, res) => {
-    res.redirect(`${process.env.CLIENT_URL}/`)
-});  
+router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser);  
 
 module.exports = router
