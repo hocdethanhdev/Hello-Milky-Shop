@@ -1,8 +1,8 @@
 const orderService = require('../service/orderService');
 
-const getOpenOrderForUser = (req, res) => {
+const getOpenOrderForUser = (req, res, next) => {
     orderService.getOpenOrderForUser(req.params.id)
-        .then(result => res.status(201).json(result))
+        .then(result => { res.status(201).json(result); next() })
         .catch(err => res.status(500).json({ message: err.message })
         );
 }

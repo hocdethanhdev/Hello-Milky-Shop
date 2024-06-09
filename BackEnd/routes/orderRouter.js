@@ -1,4 +1,5 @@
 const router = require('express').Router();
+require('dotenv').config();
 
 const orderController = require("../controller/orderController");
 
@@ -38,6 +39,8 @@ router.post('/changeQuantityOfProductInOrder', orderController.changeQuantityOfP
 // Cập nhật trạng thái đơn hàng
 router.post('/updateStatusOrderID/:OrderID', orderController.updateStatusOrderID);
 
-router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser);  
+router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser, (req, res) => {
+    res.redirect(`${process.env.CLIENT_URL}/`)
+});  
 
 module.exports = router
