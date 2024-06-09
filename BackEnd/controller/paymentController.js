@@ -77,7 +77,7 @@ const createVNPayPayment = async (req, res) => {
   res.json({url: vnpUrl});
 };
 
-const vnpayReturn = async (req, res) => {
+const vnpayReturn = async (req, res, next) => {
   let vnp_Params = req.query;
 
   let secureHash = vnp_Params['vnp_SecureHash'];
@@ -102,7 +102,8 @@ const vnpayReturn = async (req, res) => {
       const order = await paymentService.getOrderByID(vnp_Params['vnp_TxnRef']);
 
       if (order.message === "false") {
-        return res.status(404).json({ message: 'Order not found', status: 0, code: '01' });
+         req.result = ({ message: 'Order not found', status: 0, code: '01' });
+         next();
       }
 
       const paymentStatus = vnp_Params['vnp_ResponseCode'] === '00' ? 1 : 0;
@@ -112,24 +113,27 @@ const vnpayReturn = async (req, res) => {
         let PayTime = moment(date).format('YYYY-MM-DD HH:mm:ss').toString();
         const pay = paymentService.createPayment(PayMethod, vnp_Params['vnp_TransactionNo'], vnp_Params['vnp_CardType'], vnp_Params['vnp_OrderInfo'], vnp_Params['vnp_Amount'] / 100, PayTime, vnp_Params['vnp_TxnRef']);
       }
-      res.status(200).json({
+      
+      req.result = ({
         orderID: vnp_Params['vnp_TxnRef'],
         status: paymentStatus,
         code: vnp_Params['vnp_ResponseCode']
       });
-      
+      next();
     } catch (err) {
       console.error(err);
-      res.status(500).json({
+      req.result = ({
         message: 'Internal Server Error',
         code: '99'
       });
+      next();
     }
   } else {
-    res.status(500).send({
+    req.result = ({
       message: 'Invalid signature',
       code: '97'
     });
+    next();
   }
 };
 
