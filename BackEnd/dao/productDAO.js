@@ -3,22 +3,27 @@ const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
 
 const productDAO = {
-
   getTop6ProductByBrand: (id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("id", mssql.VarChar, id);
         request.query(
-          `SELECT TOP 6 p.ProductID, ProductName, Price, Image, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts
+          `SELECT TOP 6 p.ProductID, ProductName, Price, Image, COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts
           FROM Product p
           JOIN Brand b ON p.BrandID = b.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+		      LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
           WHERE BrandName = 
           (Select BrandName 
           FROM Product p 
-          JOIN Brand b ON b.BrandID = p.BrandID WHERE ProductID = @id) 
-          AND StockQuantity > 0 AND Status =1 AND p.ProductID != @id
-          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price;`,
+          JOIN Brand b ON b.BrandID = p.BrandID WHERE ProductID = 'SM0001') 
+          AND StockQuantity > 0 AND Status =1 AND p.ProductID != 'SM0001'
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price;
+`,
           (err, res) => {
             if (err) reject(err);
             const brand = res.recordset;
@@ -34,18 +39,22 @@ const productDAO = {
     });
   },
 
-
   getProductInforID: (id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("id", mssql.VarChar, id);
         request.query(
-          `Select p.ProductID, ProductName, BrandName, StockQuantity, Price, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts, Description, Image
+          `Select p.ProductID, ProductName, BrandName, StockQuantity, Price, COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts, p.Description, Image
           From Product p 
           JOIN Brand b ON p.BrandId = b.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+          LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
           WHERE p.ProductID = @id AND StockQuantity > 0 AND Status =1
-          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName, StockQuantity, Description;
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName, StockQuantity, p.Description;
         ;`,
           (err, res) => {
             if (err) reject(err);
@@ -93,10 +102,15 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("pc", mssql.Int, pc);
         request.query(
-          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts
+          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts
           From Product p
           JOIN Brand b ON b.BrandID = p.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+          LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
           WHERE p.ProductCategoryID = @pc AND StockQuantity > 0 AND Status =1
           GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName;
           `,
@@ -264,10 +278,15 @@ const productDAO = {
           `%${name}%`
         );
         request.query(
-          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(ppl.PriceAfterDiscount), p.Price) AS PriceAfterDiscounts
+          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts
           From Product p
           JOIN Brand b ON b.BrandID = p.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+          LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
           WHERE ProductName COLLATE SQL_Latin1_General_CP1_CI_AS LIKE @Name AND StockQuantity > 0 AND Status =1
           GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName
           `,
@@ -453,14 +472,19 @@ const productDAO = {
         const request = new mssql.Request();
         request.query(
           `SELECT TOP 5 p.ProductID, p.ProductName, p.Price,
-        COALESCE(ppl.PriceAfterDiscount, p.Price) AS FinalPrice
-    FROM
-        Product p
+        COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts
+    FROM Product p
         LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+        LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
         JOIN Brand b ON p.BrandID = b.BrandID
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
+		GROUP BY p.ProductID, p.ProductName, p.Price
     ORDER BY
-        COALESCE(ppl.PriceAfterDiscount, p.Price) ASC;
+        PriceAfterDiscounts ASC;
       ;`,
           (err, res) => {
             if (err) {
