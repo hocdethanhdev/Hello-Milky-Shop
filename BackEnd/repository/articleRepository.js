@@ -1,8 +1,6 @@
 
 const articleDAO = require("../dao/articleDAO");
 
-
-
 const articleRepository = {
   getArticlesByID: async (ID) => {
     return await articleDAO.findArticlesByID(ID);
