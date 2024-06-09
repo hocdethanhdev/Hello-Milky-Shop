@@ -2,6 +2,10 @@ const { getOrderDetailByOrderID } = require('../dao/orderDAO');
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
+    getOpenOrderForUser: async (id) => {
+        return await orderRepository.getOpenOrderForUser(id);
+    },
+
     getAllOrders: async (req, res) => {
         return await orderRepository.getAllOrders();
     },

@@ -1,5 +1,6 @@
 
-
+### get order chua thanh toan cua user
+GET http://localhost:5000/api/v1/order/getOpenOrderForUser/M0000001
 ### top 6 product by brand
 GET http://localhost:5000/api/v1/product/getTop6ProductByBrand/SE0001
 
@@ -111,7 +112,7 @@ POST  http://localhost:5000/api/v1/payment/create_payment_url
 Content-Type: application/json
 
 {
-    "orderID": 2,
+    "orderID": 14,
     "amount": 100000,
     "language": "vn"
 }

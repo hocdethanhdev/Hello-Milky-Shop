@@ -38,6 +38,6 @@ router.post('/changeQuantityOfProductInOrder', orderController.changeQuantityOfP
 // Cập nhật trạng thái đơn hàng
 router.post('/updateStatusOrderID/:OrderID', orderController.updateStatusOrderID);
 
-
+router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser);  
 
 module.exports = router
