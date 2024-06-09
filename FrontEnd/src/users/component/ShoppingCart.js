@@ -35,7 +35,7 @@ const ShoppingCart = () => {
               console.error('Error updating order status:', error);
               alert('Payment successful, but failed to update order status.');
             });
-
+          window.open("http://localhost:3000/", "_self");
         } else {
           console.error('orderID is not set');
         }
@@ -112,7 +112,7 @@ const ShoppingCart = () => {
         });
         console.log(response);
         if (response) {
-          window.open(response.data.url);
+          window.open(response.data.url, "_self");
         }
       } else {
         console.error('orderID is not set');
