@@ -2,7 +2,7 @@ const orderService = require('../service/orderService');
 
 const getOpenOrderForUser = (req, res, next) => {
     orderService.getOpenOrderForUser(req.params.id)
-        .then(result => { res.status(201).json(result); next() })
+        .then(result => res.status(201).json(result))
         .catch(err => res.status(500).json({ message: err.message })
         );
 }
@@ -55,11 +55,12 @@ const getOrder = async (req, res) => {
     }
 };
 
-const checkoutOrder = async (req, res) => {
+const checkoutOrder = async (req, res, next) => {
     try {
         const { userID } = req.body;
         await orderService.checkoutOrder(userID);
         res.status(200).json({ message: 'Order checked out successfully' });
+        next();
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
