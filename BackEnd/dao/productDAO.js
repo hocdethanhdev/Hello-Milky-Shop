@@ -16,10 +16,9 @@ const productDAO = {
           WHERE BrandName = 
           (Select BrandName 
           FROM Product p 
-          JOIN Brand b ON b.BrandID = p.BrandID WHERE ProductID = 'SE0001') 
-          AND StockQuantity > 0 AND Status =1
-          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price;;
-        ;`,
+          JOIN Brand b ON b.BrandID = p.BrandID WHERE ProductID = @id) 
+          AND StockQuantity > 0 AND Status =1 AND p.ProductID != @id
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price;`,
           (err, res) => {
             if (err) reject(err);
             const brand = res.recordset;
