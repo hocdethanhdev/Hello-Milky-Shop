@@ -1,21 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { getUserIdFromToken } from "../store/actions/authAction"; // Correctly import jwtDecode as a named import
+import { getUserIdFromToken } from "../store/actions/authAction";
 import './ShoppingCart.css';
-import { Link } from 'react-router-dom';
-
-
+import { Link, useLocation } from 'react-router-dom';
 
 const ShoppingCart = () => {
   const { token } = useSelector((state) => state.auth);
   const [orderDetails, setOrderDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const location = useLocation();
+  const [orderID, setOrderID] = useState(null); // Khai báo biến orderID
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const status = params.get('status');
+    const code = params.get('code');
+
+    if (status && code) {
+      console.log(`Payment status: ${status}, code: ${code}`);
+      // Xử lý trạng thái thanh toán nếu cần thiết
+      if (status === '1') {
+        alert('Payment successful!');
+        if (orderID) { // Kiểm tra orderID trước khi gọi API
+          axios.post(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`, {
+            statusOrderID: 1
+          })
+            .then(response => {
+              alert('Payment successful and order status updated!');
+              // Thực hiện các hành động khác nếu cần thiết
+            })
+            .catch(error => {
+              console.error('Error updating order status:', error);
+              alert('Payment successful, but failed to update order status.');
+            });
+        } else {
+          console.error('orderID is not set');
+        }
+      } else {
+        alert('Payment failed. Please try again.');
+      }
+    }
+  }, [location.search, orderID]); // Thêm orderID vào dependency array
 
   useEffect(() => {
     const fetchUserOrders = async () => {
-
       try {
         const userId = getUserIdFromToken(token);
 
@@ -27,7 +57,9 @@ const ShoppingCart = () => {
 
         if (orders.length === 0) throw new Error('No orders found for user');
 
-        const orderID = orders[0].OrderID;
+        const orderID = orders[0].OrderID; // Lấy orderID từ đơn hàng đầu tiên
+        setOrderID(orderID); // Đặt giá trị cho biến orderID
+
         console.log(`Fetching details for order ID: ${orderID}`);
         const orderDetailsResponse = await axios.get(`http://localhost:5000/api/v1/order/getOrder/${orderID}`);
         const orderDetails = orderDetailsResponse.data;
@@ -55,7 +87,7 @@ const ShoppingCart = () => {
     }
   }, [token]);
 
-  if (loading) return <div><h1>Thịnh bảo chưa mua đòi hàng cái gì</h1></div>;
+  if (loading) return <div><h1>Đang tải...</h1></div>;
   if (error) return <div>Error: {error}</div>;
 
   const calculateSubtotal = () => {
@@ -63,8 +95,29 @@ const ShoppingCart = () => {
   };
 
   const subtotal = calculateSubtotal();
-  const discount = -5000;
+  const discount = 0;
   const total = subtotal + discount;
+
+  const handleOrder = async () => {
+    try {
+      if (orderID) { // Kiểm tra orderID trước khi gọi API
+        const response = await axios.post('http://localhost:5000/api/v1/payment/create_payment_url', {
+          orderID: orderID,
+          amount: total,
+          language: "vn"
+        });
+        console.log(response);
+        if (response) {
+          window.open(response.data.url);
+        }
+      } else {
+        console.error('orderID is not set');
+      }
+    } catch (error) {
+      console.error('Error processing payment:', error);
+      setError(error.response ? error.response.data.message : error.message);
+    }
+  };
 
   return (
     <div className="checkout-container">
@@ -138,7 +191,7 @@ const ShoppingCart = () => {
             </div>
           </div>
           <textarea placeholder="Viết ghi chú, yêu cầu hóa đơn GTGT..."></textarea>
-          <button className="order-btn">ĐẶT HÀNG</button>
+          <button className="order-btn" onClick={handleOrder}>ĐẶT HÀNG</button>
         </div>
       </div>
     </div>

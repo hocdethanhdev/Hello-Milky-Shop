@@ -45,14 +45,14 @@ const articleDAO = {
 
   findAllArticles: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function(err, result) {
+      mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
           `SELECT *
           FROM Article
           ;`,
           (err, res) => {
-            if (err) reject (err);
+            if (err) reject(err);
 
             resolve(res.recordset);
           }
@@ -83,7 +83,7 @@ const articleDAO = {
     const ArticleID = '9';
     const article = new Article(ArticleID, articleObject.Title, articleObject.HeaderImage, articleObject.Content, articleObject.PublishDate, articleObject.AuthorID, articleObject.ArticleCategoryID);
     return new Promise((resolve, reject) => {
-      
+
       mssql.connect(dbConfig, function (err, result) {
         var request = new mssql.Request()
           .input("ArticleID", ArticleID)
@@ -93,7 +93,7 @@ const articleDAO = {
           .input("PublishDate", mssql.Date, article.PublishDate)
           .input("AuthorID", mssql.VarChar, article.AuthorID)
           .input("ArticleCategoryID", article.ArticleCategoryID);
-      
+
         request.query(
           `INSERT INTO Article (Title, HeaderImage, Content, PublishDate, AuthorID, ArticleCategoryID)
           VALUES (@Title, @HeaderImage, @Content, @PublishDate, @AuthorID, @ArticleCategoryID)
@@ -118,9 +118,9 @@ const articleDAO = {
           `DELETE FROM Article WHERE ArticleID = @ArticleID;`,
           (err, res) => {
             if (err) reject(err);
-           resolve({
-            message: "Delete successfully"
-          });
+            resolve({
+              message: "Delete successfully"
+            });
           }
         );
       });
@@ -128,30 +128,30 @@ const articleDAO = {
   },
 
 
-updateArticle: (param_id, articleObject) => {
-  return new Promise((resolve, reject) => {
-    mssql.connect(dbConfig, function (err, result) {
-      var request = new mssql.Request()
-      .input("ArticleID", param_id)
-      .input("Title", mssql.NVarChar, articleObject.Title)
-      .input("HeaderImage", mssql.VarChar, articleObject.HeaderImage)
-      .input("Content", mssql.NVarChar, articleObject.Content)
-      .input("PublishDate", mssql.Date, articleObject.PublishDate)
-      .input("AuthorID", mssql.VarChar, articleObject.AuthorID)
-      .input("ArticleCategoryID",  articleObject.ArticleCategoryID);
-      request.query(
-        `UPDATE Article SET Title =  @Title, HeaderImage = @HeaderImage, Content = @Content, PublishDate = @PublishDate, AuthorID = @AuthorID, ArticleCategoryID = @ArticleCategoryID WHERE ArticleID = @ArticleID
+  updateArticle: (param_id, articleObject) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        var request = new mssql.Request()
+          .input("ArticleID", param_id)
+          .input("Title", mssql.NVarChar, articleObject.Title)
+          .input("HeaderImage", mssql.VarChar, articleObject.HeaderImage)
+          .input("Content", mssql.NVarChar, articleObject.Content)
+          .input("PublishDate", mssql.Date, articleObject.PublishDate)
+          .input("AuthorID", mssql.VarChar, articleObject.AuthorID)
+          .input("ArticleCategoryID", articleObject.ArticleCategoryID);
+        request.query(
+          `UPDATE Article SET Title =  @Title, HeaderImage = @HeaderImage, Content = @Content, PublishDate = @PublishDate, AuthorID = @AuthorID, ArticleCategoryID = @ArticleCategoryID WHERE ArticleID = @ArticleID
         ;`,
-        (err, res) => {
-          if (err) reject(err);
-          resolve({
-            message: "Edit successfully"
-        });
-        }
-    );
-  });
-});
+          (err, res) => {
+            if (err) reject(err);
+            resolve({
+              message: "Edit successfully"
+            });
+          }
+        );
+      });
+    });
 
-},
+  },
 }
 module.exports = articleDAO;

@@ -3,14 +3,21 @@ import './ProductContentMom.css';
 import CartPopup from './CartPopup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { useSelector } from "react-redux";
+import { getUserIdFromToken } from "../store/actions/authAction";
 const formatPrice = (price) => `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 
 const calculateDiscount = (originalPrice, discountedPrice) => originalPrice === discountedPrice ? 0 : originalPrice - discountedPrice;
 
+
+
 const formatDiscount = (discount) => `-${Math.round(discount / 1000)}K`;
 
+
+
 const ProductContentMom = ({ product }) => {
+    const { token } = useSelector((state) => state.auth);
+    const userId = getUserIdFromToken(token);
     const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const navigate = useNavigate();
@@ -26,7 +33,7 @@ const ProductContentMom = ({ product }) => {
     const handleAddToCart = async () => {
         try {
             await axios.post('http://localhost:5000/api/v1/order/addProductToOrder', {
-                userID: "M0000001",
+                userID: userId,
                 productID: product.ProductID,
                 quantity: quantity,
                 price: product.PriceAfterDiscounts
@@ -40,7 +47,7 @@ const ProductContentMom = ({ product }) => {
     const handleBuyNow = async () => {
         try {
             await axios.post('http://localhost:5000/api/v1/order/addProductToOrder', {
-                userID: "M0000001",
+                userID: userId,
                 productID: product.ProductID,
                 quantity: quantity,
                 price: product.PriceAfterDiscounts
