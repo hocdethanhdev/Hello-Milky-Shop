@@ -3,6 +3,23 @@ const dbConfig = require("../config/db.config");
 const Promotion = require("../bo/promotion");
 
 const promotionDAO = {
+    getPormotionByDate: () => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err, result) {
+                const request = new mssql.Request();
+                request.query(`
+                    SELECT * FROM Promotion 
+                    WHERE StartDate <= GETDATE() AND EndDate >= GETDATE()
+                    ;`,
+                    (err, res) => {
+                        if (err) reject(err);
+
+                        resolve(res.recordset);
+                    });
+            });
+        });
+    },
+
     getAllPromotions: () => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err, result) {

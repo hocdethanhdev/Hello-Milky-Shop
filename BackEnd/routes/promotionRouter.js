@@ -14,6 +14,8 @@ router.post('/applyPromotionToProduct', promotionController.applyPromotionToProd
 
 router.get('/getAllProductsApplyPromotion/:promotionID', promotionController.getAllProductsApplyPromotion);
 
+router.get('/getPormotionByDate', promotionController.getPormotionByDate)
+
 module.exports = router
 
 
