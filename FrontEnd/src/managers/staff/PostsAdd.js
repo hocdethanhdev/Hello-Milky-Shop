@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TextEditor from './TextEditor';
+import RichTextEditor from '../../users/component/RichTextEditor';
 import './Posts.css';
 
 function PostsAdd() {
@@ -47,7 +47,7 @@ function PostsAdd() {
                         <label htmlFor="content">Content</label>
 
                         <div className="editor">
-                            <TextEditor onChange={handleContentChange} />
+                            <RichTextEditor/>
                         </div>
 
                     </div>

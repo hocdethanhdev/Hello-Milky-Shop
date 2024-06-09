@@ -1,0 +1,117 @@
+.rich-text-editor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .rich-text-editor .container-richtext {
+    max-width: 991px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .rich-text-editor .toolbar-richtext {
+    padding: 16px;
+    background: #fafafa;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .rich-text-editor .toolbar-richtext .head-richtext {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .rich-text-editor .toolbar-richtext .head-richtext select,
+  .rich-text-editor .toolbar-richtext .head-richtext .color-richtext input {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    outline: none;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.3s;
+  }
+  
+  .rich-text-editor .toolbar-richtext .head-richtext select:focus,
+  .rich-text-editor .toolbar-richtext .head-richtext .color-richtext input:focus {
+    border-color: #bbb;
+  }
+  
+  .rich-text-editor .toolbar-richtext .head-richtext .color-richtext{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+  
+  .rich-text-editor .toolbar-richtext .head-richtext .color-richtext:focus-within {
+    border-color: #bbb;
+  }
+  
+  .rich-text-editor .toolbar-richtext .head-richtext .color-richtext span {
+    font-size: 14px;
+  }
+  
+  .rich-text-editor .toolbar-richtext .btn-toolbar-richtext {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .rich-text-editor .toolbar-richtext .btn-toolbar-richtext button {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .rich-text-editor .toolbar-richtext .btn-toolbar-richtext button:hover {
+    background: #f3f3f3;
+    border-color: #bbb;
+  }
+  
+  .rich-text-editor #content {
+    background-color: #f9f9f9;
+    padding: 30px;
+    outline: none;
+    max-height: 50vh;
+    overflow: auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 0 0 10px 10px;
+    transition: border-color 0.3s;
+  }
+  
+  .rich-text-editor #content:focus {
+    border-color: #bbb;
+  }
+  
+  .rich-text-editor #show-code[data-active="true"] {
+    background: #e0e0e0;
+  }

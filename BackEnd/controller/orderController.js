@@ -28,15 +28,15 @@ const createOrder = async (req, res) => {
     }
 };
 
-const addProductToOrder = async (req, res) => {
-    try {
-        const { userID, productID, quantity, price } = req.body;
-        await orderService.addProductToOrder(userID, productID, quantity, price);
-        res.status(200).json({ message: 'Product added to order' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
+    const addProductToOrder = async (req, res) => {
+        try {
+            const { userID, productID, quantity, price } = req.body;
+            await orderService.addProductToOrder(userID, productID, quantity, price);
+            res.status(200).json({ message: 'Product added to order' });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    };
 
 const getOrder = async (req, res) => {
     try {

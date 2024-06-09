@@ -6,6 +6,7 @@ create database HelloMilkyShop
 
 use HelloMilkyShop
 
+select *from UserVoucher
 
 CREATE TABLE Role (
 RoleID int IDENTITY NOT NULL, 
