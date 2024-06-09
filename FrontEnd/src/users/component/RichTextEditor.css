@@ -1,5 +1,5 @@
 .rich-text-editor {
-    display: flex;
+    display: flex; 
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -31,7 +31,6 @@
   .rich-text-editor .toolbar-richtext .head-richtext {
     display: flex;
     gap: 10px;
-    margin-bottom: 16px;
     flex-wrap: wrap;
   }
 
@@ -44,6 +43,11 @@
     cursor: pointer;
     background: #fff;
     transition: border-color 0.3s;
+    margin: 4px;
+  }
+
+  .head-richtext select{
+    width: 21%;
   }
   
   .rich-text-editor .toolbar-richtext .head-richtext select:focus,
@@ -81,6 +85,7 @@
   .rich-text-editor .toolbar-richtext .btn-toolbar-richtext button {
     background: #ffffff;
     border: 1px solid #ddd;
+    color: black;
     border-radius: 6px;
     cursor: pointer;
     width: 40px;
