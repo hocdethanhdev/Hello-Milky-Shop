@@ -1,31 +1,54 @@
 import React, { useState } from 'react';
 import './ProductContentMom.css';
 import CartPopup from './CartPopup';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const formatPrice = (price) => {
-    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
-};
+const formatPrice = (price) => `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 
-const calculateDiscount = (originalPrice, discountedPrice) => {
-    if (originalPrice === discountedPrice) {
-        return 0;
-    }
-    return originalPrice - discountedPrice;
-};
+const calculateDiscount = (originalPrice, discountedPrice) => originalPrice === discountedPrice ? 0 : originalPrice - discountedPrice;
 
-const formatDiscount = (discount) => {
-    return `-${Math.round(discount / 1000)}K`;
-};
+const formatDiscount = (discount) => `-${Math.round(discount / 1000)}K`;
 
 const ProductContentMom = ({ product }) => {
     const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
+    const [quantity, setQuantity] = useState(1);
+    const navigate = useNavigate();
 
-    const openCartPopup = () => {
-        setIsCartPopupOpen(true);
+    const openCartPopup = () => setIsCartPopupOpen(true);
+    const closeCartPopup = () => setIsCartPopupOpen(false);
+
+    const incrementQuantity = () => setQuantity(quantity + 1);
+    const decrementQuantity = () => {
+        if (quantity > 1) setQuantity(quantity - 1);
     };
 
-    const closeCartPopup = () => {
-        setIsCartPopupOpen(false);
+    const handleAddToCart = async () => {
+        try {
+            await axios.post('http://localhost:5000/api/v1/order/addProductToOrder', {
+                userID: "M0000001",
+                productID: product.ProductID,
+                quantity: quantity,
+                price: product.PriceAfterDiscounts
+            });
+            openCartPopup();
+        } catch (error) {
+            console.error('Error adding product to order:', error);
+        }
+    };
+
+    const handleBuyNow = async () => {
+        try {
+            await axios.post('http://localhost:5000/api/v1/order/addProductToOrder', {
+                userID: "M0000001",
+                productID: product.ProductID,
+                quantity: quantity,
+                price: product.PriceAfterDiscounts
+            });
+            navigate('/ShoppingCart');
+        } catch (error) {
+            console.error('Error adding product to order:', error);
+        }
     };
 
     if (!product) {
@@ -81,10 +104,15 @@ const ProductContentMom = ({ product }) => {
                                 <span className="pro_status left">{product.StockQuantity}</span>
                                 <div className="clear"></div>
                             </div>
+                            <div className="quantity-selector-thinh-cart">
+                                <button className="quantity-button-thinh-cart" onClick={decrementQuantity}>-</button>
+                                <input type="text" value={quantity} readOnly className="quantity-input-thinh-cart" />
+                                <button className="quantity-button-thinh-cart" onClick={incrementQuantity}>+</button>
+                            </div>
                         </div>
                         <div className="box_btn">
-                            <button className="btn_order_now">Mua ngay</button>
-                            <button className="btn_add_cart" onClick={openCartPopup}>Thêm vào giỏ hàng</button>
+                            <button className="btn_order_now" onClick={handleBuyNow}>Mua ngay</button>
+                            <button className="btn_add_cart" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
                             <div className="clear"></div>
                         </div>
                     </div>
@@ -92,23 +120,15 @@ const ProductContentMom = ({ product }) => {
                         <div className='cuc_icon_item left'>
                             <span className="hinh_icon icon fas fa-shipping-fast"></span>
                             <span className="icon_title">
-                                <div>
-                                    Giao hàng
-                                </div>
-                                <div>
-                                    toàn quốc
-                                </div>
+                                <div>Giao hàng</div>
+                                <div>toàn quốc</div>
                             </span>
                         </div>
                         <div className='cuc_icon_item left'>
                             <span className="hinh_icon icon far fa-check-circle"></span>
                             <span className="icon_title">
-                                <div>
-                                    Đảm bảo hàng
-                                </div>
-                                <div>
-                                    chính hãng
-                                </div>
+                                <div>Đảm bảo hàng</div>
+                                <div>chính hãng</div>
                             </span>
                         </div>
                     </div>
@@ -119,7 +139,7 @@ const ProductContentMom = ({ product }) => {
                 </div>
                 <div className="clear"></div>
             </div>
-            <CartPopup isOpen={isCartPopupOpen} onClose={closeCartPopup} />
+            <CartPopup isOpen={isCartPopupOpen} onClose={closeCartPopup} product={product} quantity={quantity} />
         </section>
     );
 };

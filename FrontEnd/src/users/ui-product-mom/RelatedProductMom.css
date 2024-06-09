@@ -34,7 +34,6 @@
     position: absolute;
     top: 0px;
     right: 5px;
-
     background-color: red;
     color: white;
     padding: 3px 6px;
@@ -50,6 +49,9 @@
 .product-details-minith h3 {
     font-size: 1.2em;
     margin: 0 0 10px 0;
+    max-width: 200px; /* Adjust as needed */
+    word-wrap: break-word; /* Allows long words to wrap to the next line */
+    overflow-wrap: break-word; /* Allows long words to wrap to the next line */
 }
 
 .product-price-minith {

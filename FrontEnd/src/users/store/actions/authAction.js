@@ -4,33 +4,33 @@ import actionTypes from './actionTypes';
 
 const getRoleFromToken = (token) => {
     try {
-      const decoded = jwtDecode(token);
-      return decoded.role;
+        const decoded = jwtDecode(token);
+        return decoded.role;
     } catch (error) {
-      return 0;
+        return 0;
     }
-  };
+};
 
-const getUserIdFromToken = (token) => {
+export const getUserIdFromToken = (token) => {
     try {
-      const decoded = jwtDecode(token);
-      return decoded.UserID;
+        const decoded = jwtDecode(token);
+        return decoded.id;
     } catch (error) {
-      return 0;
+        return 0;
     }
-  };
+};
 
 export const loginEmail = (email) => async (dispatch) => {
     try {
         let response = await apiLoginEmail(email);
-        if (response?.data.err === 0){
+        if (response?.data.err === 0) {
             const role = getRoleFromToken(response.data.token);
             dispatch({
                 type: actionTypes.LOGIN_SUCCESS,
                 data: response.data.token,
                 role: role
             })
-        }else{
+        } else {
             dispatch({
                 type: actionTypes.LOGIN_SUCCESS,
                 date: null,
@@ -48,14 +48,14 @@ export const loginEmail = (email) => async (dispatch) => {
 
 export const login = (token) => async (dispatch) => {
     try {
-        if (token){
+        if (token) {
             const role = getRoleFromToken(token);
             dispatch({
                 type: actionTypes.LOGIN_SUCCESS,
                 data: token,
                 role: role
             })
-        }else{
+        } else {
             dispatch({
                 type: actionTypes.LOGIN_SUCCESS,
                 date: null,
