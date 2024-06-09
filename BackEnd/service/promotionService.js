@@ -2,6 +2,10 @@ const { getAllPromotions } = require('../dao/promotionDAO');
 const promotionRepository = require('../repository/promotionRepository');
 
 const promotionService = {
+    getPormotionByDate: async () => {
+        return await promotionRepository.getPormotionByDate();
+    },
+
     getAllPromotions: async () => {
         return await promotionRepository.getAllPromotions();
     },
@@ -17,12 +21,16 @@ const promotionService = {
     searchPromotionByName: async (promotionName) => {
         return await promotionRepository.searchPromotionByName(promotionName);
     },
-    getAllProductsApplyPromotion: async (promotionID) => {
-        return await promotionRepository.getAllProductsApplyPromotion(promotionID);
+    getProductsApplyAnPromotion: async (promotionID) => {
+        return await promotionRepository.getProductsApplyAnPromotion(promotionID);
     },
     applyPromotionToProduct: async (productID, promotionID) => {
         return await promotionRepository.applyPromotionToProduct(productID, promotionID);
-    }
+    },
+    getCurrentProductsHavingPromotion: async () => {
+        return await promotionRepository.getCurrentProductsHavingPromotion();
+    },
+
 };
 
 module.exports = promotionService;

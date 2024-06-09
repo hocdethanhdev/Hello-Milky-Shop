@@ -6,7 +6,6 @@ create database HelloMilkyShop
 
 use HelloMilkyShop
 
-
 CREATE TABLE Role (
 RoleID int IDENTITY NOT NULL, 
 RoleName varchar(10) NOT NULL, 
@@ -83,6 +82,11 @@ ProductID varchar(6) foreign key references Product(ProductID),
 UserID varchar(8) foreign key references Users(UserID), 
 PRIMARY KEY (CommentID));
 
+CREATE TABLE StatusOrder (
+StatusOrderID smallint IDENTITY primary key NOT NULL,
+StatusOrderName nvarchar(50)
+);
+
 CREATE TABLE Orders (
 OrderID int IDENTITY NOT NULL, 
 OrderDate date NULL, 
@@ -90,6 +94,7 @@ TotalAmount int NULL,
 Status bit,
 Address nvarchar(255) NULL, 
 UserID varchar(8) foreign key references Users(UserID), 
+StatusOrderID smallint foreign key references StatusOrder(StatusOrderID)
 PRIMARY KEY (OrderID));
 
 CREATE TABLE Payment (
@@ -138,7 +143,7 @@ PromotionID int IDENTITY NOT NULL,
 PromotionName nvarchar(255) Null,
 Description nvarchar(3000)null,
 DiscountPercentage Float NOT NULL,
-StartDate date NOT NULL, 
+StartDate date NOT NULL,
 EndDate date NOT NULL, 
 PRIMARY KEY (PromotionID));
 
@@ -151,12 +156,13 @@ PRIMARY KEY (ProductPromotionID));
 
 CREATE TABLE City (
     ID INT IDENTITY PRIMARY KEY,
-    CityName VARCHAR(100) NOT NULL
+    CityName NVARCHAR(100) NOT NULL
 );
+
 
 CREATE TABLE District (
     ID INT IDENTITY PRIMARY KEY,
-    DistrictName VARCHAR(100) NOT NULL,
+    DistrictName NVARCHAR(100) NOT NULL,
     CityID INT FOREIGN KEY REFERENCES City(ID)
 );
 

@@ -1,6 +1,10 @@
 const promotionDAO = require("../dao/promotionDAO");
 
 const promotionRepository = {
+    getPormotionByDate: async () => {
+        return await promotionDAO.getPormotionByDate();
+    },
+
     getAllPromotions: async () => {
         return await promotionDAO.getAllPromotions();
     },
@@ -15,12 +19,18 @@ const promotionRepository = {
     searchPromotionByName: async (promotionName) => {
         return await promotionDAO.searchPromotionByName(promotionName);
     },
-    getAllProductsApplyPromotion: async (promotionID) => {
-        return await promotionDAO.getAllProductsApplyPromotion(promotionID);
+    getProductsApplyAnPromotion: async (promotionID) => {
+        return await promotionDAO.getProductsApplyAnPromotion(promotionID);
     },
     applyPromotionToProduct: async (productID, promotionID) => {
         return await promotionDAO.applyPromotionToProduct(productID, promotionID);
-    }
+    },
+    getAllPromotions: async () => {
+        return await promotionDAO.getAllPromotions();
+    },
+    getCurrentProductsHavingPromotion: async () => {
+        return await promotionDAO.getCurrentProductsHavingPromotion();
+    },
 
 
 };

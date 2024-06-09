@@ -1,7 +1,7 @@
 
 
 ### top 6 product by brand
-GET http://localhost:5000/api/v1/product/getTop6ProductByBrand/ensure
+GET http://localhost:5000/api/v1/product/getTop6ProductByBrand/SE0001
 
 ### lay tat ca user
 GET http://localhost:5000/api/v1/user/getAllUsers
@@ -24,9 +24,9 @@ GET http://localhost:5000/api/v1/product/getProductByCategory/2/
 ### lay tat ca category
 GET http://localhost:5000/api/v1/product/getAllProductCategory
 ### tim kiem sua bang cate
-GET http://localhost:5000/api/v1/product/searchWithProductCategory/phy/Sữa cho mẹ bầu
+GET http://localhost:5000/api/v1/product/searchWithProductCategory/en/Sữa cho mẹ bầu
 ### tim voi gia
-GET http://localhost:5000/api/v1/product/searchWithPrice/Phy/0/10000000
+GET http://localhost:5000/api/v1/product/searchWithPrice/En/0/10000000
 ### tim theo ten
 GET http://localhost:5000/api/v1/product/searchWithName?search=en   
 ### lay tat ca san pham voi day du thong tin
@@ -133,14 +133,13 @@ POST http://localhost:5000/api/v1/voucher/addVoucher
 Content-Type: application/json
 
 {
-    "code": "VOUCHER17",
     "quantity": 22,
     "discountPercentage": 20,
     "maxDiscount": 150000,
     "minDiscount": 120000,
     "startDate": "2024-10-10",
     "expiryDate": "2024-11-31",
-    "voucherName": "Voucher 16"
+    "voucherName": "Voucher More"
 }
 ###
 GET http://localhost:5000/api/v1/voucher/searchVoucherByDate?startDate=2023-01-01&expiryDate=2024-12-31
@@ -150,7 +149,6 @@ PUT http://localhost:5000/api/v1/voucher/updateVoucher/2
 Content-Type: application/json
 
 {
-    "code": "HAPPYMONDA",
     "quantity": 50,
     "discountPercentage": 20,
     "maxDiscount": 100000,
@@ -198,13 +196,13 @@ Content-Type: application/json
 {
     "promotionName": "Summer Sale Updated",
     "description": "Updated discount for summer season",
-    "discountPercentage": 25,
+    "discountPercentage": 24,
     "startDate": "2024-06-01",
     "endDate": "2024-08-31"
 }
 
 ###
-GET http://localhost:5000/api/v1/promotion/getAllProductsApplyPromotion/1
+GET http://localhost:5000/api/v1/promotion/getProductsApplyAnPromotion/1
 
 ###
 POST http://localhost:5000/api/v1/promotion/applyPromotionToProduct
@@ -219,27 +217,20 @@ Content-Type: application/json
 ###
 GET http://localhost:5000/api/v1/order/getAllOrders
 
-
-###
-POST http://localhost:5000/api/v1/order/createOrder
-Content-Type: application/json
-
-{
-  "userID": "M0000001"
-}
-
 ### Thêm sản phẩm vào đơn hàng hiện tại
 POST http://localhost:5000/api/v1/order/addProductToOrder
 Content-Type: application/json
 
 {
   "userID": "M0000001",
-  "productID": "SE0005",
+  "productID": "SE0003",
   "quantity": 3,
   "price": 1500
 }
-### Trả về orders dựa vào ID
+
+### Trả về orders dựa vào orderID
 GET http://localhost:5000/api/v1/order/getOrder/30
+
 
 
 ### Check out đơn hàng để có thể tạo ra đơn mới
@@ -247,7 +238,7 @@ POST http://localhost:5000/api/v1/order/checkoutOrder
 Content-Type: application/json
 
 {
-    "userID": "M0000001",
+    "userID": "M0000001"
 }
 
 ### Lấy tất cả các đơn hàng của một user theo userID
@@ -279,7 +270,7 @@ Content-Type: application/json
     "ArticleCategoryID": 1
 }
 ###
-PUT http://localhost:5000/api/v1/article/deleteArticle/20
+PUT http://localhost:5000/api/v1/article/deleteArticle/2
 ###
 PUT http://localhost:5000/api/v1/article/editArticle/14
 Content-Type: application/json
@@ -302,7 +293,7 @@ Content-Type: application/json
     "RoleID": "2"
 }
 ###
-GET http://localhost:5000/api/v1/user/getUserByRoleID/3/
+GET http://localhost:5000/api/v1/user/getUserByRoleID/3
 ###
 PUT http://localhost:5000/api/v1/user/disableUser/M0000002/
 Content-Type: application/json
@@ -313,11 +304,42 @@ Content-Type: application/json
 ### Lấy những voucher mà có thể lưu cho user
 GET http://localhost:5000/api/v1/voucher/getVouchersForUser
 
-### Lấy address order trước đó của user
+### Lấy order trước đó của user
 GET  http://localhost:5000/api/v1/order/getPreviousOrderAddress/M0000001
 
 ### Search order dựa vào username
 GET http://localhost:5000/api/v1/order/searchOrderByUserName/A
+###
+GET http://localhost:5000/api/v1/promotion/getPormotionByDate
 
 ### Lấy chi tiết đơn hàng dựa vào orderID
 GET http://localhost:5000/api/v1/order/getOrderDetailByOrderID/2
+
+### Thay đổi số lương đơn hàng dựa vào những productID truyền về
+POST http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder
+Content-Type: application/json
+
+{
+    "orderID": "2",
+    "productQuantities": [
+        {
+            "productID": "SE0002",
+            "quantity": 5
+        },
+        {
+            "productID": "SE0006",
+            "quantity": 3
+        }
+    ]
+}
+
+### Thay đổi trạng thái đơn hàng
+POST http://localhost:5000/api/v1/order/updateStatusOrderID/1
+Content-Type: application/json
+
+{
+    "statusOrderID": 2
+}
+
+### Lấy những sản phảm của hiện tại mà có áp dụng khuyến mãi 
+GET http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion

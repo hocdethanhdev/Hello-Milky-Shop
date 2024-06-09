@@ -32,4 +32,12 @@ router.get('/getOrderDetailByOrderID/:orderID', orderController.getOrderDetailBy
 
 router.get('/searchOrderByUserName/:userName', orderController.searchOrderByUserName);
 
+// Thay đổi số lượng sản phẩm trong đơn hàng
+router.post('/changeQuantityOfProductInOrder', orderController.changeQuantityOfProductInOrder);
+
+// Cập nhật trạng thái đơn hàng
+router.post('/updateStatusOrderID/:OrderID', orderController.updateStatusOrderID);
+
+
+
 module.exports = router
