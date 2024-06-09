@@ -107,6 +107,30 @@ const getOrderDetailByOrderID = async (req, res) => {
     }
 };
 
+const changeQuantityOfProductInOrder = async (req, res) => {
+    try {
+        const { orderID, productQuantities } = req.body;
+        await orderService.changeQuantityOfProductInOrder(orderID, productQuantities);
+        res.status(200).json({ message: 'Order quantities updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+const updateStatusOrderID = async (req, res) => {
+    const orderID = req.params.OrderID;
+    const { statusOrderID } = req.body;
+    try {
+        const result = await orderService.updateStatusOrderID(orderID, statusOrderID);
+        res.status(200).json({ message: 'Status order ID have been updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 module.exports = {
     getAllOrders,
     createOrder,
@@ -118,5 +142,7 @@ module.exports = {
     applyVoucherToOrder,
     getPreviousOrderAddress,
     searchOrderByUserName,
-    getOrderDetailByOrderID
+    getOrderDetailByOrderID,
+    changeQuantityOfProductInOrder,
+    updateStatusOrderID
 };
