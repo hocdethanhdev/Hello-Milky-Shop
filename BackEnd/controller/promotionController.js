@@ -14,10 +14,16 @@ const addPromotion = async (req, res) => {
         .catch(err => res.status(500).json({ message: err.message }));
 }
 
+
 const updatePromotion = async (req, res) => {
-    promotionService.updatePromotion(req.params.promotionID, req.body)
-        .then(result => res.status(200).json(result))
-        .catch(err => res.status(500).json({ message: err.message }));
+    const promotionID = req.params.id;
+    const promotionData = req.body;
+    try {
+        const updatedPromotion = await promotionService.updatePromotion(promotionID, promotionData);
+        res.status(200).json({ message: 'Promotion have been updated successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 const searchPromotionByName = async (req, res) => {
@@ -27,10 +33,10 @@ const searchPromotionByName = async (req, res) => {
 }
 
 
-const getAllProductsApplyPromotion = async (req, res) => {
+const getProductsApplyAnPromotion = async (req, res) => {
     try {
         const promotionID = req.params.promotionID;
-        const vouchers = await promotionService.getAllProductsApplyPromotion(promotionID);
+        const vouchers = await promotionService.getProductsApplyAnPromotion(promotionID);
         res.status(200).json(vouchers);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -46,6 +52,12 @@ const applyPromotionToProduct = async (req, res) => {
     }
 };
 
+const getCurrentProductsHavingPromotion = async (req, res) => {
+    promotionService.getCurrentProductsHavingPromotion()
+        .then(result => res.status(201).json(result))
+        .catch(err => res.status(500).json({ message: err.message })
+        );
+}
 
 
 module.exports = {
@@ -53,6 +65,7 @@ module.exports = {
     addPromotion,
     updatePromotion,
     searchPromotionByName,
-    getAllProductsApplyPromotion,
-    applyPromotionToProduct
+    getProductsApplyAnPromotion,
+    applyPromotionToProduct,
+    getCurrentProductsHavingPromotion
 };

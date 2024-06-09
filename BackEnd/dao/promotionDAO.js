@@ -72,8 +72,10 @@ const promotionDAO = {
         );
 
         return new Promise((resolve, reject) => {
+
             mssql.connect(dbConfig, function (err) {
                 if (err) return reject(err);
+
 
                 const request = new mssql.Request();
 
@@ -137,7 +139,7 @@ const promotionDAO = {
         });
     },
 
-    getAllProductsApplyPromotion: (promotionID) => {
+    getProductsApplyAnPromotion: (promotionID) => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err) {
                 if (err) return reject(err);
@@ -180,7 +182,32 @@ const promotionDAO = {
                 });
             });
         });
-    }
+    },
+    getCurrentProductsHavingPromotion: () => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err) {
+                if (err) return reject(err);
+
+                const request = new mssql.Request();
+                const currentDate = new Date();
+
+                const searchQuery = `
+                    SELECT p.* , pp.PriceAfterDiscount
+                    FROM Product p
+                    INNER JOIN ProductPromotionList pp ON p.ProductID = pp.ProductID
+                    INNER JOIN Promotion promo ON pp.PromotionID = promo.PromotionID
+                    WHERE promo.StartDate <= @currentDate AND promo.EndDate >= @currentDate
+                `;
+
+                request.input('currentDate', mssql.DateTime, currentDate);
+
+                request.query(searchQuery, (err, res) => {
+                    if (err) return reject(err);
+                    resolve(res.recordset);
+                });
+            });
+        });
+    },
 
 
 };

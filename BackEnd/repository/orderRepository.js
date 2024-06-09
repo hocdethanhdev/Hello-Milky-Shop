@@ -45,6 +45,13 @@ const orderRepository = {
     getOrdersByUserID: (userID) => {
         return orderDAO.getOrdersByUserID(userID);
     },
+    changeQuantityOfProductInOrder: (orderID, productQuantities) => {
+        return orderDAO.changeQuantityOfProductInOrder(orderID, productQuantities);
+    },
+
+    updateStatusOrderID: (orderID, statusOrderID) => {
+        return orderDAO.updateStatusOrderID(orderID, statusOrderID);
+    },
 
 };
 
