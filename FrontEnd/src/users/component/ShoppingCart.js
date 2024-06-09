@@ -17,24 +17,25 @@ const ShoppingCart = () => {
     const params = new URLSearchParams(location.search);
     const status = params.get('status');
     const code = params.get('code');
-
+    const userIdd = getUserIdFromToken(token);
     if (status && code) {
       console.log(`Payment status: ${status}, code: ${code}`);
       // Xử lý trạng thái thanh toán nếu cần thiết
       if (status === '1') {
-        alert('Payment successful!');
+        // alert('Payment successful!');
         if (orderID) { // Kiểm tra orderID trước khi gọi API
-          axios.post(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`, {
-            statusOrderID: 1
+          axios.post(`http://localhost:5000/api/v1/order/checkoutOrder`, {
+            userID: userIdd
           })
             .then(response => {
-              alert('Payment successful and order status updated!');
+              alert('Payment successful !!!!');
               // Thực hiện các hành động khác nếu cần thiết
             })
             .catch(error => {
               console.error('Error updating order status:', error);
               alert('Payment successful, but failed to update order status.');
             });
+
         } else {
           console.error('orderID is not set');
         }
@@ -52,20 +53,23 @@ const ShoppingCart = () => {
         if (!userId) throw new Error('Failed to fetch user ID');
 
         console.log(`Fetching orders for user ID: ${userId}`);
-        const ordersResponse = await axios.get(`http://localhost:5000/api/v1/order/getOrdersByUserID/${userId}`);
+        const ordersResponse = await axios.get(`http://localhost:5000/api/v1/order/getOpenOrderForUser/${userId}`);
         const orders = ordersResponse.data;
 
         if (orders.length === 0) throw new Error('No orders found for user');
 
-        const orderID = orders[0].OrderID; // Lấy orderID từ đơn hàng đầu tiên
+        const orderID = orders.OrderID; // Lấy orderID từ đơn hàng đầu tiên
         setOrderID(orderID); // Đặt giá trị cho biến orderID
+
 
         console.log(`Fetching details for order ID: ${orderID}`);
         const orderDetailsResponse = await axios.get(`http://localhost:5000/api/v1/order/getOrder/${orderID}`);
         const orderDetails = orderDetailsResponse.data;
 
         const productDetailsPromises = orderDetails.map(async orderItem => {
+
           const productResponse = await axios.get(`http://localhost:5000/api/v1/product/getProductInforID/${orderItem.ProductID}`);
+
           return {
             ...orderItem,
             productInfo: productResponse.data,

@@ -136,13 +136,20 @@ const orderDAO = {
                     if (err) return reject(err);
 
                     const request = new mssql.Request(transaction);
-                    request.input('orderID', mssql.Int, orderID)
+                    request.input('orderID', mssql.Int, orderID);
 
-
+                    // Update order status
                     const updateOrderQuery = `
                         UPDATE Orders
                         SET status = 1
-                        WHERE orderID = @orderID
+                        WHERE orderID = @orderID;
+                    `;
+
+                    // Get the order details
+                    const getOrderDetailsQuery = `
+                        SELECT ProductID, Quantity
+                        FROM OrderDetail
+                        WHERE OrderID = @orderID;
                     `;
 
                     request.query(updateOrderQuery, (err, result) => {
@@ -151,12 +158,35 @@ const orderDAO = {
                             return reject(err);
                         }
 
-                        transaction.commit(err => {
+                        request.query(getOrderDetailsQuery, (err, orderDetailsResult) => {
                             if (err) {
                                 transaction.rollback();
                                 return reject(err);
                             }
-                            resolve(result);
+
+                            const orderDetails = orderDetailsResult.recordset;
+                            const updateProductQueries = orderDetails.map(detail => {
+                                return `
+                                    UPDATE Product
+                                    SET StockQuantity = StockQuantity - ${detail.Quantity}
+                                    WHERE ProductID = '${detail.ProductID}';
+                                `;
+                            }).join(' ');
+
+                            request.query(updateProductQueries, (err, result) => {
+                                if (err) {
+                                    transaction.rollback();
+                                    return reject(err);
+                                }
+
+                                transaction.commit(err => {
+                                    if (err) {
+                                        transaction.rollback();
+                                        return reject(err);
+                                    }
+                                    resolve(result);
+                                });
+                            });
                         });
                     });
                 });
