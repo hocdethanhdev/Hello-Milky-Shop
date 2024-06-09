@@ -102,7 +102,7 @@ const vnpayReturn = async (req, res) => {
       const order = await paymentService.getOrderByID(vnp_Params['vnp_TxnRef']);
 
       if (order.message === "false") {
-        return res.status(404).send({ message: 'Order not found', code: '01' });
+        return res.status(404).send({ message: 'Order not found', status: 0, code: '01' });
       }
 
       const paymentStatus = vnp_Params['vnp_ResponseCode'] === '00' ? 1 : 0;

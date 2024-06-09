@@ -1,6 +1,10 @@
 const promotionDAO = require("../dao/promotionDAO");
 
 const promotionRepository = {
+    getPormotionByDate: async () => {
+        return await promotionDAO.getPormotionByDate();
+    },
+
     getAllPromotions: async () => {
         return await promotionDAO.getAllPromotions();
     },

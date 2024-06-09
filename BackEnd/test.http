@@ -309,6 +309,8 @@ GET  http://localhost:5000/api/v1/order/getPreviousOrderAddress/M0000001
 
 ### Search order dựa vào username
 GET http://localhost:5000/api/v1/order/searchOrderByUserName/A
+###
+GET http://localhost:5000/api/v1/promotion/getPormotionByDate
 
 ### Lấy chi tiết đơn hàng dựa vào orderID
 GET http://localhost:5000/api/v1/order/getOrderDetailByOrderID/2
@@ -341,4 +343,3 @@ Content-Type: application/json
 
 ### Lấy những sản phảm của hiện tại mà có áp dụng khuyến mãi 
 GET http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion
-
