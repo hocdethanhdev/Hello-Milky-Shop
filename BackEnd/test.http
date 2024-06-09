@@ -133,14 +133,13 @@ POST http://localhost:5000/api/v1/voucher/addVoucher
 Content-Type: application/json
 
 {
-    "code": "VOUCHER17",
     "quantity": 22,
     "discountPercentage": 20,
     "maxDiscount": 150000,
     "minDiscount": 120000,
     "startDate": "2024-10-10",
     "expiryDate": "2024-11-31",
-    "voucherName": "Voucher 16"
+    "voucherName": "Voucher More"
 }
 ###
 GET http://localhost:5000/api/v1/voucher/searchVoucherByDate?startDate=2023-01-01&expiryDate=2024-12-31
@@ -150,7 +149,6 @@ PUT http://localhost:5000/api/v1/voucher/updateVoucher/2
 Content-Type: application/json
 
 {
-    "code": "HAPPYMONDA",
     "quantity": 50,
     "discountPercentage": 20,
     "maxDiscount": 100000,
@@ -204,7 +202,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/api/v1/promotion/getAllProductsApplyPromotion/1
+GET http://localhost:5000/api/v1/promotion/getProductsApplyAnPromotion/1
 
 ###
 POST http://localhost:5000/api/v1/promotion/applyPromotionToProduct
@@ -229,8 +227,10 @@ Content-Type: application/json
   "quantity": 3,
   "price": 1500
 }
-### Trả về orders dựa vào ID
-GET http://localhost:5000/api/v1/order/getOrder/2
+
+### Trả về orders dựa vào orderID
+GET http://localhost:5000/api/v1/order/getOrder/30
+
 
 
 ### Check out đơn hàng để có thể tạo ra đơn mới
@@ -311,4 +311,35 @@ GET  http://localhost:5000/api/v1/order/getPreviousOrderAddress/M0000001
 GET http://localhost:5000/api/v1/order/searchOrderByUserName/A
 ###
 GET http://localhost:5000/api/v1/promotion/getPormotionByDate
-###
+
+### Lấy chi tiết đơn hàng dựa vào orderID
+GET http://localhost:5000/api/v1/order/getOrderDetailByOrderID/2
+
+### Thay đổi số lương đơn hàng dựa vào những productID truyền về
+POST http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder
+Content-Type: application/json
+
+{
+    "orderID": "2",
+    "productQuantities": [
+        {
+            "productID": "SE0002",
+            "quantity": 5
+        },
+        {
+            "productID": "SE0006",
+            "quantity": 3
+        }
+    ]
+}
+
+### Thay đổi trạng thái đơn hàng
+POST http://localhost:5000/api/v1/order/updateStatusOrderID/1
+Content-Type: application/json
+
+{
+    "statusOrderID": 2
+}
+
+### Lấy những sản phảm của hiện tại mà có áp dụng khuyến mãi 
+GET http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion

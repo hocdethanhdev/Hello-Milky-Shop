@@ -33,7 +33,7 @@ const voucherDAO = {
 
     addVoucher: (voucherObject) => {
         const VoucherID = 1;
-        const voucher = new Voucher(VoucherID, voucherObject.code, voucherObject.quantity, voucherObject.discountPercentage,
+        const voucher = new Voucher(VoucherID, voucherObject.quantity, voucherObject.discountPercentage,
             voucherObject.maxDiscount, voucherObject.minDiscount, voucherObject.startDate, voucherObject.expiryDate, voucherObject.voucherName);
 
         return new Promise((resolve, reject) => {
@@ -50,40 +50,26 @@ const voucherDAO = {
                     });
                 }
 
-                // Kiểm tra xem mã voucher đã tồn tại chưa
-                request.input('code', mssql.VarChar, voucher.code);
-                request.query('SELECT COUNT(*) AS count FROM Voucher WHERE Code = @code', (err, result) => {
-                    if (err) return reject(err);
-
-                    if (result.recordset[0].count > 0) {
-                        return reject({
-                            status: 400,
-                            message: 'Voucher code already exists'
-                        });
-                    }
-
-
-                    //  Thêm dữ liệu voucher vào cơ sở dữ liệu
-                    const insertRequest = new mssql.Request();
-                    insertRequest.input('code', mssql.VarChar, voucher.code)
-                        .input('quantity', mssql.Int, voucher.quantity)
-                        .input('discountPercentage', mssql.Float, voucher.discountPercentage)
-                        .input('maxDiscount', mssql.Int, voucher.maxDiscount)
-                        .input('minDiscount', mssql.Int, voucher.minDiscount)
-                        .input('startDate', mssql.Date, voucher.startDate)
-                        .input('expiryDate', mssql.Date, voucher.expiryDate)
-                        .input('voucherName', mssql.VarChar, voucher.voucherName);
-                    insertRequest.query(`
-                        INSERT INTO Voucher(Code, Quantity, DiscountPercentage, MaxDiscount, MinDiscount, StartDate, ExpiryDate, VoucherName)
-                        VALUES (@code, @quantity, @discountPercentage, @maxDiscount, @minDiscount, @StartDate, @expiryDate, @voucherName)
+                //  Thêm dữ liệu voucher vào cơ sở dữ liệu
+                const insertRequest = new mssql.Request();
+                insertRequest
+                    .input('quantity', mssql.Int, voucher.quantity)
+                    .input('discountPercentage', mssql.Float, voucher.discountPercentage)
+                    .input('maxDiscount', mssql.Int, voucher.maxDiscount)
+                    .input('minDiscount', mssql.Int, voucher.minDiscount)
+                    .input('startDate', mssql.Date, voucher.startDate)
+                    .input('expiryDate', mssql.Date, voucher.expiryDate)
+                    .input('voucherName', mssql.VarChar, voucher.voucherName);
+                insertRequest.query(`
+                        INSERT INTO Voucher(Quantity, DiscountPercentage, MaxDiscount, MinDiscount, StartDate, ExpiryDate, VoucherName)
+                        VALUES (@quantity, @discountPercentage, @maxDiscount, @minDiscount, @StartDate, @expiryDate, @voucherName)
                     ;`,
-                        (err, res) => {
-                            if (err)
-                                return reject(err);
+                    (err, res) => {
+                        if (err)
+                            return reject(err);
 
-                            resolve(res.recordset);
-                        })
-                });
+                        resolve(res.recordset);
+                    })
             });
         });
     },
@@ -113,8 +99,15 @@ const voucherDAO = {
         })
     },
     updateVoucher: (voucherID, voucherObject) => {
-        const voucher = new Voucher(voucherID, voucherObject.code, voucherObject.quantity, voucherObject.discountPercentage,
-            voucherObject.maxDiscount, voucherObject.minDiscount, voucherObject.startDate, voucherObject.expiryDate, voucherObject.voucherName);
+        const voucher = new Voucher(
+            voucherID,
+            voucherObject.quantity,
+            voucherObject.discountPercentage,
+            voucherObject.maxDiscount,
+            voucherObject.minDiscount,
+            voucherObject.startDate,
+            voucherObject.expiryDate,
+            voucherObject.voucherName);
         return new Promise((resolve, reject) => {
 
             mssql.connect(dbConfig, function (err) {
@@ -131,33 +124,21 @@ const voucherDAO = {
                     });
                 }
 
-                // Kiểm tra xem mã voucher đã tồn tại chưa
-                request.input('code', mssql.VarChar, voucher.code);
 
-                request.query('SELECT COUNT(*) AS count FROM Voucher WHERE Code = @code', (err, result) => {
-                    if (err) return reject(err);
-
-                    if (result.recordset[0].count > 0) {
-                        return reject({
-                            status: 400,
-                            message: 'Voucher code already exists!!'
-                        });
-                    };
-                    request
-                        .input('voucherID', voucherID)
-                        .input('quantity', mssql.Int, voucher.quantity)
-                        .input('discountPercentage', mssql.Float, voucher.discountPercentage)
-                        .input('maxDiscount', mssql.Int, voucher.maxDiscount)
-                        .input('minDiscount', mssql.Int, voucher.minDiscount)
-                        .input('startDate', mssql.Date, voucher.startDate)
-                        .input('expiryDate', mssql.Date, voucher.expiryDate)
-                        .input('voucherName', mssql.VarChar, voucher.voucherName);
+                request
+                    .input('voucherID', voucherID)
+                    .input('quantity', mssql.Int, voucher.quantity)
+                    .input('discountPercentage', mssql.Float, voucher.discountPercentage)
+                    .input('maxDiscount', mssql.Int, voucher.maxDiscount)
+                    .input('minDiscount', mssql.Int, voucher.minDiscount)
+                    .input('startDate', mssql.Date, voucher.startDate)
+                    .input('expiryDate', mssql.Date, voucher.expiryDate)
+                    .input('voucherName', mssql.VarChar, voucher.voucherName);
 
 
-                    const updateQuery = `
+                const updateQuery = `
                     UPDATE Voucher
                     SET 
-                        code = @code,
                         quantity = @quantity,
                         discountPercentage = @discountPercentage,
                         minDiscount = @minDiscount,
@@ -167,19 +148,15 @@ const voucherDAO = {
                         voucherName = @voucherName
                     WHERE voucherID = @voucherID
                 `;
-                    request.query(updateQuery, (err, res) => {
-                        if (err) {
-                            return reject(err);
-                        }
-                        resolve(res);
-                    })
-
+                request.query(updateQuery, (err, res) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(res);
                 })
-
 
             })
         })
-
     },
 
     saveVoucherForUser: (userID, voucherID) => {

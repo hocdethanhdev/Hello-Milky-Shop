@@ -28,7 +28,7 @@ const orderService = {
         try {
             let openOrder = await orderRepository.getOpenOrderForUser(userID);
             if (!openOrder) {
-                // Nếu không có giỏ hàng hiện tại, tạo giỏ hàng mới và thêm sản phẩm và
+                // Nếu không có giỏ hàng hiện tại, tạo giỏ hàng mới và thêm sản phẩm vào
                 const newOrderID = await orderRepository.createOrder(userID);
                 await orderRepository.addProductToOrder(newOrderID, productID, quantity, price);
             } else {
@@ -108,7 +108,23 @@ const orderService = {
         } catch (error) {
             throw new Error(`Error getting the previous order address: ${error.message}`);
         }
-    }
+    },
+    changeQuantityOfProductInOrder: async (orderID, productQuantities) => {
+        try {
+            return await orderRepository.changeQuantityOfProductInOrder(orderID, productQuantities);
+        } catch (error) {
+            throw new Error(`Error changing quantity of products in order: ${error.message}`);
+        }
+    },
+    updateStatusOrderID: async (orderID, statusOrderID) => {
+        try {
+            await orderRepository.updateStatusOrderID(orderID, statusOrderID);
+        } catch (error) {
+            throw new Error(`Error updating status of order: ${error.message}`);
+        }
+    },
+
+
 
 };
 
