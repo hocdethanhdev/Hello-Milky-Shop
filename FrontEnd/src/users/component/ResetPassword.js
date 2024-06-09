@@ -16,7 +16,7 @@ const OTP = () => {
 
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
+      window.recaptchaVerifier = new auth.RecaptchaVerifier(
         "recaptcha-container",
         {
           size: "invisible",
@@ -37,6 +37,8 @@ const OTP = () => {
     const appVerifier = window.recaptchaVerifier;
 
     const formatPh = "+" + ph;
+
+    console.log(auth)
 
     signInWithPhoneNumber(auth, formatPh, appVerifier)
       .then((confirmationResult) => {
@@ -120,7 +122,7 @@ const OTP = () => {
               <PhoneInput country={"vn"} value={ph} onChange={setPh} />
               <button
                 onClick={onSignup}
-                className="bg-white-600 w-full flex gap-1 items-center justify-center py-2.5 text-black rounded"
+                className="bg-white-600 w-full flex gap-1 items-center justify-center py-2.5 text-black rounded recaptcha-container"
               >
                 {loading && (
                   <CgSpinner size={20} className="mt-1 animate-spin" />

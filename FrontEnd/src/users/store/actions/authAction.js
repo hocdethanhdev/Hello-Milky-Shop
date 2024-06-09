@@ -14,7 +14,7 @@ const getRoleFromToken = (token) => {
 const getUserIdFromToken = (token) => {
     try {
       const decoded = jwtDecode(token);
-      return decoded.UserID;
+      return decoded.id;
     } catch (error) {
       return 0;
     }

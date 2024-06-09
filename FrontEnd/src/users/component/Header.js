@@ -93,7 +93,7 @@ function Header() {
               <Link to="/signup">Đăng ký</Link>
             </div>
           )}
-          {(role === 0 || role === 3) && (
+          {role === 3 && (
             <div className="box_cart-compo-tri">
               <Link to="/ShoppingCart">
                 <i className="fa fa-shopping-cart"></i>
