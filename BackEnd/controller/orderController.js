@@ -1,5 +1,12 @@
 const orderService = require('../service/orderService');
 
+const getOpenOrderForUser = (req, res) => {
+    orderService.getOpenOrderForUser(req.params.id)
+        .then(result => res.status(201).json(result))
+        .catch(err => res.status(500).json({ message: err.message })
+        );
+}
+
 const getAllOrders = async (req, res) => {
     orderService.getAllOrders()
         .then(result => res.status(201).json(result))
@@ -144,5 +151,6 @@ module.exports = {
     searchOrderByUserName,
     getOrderDetailByOrderID,
     changeQuantityOfProductInOrder,
-    updateStatusOrderID
+    updateStatusOrderID,
+    getOpenOrderForUser,
 };
