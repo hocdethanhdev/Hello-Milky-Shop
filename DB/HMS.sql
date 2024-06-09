@@ -6,7 +6,6 @@ create database HelloMilkyShop
 
 use HelloMilkyShop
 
-
 CREATE TABLE Role (
 RoleID int IDENTITY NOT NULL, 
 RoleName varchar(10) NOT NULL, 
