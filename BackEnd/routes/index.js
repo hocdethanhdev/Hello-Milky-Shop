@@ -8,6 +8,8 @@ const chat = require("./chatRouter");
 const voucher = require("./voucherRouter");
 const promotion = require("./promotionRouter");
 const order = require("./orderRouter");
+const city = require("./cityRouter");
+const district = require("./districtRouter");
 
 const initRouters = (app) => {
 
@@ -30,6 +32,12 @@ const initRouters = (app) => {
   app.use("/api/v1/user", user);
 
   app.use("/api/v1/chat", chat);
+
+  app.use("/api/v1/city", city);
+
+  app.use("/api/v1/district", district);
+
+
 
   app.get("/", (req, res) => {
     res.send("Server on");
