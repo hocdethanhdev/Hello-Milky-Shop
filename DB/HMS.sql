@@ -87,12 +87,21 @@ StatusOrderID smallint IDENTITY primary key NOT NULL,
 StatusOrderName nvarchar(50)
 );
 
+CREATE TABLE ShippingAdress (
+	ShippingAddressID INT IDENTITY PRIMARY KEY,
+	Receiver nvarchar(50) NOT NULL,
+	PhoneNumber varchar(15) NOT NULL,
+	Address nvarchar(150) NOT NULL,
+	UserID varchar(8) foreign key references Users(UserID),  
+)
+
+
 CREATE TABLE Orders (
 OrderID int IDENTITY NOT NULL, 
 OrderDate date NULL, 
 TotalAmount int NULL, 
 Status bit,
-Address nvarchar(255) NULL, 
+ShippingAddressID int foreign key references ShippingAdress(ShippingAddressID),
 UserID varchar(8) foreign key references Users(UserID), 
 StatusOrderID smallint foreign key references StatusOrder(StatusOrderID)
 PRIMARY KEY (OrderID));
@@ -153,6 +162,7 @@ PriceAfterDiscount int,
 ProductID varchar(6) NOT NULL foreign key references Product(ProductID), 
 PromotionID int NOT NULL foreign key references Promotion(PromotionID), 
 PRIMARY KEY (ProductPromotionID));
+
 
 CREATE TABLE City (
     ID INT IDENTITY PRIMARY KEY,

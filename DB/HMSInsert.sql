@@ -510,8 +510,8 @@ INSERT INTO District (DistrictName, CityID) VALUES
 (N'Đông Hải', 20);
 
 INSERT INTO StatusOrder(StatusOrderName) 
-Values (N'Chờ xử lý'),
-(N'Đã xác nhận'),
+Values (N'Chờ xác nhận'),
+(N'Đang giao'),
 (N'Đã hủy'),
-(N'Hoàn tất');
+(N'Hoàn thành');
 	
