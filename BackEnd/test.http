@@ -230,7 +230,7 @@ Content-Type: application/json
 }
 
 ### Trả về orders dựa vào orderID
-GET http://localhost:5000/api/v1/order/getOrder/30
+GET http://localhost:5000/api/v1/order/getOrder/280
 
 
 
