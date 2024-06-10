@@ -73,7 +73,7 @@ GET http://localhost:5000/api/v1/product/get5ProductsLowestFinalPrice/
 ###
 GET http://localhost:5000/api/v1/product/getTop6MilksForPregnantMother/
 ###
-GET http://localhost:5000/api/v1/product/getTop6MilkForBaby/
+GET http://localhost:5000/api/v1/product/getTop6MilkForBaby
 ### dang ki user
 POST http://localhost:5000/api/v1/auth/register
 Content-Type: application/json
@@ -344,3 +344,7 @@ Content-Type: application/json
 
 ### Lấy những sản phảm của hiện tại mà có áp dụng khuyến mãi 
 GET http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion
+###
+GET http://localhost:5000/api/v1/city/getAllCities/
+###
+GET http://localhost:5000/api/v1/district/getDistrictByID/1
