@@ -511,19 +511,13 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 p.ProductID, p.ProductName, p.Description,p.Price,
-        SUM(od.Quantity) AS TotalSold
-        FROM Product p
-        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
-        JOIN Orders o ON o.OrderID IN (
-            SELECT OrderID
-            FROM OrderDetail od
-            WHERE od.ProductID = p.ProductID
-        )
-        LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID
-        WHERE pc.ProductCategoryName = 'Sữa cho mẹ bầu' AND o.Status = 1
-        GROUP BY p.ProductID, p.ProductName, p.Description, p.Price
-        ORDER BY TotalSold DESC;
+          `SELECT TOP 6 p.ProductID, p.ProductName, pc.ProductCategoryName, p.Status, SUM(od.Quantity) AS TotalSold
+FROM Product p
+JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
+INNER JOIN OrderDetail od ON p.ProductID = od.ProductID
+WHERE pc.ProductCategoryName = N'Sữa cho mẹ bầu' AND Status = 1
+GROUP BY p.ProductID, p.ProductName, pc.ProductCategoryName, p.Status
+ORDER BY TotalSold DESC;
       ;`,
           (err, res) => {
             if (err) {
@@ -550,47 +544,33 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 p.ProductID, p.ProductName, p.Description, p.Price,
-        SUM(od.Quantity) AS TotalSold
-    FROM
-        Product p
-        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
-        JOIN Orders o ON o.OrderID IN (
-            SELECT OrderID
-            FROM OrderDetail od
-            WHERE od.ProductID = p.ProductID
-        )
-        LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID
-    WHERE
-        pc.ProductCategoryName = 'Sữa cho em bé'
-        AND o.Status = 1
-    GROUP BY
-        p.ProductID,
-        p.ProductName,
-        p.Description,
-        p.Price
-    ORDER BY
-        TotalSold DESC;
+          `SELECT TOP 6 p.ProductID, p.ProductName, pc.ProductCategoryName, p.Status, SUM(od.Quantity) AS TotalSold
+FROM Product p
+JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
+INNER JOIN OrderDetail od ON p.ProductID = od.ProductID
+WHERE pc.ProductCategoryName = N'Sữa cho em bé' AND Status = 1
+GROUP BY p.ProductID, p.ProductName, pc.ProductCategoryName, p.Status
+ORDER BY TotalSold DESC;
       ;`,
-          (err, res) => {
-            if (err) {
-              reject(err);
-              return;
-            }
+      (err, res) => {
+        if (err) {
+          reject(err);
+          return;
+        }
 
-            if (!res || !res.recordset || res.recordset.length === 0) {
-              resolve({
-                err: "Not found",
-              });
-              return;
-            }
+        if (!res || !res.recordset || res.recordset.length === 0) {
+          resolve({
+            err: "Not found",
+          });
+          return;
+        }
 
-            resolve(res.recordset);
-          }
-        );
-      });
-    });
-  },
+        resolve(res.recordset);
+      }
+    );
+  });
+});
+},
 };
 
 module.exports = productDAO;
