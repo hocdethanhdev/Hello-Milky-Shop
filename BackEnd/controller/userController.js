@@ -2,7 +2,7 @@ const userService = require("../service/userService");
 
 const getUserByID = async (req, res) => {
   try {
-    const { UserID } = req.body.UserID;
+    const UserID = req.body.UserID;
     console.log(UserID);
     if(!UserID) res.status(400).json({
       err: 1,
