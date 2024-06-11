@@ -161,7 +161,7 @@ Content-Type: application/json
     "maxDiscount": 150000,
     "minDiscount": 120000,
     "startDate": "2024-10-10",
-    "expiryDate": "2024-11-31",
+    "expiryDate": "2024-12-31",
     "voucherName": "Voucher More"
 }
 ###
@@ -187,8 +187,18 @@ Content-Type: application/json
 
 {
   "userID": "M0000001",
-  "voucherID": 3
+  "voucherID": 4
 }
+
+### Xóa mã voucher từ user
+POST http://localhost:5000/api/v1/voucher/removeVoucherFromUser
+Content-Type: application/json
+
+{
+  "userID": "M0000001",
+  "voucherID": 4
+}
+
 ###
 GET http://localhost:5000/api/v1/voucher/getVouchersByUserID/M0000001
 
@@ -246,7 +256,7 @@ Content-Type: application/json
 
 {
   "userID": "M0000001",
-  "productID": "SE0003",
+  "productID": "SE0005",
   "quantity": 3,
   "price": 1500
 }
@@ -346,11 +356,11 @@ Content-Type: application/json
     "orderID": "2",
     "productQuantities": [
         {
-            "productID": "SE0002",
+            "productID": "SE0001",
             "quantity": 5
         },
         {
-            "productID": "SE0006",
+            "productID": "SE0003",
             "quantity": 3
         }
     ]
