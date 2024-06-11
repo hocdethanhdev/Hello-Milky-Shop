@@ -1,38 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Card.css'; // Ensure you have appropriate styles
 import { Line, Pie } from 'react-chartjs-2';
 import 'chart.js/auto'; // Import the auto module from chart.js
 
 function Dashboard() {
+    const [orderCount, setOrderCount] = useState(0);
+    const [newOrdersCount, setNewOrdersCount] = useState(0);
+    const [waitingOrdersCount, setWaitingOrdersCount] = useState(0);
+    const [finishedOrdersCount, setFinishedOrdersCount] = useState(0);
+    const [canceledOrdersCount, setCanceledOrdersCount] = useState(0);
+    const [ordersIn7Days, setOrdersIn7Days] = useState([]);
+
+    useEffect(() => {
+        // Fetch data from APIs
+        fetch('http://localhost:5000/api/v1/order/countOrdersPayed')
+            .then(response => response.json())
+            .then(data => setOrderCount(data.count));
+
+        fetch('http://localhost:5000/api/v1/order/countNewOrders')
+            .then(response => response.json())
+            .then(data => setNewOrdersCount(data.count));
+
+        fetch('http://localhost:5000/api/v1/order/countOrdersWaitToConfirm')
+            .then(response => response.json())
+            .then(data => setWaitingOrdersCount(data.count));
+
+        fetch('http://localhost:5000/api/v1/order/countOrdersFinish')
+            .then(response => response.json())
+            .then(data => setFinishedOrdersCount(data.count));
+
+        fetch('http://localhost:5000/api/v1/order/countOrdersCancel')
+            .then(response => response.json())
+            .then(data => setCanceledOrdersCount(data.count));
+
+        fetch('http://localhost:5000/api/v1/order/countOrdersIn7Days')
+            .then(response => response.json())
+            .then(data => setOrdersIn7Days(data));
+    }, []);
+
     // Data for the pie chart
     const pieData = {
-        labels: ['Tổng đơn hàng', 'Đơn hàng mới', 'Đơn hàng đang xử lý', 'Đơn hàng đã hoàn thành'],
+        labels: ['Đơn hàng đã hoàn thành', 'Đơn hàng đã hủy'],
         datasets: [
             {
-                data: [100, 20, 30, 50], // Replace with actual data
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                ],
-                hoverBackgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                ],
+                data: [finishedOrdersCount, canceledOrdersCount],
+                backgroundColor: ['#FF6384', '#36A2EB'],
+                hoverBackgroundColor: ['#FF6384', '#36A2EB'],
             },
         ],
     };
 
-    // Data for the line chart (new orders)
+    // Data for the line chart
     const lineData = {
-        labels: ['1 Jun', '2 Jun', '3 Jun', '4 Jun', '5 Jun', '6 Jun', '7 Jun'],
+        labels: ordersIn7Days.map(order => new Date(order.OrderDate).toLocaleDateString('vi-VN')),
         datasets: [
             {
-                label: 'Đơn hàng mới',
-                data: [12, 19, 3, 5, 2, 3, 7], // Replace with actual data
+                label: 'Đơn hàng trong 7 ngày qua',
+                data: ordersIn7Days.map(order => order.count),
                 fill: false,
                 backgroundColor: 'rgb(75, 192, 192)',
                 borderColor: 'rgba(75, 192, 192, 0.2)',
@@ -40,37 +64,29 @@ function Dashboard() {
         ],
     };
 
-    // Data for the line chart (vouchers used)
-    const voucherData = {
-        labels: ['1 Jun', '2 Jun', '3 Jun', '4 Jun', '5 Jun', '6 Jun', '7 Jun'],
-        datasets: [
-            {
-                label: 'Voucher được sử dụng',
-                data: [5, 9, 7, 8, 5, 10, 6], // Replace with actual data
-                fill: false,
-                backgroundColor: 'rgb(153, 102, 255)',
-                borderColor: 'rgba(153, 102, 255, 0.2)',
-            },
-        ],
-    };
-
     return (
-        <div className="dashboard">
+        <div className="dashboard-st-thinh">
             <h1>Dashboard</h1>
-            <div className="charts">
-                <div className="chart-container pie-chart">
+            <div className="stats-st-thinh">
+                <div className="stat-card-st-thinh">
+                    <h2>Tổng đơn hàng: {orderCount}</h2>
+                </div>
+                <div className="stat-card-st-thinh">
+                    <h2>Đơn hàng mới: {newOrdersCount}</h2>
+                    <p style={{ color: 'gray' }}>theo ngày</p>
+                </div>
+                <div className="stat-card-st-thinh">
+                    <h2>Đơn hàng chờ xác nhận: {waitingOrdersCount}</h2>
+                </div>
+            </div>
+            <div className="charts-st-thinh">
+                <div className="chart-container-st-thinh pie-chart-st-thinh">
                     <h2>Order Distribution</h2>
                     <Pie data={pieData} />
                 </div>
-                <div className="chart-group">
-                    <div className="chart-container line-chart">
-                        <h2>New Orders Over Time</h2>
-                        <Line data={lineData} />
-                    </div>
-                    <div className="chart-container voucher-chart">
-                        <h2>Voucher Usage Over Time</h2>
-                        <Line data={voucherData} />
-                    </div>
+                <div className="chart-container-st-thinh line-chart-st-thinh">
+                    <h2>New Orders Over Time</h2>
+                    <Line data={lineData} />
                 </div>
             </div>
         </div>

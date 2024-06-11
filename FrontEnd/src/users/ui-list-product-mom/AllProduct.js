@@ -29,15 +29,20 @@ const AllProduct = () => {
 
     const fetchProducts = async () => {
         try {
-            let apiUrl = `http://localhost:5000/api/v1/product/searchWithName?search=${keyword}`;
-            let modifiedKeyword = keyword.toLowerCase();
+            let apiUrl = `http://localhost:5000/api/v1/product/getAllProducts`;
 
-            if (modifiedKeyword.includes("mẹ") || modifiedKeyword.includes("me")) {
-                modifiedKeyword = "Sữa cho mẹ bầu";
-                apiUrl = `http://localhost:5000/api/v1/product/searchWithProductCategory/en/${encodeURIComponent(modifiedKeyword)}`;
-            } else if (modifiedKeyword.includes("bé") || modifiedKeyword.includes("be")) {
-                modifiedKeyword = "Sữa cho em bé";
-                apiUrl = `http://localhost:5000/api/v1/product/searchWithProductCategory/en/${encodeURIComponent(modifiedKeyword)}`;
+            if (keyword) {
+                let modifiedKeyword = keyword.toLowerCase();
+
+                if (modifiedKeyword.includes("mẹ") || modifiedKeyword.includes("me")) {
+                    modifiedKeyword = "Sữa cho mẹ bầu";
+                    apiUrl = `http://localhost:5000/api/v1/product/searchWithProductCategory/${encodeURIComponent(modifiedKeyword)}`;
+                } else if (modifiedKeyword.includes("bé") || modifiedKeyword.includes("be")) {
+                    modifiedKeyword = "Sữa cho em bé";
+                    apiUrl = `http://localhost:5000/api/v1/product/searchWithProductCategory/${encodeURIComponent(modifiedKeyword)}`;
+                } else {
+                    apiUrl = `http://localhost:5000/api/v1/product/searchWithName?search=${keyword}`;
+                }
             }
 
             const response = await fetch(apiUrl);

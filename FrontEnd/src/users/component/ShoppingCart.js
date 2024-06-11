@@ -35,6 +35,9 @@ const ShoppingCart = () => {
               console.error('Error updating order status:', error);
               alert('Payment successful, but failed to update order status.');
             });
+          axios.post(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`, {
+            statusOrderID: 1
+          })
           window.open("http://localhost:3000/", "_self");
         } else {
           console.error('orderID is not set');
