@@ -173,10 +173,11 @@ const changeQuantityOfProductInOrder = async (req, res) => {
     try {
         const { orderID, productQuantities } = req.body;
         await orderService.changeQuantityOfProductInOrder(orderID, productQuantities);
-        res.status(200).json({ message: 'Order quantities updated successfully' });
+        res.status(200).json({ message: 'Order quantities updated and unselected items moved to a new order successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+
 };
 
 

@@ -13,8 +13,14 @@ const voucherRepository = {
     updateVoucher: async (voucherID, voucherObject) => {
         return await voucherDAO.updateVoucher(voucherID, voucherObject);
     },
+    getVoucherForUser: async (userID, voucherID) => {
+        return await voucherDAO.getVoucherForUser(userID, voucherID);
+    },
     saveVoucherForUser: async (userID, voucherID) => {
         return await voucherDAO.saveVoucherForUser(userID, voucherID);
+    },
+    removeVoucherFromUser: async (userID, voucherID) => {
+        return await voucherDAO.removeVoucherFromUser(userID, voucherID);
     },
     getVouchersByUserID: async (userID) => {
         return await voucherDAO.getVouchersByUserID(userID);

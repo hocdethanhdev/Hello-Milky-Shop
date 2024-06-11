@@ -54,6 +54,16 @@ const saveVoucherForUser = async (req, res) => {
     }
 };
 
+const removeVoucherFromUser = async (req, res) => {
+    try {
+        const { userID, voucherID } = req.body;
+        await voucherService.removeVoucherFromUser(userID, voucherID);
+        res.status(200).json({ message: 'Voucher removed from user successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 const getVouchersByUserID = async (req, res) => {
     try {
         const userID = req.params.userID;
@@ -83,5 +93,6 @@ module.exports = {
     updateVoucher,
     saveVoucherForUser,
     getVouchersByUserID,
-    getVouchersforUser
+    getVouchersforUser,
+    removeVoucherFromUser
 };
