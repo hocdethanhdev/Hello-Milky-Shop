@@ -218,18 +218,24 @@ const productDAO = {
       });
     });
   },
-  searchWithProductCategory: (name, pc) => {
+  searchWithProductCategory: ( pc) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request()
-          .input("Name", mssql.NVarChar, `%${name}%`)
-          .input("pc", mssql.NVarChar, pc);
+          .input("pc", mssql.NVarChar, `%${pc}%`);
         request.query(
-          `SELECT ProductID, ProductName, ProductCategoryName, Status 
-          FROM Product p 
-          JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
-          JOIN Brand b ON p.BrandID = b.BrandID
-          WHERE ProductName LIKE @Name AND ProductCategoryName = @pc`,
+          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts, ProductCategoryName
+          From Product p
+          JOIN Brand b ON b.BrandID = p.BrandID
+		  JOIN ProductCategory pcc ON pcc.ProductCategoryID = p.ProductCategoryID
+          LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+          LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
+          WHERE StockQuantity > 0 AND Status =1 AND ProductCategoryName LIKE @pc
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName, pcc.ProductCategoryName;`,
           (err, res) => {
             if (err) reject(err);
             const product = res.recordset;
