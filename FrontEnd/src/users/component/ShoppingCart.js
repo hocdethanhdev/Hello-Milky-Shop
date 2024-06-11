@@ -179,13 +179,7 @@ const ShoppingCart = () => {
 
           <h4>HÌNH THỨC THANH TOÁN</h4>
           <div className="payment-methods">
-            <div className="method">
-              <input type="radio" id="cod" name="payment" defaultChecked />
-              <label htmlFor="cod">
-                <i className="fa fa-money"></i>
-                Thanh toán khi nhận hàng (COD)
-              </label>
-            </div>
+            
             <div className="method">
               <input type="radio" id="online" name="payment" />
               <label htmlFor="online">

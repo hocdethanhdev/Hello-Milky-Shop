@@ -270,16 +270,17 @@ Content-Type: application/json
     "AuthorID": "M0000001",
     "ArticleCategoryID": 1
 }
+
 ###
 PUT http://localhost:5000/api/v1/article/deleteArticle/2
 ###
-PUT http://localhost:5000/api/v1/article/editArticle/14
+PUT http://localhost:5000/api/v1/article/editArticle/31
 Content-Type: application/json
 
 {
     "Title": "Chất lượng sữa mẹ theo thời gian có gì thay đổi?",
     "HeaderImage": "image5.png",
-    "Content": "Tin tức",
+    "Content": "Từ 1 năm tuổi trở lên, trẻ đã có thể ăn dặm với các món dạng sệt như cháo đặc, bột đặc cùng nhiều món ăn dặm khác như hoa quả, sữa chua… Nhu cầu về dinh dưỡng của trẻ tiếp tục gia tăng mạnh mẽ.",
     "PublishDate": "2021-05-16",
     "AuthorID": "M0000001",
     "ArticleCategoryID": 2

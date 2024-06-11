@@ -1,0 +1,56 @@
+/* account.css */
+.account-container {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+  }
+  
+  .sidebar-wrapper {
+    flex: 0 0 auto;
+  }
+  
+  .account-content {
+    flex: 1;
+    padding-left: 20px;
+  }
+  
+/* account.css */
+/* account.css */
+
+.account-content {
+    padding: 20px;
+    background-color: #ffffff;
+    border-left: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left: 20px;
+  }
+  
+  .account-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  .account-content div {
+    margin-bottom: 1rem;
+  }
+  
+  .account-content strong {
+    margin-right: 0.5rem;
+    color: #555;
+  }
+  
+  .account-content p {
+    margin-bottom: 1rem;
+    color: #777;
+  }
+  
+  .account-content p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .account-content .loading-message {
+    font-style: italic;
+    color: #888;
+  }
+  
