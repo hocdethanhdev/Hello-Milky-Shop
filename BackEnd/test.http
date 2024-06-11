@@ -1,10 +1,5 @@
 ### lay user by id
-GET http://localhost:5000/api/v1/user/getUserByID
-Content-Type: application/json
-
-{
-    "UserID": "M0000002"
-}
+GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
 
 ### đem so don hang tung ngay trong vong 7 ngay
 GET http://localhost:5000/api/v1/order/countOrdersIn7Days

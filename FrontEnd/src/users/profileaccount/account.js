@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import SidebarProfile from "./sidebarprofile";
-import './account.css'; 
+import "./account.css";
 import { useSelector } from "react-redux";
-import { getUserIdFromToken } from '../store/actions/authAction';
+import { getUserIdFromToken } from "../store/actions/authAction";
 import axios from "axios";
 
 function Account() {
   const [userData, setUserData] = useState(null);
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/v1/user/getUserByID?id=${userId}`);
-        // Kiểm tra nếu có dữ liệu trả về và không có lỗi
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`
+        );
+        
         if (response.data && response.data.data) {
           setUserData(response.data.data);
+          console.log(`User ${userData}`);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -45,7 +47,8 @@ function Account() {
               <strong>Email:</strong> {userData.Email || "Chưa cập nhật"}
             </div>
             <div>
-              <strong>Số điện thoại:</strong> {userData.PhoneNumber || "Chưa cập nhật"}
+              <strong>Số điện thoại:</strong>{" "}
+              {userData.PhoneNumber || "Chưa cập nhật"}
             </div>
           </div>
         ) : (
