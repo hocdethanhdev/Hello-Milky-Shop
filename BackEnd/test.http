@@ -3,7 +3,7 @@ GET http://localhost:5000/api/v1/user/getUserByID
 Content-Type: application/json
 
 {
-    "UserID": "M0000001"
+    "UserID": "M0000002"
 }
 
 ### đem so don hang tung ngay trong vong 7 ngay

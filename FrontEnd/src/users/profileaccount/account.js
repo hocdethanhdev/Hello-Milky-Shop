@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from "react";
 import SidebarProfile from "./sidebarprofile";
-import './account.css'; // Thêm tệp CSS riêng cho bố cục Account
+import './account.css'; 
+import { useSelector } from "react-redux";
+import { getUserIdFromToken } from '../store/actions/authAction';
+import axios from "axios";
 
 function Account() {
   const [userData, setUserData] = useState(null);
+  const { token } = useSelector((state) => state.auth);
+  const userId = getUserIdFromToken(token);
 
   useEffect(() => {
-    // Gọi API để lấy thông tin người dùng khi component được tạo
-    fetch("http://localhost:5000/api/v1/user/getAllUsers")
-      .then(response => response.json())
-      .then(data => {
-        // Giả sử API trả về một mảng người dùng, chúng ta lấy người dùng đầu tiên
-        if (data && data.length > 0) {
-          setUserData(data[0]);
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/v1/user/getUserByID?id=${userId}`);
+        // Kiểm tra nếu có dữ liệu trả về và không có lỗi
+        if (response.data && response.data.data) {
+          setUserData(response.data.data);
         }
-      })
-      .catch(error => console.error("Error fetching data:", error));
-  }, []);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
 
   return (
     <div className="account-container">
@@ -34,12 +42,11 @@ function Account() {
               <strong>Tên:</strong> {userData.UserName}
             </div>
             <div>
-              <strong>Email:</strong> {userData.Email}
+              <strong>Email:</strong> {userData.Email || "Chưa cập nhật"}
             </div>
             <div>
               <strong>Số điện thoại:</strong> {userData.PhoneNumber || "Chưa cập nhật"}
             </div>
-            {/* Bạn có thể thêm các trường thông tin khác tùy theo API */}
           </div>
         ) : (
           <p>Đang tải thông tin...</p>
