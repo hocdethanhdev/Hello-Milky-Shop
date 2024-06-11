@@ -1,0 +1,170 @@
+.order-details header ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  justify-content: space-between;
+}
+
+.order-details header ul li {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.order-details header ul li:hover,
+.order-details header ul li.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.order-summary {
+  margin: 20px 0;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.order-summary.completed {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.order-summary.cancel {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.order-summary.shipping {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+}
+
+.order-summary.pending {
+  background-color: #d1ecf1;
+  border: 1px solid #bee5eb;
+}
+
+.order-summary .order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.order-summary .order-header p {
+  margin: 0;
+  
+}
+
+.order-summary .order-header button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.order-summary .order-header button:hover {
+  filter: brightness(90%);
+}
+
+.order-summary .order-header button.rate-button {
+  background-color: orange;
+  color: #fff;
+}
+
+.order-summary .order-header button.rate-button:hover {
+  background-color: #ff7b00;
+}
+
+.order-summary .order-header button.cancel-button {
+  background-color: red;
+  color: #fff;
+}
+
+.order-summary .order-header button.cancel-button:hover {
+  background-color: #cc0000;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.order-item img {
+  max-width: 100px;
+}
+
+.item-details {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.item-price {
+  text-align: right;
+}
+
+.total-price {
+  text-align: right;
+  padding: 10px 0;
+  font-weight: bold;
+}
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Đảm bảo popup hiển thị trên cùng */
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+.close-popup {
+  position: relative;
+
+  left: 340px;
+  font-size: 25px;
+  cursor: pointer;
+  color: #333;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.popup-buttons button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-buttons button:first-child {
+  background-color: red;
+  color: white;
+}
+
+.popup-buttons button:last-child {
+  background-color: green;
+  color: #fff;
+}

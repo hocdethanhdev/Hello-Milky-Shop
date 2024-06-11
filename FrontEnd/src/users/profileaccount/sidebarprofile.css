@@ -1,0 +1,72 @@
+.sidebar .profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sidebar .profile img {
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.sidebar .profile p {
+  margin: 0;
+  color: black;
+}
+
+.sidebar .profile a {
+  display: block;
+  margin-top: 5px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.sidebar nav ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.sidebar nav ul li a:hover {
+  color: #007bff;
+}
+
+/* Dropdown styles */
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown li {
+  display: block;
+}
+
+.dropdown li a {
+  color: #333;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown li a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Hiển thị dropdown khi hover vào li */
+.sidebar nav ul li:hover .dropdown {
+  display: block;
+}

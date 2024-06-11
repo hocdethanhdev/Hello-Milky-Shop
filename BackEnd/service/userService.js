@@ -2,6 +2,11 @@ const User = require("../bo/user");
 const userRepository = require("../repository/userRepository");
 
 const userService = {
+
+  getUserByID: async (id) => {
+    return await userRepository.getUserByID(id);
+  },
+
   getOne: async (id) => {
     return await userRepository.getOne(id);
   },

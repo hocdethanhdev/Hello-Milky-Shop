@@ -12,6 +12,8 @@ router.put('/updateVoucher/:id', voucherController.updateVoucher);
 
 router.post('/saveVoucherForUser', voucherController.saveVoucherForUser);
 
+router.post('/removeVoucherFromUser', voucherController.removeVoucherFromUser);
+
 router.get('/getVouchersByUserID/:userID', voucherController.getVouchersByUserID);
 
 router.get('/getVouchersforUser', voucherController.getVouchersforUser);

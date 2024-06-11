@@ -7,11 +7,12 @@ const initRouters = require("./routes");
 require('./config/passport');
 const io = require('socket.io');
 const app = express();
+require('./scheduler/orderScheduler')
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL, 
-    methods: ["GET", "POST", "PUT", "DELETE"], 
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 

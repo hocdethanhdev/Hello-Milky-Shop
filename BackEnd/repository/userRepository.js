@@ -2,6 +2,10 @@ const userDAO = require("../dao/userDAO");
 
 const userRepository = {
 
+  getUserByID: async (id) => {
+    return await userDAO.getUserByID(id);
+  },
+
   getOne: async (id) => {
     return await userDAO.getOne(id);
   },

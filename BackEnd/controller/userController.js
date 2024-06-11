@@ -1,5 +1,20 @@
 const userService = require("../service/userService");
 
+const getUserByID = async (req, res) => {
+  try {
+    const UserID = req.query.UserID;
+    console.log(UserID);
+    if(!UserID) res.status(400).json({
+      err: 1,
+      message: 'Missing input'
+    })
+    const obj = await userService.getUserByID(UserID);
+    res.status(200).json(obj)
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const getOne = async (req, res) => {
   try {
     const { currentUser } = req;
@@ -56,4 +71,5 @@ module.exports = {
   updateUser,
   getUserByRole,
   getOne,
+  getUserByID,
 };

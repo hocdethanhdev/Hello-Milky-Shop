@@ -22,7 +22,6 @@ import SignupSt from "./managers/admin/SignupSt";
 import ManageMember from "./managers/admin/ManageMember";
 import SignupMem from "./managers/admin/SignupMem";
 import ProductContentMom from "./users/ui-product-mom/ProductContentMom";
-
 import ProductDetail from "./users/ui-product-mom/ProductDetailMom";
 import NavCate from "./users/ui-product-mom/NavCate";
 import RelatedProducts from "./users/ui-product-mom/RelatedProductMom";
@@ -49,11 +48,15 @@ import StaffScreen from "./managers/staff/StaffScreen";
 import Signup2 from "./users/component/Signup2";
 import LoginSuccess from "./users/component/LoginSuccess";
 import { useSelector } from "react-redux";
-
+import Profile from "./users/profileaccount/profile";
+import Account from "./users/profileaccount/account";
+import Address from "./users/profileaccount/address";
 import ProductScreen from "./users/ui-product-mom/ProductScreen";
 import ResetPassword from './users/component/ResetPassword';
 
+
 import RichTextEditor from "./users/component/RichTextEditor"; // Đảm bảo đường dẫn đúng
+
 function App() {
   const { role } = useSelector((state) => state.auth);
 
@@ -104,8 +107,10 @@ function App() {
     <div>
       <Router>
         <Header />
+
         {role === 2 ? <StaffRoutes /> : <DefaultRoutes />}
         <Footer />
+
       </Router>
     </div>
   );

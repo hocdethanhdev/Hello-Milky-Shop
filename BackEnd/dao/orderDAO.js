@@ -85,7 +85,7 @@ ORDER BY dl.OrderDate;;`,
           `SELECT COUNT(OrderID) as count
 FROM Orders 
 WHERE Status = 1 
-AND CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE);`,
+AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
           (err, res) => {
             if (err) reject(err);
 
@@ -476,13 +476,27 @@ AND CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE);`,
             })
             .join("; ");
 
+          const transferUnselectedItemsQuery = `
+                        INSERT INTO Orders (orderDate, totalAmount, status, userID)
+                        SELECT orderDate, 0, 0, userID
+                        FROM Orders
+                        WHERE OrderID = ${orderID};
+    
+                        DECLARE @newOrderID INT = SCOPE_IDENTITY();
+    
+                        INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
+                        SELECT @newOrderID, ProductID, Quantity, Price
+                        FROM OrderDetail
+                        WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});`;
+
           const deleteQuery = `
                         DELETE FROM OrderDetail
-                        WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs})
+                        WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
                     `;
 
           const finalQuery = `
-                        ${updateQueries}; ${deleteQuery};
+                        ${updateQueries}; ${transferUnselectedItemsQuery};
+
                     `;
 
           request.query(finalQuery, (err, result) => {
@@ -503,6 +517,76 @@ AND CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE);`,
       });
     });
   },
+
+  checkoutOrder: (orderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const transaction = new mssql.Transaction();
+        transaction.begin((err) => {
+          if (err) return reject(err);
+
+          const request = new mssql.Request(transaction);
+          request.input("orderID", mssql.Int, orderID);
+
+          // Update order status
+          const updateOrderQuery = `
+                    UPDATE Orders
+                    SET status = 1
+                    WHERE orderID = @orderID;
+                `;
+
+          // Get the order details
+          const getOrderDetailsQuery = `
+                    SELECT ProductID, Quantity
+                    FROM OrderDetail
+                    WHERE OrderID = @orderID;
+                `;
+
+          request.query(updateOrderQuery, (err, result) => {
+            if (err) {
+              transaction.rollback();
+              return reject(err);
+            }
+
+            request.query(getOrderDetailsQuery, (err, orderDetailsResult) => {
+              if (err) {
+                transaction.rollback();
+                return reject(err);
+              }
+
+              const orderDetails = orderDetailsResult.recordset;
+              const updateProductQueries = orderDetails
+                .map((detail) => {
+                  return `
+                                UPDATE Product
+                                SET StockQuantity = StockQuantity - ${detail.Quantity}
+                                WHERE ProductID = '${detail.ProductID}';
+                            `;
+                })
+                .join(" ");
+
+              request.query(updateProductQueries, (err, result) => {
+                if (err) {
+                  transaction.rollback();
+                  return reject(err);
+                }
+
+                transaction.commit((err) => {
+                  if (err) {
+                    transaction.rollback();
+                    return reject(err);
+                  }
+                  resolve(result);
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  },
   updateStatusOrderID: (orderID, statusOrderID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -514,9 +598,36 @@ AND CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE);`,
           .input("statusOrderID", mssql.Int, statusOrderID);
 
         const updateQuery = `
+
                     UPDATE Orders
                     SET StatusOrderID = @statusOrderID
-                    WHERE OrderID = @orderID
+                    WHERE OrderID = @orderID;
+                `;
+
+        request.query(updateQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      });
+    });
+  },
+
+  updateStatusAfterDays: (days, oldStatus, newStatus) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        request
+          .input("days", mssql.Int, days)
+          .input("oldStatus", mssql.Int, oldStatus)
+          .input("newStatus", mssql.Int, newStatus);
+
+        const updateQuery = `
+                    UPDATE Orders
+                    SET StatusOrderID = @newStatus
+                    WHERE StatusOrderID = @oldStatus
+                    AND DATEDIFF(day, OrderDate, GETDATE()) > @days;
                 `;
 
         request.query(updateQuery, (err, result) => {

@@ -1,3 +1,6 @@
+### lay user by id
+GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
+
 ### đem so don hang tung ngay trong vong 7 ngay
 GET http://localhost:5000/api/v1/order/countOrdersIn7Days
 ### count don hang hoan thanh
@@ -153,7 +156,7 @@ Content-Type: application/json
     "maxDiscount": 150000,
     "minDiscount": 120000,
     "startDate": "2024-10-10",
-    "expiryDate": "2024-11-31",
+    "expiryDate": "2024-12-31",
     "voucherName": "Voucher More"
 }
 ###
@@ -179,8 +182,18 @@ Content-Type: application/json
 
 {
   "userID": "M0000001",
-  "voucherID": 3
+  "voucherID": 4
 }
+
+### Xóa mã voucher từ user
+POST http://localhost:5000/api/v1/voucher/removeVoucherFromUser
+Content-Type: application/json
+
+{
+  "userID": "M0000001",
+  "voucherID": 4
+}
+
 ###
 GET http://localhost:5000/api/v1/voucher/getVouchersByUserID/M0000001
 
@@ -238,7 +251,7 @@ Content-Type: application/json
 
 {
   "userID": "M0000001",
-  "productID": "SE0003",
+  "productID": "SE0005",
   "quantity": 3,
   "price": 1500
 }
@@ -284,16 +297,17 @@ Content-Type: application/json
     "AuthorID": "M0000001",
     "ArticleCategoryID": 1
 }
+
 ###
 PUT http://localhost:5000/api/v1/article/deleteArticle/2
 ###
-PUT http://localhost:5000/api/v1/article/editArticle/14
+PUT http://localhost:5000/api/v1/article/editArticle/31
 Content-Type: application/json
 
 {
     "Title": "Chất lượng sữa mẹ theo thời gian có gì thay đổi?",
     "HeaderImage": "image5.png",
-    "Content": "Tin tức",
+    "Content": "Từ 1 năm tuổi trở lên, trẻ đã có thể ăn dặm với các món dạng sệt như cháo đặc, bột đặc cùng nhiều món ăn dặm khác như hoa quả, sữa chua… Nhu cầu về dinh dưỡng của trẻ tiếp tục gia tăng mạnh mẽ.",
     "PublishDate": "2021-05-16",
     "AuthorID": "M0000001",
     "ArticleCategoryID": 2
@@ -338,11 +352,11 @@ Content-Type: application/json
     "orderID": "2",
     "productQuantities": [
         {
-            "productID": "SE0002",
+            "productID": "SE0001",
             "quantity": 5
         },
         {
-            "productID": "SE0006",
+            "productID": "SE0003",
             "quantity": 3
         }
     ]

@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
 import "./Header.css";
 import { logout } from "../store/actions/authAction";
 import { apiGetOne } from "../apis/userService";
@@ -96,11 +95,15 @@ function Header() {
 
         <div className="box_right_header-compo-tri">
           {isLoggedIn ? (
-            <div className="account-menu-Nhan">
-              <span>
-                <i className="fas fa-user"></i> {userData?.UserName}
-              </span>
-            </div>
+             
+              <div className="account-menu-Nhan">
+                <Link to="/profile"> 
+                <span>
+                  <i className="fas fa-user"></i> {userData?.UserName}
+                </span>
+                </Link>
+              </div>
+            
           ) : (
             <div className="box_user-compo-tri">
               <i className="fa fa-user"></i>

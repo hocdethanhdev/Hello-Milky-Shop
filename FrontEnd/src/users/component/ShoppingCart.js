@@ -217,6 +217,7 @@ const ShoppingCart = () => {
 
           <h4>HÌNH THỨC THANH TOÁN</h4>
           <div className="payment-methods">
+
             <div className="method">
               <input type="radio" id="online" name="payment" />
               <label htmlFor="online">
