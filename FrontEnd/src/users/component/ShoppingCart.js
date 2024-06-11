@@ -6,7 +6,7 @@ import './ShoppingCart.css';
 import { Link, useLocation } from 'react-router-dom';
 
 const ShoppingCart = () => {
-  const { token } = useSelector((state) => state.auth);
+  const { isLoggedIn, token } = useSelector((state) => state.auth);
   const [orderDetails, setOrderDetails] = useState([]);
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);

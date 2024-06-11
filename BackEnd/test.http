@@ -25,7 +25,7 @@ GET http://localhost:5000/api/v1/product/getProductByCategory/2/
 ### lay tat ca category
 GET http://localhost:5000/api/v1/product/getAllProductCategory
 ### tim kiem sua bang cate
-GET http://localhost:5000/api/v1/product/searchWithProductCategory/en/Sữa cho mẹ bầu
+GET http://localhost:5000/api/v1/product/searchWithProductCategory/Sữa
 ### tim voi gia
 GET http://localhost:5000/api/v1/product/searchWithPrice/En/0/10000000
 ### tim theo ten
@@ -230,7 +230,7 @@ Content-Type: application/json
 }
 
 ### Trả về orders dựa vào orderID
-GET http://localhost:5000/api/v1/order/getOrder/30
+GET http://localhost:5000/api/v1/order/getOrder/280
 
 
 
