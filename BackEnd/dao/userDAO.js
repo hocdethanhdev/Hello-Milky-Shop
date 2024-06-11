@@ -9,6 +9,33 @@ const UserID = "a";
 
 const userDAO = {
 
+  getUserByID: (id) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request()
+        .input("UserID", id);
+        request.query(`
+        SELECT UserName, PhoneNumber, Email
+        FROM Users u
+        WHERE UserID = @UserID;`, (err, res) => {
+          if (err) reject(err);
+          if(res.recordset[0])
+            resolve({
+              err: 0,
+              mes: "OK",
+              data: res.recordset[0]
+          })
+          else{
+            resolve({
+              err: 1,
+              mes: "Not found"
+            })
+          }
+        });
+      });
+    });
+  },
+
   getOne: (id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
