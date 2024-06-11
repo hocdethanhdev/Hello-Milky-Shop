@@ -34,8 +34,8 @@ const productRepository = {
     return await productDAO.getAllProductCategory();
   },
 
-  searchWithProductCategory: async (name, pc) => {
-    return await productDAO.searchWithProductCategory(name, pc);
+  searchWithProductCategory: async ( pc) => {
+    return await productDAO.searchWithProductCategory( pc);
   },
 
   searchWithPrice: async (name, min, max) => {
