@@ -85,7 +85,7 @@ ORDER BY dl.OrderDate;;`,
           `SELECT COUNT(OrderID) as count
 FROM Orders 
 WHERE Status = 1 
-AND CAST(OrderDate AS DATE) = CAST(GETDATE() AS DATE);`,
+AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
           (err, res) => {
             if (err) reject(err);
 
