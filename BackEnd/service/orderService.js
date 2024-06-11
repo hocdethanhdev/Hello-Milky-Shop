@@ -2,6 +2,31 @@ const { getOrderDetailByOrderID } = require('../dao/orderDAO');
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
+
+    countOrdersIn7Days: async () => {
+        return await orderRepository.countOrdersIn7Days();
+    },
+
+    countOrdersFinish: async () => {
+        return await orderRepository.countOrdersFinish();
+    },
+
+    countOrdersCancel: async () => {
+        return await orderRepository.countOrdersCancel();
+    },
+
+    countOrdersWaitToConfirm: async () => {
+        return await orderRepository.countOrdersWaitToConfirm();
+    },
+
+    countNewOrders: async () => {
+        return await orderRepository.countNewOrders();
+    },
+
+    countOrdersPayed: async () => {
+        return await orderRepository.countOrdersPayed();
+    },
+
     getOpenOrderForUser: async (id) => {
         return await orderRepository.getOpenOrderForUser(id);
     },
