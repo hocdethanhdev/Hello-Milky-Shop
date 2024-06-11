@@ -14,4 +14,6 @@ router.get('/getUserByRoleID/:ID', userController.getUserByRole);
 
 router.get('/getOne', verifyToken, userController.getOne);
 
+router.get('/getUserByID', userController.getUserByID);
+
 module.exports = router

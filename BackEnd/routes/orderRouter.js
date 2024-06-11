@@ -41,4 +41,16 @@ router.post('/updateStatusOrderID/:OrderID', orderController.updateStatusOrderID
 
 router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser);
 
+router.get('/countOrdersPayed', orderController.countOrdersPayed);
+
+router.get('/countNewOrders', orderController.countNewOrders);
+
+router.get('/countOrdersWaitToConfirm', orderController.countOrdersWaitToConfirm);
+
+router.get('/countOrdersCancel', orderController.countOrdersCancel);
+
+router.get('/countOrdersFinish', orderController.countOrdersFinish);
+
+router.get('/countOrdersIn7Days', orderController.countOrdersIn7Days);
+
 module.exports = router

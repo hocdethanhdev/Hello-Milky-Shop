@@ -1,6 +1,32 @@
 const orderDAO = require('../dao/orderDAO');
 
 const orderRepository = {
+
+    countOrdersIn7Days: () => {
+        return orderDAO.countOrdersIn7Days();
+    },
+
+    countOrdersFinish: () => {
+        return orderDAO.countOrdersFinish();
+    },
+
+    countOrdersCancel:() => {
+        return orderDAO.countOrdersCancel();
+    },
+
+    countOrdersWaitToConfirm: () => {
+        return orderDAO.countOrdersWaitToConfirm();
+    },
+
+    countNewOrders: () => {
+        return orderDAO.countNewOrders();
+    },
+
+
+    countOrdersPayed: () => {
+        return orderDAO.countOrdersPayed();
+    },
+
     getAllOrders: () => {
         return orderDAO.getAllOrders();
     },
@@ -52,6 +78,10 @@ const orderRepository = {
     updateStatusOrderID: (orderID, statusOrderID) => {
         return orderDAO.updateStatusOrderID(orderID, statusOrderID);
     },
+    updateStatusAfterDays: (days, oldStatus, newStatus) => {
+        return orderDAO.updateStatusAfterDays(days, oldStatus, newStatus);
+    },
+
 
 };
 

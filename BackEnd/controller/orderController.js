@@ -1,6 +1,60 @@
 const orderService = require('../service/orderService');
 
-const getOpenOrderForUser = (req, res, next) => {
+const countOrdersIn7Days = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersIn7Days();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const countOrdersFinish = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersFinish();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const countOrdersCancel = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersCancel();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const countOrdersWaitToConfirm = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersWaitToConfirm();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const countNewOrders = async (req, res) => {
+    try {
+        const orders = await orderService.countNewOrders();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const countOrdersPayed = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersPayed();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const getOpenOrderForUser = (req, res) => {
     orderService.getOpenOrderForUser(req.params.id)
         .then(result => res.status(201).json(result))
         .catch(err => res.status(500).json({ message: err.message })
@@ -119,10 +173,11 @@ const changeQuantityOfProductInOrder = async (req, res) => {
     try {
         const { orderID, productQuantities } = req.body;
         await orderService.changeQuantityOfProductInOrder(orderID, productQuantities);
-        res.status(200).json({ message: 'Order quantities updated successfully' });
+        res.status(200).json({ message: 'Order quantities updated and unselected items moved to a new order successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+
 };
 
 
@@ -154,4 +209,10 @@ module.exports = {
     changeQuantityOfProductInOrder,
     updateStatusOrderID,
     getOpenOrderForUser,
+    countOrdersPayed,
+    countNewOrders,
+    countOrdersWaitToConfirm,
+    countOrdersCancel,
+    countOrdersFinish,
+    countOrdersIn7Days,
 };

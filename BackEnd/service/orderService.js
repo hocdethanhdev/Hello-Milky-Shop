@@ -2,6 +2,31 @@ const { getOrderDetailByOrderID } = require('../dao/orderDAO');
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
+
+    countOrdersIn7Days: async () => {
+        return await orderRepository.countOrdersIn7Days();
+    },
+
+    countOrdersFinish: async () => {
+        return await orderRepository.countOrdersFinish();
+    },
+
+    countOrdersCancel: async () => {
+        return await orderRepository.countOrdersCancel();
+    },
+
+    countOrdersWaitToConfirm: async () => {
+        return await orderRepository.countOrdersWaitToConfirm();
+    },
+
+    countNewOrders: async () => {
+        return await orderRepository.countNewOrders();
+    },
+
+    countOrdersPayed: async () => {
+        return await orderRepository.countOrdersPayed();
+    },
+
     getOpenOrderForUser: async (id) => {
         return await orderRepository.getOpenOrderForUser(id);
     },
@@ -125,6 +150,13 @@ const orderService = {
             await orderRepository.updateStatusOrderID(orderID, statusOrderID);
         } catch (error) {
             throw new Error(`Error updating status of order: ${error.message}`);
+        }
+    },
+    updateStatusAfterDays: async (days, oldStatus, newStatus) => {
+        try {
+            await orderRepository.updateStatusAfterDays(days, oldStatus, newStatus);
+        } catch (error) {
+            throw new Error(`Error updating status of orders: ${error.message}`);
         }
     },
 

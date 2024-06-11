@@ -30,8 +30,8 @@ const productService = {
   getAllProductCategory: async (req, res) => {
     return await productRepository.getAllProductCategory();
   },
-  searchWithProductCategory: async (name, pc) => {
-    return await productRepository.searchWithProductCategory(name, pc);
+  searchWithProductCategory: async ( pc) => {
+    return await productRepository.searchWithProductCategory( pc);
   },
   searchWithPrice: async (name, min, max) => {
     return await productRepository.searchWithPrice(name, min, max);
