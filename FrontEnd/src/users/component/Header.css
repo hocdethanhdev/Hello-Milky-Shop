@@ -3,20 +3,20 @@
 .header-compo-tri {
   background-color: #0f7fc1;
   color: #fff;
-  padding: 10px 0;
+  
 }
 
 .container-compo-tri {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
 .logo-compo-tri img {
-  max-height: 80px;
+  max-height: 100px;
 }
 
 .box_search-compo-tri {
@@ -68,6 +68,7 @@
   text-decoration: none;
   margin: 0 5px;
 }
+
 
 .box_user-compo-tri a:hover {
   color: #fff;
@@ -123,9 +124,14 @@
   cursor: pointer;
   margin-right: 20px;
 }
+.account-menu-Nhan a {
+  color: #fff; /* Thiết lập màu chữ là trắng */
+  text-decoration: none; /* Loại bỏ gạch dưới */
+}
 .account-menu-Nhan :hover {
   color: #f8b400;
 }
+
 
 .dropdown-menu-Nhan {
   display: none;
@@ -201,33 +207,18 @@
 }
 
 .DongY {
-  /* background-color: #14d83f; 
-  color: #fff; */
+ 
   margin-right: 10px;
 }
 
-.Huy {
-  /* background-color: #dc3545; 
-  color: #fff; */
-}
+
 
 .DongY,
 .Huy {
   margin-left: 35px;
   margin-right: 35px;
-  /* transition:
-    background-color 0.3s ease,
-    color 0.3s ease;  */
-}
 
-/* .DongY:hover {
-  background-color: #fff; 
-  color: #14d83f; 
 }
-.Huy:hover {
-  background-color: #fff; 
-  color: #dc3545; 
-} */
 
 .logout-link {
   text-decoration: none;

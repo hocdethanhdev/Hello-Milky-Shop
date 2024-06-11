@@ -1,0 +1,36 @@
+.account-container-account {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.sidebar-wrapper-account {
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.address-account {
+  width: 75%;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-left: 20px;
+}
+
+.form-group-account {
+  margin-bottom: 15px;
+}
+
+.form-group-account label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group-account p {
+  margin: 0;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}

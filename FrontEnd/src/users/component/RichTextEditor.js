@@ -143,7 +143,9 @@ const RichTextEditor = () => {
           </div>
         </div>
         <div id="content" ref={contentRef} contentEditable={!showCode} spellCheck="false">
-          
+
+
+
         </div>
       </div>
     </div>
