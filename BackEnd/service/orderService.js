@@ -127,6 +127,13 @@ const orderService = {
             throw new Error(`Error updating status of order: ${error.message}`);
         }
     },
+    updateStatusAfterDays: async (days, oldStatus, newStatus) => {
+        try {
+            await orderRepository.updateStatusAfterDays(days, oldStatus, newStatus);
+        } catch (error) {
+            throw new Error(`Error updating status of orders: ${error.message}`);
+        }
+    },
 
 
 

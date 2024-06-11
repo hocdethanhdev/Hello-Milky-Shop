@@ -52,6 +52,10 @@ const orderRepository = {
     updateStatusOrderID: (orderID, statusOrderID) => {
         return orderDAO.updateStatusOrderID(orderID, statusOrderID);
     },
+    updateStatusAfterDays: (days, oldStatus, newStatus) => {
+        return orderDAO.updateStatusAfterDays(days, oldStatus, newStatus);
+    },
+
 
 };
 
