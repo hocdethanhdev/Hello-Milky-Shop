@@ -24,14 +24,16 @@ const NavCate = () => {
                       <a href="/Bigsales" className="cate_li_title">
                         <img
                           className="img_icon icon_color"
-                          src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
+                          // src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
+                          src="./khuyenmailon/ngoi-sao.jpg"
                           alt="Khuyến mại lớn"
                         />
                         <img
                           className="img_icon icon_hover"
-                          src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
+                          src="./khuyenmailon/ngoi-sao.jpg"
                           alt="Khuyến mại lớn"
                         />
+                        {/* <span className="phan-tram-km-lon fas fa-percentage"></span> */}
                         Khuyến mại lớn
                       </a>
                     </li>
@@ -84,7 +86,7 @@ const NavCate = () => {
                     ) : (
                       <div></div>
                     )}
-                    
+
                     <li className="cate_li menu-2011021743240">
                       <a href="/News" className="cate_li_title">
                         <img

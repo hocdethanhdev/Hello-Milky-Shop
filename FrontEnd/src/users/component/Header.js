@@ -17,7 +17,23 @@ function Header() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const keyword = document.getElementById("search_suggest-compo-tri").value;
+    let keyword = document.getElementById("search_suggest-compo-tri").value.trim();
+
+    // Replace specific words
+    const replacements = {
+      "\\bbe\\b": "bé",
+      "\\bme\\b": "mẹ",
+      "\\bsua\\b": "sữa"
+    };
+
+    for (let [key, value] of Object.entries(replacements)) {
+      const regex = new RegExp(key, "gi");
+      keyword = keyword.replace(regex, value);
+    }
+
+    // Replace multiple spaces with a single space
+    keyword = keyword.replace(/\s+/g, " ");
+
     navigate(`/all-products/${keyword}`);
   };
 
@@ -56,10 +72,10 @@ function Header() {
         <div className="logo-compo-tri">
           {role === 0 || role === 3 ? (
             <Link to="/">
-              <img src="/ImageMilkShop/Logo.jpg" alt="LogoMilky" />
+              <img src="/ImageMilkShop/Logo.png" alt="LogoMilky" />
             </Link>
           ) : (
-            <img src="/ImageMilkShop/Logo.jpg" alt="LogoMilky" />
+            <img src="/ImageMilkShop/Logo.png" alt="LogoMilky" />
           )}
         </div>
         {(role === 0 || role === 3) && (

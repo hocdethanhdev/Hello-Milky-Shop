@@ -1,0 +1,37 @@
+/* src/Dashboard.css */
+.dashboard {
+    padding: 20px;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart-group {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.chart-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.pie-chart {
+    width: 48%;
+}
+
+.line-chart,
+.voucher-chart {
+    width: 100%;
+}
+
+.chart-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}

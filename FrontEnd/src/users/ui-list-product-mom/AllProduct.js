@@ -5,6 +5,9 @@ import SliderMoney from './SliderMoney';
 import ThrowPage from './ThrowPage';
 
 const formatPrice = (price) => {
+    if (price == null || isNaN(price)) {
+        return '0';
+    }
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 };
 
@@ -26,7 +29,18 @@ const AllProduct = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/product/searchWithName?search=${keyword}`);
+            let apiUrl = `http://localhost:5000/api/v1/product/searchWithName?search=${keyword}`;
+            let modifiedKeyword = keyword.toLowerCase();
+
+            if (modifiedKeyword.includes("mẹ") || modifiedKeyword.includes("me")) {
+                modifiedKeyword = "Sữa cho mẹ bầu";
+                apiUrl = `http://localhost:5000/api/v1/product/searchWithProductCategory/en/${encodeURIComponent(modifiedKeyword)}`;
+            } else if (modifiedKeyword.includes("bé") || modifiedKeyword.includes("be")) {
+                modifiedKeyword = "Sữa cho em bé";
+                apiUrl = `http://localhost:5000/api/v1/product/searchWithProductCategory/en/${encodeURIComponent(modifiedKeyword)}`;
+            }
+
+            const response = await fetch(apiUrl);
             const data = await response.json();
 
             if (data && data.length > 0) {

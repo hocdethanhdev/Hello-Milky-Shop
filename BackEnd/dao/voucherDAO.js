@@ -6,7 +6,16 @@ const voucherDAO = {
     findAllVouchers: () => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err, result) {
+
                 const request = new mssql.Request();
+
+                request.query(`
+                        UPDATE Voucher
+                        SET status = 0
+                        WHERE expiryDate < GETDATE() AND status != 0;`,
+                    (err, result) => {
+                        if (err) return reject(err);
+                    });
                 request.query(`SELECT * FROM Voucher;`,
                     (err, res) => {
                         if (err) reject(err);
@@ -16,7 +25,6 @@ const voucherDAO = {
             });
         });
     },
-
     getVouchersforUser: () => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err, res) {
