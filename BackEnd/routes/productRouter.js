@@ -19,7 +19,7 @@ router.get("/getAllProductCategory", productController.getAllProductCategory);
 router.get("/searchWithBrand/:name/:brand", productController.searchWithBrand);
 
 router.get(
-  "/searchWithProductCategory/:name/:pc",
+  "/searchWithProductCategory/:pc",
   productController.searchWithProductCategory
 );
 

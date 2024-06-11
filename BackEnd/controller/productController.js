@@ -60,7 +60,6 @@ const searchWithBrand = async (req, res) => {
 const searchWithProductCategory = async (req, res) => {
   try {
     const obj = await productService.searchWithProductCategory(
-      req.params.name,
       req.params.pc
     );
     res.send(obj);

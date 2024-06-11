@@ -1,4 +1,18 @@
+### đem so don hang tung ngay trong vong 7 ngay
+GET http://localhost:5000/api/v1/order/countOrdersIn7Days
+### count don hang hoan thanh
+GET http://localhost:5000/api/v1/order/countOrdersFinish
+### count don hang da huy
+GET http://localhost:5000/api/v1/order/countOrdersCancel
 
+### dem don hang dang cho xac nhan 
+GET http://localhost:5000/api/v1/order/countOrdersWaitToConfirm
+
+### dem don hang moi
+GET http://localhost:5000/api/v1/order/countNewOrders
+
+### dem tat ca don hang da thanh toan
+GET http://localhost:5000/api/v1/order/countOrdersPayed
 ### get order chua thanh toan cua user
 GET http://localhost:5000/api/v1/order/getOpenOrderForUser/M0000001
 ### top 6 product by brand
@@ -25,7 +39,7 @@ GET http://localhost:5000/api/v1/product/getProductByCategory/2/
 ### lay tat ca category
 GET http://localhost:5000/api/v1/product/getAllProductCategory
 ### tim kiem sua bang cate
-GET http://localhost:5000/api/v1/product/searchWithProductCategory/en/Sữa cho mẹ bầu
+GET http://localhost:5000/api/v1/product/searchWithProductCategory/Sữa
 ### tim voi gia
 GET http://localhost:5000/api/v1/product/searchWithPrice/En/0/10000000
 ### tim theo ten
@@ -82,14 +96,14 @@ Content-Type: application/json
     "UserName": "Nhan",
     "PhoneNumber": "0909090908",
     "Password": "1",
-    "RoleID": 2
+    "RoleID": 3
 }
 ### login
 POST http://localhost:5000/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "PhoneNumber": "84933802522",
+    "PhoneNumber": "0909090908",
     "Password": "1"
 }
 ### logout
@@ -240,7 +254,7 @@ Content-Type: application/json
 }
 
 ### Trả về orders dựa vào orderID
-GET http://localhost:5000/api/v1/order/getOrder/30
+GET http://localhost:5000/api/v1/order/getOrder/280
 
 
 
