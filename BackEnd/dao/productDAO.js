@@ -517,13 +517,12 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 p.ProductID, p.ProductName, pc.ProductCategoryName, p.Status, SUM(od.Quantity) AS TotalSold
-FROM Product p
-JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
-INNER JOIN OrderDetail od ON p.ProductID = od.ProductID
-WHERE pc.ProductCategoryName = N'Sữa cho mẹ bầu' AND Status = 1
-GROUP BY p.ProductID, p.ProductName, pc.ProductCategoryName, p.Status
-ORDER BY TotalSold DESC;
+          `SELECT TOP 6 ProductID, ProductName, Description, Price, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+        FROM Product p 
+        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
+        JOIN Brand b ON p.BrandID = b.BrandID
+        WHERE pc.ProductCategoryID = 1
+
       ;`,
           (err, res) => {
             if (err) {
@@ -550,13 +549,11 @@ ORDER BY TotalSold DESC;
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 p.ProductID, p.ProductName, pc.ProductCategoryName, p.Status, SUM(od.Quantity) AS TotalSold
-FROM Product p
-JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
-INNER JOIN OrderDetail od ON p.ProductID = od.ProductID
-WHERE pc.ProductCategoryName = N'Sữa cho em bé' AND Status = 1
-GROUP BY p.ProductID, p.ProductName, pc.ProductCategoryName, p.Status
-ORDER BY TotalSold DESC;
+          `SELECT TOP 6 ProductID, ProductName, Description, Price, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+        FROM Product p 
+        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
+        JOIN Brand b ON p.BrandID = b.BrandID
+        WHERE pc.ProductCategoryID = 2
       ;`,
       (err, res) => {
         if (err) {

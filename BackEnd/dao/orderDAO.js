@@ -1,6 +1,8 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 const Order = require("../bo/order");
+const ShippingAdress = require("../bo/shippingAdress");
+
 
 const orderDAO = {
   countOrdersIn7Days: () => {
@@ -608,11 +610,10 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
           if (err) return reject(err);
           resolve(result);
         });
-      });
-    });
-  },
 
-  updateStatusAfterDays: (days, oldStatus, newStatus) => {
+    },
+                    
+    updateStatusAfterDays: (days, oldStatus, newStatus) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
@@ -637,5 +638,45 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
       });
     });
   },
-};
+
+    addInfoCusToOrder: (receiver, phoneNumber, address, userID) => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err) {
+                if (err) return reject(err);
+    
+                const request = new mssql.Request();
+                request.input('receiver', mssql.NVarChar, receiver)
+                    .input('phoneNumber', mssql.VarChar, phoneNumber)
+                    .input('address', mssql.NVarChar, address)
+                    .input('userID', mssql.VarChar, userID);
+    
+                const insertQuery = `
+                    INSERT INTO ShippingAdress (Receiver, PhoneNumber, Address, UserID)
+                    VALUES (@receiver, @phoneNumber, @address, @userID);
+    
+                    DECLARE @shippingAddressID INT;
+                    SET @shippingAddressID = SCOPE_IDENTITY();
+    
+                    UPDATE Orders
+                    SET ShippingAddressID = @shippingAddressID
+                    WHERE OrderID = (
+                        SELECT TOP 1 OrderID
+                        FROM Orders
+                        WHERE UserID = @userID AND Status = 1 -- Assuming 1 represents 'open' status
+                        ORDER BY OrderDate DESC
+                    );
+                `;
+    
+                request.query(insertQuery, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result);
+                });
+            });
+        });
+    },
+}
 module.exports = orderDAO;
+
+
+  
+
