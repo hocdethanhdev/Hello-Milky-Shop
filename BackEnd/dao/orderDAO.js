@@ -3,7 +3,6 @@ const dbConfig = require("../config/db.config");
 const Order = require("../bo/order");
 const ShippingAdress = require("../bo/shippingAdress");
 
-
 const orderDAO = {
   countOrdersIn7Days: () => {
     return new Promise((resolve, reject) => {
@@ -610,10 +609,10 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
           if (err) return reject(err);
           resolve(result);
         });
-
-    },
-                    
-    updateStatusAfterDays: (days, oldStatus, newStatus) => {
+      });
+    });
+  },
+  updateStatusAfterDays: (days, oldStatus, newStatus) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
@@ -639,18 +638,19 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
     });
   },
 
-    addInfoCusToOrder: (receiver, phoneNumber, address, userID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
-    
-                const request = new mssql.Request();
-                request.input('receiver', mssql.NVarChar, receiver)
-                    .input('phoneNumber', mssql.VarChar, phoneNumber)
-                    .input('address', mssql.NVarChar, address)
-                    .input('userID', mssql.VarChar, userID);
-    
-                const insertQuery = `
+  addInfoCusToOrder: (receiver, phoneNumber, address, userID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        request
+          .input("receiver", mssql.NVarChar, receiver)
+          .input("phoneNumber", mssql.VarChar, phoneNumber)
+          .input("address", mssql.NVarChar, address)
+          .input("userID", mssql.VarChar, userID);
+
+        const insertQuery = `
                     INSERT INTO ShippingAdress (Receiver, PhoneNumber, Address, UserID)
                     VALUES (@receiver, @phoneNumber, @address, @userID);
     
@@ -666,17 +666,13 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
                         ORDER BY OrderDate DESC
                     );
                 `;
-    
-                request.query(insertQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                });
-            });
+
+        request.query(insertQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
-    },
-}
+      });
+    });
+  },
+};
 module.exports = orderDAO;
-
-
-  
-
