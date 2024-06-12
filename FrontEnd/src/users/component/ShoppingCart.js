@@ -6,7 +6,7 @@ import './ShoppingCart.css';
 import { Link, useLocation } from 'react-router-dom';
 
 const ShoppingCart = () => {
-  const { token } = useSelector((state) => state.auth);
+  const { isLoggedIn ,token } = useSelector((state) => state.auth);
   const [orderDetails, setOrderDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -125,11 +125,14 @@ const ShoppingCart = () => {
 
   return (
     <div className="checkout-container">
-      <div className="quick-login">
+      {!isLoggedIn &&
+        <div className="quick-login">
         <p>
           Hãy <Link to="/login">Đăng nhập</Link> để mua hàng nhanh hơn!
         </p>
       </div>
+      }
+      
       <div className="checkout">
         <div className="customer-info">
           <h3>THÔNG TIN MUA HÀNG</h3>
@@ -179,13 +182,7 @@ const ShoppingCart = () => {
 
           <h4>HÌNH THỨC THANH TOÁN</h4>
           <div className="payment-methods">
-            <div className="method">
-              <input type="radio" id="cod" name="payment" defaultChecked />
-              <label htmlFor="cod">
-                <i className="fa fa-money"></i>
-                Thanh toán khi nhận hàng (COD)
-              </label>
-            </div>
+            
             <div className="method">
               <input type="radio" id="online" name="payment" />
               <label htmlFor="online">

@@ -6,7 +6,16 @@ const voucherDAO = {
     findAllVouchers: () => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err, result) {
+
                 const request = new mssql.Request();
+
+                request.query(`
+                        UPDATE Voucher
+                        SET status = 0
+                        WHERE expiryDate < GETDATE() AND status != 0;`,
+                    (err, result) => {
+                        if (err) return reject(err);
+                    });
                 request.query(`SELECT * FROM Voucher;`,
                     (err, res) => {
                         if (err) reject(err);
@@ -176,6 +185,50 @@ const voucherDAO = {
                 request.query(insertQuery, (err, result) => {
                     if (err) return reject(err);
                     resolve(result);
+                });
+            });
+        });
+    },
+
+    removeVoucherFromUser: (userID, voucherID) => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err) {
+                if (err) return reject(err);
+
+                const request = new mssql.Request();
+                request.input('userID', mssql.VarChar, userID)
+                    .input('voucherID', mssql.Int, voucherID);
+
+                const deleteQuery = `
+                    DELETE FROM UserVoucher 
+                    WHERE UserID = @userID AND VoucherID = @voucherID;
+                `;
+
+                request.query(deleteQuery, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result);
+                });
+            });
+        });
+    },
+
+    getVoucherForUser: (userID, voucherID) => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err) {
+                if (err) return reject(err);
+
+                const request = new mssql.Request();
+                request.input('userID', mssql.VarChar, userID)
+                    .input('voucherID', mssql.Int, voucherID);
+
+                const query = `
+                    SELECT * FROM UserVoucher 
+                    WHERE UserID = @userID AND VoucherID = @voucherID;
+                `;
+
+                request.query(query, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result.recordset[0]);  // Return the first matching record if exists
                 });
             });
         });

@@ -22,7 +22,6 @@ import SignupSt from "./managers/admin/SignupSt";
 import ManageMember from "./managers/admin/ManageMember";
 import SignupMem from "./managers/admin/SignupMem";
 import ProductContentMom from "./users/ui-product-mom/ProductContentMom";
-
 import ProductDetail from "./users/ui-product-mom/ProductDetailMom";
 import NavCate from "./users/ui-product-mom/NavCate";
 import RelatedProducts from "./users/ui-product-mom/RelatedProductMom";
@@ -49,11 +48,12 @@ import StaffScreen from "./managers/staff/StaffScreen";
 import Signup2 from "./users/component/Signup2";
 import LoginSuccess from "./users/component/LoginSuccess";
 import { useSelector } from "react-redux";
-
+import Profile from "./users/profileaccount/profile";
+import Account  from "./users/profileaccount/account";
+import Address  from "./users/profileaccount/address";
 import ProductScreen from "./users/ui-product-mom/ProductScreen";
 import ResetPassword from './users/component/ResetPassword';
-
-import RichTextEditor from "./users/component/RichTextEditor"; // Đảm bảo đường dẫn đúng
+import RichTextEditor from "./users/component/RichTextEditor"; 
 
 function App() {
   const { role } = useSelector((state) => state.auth);
@@ -93,6 +93,9 @@ function App() {
           <Route path="/Bigsales" element={<Bigsales />} />
           <Route path="/News" element={<News />} />
           <Route path="/Dealsoc" element={<Dealsoc />} />
+          <Route path="/Profile" element={<Profile />} />
+          <Route path="/Account" element={<Account/>} />
+          <Route path="/Address" element={<Address/>} />
         </Routes>
         {(role === 0 || role === 3) && <Footer />}
       </Router>

@@ -1,5 +1,19 @@
 ﻿use HelloMilkyShop
 
+WITH DateList AS (
+    SELECT CAST(GETDATE() AS DATE) AS OrderDate
+    UNION ALL
+    SELECT DATEADD(DAY, -1, OrderDate)
+    FROM DateList
+    WHERE OrderDate > DATEADD(DAY, -6, CAST(GETDATE() AS DATE))
+)
+SELECT dl.OrderDate, COUNT(o.OrderID) AS count
+FROM DateList dl
+LEFT JOIN Orders o ON dl.OrderDate = o.OrderDate
+GROUP BY dl.OrderDate
+ORDER BY dl.OrderDate;
+
+
 INSERT INTO Role VALUES ('Admin'), ('Staff'), ('Member')
 
 INSERT INTO Brand (BrandName) VALUES 
@@ -24,9 +38,7 @@ INSERT INTO Brand (BrandName) VALUES
 ('Nestle'),
 ('Abbott Grow');
 
-select*from Brand
 insert into ProductCategory values (N'Sữa cho mẹ bầu'), (N'Sữa cho em bé')
-
 
 INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
 ('P001', N'Sữa Abbott Grow số 4 hương vani 1.7kg (từ 2 tuổi)', N'Sữa Abbott Grow số 4 hương vani 1.7kg loại mới bổ sung thêm 20% canxi, hỗ trợ bé phát triển xương và chiều cao nhờ được bổ sung canxi, vitamin D với tỷ lệ canxi/phốt pho thích hợp theo khuyến cáo của Châu và Hoa Kỳ và sự có mặt của hỗn hợp chất béo thực vật không chứa dầu cọ.', 584000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20230506/sua-abbott-grow-4-1-7kg-tren-2-tuoi-2.jpg', '2025-12-31', '2024-01-01', 20, 2)
@@ -510,8 +522,8 @@ INSERT INTO District (DistrictName, CityID) VALUES
 (N'Đông Hải', 20);
 
 INSERT INTO StatusOrder(StatusOrderName) 
-Values (N'Chờ xử lý'),
-(N'Đã xác nhận'),
+Values (N'Chờ xác nhận'),
+(N'Đang giao'),
 (N'Đã hủy'),
-(N'Hoàn tất');
+(N'Hoàn thành');
 	
