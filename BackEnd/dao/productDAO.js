@@ -511,10 +511,11 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT ProductID, ProductName, ProductCategoryName, Status 
-          FROM Product p 
-          JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
-          WHERE pc.ProductCategoryID = 1
+          `SELECT TOP 6 ProductID, ProductName, Description, Price, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+        FROM Product p 
+        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
+        JOIN Brand b ON p.BrandID = b.BrandID
+        WHERE pc.ProductCategoryID = 1
 
       ;`,
           (err, res) => {
@@ -542,10 +543,11 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT ProductID, ProductName, ProductCategoryName, Status 
-          FROM Product p 
-          JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
-          WHERE pc.ProductCategoryID = 2
+          `SELECT TOP 6 ProductID, ProductName, Description, Price, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+        FROM Product p 
+        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
+        JOIN Brand b ON p.BrandID = b.BrandID
+        WHERE pc.ProductCategoryID = 2
       ;`,
       (err, res) => {
         if (err) {
