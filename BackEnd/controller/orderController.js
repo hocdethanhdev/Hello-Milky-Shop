@@ -138,6 +138,16 @@ const updateStatusOrderID = async (req, res) => {
     }
 };
 
+const addInfoCusToOrder = async (req, res) => {
+    try {
+        const { receiver, phoneNumber, address, userID } = req.body;
+        await orderService.addInfoCusToOrder(receiver, phoneNumber, address, userID);
+        res.status(200).json({ message: 'Info Customer added to order' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 module.exports = {
     getAllOrders,
@@ -154,4 +164,5 @@ module.exports = {
     changeQuantityOfProductInOrder,
     updateStatusOrderID,
     getOpenOrderForUser,
+    addInfoCusToOrder,
 };

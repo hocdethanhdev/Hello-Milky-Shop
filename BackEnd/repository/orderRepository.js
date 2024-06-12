@@ -53,6 +53,10 @@ const orderRepository = {
         return orderDAO.updateStatusOrderID(orderID, statusOrderID);
     },
 
+    addInfoCusToOrder: (receiver, phoneNumber, address, userID) => {
+        return orderDAO.addInfoCusToOrder(receiver, phoneNumber, address, userID);
+    },
+
 };
 
 module.exports = orderRepository;

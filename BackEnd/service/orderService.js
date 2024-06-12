@@ -1,3 +1,4 @@
+
 const { getOrderDetailByOrderID } = require('../dao/orderDAO');
 const orderRepository = require('../repository/orderRepository');
 
@@ -43,6 +44,8 @@ const orderService = {
             throw new Error(`Error adding product to order: ${error.message}`);
         }
     },
+
+
 
     getOrder: async (orderID) => {
         try {
@@ -128,6 +131,9 @@ const orderService = {
         }
     },
 
+    addInfoCusToOrder : async (receiver, phoneNumber, address, userID ) => {
+        return await orderRepository.addInfoCusToOrder(receiver, phoneNumber, address, userID );
+      },
 
 
 };

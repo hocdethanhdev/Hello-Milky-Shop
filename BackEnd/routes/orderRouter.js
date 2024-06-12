@@ -40,5 +40,9 @@ router.post('/changeQuantityOfProductInOrder', orderController.changeQuantityOfP
 router.post('/updateStatusOrderID/:OrderID', orderController.updateStatusOrderID);
 
 router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser);
+//Thêm thông tin cus vào đơn hàng
+router.post('/addInfoCusToOrder', orderController.addInfoCusToOrder);
+
+
 
 module.exports = router
