@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './EditProductModal.css';
+
 const EditProductModal = ({ product, onClose, onSave }) => {
     const [formData, setFormData] = useState({ ...product });
 
@@ -10,7 +11,9 @@ const EditProductModal = ({ product, onClose, onSave }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSave(formData);
+        const updatedFormData = { ...formData, Status: parseInt(formData.Status) }; // Chuyển đổi Status thành số
+        console.log(updatedFormData); // Log ra dữ liệu đã chuyển đổi
+        onSave(updatedFormData);
     };
 
     return (
@@ -59,7 +62,6 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                         <select name="Status" value={formData.Status} onChange={handleChange}>
                             <option value="0">Out of stock</option>
                             <option value="1">Still in stock</option>
-
                         </select>
                     </label>
                     <button type="submit">Save</button>
