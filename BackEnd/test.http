@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 ### check reset password
 GET http://localhost:5000/api/v1/auth/checkPhoneNumber
 Content-Type: application/json
@@ -19,7 +18,7 @@ Content-Type: application/json
 ### lay user by id
 GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
 
->>>>>>> 408baa1a718a2f3b8bb8834cb4f6e67f3dcb737a
+
 ### đem so don hang tung ngay trong vong 7 ngay
 GET http://localhost:5000/api/v1/order/countOrdersIn7Days
 ### count don hang hoan thanh
