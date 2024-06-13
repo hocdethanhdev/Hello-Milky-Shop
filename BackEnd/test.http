@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 ### check reset password
 GET http://localhost:5000/api/v1/auth/checkPhoneNumber
 Content-Type: application/json
@@ -17,6 +19,7 @@ Content-Type: application/json
 ### lay user by id
 GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
 
+>>>>>>> 408baa1a718a2f3b8bb8834cb4f6e67f3dcb737a
 ### đem so don hang tung ngay trong vong 7 ngay
 GET http://localhost:5000/api/v1/order/countOrdersIn7Days
 ### count don hang hoan thanh
@@ -115,7 +118,7 @@ Content-Type: application/json
     "UserName": "Nhan",
     "PhoneNumber": "0909090908",
     "Password": "1",
-    "RoleID": 3
+    "RoleID": 2
 }
 ### login
 POST http://localhost:5000/api/v1/auth/login
@@ -391,6 +394,9 @@ GET http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion
 ###
 GET http://localhost:5000/api/v1/city/getAllCities/
 ###
+<<<<<<< HEAD
+GET http://localhost:5000/api/v1/district/getDistrictByID/1
+=======
 GET http://localhost:5000/api/v1/district/getDistrictByID/1
 ### Thêm thông tin khách hàng vào đơn hàng hiện tại
 POST http://localhost:5000/api/v1/order/addInfoCusToOrder
@@ -402,3 +408,4 @@ Content-Type: application/json
   "address": "123 Đường Số 1, Quận 1, TP. HCM",
   "userID": "M0000001"
 }
+>>>>>>> 408baa1a718a2f3b8bb8834cb4f6e67f3dcb737a

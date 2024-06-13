@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./managers/staff/Navbar";
+
 import Dashboard from "./managers/staff/Dashboard";
 import Voucher from "./managers/staff/Voucher";
 import Report from "./managers/staff/Report";
@@ -49,55 +49,68 @@ import Signup2 from "./users/component/Signup2";
 import LoginSuccess from "./users/component/LoginSuccess";
 import { useSelector } from "react-redux";
 import Profile from "./users/profileaccount/profile";
-import Account  from "./users/profileaccount/account";
-import Address  from "./users/profileaccount/address";
+import Account from "./users/profileaccount/account";
+import Address from "./users/profileaccount/address";
 import ProductScreen from "./users/ui-product-mom/ProductScreen";
 import ResetPassword from './users/component/ResetPassword';
-import RichTextEditor from "./users/component/RichTextEditor"; 
+
+
+import RichTextEditor from "./users/component/RichTextEditor"; // Đảm bảo đường dẫn đúng
 
 function App() {
   const { role } = useSelector((state) => state.auth);
+
+  const StaffRoutes = () => (
+    <div className="some row">
+      <div className="some-thang col-md-2">
+        <Sidebar />
+      </div>
+      <div className="col-md-10">
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/voucher-staff" element={<Voucher />} />
+          <Route path="/report" element={<Report />} />
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/confirm" element={<Confirm />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/addingvoucher" element={<VoucherAdd />} />
+          <Route path="/addingproduct" element={<ProductAdd />} />
+          <Route path="/addingpost" element={<PostsAdd />} />
+        </Routes>
+      </div>
+    </div>
+  );
+
+  const DefaultRoutes = () => (
+    <Routes>
+      <Route path="/RichTextEditor" element={<RichTextEditor />} />
+      <Route path="/ResetPassword" element={<ResetPassword />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/login-email/:email" element={<LoginEmail />} />
+      <Route path="/LoginSuccess/:token" element={<LoginSuccess />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/Termofuse" element={<Termofuse />} />
+      <Route path="/voucher" element={<VoucherStore />} />
+      <Route path="/ShoppingCart" element={<ShoppingCart />} />
+      <Route path="/Bigsales" element={<Bigsales />} />
+      <Route path="/News" element={<News />} />
+      <Route path="/Dealsoc" element={<Dealsoc />} />
+      <Route path="/" element={<Product1 />} />
+      <Route path="/all-products/:keyword" element={<AllProductScreen />} />
+      <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
+      <Route path="/sua-cho-me" element={<ListProductMomScreen />} />
+      <Route path="/product/:productId" element={<ProductScreen />} />
+    </Routes>
+  );
+
   return (
     <div>
       <Router>
         <Header />
 
-        <Routes>
-          <Route path="/RichTextEditor" element={<RichTextEditor />} />
-          <Route path="/ResetPassword" element={<ResetPassword />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/login-email/:email" element={<LoginEmail />} />
-          <Route path="/LoginSuccess/:token" element={<LoginSuccess />} />
-          <Route path="/signup" element={<Signup />} />
-          {role === 2 && <Route path="/dashboard" element={<Dashboard />} />}
-          {role === 2 && <Route path="/sidebar" element={<Sidebar />} />}
-          {role === 2 && <Route path="/voucher-staff" element={<Voucher />} />}
-          {role === 2 && <Route path="/report" element={<Report />} />}
-          {role === 2 && <Route path="/posts" element={<Posts />} />}
-          {role === 2 && <Route path="/confirm" element={<Confirm />} />}
-          {role === 2 && <Route path="/products" element={<Products />} />}
-          {role === 2 && <Route path="/addingvoucher" element={<VoucherAdd />} />}
-          {role === 2 && <Route path="/addingproduct" element={<ProductAdd />} />}
-          {role === 2 && <Route path="/addingpost" element={<PostsAdd />} />}
-          {role === 2 && <Route path="/addingpost" element={<PostsAdd />} />}
+        {role === 2 ? <StaffRoutes /> : <DefaultRoutes />}
+        <Footer />
 
-          <Route path="/all-products/:keyword" element={<AllProductScreen />} />
-          <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
-          <Route path="/sua-cho-me" element={<ListProductMomScreen />} />
-          <Route path="/product/:productId" element={<ProductScreen />} />
-          <Route path="/" element={<Product1 />} />
-
-          <Route path="/Termofuse" element={<Termofuse />} />
-          <Route path="/voucher" element={<VoucherStore />} />
-          <Route path="/ShoppingCart" element={<ShoppingCart />} />
-          <Route path="/Bigsales" element={<Bigsales />} />
-          <Route path="/News" element={<News />} />
-          <Route path="/Dealsoc" element={<Dealsoc />} />
-          <Route path="/Profile" element={<Profile />} />
-          <Route path="/Account" element={<Account/>} />
-          <Route path="/Address" element={<Address/>} />
-        </Routes>
-        {(role === 0 || role === 3) && <Footer />}
       </Router>
     </div>
   );

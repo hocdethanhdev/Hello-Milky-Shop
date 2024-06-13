@@ -16,7 +16,23 @@ function Header() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const keyword = document.getElementById("search_suggest-compo-tri").value;
+    let keyword = document.getElementById("search_suggest-compo-tri").value.trim();
+
+    // Replace specific words
+    const replacements = {
+      "\\bbe\\b": "bé",
+      "\\bme\\b": "mẹ",
+      "\\bsua\\b": "sữa"
+    };
+
+    for (let [key, value] of Object.entries(replacements)) {
+      const regex = new RegExp(key, "gi");
+      keyword = keyword.replace(regex, value);
+    }
+
+    // Replace multiple spaces with a single space
+    keyword = keyword.replace(/\s+/g, " ");
+
     navigate(`/all-products/${keyword}`);
   };
 
