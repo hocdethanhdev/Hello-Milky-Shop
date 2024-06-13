@@ -87,7 +87,7 @@ StatusOrderID smallint IDENTITY primary key NOT NULL,
 StatusOrderName nvarchar(50)
 );
 
-CREATE TABLE ShippingAdress (
+CREATE TABLE ShippingAddress (
 	ShippingAddressID INT IDENTITY PRIMARY KEY,
 	Receiver nvarchar(50) NOT NULL,
 	PhoneNumber varchar(15) NOT NULL,
@@ -101,7 +101,7 @@ OrderID int IDENTITY NOT NULL,
 OrderDate date NULL, 
 TotalAmount int NULL, 
 Status bit,
-ShippingAddressID int foreign key references ShippingAdress(ShippingAddressID),
+ShippingAddressID int foreign key references ShippingAddress(ShippingAddressID),
 UserID varchar(8) foreign key references Users(UserID), 
 StatusOrderID smallint foreign key references StatusOrder(StatusOrderID)
 PRIMARY KEY (OrderID));
