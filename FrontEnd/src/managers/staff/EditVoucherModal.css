@@ -1,4 +1,4 @@
-.modal-thinhprostedit {
+.modal-thinhprostedit3 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,7 +12,7 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-content-thinhprostedit {
+.modal-content-thinhprostedit3 {
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
@@ -20,15 +20,15 @@
     width: 80%;
 }
 
-.close-thinhprostedit {
+.close-thinhprostedit3 {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close-thinhprostedit:hover,
-.close-thinhprostedit:focus {
+.close-thinhprostedit3:hover,
+.close-thinhprostedit3:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
