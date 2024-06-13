@@ -3,10 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import './ListProductMomScreen.css';
 
-
-
-
-
 import NavCate from '../ui-product-mom/NavCate';
 
 

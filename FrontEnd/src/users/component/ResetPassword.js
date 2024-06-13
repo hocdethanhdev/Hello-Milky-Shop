@@ -7,6 +7,7 @@ import "react-phone-input-2/lib/style.css";
 import { auth } from "./firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
+import './ResetPassword.css';
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState("");
@@ -68,27 +69,27 @@ const ResetPassword = () => {
   }
 
   return (
-    <section className="bg-emerald-500 flex items-center justify-center h-screen">
+    <section className="reset-password-container">
       <div>
         <Toaster toastOptions={{ duration: 4000 }} />
         <div id="recaptcha-container"></div>
         {user ? (
-          <h2 className="text-center text-white font-medium text-2xl">
+          <h2 className="success-message">
             sau khi xác nhận thành công sẽ vào chỗ này
           </h2>
         ) : (
-          <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
-            <h1 className="text-center leading-normal text-white font-medium text-3xl mb-6">
+          <div className="reset-form">
+            <h1 className="title text-center">
               Quên mật khẩu
             </h1>
             {showOTP ? (
               <>
-                <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
+                <div className="icon-container">
                   <BsFillShieldLockFill size={30} />
                 </div>
                 <label
                   htmlFor="otp"
-                  className="font-bold text-xl text-white text-center"
+                  className="otp-label"
                 >
                   Nhập OTP
                 </label>
@@ -99,11 +100,11 @@ const ResetPassword = () => {
                   otpType="number"
                   disabled={false}
                   autoFocus
-                  className="opt-container "
+                  className="otp-input-container"
                 ></OtpInput>
                 <button
                   onClick={onOTPVerify}
-                  className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
+                  className="otp-button"
                 >
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
@@ -113,19 +114,19 @@ const ResetPassword = () => {
               </>
             ) : (
               <>
-                <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
+                <div className="icon-container">
                   <BsTelephoneFill size={30} />
                 </div>
                 <label
                   htmlFor=""
-                  className="font-bold text-xl text-white text-center"
+                  className="phone-label "
                 >
                   Nhập số điện thoại của bạn
                 </label>
                 <PhoneInput country={"vn"} value={ph} onChange={setPh} />
                 <button
                   onClick={onSignup}
-                  className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
+                  className="send-otp-button"
                 >
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
