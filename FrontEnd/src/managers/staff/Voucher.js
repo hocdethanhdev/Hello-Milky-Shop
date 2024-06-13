@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import './Voucher.css';
 import { Link } from 'react-router-dom';
-import EditVoucherModal from './EditVoucherModal'; // Import EditVoucherModal
+import EditVoucherModal from './EditVoucherModal';
 import ThrowPage from '../../users/ui-list-product-mom/ThrowPage';
-
 
 function Voucher() {
     const [currentPage, setCurrentPage] = useState(1);
     const handlePageChange = (page) => {
-        setCurrentPage(page); // Định nghĩa hàm handlePageChange để thay đổi trang hiện tại
+        setCurrentPage(page);
     };
     const [vouchers, setVouchers] = useState([]);
     const [sortConfig, setSortConfig] = useState({ key: '', direction: '' });
     const [statusFilter, setStatusFilter] = useState('All');
-    const [selectedVoucherForEdit, setSelectedVoucherForEdit] = useState(null); // State for edit modal
+    const [selectedVoucherForEdit, setSelectedVoucherForEdit] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
-    const [showStatusDropdown, setShowStatusDropdown] = useState(false); // State for dropdown visibility
+    const [showStatusDropdown, setShowStatusDropdown] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:5000/api/v1/voucher/getAllVouchers')
@@ -66,9 +65,7 @@ function Voucher() {
                 return response.json();
             })
             .then(data => {
-                // Hiển thị thông báo thành công
                 setSuccessMessage('Voucher đã được cập nhật thành công!');
-                // Reload lại trang
                 window.location.reload();
             })
             .catch(error => {
@@ -78,25 +75,25 @@ function Voucher() {
 
     const handleStatusFilter = (status) => {
         setStatusFilter(status);
-        setShowStatusDropdown(false); // Ẩn dropdown khi đã chọn
+        setShowStatusDropdown(false);
     };
 
     const toggleStatusDropdown = () => {
-        setShowStatusDropdown(!showStatusDropdown); // Đảo ngược trạng thái của dropdown
+        setShowStatusDropdown(!showStatusDropdown);
     };
 
     return (
-        <div className="voucher-container">
-            <div className="voucher-body">
-                <div className="voucher-main-content">
+        <div className="voucher-container-thinhvcher">
+            <div className="voucher-body-thinhvcher">
+                <div className="voucher-main-content-thinhvcher">
                     <h1>Voucher Management</h1>
                     {successMessage && (
-                        <p className={`success-message ${successMessage.includes('Lỗi') ? 'error' : 'success'}`}>{successMessage}</p>
+                        <p className={`success-message-thinhvcher ${successMessage.includes('Lỗi') ? 'error-thinhvcher' : 'success-thinhvcher'}`}>{successMessage}</p>
                     )}
-                    <div className="voucher-list">
+                    <div className="voucher-list-thinhvcher">
                         <Link to="/addingvoucher">
                             <div className='d-flex justify-content-end align-items-end'>
-                                <button type="button" className="button-add-voucher">
+                                <button type="button" className="button-add-voucher-thinhvcher">
                                     <span className="far fa-plus-square btn btn-secondary"></span>
                                 </button>
                             </div>
@@ -134,10 +131,10 @@ function Voucher() {
                                     </th>
                                     <th>
                                         Status
-                                        <div className="filter-dropdown">
+                                        <div className="filter-dropdown-thinhvcher">
                                             <button onClick={toggleStatusDropdown}>Filter</button>
                                             {showStatusDropdown && (
-                                                <ul className="dropdown-content">
+                                                <ul className="dropdown-content-thinhvcher">
                                                     <li onClick={() => handleStatusFilter('All')}>All</li>
                                                     <li onClick={() => handleStatusFilter('active')}>Active</li>
                                                     <li onClick={() => handleStatusFilter('inactive')}>Inactive</li>
@@ -176,12 +173,12 @@ function Voucher() {
                     onSave={handleSaveVoucher}
                 />
             )}
-            <div className='pagination-container'>
+            <div className='pagination-container-thinhvcher'>
                 <ThrowPage
                     current={currentPage}
                     onChange={handlePageChange}
                     total={filteredVouchers.length}
-                    productsPerPage={10} // Show 10 rows per page
+                    productsPerPage={10}
                 />
             </div>
         </div>

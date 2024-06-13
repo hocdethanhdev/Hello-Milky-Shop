@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./managers/staff/Navbar";
+
 import Dashboard from "./managers/staff/Dashboard";
 import Voucher from "./managers/staff/Voucher";
 import Report from "./managers/staff/Report";

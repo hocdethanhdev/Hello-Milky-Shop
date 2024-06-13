@@ -57,10 +57,10 @@ function VoucherAdd() {
     };
 
     return (
-        <div className="voucher-form">
+        <div className="voucher-form-thinhvcher">
             <h2>Create New Voucher</h2>
-            {successMessage && <p className="success-message">{successMessage}</p>}
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {successMessage && <p className="success-message-thinhvcher">{successMessage}</p>}
+            {errorMessage && <p className="error-message-thinhvcher">{errorMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <label htmlFor="voucherName">Voucher Name</label>
                 <input

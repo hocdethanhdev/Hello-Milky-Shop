@@ -30,9 +30,9 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
     };
 
     return (
-        <div className="modal">
-            <div className="modal-content">
-                <span className="close" onClick={onClose}>&times;</span>
+        <div className="modal-thinhprostedit2">
+            <div className="modal-content-thinhprostedit2">
+                <span className="close-thinhprostedit2" onClick={onClose}>&times;</span>
                 <h2>Edit Article</h2>
                 <form onSubmit={handleSubmit}>
                     <label>

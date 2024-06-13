@@ -14,9 +14,9 @@ const EditProductModal = ({ product, onClose, onSave }) => {
     };
 
     return (
-        <div className="modal">
-            <div className="modal-content">
-                <span className="close" onClick={onClose}>&times;</span>
+        <div className="modal-thinhprostedit">
+            <div className="modal-content-thinhprostedit">
+                <span className="close-thinhprostedit" onClick={onClose}>&times;</span>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Product Name:

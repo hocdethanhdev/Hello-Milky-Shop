@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import './EditVoucherModal.css';
 const EditVoucherModal = ({ voucher, onClose, onSave }) => {
     const [formData, setFormData] = useState({
         voucherName: '',
@@ -45,9 +45,9 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
     };
 
     return (
-        <div className="modal">
-            <div className="modal-content">
-                <span className="close" onClick={onClose}>&times;</span>
+        <div className="modal-thinhprostedit3">
+            <div className="modal-content-thinhprostedit3">
+                <span className="close-thinhprostedit3" onClick={onClose}>&times;</span>
                 <h2>Edit Voucher</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
