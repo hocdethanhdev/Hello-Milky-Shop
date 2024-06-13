@@ -10,6 +10,17 @@ const getArticlesByID = async (req, res) => {
     }
 };
 
+
+const getArticlesByArticleID = async (req, res) => {
+    try {
+        const obj = await articleService.getArticlesByArticleID (req.params.ID);
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all users:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 const getArticlesByContent = async (req, res) => {
     try {
         const obj = await articleService.getArticlesByContent (req.params.Content);
@@ -78,6 +89,7 @@ module.exports = {
     getAllArticleCategory,
     createArticle,
     deleteArticle,
-    updateArticle
+    updateArticle,
+    getArticlesByArticleID
 
 }

@@ -23,6 +23,26 @@ const articleDAO = {
     });
   },
 
+  findArticlesByArticleID: (ID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input("ID", ID);
+        request.query(
+          `SELECT *
+          FROM Article
+          WHERE ArticleID = @ID
+           
+          `,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
+
   findArticlesByContent: (Content) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {

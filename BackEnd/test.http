@@ -301,6 +301,8 @@ GET http://localhost:5000/api/v1/article/getAllArticles/
 ###
 GEt http://localhost:5000/api/v1/article/getArticlesByID/M0000001/
 ###
+GEt http://localhost:5000/api/v1/article/getArticlesByArticleID/6/
+###
 GEt http://localhost:5000/api/v1/article/getArticlesByContent/Tin tức/
 ###
 GET http://localhost:5000/api/v1/article/getAllArticleCategory/
@@ -309,12 +311,12 @@ POST http://localhost:5000/api/v1/article/createArticle/
 Content-Type: application/json
 
 {
-    "Title": "Chất lượng sữa mẹ theo thời gian có gì thay đổi?",
+    "Title": "Chất lượng sữa ngoại có tốt cho trẻ nhỏ không?",
     "HeaderImage": "image5.png",
-    "Content": "Sữa cho mẹ bầu",
-    "PublishDate": "2021-05-16",
+    "Content": "Sữa cho em bé",
+    "PublishDate": "2021-05-25",
     "AuthorID": "M0000001",
-    "ArticleCategoryID": 1
+    "ArticleCategoryID": 2
 }
 
 ###
