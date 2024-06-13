@@ -3,10 +3,10 @@ import "./Sidebar.css";
 
 function Sidebar() {
   return (
-    <div className="bang row">
+    <div className="bang-st-thinh row">
       <div>
-        <nav className="sidebar">
-          <a className="active" href="/dashboard">
+        <nav className="sidebar-st-thinh">
+          <a className="active-st-thinh" href="/dashboard">
             <img
               src="/ImageMilkShop/dashboard.png"
               alt="Dashboard Icon"

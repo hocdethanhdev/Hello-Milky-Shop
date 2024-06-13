@@ -1,62 +1,59 @@
-.sidebar {
+.sidebar-st-thinh {
+  width: 200px;
+  background-color: #ffae33;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+  height: 100%;
+}
 
-    width: 200px;
-    background-color: #ffae33;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    min-height: 80vh;
-    height: 100%;
-  }
-  
-  .sidebar a {
-    color: white;
-    padding: 14px 20px;
-    text-decoration: none;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .sidebar a:hover {
-    background-color: #ddd;
-    color: black;
-    width: 240px;
-  }
-  
-  
-  .card {
-    background-color: #f4f4f4;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    /* padding: 20px; */
-    text-align: center;
-    flex: 1 1 calc(33.333% - 40px);
-    box-sizing: border-box;
-    /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); */
-  }
-  
-  .card h2 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-  }
-  
-  .card p {
-    font-size: 18px;
-    margin: 0;
-  }
-  .stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  .bang{
-    height: 100%;
-    width: 250px;
-    background-color: #ffae33;
-  }
-.dashboard{
-    margin-right: 30px;
+.sidebar-st-thinh a {
+  color: white;
+  padding: 14px 20px;
+  text-decoration: none;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+.sidebar-st-thinh a:hover {
+  background-color: #ddd;
+  color: black;
+  width: 240px;
+}
+
+.card-st-thinh {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  /* padding: 20px; */
+  text-align: center;
+  flex: 1 1 calc(33.333% - 40px);
+  box-sizing: border-box;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); */
+}
+
+.card-st-thinh h2 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+}
+
+.card-st-thinh p {
+  font-size: 18px;
+  margin: 0;
+}
+.stats-st-thinh {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.bang-st-thinh {
+  height: 100%;
+  width: 250px;
+  background-color: #ffae33;
+}
+.dashboard-st-thinh {
+  margin-right: 30px;
 }

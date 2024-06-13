@@ -108,31 +108,7 @@ const NavCate = () => {
             </div>
           )}
         </li>
-        <li className="nav_top">
-          <a href="/">
-            Trang chủ <i className="fa fa-angle-right"></i>
-          </a>
-        </li>
-        <li className="nav_top">
-          <a href="/danh-muc/do-dung-cho-me">
-            Đồ dùng cho mẹ <i className="fa fa-angle-right"></i>
-          </a>
-        </li>
-        <li className="nav_top">
-          <a href="/danh-muc/sua-dinh-duong">
-            Sữa &amp; dinh dưỡng <i className="fa fa-angle-right"></i>
-          </a>
-        </li>
-        <li className="nav_top">
-          <a href="/danh-muc/sua-cho-nguoi-lon">
-            Sữa cho người lớn <i className="fa fa-angle-right"></i>
-          </a>
-        </li>
-        <li className="nav_top main_cate">
-          <a href="/sua-ensure-uc-vi-vanilla-850g">
-            Sữa Ensure Úc vị Vanilla 850g
-          </a>
-        </li>
+
       </ul>
     </div>
   );
