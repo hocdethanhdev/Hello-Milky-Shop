@@ -492,3 +492,39 @@
 .navigation-gia-soc button:hover {
   background-color: #0f7fc1;
 }
+
+.voucher_section {
+  border: 1px solid #ddd; /* Add border to the section */
+  padding: 20px; /* Add padding inside the section */
+  margin: 20px 0; /* Add margin to separate it from other sections */
+  background-color: #f9f9f9; /* Add background color */
+  border-radius: 8px; /* Round the corners */
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.voucher_section .cate_li_title-trid {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
+  text-decoration: none; /* Remove underline from link */
+  color: #333; /* Text color */
+}
+
+.voucher_section .cate_li_title-trid:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+.voucher_section .img_icon-trid {
+  width: 60px; /* Width of the image */
+  height: 60px; /* Height of the image */
+  margin-right: 10px; /* Space between image and text */
+}
+
+.voucher_section .icon_hover-trid {
+  transition: transform 0.3s; /* Smooth transformation */
+}
+
+.voucher_section .cate_li_title-trid:hover .icon_hover-trid {
+  transform: scale(1.1); /* Slightly enlarge image on hover */
+}
