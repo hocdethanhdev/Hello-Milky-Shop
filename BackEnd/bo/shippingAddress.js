@@ -1,4 +1,4 @@
-class ShippingAdress{
+class ShippingAddress{
     constructor(
         ShippingAddressID,
         Receiver,
@@ -15,4 +15,4 @@ class ShippingAdress{
     }
 }
 
-module.exports = ShippingAdress;
+module.exports = ShippingAddress;

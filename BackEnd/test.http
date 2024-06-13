@@ -1,3 +1,19 @@
+### check reset password
+GET http://localhost:5000/api/v1/auth/checkPhoneNumber
+Content-Type: application/json
+
+{
+    "PhoneNumber": "0909090908"
+}
+### forgetPassword
+PUT http://localhost:5000/api/v1/auth/forgetPassword
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "Password": "2"
+}
+
 ### lay user by id
 GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
 

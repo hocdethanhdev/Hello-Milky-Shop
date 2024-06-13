@@ -1,7 +1,7 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 const Order = require("../bo/order");
-const ShippingAdress = require("../bo/shippingAdress");
+const ShippingAddress = require("../bo/shippingAddress");
 
 const orderDAO = {
   countOrdersIn7Days: () => {
@@ -651,7 +651,7 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
           .input("userID", mssql.VarChar, userID);
 
         const insertQuery = `
-                    INSERT INTO ShippingAdress (Receiver, PhoneNumber, Address, UserID)
+                    INSERT INTO ShippingAddress (Receiver, PhoneNumber, Address, UserID)
                     VALUES (@receiver, @phoneNumber, @address, @userID);
     
                     DECLARE @shippingAddressID INT;
