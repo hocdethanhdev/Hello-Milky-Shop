@@ -23,7 +23,7 @@ function Menu() {
               <a href="/Bigsales" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
-                  src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
+                  src="./khuyenmailon/ngoi-sao.jpg"
                   alt="Khuyến mại lớn"
                 />
                 Khuyến mại lớn
@@ -53,6 +53,22 @@ function Menu() {
                 Sữa cho bé
               </a>
             </td>
+          </tr>
+          <tr>
+            {
+              isLoggedIn
+                ? <td>
+                  <a href="/Voucher" className="cate_li_title-trid">
+                    <img
+                      className="img_icon-trid icon_hover-trid"
+                      src="./voucher.png"
+                      alt="Voucher"
+                    />
+                    Voucher
+                  </a>
+                </td>
+                : <div></div>
+            }
           </tr>
           <tr>
             <td>
