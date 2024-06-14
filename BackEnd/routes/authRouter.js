@@ -26,7 +26,7 @@ router.get("/loginSuccess", (req, res) => {
   res.redirect(`${process.env.CLIENT_URL}/LoginSuccess/${req?.query.token}`)
 });
 
-router.get("/checkPhoneNumber", authController.checkPhoneNumber);
+router.post("/checkPhoneNumber", authController.checkPhoneNumber);
 
 router.put("/forgetPassword", authController.forgetPassword);
 
