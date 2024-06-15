@@ -204,6 +204,10 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
                     BEGIN
                         INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
                         VALUES (@orderID, @productID, @quantity, @price);
+
+                        UPDATE Orders
+                        SET TotalAmount = TotalAmount + (@quantity * @price)
+                        WHERE OrderID = @orderID;
                     END
                 `;
 
@@ -253,7 +257,8 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
           // Update order status
           const updateOrderQuery = `
                         UPDATE Orders
-                        SET status = 1
+                        SET status = 1,
+                            statusOrderID = 1
                         WHERE orderID = @orderID;
                     `;
 
@@ -462,7 +467,6 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
           if (err) return reject(err);
 
           const request = new mssql.Request(transaction);
-
           // Step 1: Update quantities for selected products
           const updateQueries = productQuantities.map((pq) => {
             return `
@@ -500,7 +504,6 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
             ${transferUnselectedItemsQuery}
             ${deleteQuery}
           `;
-
           // Execute the final query
           request.query(finalQuery, (err, result) => {
             if (err) {
@@ -519,9 +522,7 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
         });
       });
     });
-  }
-  ,
-
+  },
   removeProductFromOrder: (orderID, productID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -564,7 +565,7 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
           // Update order status
           const updateOrderQuery = `
                     UPDATE Orders
-                    SET status = 1
+                    SET status = 1, StatusOrderID = 1
                     WHERE orderID = @orderID;
                 `;
 
@@ -622,7 +623,6 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
-
         const request = new mssql.Request();
         request
           .input("orderID", mssql.Int, orderID)
@@ -663,6 +663,56 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
         request.query(updateQuery, (err, result) => {
           if (err) return reject(err);
           resolve(result);
+        });
+      });
+    });
+  },
+
+  removeProductFromOrder: (orderID, productID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        request.input('orderID', mssql.Int, orderID)
+          .input('productID', mssql.VarChar, productID);
+
+        const deleteQuery = `
+                    DELETE FROM OrderDetail
+                    WHERE OrderID = @orderID AND ProductID = @productID;
+
+                    IF NOT EXISTS (SELECT 1 FROM OrderDetail WHERE OrderID = @orderID)
+                    BEGIN
+                        DELETE FROM Orders WHERE OrderID = @orderID;
+                    END
+                `;
+
+        request.query(deleteQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      });
+    });
+  },
+  getOrdersByStatusOrderID: (statusOrderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        request.input('statusOrderID', mssql.Int, statusOrderID);
+
+        const selectQuery = `
+                    SELECT *
+                    FROM Orders o
+                    JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
+                    WHERE o.Status = 1 AND o.StatusOrderID = @statusOrderID
+
+                `;
+
+        request.query(selectQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset);
         });
       });
     });
