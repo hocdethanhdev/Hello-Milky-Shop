@@ -11,7 +11,13 @@ const orderService = {
     countOrdersFinish: async () => {
         return await orderRepository.countOrdersFinish();
     },
-
+    removeProductFromOrder: async (orderID, productID) => {
+        try {
+            await orderRepository.removeProductFromOrder(orderID, productID);
+        } catch (error) {
+            throw new Error(`Error removing product from order: ${error.message}`);
+        }
+    },
     countOrdersCancel: async () => {
         return await orderRepository.countOrdersCancel();
     },
@@ -163,9 +169,9 @@ const orderService = {
         }
     },
 
-    addInfoCusToOrder : async (receiver, phoneNumber, address, userID ) => {
-        return await orderRepository.addInfoCusToOrder(receiver, phoneNumber, address, userID );
-      },
+    addInfoCusToOrder: async (receiver, phoneNumber, address, userID) => {
+        return await orderRepository.addInfoCusToOrder(receiver, phoneNumber, address, userID);
+    },
 
 
 };

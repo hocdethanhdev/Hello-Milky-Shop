@@ -60,7 +60,15 @@ const getOpenOrderForUser = (req, res) => {
         .catch(err => res.status(500).json({ message: err.message })
         );
 }
-
+const removeProductFromOrder = async (req, res) => {
+    try {
+        const { OrderID, ProductID } = req.body;
+        await orderService.removeProductFromOrder(OrderID, ProductID);
+        res.status(200).json({ message: 'Product removed from order successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 const getAllOrders = async (req, res) => {
     orderService.getAllOrders()
         .then(result => res.status(201).json(result))
@@ -226,4 +234,5 @@ module.exports = {
     countOrdersCancel,
     countOrdersFinish,
     countOrdersIn7Days,
+    removeProductFromOrder
 };
