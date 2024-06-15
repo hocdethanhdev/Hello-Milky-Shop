@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "./VoucherStore.css";
 
 function VoucherItem({ voucher }) {
@@ -63,22 +66,19 @@ function VoucherItem({ voucher }) {
               <div className="text-description text-primary">
                 {voucher.MinDiscount}đ
               </div>
-             
             </div>
-            
           </div>
           <div className="voucher-save">
-                <button className="btn save-button-voucher">Save</button>
-              </div>
+            <button className="btn save-button-voucher">Save</button>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
 function VoucherStore() {
   const [vouchers, setVouchers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [vouchersPerPage] = useState(3);
 
   useEffect(() => {
     axios
@@ -91,48 +91,65 @@ function VoucherStore() {
       });
   }, []);
 
-  const indexOfLastVoucher = currentPage * vouchersPerPage;
-  const indexOfFirstVoucher = indexOfLastVoucher - vouchersPerPage;
-  const currentVouchers = vouchers.slice(
-    indexOfFirstVoucher,
-    indexOfLastVoucher
-  );
-
-  const nextPage = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
-  const prevPage = () => {
-    setCurrentPage(currentPage - 1);
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   return (
     <div className="voucher-store">
       <h1>Voucher</h1>
-      <div className="pagination-container">
-        <button
-          className="prev-page-button"
-          onClick={prevPage}
-          disabled={currentPage === 1}
-        >
-          &lt; 
-        </button>
-        <button
-          className="next-page-button"
-          onClick={nextPage}
-          disabled={
-            currentPage === Math.ceil(vouchers.length / vouchersPerPage)
-          }
-        >
-           &gt;
-        </button>
-      </div>
-      <div className="row">
-        {currentVouchers.map((voucher) => (
-          <VoucherItem key={voucher.VoucherID} voucher={voucher} />
-        ))}
+      <div className="slider-container">
+        <Slider {...settings}>
+          {vouchers.map((voucher) => (
+            <VoucherItem key={voucher.VoucherID} voucher={voucher} />
+          ))}
+        </Slider>
       </div>
     </div>
+  );
+}
+
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", right: "-100px" }}
+      onClick={onClick}
+    />
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", left: "-40px" }}
+      onClick={onClick}
+    />
   );
 }
 
