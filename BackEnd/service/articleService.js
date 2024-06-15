@@ -6,6 +6,9 @@ const articleService = {
 getArticlesByID : async (ID) => {
   return await articleRepository.getArticlesByID(ID);
 },
+getArticlesByArticleID : async (ID) => {
+  return await articleRepository.getArticlesByArticleID(ID);
+},
 getArticlesByContent : async (Content) => {
   return await articleRepository.getArticlesByContent(Content);
 },

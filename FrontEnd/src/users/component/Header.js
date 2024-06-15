@@ -8,15 +8,27 @@ import { apiGetOne } from "../apis/userService";
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoggedIn, token } = useSelector((state) => state.auth);
+  const { isLoggedIn, token, role } = useSelector((state) => state.auth); // Thêm role vào useSelector
   const [showMenu, setShowMenu] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [userData, setUserData] = useState({});
-  const { role } = useSelector((state) => state.auth);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const keyword = document.getElementById("search_suggest-compo-tri").value;
+    let keyword = document.getElementById("search_suggest-compo-tri").value.trim();
+
+    const replacements = {
+      "\\bbe\\b": "bé",
+      "\\bme\\b": "mẹ",
+      "\\bsua\\b": "sữa",
+    };
+
+    for (let [key, value] of Object.entries(replacements)) {
+      const regex = new RegExp(key, "gi");
+      keyword = keyword.replace(regex, value);
+    }
+
+    keyword = keyword.replace(/\s+/g, " ");
     navigate(`/all-products/${keyword}`);
   };
 
@@ -28,7 +40,6 @@ function Header() {
     token && fetchUser();
   }, [token]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (showMenu && !event.target.closest(".account-menu")) {
@@ -47,6 +58,12 @@ function Header() {
 
   const cancelLogout = () => {
     setShowConfirmation(false);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setShowConfirmation(false); // Đóng hộp thoại xác nhận
+    navigate("/login"); // Điều hướng đến trang đăng nhập
   };
 
   return (
@@ -76,18 +93,15 @@ function Header() {
             </form>
           </div>
         )}
-
         <div className="box_right_header-compo-tri">
           {isLoggedIn ? (
-             
-              <div className="account-menu-Nhan">
-                <Link to="/profile"> 
+            <div className="account-menu-Nhan">
+              <Link to="/profile">
                 <span>
                   <i className="fas fa-user"></i> {userData?.UserName}
                 </span>
-                </Link>
-              </div>
-            
+              </Link>
+            </div>
           ) : (
             <div className="box_user-compo-tri">
               <i className="fa fa-user"></i>
@@ -104,7 +118,6 @@ function Header() {
               </Link>
             </div>
           )}
-
           {isLoggedIn && (
             <div>
               <div className="dangxuatNhan">
@@ -112,13 +125,12 @@ function Header() {
                   <i className="fas fa-sign-out-alt"></i> Đăng xuất
                 </span>
               </div>
-
               {showConfirmation && (
                 <div className="confirmation-dialog">
                   <p>Bạn có chắc chắn muốn đăng xuất không?</p>
                   <button
                     className="DongY btn btn-success"
-                    onClick={() => dispatch(logout())}
+                    onClick={handleLogout}
                   >
                     Đồng ý
                   </button>

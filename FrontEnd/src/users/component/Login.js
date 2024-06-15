@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
 import {
@@ -23,20 +23,20 @@ function Login() {
     password: ''
   });
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    console.log(`Changing ${name} to ${value}`);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value
-    });
-  };
+    }));
+  }, []);
 
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Kiểm tra xem các giá trị input có null không
+
     if (!formData.phone || !formData.password) {
       setMessage("Vui lòng điền đầy đủ thông tin!");
       return;
@@ -52,9 +52,9 @@ function Login() {
       );
       if (response.data.err === 0) {
         window.open(`http://localhost:5000/api/v1/auth/loginSuccess?token=${response.data.token}`, '_self');
-      } else if (response.data.err === 1){
+      } else if (response.data.err === 1) {
         setMessage("Số điện thoại " + formData.phone + " chưa được đăng kí");
-      }else {
+      } else {
         setMessage("Sai mật khẩu");
       }
     } catch (error) {
@@ -62,23 +62,21 @@ function Login() {
     }
   };
 
+  useEffect(() => {
+    console.log("Form data changed:", formData);
+  }, [formData]);
 
   return (
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
-        <MDBCol >
-          <MDBCard
-            className="bg-light text-dark my-5 mx-auto"
-            style={{ borderRadius: "1rem", maxWidth: "500px" }}
-          >
+        <MDBCol>
+          <MDBCard className="bg-light text-dark my-5 mx-auto" style={{ borderRadius: "1rem", maxWidth: "500px" }}>
             <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100" style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.2)' }}>
               <h2 className="fw-bold mb-2 text-uppercase">Đăng nhập</h2>
-              <p className="text-dark-50 mb-5">
-                
-              </p>
+              <p className="text-dark-50 mb-5"></p>
 
               {message && <p className="text-danger">{message}</p>}
-              
+
               <MDBInput className="login-nd"
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-dark"
@@ -103,25 +101,20 @@ function Login() {
               />
 
               <p className="small mb-3 pb-lg-2">
+                <Link to="/ResetPassword">
                 <a className="text-dark-50" href="#!">
                   Quên mật khẩu?
                 </a>
+                </Link>
               </p>
               <button className="login-button-trid" type="button" onClick={handleSubmit}>
                 <span className="button-text-trid">Đăng nhập</span>
               </button>
 
-              <div className=" flex-row">
-                <a href="#" className="google-signup-button-trid">
-                  <MDBIcon
-                    fab
-                    icon="google"
-                    size="lg"
-                    className="google-icon-trid"
-                  />
-
-                  <span onClick={loginGoogle} className="button-text-trid">Đăng nhập với Google</span>
-
+              <div className="flex-row">
+                <a href="#" className="google-signup-button-trid" onClick={loginGoogle}>
+                  <MDBIcon fab icon="google" size="lg" className="google-icon-trid" />
+                  <span className="button-text-trid">Đăng nhập với Google</span>
                 </a>
               </div>
 
