@@ -57,7 +57,7 @@ const userDAO = {
         const request = new mssql.Request().input("UserID", id);
         request.query(
           `
-        SELECT UserName, PhoneNumber, Email
+        SELECT UserName, PhoneNumber, Email, Point
         FROM Users u
         WHERE UserID = @UserID;`,
           (err, res) => {
@@ -86,7 +86,7 @@ const userDAO = {
         const request = new mssql.Request().input("UserID", id);
         request.query(
           `
-        SELECT UserName, u.RoleID, RoleName
+        SELECT UserName, u.RoleID, RoleName, Point
         FROM Users u
         JOIN Role r ON u.RoleID = r.RoleID
         WHERE UserID = @UserID;`,
@@ -235,7 +235,7 @@ const userDAO = {
     });
   },
   register: (name, phone, password, role) => {
-    const user = new User(UserID, name, phone, null, password, null, 1, role);
+    const user = new User(UserID, name, phone, null, password, 1000, null, 1, role);
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input(
@@ -262,9 +262,10 @@ const userDAO = {
               .input("UserName", mssql.NVarChar, user.UserName)
               .input("PhoneNumber", user.PhoneNumber)
               .input("PasswordHash", user.Password)
+              .input("Point", mssql.Int, user.Point)
               .input("RoleID", mssql.Int, user.RoleID || 3);
             insertRequest.query(
-              `INSERT INTO Users (UserID, UserName, PhoneNumber, Password, RoleID) VALUES (@UserID, @UserName, @PhoneNumber, @PasswordHash, @RoleID);`,
+              `INSERT INTO Users (UserID, UserName, PhoneNumber, Password, Point, RoleID) VALUES (@UserID, @UserName, @PhoneNumber, @PasswordHash, @Point, @RoleID);`,
               (err, res) => {
                 if (err) {
                   console.error("Insert query execution error:", err);
@@ -302,9 +303,10 @@ const userDAO = {
                 .input("UserID", UserID)
                 .input("UserName", mssql.NVarChar, profile.displayName)
                 .input("Email", profile.emails[0]?.value)
+                .input("Point", mssql.Int, 1000)
                 .input("RoleID", mssql.Int, 3);
               request.query(
-                `INSERT INTO Users(UserID, UserName, Email, RoleID) values (@UserID, @UserName, @Email, @RoleID)`,
+                `INSERT INTO Users(UserID, UserName, Email, Point, RoleID) values (@UserID, @UserName, @Email, @Point, @RoleID)`,
                 (err, res) => {
                   if (err) reject(err);
                   resolve();
