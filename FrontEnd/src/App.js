@@ -45,6 +45,8 @@ import ListProductBbScreen from "./users/ui-list-product-mom/ListProductBbScreen
 import ListProductMomScreen from "./users/ui-list-product-mom/ListProductMomScreen";
 import RichTextEditor from "./users/component/RichTextEditor";
 import ResetPassword from './users/component/ResetPassword';
+import News from "./users/component/News";
+
 
 function App() {
   const { role } = useSelector((state) => state.auth);
@@ -91,6 +93,9 @@ function App() {
       <Route path="/sua-cho-me" element={<ListProductMomScreen />} />
       <Route path="/RichTextEditor" element={<RichTextEditor />} />
       <Route path="/ResetPassword" element={<ResetPassword />} />
+      <Route path="/ResetPassword" element={<ResetPassword />} />
+      <Route path="/News" element={<News/>} />
+     
     </Routes>
   ), []);
 

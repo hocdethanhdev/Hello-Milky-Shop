@@ -55,22 +55,6 @@ function Menu() {
             </td>
           </tr>
           <tr>
-            {
-              isLoggedIn
-                ? <td>
-                  <a href="/Voucher" className="cate_li_title-trid">
-                    <img
-                      className="img_icon-trid icon_hover-trid"
-                      src="./voucher.png"
-                      alt="Voucher"
-                    />
-                    Voucher
-                  </a>
-                </td>
-                : <div></div>
-            }
-          </tr>
-          <tr>
             <td>
               <a href="/News" className="cate_li_title-trid">
                 <img
