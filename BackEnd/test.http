@@ -386,3 +386,6 @@ Content-Type: application/json
   "address": "123 Đường Số 1, Quận 1, TP. HCM",
   "userID": "M0000001"
 }
+
+### 
+GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/M0000001
