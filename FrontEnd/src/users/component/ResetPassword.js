@@ -7,7 +7,8 @@ import "react-phone-input-2/lib/style.css";
 import { auth } from "../../config/firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
-import './ResetPassword.css';
+import "./ResetPassword.css";
+import axios from "axios";
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState("");
@@ -26,7 +27,8 @@ const ResetPassword = () => {
 
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(auth,
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
         "recaptcha-container",
         {
           size: "invisible",
@@ -47,7 +49,7 @@ const ResetPassword = () => {
     setIsSignupAttempted(true);
 
     setLoading(true);
-    
+
     const appVerifier = window.recaptchaVerifier;
     const formatPh = "+" + ph;
 
@@ -88,31 +90,21 @@ const ResetPassword = () => {
       });
   }
 
-  function checkPhoneNumberExists() {
+  async function checkPhoneNumberExists() {
     const phApi = "0" + ph.substring(2);
-    console.log(phApi);
-    fetch("http://localhost:5000/api/v1/auth/checkPhoneNumber", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        PhoneNumber: phApi,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Phone number does not exist.");
+    try {
+      const checkPH = await axios.post(
+        "http://localhost:5000/api/v1/auth/checkPhoneNumber",
+        {
+          PhoneNumber: phApi,
         }
-        return response.json();
-      })
-      .then((data) => {
-        onSignup(); // Call onSignup here to send OTP after verifying phone number
-      })
-      .catch((error) => {
-        console.error("Error checking phone number:", error);
-        toast.error("Phone number does not exist. Please enter a correct number.");
-      });
+      );
+      if (checkPH.data.err === 0) onSignup();
+      else throw new Error("Phone number does not exist.");
+    } catch (error) {
+      console.error("Error checking phone number:", error);
+      toast.error("Phone number does not exist. Please enter a correct number.");
+    }
   }
 
   const handleSendOTPClick = () => {
@@ -208,18 +200,13 @@ const ResetPassword = () => {
           </div>
         ) : (
           <div className="reset-form">
-            <h1 className="title text-center">
-              Quên mật khẩu
-            </h1>
+            <h1 className="title text-center">Quên mật khẩu</h1>
             {showOTP ? (
               <>
                 <div className="icon-container">
                   <BsFillShieldLockFill size={30} />
                 </div>
-                <label
-                  htmlFor="otp"
-                  className="otp-label"
-                >
+                <label htmlFor="otp" className="otp-label">
                   Nhập OTP
                 </label>
                 <OtpInput
@@ -231,10 +218,7 @@ const ResetPassword = () => {
                   autoFocus
                   className="otp-input-container"
                 ></OtpInput>
-                <button
-                  onClick={onOTPVerify}
-                  className="otp-button"
-                >
+                <button onClick={onOTPVerify} className="otp-button">
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
                   )}
@@ -246,10 +230,7 @@ const ResetPassword = () => {
                 <div className="icon-container">
                   <BsTelephoneFill size={30} />
                 </div>
-                <label
-                  htmlFor=""
-                  className="phone-label "
-                >
+                <label htmlFor="" className="phone-label ">
                   Nhập số điện thoại của bạn
                 </label>
                 <PhoneInput country={"vn"} value={ph} onChange={setPh} />
@@ -269,6 +250,6 @@ const ResetPassword = () => {
       </div>
     </section>
   );
-}
+};
 
 export default ResetPassword;
