@@ -10,6 +10,7 @@ const promotion = require("./promotionRouter");
 const order = require("./orderRouter");
 const city = require("./cityRouter");
 const district = require("./districtRouter");
+const shippingAddress = require("./shippingAddressRouter");
 
 const initRouters = (app) => {
 
@@ -37,6 +38,7 @@ const initRouters = (app) => {
 
   app.use("/api/v1/district", district);
 
+  app.use("/api/v1/shippingAddress", shippingAddress);
 
 
   app.get("/", (req, res) => {
