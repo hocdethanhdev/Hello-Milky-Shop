@@ -92,6 +92,10 @@ const orderDAO = {
                     BEGIN
                         INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
                         VALUES (@orderID, @productID, @quantity, @price);
+
+                        UPDATE Orders
+                        SET TotalAmount = TotalAmount + (@quantity * @price)
+                        WHERE OrderID = @orderID;
                     END
                 `;
 
@@ -141,7 +145,8 @@ const orderDAO = {
                     // Update order status
                     const updateOrderQuery = `
                         UPDATE Orders
-                        SET status = 1
+                        SET status = 1,
+                            statusOrderID = 1
                         WHERE orderID = @orderID;
                     `;
 
@@ -345,15 +350,17 @@ const orderDAO = {
 
                     const request = new mssql.Request(transaction);
 
-                    const productIDs = productQuantities.map(pq => `'${pq.productID}'`).join(',');
-
+                    //Update the quantity of chosen product
                     const updateQueries = productQuantities.map(pq => {
                         return `
                             UPDATE OrderDetail
                             SET Quantity = ${pq.quantity}
                             WHERE OrderID = ${orderID} AND ProductID = '${pq.productID}'
                         `;
-                    }).join('; ');
+                    }).join('\n');
+
+                    //Move the not chosen product to the new order
+                    const productIDs = productQuantities.map((pq) => `'${pq.productID}'`).join(",");
 
                     const transferUnselectedItemsQuery = `
                         INSERT INTO Orders (orderDate, totalAmount, status, userID)
@@ -367,13 +374,13 @@ const orderDAO = {
                         SELECT @newOrderID, ProductID, Quantity, Price
                         FROM OrderDetail
                         WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
-    
-                        DELETE FROM OrderDetail
-                        WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
                     `;
+                    const deleteQuery = `
+                    DELETE FROM OrderDetail
+                    WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});`
 
                     const finalQuery = `
-                        ${updateQueries}; ${transferUnselectedItemsQuery};
+                        ${updateQueries}; ${transferUnselectedItemsQuery}; ${deleteQuery};
                     `;
 
                     request.query(finalQuery, (err, result) => {
@@ -395,73 +402,7 @@ const orderDAO = {
         });
     },
 
-    checkoutOrder: (orderID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
 
-                const transaction = new mssql.Transaction();
-                transaction.begin(err => {
-                    if (err) return reject(err);
-
-                    const request = new mssql.Request(transaction);
-                    request.input('orderID', mssql.Int, orderID);
-
-                    // Update order status
-                    const updateOrderQuery = `
-                    UPDATE Orders
-                    SET status = 1
-                    WHERE orderID = @orderID;
-                `;
-
-                    // Get the order details
-                    const getOrderDetailsQuery = `
-                    SELECT ProductID, Quantity
-                    FROM OrderDetail
-                    WHERE OrderID = @orderID;
-                `;
-
-                    request.query(updateOrderQuery, (err, result) => {
-                        if (err) {
-                            transaction.rollback();
-                            return reject(err);
-                        }
-
-                        request.query(getOrderDetailsQuery, (err, orderDetailsResult) => {
-                            if (err) {
-                                transaction.rollback();
-                                return reject(err);
-                            }
-
-                            const orderDetails = orderDetailsResult.recordset;
-                            const updateProductQueries = orderDetails.map(detail => {
-                                return `
-                                UPDATE Product
-                                SET StockQuantity = StockQuantity - ${detail.Quantity}
-                                WHERE ProductID = '${detail.ProductID}';
-                            `;
-                            }).join(' ');
-
-                            request.query(updateProductQueries, (err, result) => {
-                                if (err) {
-                                    transaction.rollback();
-                                    return reject(err);
-                                }
-
-                                transaction.commit(err => {
-                                    if (err) {
-                                        transaction.rollback();
-                                        return reject(err);
-                                    }
-                                    resolve(result);
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    },
     updateStatusOrderID: (orderID, statusOrderID) => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err) {
@@ -509,6 +450,56 @@ const orderDAO = {
             });
         });
     },
+    removeProductFromOrder: (orderID, productID) => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err) {
+                if (err) return reject(err);
+
+                const request = new mssql.Request();
+                request.input('orderID', mssql.Int, orderID)
+                    .input('productID', mssql.VarChar, productID);
+
+                const deleteQuery = `
+                    DELETE FROM OrderDetail
+                    WHERE OrderID = @orderID AND ProductID = @productID;
+
+                    IF NOT EXISTS (SELECT 1 FROM OrderDetail WHERE OrderID = @orderID)
+                    BEGIN
+                        DELETE FROM Orders WHERE OrderID = @orderID;
+                    END
+                `;
+
+                request.query(deleteQuery, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result);
+                });
+            });
+        });
+    },
+    getOrdersByStatusOrderID: (statusOrderID) => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err) {
+                if (err) return reject(err);
+
+                const request = new mssql.Request();
+                request.input('statusOrderID', mssql.Int, statusOrderID);
+
+                const selectQuery = `
+                    SELECT *
+                    FROM Orders o
+                    JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
+                    WHERE o.Status = 1 AND o.StatusOrderID = @statusOrderID
+
+                `;
+
+                request.query(selectQuery, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result.recordset);
+                });
+            });
+        });
+    },
+
 
 }
 module.exports = orderDAO;

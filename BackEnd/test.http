@@ -234,8 +234,8 @@ Content-Type: application/json
 
 {
   "userID": "M0000001",
-  "productID": "SE0005",
-  "quantity": 3,
+  "productID": "SE0002",
+  "quantity": 1,
   "price": 1500
 }
 
@@ -331,16 +331,12 @@ POST http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder
 Content-Type: application/json
 
 {
-    "orderID": "2",
+    "orderID": "15",
     "productQuantities": [
         {
             "productID": "SE0001",
-            "quantity": 5
-        },
-        {
-            "productID": "SE0003",
-            "quantity": 3
-        }
+            "quantity": 2
+        }      
     ]
 }
 
@@ -358,3 +354,14 @@ GET http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion
 GET http://localhost:5000/api/v1/city/getAllCities/
 ###
 GET http://localhost:5000/api/v1/district/getDistrictByID/1
+
+###
+POST http://localhost:5000/api/v1/order/removeProductFromOrder
+Content-Type: application/json
+
+{
+    "OrderID": 11,
+    "ProductID": "SE0003"
+}
+### Lấy chi tiết đơn hàng dựa vào orderID
+GET http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/1

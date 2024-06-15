@@ -41,4 +41,8 @@ router.post('/updateStatusOrderID/:OrderID', orderController.updateStatusOrderID
 
 router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser);
 
+router.post('/removeProductFromOrder', orderController.removeProductFromOrder);
+
+router.get('/getOrdersByStatusOrderID/:statusOrderID', orderController.getOrdersByStatusOrderID);
+
 module.exports = router
