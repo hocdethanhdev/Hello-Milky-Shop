@@ -1,13 +1,10 @@
 import React from "react";
 import { TiThMenu } from "react-icons/ti";
 import "./Menu.css";
-import { useState } from 'react';
 import { useSelector } from "react-redux";
 
 function Menu() {
-  const { isLoggedIn } = useSelector((state) => state.auth);
   return (
-
     <div className="menu_cate-trid">
       <table className="category_table-trid">
         <thead>
@@ -33,7 +30,6 @@ function Menu() {
               </a>
             </td>
           </tr>
-
           <tr>
             <td>
               <a href="/sua-cho-me" className="cate_li_title-trid">
@@ -52,35 +48,17 @@ function Menu() {
                 <img
                   className="img_icon-trid icon_hover-trid"
                   src="https://momslove.com.vn/wp-content/uploads/2021/07/icon-sua.svg"
-                  alt="Đồ dùng cho mẹ"
+                  alt="Sữa cho bé"
                 />
                 Sữa cho bé
               </a>
             </td>
           </tr>
           <tr>
-            {
-              isLoggedIn
-                ? <td>
-                  <a href="/Voucher" className="cate_li_title-trid">
-                    <img
-                      className="img_icon-trid icon_hover-trid"
-                      src="./voucher.png"
-                      alt="Voucher"
-                    />
-                    Voucher
-                  </a>
-                </td>
-                : <div></div>
-            }
-          </tr>
-          <tr>
             <td>
-
               <a href="/News" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
-
                   src="./news.png"
                   alt="Tin tức"
                 />
@@ -93,4 +71,5 @@ function Menu() {
     </div>
   );
 }
+
 export default Menu;

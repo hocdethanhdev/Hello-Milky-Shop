@@ -101,9 +101,11 @@ function Login() {
               />
 
               <p className="small mb-3 pb-lg-2">
+                <Link to="/ResetPassword">
                 <a className="text-dark-50" href="#!">
                   Quên mật khẩu?
                 </a>
+                </Link>
               </p>
               <button className="login-button-trid" type="button" onClick={handleSubmit}>
                 <span className="button-text-trid">Đăng nhập</span>
