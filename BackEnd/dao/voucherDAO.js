@@ -25,7 +25,6 @@ const voucherDAO = {
             });
         });
     },
-
     getVouchersforUser: () => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err, res) {

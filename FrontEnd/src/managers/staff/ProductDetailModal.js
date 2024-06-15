@@ -8,11 +8,11 @@ const ProductDetailModal = ({ product, onClose }) => {
     if (!product) return null;
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <span className="close-button" onClick={onClose}>&times;</span>
+        <div className="modal-overlay-thinhprost">
+            <div className="modal-content-thinhprost">
+                <span className="close-button-thinhprost" onClick={onClose}>&times;</span>
                 <h2>Product Details</h2>
-                <div className='modal-thinh-anh'>
+                <div className='modal-thinh-anh-thinhprost'>
                     <img src={product.Image} alt={product.ProductName} style={{ maxWidth: '100%' }} />
                 </div>
                 <div>

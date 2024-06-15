@@ -204,11 +204,11 @@ body {
   cursor: pointer;
 }
 
-.payment-info .order-btn:hover {
-  background-color: #e55b5b;
+.ten-sp-cartth {
+  color: #0c93e4;
+  font-weight: bold;
 }
-
-.payment-info .order-btn:disabled {
-  background-color: #ddd;
-  cursor: not-allowed;
+.gia-sp-cartth {
+  color: #fd6a02;
+  font-weight: bold;
 }

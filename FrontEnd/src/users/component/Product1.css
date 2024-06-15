@@ -277,7 +277,7 @@
   border: 1px solid #ddd;
   width: 200px;
   text-align: center;
-  height: fit-content;
+  
   margin-left: 20px;
   margin-top: 20px;
   transition: transform 0.1s ease-in-out;
@@ -380,7 +380,7 @@
   border: 1px solid #ddd;
   width: 200px;
   text-align: center;
-  height: fit-content;
+  
 
   margin-left: 20px;
   margin-top: 20px;
@@ -492,3 +492,4 @@
 .navigation-gia-soc button:hover {
   background-color: #0f7fc1;
 }
+

@@ -1,5 +1,23 @@
+
+### check reset password
+GET http://localhost:5000/api/v1/auth/checkPhoneNumber
+Content-Type: application/json
+
+{
+    "PhoneNumber": "0909090908"
+}
+### forgetPassword
+PUT http://localhost:5000/api/v1/auth/forgetPassword
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "Password": "2"
+}
+
 ### lay user by id
 GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
+
 
 ### đem so don hang tung ngay trong vong 7 ngay
 GET http://localhost:5000/api/v1/order/countOrdersIn7Days
@@ -99,7 +117,7 @@ Content-Type: application/json
     "UserName": "Nhan",
     "PhoneNumber": "0909090908",
     "Password": "1",
-    "RoleID": 3
+    "RoleID": 2
 }
 ### login
 POST http://localhost:5000/api/v1/auth/login
@@ -282,6 +300,8 @@ GET http://localhost:5000/api/v1/article/getAllArticles/
 ###
 GEt http://localhost:5000/api/v1/article/getArticlesByID/M0000001/
 ###
+GEt http://localhost:5000/api/v1/article/getArticlesByArticleID/6/
+###
 GEt http://localhost:5000/api/v1/article/getArticlesByContent/Tin tức/
 ###
 GET http://localhost:5000/api/v1/article/getAllArticleCategory/
@@ -290,12 +310,12 @@ POST http://localhost:5000/api/v1/article/createArticle/
 Content-Type: application/json
 
 {
-    "Title": "Chất lượng sữa mẹ theo thời gian có gì thay đổi?",
+    "Title": "Chất lượng sữa ngoại có tốt cho trẻ nhỏ không?",
     "HeaderImage": "image5.png",
-    "Content": "Sữa cho mẹ bầu",
-    "PublishDate": "2021-05-16",
+    "Content": "Sữa cho em bé",
+    "PublishDate": "2021-05-25",
     "AuthorID": "M0000001",
-    "ArticleCategoryID": 1
+    "ArticleCategoryID": 2
 }
 
 ###
@@ -386,6 +406,6 @@ Content-Type: application/json
   "address": "123 Đường Số 1, Quận 1, TP. HCM",
   "userID": "M0000001"
 }
-
 ### 
 GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/M0000001
+
