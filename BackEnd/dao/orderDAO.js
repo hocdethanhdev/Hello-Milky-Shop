@@ -71,8 +71,7 @@ ORDER BY dl.OrderDate;;`,
           `SELECT COUNT(OrderID) as count FROM Orders WHERE StatusOrderID = 1 AND Status = 1;`,
           (err, res) => {
             if (err) reject(err);
-
-            resolve({ count: res.recordset[0].count });
+            resolve({ count: res?.recordset[0].count });
           }
         );
       });

@@ -179,61 +179,6 @@ values(1, 'SM0001', 0)
 insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
 values(2, 'SM0001', 0)
 
-/*
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Hello there!', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('How are you doing?', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('I hope you are well.', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Yes, I am good.', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('What about you?', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('I am also fine, thanks.', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Can I help you with something?', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('No, I am good.', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Thanks for asking though.', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('You are welcome!', '2024-05-30', 1);
-*/
-
-/*
-insert into Comment(UserID, ProductID, Description) values ('M0000001', 'SE0001', N'Tốt')
-insert into Comment(UserID, ProductID, Description) values ('M0000001', 'SE0002', N'Tốt')
-insert into Comment(UserID, ProductID, Description) values ('M0000001', 'SE0003', N'Tốt')
-*/
-
-/*
-INSERT INTO Orders (OrderDate, TotalAmount, Status, UserID) VALUES
-('2024-05-01', 5000000, 0, 'M0000001'),
-('2024-05-02', 3200000, 0, 'M0000001'),
-('2024-05-03', 4300000, 0, 'M0000001'),
-('2024-05-04', 2100000, 0, 'M0000001'),
-('2024-05-05', 7600000, 0, 'M0000001'),
-('2024-05-06', 5400000, 0, 'M0000001'),
-('2024-05-07', 3300000, 0, 'M0000001'),
-('2024-05-08', 2700000, 0, 'M0000001'),
-('2024-05-09', 4800000, 0, 'M0000001'),
-('2024-05-10', 6200000, 0, 'M0000001');
-INSERT INTO OrderDetail (Quantity, Price, OrderID, ProductID) VALUES
-(2, 1000000, 1, 'SM0001'),
-(1, 3200000, 2, 'SM0002'),
-(3, 1290000, 3, 'SM0003'),
-(2, 700000, 4, 'SM0004'),
-(1, 7600000, 5, 'SM0005'),
-(4, 5400000, 6, 'SM0006'),
-(2, 660000, 7, 'SM0006'),
-(3, 900000, 8, 'SM0007'),
-(1, 4800000, 9, 'SM0008'),
-(2, 1240000, 10, 'SM0009'),
-
-(1, 500000, 1, 'SE0001'),
-(2, 1080000, 2, 'SE0002'),
-(1, 600000, 3, 'SE0003'),
-(2, 960000, 4, 'SE0004'),
-(1, 4500000, 5, 'SE0005'),
-(2, 1040000, 6, 'SE0006'),
-(1, 550000, 7, 'SE0007'),
-(1, 5300000, 8, 'SE0008'),
-(1, 5700000, 9, 'SE0009'),
-(1, 560000, 10, 'SE0010');
-*/
-
 INSERT INTO City (CityName) VALUES
 (N'Hà Nội'),
 (N'Hồ Chí Minh'),

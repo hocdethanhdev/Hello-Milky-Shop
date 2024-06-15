@@ -5,6 +5,7 @@ class User {
         PhoneNumber,
         Email,
         Password,
+        Point,
         Address,
         Status,
         RoleID
@@ -14,6 +15,7 @@ class User {
     this.PhoneNumber = PhoneNumber;
     this.Email = Email;
     this.Password = Password;
+    this.Point = Point;
     this.Address = Address;
     this.Status = Status;
     this.RoleID = RoleID;
