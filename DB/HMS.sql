@@ -43,7 +43,7 @@ go
 CREATE TABLE Article (
 ArticleID int IDENTITY NOT NULL, 
 Title nvarchar(150) NOT NULL,
-HeaderImage varchar(50),
+HeaderImage varchar(255),
 Content nvarchar(4000) NOT NULL, 
 PublishDate date default getdate() NOT NULL, 
 AuthorID varchar(8) foreign key references Users(UserID), 
