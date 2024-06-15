@@ -395,6 +395,11 @@ GET http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion
 ###
 GET http://localhost:5000/api/v1/city/getAllCities/
 ###
+
+
+GET http://localhost:5000/api/v1/district/getDistrictByID/1
+
+
 GET http://localhost:5000/api/v1/district/getDistrictByID/1
 ### Thêm thông tin khách hàng vào đơn hàng hiện tại
 POST http://localhost:5000/api/v1/order/addInfoCusToOrder
@@ -406,6 +411,17 @@ Content-Type: application/json
   "address": "123 Đường Số 1, Quận 1, TP. HCM",
   "userID": "M0000001"
 }
+
+
+### xóa sốp bing card
+POST http://localhost:5000/api/v1/order/removeProductFromOrder
+Content-Type: application/json
+
+{
+    "OrderID": 11,
+    "ProductID": "SE0003"
+}
+
 ### 
 GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/M0000001
 
