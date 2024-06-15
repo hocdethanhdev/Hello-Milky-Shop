@@ -60,4 +60,8 @@ router.get('/countOrdersIn7Days', orderController.countOrdersIn7Days);
 router.post('/removeProductFromOrder', orderController.removeProductFromOrder);
 
 
+router.post('/removeProductFromOrder', orderController.removeProductFromOrder);
+
+router.get('/getOrdersByStatusOrderID/:statusOrderID', orderController.getOrdersByStatusOrderID);
+
 module.exports = router

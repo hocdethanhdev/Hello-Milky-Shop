@@ -168,6 +168,21 @@ const orderService = {
             throw new Error(`Error updating status of orders: ${error.message}`);
         }
     },
+    removeProductFromOrder: async (orderID, productID) => {
+        try {
+            await orderRepository.removeProductFromOrder(orderID, productID);
+        } catch (error) {
+            throw new Error(`Error removing product from order: ${error.message}`);
+        }
+    },
+    getOrdersByStatusOrderID: async (orderID) => {
+        try {
+            const orderDetail = await orderRepository.getOrdersByStatusOrderID(orderID);
+            return orderDetail;
+        } catch (error) {
+            throw new Error(`Error getting the previous order address: ${error.message}`);
+        }
+    },
 
     addInfoCusToOrder: async (receiver, phoneNumber, address, userID) => {
         return await orderRepository.addInfoCusToOrder(receiver, phoneNumber, address, userID);
