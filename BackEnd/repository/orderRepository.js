@@ -10,7 +10,7 @@ const orderRepository = {
         return orderDAO.countOrdersFinish();
     },
 
-    countOrdersCancel:() => {
+    countOrdersCancel: () => {
         return orderDAO.countOrdersCancel();
     },
 
@@ -21,7 +21,9 @@ const orderRepository = {
     countNewOrders: () => {
         return orderDAO.countNewOrders();
     },
-
+    removeProductFromOrder: (orderID, productID) => {
+        return orderDAO.removeProductFromOrder(orderID, productID);
+    },
 
     countOrdersPayed: () => {
         return orderDAO.countOrdersPayed();

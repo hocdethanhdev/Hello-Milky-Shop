@@ -463,43 +463,45 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
 
           const request = new mssql.Request(transaction);
 
-          const productIDs = productQuantities
-            .map((pq) => `'${pq.productID}'`)
-            .join(",");
+          // Step 1: Update quantities for selected products
+          const updateQueries = productQuantities.map((pq) => {
+            return `
+              UPDATE OrderDetail
+              SET Quantity = ${pq.quantity}
+              WHERE OrderID = ${orderID} AND ProductID = '${pq.productID}';
+            `;
+          }).join("\n");
 
-          const updateQueries = productQuantities
-            .map((pq) => {
-              return `
-                            UPDATE OrderDetail
-                            SET Quantity = ${pq.quantity}
-                            WHERE OrderID = ${orderID} AND ProductID = '${pq.productID}'
-                        `;
-            })
-            .join("; ");
-
+          // Step 2: Transfer unselected items to a new order
+          const productIDs = productQuantities.map((pq) => `'${pq.productID}'`).join(",");
           const transferUnselectedItemsQuery = `
-                        INSERT INTO Orders (orderDate, totalAmount, status, userID)
-                        SELECT orderDate, 0, 0, userID
-                        FROM Orders
-                        WHERE OrderID = ${orderID};
-    
-                        DECLARE @newOrderID INT = SCOPE_IDENTITY();
-    
-                        INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
-                        SELECT @newOrderID, ProductID, Quantity, Price
-                        FROM OrderDetail
-                        WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});`;
+            INSERT INTO Orders (orderDate, totalAmount, status, userID)
+            SELECT orderDate, 0, 0, userID
+            FROM Orders
+            WHERE OrderID = ${orderID};
+  
+            DECLARE @newOrderID INT = SCOPE_IDENTITY();
+  
+            INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
+            SELECT @newOrderID, ProductID, Quantity, Price
+            FROM OrderDetail
+            WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
+          `;
 
+          // Step 3: Delete unselected items from the current order
           const deleteQuery = `
-                        DELETE FROM OrderDetail
-                        WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
-                    `;
+            DELETE FROM OrderDetail
+            WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
+          `;
 
+          // Combine all queries
           const finalQuery = `
-                        ${updateQueries}; ${transferUnselectedItemsQuery};
+            ${updateQueries}
+            ${transferUnselectedItemsQuery}
+            ${deleteQuery}
+          `;
 
-                    `;
-
+          // Execute the final query
           request.query(finalQuery, (err, result) => {
             if (err) {
               transaction.rollback();
@@ -514,6 +516,34 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
               resolve(result);
             });
           });
+        });
+      });
+    });
+  }
+  ,
+
+  removeProductFromOrder: (orderID, productID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        request.input('orderID', mssql.Int, orderID)
+          .input('productID', mssql.VarChar, productID);
+
+        const deleteQuery = `
+                DELETE FROM OrderDetail
+                WHERE OrderID = @orderID AND ProductID = @productID;
+
+                IF NOT EXISTS (SELECT 1 FROM OrderDetail WHERE OrderID = @orderID)
+                BEGIN
+                    DELETE FROM Orders WHERE OrderID = @orderID;
+                END
+            `;
+
+        request.query(deleteQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
       });
     });
@@ -662,7 +692,7 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
                     WHERE OrderID = (
                         SELECT TOP 1 OrderID
                         FROM Orders
-                        WHERE UserID = @userID AND Status = 1 -- Assuming 1 represents 'open' status
+                        WHERE UserID = @userID AND Status = 0 
                         ORDER BY OrderDate DESC
                     );
                 `;
@@ -675,4 +705,6 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
     });
   },
 };
+
 module.exports = orderDAO;
+
