@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 import OtpInput from "otp-input-react";
@@ -8,7 +8,6 @@ import { auth } from "../../config/firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 import './ResetPassword.css';
-import PasswordResetForm from './PasswordResetForm';
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState("");
@@ -17,6 +16,13 @@ const ResetPassword = () => {
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
   const [showResetForm, setShowResetForm] = useState(false);
+  const [isSignupAttempted, setIsSignupAttempted] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    onCaptchVerify();
+  }, []);
 
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
@@ -25,7 +31,7 @@ const ResetPassword = () => {
         {
           size: "invisible",
           callback: (response) => {
-            onSignup();
+            // Callback when recaptcha is verified
           },
           "expired-callback": () => {
             toast.error("Recaptcha expired. Please try again.");
@@ -37,27 +43,32 @@ const ResetPassword = () => {
   }
 
   function onSignup() {
+    if (isSignupAttempted) return;
+    setIsSignupAttempted(true);
+
     setLoading(true);
-    onCaptchVerify();
-  
+    
     const appVerifier = window.recaptchaVerifier;
-  
     const formatPh = "+" + ph;
-  
+
     signInWithPhoneNumber(auth, formatPh, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
         setLoading(false);
-        // Do not set setShowOTP(true) here, wait for user action
+        setShowOTP(true);
         toast.success("OTP sent successfully!");
       })
       .catch((error) => {
         console.error("Error sending OTP:", error);
         setLoading(false);
-        toast.error("Failed to send OTP. Please try again.");
+        setIsSignupAttempted(false); // Allow retry if there was an error
+        if (error.code === "auth/quota-exceeded") {
+          toast.error("Quota exceeded. Please try again later.");
+        } else {
+          toast.error("Failed to send OTP. Please try again.");
+        }
       });
   }
-  
 
   function onOTPVerify() {
     setLoading(true);
@@ -67,7 +78,7 @@ const ResetPassword = () => {
         console.log("OTP confirmed:", res);
         setUser(res.user);
         setLoading(false);
-        setShowResetForm(true); // Hiển thị form đặt lại mật khẩu
+        setShowResetForm(true);
         toast.success("OTP verified successfully!");
       })
       .catch((err) => {
@@ -76,10 +87,10 @@ const ResetPassword = () => {
         toast.error("Failed to verify OTP. Please try again.");
       });
   }
-  
+
   function checkPhoneNumberExists() {
-    const phApi = "0" + ph.substring(2); // Chuyển đổi số điện thoại từ "+84..." sang "0..."
-    console.log(phApi)
+    const phApi = "0" + ph.substring(2);
+    console.log(phApi);
     fetch("http://localhost:5000/api/v1/auth/checkPhoneNumber", {
       method: "POST",
       headers: {
@@ -96,26 +107,105 @@ const ResetPassword = () => {
         return response.json();
       })
       .then((data) => {
-        // Set state to show OTP input
-        setShowOTP(true);
-        toast.success("Phone number exists. OTP will be sent.");
-        // Do not call onSignup here, wait for user action
+        onSignup(); // Call onSignup here to send OTP after verifying phone number
       })
       .catch((error) => {
         console.error("Error checking phone number:", error);
         toast.error("Phone number does not exist. Please enter a correct number.");
       });
   }
-  
+
+  const handleSendOTPClick = () => {
+    if (loading) return; // Prevent action if already loading
+    checkPhoneNumberExists();
+  };
+
+  const handlePasswordReset = () => {
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match. Please try again.");
+      return;
+    }
+
+    setLoading(true);
+
+    fetch("http://localhost:5000/api/v1/auth/forgetPassword", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        UserID: user.uid,
+        Password: password,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to reset password.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setLoading(false);
+        toast.success("Password reset successfully!");
+      })
+      .catch((error) => {
+        console.error("Error resetting password:", error);
+        setLoading(false);
+        toast.error("Failed to reset password. Please try again.");
+      });
+  };
+
   return (
     <section className="reset-password-container">
       <div>
         <Toaster toastOptions={{ duration: 4000 }} />
         <div id="recaptcha-container"></div>
-        {user ? (
-          <h2 className="success-message">
-            Password reset successful. Proceed to next step.
-          </h2>
+        {showResetForm ? (
+          <div className="password-reset-form">
+            <h2>Đặt lại mật khẩu</h2>
+            <div>
+              <label>Mật khẩu mới:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Xác nhận mật khẩu:</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+            <button onClick={handlePasswordReset} disabled={loading}>
+              {loading ? "Đang xử lý..." : "Đặt lại mật khẩu"}
+            </button>
+          </div>
+        ) : user ? (
+          <div className="password-reset-form">
+            <h2>Đặt lại mật khẩu</h2>
+            <div>
+              <label>Mật khẩu mới:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Xác nhận mật khẩu:</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+            <button onClick={handlePasswordReset} disabled={loading}>
+              {loading ? "Đang xử lý..." : "Đặt lại mật khẩu"}
+            </button>
+          </div>
         ) : (
           <div className="reset-form">
             <h1 className="title text-center">
@@ -164,7 +254,7 @@ const ResetPassword = () => {
                 </label>
                 <PhoneInput country={"vn"} value={ph} onChange={setPh} />
                 <button
-                  onClick={checkPhoneNumberExists}
+                  onClick={handleSendOTPClick}
                   className="send-otp-button"
                 >
                   {loading && (
