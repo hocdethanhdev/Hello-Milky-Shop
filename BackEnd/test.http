@@ -1,4 +1,39 @@
 
+### check reset password
+POST http://localhost:5000/api/v1/auth/checkPhoneNumber
+Content-Type: application/json
+
+{
+    "PhoneNumber": "0909090908"
+}
+### forgetPassword
+PUT http://localhost:5000/api/v1/auth/forgetPassword
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "Password": "2"
+}
+
+### lay user by id
+GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
+
+
+### đem so don hang tung ngay trong vong 7 ngay
+GET http://localhost:5000/api/v1/order/countOrdersIn7Days
+### count don hang hoan thanh
+GET http://localhost:5000/api/v1/order/countOrdersFinish
+### count don hang da huy
+GET http://localhost:5000/api/v1/order/countOrdersCancel
+
+### dem don hang dang cho xac nhan 
+GET http://localhost:5000/api/v1/order/countOrdersWaitToConfirm
+
+### dem don hang moi
+GET http://localhost:5000/api/v1/order/countNewOrders
+
+### dem tat ca don hang da thanh toan
+GET http://localhost:5000/api/v1/order/countOrdersPayed
 ### get order chua thanh toan cua user
 GET http://localhost:5000/api/v1/order/getOpenOrderForUser/M0000001
 ### top 6 product by brand
@@ -25,7 +60,7 @@ GET http://localhost:5000/api/v1/product/getProductByCategory/2/
 ### lay tat ca category
 GET http://localhost:5000/api/v1/product/getAllProductCategory
 ### tim kiem sua bang cate
-GET http://localhost:5000/api/v1/product/searchWithProductCategory/en/Sữa cho mẹ bầu
+GET http://localhost:5000/api/v1/product/searchWithProductCategory/Sữa
 ### tim voi gia
 GET http://localhost:5000/api/v1/product/searchWithPrice/En/0/10000000
 ### tim theo ten
@@ -80,7 +115,7 @@ Content-Type: application/json
 
 {
     "UserName": "Nhan",
-    "PhoneNumber": "0909090908",
+    "PhoneNumber": "0933802522",
     "Password": "1",
     "RoleID": 2
 }
@@ -89,7 +124,7 @@ POST http://localhost:5000/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "PhoneNumber": "84933802522",
+    "PhoneNumber": "0909090908",
     "Password": "1"
 }
 ### logout
@@ -230,7 +265,7 @@ GET http://localhost:5000/api/v1/order/getAllOrders
 
 ### Thêm sản phẩm vào đơn hàng hiện tại
 POST http://localhost:5000/api/v1/order/addProductToOrder
-Content-Type: application/json
+Content-Type: application/json  
 
 {
   "userID": "M0000001",
@@ -240,7 +275,7 @@ Content-Type: application/json
 }
 
 ### Trả về orders dựa vào orderID
-GET http://localhost:5000/api/v1/order/getOrder/30
+GET http://localhost:5000/api/v1/order/getOrder/280
 
 
 
@@ -265,6 +300,8 @@ GET http://localhost:5000/api/v1/article/getAllArticles/
 ###
 GEt http://localhost:5000/api/v1/article/getArticlesByID/M0000001/
 ###
+GEt http://localhost:5000/api/v1/article/getArticlesByArticleID/33/
+###
 GEt http://localhost:5000/api/v1/article/getArticlesByContent/Tin tức/
 ###
 GET http://localhost:5000/api/v1/article/getAllArticleCategory/
@@ -273,23 +310,24 @@ POST http://localhost:5000/api/v1/article/createArticle/
 Content-Type: application/json
 
 {
-    "Title": "Chất lượng sữa mẹ theo thời gian có gì thay đổi?",
+    "Title": "Chất lượng sữa ngoại có tốt cho trẻ nhỏ không?",
     "HeaderImage": "image5.png",
-    "Content": "Sữa cho mẹ bầu",
-    "PublishDate": "2021-05-16",
+    "Content": "Sữa cho em bé",
+    "PublishDate": "2021-05-25",
     "AuthorID": "M0000001",
-    "ArticleCategoryID": 1
+    "ArticleCategoryID": 2
 }
+
 ###
 PUT http://localhost:5000/api/v1/article/deleteArticle/2
 ###
-PUT http://localhost:5000/api/v1/article/editArticle/14
+PUT http://localhost:5000/api/v1/article/editArticle/31
 Content-Type: application/json
 
 {
     "Title": "Chất lượng sữa mẹ theo thời gian có gì thay đổi?",
     "HeaderImage": "image5.png",
-    "Content": "Tin tức",
+    "Content": "Từ 1 năm tuổi trở lên, trẻ đã có thể ăn dặm với các món dạng sệt như cháo đặc, bột đặc cùng nhiều món ăn dặm khác như hoa quả, sữa chua… Nhu cầu về dinh dưỡng của trẻ tiếp tục gia tăng mạnh mẽ.",
     "PublishDate": "2021-05-16",
     "AuthorID": "M0000001",
     "ArticleCategoryID": 2
@@ -353,9 +391,21 @@ GET http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion
 ###
 GET http://localhost:5000/api/v1/city/getAllCities/
 ###
-GET http://localhost:5000/api/v1/district/getDistrictByID/1
 
-###
+
+GET http://localhost:5000/api/v1/district/getDistrictByID/1
+POST http://localhost:5000/api/v1/order/addInfoCusToOrder
+Content-Type: application/json
+
+{ 
+  "receiver": "Nguyen Van A",
+  "phoneNumber": "0987654321",
+  "address": "123 Đường Số 1, Quận 1, TP. HCM",
+  "userID": "M0000001"
+}
+
+
+### xóa sốp bing card
 POST http://localhost:5000/api/v1/order/removeProductFromOrder
 Content-Type: application/json
 
@@ -363,5 +413,9 @@ Content-Type: application/json
     "OrderID": 11,
     "ProductID": "SE0003"
 }
+
+### 
+GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/M0000001
+
 ### Lấy chi tiết đơn hàng dựa vào orderID
 GET http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/1

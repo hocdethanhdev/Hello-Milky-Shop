@@ -1,87 +1,199 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 const Order = require("../bo/order");
+const ShippingAddress = require("../bo/shippingAddress");
 
 const orderDAO = {
-    getAllOrders: () => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err, result) {
-                const request = new mssql.Request();
-                request.query(`SELECT * FROM Orders 
+  countOrdersIn7Days: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `WITH DateList AS (
+    SELECT CAST(GETDATE() AS DATE) AS OrderDate
+    UNION ALL
+    SELECT DATEADD(DAY, -1, OrderDate)
+    FROM DateList
+    WHERE OrderDate > DATEADD(DAY, -6, CAST(GETDATE() AS DATE))
+)
+SELECT dl.OrderDate, COUNT(o.OrderID) AS count
+FROM DateList dl
+LEFT JOIN Orders o ON dl.OrderDate = o.OrderDate
+GROUP BY dl.OrderDate
+ORDER BY dl.OrderDate;;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
+
+  countOrdersFinish: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT COUNT(OrderID) as count FROM Orders WHERE StatusOrderID = 4 AND Status = 1;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({ count: res.recordset[0].count });
+          }
+        );
+      });
+    });
+  },
+
+  countOrdersCancel: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT COUNT(OrderID) as count FROM Orders WHERE StatusOrderID = 3 AND Status = 1;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({ count: res.recordset[0].count });
+          }
+        );
+      });
+    });
+  },
+
+  countOrdersWaitToConfirm: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT COUNT(OrderID) as count FROM Orders WHERE StatusOrderID = 1 AND Status = 1;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({ count: res.recordset[0].count });
+          }
+        );
+      });
+    });
+  },
+  countNewOrders: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT COUNT(OrderID) as count
+FROM Orders 
+WHERE Status = 1 
+AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({ count: res.recordset[0].count });
+          }
+        );
+      });
+    });
+  },
+
+  countOrdersPayed: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT COUNT(OrderID) as count FROM Orders WHERE Status = 1;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({ count: res.recordset[0].count });
+          }
+        );
+      });
+    });
+  },
+  getAllOrders: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT * FROM Orders 
                                 WHERE ORDERS.STATUS=1;`,
-                    (err, res) => {
-                        if (err) reject(err);
+          (err, res) => {
+            if (err) reject(err);
 
-                        resolve(res.recordset);
-                    });
-            });
-        });
-    },
-    searchOrderByUserName: (userName) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
+  searchOrderByUserName: (userName) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const trimmedUserName = userName.trim().replace(/\s+/g, ' ');
+        const trimmedUserName = userName.trim().replace(/\s+/g, " ");
 
-                const request = new mssql.Request();
+        const request = new mssql.Request();
 
-                request.input('userName', mssql.VarChar, `%${trimmedUserName}%`);
+        request.input("userName", mssql.VarChar, `%${trimmedUserName}%`);
 
-
-                const selectQuery = `
+        const selectQuery = `
                     SELECT o.*
                 FROM Orders o
                 JOIN Users u ON o.UserID = u.UserID
                 WHERE u.UserName COLLATE SQL_Latin1_General_CP1_CI_AS LIKE @userName
                 `;
 
-                request.query(selectQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result.recordset);
-                });
-            });
+        request.query(selectQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset);
         });
-    },
+      });
+    });
+  },
 
-    createOrder: (userID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  createOrder: (userID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('userID', mssql.VarChar, userID)
-                    .input('orderDate', mssql.DateTime, new Date())
-                    .input('status', mssql.Int, '0')
-                    .input('totalAmount', mssql.Float, 0);
+        const request = new mssql.Request();
+        request
+          .input("userID", mssql.VarChar, userID)
+          .input("orderDate", mssql.DateTime, new Date())
+          .input("status", mssql.Int, "0")
+          .input("totalAmount", mssql.Float, 0);
 
-                const insertQuery = `
+        const insertQuery = `
                     INSERT INTO Orders (orderDate, totalAmount, status, userID)
                     VALUES (@orderDate, @totalAmount, @status, @userID);
                     SELECT SCOPE_IDENTITY() AS orderID;
                 `;
 
-                request.query(insertQuery, (err, result) => {
-                    if (err) return reject(err);
-                    const orderID = result.recordset[0].orderID;
-                    resolve(orderID);
-                });
-            });
+        request.query(insertQuery, (err, result) => {
+          if (err) return reject(err);
+          const orderID = result.recordset[0].orderID;
+          resolve(orderID);
         });
-    },
+      });
+    });
+  },
 
-    addProductToOrder: (orderID, productID, quantity, price) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  addProductToOrder: (orderID, productID, quantity, price) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('orderID', mssql.Int, orderID)
-                    .input('productID', mssql.VarChar, productID)
-                    .input('quantity', mssql.Int, quantity)
-                    .input('price', mssql.Float, price);
+        const request = new mssql.Request();
+        request
+          .input("orderID", mssql.Int, orderID)
+          .input("productID", mssql.VarChar, productID)
+          .input("quantity", mssql.Int, quantity)
+          .input("price", mssql.Float, price);
 
-                const insertQuery = `
+        const insertQuery = `
                     IF EXISTS (SELECT 1 FROM OrderDetail WHERE OrderID = @orderID AND ProductID = @productID)
                     BEGIN
                         UPDATE OrderDetail
@@ -99,159 +211,162 @@ const orderDAO = {
                     END
                 `;
 
-                request.query(insertQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                });
-            });
+        request.query(insertQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
-    },
+      });
+    });
+  },
 
-    getOrder: (orderID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  getOrder: (orderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('orderID', mssql.Int, orderID);
+        const request = new mssql.Request();
+        request.input("orderID", mssql.Int, orderID);
 
-                const selectQuery = `
+        const selectQuery = `
                     SELECT o.OrderID, o.OrderDate, o.TotalAmount, o.Status, o.UserID, od.ProductID, od.Quantity, od.Price
                     FROM Orders o
                     JOIN OrderDetail od ON o.OrderID = od.OrderID
                     WHERE o.OrderID = @orderID
                 `;
 
-                request.query(selectQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result.recordset);
-                });
-            });
+        request.query(selectQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset);
         });
-    },
+      });
+    });
+  },
 
-    checkoutOrder: (orderID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  checkoutOrder: (orderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const transaction = new mssql.Transaction();
-                transaction.begin(err => {
-                    if (err) return reject(err);
+        const transaction = new mssql.Transaction();
+        transaction.begin((err) => {
+          if (err) return reject(err);
 
-                    const request = new mssql.Request(transaction);
-                    request.input('orderID', mssql.Int, orderID);
+          const request = new mssql.Request(transaction);
+          request.input("orderID", mssql.Int, orderID);
 
-                    // Update order status
-                    const updateOrderQuery = `
+          // Update order status
+          const updateOrderQuery = `
                         UPDATE Orders
                         SET status = 1,
                             statusOrderID = 1
                         WHERE orderID = @orderID;
                     `;
 
-                    // Get the order details
-                    const getOrderDetailsQuery = `
+          // Get the order details
+          const getOrderDetailsQuery = `
                         SELECT ProductID, Quantity
                         FROM OrderDetail
                         WHERE OrderID = @orderID;
                     `;
 
-                    request.query(updateOrderQuery, (err, result) => {
-                        if (err) {
-                            transaction.rollback();
-                            return reject(err);
-                        }
+          request.query(updateOrderQuery, (err, result) => {
+            if (err) {
+              transaction.rollback();
+              return reject(err);
+            }
 
-                        request.query(getOrderDetailsQuery, (err, orderDetailsResult) => {
-                            if (err) {
-                                transaction.rollback();
-                                return reject(err);
-                            }
+            request.query(getOrderDetailsQuery, (err, orderDetailsResult) => {
+              if (err) {
+                transaction.rollback();
+                return reject(err);
+              }
 
-                            const orderDetails = orderDetailsResult.recordset;
-                            const updateProductQueries = orderDetails.map(detail => {
-                                return `
+              const orderDetails = orderDetailsResult.recordset;
+              const updateProductQueries = orderDetails
+                .map((detail) => {
+                  return `
                                     UPDATE Product
                                     SET StockQuantity = StockQuantity - ${detail.Quantity}
                                     WHERE ProductID = '${detail.ProductID}';
                                 `;
-                            }).join(' ');
+                })
+                .join(" ");
 
-                            request.query(updateProductQueries, (err, result) => {
-                                if (err) {
-                                    transaction.rollback();
-                                    return reject(err);
-                                }
+              request.query(updateProductQueries, (err, result) => {
+                if (err) {
+                  transaction.rollback();
+                  return reject(err);
+                }
 
-                                transaction.commit(err => {
-                                    if (err) {
-                                        transaction.rollback();
-                                        return reject(err);
-                                    }
-                                    resolve(result);
-                                });
-                            });
-                        });
-                    });
+                transaction.commit((err) => {
+                  if (err) {
+                    transaction.rollback();
+                    return reject(err);
+                  }
+                  resolve(result);
                 });
+              });
             });
+          });
         });
-    },
+      });
+    });
+  },
 
-    getOrdersByUserID: (userID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  getOrdersByUserID: (userID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('userID', mssql.VarChar, userID);
+        const request = new mssql.Request();
+        request.input("userID", mssql.VarChar, userID);
 
-                const selectQuery = `
+        const selectQuery = `
                     SELECT * FROM Orders 
                     WHERE UserID = @userID
                 `;
 
-                request.query(selectQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result.recordset);
-                });
-            });
+        request.query(selectQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset);
         });
-    },
+      });
+    });
+  },
 
-    getOpenOrderForUser: (userID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  getOpenOrderForUser: (userID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('userID', mssql.VarChar, userID);
+        const request = new mssql.Request();
+        request.input("userID", mssql.VarChar, userID);
 
-                const selectQuery = `
+        const selectQuery = `
                     SELECT * FROM Orders 
                     WHERE UserID = @userID AND status = 0
                 `;
 
-                request.query(selectQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result.recordset[0]);
-                });
-            });
+        request.query(selectQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset[0]);
         });
-    },
-    //Chức năng cho phép lấy những voucher đã lưu mà có thể áp dụng cho đơn hàng
-    getApplicableVouchers: (userID, orderTotal, currentDate) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+      });
+    });
+  },
+  //Chức năng cho phép lấy những voucher đã lưu mà có thể áp dụng cho đơn hàng
+  getApplicableVouchers: (userID, orderTotal, currentDate) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('userID', mssql.VarChar, userID)
-                    .input('orderTotal', mssql.Float, orderTotal)
-                    .input('currentDate', mssql.DateTime, currentDate);
+        const request = new mssql.Request();
+        request
+          .input("userID", mssql.VarChar, userID)
+          .input("orderTotal", mssql.Float, orderTotal)
+          .input("currentDate", mssql.DateTime, currentDate);
 
-                const selectQuery = `
+        const selectQuery = `
                     SELECT v.*
                     FROM Voucher v
                     JOIN UserVoucher uv ON v.VoucherID = uv.VoucherID
@@ -263,203 +378,306 @@ const orderDAO = {
                     AND v.ExpiryDate >= @currentDate
                 `;
 
-                request.query(selectQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result.recordset);
-                });
-            });
+        request.query(selectQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset);
         });
-    },
-    // Áp dụng voucher vào đơn hàng
-    applyVoucherToOrder: (orderID, voucherID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+      });
+    });
+  },
+  // Áp dụng voucher vào đơn hàng
+  applyVoucherToOrder: (orderID, voucherID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('orderID', mssql.Int, orderID)
-                    .input('voucherID', mssql.Int, voucherID);
+        const request = new mssql.Request();
+        request
+          .input("orderID", mssql.Int, orderID)
+          .input("voucherID", mssql.Int, voucherID);
 
-                const insertQuery = `
+        const insertQuery = `
                     INSERT INTO VoucherOrder (OrderID, VoucherID)
                     VALUES (@orderID, @voucherID)
                 `;
 
-                request.query(insertQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                });
-            });
+        request.query(insertQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
-    },
+      });
+    });
+  },
 
-    getPreviousOrderAddress: (userID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  getPreviousOrderAddress: (userID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('userID', mssql.VarChar, userID);
+        const request = new mssql.Request();
+        request.input("userID", mssql.VarChar, userID);
 
-                const selectQuery = `
+        const selectQuery = `
                     SELECT TOP 1 Address
                     FROM Orders
                     WHERE UserID = @userID
                     ORDER BY OrderID DESC
                 `;
 
-                request.query(selectQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result.recordset.length > 0 ? result.recordset[0].Address : null);
-                });
-            });
+        request.query(selectQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(
+            result.recordset.length > 0 ? result.recordset[0].Address : null
+          );
         });
-    },
-    getOrderDetailByOrderID: (orderID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+      });
+    });
+  },
+  getOrderDetailByOrderID: (orderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
+        const request = new mssql.Request();
 
-                request.input('orderID', mssql.Int, orderID);
+        request.input("orderID", mssql.Int, orderID);
 
-                const selectQuery = `
+        const selectQuery = `
                     SELECT o.*, od.*
                     FROM Orders o
                     JOIN OrderDetail od ON o.OrderID = od.OrderID
                     WHERE o.OrderID = @orderID
                 `;
 
-                request.query(selectQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result.recordset);
-                });
-            });
+        request.query(selectQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset);
         });
-    },
+      });
+    });
+  },
 
-    changeQuantityOfProductInOrder: (orderID, productQuantities) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  changeQuantityOfProductInOrder: (orderID, productQuantities) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const transaction = new mssql.Transaction();
-                transaction.begin(err => {
-                    if (err) return reject(err);
+        const transaction = new mssql.Transaction();
+        transaction.begin((err) => {
+          if (err) return reject(err);
 
-                    const request = new mssql.Request(transaction);
+          const request = new mssql.Request(transaction);
+          // Step 1: Update quantities for selected products
+          const updateQueries = productQuantities.map((pq) => {
+            return `
+              UPDATE OrderDetail
+              SET Quantity = ${pq.quantity}
+              WHERE OrderID = ${orderID} AND ProductID = '${pq.productID}';
+            `;
+          }).join("\n");
 
-                    //Update the quantity of chosen product
-                    const updateQueries = productQuantities.map(pq => {
-                        return `
-                            UPDATE OrderDetail
-                            SET Quantity = ${pq.quantity}
-                            WHERE OrderID = ${orderID} AND ProductID = '${pq.productID}'
-                        `;
-                    }).join('\n');
+          // Step 2: Transfer unselected items to a new order
+          const productIDs = productQuantities.map((pq) => `'${pq.productID}'`).join(",");
+          const transferUnselectedItemsQuery = `
+            INSERT INTO Orders (orderDate, totalAmount, status, userID)
+            SELECT orderDate, 0, 0, userID
+            FROM Orders
+            WHERE OrderID = ${orderID};
+  
+            DECLARE @newOrderID INT = SCOPE_IDENTITY();
+  
+            INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
+            SELECT @newOrderID, ProductID, Quantity, Price
+            FROM OrderDetail
+            WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
+          `;
 
-                    //Move the not chosen product to the new order
-                    const productIDs = productQuantities.map((pq) => `'${pq.productID}'`).join(",");
+          // Step 3: Delete unselected items from the current order
+          const deleteQuery = `
+            DELETE FROM OrderDetail
+            WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
+          `;
 
-                    const transferUnselectedItemsQuery = `
-                        INSERT INTO Orders (orderDate, totalAmount, status, userID)
-                        SELECT orderDate, 0, 0, userID
-                        FROM Orders
-                        WHERE OrderID = ${orderID};
-    
-                        DECLARE @newOrderID INT = SCOPE_IDENTITY();
-    
-                        INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
-                        SELECT @newOrderID, ProductID, Quantity, Price
-                        FROM OrderDetail
-                        WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
-                    `;
-                    const deleteQuery = `
-                    DELETE FROM OrderDetail
-                    WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});`
+          // Combine all queries
+          const finalQuery = `
+            ${updateQueries}
+            ${transferUnselectedItemsQuery}
+            ${deleteQuery}
+          `;
+          // Execute the final query
+          request.query(finalQuery, (err, result) => {
+            if (err) {
+              transaction.rollback();
+              return reject(err);
+            }
 
-                    const finalQuery = `
-                        ${updateQueries}; ${transferUnselectedItemsQuery}; ${deleteQuery};
-                    `;
-
-                    request.query(finalQuery, (err, result) => {
-                        if (err) {
-                            transaction.rollback();
-                            return reject(err);
-                        }
-
-                        transaction.commit(err => {
-                            if (err) {
-                                transaction.rollback();
-                                return reject(err);
-                            }
-                            resolve(result);
-                        });
-                    });
-                });
+            transaction.commit((err) => {
+              if (err) {
+                transaction.rollback();
+                return reject(err);
+              }
+              resolve(result);
             });
+          });
         });
-    },
+      });
+    });
+  },
+  removeProductFromOrder: (orderID, productID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
+        const request = new mssql.Request();
+        request.input('orderID', mssql.Int, orderID)
+          .input('productID', mssql.VarChar, productID);
 
-    updateStatusOrderID: (orderID, statusOrderID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+        const deleteQuery = `
+                DELETE FROM OrderDetail
+                WHERE OrderID = @orderID AND ProductID = @productID;
 
-                const request = new mssql.Request();
-                request.input('orderID', mssql.Int, orderID)
-                    .input('statusOrderID', mssql.Int, statusOrderID);
+                IF NOT EXISTS (SELECT 1 FROM OrderDetail WHERE OrderID = @orderID)
+                BEGIN
+                    DELETE FROM Orders WHERE OrderID = @orderID;
+                END
+            `;
 
-                const updateQuery = `
+        request.query(deleteQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      });
+    });
+  },
+
+  checkoutOrder: (orderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const transaction = new mssql.Transaction();
+        transaction.begin((err) => {
+          if (err) return reject(err);
+
+          const request = new mssql.Request(transaction);
+          request.input("orderID", mssql.Int, orderID);
+
+          // Update order status
+          const updateOrderQuery = `
+                    UPDATE Orders
+                    SET status = 1, StatusOrderID = 1
+                    WHERE orderID = @orderID;
+                `;
+
+          // Get the order details
+          const getOrderDetailsQuery = `
+                    SELECT ProductID, Quantity
+                    FROM OrderDetail
+                    WHERE OrderID = @orderID;
+                `;
+
+          request.query(updateOrderQuery, (err, result) => {
+            if (err) {
+              transaction.rollback();
+              return reject(err);
+            }
+
+            request.query(getOrderDetailsQuery, (err, orderDetailsResult) => {
+              if (err) {
+                transaction.rollback();
+                return reject(err);
+              }
+
+              const orderDetails = orderDetailsResult.recordset;
+              const updateProductQueries = orderDetails
+                .map((detail) => {
+                  return `
+                                UPDATE Product
+                                SET StockQuantity = StockQuantity - ${detail.Quantity}
+                                WHERE ProductID = '${detail.ProductID}';
+                            `;
+                })
+                .join(" ");
+
+              request.query(updateProductQueries, (err, result) => {
+                if (err) {
+                  transaction.rollback();
+                  return reject(err);
+                }
+
+                transaction.commit((err) => {
+                  if (err) {
+                    transaction.rollback();
+                    return reject(err);
+                  }
+                  resolve(result);
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  },
+  updateStatusOrderID: (orderID, statusOrderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request();
+        request
+          .input("orderID", mssql.Int, orderID)
+          .input("statusOrderID", mssql.Int, statusOrderID);
+
+        const updateQuery = `
+
                     UPDATE Orders
                     SET StatusOrderID = @statusOrderID
                     WHERE OrderID = @orderID;
                 `;
 
-                request.query(updateQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                });
-            });
+        request.query(updateQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
-    },
+      });
+    });
+  },
+  updateStatusAfterDays: (days, oldStatus, newStatus) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-    updateStatusAfterDays: (days, oldStatus, newStatus) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+        const request = new mssql.Request();
+        request
+          .input("days", mssql.Int, days)
+          .input("oldStatus", mssql.Int, oldStatus)
+          .input("newStatus", mssql.Int, newStatus);
 
-                const request = new mssql.Request();
-                request.input('days', mssql.Int, days)
-                    .input('oldStatus', mssql.Int, oldStatus)
-                    .input('newStatus', mssql.Int, newStatus);
-
-                const updateQuery = `
+        const updateQuery = `
                     UPDATE Orders
                     SET StatusOrderID = @newStatus
                     WHERE StatusOrderID = @oldStatus
                     AND DATEDIFF(day, OrderDate, GETDATE()) > @days;
                 `;
 
-                request.query(updateQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                });
-            });
+        request.query(updateQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
-    },
-    removeProductFromOrder: (orderID, productID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+      });
+    });
+  },
 
-                const request = new mssql.Request();
-                request.input('orderID', mssql.Int, orderID)
-                    .input('productID', mssql.VarChar, productID);
+  removeProductFromOrder: (orderID, productID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const deleteQuery = `
+        const request = new mssql.Request();
+        request.input('orderID', mssql.Int, orderID)
+          .input('productID', mssql.VarChar, productID);
+
+        const deleteQuery = `
                     DELETE FROM OrderDetail
                     WHERE OrderID = @orderID AND ProductID = @productID;
 
@@ -469,22 +687,22 @@ const orderDAO = {
                     END
                 `;
 
-                request.query(deleteQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                });
-            });
+        request.query(deleteQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
-    },
-    getOrdersByStatusOrderID: (statusOrderID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+      });
+    });
+  },
+  getOrdersByStatusOrderID: (statusOrderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('statusOrderID', mssql.Int, statusOrderID);
+        const request = new mssql.Request();
+        request.input('statusOrderID', mssql.Int, statusOrderID);
 
-                const selectQuery = `
+        const selectQuery = `
                     SELECT *
                     FROM Orders o
                     JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
@@ -492,14 +710,51 @@ const orderDAO = {
 
                 `;
 
-                request.query(selectQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result.recordset);
-                });
-            });
+        request.query(selectQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset);
         });
-    },
+      });
+    });
+  },
 
+  addInfoCusToOrder: (receiver, phoneNumber, address, userID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-}
+        const request = new mssql.Request();
+        request
+          .input("receiver", mssql.NVarChar, receiver)
+          .input("phoneNumber", mssql.VarChar, phoneNumber)
+          .input("address", mssql.NVarChar, address)
+          .input("userID", mssql.VarChar, userID);
+
+        const insertQuery = `
+                    INSERT INTO ShippingAddress (Receiver, PhoneNumber, Address, UserID)
+                    VALUES (@receiver, @phoneNumber, @address, @userID);
+    
+                    DECLARE @shippingAddressID INT;
+                    SET @shippingAddressID = SCOPE_IDENTITY();
+    
+                    UPDATE Orders
+                    SET ShippingAddressID = @shippingAddressID
+                    WHERE OrderID = (
+                        SELECT TOP 1 OrderID
+                        FROM Orders
+                        WHERE UserID = @userID AND Status = 0 
+                        ORDER BY OrderDate DESC
+                    );
+                `;
+
+        request.query(insertQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      });
+    });
+  },
+};
+
 module.exports = orderDAO;
+

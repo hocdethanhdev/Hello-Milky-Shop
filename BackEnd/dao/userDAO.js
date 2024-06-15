@@ -8,31 +8,104 @@ const passport = require("passport");
 const UserID = "a";
 
 const userDAO = {
+  forgetPassword : (Password, UserID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("Password", mssql.VarChar, Password)
+          .input("UserID", mssql.VarChar, UserID);
+        request.query(
+          `UPDATE Users SET Password = @Password WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.rowsAffected[0] > 0 ? 0 : 1,
+              mes: res.rowsAffected[0] > 0 ? "Change password successfully" : "Error in forgetPassword"
+            });
+            mssql.close();
+          }
+        );
+      });
+    });
+  },
+  
+  checkPhoneNumber : (PhoneNumber) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        
+        const request = new mssql.Request().input("PhoneNumber", mssql.VarChar, PhoneNumber);
+        request.query(
+          `SELECT UserID FROM Users WHERE PhoneNumber = @PhoneNumber;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.recordset.length > 0 ? 0 : 1,
+              mes: res?.recordset?.length > 0 ? "Exist" : "Not found",
+              data: res.recordset.length > 0 ? res.recordset.UserID : null
+            });
+          }
+        );
+      });
+    });
+  },
+
+  getUserByID: (id) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input("UserID", id);
+        request.query(
+          `
+        SELECT UserName, PhoneNumber, Email
+        FROM Users u
+        WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) reject(err);
+            if (res.recordset[0])
+              resolve({
+                err: 0,
+                mes: "OK",
+                data: res.recordset[0],
+              });
+            else {
+              resolve({
+                err: 1,
+                mes: "Not found",
+              });
+            }
+          }
+        );
+      });
+    });
+  },
 
   getOne: (id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request()
-        .input("UserID", id);
-        request.query(`
+        const request = new mssql.Request().input("UserID", id);
+        request.query(
+          `
         SELECT UserName, u.RoleID, RoleName
         FROM Users u
         JOIN Role r ON u.RoleID = r.RoleID
-        WHERE UserID = @UserID;`, (err, res) => {
-          if (err) reject(err);
-          if(res.recordset[0])
-            resolve({
-              err: 0,
-              mes: "OK",
-              data: res.recordset[0]
-          })
-          else{
-            resolve({
-              err: 1,
-              mes: "Not found"
-            })
+        WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) reject(err);
+            if (res.recordset[0])
+              resolve({
+                err: 0,
+                mes: "OK",
+                data: res.recordset[0],
+              });
+            else {
+              resolve({
+                err: 1,
+                mes: "Not found",
+              });
+            }
           }
-        });
+        );
       });
     });
   },
@@ -54,13 +127,13 @@ const userDAO = {
       mssql.connect(dbConfig, function (err, result) {
         var request = new mssql.Request()
           .input("UserID", param_id)
-          .input("Status",  Status);
+          .input("Status", Status);
         request.query(
           `UPDATE Users SET Status = @Status WHERE UserID = @UserID;`,
           (err, res) => {
             if (err) reject(err);
             resolve({
-              message: "0"
+              message: "0",
             });
           }
         );
@@ -74,14 +147,14 @@ const userDAO = {
           .input("UserID", param_id)
           .input("Status", mssql.Bit, userObject.Status)
           .input("RoleID", mssql.Int, userObject.RoleID);
-         
+
         request.query(
           `UPDATE Users SET RoleID = @RoleID  WHERE UserID = @UserID
           ;`,
           (err, res) => {
             if (err) reject(err);
             resolve({
-              message: "Edit successfully"
+              message: "Edit successfully",
             });
           }
         );
@@ -263,7 +336,7 @@ const userDAO = {
             if (!user) {
               return resolve({
                 err: 1,
-                message: email + " is not exist"
+                message: email + " is not exist",
               });
             }
 

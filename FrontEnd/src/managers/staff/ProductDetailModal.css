@@ -1,4 +1,4 @@
-.modal-overlay {
+.modal-overlay-thinhprost {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,7 +10,7 @@
     align-items: center;
 }
 
-.modal-content {
+.modal-content-thinhprost {
     background: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -21,17 +21,17 @@
     position: relative;
 }
 
-.close-button {
+.close-button-thinhprost {
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
     font-size: 1.5rem;
 }
-.modal-content img {
+.modal-content-thinhprost img {
     width: 40%;
     height: 60%;
 }
-.modal-thinh-anh {
+.modal-thinh-anh-thinhprost {
     padding-left: 200px;
 }

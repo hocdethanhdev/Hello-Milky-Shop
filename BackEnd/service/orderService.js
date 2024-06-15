@@ -1,7 +1,39 @@
+
 const { getOrderDetailByOrderID } = require('../dao/orderDAO');
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
+
+    countOrdersIn7Days: async () => {
+        return await orderRepository.countOrdersIn7Days();
+    },
+
+    countOrdersFinish: async () => {
+        return await orderRepository.countOrdersFinish();
+    },
+    removeProductFromOrder: async (orderID, productID) => {
+        try {
+            await orderRepository.removeProductFromOrder(orderID, productID);
+        } catch (error) {
+            throw new Error(`Error removing product from order: ${error.message}`);
+        }
+    },
+    countOrdersCancel: async () => {
+        return await orderRepository.countOrdersCancel();
+    },
+
+    countOrdersWaitToConfirm: async () => {
+        return await orderRepository.countOrdersWaitToConfirm();
+    },
+
+    countNewOrders: async () => {
+        return await orderRepository.countNewOrders();
+    },
+
+    countOrdersPayed: async () => {
+        return await orderRepository.countOrdersPayed();
+    },
+
     getOpenOrderForUser: async (id) => {
         return await orderRepository.getOpenOrderForUser(id);
     },
@@ -43,6 +75,8 @@ const orderService = {
             throw new Error(`Error adding product to order: ${error.message}`);
         }
     },
+
+
 
     getOrder: async (orderID) => {
         try {
@@ -150,6 +184,9 @@ const orderService = {
         }
     },
 
+    addInfoCusToOrder: async (receiver, phoneNumber, address, userID) => {
+        return await orderRepository.addInfoCusToOrder(receiver, phoneNumber, address, userID);
+    },
 
 
 };

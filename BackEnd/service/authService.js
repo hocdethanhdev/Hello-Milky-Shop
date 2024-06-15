@@ -1,8 +1,32 @@
+const { Passport } = require("passport");
 const userDAO = require("../dao/userDAO");
+const authRepository = require("../repository/authRepository");
 const bcrypt = require("bcryptjs");
 
+const checkPhoneNumber = async (PhoneNumber) => {
+  const user = await authRepository.checkPhoneNumber(PhoneNumber);
+  if (user.err) {
+    return { err: user.err };
+  }
+  return user;
+};
+
+const forgetPassword = async (Password, UserID) => {
+  try {
+    const user = await authRepository.forgetPassword(Password, UserID);
+    if (user.err) {
+      return { err: user.err };
+    }
+    return user;
+  } catch (error) {
+    console.error("Error in forgetPassword service:", error);
+    throw error;
+  }
+};
+
+
 const login = async (login) => {
-  const user = await userDAO.login(login);
+  const user = await authRepository.login(login);
   if (user.err) {
     return { err: user.err };
   }
@@ -10,7 +34,7 @@ const login = async (login) => {
 };
 
 const loginEmail = async (email) => {
-  const user = await userDAO.loginEmail(email);
+  const user = await authRepository.loginEmail(email);
   if (user.err) {
     return { err: user.err };
   }
@@ -18,7 +42,7 @@ const loginEmail = async (email) => {
 };
 
 const register = async (userName, phone, password, role) => {
-  const user = await userDAO.register(userName, phone, password, role);
+  const user = await authRepository.register(userName, phone, password, role);
   if (user.err) {
     return { err: user.err };
   }
@@ -34,4 +58,6 @@ module.exports = {
   register,
   hashPassword,
   loginEmail,
+  checkPhoneNumber,
+  forgetPassword,
 };

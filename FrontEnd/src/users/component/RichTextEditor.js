@@ -137,19 +137,15 @@ const RichTextEditor = () => {
             <button onClick={() => formatDoc('insertUnorderedList')}>
               <i className="bx bx-list-ul"></i>
             </button>
-            <button onClick={addLink}>
-              <i className="bx bx-link-richtext"></i>
-            </button>
-            <button onClick={() => formatDoc('unlink')}>
-              <i className="bx bx-unlink-richtext"></i>
-            </button>
             <button onClick={toggleShowCode} data-active={showCode}>
               &lt;/&gt;
             </button>
           </div>
         </div>
         <div id="content" ref={contentRef} contentEditable={!showCode} spellCheck="false">
-          Lorem, ipsum.
+
+
+
         </div>
       </div>
     </div>

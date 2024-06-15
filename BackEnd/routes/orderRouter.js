@@ -40,6 +40,25 @@ router.post('/changeQuantityOfProductInOrder', orderController.changeQuantityOfP
 router.post('/updateStatusOrderID/:OrderID', orderController.updateStatusOrderID);
 
 router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser);
+//Thêm thông tin cus vào đơn hàng
+router.post('/addInfoCusToOrder', orderController.addInfoCusToOrder);
+
+
+
+router.get('/countOrdersPayed', orderController.countOrdersPayed);
+
+router.get('/countNewOrders', orderController.countNewOrders);
+
+router.get('/countOrdersWaitToConfirm', orderController.countOrdersWaitToConfirm);
+
+router.get('/countOrdersCancel', orderController.countOrdersCancel);
+
+router.get('/countOrdersFinish', orderController.countOrdersFinish);
+
+router.get('/countOrdersIn7Days', orderController.countOrdersIn7Days);
+
+router.post('/removeProductFromOrder', orderController.removeProductFromOrder);
+
 
 router.post('/removeProductFromOrder', orderController.removeProductFromOrder);
 

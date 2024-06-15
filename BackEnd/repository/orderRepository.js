@@ -1,6 +1,34 @@
 const orderDAO = require('../dao/orderDAO');
 
 const orderRepository = {
+
+    countOrdersIn7Days: () => {
+        return orderDAO.countOrdersIn7Days();
+    },
+
+    countOrdersFinish: () => {
+        return orderDAO.countOrdersFinish();
+    },
+
+    countOrdersCancel: () => {
+        return orderDAO.countOrdersCancel();
+    },
+
+    countOrdersWaitToConfirm: () => {
+        return orderDAO.countOrdersWaitToConfirm();
+    },
+
+    countNewOrders: () => {
+        return orderDAO.countNewOrders();
+    },
+    removeProductFromOrder: (orderID, productID) => {
+        return orderDAO.removeProductFromOrder(orderID, productID);
+    },
+
+    countOrdersPayed: () => {
+        return orderDAO.countOrdersPayed();
+    },
+
     getAllOrders: () => {
         return orderDAO.getAllOrders();
     },
@@ -62,6 +90,10 @@ const orderRepository = {
         return orderDAO.getOrdersByStatusOrderID(statusOrderID);
     },
 
+
+    addInfoCusToOrder: (receiver, phoneNumber, address, userID) => {
+        return orderDAO.addInfoCusToOrder(receiver, phoneNumber, address, userID);
+    },
 
 };
 

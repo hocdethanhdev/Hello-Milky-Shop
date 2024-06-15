@@ -14,14 +14,14 @@ const authReducer = (state = initState, action) => {
         isLoggedIn: action.data ? true : false,
         token: action.data,
         role: action.role || 0,
-      }
+      };
     case actionTypes.LOGOUT:
       return {
         ...state,
         isLoggedIn: false,
         token: null,
-        role: 0
-      }
+        role: 0,
+      };
     default:
       return state;
   }

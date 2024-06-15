@@ -1,12 +1,74 @@
 const orderService = require('../service/orderService');
 
-const getOpenOrderForUser = (req, res, next) => {
+const countOrdersIn7Days = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersIn7Days();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const countOrdersFinish = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersFinish();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const countOrdersCancel = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersCancel();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const countOrdersWaitToConfirm = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersWaitToConfirm();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const countNewOrders = async (req, res) => {
+    try {
+        const orders = await orderService.countNewOrders();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const countOrdersPayed = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersPayed();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const getOpenOrderForUser = (req, res) => {
     orderService.getOpenOrderForUser(req.params.id)
         .then(result => res.status(201).json(result))
         .catch(err => res.status(500).json({ message: err.message })
         );
 }
-
+const removeProductFromOrder = async (req, res) => {
+    try {
+        const { OrderID, ProductID } = req.body;
+        await orderService.removeProductFromOrder(OrderID, ProductID);
+        res.status(200).json({ message: 'Product removed from order successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 const getAllOrders = async (req, res) => {
     orderService.getAllOrders()
         .then(result => res.status(201).json(result))
@@ -136,21 +198,22 @@ const updateStatusOrderID = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-const removeProductFromOrder = async (req, res) => {
-    try {
-        const { OrderID, ProductID } = req.body;
-        await orderService.removeProductFromOrder(OrderID, ProductID);
-        res.status(200).json({ message: 'Product removed from order successfully' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
 const getOrdersByStatusOrderID = async (req, res) => {
     try {
         const statusOrderID = req.params.statusOrderID;
         const address = await orderService.getOrdersByStatusOrderID(statusOrderID);
         res.status(200).json({ address });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+const addInfoCusToOrder = async (req, res) => {
+    try {
+        const { receiver, phoneNumber, address, userID } = req.body;
+        await orderService.addInfoCusToOrder(receiver, phoneNumber, address, userID);
+        res.status(200).json({ message: 'Info Customer added to order' });
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -172,5 +235,12 @@ module.exports = {
     updateStatusOrderID,
     getOpenOrderForUser,
     removeProductFromOrder,
-    getOrdersByStatusOrderID
+    getOrdersByStatusOrderID,
+    addInfoCusToOrder,
+    countOrdersPayed,
+    countNewOrders,
+    countOrdersWaitToConfirm,
+    countOrdersCancel,
+    countOrdersFinish,
+    countOrdersIn7Days,
 };
