@@ -1,8 +1,33 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
-const Comment = require('../bo/comment')
+const Comment = require("../bo/comment");
 
 const commentDAO = {
+  getCommentByProductID: (ProductID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input(
+          "ProductID",
+          mssql.VarChar,
+          ProductID
+        );
+        request.query(
+          `SELECT u.UserID, u.UserName, c.CommentDate, c.Rating, c.Description
+          FROM Comment c
+          JOIN Users u ON u.UserID = c.UserID
+          WHERE c.ProductID = @ProductID;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({
+              err: res?.recordset[0] ? 0 : 1,
+              data: res?.recordset
+            });
+          }
+        );
+      });
+    });
+  },
   userComment: (UserID, ProductID, Rating, Description) => {
     const comment = new Comment(Description, Rating, ProductID, UserID);
     return new Promise((resolve, reject) => {
@@ -10,7 +35,7 @@ const commentDAO = {
         const request = new mssql.Request()
           .input("UserID", mssql.VarChar, comment.UserID)
           .input("ProductID", mssql.VarChar, comment.ProductID)
-          .input("Rating", mssql.Int, comment.Rating || 1)
+          .input("Rating", mssql.Int, comment.Rating)
           .input("Description", mssql.NVarChar, comment.Description);
         request.query(
           `INSERT INTO Comment(UserID, ProductID, Rating, Description) values (@UserID, @ProductID, @Rating, @Description);`,
@@ -18,8 +43,8 @@ const commentDAO = {
             if (err) reject(err);
 
             resolve({
-              err: res?.rowsAffected >0 ? 0 : 1,
-              message: res?.rowsAffected >0 ? "success" : "error"
+              err: res?.rowsAffected > 0 ? 0 : 1,
+              message: res?.rowsAffected > 0 ? "success" : "error",
             });
           }
         );
