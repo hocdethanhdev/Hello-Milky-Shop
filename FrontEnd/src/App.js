@@ -46,7 +46,8 @@ import ListProductMomScreen from "./users/ui-list-product-mom/ListProductMomScre
 import RichTextEditor from "./users/component/RichTextEditor";
 import ResetPassword from './users/component/ResetPassword';
 import News from "./users/component/News";
-
+import AdminSlidebar from "./managers/admin/AdminSlidebar";
+import SignupAd from "./managers/admin/SignupAd";
 
 function App() {
   const { role } = useSelector((state) => state.auth);
@@ -66,6 +67,7 @@ function App() {
           <Route path="/addingvoucher" element={<VoucherAdd />} />
           <Route path="/addingproduct" element={<ProductAdd />} />
           <Route path="/addingpost" element={<PostsAdd />} />
+
         </Routes>
       </div>
     </div>
@@ -94,16 +96,34 @@ function App() {
       <Route path="/RichTextEditor" element={<RichTextEditor />} />
       <Route path="/ResetPassword" element={<ResetPassword />} />
       <Route path="/ResetPassword" element={<ResetPassword />} />
-      <Route path="/News" element={<News/>} />
-     
+      <Route path="/News" element={<News />} />
+
     </Routes>
   ), []);
+  const adminRoutes = useMemo(() => (
+    <div className="d-flex">
+      <AdminSlidebar />
+      <div className="content flex-grow-1">
+        <Routes>
+          <Route path="/admin-dashboard" element={<MainDash />} />
+          <Route path="/manage-admin" element={<MangageAdmin />} />
+          <Route path="/manage-staff" element={<ManageStaff />} />
+          <Route path="/adding-account-admin" element={<SignupAd />} />
+          <Route path="/adding-account-staff" element={<SignupSt />} />
+          <Route path="/adding-account-member" element={<SignupMem />} />
+          <Route path="/manage-member" element={<ManageMember />} />
 
+
+        </Routes>
+      </div>
+    </div>
+  ), []);
   return (
     <div>
       <Router>
         <Header />
-        {role === 2 ? staffRoutes : defaultRoutes}
+        {role === 1 ? adminRoutes : role === 2 ? staffRoutes : defaultRoutes}
+
         <Footer />
       </Router>
     </div>

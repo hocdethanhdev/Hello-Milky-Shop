@@ -112,6 +112,7 @@ const ProductContentMom = ({ product }) => {
                                 <div className="clear"></div>
                             </div>
                             <div className="quantity-selector-thinh-cart">
+                                <p>Số lượng: </p>
                                 <button className="quantity-button-thinh-cart" onClick={decrementQuantity}>-</button>
                                 <input type="text" value={quantity} readOnly className="quantity-input-thinh-cart" />
                                 <button className="quantity-button-thinh-cart" onClick={incrementQuantity}>+</button>
@@ -140,7 +141,7 @@ const ProductContentMom = ({ product }) => {
                         </div>
                     </div>
                     <div className="box_phone">
-                        Tổng đài mua hàng miễn cước <a href="tel:0852793879 - Zalo:0393892623" className="hot_phone">0852793879 - Zalo:0393892623</a> (Từ 8h00 đến 21h30 hàng ngày)
+                        Tổng đài mua hàng  <a href="tel:0852793879 - Zalo:0393892623" className="hot_phone">0852793879 - Zalo:0393892623</a> (Từ 8h00 đến 21h30 hàng ngày)
                     </div>
                     <div className="box_banner"></div>
                 </div>

@@ -16,7 +16,9 @@ function PostsAdd() {
 
     const handleContentChange = (value) => {
         setContent(value);
+        console.log(value);
     };
+
 
     const handleImageChange = (e) => {
         setHeaderImage(e.target.files[0]);

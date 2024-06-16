@@ -1,0 +1,141 @@
+.product-rating-container-thinhrt {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: white;
+    border-radius: 4%;
+}
+
+.rating-summary-thinhrt {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.rating-score-thinhrt {
+    font-size: 48px;
+    font-weight: bold;
+    color: #fc6b00;
+}
+
+.rating-max-thinhrt {
+    font-size: 24px;
+}
+
+.rating-stars-thinhrt .star-thinhrt,
+.rating-stars-thinhrt1 .half-star-thinhrt {
+    color: #0f7fc1;
+    font-size: 24px;
+}
+
+.rating-count-thinhrt {
+    margin-top: 10px;
+}
+
+.rating-filters-thinhrt {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.filter-btn-thinhrt {
+    background-color: #0f7fc1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.filter-btn-thinhrt:hover {
+    background-color: #0f7fc1;
+}
+
+.filter-btn-thinhrt.active {
+    background-color: #0f7fc1;
+}
+
+.rating-breakdown-thinhrt {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.star-filter-thinhrt {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.star-filter-thinhrt.active {
+    border-color: #0f7fc1;
+    color: #0f7fc1;
+}
+
+.rating-list-thinhrt {
+    margin-bottom: 20px;
+}
+
+.rating-item-thinhrt {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.rating-avatar-thinhrt {
+    background-color: #0f7fc1;
+    color: white;
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.rating-details-thinhrt {
+    flex-grow: 1;
+}
+
+.rating-name-thinhrt {
+    font-weight: bold;
+}
+
+.rating-date-thinhrt {
+    color: #888;
+}
+
+.rating-text-thinhrt {
+    margin-top: 5px;
+    color: #555;
+}
+
+.rating-more-thinhrt {
+    text-align: center;
+}
+
+.rating-more-thinhrt button {
+    background: none;
+    border: none;
+    color: #0f7fc1;
+    cursor: pointer;
+}
+
+.stars {
+    display: inline-block;
+}
+
+.star {
+    font-size: 20px;
+    color: #ccc;
+}
+
+.star.filled {
+    color: #fc6b00;
+}
+.rating-stars-thinhrt {
+    padding-left: 400px;
+}

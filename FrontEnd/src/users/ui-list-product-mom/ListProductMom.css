@@ -526,3 +526,12 @@ span.discount.discount-Sgg {
 .center-text-list-promom {
     text-align: center;
 }
+.product_child {
+    background-color: white;
+    border-radius: 4%;
+}
+.title_cate_right {
+    background-color: white;
+    border-radius: 4%;
+    margin-bottom: 10px;
+}

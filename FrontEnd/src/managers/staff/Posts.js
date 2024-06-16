@@ -72,7 +72,7 @@ function Posts() {
 
     return (
         <div className="posts-container">
-            <h1>Post Management</h1>
+
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <Link to="/addingpost">
                 <div className='d-flex justify-content-end align-items-end'>
@@ -86,7 +86,7 @@ function Posts() {
                     <thead>
                         <tr>
                             <th>Title <button onClick={handleSort}>↕</button></th>
-                            <th>Content</th>
+
                             <th>Publish Date</th>
                             <th>Actions</th>
                         </tr>
@@ -95,7 +95,7 @@ function Posts() {
                         {currentArticles.map(article => (
                             <tr key={article.ArticleID}>
                                 <td>{article.Title}</td>
-                                <td>{article.Content}</td>
+
                                 <td>{new Date(article.PublishDate).toLocaleDateString()}</td>
                                 <td>
                                     <button onClick={() => handleDetail(article.ArticleID)}>Detail</button>

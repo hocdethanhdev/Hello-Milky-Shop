@@ -6,6 +6,8 @@ import ProductDetail from './ProductDetailMom';
 import NavCate from './NavCate';
 import RelatedProducts from './RelatedProductMom';
 import { Link } from 'react-router-dom';
+import ProductRating from './ProductRating';
+import ProductRatingAll from './ProductRatingAll';
 const ProductScreen = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
@@ -64,6 +66,8 @@ const ProductScreen = () => {
                     <div className='row'>
                         <div className='col-md-9'>
                             <ProductDetail product={product} />
+                            <ProductRating />
+                            <ProductRatingAll />
                         </div>
                         <div className='col-md-3'>
                             <RelatedProducts product={product} />
