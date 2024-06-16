@@ -77,6 +77,7 @@ go
 CREATE TABLE Comment (
 CommentID int IDENTITY NOT NULL, 
 Description nvarchar(3000) NULL, 
+Rating int default 1,
 CommentDate date default getdate() NULL, 
 Rep nvarchar(3000) null,
 ProductID varchar(6) foreign key references Product(ProductID),
@@ -300,3 +301,20 @@ BEGIN
     WHERE i.StatusOrderID = 4;
 END;
 go
+CREATE TRIGGER trg_Add_Point_When_Comment
+ON Comment
+AFTER INSERT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @UserID varchar(8);
+
+	SELECT @UserID = UserID
+	FROM inserted
+
+	UPDATE Users
+	SET Point = Point + 10
+	WHERE UserID = @UserID
+END;
+GO
