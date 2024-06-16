@@ -419,3 +419,22 @@ GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/M000000
 
 ### Lấy chi tiết đơn hàng dựa vào orderID
 GET http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/1
+### check user mua hàng
+POST http://localhost:5000/api/v1/comment/checkUserOrdered
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "ProductID": "SM0001"
+}
+
+### userComment
+POST http://localhost:5000/api/v1/comment/userComment
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "ProductID": "SM0001",
+    "Rating": 4,
+    "Description": "tot"
+}
