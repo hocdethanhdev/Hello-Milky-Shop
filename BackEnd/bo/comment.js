@@ -1,8 +1,8 @@
 
 class Comment {
-  constructor(Description, Rate, ProductID, UserID) {
+  constructor(Description, Rating, ProductID, UserID) {
     this.Description = Description;
-    this.Rate = Rate;
+    this.Rating = Rating;
     this.ProductID = ProductID;
     this.UserID = UserID;
   }
