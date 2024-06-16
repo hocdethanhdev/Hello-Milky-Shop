@@ -438,6 +438,9 @@ Content-Type: application/json
     "Rating": 4,
     "Description": "tot"
 }
-###
+### lấy comment của 1 sản phẩm
 GET http://localhost:5000/api/v1/comment/getCommentByProductID/SM0001
 
+### lấy trung bình đánh giá và số lượt đánh giá của 1 sản phẩm
+GET http://localhost:5000/api/v1/comment/countRatingAndAvgRating/SM0001
+###

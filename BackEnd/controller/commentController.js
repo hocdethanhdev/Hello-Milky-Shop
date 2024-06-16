@@ -1,5 +1,22 @@
 const commentService = require("../service/commentService");
 
+const countRatingAndAvgRating = async (req, res) => {
+    try {
+        const ProductID = req.params.id;
+        if(!ProductID ){
+            res.status(404).send({
+                err: 1,
+                message: "Missing input"
+            })
+        }
+        const obj = await commentService.countRatingAndAvgRating(ProductID);
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all users:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 const getCommentByProductID = async (req, res) => {
     try {
         const ProductID = req.params.id;
@@ -89,4 +106,5 @@ module.exports = {
     checkUserOrdered,
     userComment,
     getCommentByProductID,
+    countRatingAndAvgRating,
 }
