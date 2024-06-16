@@ -6,6 +6,10 @@ router.get('/getAllComments', commentController.getAllComments);
 
 router.get('/getUnansweredComments', commentController.getUnansweredComments);
 
-router.post('/repComment/:id', commentController.repComment)
+router.post('/repComment/:id', commentController.repComment);
+
+router.post('/checkUserOrdered', commentController.checkUserOrdered);
+
+router.post('/userComment', commentController.userComment)
 
 module.exports = router
