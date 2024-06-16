@@ -2,6 +2,10 @@ const commentDAO = require("../dao/commentDAO");
 
 const productRepository = {
 
+  countRatingAndAvgRating: async (ProductID) => {
+    return await commentDAO.countRatingAndAvgRating(ProductID);
+  },
+
   getCommentByProductID: async (ProductID) => {
     return await commentDAO.getCommentByProductID(ProductID);
   },

@@ -3,6 +3,33 @@ const dbConfig = require("../config/db.config");
 const Comment = require("../bo/comment");
 
 const commentDAO = {
+  countRatingAndAvgRating: (ProductID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input(
+          "ProductID",
+          mssql.VarChar,
+          ProductID
+        );
+        request.query(
+          `SELECT 
+          AVG(CAST(Rating AS FLOAT)) AS AverageRating,
+          COUNT(*) AS RatingCount 
+          FROM Comment
+          WHERE ProductID = @ProductID;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({
+              err: res?.recordset[0] ? 0 : 1,
+              count: res?.recordset[0].RatingCount,
+              avg: res?.recordset[0].AverageRating ?? 0
+            });
+          }
+        );
+      });
+    });
+  },
   getCommentByProductID: (ProductID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -21,7 +48,7 @@ const commentDAO = {
 
             resolve({
               err: res?.recordset[0] ? 0 : 1,
-              data: res?.recordset
+              data: res?.recordset,
             });
           }
         );
