@@ -3,6 +3,65 @@ const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
 
 const productDAO = {
+
+  getTop5ProductBestSeller: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT TOP 5 p.ProductID, ProductName, SUM(Quantity) AS SumSell
+          FROM Product p
+          JOIN OrderDetail od ON od.ProductID = p.ProductID
+          JOIN Orders o ON o.OrderID = od.OrderID
+          WHERE o.Status = 1 AND o.StatusOrderID = 4
+          GROUP BY p.ProductID, p.ProductName
+          ORDER BY SumSell DESC;`,
+          (err, res) => {
+            if (err) reject(err);
+              resolve({
+                err: res.recordset[0] !== null ? 0 : 1,
+                data: res?.recordset
+              });
+          }
+        );
+      });
+    });
+  },
+
+  countBrand: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT COUNT(BrandID) AS count FROM Brand;`,
+          (err, res) => {
+            if (err) reject(err);
+              resolve({
+                err: res.recordset[0] !== null ? 0 : 1,
+                count: res?.recordset[0].count 
+              });
+          }
+        );
+      });
+    });
+  },
+  countProduct: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT COUNT(ProductID) AS count FROM Product;`,
+          (err, res) => {
+            if (err) reject(err);
+              resolve({
+                err: res.recordset[0] !== null ? 0 : 1,
+                count: res?.recordset[0].count 
+              });
+          }
+        );
+      });
+    });
+  },
   getTop6ProductByBrand: (id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
