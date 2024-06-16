@@ -443,4 +443,13 @@ GET http://localhost:5000/api/v1/comment/getCommentByProductID/SM0001
 
 ### lấy trung bình đánh giá và số lượt đánh giá của 1 sản phẩm
 GET http://localhost:5000/api/v1/comment/countRatingAndAvgRating/SM0001
-###
+###đếm tất cả user by role
+GET http://localhost:5000/api/v1/user/countUserByRole/3
+### đếm tất cả product
+GET http://localhost:5000/api/v1/product/countProduct
+
+### đếm tất cả brand
+GET http://localhost:5000/api/v1/product/countBrand
+
+### lấy top 5 sản phẩm bán nhiều nhất
+GET http://localhost:5000/api/v1/product/getTop5ProductBestSeller

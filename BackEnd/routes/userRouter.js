@@ -16,4 +16,6 @@ router.get('/getOne', verifyToken, userController.getOne);
 
 router.get('/getUserByID', userController.getUserByID);
 
+router.get('/countUserByRole/:role', userController.countUserByRole);
+
 module.exports = router
