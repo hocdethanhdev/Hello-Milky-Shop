@@ -1,5 +1,32 @@
 const productService = require("../service/productService");
 
+const getTop5ProductBestSeller = async (req, res) => {
+  try {
+    const obj = await productService.getTop5ProductBestSeller();
+    res.status(200).json(obj)
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+}
+
+const countBrand = async (req, res) => {
+  try {
+    const obj = await productService.countBrand();
+    res.status(200).json(obj)
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+}
+
+const countProduct = async (req, res) => {
+  try {
+    const obj = await productService.countProduct();
+    res.status(200).json(obj)
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+}
+
 const getTop6ProductByBrand = async (req, res) => {
   try {
     const obj = await productService.getTop6ProductByBrand(req.params.id);
@@ -258,4 +285,7 @@ module.exports = {
   getTop6MilkForBaby,
   getProductInforID,
   getTop6ProductByBrand,
+  countProduct,
+  countBrand,
+  getTop5ProductBestSeller,
 };

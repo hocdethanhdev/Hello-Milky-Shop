@@ -12,6 +12,7 @@ import {
   MDBIcon,
 } from "mdb-react-ui-kit";
 import axios from "axios";
+import PhoneInput from "react-phone-input-2";
 
 function Login() {
   const loginGoogle = () => {
@@ -77,7 +78,9 @@ function Login() {
 
               {message && <p className="text-danger">{message}</p>}
 
-              <MDBInput className="login-nd"
+              <PhoneInput className="login-nd"
+                country={"vn"}
+                value={formData.phone}
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-dark"
                 placeholder="Số điện thoại"
@@ -85,7 +88,6 @@ function Login() {
                 name="phone"
                 type="tel"
                 size="lg"
-                value={formData.phone}
                 onChange={handleChange}
               />
               <MDBInput className="login-nd"
