@@ -33,6 +33,13 @@ function Login() {
     }));
   }, []);
 
+  const handlePhoneChange = (phone) => {
+    setFormData({
+      ...formData,
+      phone,
+    });
+  };
+
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
@@ -88,7 +95,7 @@ function Login() {
                 name="phone"
                 type="tel"
                 size="lg"
-                onChange={handleChange}
+                onChange={handlePhoneChange}
               />
               <MDBInput className="login-nd"
                 wrapperClass="mb-4 mx-5 w-100"
