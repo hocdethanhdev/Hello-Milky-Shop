@@ -1,5 +1,22 @@
 const commentService = require("../service/commentService");
 
+const getCommentByProductID = async (req, res) => {
+    try {
+        const ProductID = req.params.id;
+        if(!ProductID ){
+            res.status(404).send({
+                err: 1,
+                message: "Missing input"
+            })
+        }
+        const obj = await commentService.getCommentByProductID(ProductID);
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all users:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 const userComment = async (req, res) => {
     try {
         const { UserID, ProductID, Rating, Description } = req.body;
@@ -71,4 +88,5 @@ module.exports = {
     repComment,
     checkUserOrdered,
     userComment,
+    getCommentByProductID,
 }

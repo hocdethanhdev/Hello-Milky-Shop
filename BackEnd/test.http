@@ -438,3 +438,6 @@ Content-Type: application/json
     "Rating": 4,
     "Description": "tot"
 }
+###
+GET http://localhost:5000/api/v1/comment/getCommentByProductID/SM0001
+

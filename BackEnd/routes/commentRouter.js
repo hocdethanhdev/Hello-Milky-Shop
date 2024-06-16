@@ -10,6 +10,8 @@ router.post('/repComment/:id', commentController.repComment);
 
 router.post('/checkUserOrdered', commentController.checkUserOrdered);
 
-router.post('/userComment', commentController.userComment)
+router.post('/userComment', commentController.userComment);
+
+router.get('/getCommentByProductID/:id', commentController.getCommentByProductID);
 
 module.exports = router
