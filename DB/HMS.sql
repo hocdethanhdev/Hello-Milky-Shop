@@ -1,4 +1,4 @@
-﻿﻿use master
+﻿Use master
 go
 drop database HelloMilkyShop
 go

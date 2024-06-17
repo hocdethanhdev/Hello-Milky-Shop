@@ -2,7 +2,7 @@
   
   /* Banner */
   .banner-giasoc {
-    max-width: 110px;
+   
     margin: 20px auto;
   }
   
@@ -13,7 +13,7 @@
   }
   
   /* Content */
-  .content {
+  .content-tri {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;

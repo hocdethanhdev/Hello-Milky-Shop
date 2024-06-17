@@ -1,4 +1,4 @@
-﻿﻿use HelloMilkyShop
+use HelloMilkyShop
 go
 INSERT INTO Role VALUES ('Admin'), ('Staff'), ('Member')
 go
@@ -145,7 +145,6 @@ INSERT INTO Promotion (PromotionName,Image, Description, StartDate, EndDate, Dis
 ('Spring Sale','https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FKhuy%E1%BA%BFn%20m%C3%A3i%20Xu%C3%A2n.png?alt=media&token=79746084-18f1-468a-a5ba-f2b0e2f41123', 'Special discounts for spring', '2024-01-01', '2024-01-31', 35),
 ('Fall Sale','https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FKhuy%E1%BA%BFn%20m%C3%A3i%20Thu.png?alt=media&token=5ec0dcc4-05db-4a00-89ae-b912afa08451', 'Special discounts for fall', '2024-09-01', '2024-09-30', 40),
 ('Winter Sale','https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FKhuy%E1%BA%BFn%20m%C3%A3i%20%C4%90%C3%B4ng.png?alt=media&token=1b382806-bd3c-4bd9-bde6-7d0abafb5e0f', 'Special discounts for winter', '2024-11-04', '2024-11-15', 45);
-
 go
 insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
 values(1, 'SM0001', 0)
