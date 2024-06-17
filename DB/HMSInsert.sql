@@ -160,7 +160,7 @@ VALUES
   ( 35, 350000, 0,'2024-12-30', '2024-12-31', 'Voucher 6',10);
 
 
-INSERT INTO ArticleCategory VALUES (N'Tổng hợp'), (N'Tin khuyến mãi'), (N'Tư vấn mua sắm')
+INSERT INTO ArticleCategory VALUES (N'Sức Khỏe'), (N'Tin khuyến mãi'), (N'Tư vấn mua sắm')
 
 INSERT INTO Promotion (PromotionName, Description, StartDate, EndDate, DiscountPercentage) VALUES
 ('Summer Sale', 'Huge discounts on all products', '2024-05-01', '2024-06-30', 10),

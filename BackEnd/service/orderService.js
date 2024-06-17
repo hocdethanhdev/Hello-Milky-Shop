@@ -8,18 +8,21 @@ const orderService = {
         return await orderRepository.countOrdersIn7Days();
     },
 
-    countOrdersFinish: async () => {
-        return await orderRepository.countOrdersFinish();
+    countOrdersByStatusOrderID: async (statusOrderID) => {
+        try {
+            const orders = await orderRepository.countOrdersByStatusOrderID(statusOrderID);
+            return orders;
+        } catch (error) {
+            throw new Error(`Error counting order by status order ID: ${error.message}`);
+        }
     },
+
     removeProductFromOrder: async (orderID, productID) => {
         try {
             await orderRepository.removeProductFromOrder(orderID, productID);
         } catch (error) {
             throw new Error(`Error removing product from order: ${error.message}`);
         }
-    },
-    countOrdersCancel: async () => {
-        return await orderRepository.countOrdersCancel();
     },
 
     countOrdersWaitToConfirm: async () => {
@@ -28,10 +31,6 @@ const orderService = {
 
     countNewOrders: async () => {
         return await orderRepository.countNewOrders();
-    },
-
-    countOrdersPayed: async () => {
-        return await orderRepository.countOrdersPayed();
     },
 
     getOpenOrderForUser: async (id) => {
@@ -186,6 +185,14 @@ const orderService = {
 
     addInfoCusToOrder: async (receiver, phoneNumber, address, userID) => {
         return await orderRepository.addInfoCusToOrder(receiver, phoneNumber, address, userID);
+    },
+
+    getTodayRevenue: async () => {
+        return await orderRepository.getTodayRevenue();
+    },
+
+    getRevenueLastSevenMonths: async () => {
+        return await orderRepository.getRevenueLastSevenMonths();
     },
 
 

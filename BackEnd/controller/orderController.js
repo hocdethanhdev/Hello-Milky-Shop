@@ -9,27 +9,10 @@ const countOrdersIn7Days = async (req, res) => {
     }
 }
 
-const countOrdersFinish = async (req, res) => {
+const countOrdersByStatusOrderID = async (req, res) => {
     try {
-        const orders = await orderService.countOrdersFinish();
-        res.status(200).json(orders);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
-
-const countOrdersCancel = async (req, res) => {
-    try {
-        const orders = await orderService.countOrdersCancel();
-        res.status(200).json(orders);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
-
-const countOrdersWaitToConfirm = async (req, res) => {
-    try {
-        const orders = await orderService.countOrdersWaitToConfirm();
+        const { statusOrderID } = req.body;
+        const orders = await orderService.countOrdersByStatusOrderID(statusOrderID);
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -39,15 +22,6 @@ const countOrdersWaitToConfirm = async (req, res) => {
 const countNewOrders = async (req, res) => {
     try {
         const orders = await orderService.countNewOrders();
-        res.status(200).json(orders);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
-
-const countOrdersPayed = async (req, res) => {
-    try {
-        const orders = await orderService.countOrdersPayed();
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -218,6 +192,22 @@ const addInfoCusToOrder = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const getTodayRevenue = async (req, res) => {
+    try {
+        const revenue = await orderService.getTodayRevenue();
+        res.status(200).json(revenue);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+const getRevenueLastSevenMonths = async (req, res) => {
+    try {
+        const revenues = await orderService.getRevenueLastSevenMonths();
+        res.status(200).json(revenues);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 module.exports = {
     getAllOrders,
@@ -237,10 +227,8 @@ module.exports = {
     removeProductFromOrder,
     getOrdersByStatusOrderID,
     addInfoCusToOrder,
-    countOrdersPayed,
     countNewOrders,
-    countOrdersWaitToConfirm,
-    countOrdersCancel,
-    countOrdersFinish,
     countOrdersIn7Days,
+    getTodayRevenue,
+    getRevenueLastSevenMonths
 };
