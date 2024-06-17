@@ -4,7 +4,7 @@ const getUserByID = async (req, res) => {
   try {
     const UserID = req.query.UserID;
     console.log(UserID);
-    if(!UserID) res.status(400).json({
+    if (!UserID) res.status(400).json({
       err: 1,
       message: 'Missing input'
     })
@@ -18,7 +18,7 @@ const getUserByID = async (req, res) => {
 const getOne = async (req, res) => {
   try {
     const { currentUser } = req;
-    if(!currentUser) res.status(400).json({
+    if (!currentUser) res.status(400).json({
       err: 1,
       message: 'Missing input'
     })
@@ -65,6 +65,18 @@ const getUserByRole = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+const changePointOfUser = async (req, res) => {
+  try {
+    const { userID, minusPoint } = req.body;
+    const obj = await userService.changePointOfUser(userID, minusPoint);
+    res.send(obj);
+  } catch (error) {
+    console.error("Error in changePointOfUser controller:", error);
+    res.status(500).send("Internal Server Error");
+  }
+}
+
 module.exports = {
   getAllUsers,
   deleteUser,
@@ -72,4 +84,5 @@ module.exports = {
   getUserByRole,
   getOne,
   getUserByID,
+  changePointOfUser
 };

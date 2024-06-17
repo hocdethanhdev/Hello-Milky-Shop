@@ -3,7 +3,7 @@ const router = require('express').Router();
 const userController = require("../controller/userController");
 
 const verifyToken = require('../middleware/verifyToken')
-     
+
 router.get('/getAllUsers', userController.getAllUsers);
 
 router.put('/disableUser/:user_id', userController.deleteUser);
@@ -15,5 +15,7 @@ router.get('/getUserByRoleID/:ID', userController.getUserByRole);
 router.get('/getOne', verifyToken, userController.getOne);
 
 router.get('/getUserByID', userController.getUserByID);
+
+router.post('/changePointOfUser', userController.changePointOfUser);
 
 module.exports = router

@@ -23,6 +23,9 @@ const userService = {
   getUserByRole: async (ID) => {
     return await userRepository.getUserByRole(ID);
   },
+  changePointOfUser: async (userID, minusPoint) => {
+    return await userRepository.changePointOfUser(userID, minusPoint);
+  }
 };
 
 module.exports = userService;
