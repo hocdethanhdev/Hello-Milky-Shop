@@ -1,4 +1,4 @@
-﻿use master
+﻿﻿use master
 go
 drop database HelloMilkyShop
 go
@@ -152,6 +152,7 @@ go
 CREATE TABLE Promotion (
 PromotionID int IDENTITY NOT NULL,
 PromotionName nvarchar(255) Null,
+Image varchar(250) null,
 Description nvarchar(3000)null,
 DiscountPercentage Float NOT NULL,
 StartDate date NOT NULL,
