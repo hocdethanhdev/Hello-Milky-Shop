@@ -2,6 +2,18 @@ const productDAO = require("../dao/productDAO");
 
 const productRepository = {
 
+  getTop5ProductBestSeller: async() => {
+    return await productDAO.getTop5ProductBestSeller();
+  },
+
+  countBrand: async() => {
+    return await productDAO.countBrand();
+  },
+
+  countProduct: async() => {
+    return await productDAO.countProduct();
+  },
+
   getTop6ProductByBrand: async (id) => {
     return await productDAO.getTop6ProductByBrand(id);
   },

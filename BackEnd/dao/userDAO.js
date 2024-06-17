@@ -8,7 +8,29 @@ const passport = require("passport");
 const UserID = "a";
 
 const userDAO = {
-  forgetPassword: (Password, UserID) => {
+
+  countUserByRole : (RoleID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("RoleID", mssql.Int, RoleID);
+        request.query(
+          `SELECT COUNT(UserID) AS count FROM Users WHERE RoleID = @RoleID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.recordset[0] !== null ? 0 : 1,
+              count: res?.recordset[0].count
+            });
+            mssql.close();
+          }
+        );
+      });
+    });
+  },
+
+  forgetPassword : (Password, UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);

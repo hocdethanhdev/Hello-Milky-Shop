@@ -18,4 +18,6 @@ router.get('/getUserByID', userController.getUserByID);
 
 router.post('/changePointOfUser', userController.changePointOfUser);
 
+router.get('/countUserByRole/:role', userController.countUserByRole);
+
 module.exports = router

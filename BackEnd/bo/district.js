@@ -5,3 +5,4 @@ class District{
         this.cityID = cityID;
     }
 }
+module.exports = District;
