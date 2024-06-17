@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Signup.css";
 import axios from "axios";
 import {
@@ -8,7 +8,15 @@ import {
   MDBInput,
   MDBIcon,
 } from "mdb-react-ui-kit";
-import { redirect } from "react-router-dom";
+import { BsFillShieldLockFill } from "react-icons/bs";
+import { CgSpinner } from "react-icons/cg";
+import OtpInput from "otp-input-react";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { auth } from "../../config/firebase.config";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { toast, Toaster } from "react-hot-toast";
+import Modal from 'react-modal';
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -28,7 +36,36 @@ function Signup() {
   });
 
   const [message, setMessage] = useState("");
+  const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
+  const [isSignupAttempted, setIsSignupAttempted] = useState(false);
+  const [confirmOTP, setConfirmOTP] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    onCaptchVerify();
+  }, []);
+  console.log(1 + 2);
+  function onCaptchVerify() {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        'recaptcha-container',
+        {
+          size: "invisible",
+          callback: (response) => {
+            // No need to call onSignup here, it will be called separately
+          },
+          "expired-callback": () => {
+            toast.error("Recaptcha expired. Please try again.");
+          },
+        },
+        auth
+      );
+    }
+  }
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -40,6 +77,71 @@ function Signup() {
       [name]: "",
     });
   };
+
+  const handlePhoneChange = (phone) => {
+    setFormData({
+      ...formData,
+      phone,
+    });
+    setErrors({
+      ...errors,
+      phone: "",
+    });
+  };
+
+  const handleSendOTP = () => {
+    if (loading || isSignupAttempted) return;
+    onSignup();
+  };
+
+  function onSignup() {
+    if (isSignupAttempted) return;
+    setIsSignupAttempted(true);
+    setLoading(true);
+
+    const appVerifier = window.recaptchaVerifier;
+    const formatPh = "+" + formData.phone;
+
+    signInWithPhoneNumber(auth, formatPh, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        setLoading(false);
+        setShowOTP(true);
+        setIsModalOpen(true);
+        toast.success("OTP sent successfully!");
+      })
+      .catch((error) => {
+        console.error("Error sending OTP:", error);
+        setLoading(false);
+        setIsSignupAttempted(false);
+        if (error.code === "auth/quota-exceeded") {
+          toast.error("Quota exceeded. Please try again later.");
+        } else {
+          toast.error("Failed to send OTP. Please try again.");
+        }
+      });
+  }
+
+  function onOTPVerify() {
+    setLoading(true);
+    window.confirmationResult
+      .confirm(otp)
+      .then(async (res) => {
+        console.log("OTP confirmed:", res);
+        setLoading(false);
+        setConfirmOTP(true);
+        setIsModalOpen(false);
+        toast.success("OTP verified successfully!");
+      })
+      .catch((err) => {
+        console.error("Error verifying OTP:", err);
+        setLoading(false);
+        toast.error("Failed to verify OTP. Please try again.");
+      });
+  }
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,7 +156,7 @@ function Signup() {
     // Validate phone number field
     if (!formData.phone.trim()) {
       newErrors.phone = "Please enter your phone number.";
-    } else if (!/^\d{10}$/i.test(formData.phone)) {
+    } else if (!/^\d{9,11}$/i.test(formData.phone)) {
       newErrors.phone = "Please enter a valid 10-digit phone number.";
     }
 
@@ -79,7 +181,6 @@ function Signup() {
 
     setErrors(newErrors);
 
-    // If there are errors, stop form submission
     if (Object.keys(newErrors).length > 0) {
       return;
     }
@@ -93,10 +194,8 @@ function Signup() {
           Password: formData.password,
         }
       );
-
+      
       if (response.data.err === 0) {
-        //nếu muốn sửa sau khi đăng kí thành công chuyển qua trang login thì xóa toàn bộ nội dung trong if này rồi thêm dòng sau vào
-        //window.open('http://localhost:3000/login', '_self');
         const login = await axios.post(
           "http://localhost:5000/api/v1/auth/login",
           {
@@ -105,15 +204,16 @@ function Signup() {
           }
         );
         if (login.data.err === 0) {
-          window.open(`http://localhost:5000/api/v1/auth/loginSuccess?token=${login.data.token}`, '_self');
+          window.open(
+            `http://localhost:5000/api/v1/auth/loginSuccess?token=${login.data.token}`,
+            "_self"
+          );
         } else if (response.data.err === 1) {
           setMessage("Số điện thoại " + formData.phone + " chưa được đăng kí");
         } else {
           setMessage("Sai mật khẩu");
         }
-        
       } else if (response.data.err === 2) {
-        console.log(response.data.mes);
         setMessage("An account with this phone number already exists.");
       }
     } catch (error) {
@@ -131,6 +231,9 @@ function Signup() {
       fluid
       className="d-flex justify-content-center align-items-center h-100"
     >
+      <Toaster toastOptions={{ duration: 4000 }} />
+
+      <div id="recaptcha-container"></div>
       <MDBCard
         className="signup-card mx-auto mb-5 p-5 shadow-5"
         style={{ maxWidth: "550px", marginTop: "50px", marginBottom: "200px" }}
@@ -152,14 +255,12 @@ function Signup() {
           </div>
 
           <div className="mb-4">
-            <MDBInput
-              wrapperClass="input-wrapper-sign"
-              placeholder="Số điện thoại"
-              id="phone"
-              type="tel"
-              name="phone"
+            <PhoneInput
+              country={"vn"}
               value={formData.phone}
-              onChange={handleChange}
+              onChange={handlePhoneChange}
+              inputClass="input-wrapper-sign"
+              placeholder="Số điện thoại"
             />
             {errors.phone && <div className="error">{errors.phone}</div>}
           </div>
@@ -212,11 +313,45 @@ function Signup() {
               <div className="error">{errors.termsAccepted}</div>
             )}
           </div>
+          {formData.phone && !confirmOTP && showOTP && (
+              <Modal
+              isOpen={isModalOpen}
+              onRequestClose={closeModal}
+              contentLabel="OTP Verification"
+              className="modal"
+              overlayClassName="overlay"
+            >
+              <div className="icon-container">
+                <BsFillShieldLockFill size={30} />
+              </div>
+              <label htmlFor="otp" className="otp-label">
+                Nhập OTP
+              </label>
+              <OtpInput
+                value={otp}
+                onChange={setOtp}
+                OTPLength={6}
+                otpType="number"
+                disabled={false}
+                autoFocus
+                className="otp-container"
+              />
+              <button onClick={onOTPVerify} disabled={loading}>
+                {loading && <CgSpinner size={20} className="mt-1 animate-spin" />}
+                <span>Xác nhận</span>
+              </button>
+            </Modal>
+            )}
 
           <button
             className="signup-button"
             type="button"
-            onClick={handleSubmit}
+            onClick={() => {
+              handleSendOTP();
+              if (confirmOTP) {
+                handleSubmit();
+              }
+            }}
           >
             <span className="button-text">Đăng kí</span>
           </button>

@@ -21,19 +21,18 @@ GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
 
 ### đem so don hang tung ngay trong vong 7 ngay
 GET http://localhost:5000/api/v1/order/countOrdersIn7Days
-### count don hang hoan thanh
-GET http://localhost:5000/api/v1/order/countOrdersFinish
-### count don hang da huy
-GET http://localhost:5000/api/v1/order/countOrdersCancel
 
-### dem don hang dang cho xac nhan 
-GET http://localhost:5000/api/v1/order/countOrdersWaitToConfirm
+### count don hang theo statusOrderID
+GET http://localhost:5000/api/v1/order/countOrdersByStatusOrderID
+Content-Type: application/json
+
+{
+    "statusOrderID": "1"
+}
 
 ### dem don hang moi
 GET http://localhost:5000/api/v1/order/countNewOrders
 
-### dem tat ca don hang da thanh toan
-GET http://localhost:5000/api/v1/order/countOrdersPayed
 ### get order chua thanh toan cua user
 GET http://localhost:5000/api/v1/order/getOpenOrderForUser/M0000001
 ### top 6 product by brand
@@ -108,7 +107,7 @@ GET http://localhost:5000/api/v1/product/get5ProductsLowestFinalPrice/
 ###
 GET http://localhost:5000/api/v1/product/getTop6MilksForPregnantMother/
 ###
-GET http://localhost:5000/api/v1/product/getTop6MilkForBaby
+GET http://localhost:5000/api/v1/product/getTop6MilkForBaby/
 ### dang ki user
 POST http://localhost:5000/api/v1/auth/register
 Content-Type: application/json
@@ -394,6 +393,7 @@ GET http://localhost:5000/api/v1/city/getAllCities/
 
 
 GET http://localhost:5000/api/v1/district/getDistrictByID/1
+###
 POST http://localhost:5000/api/v1/order/addInfoCusToOrder
 Content-Type: application/json
 
@@ -417,5 +417,58 @@ Content-Type: application/json
 ### 
 GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/M0000001
 
+### 
+GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/1
+
+
 ### Lấy chi tiết đơn hàng dựa vào orderID
 GET http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/1
+### check user mua hàng
+POST http://localhost:5000/api/v1/comment/checkUserOrdered
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "ProductID": "SM0001"
+}
+
+### userComment
+POST http://localhost:5000/api/v1/comment/userComment
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "ProductID": "SM0001",
+    "Rating": 4,
+    "Description": "tot"
+}
+### lấy comment của 1 sản phẩm
+GET http://localhost:5000/api/v1/comment/getCommentByProductID/SM0001
+
+### lấy trung bình đánh giá và số lượt đánh giá của 1 sản phẩm
+GET http://localhost:5000/api/v1/comment/countRatingAndAvgRating/SM0001
+
+### Danh thu trong ngay hom nay
+GET http://localhost:5000/api/v1/order/getTodayRevenue
+
+### Danh thu trong 7 thang
+GET http://localhost:5000/api/v1/order/getRevenueLastSevenMonths
+
+### Thay doi diem cua user 
+POST http://localhost:5000/api/v1/user/changePointOfUser
+Content-Type: application/json
+
+{
+    "userID": "M0000001",
+    "minusPoint": 30
+}
+###đếm tất cả user by role
+GET http://localhost:5000/api/v1/user/countUserByRole/3
+### đếm tất cả product
+GET http://localhost:5000/api/v1/product/countProduct
+
+### đếm tất cả brand
+GET http://localhost:5000/api/v1/product/countBrand
+
+### lấy top 5 sản phẩm bán nhiều nhất
+GET http://localhost:5000/api/v1/product/getTop5ProductBestSeller

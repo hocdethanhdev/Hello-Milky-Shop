@@ -5,62 +5,42 @@ const orderRepository = {
     countOrdersIn7Days: () => {
         return orderDAO.countOrdersIn7Days();
     },
-
-    countOrdersFinish: () => {
-        return orderDAO.countOrdersFinish();
-    },
-
-    countOrdersCancel: () => {
-        return orderDAO.countOrdersCancel();
-    },
-
-    countOrdersWaitToConfirm: () => {
-        return orderDAO.countOrdersWaitToConfirm();
-    },
-
     countNewOrders: () => {
         return orderDAO.countNewOrders();
+    },
+    countOrdersByStatusOrderID: (statusOrderID) => {
+        return orderDAO.countOrdersByStatusOrderID(statusOrderID);
     },
     removeProductFromOrder: (orderID, productID) => {
         return orderDAO.removeProductFromOrder(orderID, productID);
     },
-
     countOrdersPayed: () => {
         return orderDAO.countOrdersPayed();
     },
-
     getAllOrders: () => {
         return orderDAO.getAllOrders();
     },
-
     searchOrderByUserName: (userName) => {
         return orderDAO.searchOrderByUserName(userName);
     },
-
     createOrder: (userID) => {
         return orderDAO.createOrder(userID);
     },
-
     addProductToOrder: (orderID, productID, quantity, price) => {
         return orderDAO.addProductToOrder(orderID, productID, quantity, price);
     },
-
     getOrder: (orderID) => {
         return orderDAO.getOrder(orderID);
     },
-
     getOpenOrderForUser: (userID) => {
         return orderDAO.getOpenOrderForUser(userID);
     },
-
     checkoutOrder: (orderID) => {
         return orderDAO.checkoutOrder(orderID);
     },
-
     getApplicableVouchers: (userID, orderTotal, currentDate) => {
         return orderDAO.getApplicableVouchers(userID, orderTotal, currentDate);
     },
-
     applyVoucherToOrder: (orderID, voucherID) => {
         return orderDAO.applyVoucherToOrder(orderID, voucherID);
     },
@@ -76,7 +56,6 @@ const orderRepository = {
     changeQuantityOfProductInOrder: (orderID, productQuantities) => {
         return orderDAO.changeQuantityOfProductInOrder(orderID, productQuantities);
     },
-
     updateStatusOrderID: (orderID, statusOrderID) => {
         return orderDAO.updateStatusOrderID(orderID, statusOrderID);
     },
@@ -89,10 +68,14 @@ const orderRepository = {
     getOrdersByStatusOrderID: (statusOrderID) => {
         return orderDAO.getOrdersByStatusOrderID(statusOrderID);
     },
-
-
     addInfoCusToOrder: (receiver, phoneNumber, address, userID) => {
         return orderDAO.addInfoCusToOrder(receiver, phoneNumber, address, userID);
+    },
+    getTodayRevenue: () => {
+        return orderDAO.getTodayRevenue();
+    },
+    getRevenueLastSevenMonths: () => {
+        return orderDAO.getRevenueLastSevenMonths();
     },
 
 };

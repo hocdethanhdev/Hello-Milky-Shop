@@ -3,6 +3,10 @@ const userRepository = require("../repository/userRepository");
 
 const userService = {
 
+  countUserByRole: async (RoleID) => {
+    return await userRepository.countUserByRole(RoleID);
+  },
+
   getUserByID: async (id) => {
     return await userRepository.getUserByID(id);
   },
@@ -23,6 +27,9 @@ const userService = {
   getUserByRole: async (ID) => {
     return await userRepository.getUserByRole(ID);
   },
+  changePointOfUser: async (userID, minusPoint) => {
+    return await userRepository.changePointOfUser(userID, minusPoint);
+  }
 };
 
 module.exports = userService;

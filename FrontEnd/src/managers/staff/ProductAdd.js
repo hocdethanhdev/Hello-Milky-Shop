@@ -1,6 +1,6 @@
+// src/components/ProductAdd/ProductAdd.js
 import React, { useState, useEffect } from "react";
-import { storage } from '../../config/firebase.config';
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { uploadImage } from './UpImage';
 import "./Products.css";
 
 const ProductAdd = () => {
@@ -12,8 +12,7 @@ const ProductAdd = () => {
   const [expirationDate, setExpirationDate] = useState("");
   const [manufacturingDate, setManufacturingDate] = useState("");
   const [brandName, setBrandName] = useState("");
-  const [productCategoryName, setProductCategoryName] =
-    useState("Sữa cho em bé");
+  const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
   const [status, setStatus] = useState(1);
   const [brands, setBrands] = useState([]);
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
@@ -32,7 +31,7 @@ const ProductAdd = () => {
     setImage(e.target.files[0]); // Store the selected file object in state
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!image) {
@@ -40,71 +39,61 @@ const ProductAdd = () => {
       return;
     }
 
-    const storageRef = ref(storage, `images/${image.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, image);
+    try {
+      const downloadURL = await uploadImage(image, setProgress);
+      setDownloadURL(downloadURL);
+      // After successful upload, proceed to submit product data
+      const productData = {
+        ProductName: productName,
+        Description: description,
+        Price: price,
+        StockQuantity: stockQuantity,
+        Image: downloadURL,
+        ExpirationDate: expirationDate,
+        ManufacturingDate: manufacturingDate,
+        BrandName: brandName,
+        ProductCategoryName: productCategoryName,
+        Status: status,
+      };
 
-    uploadTask.on('state_changed', 
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progress);
-      }, 
-      (error) => {
-        console.error("Upload failed:", error);
-      }, 
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setDownloadURL(downloadURL);
-          // After successful upload, proceed to submit product data
-          const productData = {
-            ProductName: productName,
-            Description: description,
-            Price: price,
-            StockQuantity: stockQuantity,
-            Image: downloadURL,
-            ExpirationDate: expirationDate,
-            ManufacturingDate: manufacturingDate,
-            BrandName: brandName,
-            ProductCategoryName: productCategoryName,
-            Status: status,
-          };
+      console.log("Submitting product data:", productData);
 
-          console.log("Submitting product data:", productData);
+      fetch("http://localhost:5000/api/v1/product/createProduct", {
+        method: "POST",
+        body: JSON.stringify(productData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Response from API:", data);
 
-          fetch("http://localhost:5000/api/v1/product/createProduct", {
-            method: "POST",
-            body: JSON.stringify(productData),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              console.log("Response from API:", data);
-
-              if (!data) {
-                setSuccessMessage("Error creating product.");
-              } else {
-                setSuccessMessage("Product created successfully!");
-                // Clear form fields after successful creation
-                setProductName("");
-                setDescription("");
-                setPrice("");
-                setStockQuantity("");
-                setImage(null); // Reset to null instead of ""
-                setExpirationDate("");
-                setManufacturingDate("");
-                setBrandName("");
-                setProductCategoryName("Sữa cho em bé");
-                setStatus(1);
-              }
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-              setSuccessMessage("Error creating product.");
-            });
+          if (!data) {
+            setSuccessMessage("Error creating product.");
+          } else {
+            setSuccessMessage("Product created successfully!");
+            // Clear form fields after successful creation
+            setProductName("");
+            setDescription("");
+            setPrice("");
+            setStockQuantity("");
+            setImage(null); // Reset to null instead of ""
+            setExpirationDate("");
+            setManufacturingDate("");
+            setBrandName("");
+            setProductCategoryName("Sữa cho em bé");
+            setStatus(1);
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setSuccessMessage("Error creating product.");
         });
-      }
-    );
+    } catch (error) {
+      console.error("Upload failed:", error);
+      setSuccessMessage("Error creating product.");
+    }
   };
 
   return (
@@ -118,8 +107,7 @@ const ProductAdd = () => {
         >
           {successMessage}
         </p>
-      )}{" "}
-      {/* Display success message */}
+      )}
       <form
         id="create-product-form"
         className="product-form"

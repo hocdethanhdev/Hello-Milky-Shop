@@ -2,6 +2,10 @@ const userDAO = require("../dao/userDAO");
 
 const userRepository = {
 
+  countUserByRole: async (RoleID) => {
+    return await userDAO.countUserByRole(RoleID);
+  },
+
   getUserByID: async (id) => {
     return await userDAO.getUserByID(id);
   },
@@ -23,6 +27,9 @@ const userRepository = {
   getUserByRole: async (ID) => {
     return await userDAO.findUserByRole(ID);
   },
+  changePointOfUser: async (userID, minusPoint) => {
+    return await userDAO.changePointOfUser(userID, minusPoint);
+  }
 }
 
 module.exports = userRepository;

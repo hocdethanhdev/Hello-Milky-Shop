@@ -8,6 +8,28 @@ const passport = require("passport");
 const UserID = "a";
 
 const userDAO = {
+
+  countUserByRole : (RoleID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("RoleID", mssql.Int, RoleID);
+        request.query(
+          `SELECT COUNT(UserID) AS count FROM Users WHERE RoleID = @RoleID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.recordset[0] !== null ? 0 : 1,
+              count: res?.recordset[0].count
+            });
+            mssql.close();
+          }
+        );
+      });
+    });
+  },
+
   forgetPassword : (Password, UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -29,12 +51,12 @@ const userDAO = {
       });
     });
   },
-  
-  checkPhoneNumber : (PhoneNumber) => {
+
+  checkPhoneNumber: (PhoneNumber) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
-        
+
         const request = new mssql.Request().input("PhoneNumber", mssql.VarChar, PhoneNumber);
         request.query(
           `SELECT UserID FROM Users WHERE PhoneNumber = @PhoneNumber;`,
@@ -364,6 +386,27 @@ const userDAO = {
       });
     });
   },
+  changePointOfUser: (UserID, MinusPoint) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request()
+          .input("UserID", mssql.VarChar, UserID)
+          .input("MinusPoint", mssql.Int, MinusPoint);
+
+        request.query(
+          `UPDATE Users 
+           SET Point = Point - @MinusPoint 
+           WHERE UserID = @UserID;
+          `,
+          (err, res) => {
+            if (err) reject(err);
+            resolve(res);
+          })
+      })
+    })
+  }
 };
 
 module.exports = userDAO;
