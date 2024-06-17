@@ -41,7 +41,7 @@
   margin-top: 20px;
 }
 
-.search-button {
+.search-button-header{
   background-color: #ff6a00;
   border: none;
   padding: 10px 15px;
@@ -50,7 +50,7 @@
   margin-top: 20px;
 }
 
-.search-button i {
+.search-button-header i {
   color: #fff;
 }
 
@@ -131,7 +131,6 @@
 .account-menu-Nhan :hover {
   color: #f8b400;
 }
-
 
 .dropdown-menu-Nhan {
   display: none;
