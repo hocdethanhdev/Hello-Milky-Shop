@@ -1,6 +1,7 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
+const ProductPromotionList = require("../bo/productPromotionList");
 
 const productDAO = {
   getTop6ProductByBrand: (id) => {
@@ -517,10 +518,11 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 ProductID, ProductName, Description, Price, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+          `SELECT TOP 6 p.ProductID, ProductName, Description, Price, ppl.PriceAfterDiscount, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
         JOIN Brand b ON p.BrandID = b.BrandID
+        LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
         WHERE pc.ProductCategoryID = 1
 
       ;`,
@@ -549,10 +551,11 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 ProductID, ProductName, Description, Price, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+          `SELECT TOP 6 p.ProductID, ProductName, Description, Price, PriceAfterDiscount, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
         JOIN Brand b ON p.BrandID = b.BrandID
+        LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
         WHERE pc.ProductCategoryID = 2
       ;`,
       (err, res) => {

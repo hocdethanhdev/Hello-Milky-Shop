@@ -90,7 +90,7 @@ GET http://localhost:5000/api/v1/product/get5ProductsLowestFinalPrice/
 ###
 GET http://localhost:5000/api/v1/product/getTop6MilksForPregnantMother/
 ###
-GET http://localhost:5000/api/v1/product/getTop6MilkForBaby
+GET http://localhost:5000/api/v1/product/getTop6MilkForBaby/
 ### dang ki user
 POST http://localhost:5000/api/v1/auth/register
 Content-Type: application/json
@@ -389,3 +389,5 @@ Content-Type: application/json
 
 ### 
 GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/M0000001
+### 
+GET http://localhost:5000/api/v1/order/getInfoShippingByOrderID/

@@ -1,7 +1,7 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 const Order = require("../bo/order");
-const ShippingAdress = require("../bo/shippingAdress");
+const ShippingAddress = require("../bo/shippingAddress");
 
 const orderDAO = {
   countOrdersIn7Days: () => {
