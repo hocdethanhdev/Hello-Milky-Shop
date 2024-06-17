@@ -418,7 +418,7 @@ Content-Type: application/json
 GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/M0000001
 
 ### 
-GET http://localhost:5000/api/v1/order/getInfoShippingByOrderID/
+GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/1
 
 
 ### Lấy chi tiết đơn hàng dựa vào orderID
