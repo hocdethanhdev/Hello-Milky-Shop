@@ -51,6 +51,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  margin-left: 50px;
 }
 
 .form-group {
@@ -113,4 +114,10 @@ select {
 
 .success-message.error {
   color: red;
+}
+.pagination-container {
+  margin-left: 30%;
+}
+.button-add-product {
+  border: none;
 }

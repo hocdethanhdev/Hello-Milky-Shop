@@ -70,6 +70,32 @@ const ordersData = [
   },
   {
     status: "Đã hủy",
+    cancelledBy: "user",
+    cancelReason: "Không muốn mua nữa",
+    items: [
+      {
+        name: "Áo Sơ Mi Oxford Dài Tay Kẻ Sọc Dino x Yumi Form Over Size Bản Cao Cấp Trẻ Trung Năng Động SM01",
+        category: "Sọc Xanh, L",
+        quantity: 10,
+        originalPrice: "350.000₫",
+        discountedPrice: "169.000₫",
+        imgSrc: "https://via.placeholder.com/100",
+      },
+      {
+        name: "Quần Jean Nam Rách Gối Phong Cách Thời Trang Trẻ Trung QJ02",
+        category: "Đen, M",
+        quantity: 2,
+        originalPrice: "500.000₫",
+        discountedPrice: "299.000₫",
+        imgSrc: "https://via.placeholder.com/100",
+      },
+    ],
+    totalPrice: "716.150₫",
+  },
+  {
+    status: "Đã hủy",
+    cancelledBy: "staff",
+    cancelReason: "Hết hàng",
     items: [
       {
         name: "Áo Sơ Mi Oxford Dài Tay Kẻ Sọc Dino x Yumi Form Over Size Bản Cao Cấp Trẻ Trung Năng Động SM01",
@@ -126,7 +152,7 @@ function OrderProfile() {
                 <button className="cancel-button" onClick={() => setShowCancelPopup(true)}>Hủy đơn hàng</button>
               )}
               {order.status === "Đã hủy" && (
-                <p>Đã xóa bởi bạn</p>
+                <p>{order.cancelledBy === "user" ? "Đã hủy bởi bạn" : "Đã hủy bởi nhân viên"}</p>
               )}
               {order.status === "Hoàn thành" && (
                 <button className="rate-button">Đánh giá</button>
@@ -150,6 +176,11 @@ function OrderProfile() {
             <div className="total-price">
               <p>Thành tiền: {order.totalPrice}</p>
             </div>
+            {order.status === "Đã hủy" && order.cancelReason && (
+              <div className="cancel-reason">
+                <p>Lý do hủy: {order.cancelReason}</p>
+              </div>
+            )}
           </div>
         );
       });
