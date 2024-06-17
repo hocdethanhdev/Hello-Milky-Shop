@@ -1,4 +1,4 @@
-﻿use HelloMilkyShop
+use HelloMilkyShop
 go
 INSERT INTO Role VALUES ('Admin'), ('Staff'), ('Member')
 go
@@ -137,17 +137,14 @@ VALUES
   ( 30, 300000, 0,'2024-12-30', '2024-12-31', 'Voucher 5',10),
   ( 35, 350000, 0,'2024-12-30', '2024-12-31', 'Voucher 6',10);
 go
-INSERT INTO Promotion (PromotionName, Description, StartDate, EndDate, DiscountPercentage) VALUES
-('Summer Sale', 'Huge discounts on all products', '2024-05-01', '2024-06-30', 10),
-('Winter Sale', 'Special discounts for winter', '2024-05-01', '2024-12-31', 15),
-('Black Friday', 'Black Friday discounts on selected items', '2024-11-25', '2024-11-30', 20),
-('Christmas Sale', 'Christmas special discounts', '2024-05-20', '2024-12-25', 25),
-('New Year Sale', 'New Year special discounts', '2024-12-31', '2025-01-05', 30),
-('Easter Sale', 'Easter special discounts', '2024-04-10', '2024-04-20', 35),
-('Valentine Day Sale', 'Valentine Day special discounts', '2024-02-10', '2024-02-15', 40),
-('Back to School Sale', 'Back to School special discounts', '2024-08-15', '2024-08-30', 45),
-('Halloween Sale', 'Halloween special discounts', '2024-05-25', '2024-10-31', 50),
-('Anniversary Sale', 'Anniversary special discounts', '2024-09-01', '2024-09-10', 55);
+INSERT INTO Promotion (PromotionName,Image, Description, StartDate, EndDate, DiscountPercentage) VALUES
+('Christmas Sale','https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FKhuy%E1%BA%BFn%20m%C3%A3i%20Gi%C3%A1ng%20Sinh.png?alt=media&token=4b702aae-a933-4ac0-8ac6-dacaaaa440c2', 'Christmas discounts on all products', '2024-05-01', '2024-06-30', 10),
+('Summer Sale','https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FKhuy%E1%BA%BFn%20m%C3%A3i%20H%C3%A8.png?alt=media&token=9991d81f-8acc-4f83-893e-38a28b77c3bd', 'Special discounts for summer', '2024-05-02', '2024-12-31', 15),
+('Black Friday','https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FBlack%20Friday.png?alt=media&token=059c6509-e0f5-4e03-b634-090ca37b98da', 'Black Friday discounts on selected items', '2024-11-25', '2024-11-30', 20),
+('Tet Sale','https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FKhuy%E1%BB%85n%20m%C3%A3i%20T%E1%BA%BFt.png?alt=media&token=8c3869d9-3241-403c-82fb-fe514cb40c9a', 'Tet special discounts', '2024-12-25', '2025-01-05', 30),
+('Spring Sale','https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FKhuy%E1%BA%BFn%20m%C3%A3i%20Xu%C3%A2n.png?alt=media&token=79746084-18f1-468a-a5ba-f2b0e2f41123', 'Special discounts for spring', '2024-04-10', '2024-04-20', 35),
+('Fall Sale','https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FKhuy%E1%BA%BFn%20m%C3%A3i%20Thu.png?alt=media&token=5ec0dcc4-05db-4a00-89ae-b912afa08451', 'Special discounts for fall', '2024-02-10', '2024-02-15', 40),
+('Winter Sale','https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FKhuy%E1%BA%BFn%20m%C3%A3i%20%C4%90%C3%B4ng.png?alt=media&token=1b382806-bd3c-4bd9-bde6-7d0abafb5e0f', 'Special discounts for winter', '2024-08-15', '2024-08-30', 45);
 go
 insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
 values(1, 'SM0001', 0)
