@@ -230,5 +230,6 @@ module.exports = {
     countNewOrders,
     countOrdersIn7Days,
     getTodayRevenue,
-    getRevenueLastSevenMonths
+    getRevenueLastSevenMonths,
+    countOrdersByStatusOrderID,
 };
