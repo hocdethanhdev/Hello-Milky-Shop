@@ -1,19 +1,5 @@
 ﻿use HelloMilkyShop
 
-WITH DateList AS (
-    SELECT CAST(GETDATE() AS DATE) AS OrderDate
-    UNION ALL
-    SELECT DATEADD(DAY, -1, OrderDate)
-    FROM DateList
-    WHERE OrderDate > DATEADD(DAY, -6, CAST(GETDATE() AS DATE))
-)
-SELECT dl.OrderDate, COUNT(o.OrderID) AS count
-FROM DateList dl
-LEFT JOIN Orders o ON dl.OrderDate = o.OrderDate
-GROUP BY dl.OrderDate
-ORDER BY dl.OrderDate;
-
-
 INSERT INTO Role VALUES ('Admin'), ('Staff'), ('Member')
 
 INSERT INTO Brand (BrandName) VALUES 
@@ -39,6 +25,7 @@ INSERT INTO Brand (BrandName) VALUES
 ('Abbott Grow');
 
 insert into ProductCategory values (N'Sữa cho mẹ bầu'), (N'Sữa cho em bé')
+
 
 INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID) VALUES
 ('P001', N'Sữa Abbott Grow số 4 hương vani 1.7kg (từ 2 tuổi)', N'Sữa Abbott Grow số 4 hương vani 1.7kg loại mới bổ sung thêm 20% canxi, hỗ trợ bé phát triển xương và chiều cao nhờ được bổ sung canxi, vitamin D với tỷ lệ canxi/phốt pho thích hợp theo khuyến cáo của Châu và Hoa Kỳ và sự có mặt của hỗn hợp chất béo thực vật không chứa dầu cọ.', 584000, 50, 'https://media.shoptretho.com.vn/upload/image/product/20230506/sua-abbott-grow-4-1-7kg-tren-2-tuoi-2.jpg', '2025-12-31', '2024-01-01', 20, 2)
@@ -191,61 +178,6 @@ insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount)
 values(1, 'SM0001', 0)
 insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
 values(2, 'SM0001', 0)
-
-/*
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Hello there!', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('How are you doing?', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('I hope you are well.', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Yes, I am good.', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('What about you?', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('I am also fine, thanks.', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Can I help you with something?', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('No, I am good.', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('Thanks for asking though.', '2024-05-30', 1);
-INSERT INTO Message (Message, TimeStamp, ChatID) VALUES ('You are welcome!', '2024-05-30', 1);
-*/
-
-/*
-insert into Comment(UserID, ProductID, Description) values ('M0000001', 'SE0001', N'Tốt')
-insert into Comment(UserID, ProductID, Description) values ('M0000001', 'SE0002', N'Tốt')
-insert into Comment(UserID, ProductID, Description) values ('M0000001', 'SE0003', N'Tốt')
-*/
-
-/*
-INSERT INTO Orders (OrderDate, TotalAmount, Status, UserID) VALUES
-('2024-05-01', 5000000, 0, 'M0000001'),
-('2024-05-02', 3200000, 0, 'M0000001'),
-('2024-05-03', 4300000, 0, 'M0000001'),
-('2024-05-04', 2100000, 0, 'M0000001'),
-('2024-05-05', 7600000, 0, 'M0000001'),
-('2024-05-06', 5400000, 0, 'M0000001'),
-('2024-05-07', 3300000, 0, 'M0000001'),
-('2024-05-08', 2700000, 0, 'M0000001'),
-('2024-05-09', 4800000, 0, 'M0000001'),
-('2024-05-10', 6200000, 0, 'M0000001');
-INSERT INTO OrderDetail (Quantity, Price, OrderID, ProductID) VALUES
-(2, 1000000, 1, 'SM0001'),
-(1, 3200000, 2, 'SM0002'),
-(3, 1290000, 3, 'SM0003'),
-(2, 700000, 4, 'SM0004'),
-(1, 7600000, 5, 'SM0005'),
-(4, 5400000, 6, 'SM0006'),
-(2, 660000, 7, 'SM0006'),
-(3, 900000, 8, 'SM0007'),
-(1, 4800000, 9, 'SM0008'),
-(2, 1240000, 10, 'SM0009'),
-
-(1, 500000, 1, 'SE0001'),
-(2, 1080000, 2, 'SE0002'),
-(1, 600000, 3, 'SE0003'),
-(2, 960000, 4, 'SE0004'),
-(1, 4500000, 5, 'SE0005'),
-(2, 1040000, 6, 'SE0006'),
-(1, 550000, 7, 'SE0007'),
-(1, 5300000, 8, 'SE0008'),
-(1, 5700000, 9, 'SE0009'),
-(1, 560000, 10, 'SE0010');
-*/
 
 INSERT INTO City (CityName) VALUES
 (N'Hà Nội'),

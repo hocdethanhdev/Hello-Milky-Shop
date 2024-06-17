@@ -60,7 +60,15 @@ const getOpenOrderForUser = (req, res) => {
         .catch(err => res.status(500).json({ message: err.message })
         );
 }
-
+const removeProductFromOrder = async (req, res) => {
+    try {
+        const { OrderID, ProductID } = req.body;
+        await orderService.removeProductFromOrder(OrderID, ProductID);
+        res.status(200).json({ message: 'Product removed from order successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 const getAllOrders = async (req, res) => {
     orderService.getAllOrders()
         .then(result => res.status(201).json(result))
@@ -180,8 +188,6 @@ const changeQuantityOfProductInOrder = async (req, res) => {
 
 };
 
-
-
 const updateStatusOrderID = async (req, res) => {
     const orderID = req.params.OrderID;
     const { statusOrderID } = req.body;
@@ -192,17 +198,26 @@ const updateStatusOrderID = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const getOrdersByStatusOrderID = async (req, res) => {
+    try {
+        const statusOrderID = req.params.statusOrderID;
+        const address = await orderService.getOrdersByStatusOrderID(statusOrderID);
+        res.status(200).json({ address });
 
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 const addInfoCusToOrder = async (req, res) => {
     try {
         const { receiver, phoneNumber, address, userID } = req.body;
         await orderService.addInfoCusToOrder(receiver, phoneNumber, address, userID);
         res.status(200).json({ message: 'Info Customer added to order' });
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-
 
 module.exports = {
     getAllOrders,
@@ -219,6 +234,8 @@ module.exports = {
     changeQuantityOfProductInOrder,
     updateStatusOrderID,
     getOpenOrderForUser,
+    removeProductFromOrder,
+    getOrdersByStatusOrderID,
     addInfoCusToOrder,
     countOrdersPayed,
     countNewOrders,

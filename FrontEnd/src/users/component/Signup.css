@@ -13,10 +13,12 @@
   max-width: 600px;
   border-radius: 1rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Support for Safari 9+ */
+  backdrop-filter: blur(10px); /* Standard property */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   padding: 2rem;
 }
+
 
 /* Form input wrapper */
 .input-wrapper-sign {

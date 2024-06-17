@@ -5,7 +5,7 @@ import ProductContentMom from './ProductContentMom';
 import ProductDetail from './ProductDetailMom';
 import NavCate from './NavCate';
 import RelatedProducts from './RelatedProductMom';
-
+import { Link } from 'react-router-dom';
 const ProductScreen = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
@@ -33,7 +33,30 @@ const ProductScreen = () => {
 
     return (
         <div>
-            <NavCate />
+            <div className='url-list'>
+                <NavCate />
+                <div class="breadcrumb-area-thinh-url">
+                    <div class="container-thinh-url">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="breadcrumb-wrap-thinh-url">
+                                    <nav aria-label="breadcrumb-thinh-url">
+                                        <ul class="breadcrumb-thinh-url">
+                                            <li class="breadcrumb-item-thinh-url"><Link to="/"><i class="fa fa-home"></i></Link></li>
+                                            {product.ProductID.includes("SE") ?
+                                                <li class="breadcrumb-item-thinh-url"><a href="/sua-cho-be">Sữa cho bé</a></li>
+                                                : <li class="breadcrumb-item-thinh-url"><a href="/sua-cho-me">Sữa cho mẹ</a></li>}
+
+                                            <li class="breadcrumb-item-thinh-url active" aria-current="page">{product.ProductName}</li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div className='some row'>
                 <div className='some-thang col-md-2'></div>
                 <div className='col-md-10'>

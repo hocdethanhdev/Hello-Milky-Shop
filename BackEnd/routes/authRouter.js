@@ -24,6 +24,10 @@ router.post('/loginEmail', authController.loginEmail);
 
 router.get("/loginSuccess", (req, res) => {
   res.redirect(`${process.env.CLIENT_URL}/LoginSuccess/${req?.query.token}`)
-})
+});
+
+router.post("/checkPhoneNumber", authController.checkPhoneNumber);
+
+router.put("/forgetPassword", authController.forgetPassword);
 
 module.exports = router;

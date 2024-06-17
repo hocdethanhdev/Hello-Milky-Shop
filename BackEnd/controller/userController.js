@@ -1,9 +1,22 @@
 const userService = require("../service/userService");
 
+const countUserByRole = async (req, res) => {
+  try {
+    const RoleID = req.params.role;
+    if(!RoleID) res.status(400).json({
+      err: 1,
+      message: 'Missing input'
+    })
+    const obj = await userService.countUserByRole(RoleID);
+    res.status(200).json(obj)
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const getUserByID = async (req, res) => {
   try {
     const UserID = req.query.UserID;
-    console.log(UserID);
     if(!UserID) res.status(400).json({
       err: 1,
       message: 'Missing input'
@@ -72,4 +85,5 @@ module.exports = {
   getUserByRole,
   getOne,
   getUserByID,
+  countUserByRole,
 };

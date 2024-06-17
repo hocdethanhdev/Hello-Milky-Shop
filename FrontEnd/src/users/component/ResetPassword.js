@@ -1,12 +1,14 @@
+import React, { useState, useEffect } from "react";
 import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 import OtpInput from "otp-input-react";
-import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { auth } from "./firebase.config";
+import { auth } from "../../config/firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
+import "./ResetPassword.css";
+import axios from "axios";
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState("");
@@ -14,17 +16,28 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
+  const [showResetForm, setShowResetForm] = useState(false);
+  const [isSignupAttempted, setIsSignupAttempted] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    onCaptchVerify();
+  }, []);
 
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(auth,
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
         "recaptcha-container",
         {
           size: "invisible",
           callback: (response) => {
-            onSignup();
+            // Callback when recaptcha is verified
           },
-          "expired-callback": () => {},
+          "expired-callback": () => {
+            toast.error("Recaptcha expired. Please try again.");
+          },
         },
         auth
       );
@@ -32,11 +45,12 @@ const ResetPassword = () => {
   }
 
   function onSignup() {
+    if (isSignupAttempted) return;
+    setIsSignupAttempted(true);
+
     setLoading(true);
-    onCaptchVerify();
 
     const appVerifier = window.recaptchaVerifier;
-
     const formatPh = "+" + ph;
 
     signInWithPhoneNumber(auth, formatPh, appVerifier)
@@ -44,11 +58,17 @@ const ResetPassword = () => {
         window.confirmationResult = confirmationResult;
         setLoading(false);
         setShowOTP(true);
-        toast.success("OTP sended successfully!");
+        toast.success("OTP sent successfully!");
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error sending OTP:", error);
         setLoading(false);
+        setIsSignupAttempted(false); // Allow retry if there was an error
+        if (error.code === "auth/quota-exceeded") {
+          toast.error("Quota exceeded. Please try again later.");
+        } else {
+          toast.error("Failed to send OTP. Please try again.");
+        }
       });
   }
 
@@ -57,39 +77,136 @@ const ResetPassword = () => {
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
-        console.log(res);
+        console.log("OTP confirmed:", res);
         setUser(res.user);
         setLoading(false);
+        setShowResetForm(true);
+        toast.success("OTP verified successfully!");
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Error verifying OTP:", err);
         setLoading(false);
+        toast.error("Failed to verify OTP. Please try again.");
       });
   }
 
+  async function checkPhoneNumberExists() {
+    const phApi = "0" + ph.substring(2);
+    try {
+      const checkPH = await axios.post(
+        "http://localhost:5000/api/v1/auth/checkPhoneNumber",
+        {
+          PhoneNumber: phApi,
+        }
+      );
+      if (checkPH.data.err === 0) onSignup();
+      else throw new Error("Phone number does not exist.");
+    } catch (error) {
+      console.error("Error checking phone number:", error);
+      toast.error("Phone number does not exist. Please enter a correct number.");
+    }
+  }
+
+  const handleSendOTPClick = () => {
+    if (loading) return; // Prevent action if already loading
+    checkPhoneNumberExists();
+  };
+
+  const handlePasswordReset = () => {
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match. Please try again.");
+      return;
+    }
+
+    setLoading(true);
+
+    fetch("http://localhost:5000/api/v1/auth/forgetPassword", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        UserID: user.uid,
+        Password: password,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to reset password.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setLoading(false);
+        toast.success("Password reset successfully!");
+      })
+      .catch((error) => {
+        console.error("Error resetting password:", error);
+        setLoading(false);
+        toast.error("Failed to reset password. Please try again.");
+      });
+  };
+
   return (
-    <section className="bg-emerald-500 flex items-center justify-center h-screen">
+    <section className="reset-password-container">
       <div>
         <Toaster toastOptions={{ duration: 4000 }} />
         <div id="recaptcha-container"></div>
-        {user ? (
-          <h2 className="text-center text-white font-medium text-2xl">
-            sau khi xác nhận thành công sẽ vào chỗ này
-          </h2>
+        {showResetForm ? (
+          <div className="password-reset-form">
+            <h2>Đặt lại mật khẩu</h2>
+            <div>
+              <label>Mật khẩu mới:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Xác nhận mật khẩu:</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+            <button onClick={handlePasswordReset} disabled={loading}>
+              {loading ? "Đang xử lý..." : "Đặt lại mật khẩu"}
+            </button>
+          </div>
+        ) : user ? (
+          <div className="password-reset-form">
+            <h2>Đặt lại mật khẩu</h2>
+            <div>
+              <label>Mật khẩu mới:</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Xác nhận mật khẩu:</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+            <button onClick={handlePasswordReset} disabled={loading}>
+              {loading ? "Đang xử lý..." : "Đặt lại mật khẩu"}
+            </button>
+          </div>
         ) : (
-          <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
-            <h1 className="text-center leading-normal text-white font-medium text-3xl mb-6">
-              Quên mật khẩu
-            </h1>
+          <div className="reset-form">
+            <h1 className="title text-center">Quên mật khẩu</h1>
             {showOTP ? (
               <>
-                <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
+                <div className="icon-container">
                   <BsFillShieldLockFill size={30} />
                 </div>
-                <label
-                  htmlFor="otp"
-                  className="font-bold text-xl text-white text-center"
-                >
+                <label htmlFor="otp" className="otp-label">
                   Nhập OTP
                 </label>
                 <OtpInput
@@ -99,12 +216,9 @@ const ResetPassword = () => {
                   otpType="number"
                   disabled={false}
                   autoFocus
-                  className="opt-container "
+                  className="otp-input-container"
                 ></OtpInput>
-                <button
-                  onClick={onOTPVerify}
-                  className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
-                >
+                <button onClick={onOTPVerify} className="otp-button">
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
                   )}
@@ -113,19 +227,16 @@ const ResetPassword = () => {
               </>
             ) : (
               <>
-                <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
+                <div className="icon-container">
                   <BsTelephoneFill size={30} />
                 </div>
-                <label
-                  htmlFor=""
-                  className="font-bold text-xl text-white text-center"
-                >
+                <label htmlFor="" className="phone-label ">
                   Nhập số điện thoại của bạn
                 </label>
                 <PhoneInput country={"vn"} value={ph} onChange={setPh} />
                 <button
-                  onClick={onSignup}
-                  className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
+                  onClick={handleSendOTPClick}
+                  className="send-otp-button"
                 >
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />

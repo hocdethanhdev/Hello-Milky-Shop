@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -6,10 +6,12 @@ import "./Product1.css";
 import Giasoc from "./Giasoc.js";
 import Combo1 from "./Combo1.js";
 import Combo2 from "./Combo2.js";
+import VoucherStore from "./VoucherStore.js";
 import Menu from "./Menu";
+import { useSelector } from "react-redux";
 
 function Product1() {
-  
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const sliderSettings = {
     dots: true,
@@ -17,6 +19,8 @@ function Product1() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
   };
 
   return (
@@ -49,12 +53,20 @@ function Product1() {
       </div>
 
       {/* Giá sốc hôm nay */}
-      <Giasoc/>
+      <Giasoc />
+
+      {/* Voucher (only if logged in) */}
+      {isLoggedIn && (
+        <div className="voucher_section">
+          <VoucherStore />
+        </div>
+      )}
 
       {/* PRODUCT 3 */}
-      <Combo1/>
+      <Combo1 />
+
       {/* COMBO DÀNH CHO BÉ */}
-      <Combo2/>
+      <Combo2 />
     </section>
   );
 }

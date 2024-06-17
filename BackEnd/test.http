@@ -1,5 +1,23 @@
+
+### check reset password
+POST http://localhost:5000/api/v1/auth/checkPhoneNumber
+Content-Type: application/json
+
+{
+    "PhoneNumber": "0909090908"
+}
+### forgetPassword
+PUT http://localhost:5000/api/v1/auth/forgetPassword
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "Password": "2"
+}
+
 ### lay user by id
 GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
+
 
 ### đem so don hang tung ngay trong vong 7 ngay
 GET http://localhost:5000/api/v1/order/countOrdersIn7Days
@@ -97,9 +115,9 @@ Content-Type: application/json
 
 {
     "UserName": "Nhan",
-    "PhoneNumber": "0909090908",
+    "PhoneNumber": "0933802522",
     "Password": "1",
-    "RoleID": 3
+    "RoleID": 2
 }
 ### login
 POST http://localhost:5000/api/v1/auth/login
@@ -251,8 +269,8 @@ Content-Type: application/json
 
 {
   "userID": "M0000001",
-  "productID": "SE0005",
-  "quantity": 3,
+  "productID": "SE0002",
+  "quantity": 1,
   "price": 1500
 }
 
@@ -282,6 +300,8 @@ GET http://localhost:5000/api/v1/article/getAllArticles/
 ###
 GEt http://localhost:5000/api/v1/article/getArticlesByID/M0000001/
 ###
+GEt http://localhost:5000/api/v1/article/getArticlesByArticleID/33/
+###
 GEt http://localhost:5000/api/v1/article/getArticlesByContent/Tin tức/
 ###
 GET http://localhost:5000/api/v1/article/getAllArticleCategory/
@@ -290,12 +310,12 @@ POST http://localhost:5000/api/v1/article/createArticle/
 Content-Type: application/json
 
 {
-    "Title": "Chất lượng sữa mẹ theo thời gian có gì thay đổi?",
+    "Title": "Chất lượng sữa ngoại có tốt cho trẻ nhỏ không?",
     "HeaderImage": "image5.png",
-    "Content": "Sữa cho mẹ bầu",
-    "PublishDate": "2021-05-16",
+    "Content": "Sữa cho em bé",
+    "PublishDate": "2021-05-25",
     "AuthorID": "M0000001",
-    "ArticleCategoryID": 1
+    "ArticleCategoryID": 2
 }
 
 ###
@@ -349,16 +369,12 @@ POST http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder
 Content-Type: application/json
 
 {
-    "orderID": "2",
+    "orderID": "15",
     "productQuantities": [
         {
             "productID": "SE0001",
-            "quantity": 5
-        },
-        {
-            "productID": "SE0003",
-            "quantity": 3
-        }
+            "quantity": 2
+        }      
     ]
 }
 
@@ -375,8 +391,9 @@ GET http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion
 ###
 GET http://localhost:5000/api/v1/city/getAllCities/
 ###
+
+
 GET http://localhost:5000/api/v1/district/getDistrictByID/1
-### Thêm thông tin khách hàng vào đơn hàng hiện tại
 POST http://localhost:5000/api/v1/order/addInfoCusToOrder
 Content-Type: application/json
 
@@ -387,7 +404,57 @@ Content-Type: application/json
   "userID": "M0000001"
 }
 
+
+### xóa sốp bing card
+POST http://localhost:5000/api/v1/order/removeProductFromOrder
+Content-Type: application/json
+
+{
+    "OrderID": 11,
+    "ProductID": "SE0003"
+}
+
 ### 
 GET http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/M0000001
+
 ### 
 GET http://localhost:5000/api/v1/order/getInfoShippingByOrderID/
+
+
+### Lấy chi tiết đơn hàng dựa vào orderID
+GET http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/1
+### check user mua hàng
+POST http://localhost:5000/api/v1/comment/checkUserOrdered
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "ProductID": "SM0001"
+}
+
+### userComment
+POST http://localhost:5000/api/v1/comment/userComment
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "ProductID": "SM0001",
+    "Rating": 4,
+    "Description": "tot"
+}
+### lấy comment của 1 sản phẩm
+GET http://localhost:5000/api/v1/comment/getCommentByProductID/SM0001
+
+### lấy trung bình đánh giá và số lượt đánh giá của 1 sản phẩm
+GET http://localhost:5000/api/v1/comment/countRatingAndAvgRating/SM0001
+###đếm tất cả user by role
+GET http://localhost:5000/api/v1/user/countUserByRole/3
+### đếm tất cả product
+GET http://localhost:5000/api/v1/product/countProduct
+
+### đếm tất cả brand
+GET http://localhost:5000/api/v1/product/countBrand
+
+### lấy top 5 sản phẩm bán nhiều nhất
+GET http://localhost:5000/api/v1/product/getTop5ProductBestSeller
+

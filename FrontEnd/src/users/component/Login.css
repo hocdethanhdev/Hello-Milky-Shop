@@ -19,6 +19,7 @@ body {
   border-radius: 10px;
   padding: 40px;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   max-width: 500px; /* Thêm chiều rộng tối đa */
   margin: 0 auto; /* Căn giữa khối */
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -136,4 +137,5 @@ body {
 
 .login-nd {
   font-size: 16px;
+  margin-top: 20px;
 }
