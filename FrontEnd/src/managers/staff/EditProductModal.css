@@ -10,14 +10,24 @@
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
+    font-family: Arial, sans-serif;
 }
 
 .modal-content-thinhprostedit {
-    background-color: #fefefe;
-    margin: 15% auto;
+    background-color: #fff;
+    margin: 5% auto;
     padding: 20px;
+    border-radius: 10px;
     border: 1px solid #888;
-    width: 80%;
+    width: 60%;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .close-thinhprostedit {
@@ -29,7 +39,52 @@
 
 .close-thinhprostedit:hover,
 .close-thinhprostedit:focus {
-    color: black;
+    color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.form-grid label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-grid textarea {
+    resize: vertical;
+}
+
+/* button[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 85%;
+} */
+
+button[type="submit"]:hover {
+    background-color: #45a049;
 }

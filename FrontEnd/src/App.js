@@ -83,11 +83,11 @@ function App() {
       <Route path="/voucher" element={<VoucherStore />} />
       <Route path="/ShoppingCart" element={<ShoppingCart />} />
       <Route path="/Bigsales" element={<Bigsales />} />
-      <Route path="/Dealsoc" element={<Dealsoc />} />
       <Route path="/Profile" element={<Profile />} />
       <Route path="/Account" element={<Account />} />
       <Route path="/Address" element={<Address />} />
       <Route path="/product/:productId" element={<ProductScreen />} />
+      <Route path="/dealsoc/:promotionId" component={Dealsoc} />
       <Route path="/all-products/:keyword" element={<AllProductScreen />} />
       <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
       <Route path="/sua-cho-me" element={<ListProductMomScreen />} />
