@@ -1,3 +1,14 @@
+/* Voucher.css */
+
+/* Container and Header */
+.voucher-container-thinhvcher {
+  margin-top: 20px;
+ width: fit-content;
+}
+.voucher-list-thinhvcher button{
+  border: none;
+  background-color: white;
+} 
 .voucher-header-thinhvcher {
   background-color: #007bff;
   color: white;
@@ -13,134 +24,124 @@
   gap: 15px;
 }
 
+/* Main Content */
 .voucher-body-thinhvcher {
   display: flex;
   flex: 1;
 }
 
-.voucher-sidebar-thinhvcher {
-  width: 200px;
-  background-color: #ffae33;
-  color: white;
-  display: flex;
-  flex-direction: column;
-}
-
-.voucher-sidebar-thinhvcher a {
-  color: white;
-  padding: 14px 20px;
-  text-decoration: none;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.voucher-sidebar-thinhvcher a:hover,
-.voucher-sidebar-thinhvcher a.active {
-  background-color: #ddd;
-  color: black;
-}
-
 .voucher-main-content-thinhvcher {
   flex: 1;
   padding: 20px;
-  overflow-y: auto;
-  background-color: white;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-left: 20px; /* Adjust margin as per your layout */
 }
 
 .voucher-main-content-thinhvcher h1 {
   margin-bottom: 20px;
 }
 
-.voucher-form-thinhvcher,
-.voucher-list-thinhvcher {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 20px;
-  margin-right: 30px;
-  margin-top: 10px;
-}
-
-.voucher-form-thinhvcher h2,
-.voucher-list-thinhvcher h2 {
-  margin-top: 0;
-}
-
-.voucher-form-thinhvcher label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.voucher-form-thinhvcher input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.voucher-form-thinhvcher button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.voucher-form-thinhvcher button:hover {
-  /* background-color: #0056b3; */
-}
-
+/* Table */
 .voucher-list-thinhvcher table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
 .voucher-list-thinhvcher th,
 .voucher-list-thinhvcher td {
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #ddd;
   text-align: left;
 }
 
 .voucher-list-thinhvcher th {
-  background-color: #f4f4f4;
-}
-
-.voucher-list-thinhvcher .active-thinhvcher {
-  color: green;
-}
-
-.voucher-list-thinhvcher .expired-thinhvcher {
+  background-color: white;
   color: black;
 }
 
-.voucher-list-thinhvcher button {
-  /* background-color: #007BFF; */
 
-  padding: 5px 10px;
+
+.voucher-list-thinhvcher td button {
+  background-color: #007bff;
+  color: white;
   border: none;
-  border-radius: 5px;
+  padding: 8px 12px; /* Adjust padding as needed */
+  border-radius: 4px;
   cursor: pointer;
+  margin-right: 5px
 }
 
-.voucher-list-thinhvcher button:hover {
+.voucher-list-thinhvcher td button:hover {
+  background-color: #0056b3; /* Màu xanh nhạt khi hover vào nút Edit */
+}
+
+.voucher-list-thinhvcher td button:nth-child(2) {
+  background-color: #dc3545; /* Màu đỏ cho nút Delete */
+}
+
+.voucher-list-thinhvcher td button:nth-child(2):hover {
+  background-color: #c82333; /* Màu đỏ nhạt khi hover vào nút Delete */
+}
+
+.voucher-list-thinhvcher td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+  max-width: 200px; /* Adjust the max-width as needed */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis if content overflows */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.voucher-list-thinhvcher td button:hover {
   background-color: #0056b3;
 }
 
-.voucher-container-thinhvcher {
-  padding-right: 50px;
+
+
+/* Dropdown */
+.filter-dropdown-thinhvcher {
+  position: relative;
+  
 }
 
-.button-add-voucher-thinhvcher {
-  background-color: none;
+.filter-dropdown-thinhvcher button {
+  border: none;
+  
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-/* Voucher.css */
+
+
+.filter-dropdown-thinhvcher button:hover {
+  background-color: #0056b3;
+}
+.dropdown-content-thinhvcher {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  margin-top: 5px;
+  list-style-type: none;
+  padding: 0;
+  width: 120px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.dropdown-content-thinhvcher li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-content-thinhvcher li:hover {
+  background-color: #f0f0f0;
+}
+/* Modal */
 .modal-thinhvcher {
   display: flex;
   justify-content: center;
@@ -184,47 +185,89 @@
   color: #333;
 }
 
-.success-message-thinhvcher {
-  color: green;
+/* Pagination */
+.pagination-container-thinhvcher {
+  margin-top: 20px;
+}
+
+/* Adjustments based on your specific layout needs */
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .voucher-body-thinhvcher {
+    flex-direction: column;
+  }
+
+  .voucher-main-content-thinhvcher {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  .voucher-sidebar-thinhvcher {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .voucher-list-thinhvcher td button,
+  .filter-dropdown-thinhvcher button {
+    padding: 8px; /* Adjust padding for smaller screens */
+  }
+}
+
+/* Voucher.css */
+/* Voucher.css */
+
+.voucher-form-thinhvcher {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.voucher-form-thinhvcher h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #007bff;
+}
+
+.voucher-form-thinhvcher form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.half-width {
+  width: 50%;
+  margin-right: 50px; /* Điều chỉnh kích thước của hai cột */
+}
+
+.half-width label {
+  display: block;
+  margin-bottom: 8px;
   font-weight: bold;
 }
 
-.success-message-thinhvcher.error-thinhvcher {
-  color: red;
-}
-
-.filter-dropdown-thinhvcher {
-  position: relative;
-}
-
-.filter-dropdown-thinhvcher button {
-  padding: 8px 10px;
+.half-width input {
+  width: 100%; /* Điều chỉnh chiều rộng của input */
+  padding: 8px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #fff;
-  cursor: pointer;
+  box-sizing: border-box;
 }
 
-.filter-dropdown-thinhvcher button:hover {
-  background-color: #f0f0f0;
+.half-width input[type="date"] {
+  width: calc(100% - 20px); /* Điều chỉnh cho input kiểu date */
 }
-
-.dropdown-content-thinhvcher {
-  position: absolute;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  margin-top: 5px;
-  list-style-type: none;
-  padding: 0;
-  width: 120px;
-}
-
-.dropdown-content-thinhvcher li {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.dropdown-content-thinhvcher li:hover {
-  background-color: #f0f0f0;
+.create-voucher {
+  background-color: green;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    border: none;
+    margin-left: 40%;
+    margin-top: 30px;
 }

@@ -8,7 +8,7 @@ import NavCate from "../ui-product-mom/NavCate";
 
 const fetchPromotions = async () => {
   try {
-    const response = await fetch("http://localhost:5000/api/v1/promotion/getAllPromotions");
+    const response = await fetch("http://localhost:5000/api/v1/promotion/getPormotionByDate");
     if (!response.ok) {
       throw new Error("Failed to fetch promotions");
     }
@@ -21,7 +21,7 @@ const fetchPromotions = async () => {
       startDate: new Date(promo.StartDate).toLocaleDateString(),
       endDate: new Date(promo.EndDate).toLocaleDateString(),
       imageUrl: "https://via.placeholder.com/768x399?text=Promotion+Image",
-      link: "/promotion/" + promo.PromotionID,
+      link: `/dealsoc/${promo.PromotionID}`,
     }));
   } catch (error) {
     console.error("Error fetching promotions:", error);
@@ -65,11 +65,10 @@ function Bigsales() {
     <div className="box-banner">
       <NavCate />
       <div className="main-banner">
-        
         <Slider {...settings}>
-          {promotions.map((promo) => (
+          {promotions.map(promo => (
             <div key={promo.id}>
-              <Link to="/Dealsoc" className="imgbanner">
+              <Link to={promo.link} className="imgbanner">
                 <img src={promo.imageUrl} alt="banner" className="imgbanner" />
               </Link>
               <div className="tgkm-promo night">
