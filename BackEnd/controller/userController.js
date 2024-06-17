@@ -98,6 +98,6 @@ module.exports = {
   getUserByRole,
   getOne,
   getUserByID,
-  changePointOfUser
+  changePointOfUser,
   countUserByRole,
 };
