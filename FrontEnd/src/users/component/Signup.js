@@ -137,8 +137,6 @@ function Signup() {
   }
 
   const handleSubmit = async (e) => {
-    
-
     const newErrors = {};
 
     // Validate name field
@@ -233,7 +231,7 @@ function Signup() {
       >
         <MDBCardBody className="p-5">
           <h2 className="fw-bold mb-5 text-center">Tạo một tài khoản mới</h2>
-
+          {message && <div className="message">{message}</div>}
           <div className="mb-4">
             <MDBInput
               wrapperClass="input-wrapper-sign"

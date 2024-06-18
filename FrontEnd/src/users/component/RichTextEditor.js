@@ -1,36 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import 'boxicons/css/boxicons.min.css';
-import html2pdf from 'html2pdf.js';
 import './RichTextEditor.css';
 
 const RichTextEditor = () => {
-  const [filename, setFilename] = useState('untitled');
   const [showCode, setShowCode] = useState(false);
   const contentRef = useRef(null);
 
   const formatDoc = (cmd, value = null) => {
     document.execCommand(cmd, false, value);
-  };
-
-  const addLink = () => {
-    const url = prompt('Insert url');
-    if (url) formatDoc('createLink', url);
-  };
-
-  const handleFile = (value) => {
-    if (value === 'new') {
-      contentRef.current.innerHTML = '';
-      setFilename('untitled');
-    } else if (value === 'txt') {
-      const blob = new Blob([contentRef.current.innerText]);
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${filename}.txt`;
-      link.click();
-    } else if (value === 'pdf') {
-      html2pdf().from(contentRef.current).save(filename);
-    }
   };
 
   const toggleShowCode = () => {
