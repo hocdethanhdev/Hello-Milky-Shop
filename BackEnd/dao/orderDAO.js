@@ -716,7 +716,7 @@ const orderDAO = {
 
 
         const selectQuery = `
-                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, od.Price
+                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price
                   FROM Orders o
                   JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
                   LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID

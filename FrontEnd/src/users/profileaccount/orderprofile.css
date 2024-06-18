@@ -55,7 +55,6 @@
 
 .order-summary .order-header p {
   margin: 0;
-  
 }
 
 .order-summary .order-header button {
@@ -70,12 +69,12 @@
   filter: brightness(90%);
 }
 
-.order-summary .order-header button.rate-button {
+button.rate-button {
   background-color: orange;
   color: #fff;
 }
 
-.order-summary .order-header button.rate-button:hover {
+button.rate-button:hover {
   background-color: #ff7b00;
 }
 
