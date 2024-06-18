@@ -62,11 +62,7 @@ const promotionDAO = {
         request
           .input("promotionName", mssql.VarChar, promotion.promotionName)
           .input("description", mssql.VarChar, promotion.description)
-          .input(
-            "discountPercentage",
-            mssql.Float,
-            promotion.discountPercentage
-          )
+          .input("discountPercentage", mssql.Float, promotion.discountPercentage)
           .input("startDate", mssql.DateTime, promotion.startDate)
           .input("endDate", mssql.DateTime, promotion.endDate);
 
@@ -218,27 +214,27 @@ const promotionDAO = {
         const currentDate = new Date();
 
         const searchQuery = `
-                    SELECT 
-    p.ProductID, p.ProductName, p.Description, p.ExpirationDate, p.Image, p.ManufacturingDate, p.Price, p.Status, p.StockQuantity, BrandName,
-    COALESCE(
-        MIN(
-            CASE 
+              SELECT 
+              p.ProductID, p.ProductName, p.Description, p.ExpirationDate, p.Image, p.ManufacturingDate, p.Price, p.Status, p.StockQuantity, BrandName,
+              COALESCE(
+              MIN(
+              CASE 
                 WHEN promo.StartDate <= @currentDate AND promo.EndDate >= @currentDate
                 THEN ppl.PriceAfterDiscount 
                 ELSE NULL 
-            END
+              END
         ), 
-        p.Price
-    ) AS PriceAfterDiscounts
-FROM 
-    Product p
-	JOIN Brand b ON b.BrandID = p.BrandID 
-	JOIN ProductCategory pc ON pc.ProductCategoryID = p.ProductCategoryID
- JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
- JOIN Promotion promo ON ppl.PromotionID = promo.PromotionID
- WHERE p.Status = 1
-GROUP BY 
-    p.ProductID, p.ProductName, p.Price, p.Description, p.StockQuantity, p.Image, p.ExpirationDate, p.ManufacturingDate, p.Status, p.BrandID, p.ProductCategoryID, b.BrandName
+              p.Price
+        ) AS PriceAfterDiscounts
+        FROM 
+        Product p
+        JOIN Brand b ON b.BrandID = p.BrandID 
+        JOIN ProductCategory pc ON pc.ProductCategoryID = p.ProductCategoryID
+        JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+        JOIN Promotion promo ON ppl.PromotionID = promo.PromotionID
+        WHERE p.Status = 1
+        GROUP BY 
+        p.ProductID, p.ProductName, p.Price, p.Description, p.StockQuantity, p.Image, p.ExpirationDate, p.ManufacturingDate, p.Status, p.BrandID, p.ProductCategoryID, b.BrandName
 
                 `;
 

@@ -462,6 +462,27 @@ Content-Type: application/json
     "userID": "M0000001",
     "minusPoint": 30
 }
+
+### Lấy những orders cho user phân theo statusOrderID
+GET http://localhost:5000/api/v1/order/getOrdersForUserByStatusOrderID/M0000001/3
+
+### Hủy đơn hàng
+POST http://localhost:5000/api/v1/order/cancelOrder
+Content-Type: application/json
+
+ {
+    "orderID": 1,
+    "reasonCancelContent": "",
+    "userID": "M0000001"
+ }
+### Cập nhật tổng giá trị của đơn hàng
+POST http://localhost:5000/api/v1/order/updateTotalAmountOfOrder
+Content-Type: application/json
+
+ {
+    "orderID": 1,
+    "totalAmount": 1000000
+ }
 ###đếm tất cả user by role
 GET http://localhost:5000/api/v1/user/countUserByRole/3
 ### đếm tất cả product
