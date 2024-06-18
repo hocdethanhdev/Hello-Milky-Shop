@@ -68,7 +68,7 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("id", mssql.VarChar, id);
         request.query(
-          `SELECT TOP 6 p.ProductID, ProductName, Price, Image, COALESCE(MIN(CASE 
+          `SELECT TOP 6 p.ProductID, ProductName, Price, p.Image, COALESCE(MIN(CASE 
                       WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
                       THEN ppl.PriceAfterDiscount 
                       ELSE NULL 
@@ -108,7 +108,7 @@ const productDAO = {
                       WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
                       THEN ppl.PriceAfterDiscount 
                       ELSE NULL 
-                   END), p.Price) AS PriceAfterDiscounts, p.Description, Image
+                   END), p.Price) AS PriceAfterDiscounts, p.Description, p.Image
           From Product p 
           JOIN Brand b ON p.BrandId = b.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
