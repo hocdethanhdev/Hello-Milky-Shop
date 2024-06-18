@@ -1,30 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProductContentMom.css';
 import CartPopup from './CartPopup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../store/actions/authAction";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+
 const formatPrice = (price) => `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
-
 const calculateDiscount = (originalPrice, discountedPrice) => originalPrice === discountedPrice ? 0 : originalPrice - discountedPrice;
-
-
-
 const formatDiscount = (discount) => `-${Math.round(discount / 1000)}K`;
-
-
 
 const ProductContentMom = ({ product }) => {
     const { token } = useSelector((state) => state.auth);
     const userId = getUserIdFromToken(token);
     const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const [ratingData, setRatingData] = useState({ avg: 0, count: 0 }); // State for rating data
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchRatingData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/v1/comment/countRatingAndAvgRating/${product.ProductID}`);
+                setRatingData({
+                    avg: parseFloat(response.data.avg.toFixed(1)), // Round to 1 decimal place
+                    count: response.data.count
+                });
+            } catch (error) {
+                console.error('Error fetching rating data:', error);
+            }
+        };
+
+        if (product.ProductID) {
+            fetchRatingData();
+        }
+    }, [product.ProductID]);
 
     const openCartPopup = () => setIsCartPopupOpen(true);
     const closeCartPopup = () => setIsCartPopupOpen(false);
-
     const incrementQuantity = () => setQuantity(quantity + 1);
     const decrementQuantity = () => {
         if (quantity > 1) setQuantity(quantity - 1);
@@ -64,6 +78,21 @@ const ProductContentMom = ({ product }) => {
 
     const discountAmount = calculateDiscount(product.Price, product.PriceAfterDiscounts);
 
+    const renderStars = (avgRating) => {
+        const filledStars = Math.floor(avgRating);
+        const hasHalfStar = avgRating - filledStars >= 0.5;
+        return (
+            <div className="stars">
+                {[...Array(5)].map((_, index) => (
+                    <span key={index} className="star">
+                        {index < filledStars ? <AiFillStar style={{ color: "orange" }} /> :
+                            (index === filledStars && hasHalfStar) ? <AiFillStar style={{ color: "orange" }} /> : <AiOutlineStar style={{ color: "orange" }} />}
+                    </span>
+                ))}
+            </div>
+        );
+    };
+
     return (
         <section className="product_content width-common">
             <div className="wrap">
@@ -91,6 +120,11 @@ const ProductContentMom = ({ product }) => {
                         <div className="pro_detail_brand">
                             <p className='thuong-hieu-san-pham'>Thương hiệu: <span className='thuong-hieu-san-pham-api'>{product.BrandName}</span></p>
                             <p>Mã SP: <span id="barcodeMain">{product.ProductID}</span></p>
+                        </div>
+                        <br />
+                        <div className='sao-thinh-content'>
+                            {renderStars(ratingData.avg)}
+                            <span className="rating-count"> | {ratingData.count} đánh giá</span>
                         </div>
                         <div className="pro_info">
                             <div className="box_info">

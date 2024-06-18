@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './RelatedProductMom.css';
-
+import StarRating from '../ui-list-product-mom/StarRating';
 // Formatting functions
 const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -71,6 +71,7 @@ const RelatedProducts = ({ product }) => {
                             </div>
                             <div className="product-details-minith">
                                 <h3>{product.ProductName}</h3>
+                                <div className='saoduoithinh1'><StarRating productId={product.ProductID} /></div>
                                 <div className="product-price-minith">
                                     <span className="price-show price-item-minith">{formatPrice(product.PriceAfterDiscounts)}₫</span>
                                     {product.Price !== product.PriceAfterDiscounts && (

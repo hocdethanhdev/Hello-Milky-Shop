@@ -106,6 +106,7 @@
 
 .rating-date-thinhrt {
     color: #888;
+    padding-top: 5px;
 }
 
 .rating-text-thinhrt {
@@ -135,7 +136,4 @@
 
 .star.filled {
     color: #fc6b00;
-}
-.rating-stars-thinhrt {
-    padding-left: 400px;
 }

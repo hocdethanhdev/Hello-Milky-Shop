@@ -79,9 +79,7 @@
     width: 100%;
     margin-top: 12px;
 }
-.pro_info .box_info {
-    margin-top: 15px;
-}
+
 .pro_info .pro_price .price_show {
     font-size: 30px;
     font-weight: bold;
@@ -237,7 +235,7 @@
     border-radius: 4px;
 }
 #divPrice {
-    padding-top: 35px;
+    padding-top: 10px;
 }
 .box_info_txt {
     padding-right: 80px;
@@ -323,4 +321,7 @@
 #zoom_03 {
     background-color: white;
     border-radius: 4%;
+}
+.sao-thinh-content {
+    padding-right: 280px;
 }

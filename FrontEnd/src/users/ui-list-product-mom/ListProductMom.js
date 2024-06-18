@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './ListProductMom.css';
 import SliderMoney from './SliderMoney';
 import ThrowPage from './ThrowPage';
+import StarRating from './StarRating';
 
 const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -25,7 +26,7 @@ const ListProductMom = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/v1/product/getProductByCategory/1/'); // Replace with your API URL
+            const response = await fetch('http://localhost:5000/api/v1/product/getProductByCategory/1/');
             const data = await response.json();
             setOriginalProducts(data);
             setFilteredProducts(data);
@@ -36,7 +37,7 @@ const ListProductMom = () => {
 
     const fetchBrands = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/v1/product/getAllBrandByCategory/1'); // Replace with your API URL for fetching brands
+            const response = await fetch('http://localhost:5000/api/v1/product/getAllBrandByCategory/1');
             const data = await response.json();
             setBrands(data);
         } catch (error) {
@@ -140,8 +141,6 @@ const ListProductMom = () => {
                     <div className="cate_right" id="product_cate">
                         <input id="pageUrl" name="pageUrl" type="hidden" value="?page=1&categoryId=PC0046C29C9E334" />
                         <div className="title_cate_right" sortex="" sortdir="">
-
-
                             <div className='loc-theo-gia-list-mom'>
                                 <div className='center-text-list-promom'>Lọc theo giá</div>
                                 <SliderMoney
@@ -191,10 +190,10 @@ const ListProductMom = () => {
                                                 {product.ProductName}
                                             </Link>
                                         </h3>
+                                        <div className='saoduoithinh'><StarRating productId={product.ProductID} /></div>
                                         <div className="product_price">
                                             <span className="price_item">{formatPrice(product.PriceAfterDiscounts)}₫</span>
                                             {product.Price !== product.PriceAfterDiscounts && <span className="old_price">{formatPrice(product.Price)}₫</span>}
-
                                         </div>
                                         {product.Price !== product.PriceAfterDiscounts && <span className="discount">-{formatPrice((product.Price - product.PriceAfterDiscounts) / 1000)}K</span>}
                                     </div>

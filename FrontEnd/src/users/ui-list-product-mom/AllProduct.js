@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import './ListProductMom.css';
 import SliderMoney from './SliderMoney';
 import ThrowPage from './ThrowPage';
+import StarRating from './StarRating';
 
 const formatPrice = (price) => {
     if (price == null || isNaN(price)) {
@@ -219,10 +220,12 @@ const AllProduct = () => {
                                                     {product.ProductName}
                                                 </Link>
                                             </h3>
+                                            <div className='saoduoithinh'><StarRating productId={product.ProductID} /></div>
                                             <div className="product_price">
                                                 <span className="price_item">{formatPrice(product.PriceAfterDiscounts)}₫</span>
                                                 {product.Price !== product.PriceAfterDiscounts && <span className="old_price">{formatPrice(product.Price)}₫</span>}
                                             </div>
+
                                             {product.Price !== product.PriceAfterDiscounts && <span className="discount">-{formatPrice((product.Price - product.PriceAfterDiscounts) / 1000)}K</span>}
                                         </div>
                                     </div>
