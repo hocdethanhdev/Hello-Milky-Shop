@@ -4,7 +4,7 @@ import RichTextEditor from "../../users/component/RichTextEditor";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Posts.css";
-import { uploadImage } from "./UpImage"; 
+import { uploadImage } from "./UpImage";
 
 function PostsAdd() {
   const [title, setTitle] = useState("");

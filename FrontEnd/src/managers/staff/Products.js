@@ -175,6 +175,8 @@ const Products = () => {
     return (
         <div className="product-container">
             <div className="main-content-product">
+
+
                 <Link to="/addingproduct">
                     <div className='d-flex justify-content-end align-items-end'>
                         <button type="button" className="button-add-product">
