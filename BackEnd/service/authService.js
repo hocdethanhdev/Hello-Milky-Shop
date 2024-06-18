@@ -3,6 +3,22 @@ const userDAO = require("../dao/userDAO");
 const authRepository = require("../repository/authRepository");
 const bcrypt = require("bcryptjs");
 
+const changePassword = async (Password, UserID) => {
+  const user = await authRepository.changePassword(Password, UserID);
+  if (user.err) {
+    return { err: user.err };
+  }
+  return user;
+};
+
+const checkOldPassword = async (OldPass, UserID) => {
+  const user = await authRepository.checkOldPassword(OldPass, UserID);
+  if (user.err) {
+    return { err: user.err };
+  }
+  return user;
+};
+
 const checkPhoneNumber = async (PhoneNumber) => {
   const user = await authRepository.checkPhoneNumber(PhoneNumber);
   if (user.err) {
@@ -60,4 +76,6 @@ module.exports = {
   loginEmail,
   checkPhoneNumber,
   forgetPassword,
+  checkOldPassword,
+  changePassword,
 };

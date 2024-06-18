@@ -1,4 +1,14 @@
 
+### change password
+PUT http://localhost:5000/api/v1/auth/changePassword
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "OldPass": "1",
+    "NewPass": "2"
+}
+
 ### check reset password
 POST http://localhost:5000/api/v1/auth/checkPhoneNumber
 Content-Type: application/json
