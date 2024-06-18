@@ -8,7 +8,7 @@ const voucherDAO = {
             mssql.connect(dbConfig, function (err, result) {
 
                 const request = new mssql.Request();
-
+                //Change status of voucher when the epiryDate is less than the current day
                 request.query(`
                         UPDATE Voucher
                         SET status = 0
@@ -16,6 +16,7 @@ const voucherDAO = {
                     (err, result) => {
                         if (err) return reject(err);
                     });
+
                 request.query(`SELECT * FROM Voucher;`,
                     (err, res) => {
                         if (err) reject(err);

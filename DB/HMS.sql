@@ -105,6 +105,7 @@ OrderID int IDENTITY NOT NULL,
 OrderDate date NULL, 
 TotalAmount int NULL, 
 Status bit,
+ReasonCancelContent nvarchar(700) NULL,
 ShippingAddressID int foreign key references ShippingAddress(ShippingAddressID),
 UserID varchar(8) foreign key references Users(UserID), 
 StatusOrderID smallint foreign key references StatusOrder(StatusOrderID)

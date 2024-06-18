@@ -1,5 +1,5 @@
 
-const { getOrderDetailByOrderID } = require('../dao/orderDAO');
+const { getOrderDetailByOrderID, getOrdersForUserByStatusOrderID, updateTotalAmountOfOrder } = require('../dao/orderDAO');
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
@@ -143,7 +143,7 @@ const orderService = {
             const orderDetail = await orderRepository.getOrderDetailByOrderID(orderID);
             return orderDetail;
         } catch (error) {
-            throw new Error(`Error getting the previous order address: ${error.message}`);
+            throw new Error(`Error getting the order detail: ${error.message}`);
         }
     },
     changeQuantityOfProductInOrder: async (orderID, productQuantities) => {
@@ -179,7 +179,7 @@ const orderService = {
             const orderDetail = await orderRepository.getOrdersByStatusOrderID(orderID);
             return orderDetail;
         } catch (error) {
-            throw new Error(`Error getting the previous order address: ${error.message}`);
+            throw new Error(`Error getting the order: ${error.message}`);
         }
     },
 
@@ -195,7 +195,48 @@ const orderService = {
         return await orderRepository.getRevenueLastSevenMonths();
     },
 
+    getOrdersForUserByStatusOrderID: async (userID, statusOrderID) => {
+        try {
+            const orders = await orderRepository.getOrdersForUserByStatusOrderID(userID, statusOrderID);
+            return orders;
+        } catch (error) {
+            throw new Error(`Error getting the order for user: ${error.message}`);
+        }
+    },
+    cancelOrder: async (orderId, reasonCancelContent, userId) => {
+        try {
+            const order = await orderRepository.getOrderByID(orderId);
 
-};
+            if (!order) {
+                throw new Error('Order not found');
+            }
 
+            if (order.userID === userId) {
+                reasonCancelContent = 'Đơn hàng đã bị hủy bởi khách hàng';
+            }
+
+            await orderRepository.cancelOrder(orderId, reasonCancelContent);
+        } catch (error) {
+            console.error('Error canceling order:', error);
+            throw error;
+        }
+    },
+
+    updateTotalAmountOfOrder: async (orderID, totalAmount) => {
+        try {
+            const orders = await orderRepository.updateTotalAmountOfOrder(orderID, totalAmount);
+            return orders;
+        } catch (error) {
+            throw new Error(`Error update the total amount of an order: ${error.message}`);
+        }
+    },
+    getReasonCancleOrderByUserID: async (userID) => {
+        try {
+            const orders = await orderRepository.getReasonCancleOrderByUserID(userID);
+            return orders;
+        } catch (error) {
+            throw new Error(`Error getting the reason: ${error.message}`);
+        }
+    },
+}
 module.exports = orderService;

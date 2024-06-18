@@ -1,6 +1,15 @@
 const userDAO = require("../dao/userDAO");
 
 const authRepository = {
+
+  changePassword : async (Password, UserID) => {
+    return await userDAO.changePassword(Password, UserID);
+  },
+
+  checkOldPassword : async (OldPass, UserID) => {
+    return await userDAO.checkOldPassword(OldPass, UserID);
+  },
+
   checkPhoneNumber : async (PhoneNumber) => {
     return await userDAO.checkPhoneNumber(PhoneNumber);
   },

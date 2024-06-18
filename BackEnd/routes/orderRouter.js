@@ -59,4 +59,12 @@ router.get('/getTodayRevenue', orderController.getTodayRevenue);
 
 router.get('/getRevenueLastSevenMonths', orderController.getRevenueLastSevenMonths);
 
+router.get('/getOrdersForUserByStatusOrderID/:userID/:statusOrderID', orderController.getOrdersForUserByStatusOrderID);
+
+router.post('/cancelOrder', orderController.cancelOrder);
+
+router.post('/updateTotalAmountOfOrder', orderController.updateTotalAmountOfOrder);
+
+router.get('/getReasonCancleOrderByUserID/:userID', orderController.getReasonCancleOrderByUserID);
+
 module.exports = router

@@ -9,6 +9,48 @@ const UserID = "a";
 
 const userDAO = {
 
+  changePassword: (Password, UserID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("Password", mssql.VarChar, Password)
+          .input("UserID", mssql.VarChar, UserID);
+        request.query(
+          `UPDATE Users SET Password = @Password WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.rowsAffected > 0 ? 0 : 1
+            });
+            mssql.close();
+          }
+        );
+      });
+    });
+  },
+
+  checkOldPassword: (OldPass, UserID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("OldPass", mssql.VarChar, OldPass)
+          .input("UserID", mssql.VarChar, UserID);
+        request.query(
+          `SELECT UserID FROM Users WHERE UserID = @UserID AND Password = @OldPass;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              status: res?.recordset[0] !== null ? true : false
+            });
+            mssql.close();
+          }
+        );
+      });
+    });
+  },
+
   usePoint : (UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {

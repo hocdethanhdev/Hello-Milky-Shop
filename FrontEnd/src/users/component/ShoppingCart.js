@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { getUserIdFromToken } from "../store/actions/authAction";
 import './ShoppingCart.css';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const ShoppingCart = () => {
-  const { isLoggedIn, token } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
   const [orderDetails, setOrderDetails] = useState([]);
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);

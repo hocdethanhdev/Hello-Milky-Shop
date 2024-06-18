@@ -200,6 +200,7 @@ const getTodayRevenue = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 const getRevenueLastSevenMonths = async (req, res) => {
     try {
         const revenues = await orderService.getRevenueLastSevenMonths();
@@ -208,6 +209,50 @@ const getRevenueLastSevenMonths = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+const getOrdersForUserByStatusOrderID = async (req, res) => {
+    try {
+        const { userID, statusOrderID } = req.params;
+        const orders = await orderService.getOrdersForUserByStatusOrderID(userID, statusOrderID);
+        res.status(200).json({ orders });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const cancelOrder = async (req, res) => {
+    try {
+        const { orderID, reasonCancelContent, userID } = req.body;
+        await orderService.cancelOrder(orderID, reasonCancelContent, userID);
+        res.status(200).json({ message: 'Order canceled successfully' });
+    } catch (error) {
+        console.error('Error in cancelOrder controller:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const updateTotalAmountOfOrder = async (req, res) => {
+    try {
+        const { orderID, totalAmount } = req.body;
+        await orderService.updateTotalAmountOfOrder(orderID, totalAmount);
+        res.status(200).json({ message: 'The amount of the order updated successfully' });
+    } catch (error) {
+        console.error('Error in updateTotalAmountOfOrder controller:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const getReasonCancleOrderByUserID = async (req, res) => {
+    try {
+        const obj = await orderService.getReasonCancleOrderByUserID (req.params.userID);
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all users:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+
 
 module.exports = {
     getAllOrders,
@@ -232,4 +277,8 @@ module.exports = {
     getTodayRevenue,
     getRevenueLastSevenMonths,
     countOrdersByStatusOrderID,
+    getOrdersForUserByStatusOrderID,
+    cancelOrder,
+    updateTotalAmountOfOrder,
+    getReasonCancleOrderByUserID
 };
