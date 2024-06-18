@@ -8,7 +8,7 @@ const shippingAddressDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("ID", ID);
         request.query(
-          `SELECT TOP 1 Receiver, PhoneNumber, Address
+          `SELECT *
           FROM ShippingAddress
           WHERE UserID = @ID
            
