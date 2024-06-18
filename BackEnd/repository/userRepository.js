@@ -2,6 +2,10 @@ const userDAO = require("../dao/userDAO");
 
 const userRepository = {
 
+  usePoint: async (UserID) => {
+    return await userDAO.usePoint(UserID);
+  },
+
   countUserByRole: async (RoleID) => {
     return await userDAO.countUserByRole(RoleID);
   },

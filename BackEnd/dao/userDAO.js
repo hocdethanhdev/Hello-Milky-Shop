@@ -9,6 +9,26 @@ const UserID = "a";
 
 const userDAO = {
 
+  usePoint : (UserID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("UserID", mssql.VarChar, UserID);
+        request.query(
+          `UPDATE Users SET Point = 0 WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.rowsAffected > 0 ? 0 : 1
+            });
+            mssql.close();
+          }
+        );
+      });
+    });
+  },
+
   countUserByRole : (RoleID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
