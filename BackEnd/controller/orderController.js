@@ -269,5 +269,5 @@ module.exports = {
     countOrdersByStatusOrderID,
     getOrdersForUserByStatusOrderID,
     cancelOrder,
-    updateTotalAmountOfOrder
+    updateTotalAmountOfOrder,
 };

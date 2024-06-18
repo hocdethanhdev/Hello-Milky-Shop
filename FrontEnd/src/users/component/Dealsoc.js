@@ -10,7 +10,7 @@ import './Dealsoc.css';
             style={{ display: 'inline' }}
           />
         </div>
-        <div className="content">
+        <div className="content-tri">
           <div className="contentPro">
             <div className="box_product" id="id920">
               <a href="https://shoptretho.com.vn/danh-muc/sua-cho-tre-em" style={{textDecoration: 'none'}}>
@@ -89,58 +89,3 @@ import './Dealsoc.css';
  export default Dealsoc;
 
 
-
-// lấy API 
-
-//  import React, { useState, useEffect } from "react";
-//  import axios from "axios";
-//  import './Dealsoc.css';
- 
-//  function Dealsoc() {
-//    // Define state variables to store API data
-//    const [promotions, setPromotions] = useState([]);
-//    const [products, setProducts] = useState([]);
- 
-//    // Fetch data from API when the component mounts
-//    useEffect(() => {
-//      // Fetch promotions data
-//      axios.get('YOUR_PROMOTIONS_API_ENDPOINT')
-//        .then(response => setPromotions(response.data))
-//        .catch(error => console.error('Error fetching promotions:', error));
- 
-//      // Fetch products data
-//      axios.get('YOUR_PRODUCTS_API_ENDPOINT')
-//        .then(response => setProducts(response.data))
-//        .catch(error => console.error('Error fetching products:', error));
-//    }, []); // Empty dependency array ensures the effect runs only once when the component mounts
- 
-//    return (
-//      <>
-//        {/* Render promotional banners based on API data */}
-//        <div className="banner-giasoc" style={{ maxWidth: '1108px' }}>
-//          {promotions.map(promo => (
-//            <img 
-//              key={promo.id}
-//              src={promo.imageUrl}
-//              alt={promo.title}
-//              style={{ display: 'inline' }}
-//            />
-//          ))}
-//        </div>
- 
-//        {/* Render products based on API data */}
-//        <div className="content">
-//          <div className="contentPro">
-//            {products.map(product => (
-//              <div key={product.id} className="box_product">
-//                {/* Render product details */}
-//              </div>
-//            ))}
-//          </div>
-//        </div>
-//      </>
-//    );
-//  }
- 
-//  export default Dealsoc;
- 

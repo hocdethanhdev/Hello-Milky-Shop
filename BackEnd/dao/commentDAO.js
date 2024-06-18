@@ -89,7 +89,7 @@ const commentDAO = {
           FROM Orders o
           JOIN OrderDetail od ON o.OrderID = od.OrderID
           JOIN Users u ON o.UserID = u.UserID
-          WHERE u.UserID = @UserID
+          WHERE u.UserID = @UserID AND o.Status = 1 AND o.StatusOrderID = 4
           AND od.ProductID = @ProductID;
         ;`,
           (err, res) => {

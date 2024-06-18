@@ -1,31 +1,3 @@
-/* Footer.css */
-.footer-tri-container {
-    background-color: #0f7fc1;
-    color: #fff;
-    padding: 2rem 0;
-    text-align: center;
-}
-
-.footer-tri .container {
-    max-width: 1200px;
-    margin: 0 auto;
-   
-}
-
-.footer-tri-container .social-links a {
-    margin: 0 1rem;
-    color: #fff;
-    text-decoration: none;
-}
-
-.footer-tri .social-links a:hover {
-    color: #007bff;
-}
-
-.footer-tri-container {
-    text-align: center;
-}
-/* Nút cuộn lên */
 .scroll-to-top-button {
     position: fixed;
     bottom: 20px;
@@ -41,27 +13,25 @@
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
-    transition: background-color 0.3s ease, opacity 0.3s ease; /* Áp dụng transition cho opacity */
-    opacity: 0; /* Ban đầu ẩn nút */
+    transition:
+        background-color 0.3s ease,
+        opacity 0.3s ease;
 }
 
-/* Khi nút được hover, hiển thị đầy đủ opacity */
 .scroll-to-top-button:hover {
     opacity: 1;
 }
 
 .scroll-to-top-button i {
-    transition: opacity 0.3s ease; /* Áp dụng transition cho opacity của icon */
-    opacity: 0.7; /* Đặt opacity mặc định của icon */
+    transition: opacity 0.3s ease;
+    opacity: 0.7;
 }
 
-/* Khi nút được hover, icon sẽ không bị mờ đi */
 .scroll-to-top-button:hover i {
     opacity: 1;
 }
 
-/* Điều chỉnh độ mờ của nút khi không hover */
-.scroll-to-top-button:not(:hover) {
-    opacity: 0.7;
+.address {
+    margin: auto;
+    width: 60%;
 }
-

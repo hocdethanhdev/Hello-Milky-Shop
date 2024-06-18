@@ -98,7 +98,7 @@ const ProductAdd = () => {
 
   return (
     <div className="create-product">
-      <h2>Create New Product</h2>
+     
       {successMessage && (
         <p
           className={`success-message ${

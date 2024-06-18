@@ -1,8 +1,68 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
+const ProductPromotionList = require("../bo/productPromotionList");
 
 const productDAO = {
+
+  getTop5ProductBestSeller: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT TOP 5 p.ProductID, ProductName, SUM(Quantity) AS SumSell
+          FROM Product p
+          JOIN OrderDetail od ON od.ProductID = p.ProductID
+          JOIN Orders o ON o.OrderID = od.OrderID
+          WHERE o.Status = 1 AND o.StatusOrderID = 4
+          GROUP BY p.ProductID, p.ProductName
+          ORDER BY SumSell DESC;`,
+          (err, res) => {
+            if (err) reject(err);
+              resolve({
+                err: res.recordset[0] !== null ? 0 : 1,
+                data: res?.recordset
+              });
+          }
+        );
+      });
+    });
+  },
+
+  countBrand: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT COUNT(BrandID) AS count FROM Brand;`,
+          (err, res) => {
+            if (err) reject(err);
+              resolve({
+                err: res.recordset[0] !== null ? 0 : 1,
+                count: res?.recordset[0].count 
+              });
+          }
+        );
+      });
+    });
+  },
+  countProduct: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT COUNT(ProductID) AS count FROM Product;`,
+          (err, res) => {
+            if (err) reject(err);
+              resolve({
+                err: res.recordset[0] !== null ? 0 : 1,
+                count: res?.recordset[0].count 
+              });
+          }
+        );
+      });
+    });
+  },
   getTop6ProductByBrand: (id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -102,7 +162,7 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("pc", mssql.Int, pc);
         request.query(
-          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(CASE 
+          `SELECT p.ProductID, ProductName, p.Image, Price, BrandName, COALESCE(MIN(CASE 
                       WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
                       THEN ppl.PriceAfterDiscount 
                       ELSE NULL 
@@ -517,10 +577,11 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 ProductID, ProductName, Description, Price, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+          `SELECT TOP 6 p.ProductID, ProductName, Description, Price, ppl.PriceAfterDiscount, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
         JOIN Brand b ON p.BrandID = b.BrandID
+        LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
         WHERE pc.ProductCategoryID = 1
 
       ;`,
@@ -549,10 +610,11 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 ProductID, ProductName, Description, Price, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+          `SELECT TOP 6 p.ProductID, ProductName, Description, Price, PriceAfterDiscount, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
         JOIN Brand b ON p.BrandID = b.BrandID
+        LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
         WHERE pc.ProductCategoryID = 2
       ;`,
       (err, res) => {
