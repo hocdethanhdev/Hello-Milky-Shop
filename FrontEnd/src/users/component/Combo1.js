@@ -57,6 +57,7 @@ function Combo1() {
                   <div className="combo-details">
                     <h3>{product.ProductName}</h3>
                     <p>{formatPrice(product.Price)}</p>
+                    
                   </div>
                 </div>
               ))}

@@ -10,17 +10,18 @@ const orderDAO = {
         const request = new mssql.Request();
         request.query(
           `WITH DateList AS (
-    SELECT CAST(GETDATE() AS DATE) AS OrderDate
-    UNION ALL
-    SELECT DATEADD(DAY, -1, OrderDate)
-    FROM DateList
-    WHERE OrderDate > DATEADD(DAY, -6, CAST(GETDATE() AS DATE))
-)
-SELECT dl.OrderDate, COUNT(o.OrderID) AS count
-FROM DateList dl
-LEFT JOIN Orders o ON dl.OrderDate = o.OrderDate
-GROUP BY dl.OrderDate
-ORDER BY dl.OrderDate;;`,
+          SELECT CAST(GETDATE() AS DATE) AS OrderDate
+          UNION ALL
+          SELECT DATEADD(DAY, -1, OrderDate)
+          FROM DateList
+          WHERE OrderDate > DATEADD(DAY, -6, CAST(GETDATE() AS DATE))
+          )
+          SELECT dl.OrderDate, COUNT(o.OrderID) AS count
+          FROM DateList dl
+          LEFT JOIN Orders o ON dl.OrderDate = o.OrderDate
+          WHERE o.Status = 1
+          GROUP BY dl.OrderDate
+          ORDER BY dl.OrderDate;`,
           (err, res) => {
             if (err) reject(err);
 
@@ -31,61 +32,38 @@ ORDER BY dl.OrderDate;;`,
     });
   },
 
-  countOrdersFinish: () => {
+  countOrdersByStatusOrderID: (statusOrderID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request();
-        request.query(
-          `SELECT COUNT(OrderID) as count FROM Orders WHERE StatusOrderID = 4 AND Status = 1;`,
-          (err, res) => {
-            if (err) reject(err);
+        if (err) return reject(err);
 
-            resolve({ count: res.recordset[0].count });
-          }
-        );
+        const request = new mssql.Request();
+        request.input("statusOrderID", mssql.Int, statusOrderID);
+
+        const query = `
+          SELECT COUNT(OrderID) as count 
+          FROM Orders 
+          WHERE StatusOrderID = @statusOrderID AND Status = 1;
+        `;
+
+        request.query(query, (err, res) => {
+          if (err) return reject(err);
+
+          resolve({ count: res.recordset[0].count });
+        });
       });
     });
   },
 
-  countOrdersCancel: () => {
-    return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request();
-        request.query(
-          `SELECT COUNT(OrderID) as count FROM Orders WHERE StatusOrderID = 3 AND Status = 1;`,
-          (err, res) => {
-            if (err) reject(err);
-
-            resolve({ count: res.recordset[0].count });
-          }
-        );
-      });
-    });
-  },
-
-  countOrdersWaitToConfirm: () => {
-    return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request();
-        request.query(
-          `SELECT COUNT(OrderID) as count FROM Orders WHERE StatusOrderID = 1 AND Status = 1;`,
-          (err, res) => {
-            if (err) reject(err);
-            resolve({ count: res?.recordset[0].count });
-          }
-        );
-      });
-    });
-  },
   countNewOrders: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
           `SELECT COUNT(OrderID) as count
-FROM Orders 
-WHERE Status = 1 
-AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
+          FROM Orders 
+          WHERE Status = 1 
+          AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
           (err, res) => {
             if (err) reject(err);
 
@@ -96,21 +74,6 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
     });
   },
 
-  countOrdersPayed: () => {
-    return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request();
-        request.query(
-          `SELECT COUNT(OrderID) as count FROM Orders WHERE Status = 1;`,
-          (err, res) => {
-            if (err) reject(err);
-
-            resolve({ count: res.recordset[0].count });
-          }
-        );
-      });
-    });
-  },
   getAllOrders: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -322,7 +285,7 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
 
         const selectQuery = `
                     SELECT * FROM Orders 
-                    WHERE UserID = @userID
+                    WHERE UserID = @userID AND Status = 1;
                 `;
 
         request.query(selectQuery, (err, result) => {
@@ -753,7 +716,72 @@ AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
       });
     });
   },
+
+  getTodayRevenue: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        const query = `
+          SELECT SUM(TotalAmount) AS revenue
+          FROM Orders
+          WHERE Status = 1
+          AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);
+        `;
+
+        request.query(query, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset[0].revenue || 0);
+        });
+      });
+    });
+  },
+
+  getRevenueLastSevenMonths: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        const query = `
+          WITH MonthList AS (
+            SELECT 
+              DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1) AS MonthStart
+            UNION ALL
+            SELECT 
+              DATEADD(MONTH, -1, MonthStart)
+            FROM MonthList
+            WHERE MonthStart > DATEADD(MONTH, -7, DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1))
+          )
+          SELECT 
+            FORMAT(MonthStart, 'yyyy-MM') AS Month, 
+            ISNULL(SUM(o.TotalAmount), 0) AS revenue
+          FROM 
+            MonthList ml
+          LEFT JOIN 
+            Orders o 
+          ON 
+            ml.MonthStart = DATEFROMPARTS(YEAR(o.OrderDate), MONTH(o.OrderDate), 1)
+          AND 
+            o.Status = 1
+          GROUP BY 
+            ml.MonthStart
+          ORDER BY 
+            ml.MonthStart;
+        `;
+
+        request.query(query, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset);
+        });
+      });
+    });
+  },
+
 };
+
+
 
 module.exports = orderDAO;
 

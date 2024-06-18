@@ -27,6 +27,9 @@ const userRepository = {
   getUserByRole: async (ID) => {
     return await userDAO.findUserByRole(ID);
   },
+  changePointOfUser: async (userID, minusPoint) => {
+    return await userDAO.changePointOfUser(userID, minusPoint);
+  }
 }
 
 module.exports = userRepository;

@@ -43,25 +43,20 @@ router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser);
 //Thêm thông tin cus vào đơn hàng
 router.post('/addInfoCusToOrder', orderController.addInfoCusToOrder);
 
-
-
-router.get('/countOrdersPayed', orderController.countOrdersPayed);
+router.get('/countOrdersByStatusOrderID', orderController.countOrdersByStatusOrderID);
 
 router.get('/countNewOrders', orderController.countNewOrders);
-
-router.get('/countOrdersWaitToConfirm', orderController.countOrdersWaitToConfirm);
-
-router.get('/countOrdersCancel', orderController.countOrdersCancel);
-
-router.get('/countOrdersFinish', orderController.countOrdersFinish);
 
 router.get('/countOrdersIn7Days', orderController.countOrdersIn7Days);
 
 router.post('/removeProductFromOrder', orderController.removeProductFromOrder);
 
-
 router.post('/removeProductFromOrder', orderController.removeProductFromOrder);
 
 router.get('/getOrdersByStatusOrderID/:statusOrderID', orderController.getOrdersByStatusOrderID);
+
+router.get('/getTodayRevenue', orderController.getTodayRevenue);
+
+router.get('/getRevenueLastSevenMonths', orderController.getRevenueLastSevenMonths);
 
 module.exports = router
