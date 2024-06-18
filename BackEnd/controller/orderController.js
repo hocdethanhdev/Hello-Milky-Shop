@@ -242,6 +242,16 @@ const updateTotalAmountOfOrder = async (req, res) => {
     }
 };
 
+const getReasonCancleOrderByUserID = async (req, res) => {
+    try {
+        const obj = await orderService.getReasonCancleOrderByUserID (req.params.userID);
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all users:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 
 
 module.exports = {
@@ -270,4 +280,5 @@ module.exports = {
     getOrdersForUserByStatusOrderID,
     cancelOrder,
     updateTotalAmountOfOrder,
+    getReasonCancleOrderByUserID
 };

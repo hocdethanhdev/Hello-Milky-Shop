@@ -86,8 +86,10 @@ const orderRepository = {
     },
     updateTotalAmountOfOrder: (orderID, totalAmount) => {
         return orderDAO.updateTotalAmountOfOrder(orderID, totalAmount);
-    }
-
+    },
+    getReasonCancleOrderByUserID: async (userID) => {
+        return await orderDAO.findReasonCancleOrderByUserID(userID);
+      },
 
 
 };
