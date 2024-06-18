@@ -113,7 +113,7 @@ POST http://localhost:5000/api/v1/auth/register
 Content-Type: application/json
 
 {
-    "UserName": "Nhan",
+    "UserName": "Tri",
     "PhoneNumber": "0348216719",
     "Password": "1",
     "RoleID": 3

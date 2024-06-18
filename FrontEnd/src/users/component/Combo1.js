@@ -34,7 +34,7 @@ function Combo1() {
         <div className="combo-1f-content">
           <div className="combo-1f-header">
             <div className="combo-1f-icon">
-              <img src=".//ImageMilkShop/icon2.png" alt="Combo icon" />
+              <img src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60" alt="Combo icon" />
             </div>
             <div className="combo-1f-title">
               <h2>Sữa dành cho mẹ</h2>

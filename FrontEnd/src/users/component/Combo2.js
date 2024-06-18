@@ -23,7 +23,7 @@ function Combo2() {
                 <div className="combo-2f-content">
                     <div className="combo-2f-header">
                         <div className="combo-2f-icon">
-                            <img src="./ImageMilkShop/icon2.png" alt="Combo icon" />
+                            <img src="https://momslove.com.vn/wp-content/uploads/2021/07/icon-sua.svg" alt="Combo icon" />
                         </div>
                         <div className="combo-2f-title">
                             <h2>Sữa dành cho bé</h2>

@@ -196,7 +196,7 @@
 
 .combo-1f-header {
   align-items: center;
-  background-color: orange;
+  background-color: rgb(255 0 0 / 70%);
   height: 120px;
   width: 30%;
   margin-top: 20px;
@@ -207,13 +207,14 @@
   height: 60px;
   padding-left: 70px;
   margin-top: 10px;
+  margin-left: 15px;
 }
 
 .combo-1f-title h2 {
   font-size: 20px;
   color: whitesmoke;
-  margin-right: 10px;
-  margin-left: 10px;
+ 
+  margin-left: 30px;
 }
 
 .combo-1f-content {
@@ -315,24 +316,25 @@
 
 .combo-2f-header {
   align-items: center;
-  background-color: rgb(240, 42, 42);
+  background-color: rgb(255 145 0);
   height: 120px;
   width: 30%;
   margin-top: 20px;
 }
 
 .combo-2f-icon img {
-  width: 130px;
+  width: 120px;
   height: 60px;
   padding-left: 70px;
   margin-top: 10px;
+  margin-left: 15px;
 }
 
 .combo-2f-title h2 {
   font-size: 20px;
   color: whitesmoke;
 
-  margin-left: 10px;
+  margin-left: 30px;
 }
 
 .combo-2f-content {

@@ -1,47 +1,52 @@
-// src/ManageAdmin.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './ManageAdmin.css';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const ManageAdmin = ({ accounts }) => {
+const ManageAdmin = () => {
+    const [accounts, setAccounts] = useState([]);
+    useEffect(() => {
+        fetch('http://localhost:5000/api/v1/user/getAllUsers/')
+            .then(response => response.json())
+            .then(data => {
+                // Filter users with RoleID: 2
+                const staffAccounts = data.filter(account => account.RoleID === 2);
+                setAccounts(staffAccounts);
+            })
+            .catch(error => console.error('Error fetching users:', error));
+    }, []);
+
+ 
+   
+    
+
     return (
-        <div className="table-container">
-            <h1>Manage Admin Accounts</h1>
-            <Link to="/adding-account-admin">
-                <button type="button" className="button-add-accad">
-                    <span className="far fa-plus-square btn btn-secondary"></span>
-                </button>
-            </Link>
-            <table className="account-table">
+        <div className="table-container-staff">
+            <h1>Manage Staff Accounts</h1>
+            <Link to="/adding-account-staff" className="add-account-link">Add Account</Link>
+            <table className="account-table-st">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Tên tài khoản</th>
-                        <th>Họ tên</th>
-                        <th>Địa chỉ</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Thinhlp</td>
-                        <td>Lê Phước Thịnh</td>
-                        <td>FBT</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>MinFun</td>
-                        <td>Minh Fun</td>
-                        <td>HEHE</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>KFCUser</td>
-                        <td>KFC Lover</td>
-                        <td>KFC</td>
-                    </tr>
+                    {accounts.map((account, index) => (
+                        <tr key={account.UserID}>
+                            <td>{index + 1}</td>
+                            <td>{account.UserName}</td>
+                            <td>{account.Email}</td> 
+                            <td>{account.PhoneNumber}</td> 
+                            
+                        </tr>
+                    ))}
                 </tbody>
             </table>
+
+            
         </div>
     );
 };
