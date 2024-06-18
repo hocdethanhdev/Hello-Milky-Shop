@@ -3,6 +3,26 @@ const passport = require("passport");
 const User = require("../bo/user");
 const jwt = require("jsonwebtoken");
 
+const changePassword = async (req, res) => {
+  try {
+    let obj;
+    const { NewPass, OldPass, UserID } = req.body;
+    const hashedOldPass = await authService.hashPassword(OldPass);
+    const checkOldPass = await authService.checkOldPassword(hashedOldPass, UserID);
+    if (checkOldPass.status){
+      const hashedNewPass = await authService.hashPassword(NewPass);
+      obj = await authService.changePassword(hashedNewPass, UserID);
+    }else {
+      return res.status(400).send({ message: "Old password is incorrect" });
+    }
+    
+    res.send(obj);
+  } catch (error) {
+    console.error("Error in forgetPassword controller:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const forgetPassword = async (req, res) => {
   try {
     const { Password, UserID } = req.body;
@@ -97,4 +117,5 @@ module.exports = {
   loginEmail,
   checkPhoneNumber,
   forgetPassword,
+  changePassword,
 };
