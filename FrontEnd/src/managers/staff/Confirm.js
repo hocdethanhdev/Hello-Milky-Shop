@@ -1,7 +1,89 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Modal, Button, message } from 'antd';
 import './Confirm.css';
+import ThrowPage from '../../users/ui-list-product-mom/ThrowPage';
 
 function Confirm() {
+    const [orders, setOrders] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
+    const ordersPerPage = 10;
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/1');
+                const data = await response.json();
+                setOrders(data.address);
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
+        };
+
+        fetchOrders();
+    }, []);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const editOrder = (orderID) => {
+        Modal.confirm({
+            title: 'Xác nhận thay đổi trạng thái đơn hàng',
+            content: 'Bạn có chắc muốn thay đổi trạng thái đơn hàng này không?',
+            onOk: () => {
+                fetch(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ statusOrderID: 2 })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        setOrders(prevOrders =>
+                            prevOrders.map(order =>
+                                order.OrderID === orderID ? { ...order, StatusOrderID: [2, 2], StatusOrderName: 'Đã xác nhận' } : order
+                            )
+                        );
+
+
+                        message.success('Trạng thái đơn hàng đã được cập nhật.');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+
+                    })
+                    .catch(error => {
+                        message.error(`Có lỗi xảy ra khi cập nhật trạng thái đơn hàng: ${error.message}`);
+                    });
+            },
+            onCancel() {
+                console.log('Hủy thay đổi');
+            },
+        });
+    };
+
+    const viewOrderDetails = (order) => {
+        setSelectedOrder(order);
+        setIsDetailModalVisible(true);
+    };
+
+    const handleModalClose = () => {
+        setIsDetailModalVisible(false);
+        setSelectedOrder(null);
+    };
+
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
     return (
         <div className="confirm-container">
             <div className="orders-header">
@@ -16,104 +98,58 @@ function Confirm() {
             <table>
                 <thead>
                     <tr>
-                        <th>Mã</th>
-                        <th>Ngày tạo</th>
-                        <th>Khách hàng</th>
-                        <th>Trạng thái</th>
-                        <th style={{ textAlign: 'center' }}>Phương thức thanh toán</th>
-                        <th>Tổng tiền</th>
-                        <th></th>
+                        <th>OrderID</th>
+                        <th>OrderDate</th>
+                        <th>StatusOrderID</th>
+                        <th>TotalAmount</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>#M103578</td>
-                        <td>10/05/2024 12:25</td>
-                        <td>Trần Hữu Trí</td>
-                        <td className="paid">Hoàn thành</td>
-                        <td style={{ textAlign: 'center' }}>ATM</td>
-                        <td>1,152,000 đ</td>
-                        <td>
-                            <button type="button" className='btn btn-primary'>Detail</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#M121849</td>
-                        <td>26/11/2023 14:05</td>
-                        <td>Lê Phước Thịnh</td>
-                        <td className="paid">Hoàn thành</td>
-                        <td style={{ textAlign: 'center' }}>COD</td>
-                        <td>1,450,000 đ</td>
-                        <td>
-                            <button type="button " className='btn btn-primary'>Detail</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#M224701</td>
-                        <td>23/10/2024 12:25</td>
-                        <td>Võ Thanh Nhàn</td>
-                        <td className="paid">Hoàn thành</td>
-                        <td style={{ textAlign: 'center' }}>ATM</td>
-                        <td>299,000 đ</td>
-                        <td>
-                            <button type="button" className='btn btn-primary'>Detail</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#M224741</td>
-                        <td>23/10/2024 12:25</td>
-                        <td>Nguyễn Khải Qui</td>
-                        <td className="processing">Đang giao</td>
-                        <td style={{ textAlign: 'center' }}>COD</td>
-                        <td>800,000 đ</td>
-                        <td>
-                            <button type="button" className='btn btn-primary'>Detail</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#M224701</td>
-                        <td>23/10/2024 12:25</td>
-                        <td>Nguyễn Hoàng Long</td>
-                        <td className="processing">Đang giao</td>
-                        <td style={{ textAlign: 'center' }}>ATM</td>
-                        <td>5,000,000 đ</td>
-                        <td>
-                            <button type="button" className='btn btn-primary'>Detail</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#M225678</td>
-                        <td>12/12/2023 09:30</td>
-                        <td>Đặng Thị Lan</td>
-                        <td className="paid">Hoàn thành</td>
-                        <td style={{ textAlign: 'center' }}>ATM</td>
-                        <td>2,300,000 đ</td>
-                        <td>
-                            <button type="button" className='btn btn-primary'>Detail</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#M225679</td>
-                        <td>14/11/2023 10:15</td>
-                        <td>Trương Văn Minh</td>
-                        <td className="processing">Đang giao</td>
-                        <td style={{ textAlign: 'center' }}>COD</td>
-                        <td>750,000 đ</td>
-                        <td>
-                            <button type="button" className='btn btn-primary'>Detail</button>
-                        </td>
-                    </tr>
+                    {currentOrders.map(order => (
+                        <tr key={order.OrderID}>
+                            <td>{order.OrderID}</td>
+                            <td>{new Date(order.OrderDate).toLocaleDateString()}</td>
+                            <td>{order.StatusOrderName}</td>
+                            <td>{order.TotalAmount}</td>
+                            <td>
+                                <button type="button" className="btn btn-primary" onClick={() => editOrder(order.OrderID)}>Edit</button>
+                                <button type="button" className="btn btn-primary" onClick={() => viewOrderDetails(order)}>Detail</button>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
-            <div className="pagination">
-                <button className="page-dot active"></button>
-                <button className="page-dot"></button>
-                <button className="page-dot"></button>
-                <button className="page-dot"></button>
+            <div className="pagination-container">
+                <ThrowPage
+                    current={currentPage}
+                    onChange={handlePageChange}
+                    total={orders.length}
+                    productsPerPage={ordersPerPage}
+                />
             </div>
-
+            {selectedOrder && (
+                <Modal
+                    title="Order Details"
+                    visible={isDetailModalVisible}
+                    onCancel={handleModalClose}
+                    footer={[
+                        <Button key="close" onClick={handleModalClose}>
+                            Close
+                        </Button>,
+                    ]}
+                >
+                    <p><strong>OrderID:</strong> {selectedOrder.OrderID}</p>
+                    <p><strong>OrderDate:</strong> {new Date(selectedOrder.OrderDate).toLocaleString()}</p>
+                    <p><strong>TotalAmount:</strong> {selectedOrder.TotalAmount}</p>
+                    <p><strong>Status:</strong> {selectedOrder.Status ? 'True' : 'False'}</p>
+                    <p><strong>ShippingAddressID:</strong> {selectedOrder.ShippingAddressID}</p>
+                    <p><strong>UserID:</strong> {selectedOrder.UserID}</p>
+                    <p><strong>StatusOrderName:</strong> {selectedOrder.StatusOrderName}</p>
+                </Modal>
+            )}
         </div>
     );
-};
+}
 
 export default Confirm;

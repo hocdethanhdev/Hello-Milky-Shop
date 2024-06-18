@@ -162,7 +162,7 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("pc", mssql.Int, pc);
         request.query(
-          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(CASE 
+          `SELECT p.ProductID, ProductName, p.Image, Price, BrandName, COALESCE(MIN(CASE 
                       WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
                       THEN ppl.PriceAfterDiscount 
                       ELSE NULL 

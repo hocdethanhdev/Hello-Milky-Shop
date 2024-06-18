@@ -20,4 +20,6 @@ router.post('/changePointOfUser', userController.changePointOfUser);
 
 router.get('/countUserByRole/:role', userController.countUserByRole);
 
+router.put('/usePoint', userController.usePoint);
+
 module.exports = router

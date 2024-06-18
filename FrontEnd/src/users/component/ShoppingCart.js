@@ -23,6 +23,7 @@ const ShoppingCart = () => {
   const [productQuantities, setProductQuantities] = useState({});
   const [selectedProducts, setSelectedProducts] = useState({});
   const [paymentMethod, setPaymentMethod] = useState(null);
+  const [productToRemove, setProductToRemove] = useState(null);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -34,7 +35,6 @@ const ShoppingCart = () => {
       console.log(`Payment status: ${status}, code: ${code}`);
       if (status === '1') {
         if (orderID) {
-
           axios.post(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`, {
             statusOrderID: 1
           })
@@ -156,7 +156,10 @@ const ShoppingCart = () => {
   const total = subtotal + discount;
 
   const handleQuantityChange = (productId, quantity) => {
-    if (quantity < 1) return;
+    if (quantity < 1) {
+      setProductToRemove(productId);
+      return;
+    }
     setProductQuantities(prevQuantities => ({
       ...prevQuantities,
       [productId]: quantity,
@@ -226,13 +229,40 @@ const ShoppingCart = () => {
         console.log('Payment URL Response:', response.data);
 
         if (response) {
-          window.open(response.data.url);
+          window.open(response.data.url, "_self");
         }
       } else {
         console.error('orderID is not set');
       }
     } catch (error) {
       console.error('Error processing order:', error);
+      setError(error.response ? error.response.data.message : error.message);
+    }
+  };
+
+  const confirmRemoveProduct = async () => {
+    try {
+      if (orderID && productToRemove) {
+        await axios.post('http://localhost:5000/api/v1/order/removeProductFromOrder', {
+          OrderID: orderID,
+          ProductID: productToRemove
+        });
+
+        setOrderDetails(prevDetails => prevDetails.filter(item => item.ProductID !== productToRemove));
+        setProductQuantities(prevQuantities => {
+          const newQuantities = { ...prevQuantities };
+          delete newQuantities[productToRemove];
+          return newQuantities;
+        });
+        setSelectedProducts(prevSelected => {
+          const newSelected = { ...prevSelected };
+          delete newSelected[productToRemove];
+          return newSelected;
+        });
+        setProductToRemove(null);
+      }
+    } catch (error) {
+      console.error('Error removing product from order:', error);
       setError(error.response ? error.response.data.message : error.message);
     }
   };
@@ -329,10 +359,20 @@ const ShoppingCart = () => {
           <button className="order-btn" onClick={handleOrder}>ĐẶT HÀNG</button>
         </div>
       </div>
+
+      {productToRemove && (
+        <div className="popup-cart-thinh">
+          <div className="popup-inner-cart-thinh">
+            <h2>Xóa sản phẩm</h2>
+            <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
+            <button className="popup-btn-cart-thinh" onClick={confirmRemoveProduct}>Có</button>
+            <button className="popup-btn-cart-thinh" onClick={() => setProductToRemove(null)}>Không</button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
 
 export default ShoppingCart;
-
-

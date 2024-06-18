@@ -1,0 +1,10 @@
+.sao-thinh-render {
+    color: orange;
+    font-size: 25px;
+}
+.hangsao-thinh {
+    display: flex;
+}
+.psao {
+    padding-top: 2px;
+}

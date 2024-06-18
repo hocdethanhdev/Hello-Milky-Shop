@@ -13,8 +13,9 @@
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
-    transition: background-color 0.3s ease, opacity 0.3s ease;
-    
+    transition:
+        background-color 0.3s ease,
+        opacity 0.3s ease;
 }
 
 .scroll-to-top-button:hover {
@@ -33,5 +34,4 @@
 .address {
     margin: auto;
     width: 60%;
-    
 }

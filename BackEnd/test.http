@@ -472,3 +472,10 @@ GET http://localhost:5000/api/v1/product/countBrand
 
 ### lấy top 5 sản phẩm bán nhiều nhất
 GET http://localhost:5000/api/v1/product/getTop5ProductBestSeller
+### remove point of user
+PUT http://localhost:5000/api/v1/user/usePoint
+Content-Type: application/json
+
+{
+    "UserID": "M0000001"
+}

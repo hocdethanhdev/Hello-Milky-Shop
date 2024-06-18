@@ -25,12 +25,12 @@ const NavCate = () => {
                         <img
                           className="img_icon icon_color"
                           // src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
-                          src="./khuyenmailon/ngoi-sao.jpg"
+                          src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fkhuyen-mai.png?alt=media&token=2d072039-d089-4da5-bd04-e43c01d80113"
                           alt="Khuyến mại lớn"
                         />
                         <img
                           className="img_icon icon_hover"
-                          src="./khuyenmailon/ngoi-sao.jpg"
+                          src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fkhuyen-mai.png?alt=media&token=2d072039-d089-4da5-bd04-e43c01d80113"
                           alt="Khuyến mại lớn"
                         />
                         {/* <span className="phan-tram-km-lon fas fa-percentage"></span> */}
@@ -67,25 +67,7 @@ const NavCate = () => {
                         Sữa cho bé
                       </a>
                     </li>
-                    {isLoggedIn ? (
-                      <li className="cate_li menu-57412712">
-                        <a href="/Voucher" className="cate_li_title">
-                          <img
-                            className="img_icon icon_color"
-                            src="https://cdn-icons-png.flaticon.com/512/869/869649.png"
-                            alt="Voucher"
-                          />
-                          <img
-                            className="img_icon icon_hover"
-                            src="https://cdn-icons-png.flaticon.com/512/869/869649.png"
-                            alt="Voucher"
-                          />
-                          Voucher
-                        </a>
-                      </li>
-                    ) : (
-                      <div></div>
-                    )}
+
 
                     <li className="cate_li menu-2011021743240">
                       <a href="/News" className="cate_li_title">
