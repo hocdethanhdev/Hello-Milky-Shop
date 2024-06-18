@@ -199,7 +199,7 @@ Content-Type: application/json
 
 {
   "userID": "M0000001",
-  "voucherID": 4
+  "voucherID": 3
 }
 
 ### Xóa mã voucher từ user
@@ -479,3 +479,5 @@ Content-Type: application/json
     "orderID": 1,
     "totalAmount": 1000000
  }
+
+### Lấy những voucher mà có thể lưu cho voucher
