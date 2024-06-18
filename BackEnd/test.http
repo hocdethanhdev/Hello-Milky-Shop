@@ -500,3 +500,5 @@ Content-Type: application/json
 {
     "UserID": "M0000001"
 }
+### Lấy lí do hủy đơn hàng
+GET http://localhost:5000/api/v1/order/getReasonCancleOrderByUserID/M0000003/

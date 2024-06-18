@@ -230,7 +230,13 @@ const orderService = {
             throw new Error(`Error update the total amount of an order: ${error.message}`);
         }
     },
-
-};
-
+    getReasonCancleOrderByUserID: async (userID) => {
+        try {
+            const orders = await orderRepository.getReasonCancleOrderByUserID(userID);
+            return orders;
+        } catch (error) {
+            throw new Error(`Error getting the reason: ${error.message}`);
+        }
+    },
+}
 module.exports = orderService;
