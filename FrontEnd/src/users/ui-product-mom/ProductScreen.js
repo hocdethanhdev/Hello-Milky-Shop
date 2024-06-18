@@ -17,7 +17,7 @@ const ProductScreen = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [canRate, setCanRate] = useState(false); // State to control rating visibility
-    const { token } = useSelector((state) => state.auth);
+    const { token, isLoggedIn } = useSelector((state) => state.auth);
     const userId = getUserIdFromToken(token);
 
     useEffect(() => {
@@ -33,21 +33,26 @@ const ProductScreen = () => {
         };
 
         const checkUserOrder = async () => {
-            try {
-                const response = await axios.post("http://localhost:5000/api/v1/comment/checkUserOrdered", {
-                    UserID: userId,
-                    ProductID: productId,
-                });
-
-                console.log("API Response:", response.data); // Log response to check count value
-                if (response.data.count > 0) {
-                    setCanRate(true);
-                } else {
-                    setCanRate(false);
+            if (isLoggedIn){
+                try {
+                    const response = await axios.post("http://localhost:5000/api/v1/comment/checkUserOrdered", {
+                        UserID: userId,
+                        ProductID: productId,
+                    });
+    
+                    console.log("API Response:", response.data); // Log response to check count value
+                    if (response.data.count > 0) {
+                        setCanRate(true);
+                    } else {
+                        setCanRate(false);
+                    }
+                } catch (err) {
+                    console.error("Error checking user order:", err);
                 }
-            } catch (err) {
-                console.error("Error checking user order:", err);
+            }else{
+                setCanRate(false);
             }
+            
         };
 
         fetchProduct();

@@ -65,4 +65,6 @@ router.post('/cancelOrder', orderController.cancelOrder);
 
 router.post('/updateTotalAmountOfOrder', orderController.updateTotalAmountOfOrder);
 
+router.get('/getReasonCancleOrderByUserID/:userID', orderController.getReasonCancleOrderByUserID);
+
 module.exports = router

@@ -68,7 +68,7 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("id", mssql.VarChar, id);
         request.query(
-          `SELECT TOP 6 p.ProductID, ProductName, Price, Image, COALESCE(MIN(CASE 
+          `SELECT TOP 6 p.ProductID, ProductName, Price, p.Image, COALESCE(MIN(CASE 
                       WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
                       THEN ppl.PriceAfterDiscount 
                       ELSE NULL 
@@ -108,7 +108,7 @@ const productDAO = {
                       WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
                       THEN ppl.PriceAfterDiscount 
                       ELSE NULL 
-                   END), p.Price) AS PriceAfterDiscounts, p.Description, Image
+                   END), p.Price) AS PriceAfterDiscounts, p.Description, p.Image
           From Product p 
           JOIN Brand b ON p.BrandId = b.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
@@ -441,12 +441,12 @@ const productDAO = {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         var request = new mssql.Request()
-          .input("ProductID", ProductID)
+          .input("ProductID", mssql.VarChar,ProductID)
           .input("ProductName", mssql.NVarChar, product.ProductName)
           .input("Description", mssql.NVarChar, product.Description)
-          .input("Price", product.Price)
-          .input("StockQuantity", product.StockQuantity)
-          .input("Image", product.Image)
+          .input("Price", mssql.Int,product.Price)
+          .input("StockQuantity", mssql.Int,product.StockQuantity)
+          .input("Image", mssql.NVarChar,product.Image)
           .input("ExpirationDate", product.ExpirationDate)
           .input("ManufacturingDate", product.ManufacturingDate)
           .input("BrandName", mssql.NVarChar, product.BrandName)
@@ -467,7 +467,7 @@ const productDAO = {
             } else {
               request.query(
                 `INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID, Status) VALUES
-                (@ProductID, @ProductName, @Description, @Price, @StockQuantity, @Image, @ExpirationDate, @ManufacturingDate, (SELECT BrandID FROM Brand WHERE BrandName = @BrandName), (SELECT ProductCategoryID FROM ProductCategory WHERE ProductCategoryName = @ProductCategoryName), @Status);`,
+                (@ProductID, @ProductName, @Description, @Price, @StockQuantity, @Image, @ExpirationDate, @ManufacturingDate, (SELECT TOP 1 BrandID FROM Brand WHERE BrandName = @BrandName), (SELECT TOP 1 ProductCategoryID FROM ProductCategory WHERE ProductCategoryName = @ProductCategoryName), @Status);`,
                 (err, res) => {
                   if (err) reject(err);
                   resolve({

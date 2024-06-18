@@ -802,6 +802,32 @@ const orderDAO = {
       });
     });
   },
+
+  findReasonCancleOrderByUserID: (userID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        request
+          .input('userID', mssql.VarChar, userID)
+
+
+        const selectQuery = `
+                 SELECT OrderID, ReasonCancelContent
+                 FROM Orders o
+                 JOIN StatusOrder so ON o.StatusOrderID = so.StatusOrderID
+                 WHERE UserID = @userID AND so.StatusOrderID =3
+                `;
+
+        request.query(selectQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset);
+        });
+      });
+    });
+  },
+
 };
 
 

@@ -191,7 +191,7 @@ const createProduct = async (req, res) => {
         err: 1,
         message: "StockQuantity must be more than 0",
       });
-    const obj = await productService.createProduct(req.body);
+    const obj = await productService.createProduct(product);
     res.send(obj);
   } catch (error) {
     res.status(500).send("Internal Server Error");

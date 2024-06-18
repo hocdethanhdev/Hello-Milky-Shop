@@ -30,4 +30,6 @@ router.post("/checkPhoneNumber", authController.checkPhoneNumber);
 
 router.put("/forgetPassword", authController.forgetPassword);
 
+router.put('/changePassword', authController.changePassword);
+
 module.exports = router;
