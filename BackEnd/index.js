@@ -8,6 +8,7 @@ require('./config/passport');
 const io = require('socket.io');
 const app = express();
 require('./scheduler/orderScheduler')
+require('./scheduler/voucherScheduler')
 
 app.use(
   cors({

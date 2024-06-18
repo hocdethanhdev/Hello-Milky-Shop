@@ -209,7 +209,7 @@ Content-Type: application/json
 
 {
   "userID": "M0000001",
-  "voucherID": 4
+  "voucherID": 3
 }
 
 ### Xóa mã voucher từ user

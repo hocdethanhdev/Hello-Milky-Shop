@@ -483,10 +483,10 @@ const orderDAO = {
               const updateProductQueries = orderDetails
                 .map((detail) => {
                   return `
-                                UPDATE Product
-                                SET StockQuantity = StockQuantity - ${detail.Quantity}
-                                WHERE ProductID = '${detail.ProductID}';
-                            `;
+                    UPDATE Product
+                    SET StockQuantity = StockQuantity - ${detail.Quantity}
+                     WHERE ProductID = '${detail.ProductID}';
+                      `;
                 })
                 .join(" ");
 
