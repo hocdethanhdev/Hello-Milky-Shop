@@ -62,9 +62,7 @@ const orderRepository = {
     updateStatusAfterDays: (days, oldStatus, newStatus) => {
         return orderDAO.updateStatusAfterDays(days, oldStatus, newStatus);
     },
-    removeProductFromOrder: (orderID, productID) => {
-        return orderDAO.removeProductFromOrder(orderID, productID);
-    },
+
     getOrdersByStatusOrderID: (statusOrderID) => {
         return orderDAO.getOrdersByStatusOrderID(statusOrderID);
     },
@@ -77,6 +75,20 @@ const orderRepository = {
     getRevenueLastSevenMonths: () => {
         return orderDAO.getRevenueLastSevenMonths();
     },
+    getOrdersForUserByStatusOrderID: (userID, statusOrderID) => {
+        return orderDAO.getOrdersForUserByStatusOrderID(userID, statusOrderID);
+    },
+    cancelOrder: (orderId, reasonCancelContent) => {
+        return orderDAO.cancelOrder(orderId, reasonCancelContent);
+    },
+    getOrderByID: (orderId) => {
+        return orderDAO.getOrderById(orderId);
+    },
+    updateTotalAmountOfOrder: (orderID, totalAmount) => {
+        return orderDAO.updateTotalAmountOfOrder(orderID, totalAmount);
+    }
+
+
 
 };
 
