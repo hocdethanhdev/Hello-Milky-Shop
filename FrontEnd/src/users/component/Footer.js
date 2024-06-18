@@ -31,9 +31,9 @@ function Footer() {
   };
 
   return (
-    <MDBFooter className="text-center text-lg-start text-dark bg-white">
+    <MDBFooter className="text-center text-lg-start text-dark bg-white zigzag-pattern">
       <section
-        className="d-flex justify-content-center justify-content-lg-between p-4 mt-5"
+        className=" cho-no-nhay-len d-flex justify-content-center justify-content-lg-between p-4"
         style={{ borderBottom: "1px solid #000" }}
       >
         <div className="me-5 d-none d-lg-block">
@@ -44,15 +44,15 @@ function Footer() {
           <a href="https://www.facebook.com/" className="me-4 text-reset">
             <MDBIcon fab icon="facebook-f" />
           </a>
-          
+
           <a href="" className="me-4 text-reset">
             <MDBIcon fab icon="google" />
           </a>
           <a href="" className="me-4 text-reset">
             <MDBIcon fab icon="instagram" />
           </a>
-         
-          
+
+
         </div>
       </section>
 
@@ -72,7 +72,7 @@ function Footer() {
                 className="embed-responsive-item"
                 title="Google Map"
                 allowFullScreen
-                style={{ border: 0,marginBottom:20 }}
+                style={{ border: 0, marginBottom: 20 }}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
@@ -84,7 +84,7 @@ function Footer() {
                 <MDBIcon icon="home" className="me-2" />
                 Đại học FPT Thành phố Hồ Chí Minh
                 <p className="address">
-                  
+
                   Địa chỉ: Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố
                   Thủ Đức, Thành phố Hồ Chí Minh
                 </p>

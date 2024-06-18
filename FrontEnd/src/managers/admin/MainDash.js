@@ -1,41 +1,66 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './MainDash.css';
 import Chart from 'react-apexcharts';
 import { barChartOptions, areaChartOptions } from './chartOptions';
-
+import { HiUsers } from "react-icons/hi";
 function MainDash() {
+    const [productCount, setProductCount] = useState(0);
+    const [brandCount, setBrandCount] = useState(0);
+    const [userCount, setUserCount] = useState(0);
+    const [notificationCount, setNotificationCount] = useState(56); // Static as per your code
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const productRes = await fetch('http://localhost:5000/api/v1/product/countProduct');
+                const productData = await productRes.json();
+                setProductCount(productData.count);
+
+                const brandRes = await fetch('http://localhost:5000/api/v1/product/countBrand');
+                const brandData = await brandRes.json();
+                setBrandCount(brandData.count);
+
+                const userRes = await fetch('http://localhost:5000/api/v1/user/countUserByRole/3');
+                const userData = await userRes.json();
+                setUserCount(userData.count);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+        fetchData();
+    }, []);
+
     return (
         <div className="grid-container-dasha">
             <main className="main-container-dasha">
-
                 <div className="main-cards-dasha">
-                    <div className="card-dasha1" >
+                    <div className="card-dasha1">
                         <div className="card-inner-dasha">
-                            <h3>PRODUCTS</h3>
+                            <h3>Products</h3>
                             <span className="material-icons-outlined fas fa-box"></span>
                         </div>
-                        <h1>249</h1>
+                        <h1>{productCount}</h1>
                     </div>
-                    <div className="card-dasha2" >
+                    <div className="card-dasha2">
                         <div className="card-inner-dasha">
-                            <h3>CATEGORIES</h3>
-                            <span className="material-icons-outlined">category</span>
+                            <h3>Brands</h3>
+                            <span className="material-icons-outlined fab fa-bandcamp"></span>
                         </div>
-                        <h1>25</h1>
+                        <h1>{brandCount}</h1>
                     </div>
-                    <div className="card-dasha3" >
+                    <div className="card-dasha3">
                         <div className="card-inner-dasha">
-                            <h3>CUSTOMERS</h3>
-                            <span className="material-icons-outlined">groups</span>
+                            <h3>Users</h3>
+                            <span className="material-icons-outlined"><HiUsers /></span>
                         </div>
-                        <h1>1500</h1>
+                        <h1>{userCount}</h1>
                     </div>
-                    <div className="card-dasha4" >
+                    <div className="card-dasha4">
                         <div className="card-inner-dasha">
-                            <h3>ALERTS</h3>
+                            <h3>4</h3>
                             <span className="material-icons-outlined">notification_important</span>
                         </div>
-                        <h1>56</h1>
+                        <h1>{notificationCount}</h1>
                     </div>
                 </div>
                 <div className="charts-dasha">
