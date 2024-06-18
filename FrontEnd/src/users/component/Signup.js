@@ -16,7 +16,6 @@ import "react-phone-input-2/lib/style.css";
 import { auth } from "../../config/firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
-import Modal from 'react-modal';
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -41,17 +40,15 @@ function Signup() {
   const [showOTP, setShowOTP] = useState(false);
   const [isSignupAttempted, setIsSignupAttempted] = useState(false);
   const [confirmOTP, setConfirmOTP] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     onCaptchVerify();
   }, []);
-  console.log(1 + 2);
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
         auth,
-        'recaptcha-container',
+        "recaptcha-container",
         {
           size: "invisible",
           callback: (response) => {
@@ -65,7 +62,7 @@ function Signup() {
       );
     }
   }
-  
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -107,7 +104,6 @@ function Signup() {
         window.confirmationResult = confirmationResult;
         setLoading(false);
         setShowOTP(true);
-        setIsModalOpen(true);
         toast.success("OTP sent successfully!");
       })
       .catch((error) => {
@@ -130,8 +126,8 @@ function Signup() {
         console.log("OTP confirmed:", res);
         setLoading(false);
         setConfirmOTP(true);
-        setIsModalOpen(false);
         toast.success("OTP verified successfully!");
+        handleSubmit();
       })
       .catch((err) => {
         console.error("Error verifying OTP:", err);
@@ -140,11 +136,8 @@ function Signup() {
       });
   }
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    
 
     const newErrors = {};
 
@@ -194,7 +187,7 @@ function Signup() {
           Password: formData.password,
         }
       );
-      
+
       if (response.data.err === 0) {
         const login = await axios.post(
           "http://localhost:5000/api/v1/auth/login",
@@ -313,44 +306,44 @@ function Signup() {
               <div className="error">{errors.termsAccepted}</div>
             )}
           </div>
-          {formData.phone && !confirmOTP && showOTP && (
-              <Modal
-              isOpen={isModalOpen}
-              onRequestClose={closeModal}
-              contentLabel="OTP Verification"
-              className="modal"
-              overlayClassName="overlay"
-            >
-              <div className="icon-container">
-                <BsFillShieldLockFill size={30} />
+          {isSignupAttempted && showOTP && !confirmOTP && (
+            <div className="overlay">
+              <div className="OTP-box">
+                <div className="icon-container">
+                  <BsFillShieldLockFill size={30} />
+                </div>
+                <label htmlFor="otp" className="otp-label">
+                  Nhập OTP
+                </label>
+                <OtpInput
+                  value={otp}
+                  onChange={setOtp}
+                  OTPLength={6}
+                  otpType="number"
+                  disabled={false}
+                  autoFocus
+                  className="otp-container"
+                />
+                <button
+                  onClick={() => {
+                    onOTPVerify();
+                  }}
+                  disabled={loading}
+                >
+                  {loading && (
+                    <CgSpinner size={20} className="mt-1 animate-spin" />
+                  )}
+                  <span>Xác nhận</span>
+                </button>
               </div>
-              <label htmlFor="otp" className="otp-label">
-                Nhập OTP
-              </label>
-              <OtpInput
-                value={otp}
-                onChange={setOtp}
-                OTPLength={6}
-                otpType="number"
-                disabled={false}
-                autoFocus
-                className="otp-container"
-              />
-              <button onClick={onOTPVerify} disabled={loading}>
-                {loading && <CgSpinner size={20} className="mt-1 animate-spin" />}
-                <span>Xác nhận</span>
-              </button>
-            </Modal>
-            )}
+            </div>
+          )}
 
           <button
             className="signup-button"
             type="button"
             onClick={() => {
               handleSendOTP();
-              if (confirmOTP) {
-                handleSubmit();
-              }
             }}
           >
             <span className="button-text">Đăng kí</span>
