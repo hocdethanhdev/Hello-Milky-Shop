@@ -267,8 +267,8 @@ POST http://localhost:5000/api/v1/order/addProductToOrder
 Content-Type: application/json  
 
 {
-  "userID": "M0000003",
-  "productID": "SE0006",
+  "userID": "M0000001",
+  "productID": "SE0002",
   "quantity": 1,
   "price": 1500
 }
@@ -283,7 +283,7 @@ POST http://localhost:5000/api/v1/order/checkoutOrder
 Content-Type: application/json
 
 {
-    "userID": "M0000003"
+    "userID": "M0000001"
 }
 
 ### Lấy tất cả các đơn hàng của một user theo userID
