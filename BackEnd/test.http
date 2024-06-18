@@ -114,9 +114,9 @@ Content-Type: application/json
 
 {
     "UserName": "Nhan",
-    "PhoneNumber": "0933802522",
+    "PhoneNumber": "0348216719",
     "Password": "1",
-    "RoleID": 2
+    "RoleID": 3
 }
 ### login
 POST http://localhost:5000/api/v1/auth/login
