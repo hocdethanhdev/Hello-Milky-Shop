@@ -479,5 +479,3 @@ Content-Type: application/json
     "orderID": 1,
     "totalAmount": 1000000
  }
-
-### Lấy những voucher mà có thể lưu cho voucher
