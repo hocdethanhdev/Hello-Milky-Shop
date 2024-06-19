@@ -284,7 +284,7 @@ const productDAO = {
         const request = new mssql.Request()
           .input("pc", mssql.NVarChar, `%${pc}%`);
         request.query(
-          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(CASE 
+          `SELECT p.ProductID, ProductName, p.Image, Price, BrandName, COALESCE(MIN(CASE 
                       WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
                       THEN ppl.PriceAfterDiscount 
                       ELSE NULL 
@@ -344,7 +344,7 @@ const productDAO = {
           `%${name}%`
         );
         request.query(
-          `SELECT p.ProductID, ProductName, Image, Price, BrandName, COALESCE(MIN(CASE 
+          `SELECT p.ProductID, ProductName, p.Image, Price, BrandName, COALESCE(MIN(CASE 
                       WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
                       THEN ppl.PriceAfterDiscount 
                       ELSE NULL 
@@ -374,7 +374,7 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT ProductID, ProductName, Description, Price, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+          `SELECT ProductID, ProductName, Description, Price, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
         JOIN Brand b ON p.BrandID = b.BrandID
@@ -506,7 +506,7 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input("ProductID", product_id);
         request.query(
-          `SELECT p.ProductID, ProductName, Description, Price, PriceAfterDiscount, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+          `SELECT p.ProductID, ProductName, Description, Price, PriceAfterDiscount, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
         JOIN Brand b ON p.BrandID = b.BrandID
@@ -577,7 +577,7 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 p.ProductID, ProductName, Description, Price, ppl.PriceAfterDiscount, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+          `SELECT TOP 6 p.ProductID, ProductName, Description, Price, ppl.PriceAfterDiscount, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
         JOIN Brand b ON p.BrandID = b.BrandID
@@ -610,7 +610,7 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 p.ProductID, ProductName, Description, Price, PriceAfterDiscount, StockQuantity,Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+          `SELECT TOP 6 p.ProductID, ProductName, Description, Price, PriceAfterDiscount, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
         JOIN Brand b ON p.BrandID = b.BrandID
