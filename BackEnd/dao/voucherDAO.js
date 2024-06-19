@@ -243,7 +243,20 @@ const voucherDAO = {
                 request.input('userID', mssql.VarChar, userID);
 
                 const query = `
-                    SELECT * FROM UserVoucher WHERE UserID = @userID;
+                    SELECT 
+                        uv.UserVoucherID, 
+                        uv.UserID, 
+                        uv.VoucherID, 
+                       
+                        v.DiscountPercentage, 
+                        v.MaxDiscount, 
+                        v.MinDiscount, 
+                        v.StartDate, 
+                        v.ExpiryDate, 
+                        v.VoucherName
+                    FROM UserVoucher uv
+                    JOIN Voucher v ON uv.VoucherID = v.VoucherID
+                    WHERE uv.UserID = @userID;
                 `;
 
                 request.query(query, (err, result) => {
@@ -253,6 +266,8 @@ const voucherDAO = {
             });
         });
     }
+
+
 
 };
 
