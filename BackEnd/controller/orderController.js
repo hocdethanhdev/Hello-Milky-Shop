@@ -242,6 +242,15 @@ const updateTotalAmountOfOrder = async (req, res) => {
     }
 };
 
+const updateShippingAddressID = async (req, res) => {
+    try {
+        const { orderID, shippingAddressID } = req.body;
+        await orderService.updateShippingAddressID(orderID, shippingAddressID);
+        res.status(200).json({ message: 'The shipping address ID of the order updated successfully' });
+    } catch (error) {
+        console.error('Error in updateShippingAddressID controller:', error);
+        res.status(500).json({ error: error.message });
+
 const getReasonCancleOrderByUserID = async (req, res) => {
     try {
         const obj = await orderService.getReasonCancleOrderByUserID (req.params.userID);
@@ -280,5 +289,6 @@ module.exports = {
     getOrdersForUserByStatusOrderID,
     cancelOrder,
     updateTotalAmountOfOrder,
-    getReasonCancleOrderByUserID
+    updateShippingAddressID,
+    getReasonCancleOrderByUserID,
 };
