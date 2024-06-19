@@ -146,9 +146,15 @@ const orderService = {
             throw new Error(`Error getting the order detail: ${error.message}`);
         }
     },
-    changeQuantityOfProductInOrder: async (orderID, productQuantities) => {
+    changeQuantityOfProductInOrder: async (orderID, productQuantities, paymentStatus) => {
         try {
-            return await orderRepository.changeQuantityOfProductInOrder(orderID, productQuantities);
+            // Kiểm tra paymentStatus trước khi thực hiện bất kỳ logic nào
+            if (paymentStatus === 0) {
+                return { message: "Payment status is 0, no changes made" };
+            }
+
+            const result = await orderRepository.changeQuantityOfProductInOrder(orderID, productQuantities);
+            return { message: "Order quantities updated and unselected items moved to a new order successfully" };
         } catch (error) {
             throw new Error(`Error changing quantity of products in order: ${error.message}`);
         }

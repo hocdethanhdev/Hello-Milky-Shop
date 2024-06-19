@@ -30,10 +30,15 @@ const ShoppingCart = () => {
   const [showVoucherPopup, setShowVoucherPopup] = useState(false);
   const [points, setPoints] = useState(0);
   const [usePoints, setUsePoints] = useState(false);
+<<<<<<< HEAD
   const [showAddressPopup, setShowAddressPopup] = useState(false);
   const [selectedShippingAddressID, setSelectedShippingAddressID] = useState(null);
   const [usingSavedAddress, setUsingSavedAddress] = useState(false);
   let status = '0';
+=======
+  let status = '0';
+
+>>>>>>> 1e26c30ed3205f88ed4b5ba6ca18d4636edccb04
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
@@ -52,8 +57,6 @@ const ShoppingCart = () => {
 
   const handleVoucherSelect = (voucher) => {
     const subtotal = calculateTotal();
-    console.log('sub', subtotal);
-    console.log('ma', voucher.MinDiscount);
     if (voucher.MinDiscount !== undefined && subtotal >= voucher.MinDiscount) {
       setSelectedVoucher(voucher);
       setShowVoucherPopup(false);
@@ -70,7 +73,6 @@ const ShoppingCart = () => {
     const userIdd = getUserIdFromToken(token);
     setUserId(userIdd);
     if (status && code) {
-      console.log(`Payment status: ${status}, code: ${code}`);
       if (status === '1') {
         if (orderID) {
           axios.post(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`, {
@@ -90,7 +92,7 @@ const ShoppingCart = () => {
         } else {
           console.error('orderID is not set');
         }
-      } else {
+      } else if (status === "0"){
         alert('Payment failed. Please try again.');
       }
     }
@@ -103,7 +105,6 @@ const ShoppingCart = () => {
 
         if (!userId) throw new Error('Failed to fetch user ID');
 
-        console.log(`Fetching orders for user ID: ${userId}`);
         const ordersResponse = await axios.get(`http://localhost:5000/api/v1/order/getOpenOrderForUser/${userId}`);
         const orders = ordersResponse.data;
 
@@ -112,13 +113,11 @@ const ShoppingCart = () => {
         const orderID = orders.OrderID;
         setOrderID(orderID);
 
-        console.log(`Fetching details for order ID: ${orderID}`);
         const orderDetailsResponse = await axios.get(`http://localhost:5000/api/v1/order/getOrder/${orderID}`);
         const orderDetails = orderDetailsResponse.data;
 
         const productDetailsPromises = orderDetails.map(async orderItem => {
           const productResponse = await axios.get(`http://localhost:5000/api/v1/product/getProductInforID/${orderItem.ProductID}`);
-          console.log('Product response:', productResponse.data);
           return {
             ...orderItem,
             productInfo: productResponse.data,
@@ -158,13 +157,19 @@ const ShoppingCart = () => {
         const userDetailsResponse = await axios.get(`http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`);
         const userPoints = userDetailsResponse.data.data.Point;
         setPoints(userPoints);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1e26c30ed3205f88ed4b5ba6ca18d4636edccb04
       } catch (err) {
 
         setError(err.response ? err.response.data.message : err.message);
       }
     };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1e26c30ed3205f88ed4b5ba6ca18d4636edccb04
     if (token) {
       fetchUserOrders();
       fetchCities();
@@ -204,9 +209,6 @@ const ShoppingCart = () => {
   const calculateDiscount = () => {
     if (selectedVoucher) {
       const subtotal = calculateSubtotal();
-
-      // Log giá trị của subtotal
-      console.log('Subtotal:', subtotal);
 
       if (subtotal >= selectedVoucher.MinDiscount) {
 
@@ -338,21 +340,22 @@ const ShoppingCart = () => {
           amount: totalAmount,
           language: "vn"
         });
-
         if (response) {
           window.open(response.data.url, "_self");
-
-          await axios.post('http://localhost:5000/api/v1/order/updateTotalAmountOfOrder', {
-            orderID,
-            totalAmount
-          });
-
-          if (selectedVoucher) {
-            await axios.post('http://localhost:5000/api/v1/voucher/removeVoucherFromUser', {
-              userID: userId,
-              voucherID: selectedVoucher.VoucherID
+          if(status === "1"){
+            await axios.post('http://localhost:5000/api/v1/order/updateTotalAmountOfOrder', {
+              orderID,
+              totalAmount
             });
+  
+            if (selectedVoucher) {
+              await axios.post('http://localhost:5000/api/v1/voucher/removeVoucherFromUser', {
+                userID: userId,
+                voucherID: selectedVoucher.VoucherID
+              });
+            }
           }
+          
         }
       } else {
         console.error('orderID is not set');

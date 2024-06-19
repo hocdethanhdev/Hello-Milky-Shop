@@ -358,44 +358,41 @@ const orderDAO = {
           if (err) return reject(err);
 
           const request = new mssql.Request(transaction);
-          // Step 1: Update quantities for selected products
+
           const updateQueries = productQuantities.map((pq) => {
             return `
-              UPDATE OrderDetail
-              SET Quantity = ${pq.quantity}
-              WHERE OrderID = ${orderID} AND ProductID = '${pq.productID}';
-            `;
+                        UPDATE OrderDetail
+                        SET Quantity = ${pq.quantity}
+                        WHERE OrderID = ${orderID} AND ProductID = '${pq.productID}';
+                    `;
           }).join("\n");
 
-          // Step 2: Transfer unselected items to a new order
           const productIDs = productQuantities.map((pq) => `'${pq.productID}'`).join(",");
           const transferUnselectedItemsQuery = `
-            INSERT INTO Orders (orderDate, totalAmount, status, userID)
-            SELECT orderDate, 0, 0, userID
-            FROM Orders
-            WHERE OrderID = ${orderID};
-  
-            DECLARE @newOrderID INT = SCOPE_IDENTITY();
-  
-            INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
-            SELECT @newOrderID, ProductID, Quantity, Price
-            FROM OrderDetail
-            WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
-          `;
+                    INSERT INTO Orders (orderDate, totalAmount, status, userID)
+                    SELECT orderDate, 0, 0, userID
+                    FROM Orders
+                    WHERE OrderID = ${orderID};
 
-          // Step 3: Delete unselected items from the current order
+                    DECLARE @newOrderID INT = SCOPE_IDENTITY();
+
+                    INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
+                    SELECT @newOrderID, ProductID, Quantity, Price
+                    FROM OrderDetail
+                    WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
+                `;
+
           const deleteQuery = `
-            DELETE FROM OrderDetail
-            WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
-          `;
+                    DELETE FROM OrderDetail
+                    WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
+                `;
 
-          // Combine all queries
           const finalQuery = `
-            ${updateQueries}
-            ${transferUnselectedItemsQuery}
-            ${deleteQuery}
-          `;
-          // Execute the final query
+                    ${updateQueries}
+                    ${transferUnselectedItemsQuery}
+                    ${deleteQuery}
+                `;
+
           request.query(finalQuery, (err, result) => {
             if (err) {
               transaction.rollback();
@@ -414,6 +411,7 @@ const orderDAO = {
       });
     });
   },
+
   removeProductFromOrder: (orderID, productID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -623,7 +621,7 @@ const orderDAO = {
     
                     DECLARE @shippingAddressID INT;
                     SET @shippingAddressID = SCOPE_IDENTITY();
-    
+
                     UPDATE Orders
                     SET ShippingAddressID = @shippingAddressID
                     WHERE OrderID = (
@@ -662,6 +660,7 @@ const orderDAO = {
           if (err) return reject(err);
           resolve(result);
         });
+
       });
     });
   },
@@ -740,7 +739,7 @@ const orderDAO = {
 
 
         const selectQuery = `
-                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price, o.TotalAmount
+                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price
                   FROM Orders o
                   JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
                   LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID
