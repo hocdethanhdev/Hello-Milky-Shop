@@ -250,6 +250,14 @@ const updateShippingAddressID = async (req, res) => {
     } catch (error) {
         console.error('Error in updateShippingAddressID controller:', error);
         res.status(500).json({ error: error.message });
+
+const getReasonCancleOrderByUserID = async (req, res) => {
+    try {
+        const obj = await orderService.getReasonCancleOrderByUserID (req.params.userID);
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all users:", error);
+        res.status(500).send("Internal Server Error");
     }
 };
 
@@ -281,5 +289,6 @@ module.exports = {
     getOrdersForUserByStatusOrderID,
     cancelOrder,
     updateTotalAmountOfOrder,
-    updateShippingAddressID
+    updateShippingAddressID,
+    getReasonCancleOrderByUserID,
 };

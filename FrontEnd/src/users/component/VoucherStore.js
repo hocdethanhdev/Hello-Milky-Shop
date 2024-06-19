@@ -6,6 +6,23 @@ import "slick-carousel/slick/slick-theme.css";
 import "./VoucherStore.css";
 
 function VoucherItem({ voucher }) {
+  const saveVoucherForUser = () => {
+    const requestBody = {
+      userID: "M0000001", // Replace with actual user ID logic
+      voucherID: voucher.VoucherID
+    };
+
+    axios.post("http://localhost:5000/api/v1/voucher/saveVoucherForUser", requestBody)
+      .then((response) => {
+        alert("Voucher saved successfully!");
+        // Handle success if needed
+      })
+      .catch((error) => {
+        console.error("Error saving voucher:", error);
+        // Handle error if needed
+      });
+  };
+
   return (
     <div className="tri-voucher">
       <div className="voucher">
@@ -18,8 +35,7 @@ function VoucherItem({ voucher }) {
               <strong style={{ fontSize: "1.5rem" }}>
                 {voucher.DiscountPercentage} %
               </strong>
-              <br />
-              Discount
+             
             </p>
           </div>
           <div className="voucher-overlay d-none">
@@ -54,24 +70,35 @@ function VoucherItem({ voucher }) {
               </svg>
             </div>
             <div className="details-text">
-              <div className="text-title">Valid till</div>
+              <div className="text-title">Ngày hết hạn</div>
               <div className="text-description text-primary">
                 {new Date(voucher.ExpiryDate).toLocaleDateString()}
               </div>
             </div>
           </div>
+          <div className="nhandan">
           <div className="voucher-details">
             <div className="details-text">
-              <div className="text-title">Minimum spend</div>
-              <div className="text-description text-primary">
+              <div className="text-title">Đơn tối thiểu</div>
+              <div className="text-description-gia text-primary">
                 {voucher.MinDiscount}đ
               </div>
             </div>
           </div>
+          <div className="voucher-details">
+            <div className="details-text">
+              <div className="text-title">Giảm tối đa</div>
+              <div className="text-description-gia text-primary">
+                {voucher.MaxDiscount}đ
+              </div>
+            </div>
+          </div>
+          </div>
           <div className="voucher-save">
-            <button className="btn save-button-voucher">Save</button>
+            <button className="btn save-button-voucher" onClick={saveVoucherForUser}>Save</button>
           </div>
         </div>
+        
       </div>
     </div>
   );

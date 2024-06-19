@@ -1,4 +1,6 @@
-﻿use master
+
+Use master
+
 go
 drop database HelloMilkyShop
 go
@@ -153,6 +155,7 @@ go
 CREATE TABLE Promotion (
 PromotionID int IDENTITY NOT NULL,
 PromotionName nvarchar(255) Null,
+Image varchar(250) null,
 Description nvarchar(3000)null,
 DiscountPercentage Float NOT NULL,
 StartDate date NOT NULL,
@@ -319,3 +322,14 @@ BEGIN
 	WHERE UserID = @UserID
 END;
 GO
+CREATE TRIGGER trg_Change_Quantity_When_User_Get_Voucher
+ON UserVoucher
+AFTER INSERT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	UPDATE Voucher
+	SET Quantity = Quantity - 1
+	FROM Voucher v
+	JOIN inserted i ON i.VoucherID = v.VoucherID
+END;

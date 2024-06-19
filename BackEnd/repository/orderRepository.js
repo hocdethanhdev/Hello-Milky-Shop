@@ -89,10 +89,10 @@ const orderRepository = {
     },
     updateShippingAddressID: (orderID, shippingAddressID) => {
         return orderDAO.updateShippingAddressID(orderID, shippingAddressID);
-    }
-
-
-
+    },
+    getReasonCancleOrderByUserID: async (userID) => {
+        return await orderDAO.findReasonCancleOrderByUserID(userID);
+    },
 };
 
 module.exports = orderRepository;

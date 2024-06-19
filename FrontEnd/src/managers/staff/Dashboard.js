@@ -66,7 +66,7 @@ function Dashboard() {
 
     return (
         <div className="dashboard-st-thinh">
-            <h1>Dashboard</h1>
+
             <div className="stats-st-thinh">
                 <div className="stat-card-st-thinh">
                     <h2>Tổng đơn hàng: {orderCount}</h2>

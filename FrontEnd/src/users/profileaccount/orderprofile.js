@@ -1,158 +1,130 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./orderprofile.css";
+import { useSelector } from 'react-redux';
+import { getUserIdFromToken } from "../store/actions/authAction";
 
-const ordersData = [
-  {
-    status: "Hoàn thành",
-    items: [
-      {
-        name: "Áo Sơ Mi Oxford Dài Tay Kẻ Sọc Dino x Yumi Form Over Size Bản Cao Cấp Trẻ Trung Năng Động SM01",
-        category: "Sọc Xanh, L",
-        quantity: 10,
-        originalPrice: "350.000₫",
-        discountedPrice: "169.000₫",
-        imgSrc: "https://via.placeholder.com/100",
-      },
-      {
-        name: "Quần Jean Nam Rách Gối Phong Cách Thời Trang Trẻ Trung QJ02",
-        category: "Đen, M",
-        quantity: 2,
-        originalPrice: "500.000₫",
-        discountedPrice: "299.000₫",
-        imgSrc: "https://via.placeholder.com/100",
-      },
-    ],
-    totalPrice: "716.150₫",
-  },
-  {
-    status: "Chờ xác nhận",
-    items: [
-      {
-        name: "Áo Sơ Mi Oxford Dài Tay Kẻ Sọc Dino x Yumi Form Over Size Bản Cao Cấp Trẻ Trung Năng Động SM01",
-        category: "Sọc Xanh, L",
-        quantity: 10,
-        originalPrice: "350.000₫",
-        discountedPrice: "169.000₫",
-        imgSrc: "https://via.placeholder.com/100",
-      },
-      {
-        name: "Quần Jean Nam Rách Gối Phong Cách Thời Trang Trẻ Trung QJ02",
-        category: "Đen, M",
-        quantity: 2,
-        originalPrice: "500.000₫",
-        discountedPrice: "299.000₫",
-        imgSrc: "https://via.placeholder.com/100",
-      },
-    ],
-    totalPrice: "716.150₫",
-  },
-  {
-    status: "Đang giao",
-    items: [
-      {
-        name: "Áo Sơ Mi Oxford Dài Tay Kẻ Sọc Dino x Yumi Form Over Size Bản Cao Cấp Trẻ Trung Năng Động SM01",
-        category: "Sọc Xanh, L",
-        quantity: 10,
-        originalPrice: "350.000₫",
-        discountedPrice: "169.000₫",
-        imgSrc: "https://via.placeholder.com/100",
-      },
-      {
-        name: "Quần Jean Nam Rách Gối Phong Cách Thời Trang Trẻ Trung QJ02",
-        category: "Đen, M",
-        quantity: 2,
-        originalPrice: "500.000₫",
-        discountedPrice: "299.000₫",
-        imgSrc: "https://via.placeholder.com/100",
-      },
-    ],
-    totalPrice: "716.150₫",
-  },
-  {
-    status: "Đã hủy",
-    items: [
-      {
-        name: "Áo Sơ Mi Oxford Dài Tay Kẻ Sọc Dino x Yumi Form Over Size Bản Cao Cấp Trẻ Trung Năng Động SM01",
-        category: "Sọc Xanh, L",
-        quantity: 10,
-        originalPrice: "350.000₫",
-        discountedPrice: "169.000₫",
-        imgSrc: "https://via.placeholder.com/100",
-      },
-      {
-        name: "Quần Jean Nam Rách Gối Phong Cách Thời Trang Trẻ Trung QJ02",
-        category: "Đen, M",
-        quantity: 2,
-        originalPrice: "500.000₫",
-        discountedPrice: "299.000₫",
-        imgSrc: "https://via.placeholder.com/100",
-      },
-    ],
-    totalPrice: "716.150₫",
-  },
-];
-
-function OrderProfile() {
+const OrderProfile = () => {
   const [activeTab, setActiveTab] = useState("Tất cả");
+  const [ordersData, setOrdersData] = useState([]);
   const [showCancelPopup, setShowCancelPopup] = useState(false);
+  const { token } = useSelector((state) => state.auth);
+  const userIdd = getUserIdFromToken(token);
 
-  const renderOrders = (status) => {
-    return ordersData
-      .filter((order) => status === "Tất cả" || order.status === status)
-      .map((order, index) => {
-        let statusClass = "";
-        switch (order.status) {
-          case "Hoàn thành":
-            statusClass = "completed";
-            break;
-          case "Đã hủy":
-            statusClass = "cancel";
-            break;
-          case "Đang giao":
-            statusClass = "shipping";
-            break;
-          case "Chờ xác nhận":
-            statusClass = "pending";
-            break;
-          default:
-            statusClass = "";
+  const fetchOrders = async (status) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/v1/order/getOrdersForUserByStatusOrderID/${userIdd}/${status}`);
+      const orders = response.data.orders;
+
+      const groupedOrders = orders.reduce((acc, order) => {
+        const existingOrder = acc.find(o => o.OrderID === order.OrderID);
+        if (existingOrder) {
+          existingOrder.items.push(order);
+        } else {
+          acc.push({
+            OrderID: order.OrderID,
+            status: getStatusFromStatusCode(status),
+            items: [order],
+            totalPrice: calculateTotalPrice([order]),
+          });
         }
+        return acc;
+      }, []);
 
-        return (
-          <div key={index} className={`order-summary ${statusClass}`}>
-            <div className="order-header">
-              <p>{order.status}</p>
-              {order.status === "Chờ xác nhận" && (
-                <button className="cancel-button" onClick={() => setShowCancelPopup(true)}>Hủy đơn hàng</button>
-              )}
-              {order.status === "Đã hủy" && (
-                <p>Đã xóa bởi bạn</p>
-              )}
-              {order.status === "Hoàn thành" && (
-                <button className="rate-button">Đánh giá</button>
-              )}
-            </div>
-            {order.items.map((item, idx) => (
-              <div key={idx} className="order-item">
-                <img src={item.imgSrc} alt="Product" />
-                <div className="item-details">
-                  <p>{item.name}</p>
-                  <p>Phân loại hàng: {item.category}</p>
-                  <p>Số lượng: {item.quantity}</p>
-                </div>
-                <div className="item-price">
-                  <p>
-                    <s>{item.originalPrice}</s> {item.discountedPrice}
-                  </p>
-                </div>
-              </div>
-            ))}
-            <div className="total-price">
-              <p>Thành tiền: {order.totalPrice}</p>
-            </div>
+      setOrdersData(groupedOrders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  const getStatusFromStatusCode = (statusCode) => {
+    switch (statusCode) {
+      case 1:
+        return "Chờ xác nhận";
+      case 2:
+        return "Đang giao";
+      case 3:
+        return "Đã hủy";
+      case 4:
+        return "Hoàn thành";
+      default:
+        return "Tất cả";
+    }
+  };
+
+  const calculateTotalPrice = (items) => {
+    return items.reduce((total, item) => {
+      const discountedPrice = item.Price[1] || item.Price[0];
+      return total + (item.Quantity * discountedPrice);
+    }, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  };
+
+  useEffect(() => {
+    const statusCode = activeTab === "Tất cả" ? "" : activeTab === "Chờ xác nhận" ? 1 : activeTab === "Đang giao" ? 2 : activeTab === "Đã hủy" ? 3 : 4;
+    fetchOrders(statusCode);
+  }, [activeTab]);
+
+  const renderOrders = () => {
+    return ordersData.map((order, index) => {
+      let statusClass = "";
+      switch (order.status) {
+        case "Hoàn thành":
+          statusClass = "completed";
+          break;
+        case "Đã hủy":
+          statusClass = "cancel";
+          break;
+        case "Đang giao":
+          statusClass = "shipping";
+          break;
+        case "Chờ xác nhận":
+          statusClass = "pending";
+          break;
+        default:
+          statusClass = "";
+      }
+
+      return (
+        <div key={index} className={`order-summary ${statusClass}`}>
+          <div className="order-header">
+            <p>{order.status}</p>
+            {order.status === "Chờ xác nhận" && (
+              <button className="cancel-button" onClick={() => setShowCancelPopup(true)}>Hủy đơn hàng</button>
+            )}
+            {order.status === "Đã hủy" && (
+              <p>{order.cancelledBy === "user" ? "Đã hủy bởi bạn" : "Đã hủy bởi nhân viên"}</p>
+            )}
+            {order.status === "Hoàn thành"}
           </div>
-        );
-      });
+          {order.items.map((item, idx) => (
+            <div key={idx} className="order-item">
+              <img src={item.Image} alt="Product" />
+              <div className="item-details">
+                <p>{item.ProductName}</p>
+                <p>Phân loại hàng: {item.ProductCategoryName}</p>
+                <p>Số lượng: {item.Quantity}</p>
+              </div>
+              <div className="item-price">
+
+                {order.status === "Hoàn thành" ? <button className="rate-button">Đánh giá</button> : <></>}
+
+                <p>
+                  {item.Price[0] !== item.Price[1] && <s>{item.Price[0]}</s>} {item.Price[1]}
+                </p>
+              </div>
+            </div>
+          ))}
+          <div className="total-price">
+            <p>Thành tiền: {order.totalPrice}</p>
+          </div>
+          {order.status === "Đã hủy" && order.cancelReason && (
+            <div className="cancel-reason">
+              <p>Lý do hủy: {order.cancelReason}</p>
+            </div>
+          )}
+        </div>
+      );
+    });
   };
 
   return (
@@ -192,7 +164,7 @@ function OrderProfile() {
         </ul>
       </header>
 
-      <div className="order-container">{renderOrders(activeTab)}</div>
+      <div className="order-container">{renderOrders()}</div>
 
       {showCancelPopup && (
         <div className="popup">

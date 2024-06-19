@@ -87,7 +87,7 @@ function Header() {
                 placeholder="Bố mẹ tìm gì cho bé hôm nay?"
                 id="search_suggest-compo-tri"
               />
-              <button className="search-button" type="submit" id="btnSearch">
+              <button className="search-button-header" type="submit" id="btnSearch">
                 <i className="fa fa-search"></i>
               </button>
             </form>

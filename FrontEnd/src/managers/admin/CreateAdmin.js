@@ -1,7 +1,7 @@
 // src/CreateAdmin.js
 import React, { useState } from 'react';
 import './CreateAdmin.css';
-
+//ss
 const CreateAdmin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

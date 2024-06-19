@@ -6,6 +6,6 @@ const shippingAddressController = require("../controller/shippingAddressControll
      
 router.get('/getInfoShippingByUserID/:ID', shippingAddressController.getInfoShippingByUserID);
 
-
+router.get('/getInfoShippingByOrderID/:orderID', shippingAddressController.getInfoShippingByOrderID);
 
 module.exports = router
