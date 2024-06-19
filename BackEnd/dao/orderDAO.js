@@ -623,7 +623,8 @@ const orderDAO = {
     
                     DECLARE @shippingAddressID INT;
                     SET @shippingAddressID = SCOPE_IDENTITY();
-    
+                    `;
+        const updateQuery = `
                     UPDATE Orders
                     SET ShippingAddressID = @shippingAddressID
                     WHERE OrderID = (
@@ -635,6 +636,34 @@ const orderDAO = {
                 `;
 
         request.query(insertQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+        request.query(updateQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      });
+    });
+  },
+
+  updateShippingAddressID: (orderID, shippingAddressID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        request
+          .input("orderID", mssql.Int, orderID)
+          .input("shippingAddressID", mssql.Int, shippingAddressID);
+
+        const updateQuery = `
+                    UPDATE Orders
+                    SET ShippingAddressID = @shippingAddressID
+                    WHERE OrderID = @orderID;
+                `;
+
+        request.query(updateQuery, (err, result) => {
           if (err) return reject(err);
           resolve(result);
         });

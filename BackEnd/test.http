@@ -479,3 +479,11 @@ Content-Type: application/json
     "orderID": 1,
     "totalAmount": 1000000
  }
+###
+POST http://localhost:5000/api/v1/order/updateShippingAddressID
+Content-Type: application/json
+
+ {
+    "orderID": 1,
+    "shippingAddressID": 1
+ }

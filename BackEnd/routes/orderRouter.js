@@ -65,4 +65,6 @@ router.post('/cancelOrder', orderController.cancelOrder);
 
 router.post('/updateTotalAmountOfOrder', orderController.updateTotalAmountOfOrder);
 
+router.post('/updateShippingAddressID', orderController.updateShippingAddressID);
+
 module.exports = router

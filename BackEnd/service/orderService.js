@@ -1,5 +1,5 @@
 
-const { getOrderDetailByOrderID, getOrdersForUserByStatusOrderID, updateTotalAmountOfOrder } = require('../dao/orderDAO');
+const { getOrderDetailByOrderID, getOrdersForUserByStatusOrderID, updateTotalAmountOfOrder, updateShippingAddressID } = require('../dao/orderDAO');
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
@@ -228,6 +228,14 @@ const orderService = {
             return orders;
         } catch (error) {
             throw new Error(`Error update the total amount of an order: ${error.message}`);
+        }
+    },
+    updateShippingAddressID: async (orderID, shippingAddressID) => {
+        try {
+            const orders = await orderRepository.updateShippingAddressID(orderID, shippingAddressID);
+            return orders;
+        } catch (error) {
+            throw new Error(`Error update the shipping address ID of an order: ${error.message}`);
         }
     },
 
