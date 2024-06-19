@@ -1,0 +1,80 @@
+.voucher-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 400px;
+    border-radius: 8px;
+}
+
+.voucher-popup h2 {
+    margin-top: 0;
+}
+
+.voucher-popup ul {
+    list-style: none;
+    padding: 0;
+}
+
+.voucher-popup li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.voucher-popup li:hover {
+    background-color: #f9f9f9;
+}
+
+.voucher-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.voucher-details {
+    text-align: right;
+}
+
+.voucher-item input[type="radio"] {
+    margin-right: 10px;
+}
+
+.voucher-popup button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.voucher-popup button:disabled {
+    background-color: #ddd;
+}
+
+.voucher-popup .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.voucher-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}

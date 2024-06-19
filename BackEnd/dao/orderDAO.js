@@ -621,7 +621,7 @@ const orderDAO = {
     
                     DECLARE @shippingAddressID INT;
                     SET @shippingAddressID = SCOPE_IDENTITY();
-                   
+
                     UPDATE Orders
                     SET ShippingAddressID = @shippingAddressID
                     WHERE OrderID = (
@@ -660,6 +660,7 @@ const orderDAO = {
           if (err) return reject(err);
           resolve(result);
         });
+
       });
     });
   },

@@ -250,7 +250,8 @@ const updateShippingAddressID = async (req, res) => {
         console.error('Error in updateShippingAddressID controller:', error);
         res.status(500).json({ error: error.message });
     }
-}
+};
+
 const getReasonCancleOrderByUserID = async (req, res) => {
     try {
         const obj = await orderService.getReasonCancleOrderByUserID(req.params.userID);
@@ -260,8 +261,6 @@ const getReasonCancleOrderByUserID = async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 };
-
-
 
 module.exports = {
     getAllOrders,
