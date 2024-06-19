@@ -623,8 +623,7 @@ const orderDAO = {
     
                     DECLARE @shippingAddressID INT;
                     SET @shippingAddressID = SCOPE_IDENTITY();
-                    `;
-        const updateQuery = `
+    
                     UPDATE Orders
                     SET ShippingAddressID = @shippingAddressID
                     WHERE OrderID = (
@@ -636,10 +635,6 @@ const orderDAO = {
                 `;
 
         request.query(insertQuery, (err, result) => {
-          if (err) return reject(err);
-          resolve(result);
-        });
-        request.query(updateQuery, (err, result) => {
           if (err) return reject(err);
           resolve(result);
         });
