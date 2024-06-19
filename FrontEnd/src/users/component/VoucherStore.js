@@ -4,11 +4,15 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./VoucherStore.css";
+import { useSelector } from 'react-redux';
+import { getUserIdFromToken } from "../store/actions/authAction";
 
 function VoucherItem({ voucher }) {
+  const { token } = useSelector((state) => state.auth);
+  const userIdd = getUserIdFromToken(token);
   const saveVoucherForUser = () => {
     const requestBody = {
-      userID: "M0000001", // Replace with actual user ID logic
+      userID: userIdd, // Replace with actual user ID logic
       voucherID: voucher.VoucherID
     };
 
@@ -35,7 +39,7 @@ function VoucherItem({ voucher }) {
               <strong style={{ fontSize: "1.5rem" }}>
                 {voucher.DiscountPercentage} %
               </strong>
-             
+
             </p>
           </div>
           <div className="voucher-overlay d-none">
@@ -77,28 +81,28 @@ function VoucherItem({ voucher }) {
             </div>
           </div>
           <div className="nhandan">
-          <div className="voucher-details">
-            <div className="details-text">
-              <div className="text-title">Đơn tối thiểu</div>
-              <div className="text-description-gia text-primary">
-                {voucher.MinDiscount}đ
+            <div className="voucher-details">
+              <div className="details-text">
+                <div className="text-title">Đơn tối thiểu</div>
+                <div className="text-description-gia text-primary">
+                  {voucher.MinDiscount}đ
+                </div>
               </div>
             </div>
-          </div>
-          <div className="voucher-details">
-            <div className="details-text">
-              <div className="text-title">Giảm tối đa</div>
-              <div className="text-description-gia text-primary">
-                {voucher.MaxDiscount}đ
+            <div className="voucher-details">
+              <div className="details-text">
+                <div className="text-title">Giảm tối đa</div>
+                <div className="text-description-gia text-primary">
+                  {voucher.MaxDiscount}đ
+                </div>
               </div>
             </div>
-          </div>
           </div>
           <div className="voucher-save">
             <button className="btn save-button-voucher" onClick={saveVoucherForUser}>Save</button>
           </div>
         </div>
-        
+
       </div>
     </div>
   );

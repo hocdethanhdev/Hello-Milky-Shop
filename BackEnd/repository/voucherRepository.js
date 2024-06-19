@@ -27,7 +27,11 @@ const voucherRepository = {
     },
     getVouchersforUser: async () => {
         return await voucherDAO.getVouchersforUser();
-    }
+    },
+    updateVoucherStatusAndRemoveFromUser: (oldStatus, newStatus) => {
+        return voucherDAO.updateVoucherStatusAndRemoveFromUser(oldStatus, newStatus);
+    },
+
 
 
 }
