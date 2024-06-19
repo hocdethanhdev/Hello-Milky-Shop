@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const orderService = require('../service/orderService');
 
-// Cấu hình công việc định kỳ mỗi ngày lúc 00:00
+// Cấu hình công việc định kỳ mỗi 12 ngày lúc 00:00
 cron.schedule('0 0 * * *', async () => {
     try {
         const days = 12;

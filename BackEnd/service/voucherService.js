@@ -50,7 +50,15 @@ const voucherService = {
 
   getVouchersByUserID: async (userID) => {
     return await voucherRepository.getVouchersByUserID(userID);
-  }
+  },
+
+  updateVoucherStatusAndRemoveFromUser: async (oldStatus, newStatus) => {
+    try {
+      await voucherRepository.updateVoucherStatusAndRemoveFromUser(oldStatus, newStatus);
+    } catch (error) {
+      throw new Error(`Error updating voucher status and removing from user: ${error.message}`);
+    }
+  },
 
 
 }
