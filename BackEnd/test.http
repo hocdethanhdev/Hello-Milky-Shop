@@ -378,13 +378,15 @@ POST http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder
 Content-Type: application/json
 
 {
-    "orderID": "15",
+    "orderID": "2",
     "productQuantities": [
         {
             "productID": "SE0001",
-            "quantity": 2
+            "quantity": 3
         }      
-    ]
+    ],
+    "paymentStatus": 1
+
 }
 
 ### Thay đổi trạng thái đơn hàng
