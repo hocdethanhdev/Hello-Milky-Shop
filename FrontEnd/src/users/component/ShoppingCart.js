@@ -30,15 +30,12 @@ const ShoppingCart = () => {
   const [showVoucherPopup, setShowVoucherPopup] = useState(false);
   const [points, setPoints] = useState(0);
   const [usePoints, setUsePoints] = useState(false);
-<<<<<<< HEAD
   const [showAddressPopup, setShowAddressPopup] = useState(false);
   const [selectedShippingAddressID, setSelectedShippingAddressID] = useState(null);
   const [usingSavedAddress, setUsingSavedAddress] = useState(false);
-  let status = '0';
-=======
-  let status = '0';
 
->>>>>>> 1e26c30ed3205f88ed4b5ba6ca18d4636edccb04
+  const params = new URLSearchParams(location.search);
+  let status = params.get('status');
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
@@ -67,8 +64,7 @@ const ShoppingCart = () => {
 
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    status = params.get('status');
+
     const code = params.get('code');
     const userIdd = getUserIdFromToken(token);
     setUserId(userIdd);
@@ -92,7 +88,7 @@ const ShoppingCart = () => {
         } else {
           console.error('orderID is not set');
         }
-      } else if (status === "0"){
+      } else if (status === "0") {
         alert('Payment failed. Please try again.');
       }
     }
@@ -157,19 +153,13 @@ const ShoppingCart = () => {
         const userDetailsResponse = await axios.get(`http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`);
         const userPoints = userDetailsResponse.data.data.Point;
         setPoints(userPoints);
-<<<<<<< HEAD
 
-=======
->>>>>>> 1e26c30ed3205f88ed4b5ba6ca18d4636edccb04
       } catch (err) {
 
         setError(err.response ? err.response.data.message : err.message);
       }
     };
-<<<<<<< HEAD
 
-=======
->>>>>>> 1e26c30ed3205f88ed4b5ba6ca18d4636edccb04
     if (token) {
       fetchUserOrders();
       fetchCities();
@@ -250,7 +240,7 @@ const ShoppingCart = () => {
 
   const subtotal = calculateSubtotal();
   const discount = 0;
-  const total = subtotal + discount;
+  // const total = subtotal + discount;
 
   const handleQuantityChange = (productId, quantity) => {
     if (quantity < 1) {
@@ -268,6 +258,7 @@ const ShoppingCart = () => {
       ...prevSelected,
       [productId]: isSelected,
     }));
+
   };
 
   const handlePaymentMethodChange = (method) => {
@@ -303,9 +294,7 @@ const ShoppingCart = () => {
       }
 
       if (orderID) {
-        const selectedCity = cities.find(city => city.ID === parseInt(selectedCityID))?.CityName;
-        const selectedDistrict = districts.find(district => district.DistrictID === parseInt(selectedDistrictID))?.DistrictName;
-        const fullAddress = `${address}, ${selectedDistrict}, ${selectedCity}`;
+
 
         if (usingSavedAddress && selectedShippingAddressID) {
           await axios.post('http://localhost:5000/api/v1/order/updateShippingAddressID', {
@@ -330,7 +319,8 @@ const ShoppingCart = () => {
 
         await axios.post('http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder', {
           orderID,
-          productQuantities: productQuantitiesToUpdate
+          productQuantities: productQuantitiesToUpdate,
+          paymentStatus: parseInt(status)
         });
 
         const totalAmount = calculateTotal();
@@ -341,13 +331,13 @@ const ShoppingCart = () => {
           language: "vn"
         });
         if (response) {
-          window.open(response.data.url, "_self");
-          if(status === "1"){
+          window.open(response.data.url);
+          if (status === "1") {
             await axios.post('http://localhost:5000/api/v1/order/updateTotalAmountOfOrder', {
               orderID,
               totalAmount
             });
-  
+
             if (selectedVoucher) {
               await axios.post('http://localhost:5000/api/v1/voucher/removeVoucherFromUser', {
                 userID: userId,
@@ -355,7 +345,7 @@ const ShoppingCart = () => {
               });
             }
           }
-          
+
         }
       } else {
         console.error('orderID is not set');
