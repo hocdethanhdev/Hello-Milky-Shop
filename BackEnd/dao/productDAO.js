@@ -577,12 +577,19 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 p.ProductID, ProductName, Description, Price, ppl.PriceAfterDiscount, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
-        FROM Product p 
-        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
-        JOIN Brand b ON p.BrandID = b.BrandID
-        LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
-        WHERE pc.ProductCategoryID = 1
+          `SELECT TOP 6 p.ProductID, ProductName, Price, p.Image, COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts
+          FROM Product p
+          JOIN Brand b ON p.BrandID = b.BrandID
+		      JOIN ProductCategory pc ON pc.ProductCategoryID = p.ProductCategoryID
+          LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+		      LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
+          WHERE pc.ProductCategoryID = 1
+          AND StockQuantity > 0 AND Status =1
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price
 
       ;`,
           (err, res) => {
@@ -610,12 +617,19 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 6 p.ProductID, ProductName, Description, Price, PriceAfterDiscount, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
-        FROM Product p 
-        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
-        JOIN Brand b ON p.BrandID = b.BrandID
-        LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
-        WHERE pc.ProductCategoryID = 2
+          `SELECT TOP 6 p.ProductID, ProductName, Price, p.Image, COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts
+          FROM Product p
+          JOIN Brand b ON p.BrandID = b.BrandID
+		      JOIN ProductCategory pc ON pc.ProductCategoryID = p.ProductCategoryID
+          LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+		      LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
+          WHERE pc.ProductCategoryID = 2
+          AND StockQuantity > 0 AND Status =1
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price
       ;`,
       (err, res) => {
         if (err) {
