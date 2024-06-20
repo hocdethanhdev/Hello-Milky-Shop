@@ -4,6 +4,10 @@ const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
 
+    getUserIDFromOrderID: async (OrderID) => {
+        return await orderRepository.getUserIDFromOrderID(OrderID);
+    },
+
     countOrdersIn7Days: async () => {
         return await orderRepository.countOrdersIn7Days();
     },
