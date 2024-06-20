@@ -34,12 +34,10 @@ const ShoppingCart = () => {
   const [selectedShippingAddressID, setSelectedShippingAddressID] =
     useState(null);
   const [usingSavedAddress, setUsingSavedAddress] = useState(false);
-
+  let productQuantitiesToUpdate;
+  let totalAmount = 0;
   const params = new URLSearchParams(location.search);
   let status = params.get("status");
-  if (status === null) {
-    status = '0';
-  }
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
@@ -65,19 +63,54 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       alert(
-        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `This voucher requires a minimum purchase of ${
+          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
   };
 
   useEffect(() => {
+    const checkoutOrder = async () => {
+      try {
+        await axios.post(
+          "http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder",
+          {
+            orderID,
+            productQuantities: productQuantitiesToUpdate,
+            paymentStatus: parseInt(status),
+          }
+        );
+        console.log(totalAmount);
+        await axios.post(
+          "http://localhost:5000/api/v1/order/updateTotalAmountOfOrder",
+          {
+            orderID,
+            totalAmount,
+          }
+        );
+        await axios.post(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`, {
+          statusOrderID: 1
+        })
+        await axios.post(`http://localhost:5000/api/v1/order/checkoutOrder`, {
+          userID: userIdd
+        })
+      } catch (err) {
+        console.error("Error fetching:", err);
+        setError(err.response ? err.response.data.message : err.message);
+      }
+    };
+    
     const code = params.get("code");
     const userIdd = getUserIdFromToken(token);
     setUserId(userIdd);
     if (status && code) {
       if (status === "1") {
         alert("Payment successful !!!!");
+
+
+        checkoutOrder();
+
         window.open("http://localhost:3000/", "_self");
       } else if (status === "0") {
         alert("Payment failed. Please try again.");
@@ -327,7 +360,7 @@ const ShoppingCart = () => {
             }
           );
         }
-        const productQuantitiesToUpdate = selectedProductIds.map(
+        productQuantitiesToUpdate = selectedProductIds.map(
           (productId) => ({
             productID: productId,
             quantity:
@@ -336,35 +369,28 @@ const ShoppingCart = () => {
                 .Quantity,
           })
         );
-        await axios.post(
-          "http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder",
-          {
-            orderID,
-            productQuantities: productQuantitiesToUpdate,
-            paymentStatus: parseInt(status),
-          }
-        );
 
-        const totalAmount = calculateTotal();
+        
+
+        totalAmount = calculateTotal();
 
         const response = await axios.post(
           "http://localhost:5000/api/v1/payment/create_payment_url",
           {
             orderID,
-            amount: totalAmount,
+            amount: parseInt(totalAmount),
             language: "vn",
           }
         );
         if (response) {
           window.open(response.data.url);
           if (status === "1") {
-
             if (selectedVoucher) {
               await axios.post(
                 "http://localhost:5000/api/v1/voucher/removeVoucherFromUser",
                 {
                   userID: userId,
-                  voucherID: parseInt(selectedVoucher.VoucherID),
+                  voucherID: selectedVoucher.VoucherID,
                 }
               );
             }
