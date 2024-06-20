@@ -773,7 +773,7 @@ const orderDAO = {
         const request = new mssql.Request();
         request
           .input('orderId', mssql.Int, orderID)
-          .input('reasonCancelContent', mssql.VarChar, reasonCancelContent);
+          .input('reasonCancelContent', mssql.NVarChar, reasonCancelContent);
 
         const updateQuery = `
               UPDATE Orders

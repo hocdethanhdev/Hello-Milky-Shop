@@ -317,11 +317,7 @@ const ShoppingCart = () => {
           quantity: productQuantities[productId] || orderDetails.find(item => item.ProductID === productId).Quantity
         }));
 
-        await axios.post('http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder', {
-          orderID,
-          productQuantities: productQuantitiesToUpdate,
-          paymentStatus: parseInt(status)
-        });
+
 
         const totalAmount = calculateTotal();
 
@@ -330,9 +326,15 @@ const ShoppingCart = () => {
           amount: totalAmount,
           language: "vn"
         });
+        console.log('voucher : ', selectedVoucher);
         if (response) {
           window.open(response.data.url);
           if (status === "1") {
+            await axios.post('http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder', {
+              orderID,
+              productQuantities: productQuantitiesToUpdate,
+              paymentStatus: parseInt(status)
+            });
             await axios.post('http://localhost:5000/api/v1/order/updateTotalAmountOfOrder', {
               orderID,
               totalAmount
