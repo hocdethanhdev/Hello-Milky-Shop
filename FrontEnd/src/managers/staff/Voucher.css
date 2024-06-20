@@ -8,6 +8,7 @@
 .voucher-list-thinhvcher button{
   border: none;
   background-color: white;
+  display: inherit;
 } 
 .voucher-header-thinhvcher {
   background-color: #007bff;
@@ -47,7 +48,7 @@
 .voucher-list-thinhvcher table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+ 
 }
 
 .voucher-list-thinhvcher th,
@@ -105,12 +106,14 @@
 /* Dropdown */
 .filter-dropdown-thinhvcher {
   position: relative;
+ 
   
 }
 
 .filter-dropdown-thinhvcher button {
   border: none;
-  
+  width: 50%;
+  display: block;
   border-radius: 4px;
   cursor: pointer;
 }

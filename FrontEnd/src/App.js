@@ -35,7 +35,6 @@ import Termofuse from "./users/component/Termofuse";
 import VoucherStore from "./users/component/VoucherStore";
 import ShoppingCart from "./users/component/ShoppingCart";
 import Bigsales from "./users/component/Bigsales";
-import Dealsoc from "./users/component/Dealsoc";
 import Profile from "./users/profileaccount/profile";
 import Account from "./users/profileaccount/account";
 import Address from "./users/profileaccount/address";
@@ -89,7 +88,6 @@ function App() {
       <Route path="/Account" element={<Account />} />
       <Route path="/Address" element={<Address />} />
       <Route path="/product/:productId" element={<ProductScreen />} />
-      <Route path="/dealsoc/:promotionId" component={Dealsoc} />
       <Route path="/all-products/:keyword" element={<AllProductScreen />} />
       <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
       <Route path="/sua-cho-me" element={<ListProductMomScreen />} />

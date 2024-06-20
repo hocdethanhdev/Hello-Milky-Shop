@@ -35,11 +35,11 @@ const OrderProfile = () => {
         return acc;
       }, []);
 
-      setOrdersData(groupedOrders);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    }
-  };
+        setOrdersData(groupedOrders);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
 
   const getStatusFromStatusOrderName = (statusOrderName) => {
     switch (statusOrderName) {
@@ -89,25 +89,25 @@ const OrderProfile = () => {
     }
   };
 
-  const renderOrders = () => {
-    return ordersData.map((order, index) => {
-      let statusClass = "";
-      switch (order.status) {
-        case "Hoàn thành":
-          statusClass = "completed";
-          break;
-        case "Đã hủy":
-          statusClass = "cancel";
-          break;
-        case "Đang giao":
-          statusClass = "shipping";
-          break;
-        case "Chờ xác nhận":
-          statusClass = "pending";
-          break;
-        default:
-          statusClass = "";
-      }
+    const renderOrders = () => {
+      return ordersData.map((order, index) => {
+        let statusClass = "";
+        switch (order.status) {
+          case "Hoàn thành":
+            statusClass = "completed";
+            break;
+          case "Đã hủy":
+            statusClass = "cancel";
+            break;
+          case "Đang giao":
+            statusClass = "shipping";
+            break;
+          case "Chờ xác nhận":
+            statusClass = "pending";
+            break;
+          default:
+            statusClass = "";
+        }
 
       return (
         <div key={index} className={`order-summary ${statusClass}`}>
@@ -153,44 +153,22 @@ const OrderProfile = () => {
     });
   };
 
-  return (
-    <div className="order-details">
-      <header>
-        <ul>
-          <li
-            className={activeTab === "Tất cả" ? "active" : ""}
-            onClick={() => setActiveTab("Tất cả")}
+    return (
+      <div className="order-details">
+        <header>
+          <select
+            value={selectedStatus}
+            onChange={(e) => handleStatusChange(e.target.value)}
           >
-            Tất cả
-          </li>
-          <li
-            className={activeTab === "Chờ xác nhận" ? "active" : ""}
-            onClick={() => setActiveTab("Chờ xác nhận")}
-          >
-            Chờ xác nhận
-          </li>
-          <li
-            className={activeTab === "Đang giao" ? "active" : ""}
-            onClick={() => setActiveTab("Đang giao")}
-          >
-            Đang giao
-          </li>
-          <li
-            className={activeTab === "Hoàn thành" ? "active" : ""}
-            onClick={() => setActiveTab("Hoàn thành")}
-          >
-            Hoàn thành
-          </li>
-          <li
-            className={activeTab === "Đã hủy" ? "active" : ""}
-            onClick={() => setActiveTab("Đã hủy")}
-          >
-            Đã hủy
-          </li>
-        </ul>
-      </header>
+            <option value="all">Tất cả</option>
+            <option value="1">Chờ xác nhận</option>
+            <option value="2">Đang giao</option>
+            <option value="3">Đã hủy</option>
+            <option value="4">Hoàn thành</option>
+          </select>
+        </header>
 
-      <div className="order-container">{renderOrders()}</div>
+        <div className="order-container">{renderOrders()}</div>
 
       {showCancelPopup && (
         <div className="popup">
@@ -210,4 +188,4 @@ const OrderProfile = () => {
   );
 }
 
-export default OrderProfile;
+  export default OrderProfile;

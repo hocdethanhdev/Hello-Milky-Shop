@@ -44,7 +44,7 @@
 }
 
 /* Button styles */
-button {
+.button-address {
   display: inline-block;
   padding: 10px 20px;
   margin-top: 20px;
@@ -57,12 +57,12 @@ button {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button:hover {
+button-address:hover {
   background-color: #0056b3;
   transform: scale(1.05);
 }
 
-button:disabled {
+button-address:disabled {
   background-color: #c0c0c0;
   cursor: not-allowed;
 }

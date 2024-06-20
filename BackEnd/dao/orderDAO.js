@@ -235,6 +235,7 @@ const orderDAO = {
         const request = new mssql.Request();
         request.input("userID", mssql.VarChar, userID);
 
+
         const selectQuery = `            
                   SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price as 'OldPrice', p.Image, od.Price as 'NewPrice', so.StatusOrderName, o.ReasonCancelContent
                   FROM Orders o

@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Posts.css";
 import { uploadImage } from "./UpImage";
+import sanitizeHtml from "sanitize-html";
 
 function PostsAdd() {
   const [title, setTitle] = useState("");
@@ -16,13 +17,33 @@ function PostsAdd() {
   const [errorMessage, setErrorMessage] = useState("");
   const [progress, setProgress] = useState(0);
   const [downloadURL, setDownloadURL] = useState("");
+  const [previewImage, setPreviewImage] = useState(null); // State for previewing image
 
   const handleContentChange = (value) => {
-    setContent(value);
+    const sanitizedContent = sanitizeHtml(value, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+      allowedAttributes: {
+        img: ["src", "alt"],
+      },
+    });
+
+    setContent(sanitizedContent);
   };
 
   const handleImageChange = (e) => {
-    setHeaderImage(e.target.files[0]);
+    const imageFile = e.target.files[0];
+    setHeaderImage(imageFile);
+
+    // Preview image
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+    };
+    if (imageFile) {
+      reader.readAsDataURL(imageFile);
+    } else {
+      setPreviewImage(null);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -46,18 +67,6 @@ function PostsAdd() {
         ArticleCategoryID: parseInt(articleCategoryID),
       };
 
-      if (
-        !postData.Title ||
-        !postData.HeaderImage ||
-        !postData.Content ||
-        !postData.PublishDate ||
-        !postData.AuthorID ||
-        isNaN(postData.ArticleCategoryID)
-      ) {
-        setErrorMessage("Please fill out all fields correctly.");
-        return;
-      }
-
       const response = await axios.post(
         "http://localhost:5000/api/v1/article/createArticle/",
         postData,
@@ -79,7 +88,7 @@ function PostsAdd() {
 
   return (
     <div className="container post-form">
-      <h2>Create New Post</h2>
+      
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div className="row mb-3">
@@ -107,6 +116,14 @@ function PostsAdd() {
             />
           </div>
         </div>
+        {/* Preview image */}
+        {previewImage && (
+          <div className="row mb-3">
+            <div className="col">
+              <img src={previewImage} alt="Preview" className="preview-image" />
+            </div>
+          </div>
+        )}
         <div className="row mb-3">
           <div className="col">
             <label htmlFor="content">Content</label>

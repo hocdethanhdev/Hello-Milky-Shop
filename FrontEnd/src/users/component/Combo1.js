@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import "./Product1.css";
+import StarRating from "../ui-list-product-mom/StarRating";
 
 function Combo1() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Gọi API để lấy dữ liệu sản phẩm
+    // Call API to fetch product data
     axios
       .get("http://localhost:5000/api/v1/product/getTop6MilksForPregnantMother/")
       .then((response) => {
@@ -34,7 +35,7 @@ function Combo1() {
         <div className="combo-1f-content">
           <div className="combo-1f-header">
             <div className="combo-1f-icon">
-              <img src=".//ImageMilkShop/icon2.png" alt="Combo icon" />
+              <img src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60" alt="Combo icon" />
             </div>
             <div className="combo-1f-title">
               <h2>Sữa dành cho mẹ</h2>
@@ -42,7 +43,7 @@ function Combo1() {
           </div>
           <div className="combo-1f-main">
             <img
-              src=".//ImageMilkShop/banner-tang.png"
+              src="./ImageMilkShop/banner-tang.png"
               alt="Combo siêu tiết kiệm"
             />
           </div>
@@ -56,9 +57,18 @@ function Combo1() {
                   />
                   <div className="combo-details">
                     <h3>{product.ProductName}</h3>
-                    <p>{formatPrice(product.Price)}</p>
-                    
+                    {product.PriceAfterDiscounts !== product.Price ? (
+                      <div className="gia">
+                      <p className="original-price">{formatPrice(product.Price)}</p>
+                        <p className="discounted-price">{formatPrice(product.PriceAfterDiscounts)}</p>
+                        
+                      </div>
+                    ) : (
+                      <p>{formatPrice(product.Price)}</p>
+                    )}
+                     <div className='saoduoithinh-1'><StarRating productId={product.ProductID}/></div>
                   </div>
+                 
                 </div>
               ))}
           </div>
