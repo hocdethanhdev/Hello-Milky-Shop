@@ -292,9 +292,26 @@
   margin: 10px 0;
 }
 
+.combo-details .original-price {
+  text-decoration: line-through;
+  opacity: 0.4;
+   font-weight: 500;
+   margin-right: 10px;
+}
+.combo-details .discounted-price {
+  font-weight: bold;
+}
+
+
 .combo-details p {
   font-size: 16px;
   color: #ff6600;
+}
+
+.gia {
+  display: inline-flex;
+  justify-content: space-between;
+  
 }
 /* DÀNH CHO BÉ */
 .combo-2f-section {
@@ -312,6 +329,15 @@
 .combo-2f-wrap {
   display: flex;
   flex-wrap: wrap;
+}
+.combo-details-1 .original-price-1 {
+  text-decoration: line-through;
+  opacity: 0.6;
+  margin-right: 10px;
+}
+
+.combo-details-1 .discounted-price-1 {
+  font-weight: bold;
 }
 
 .combo-2f-header {
@@ -506,4 +532,10 @@
 .navigation-gia-soc .nut-chuyen-gia-soc:hover {
   background-color: #e1412c;
   transform: translateY(-50%) scale(1.1); /* Scale up on hover */
+}
+
+
+/* gắn sao  */
+.saoduoithinh-1{
+  display: inline-block;
 }
