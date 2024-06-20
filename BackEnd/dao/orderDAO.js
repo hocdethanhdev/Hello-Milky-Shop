@@ -212,9 +212,14 @@ const orderDAO = {
         const request = new mssql.Request();
         request.input("userID", mssql.VarChar, userID);
 
-        const selectQuery = `
-                    SELECT * FROM Orders 
-                    WHERE UserID = @userID AND Status = 1;
+        const selectQuery = `            
+              SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price
+                  FROM Orders o
+                  JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
+                  LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID
+                  LEFT JOIN Product p ON od.ProductID = p.ProductID
+                  LEFT JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
+                  WHERE o.Status = 1 AND UserID =  @userID
                 `;
 
         request.query(selectQuery, (err, result) => {
@@ -358,41 +363,43 @@ const orderDAO = {
           if (err) return reject(err);
 
           const request = new mssql.Request(transaction);
-
+          // Step 1: Update quantities for selected products
           const updateQueries = productQuantities.map((pq) => {
             return `
-                        UPDATE OrderDetail
-                        SET Quantity = ${pq.quantity}
-                        WHERE OrderID = ${orderID} AND ProductID = '${pq.productID}';
-                    `;
+              UPDATE OrderDetail
+              SET Quantity = ${pq.quantity}
+              WHERE OrderID = ${orderID} AND ProductID = '${pq.productID}';
+            `;
           }).join("\n");
 
+          // Step 2: Transfer unselected items to a new order
           const productIDs = productQuantities.map((pq) => `'${pq.productID}'`).join(",");
           const transferUnselectedItemsQuery = `
-                    INSERT INTO Orders (orderDate, totalAmount, status, userID)
-                    SELECT orderDate, 0, 0, userID
-                    FROM Orders
-                    WHERE OrderID = ${orderID};
+            INSERT INTO Orders (orderDate, totalAmount, status, userID)
+            SELECT orderDate, 0, 0, userID
+            FROM Orders
+            WHERE OrderID = ${orderID};
+    
+            DECLARE @newOrderID INT = SCOPE_IDENTITY();
+    
+            INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
+            SELECT @newOrderID, ProductID, Quantity, Price
+            FROM OrderDetail
+            WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
+          `;
 
-                    DECLARE @newOrderID INT = SCOPE_IDENTITY();
-
-                    INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
-                    SELECT @newOrderID, ProductID, Quantity, Price
-                    FROM OrderDetail
-                    WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
-                `;
-
+          // Step 3: Delete unselected items from the current order
           const deleteQuery = `
-                    DELETE FROM OrderDetail
-                    WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
-                `;
+            DELETE FROM OrderDetail
+            WHERE OrderID = ${orderID} AND ProductID NOT IN (${productIDs});
+          `;
 
           const finalQuery = `
-                    ${updateQueries}
-                    ${transferUnselectedItemsQuery}
-                    ${deleteQuery}
-                `;
-
+            ${updateQueries}
+            ${transferUnselectedItemsQuery}
+            ${deleteQuery}
+          `;
+          // Execute the final query
           request.query(finalQuery, (err, result) => {
             if (err) {
               transaction.rollback();
