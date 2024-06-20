@@ -212,14 +212,20 @@ const orderDAO = {
         const request = new mssql.Request();
         request.input("userID", mssql.VarChar, userID);
 
+
         const selectQuery = `
-                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price, o.TotalAmount
+                            
+              SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price
+
                   FROM Orders o
                   JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
                   LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID
                   LEFT JOIN Product p ON od.ProductID = p.ProductID
                   LEFT JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
                   WHERE o.Status = 1  AND UserID =  @userID
+
+                  WHERE o.Status = 1 AND UserID =  @userID
+
                 `;
 
         request.query(selectQuery, (err, result) => {
@@ -379,9 +385,9 @@ const orderDAO = {
             SELECT orderDate, 0, 0, userID
             FROM Orders
             WHERE OrderID = ${orderID};
-  
+    
             DECLARE @newOrderID INT = SCOPE_IDENTITY();
-  
+    
             INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
             SELECT @newOrderID, ProductID, Quantity, Price
             FROM OrderDetail
@@ -419,6 +425,7 @@ const orderDAO = {
       });
     });
   },
+
   removeProductFromOrder: (orderID, productID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -628,8 +635,7 @@ const orderDAO = {
     
                     DECLARE @shippingAddressID INT;
                     SET @shippingAddressID = SCOPE_IDENTITY();
-                    `;
-        const updateQuery = `
+
                     UPDATE Orders
                     SET ShippingAddressID = @shippingAddressID
                     WHERE OrderID = (
@@ -641,10 +647,6 @@ const orderDAO = {
                 `;
 
         request.query(insertQuery, (err, result) => {
-          if (err) return reject(err);
-          resolve(result);
-        });
-        request.query(updateQuery, (err, result) => {
           if (err) return reject(err);
           resolve(result);
         });
@@ -672,6 +674,7 @@ const orderDAO = {
           if (err) return reject(err);
           resolve(result);
         });
+
       });
     });
   },
@@ -750,7 +753,7 @@ const orderDAO = {
 
 
         const selectQuery = `
-                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price, o.TotalAmount
+                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price
                   FROM Orders o
                   JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
                   LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID

@@ -29,7 +29,7 @@ const RelatedProducts = ({ product }) => {
         const fetchRelatedProducts = async () => {
             try {
                 const response = await axios.get(`http://localhost:5000/api/v1/product/getTop6ProductByBrand/${product.ProductID}`);
-                console.log("Fetched Related Products Data:", response.data);
+
                 if (Array.isArray(response.data)) {
                     setRelatedProducts(response.data);
                 } else {

@@ -153,13 +153,12 @@ const getOrderDetailByOrderID = async (req, res) => {
 
 const changeQuantityOfProductInOrder = async (req, res) => {
     try {
-        const { orderID, productQuantities } = req.body;
-        await orderService.changeQuantityOfProductInOrder(orderID, productQuantities);
-        res.status(200).json({ message: 'Order quantities updated and unselected items moved to a new order successfully' });
+        const { orderID, productQuantities, paymentStatus } = req.body;
+        const result = await orderService.changeQuantityOfProductInOrder(orderID, productQuantities, paymentStatus);
+        res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-
 };
 
 const updateStatusOrderID = async (req, res) => {
@@ -255,13 +254,13 @@ const updateShippingAddressID = async (req, res) => {
 
 const getReasonCancleOrderByUserID = async (req, res) => {
     try {
-        const obj = await orderService.getReasonCancleOrderByUserID (req.params.userID);
+        const obj = await orderService.getReasonCancleOrderByUserID(req.params.userID);
         res.send(obj);
     } catch (error) {
         console.error("Error while getting all users:", error);
         res.status(500).send("Internal Server Error");
     }
-}
+};
 
 module.exports = {
     getAllOrders,

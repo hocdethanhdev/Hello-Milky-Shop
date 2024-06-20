@@ -150,6 +150,18 @@ insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount)
 values(1, 'SM0001', 0)
 insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
 values(2, 'SM0001', 0)
+insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
+values(2, 'SM0002', 0)
+insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
+values(2, 'SM0003', 0)
+insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
+values(2, 'SE0001', 0)
+insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
+values(2, 'SE0017', 0)
+insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
+values(2, 'SE0003', 0)
+insert into ProductPromotionList(PromotionID, ProductID, PriceAfterDiscount) 
+values(2, 'SE0010', 0)
 go
 INSERT INTO City (CityName) VALUES
 (N'Hà Nội'),
