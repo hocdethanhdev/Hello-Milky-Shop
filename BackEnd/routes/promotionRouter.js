@@ -16,7 +16,7 @@ router.get('/getProductsApplyAnPromotion/:promotionID', promotionController.getP
 
 router.get('/getCurrentProductsHavingPromotion', promotionController.getCurrentProductsHavingPromotion);
 
-router.get('/getPormotionByDate', promotionController.getPormotionByDate)
+router.get('/getPromotionByDate', promotionController.getPromotionByDate)
 
 module.exports = router
 

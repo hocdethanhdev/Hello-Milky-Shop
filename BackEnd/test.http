@@ -368,7 +368,7 @@ GET  http://localhost:5000/api/v1/order/getPreviousOrderAddress/M0000001
 ### Search order dựa vào username
 GET http://localhost:5000/api/v1/order/searchOrderByUserName/A
 ###
-GET http://localhost:5000/api/v1/promotion/getPormotionByDate
+GET http://localhost:5000/api/v1/promotion/getPromotionByDate
 
 ### Lấy chi tiết đơn hàng dựa vào orderID
 GET http://localhost:5000/api/v1/order/getOrderDetailByOrderID/2

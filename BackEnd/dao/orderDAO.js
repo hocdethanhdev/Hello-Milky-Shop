@@ -213,13 +213,14 @@ const orderDAO = {
         request.input("userID", mssql.VarChar, userID);
 
         const selectQuery = `            
-              SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price
+                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price as 'OldPrice', p.Image, od.Price as 'NewPrice', so.StatusOrderName
                   FROM Orders o
                   JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
                   LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID
                   LEFT JOIN Product p ON od.ProductID = p.ProductID
                   LEFT JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID
-                  WHERE o.Status = 1 AND UserID =  @userID
+                  LEFT JOIN StatusOrder so ON o.StatusOrderID = so.StatusOrderID
+                  WHERE o.Status = 1 AND UserID =  @UserID
                 `;
 
         request.query(selectQuery, (err, result) => {
