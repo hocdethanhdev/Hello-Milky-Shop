@@ -476,7 +476,7 @@ Content-Type: application/json
 }
 
 ### Lấy những orders cho user phân theo statusOrderID
-GET http://localhost:5000/api/v1/order/getOrdersForUserByStatusOrderID/M0000001/3
+GET http://localhost:5000/api/v1/order/getOrdersForUserByStatusOrderID/M0000001/1
 
 ### Hủy đơn hàng
 POST http://localhost:5000/api/v1/order/cancelOrder

@@ -5,7 +5,7 @@ import NavCate from "../ui-product-mom/NavCate";
 
 const fetchPromotions = async () => {
   try {
-    const response = await fetch("http://localhost:5000/api/v1/promotion/getPormotionByDate");
+    const response = await fetch("http://localhost:5000/api/v1/promotion/getPromotionByDate");
     if (!response.ok) {
       throw new Error("Failed to fetch promotions");
     }

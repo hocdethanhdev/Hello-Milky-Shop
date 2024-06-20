@@ -1,8 +1,8 @@
 const promotionService = require('../service/promotionService');
 
 
-const getPormotionByDate = async(req, res) => {
-    promotionService.getPormotionByDate()
+const getPromotionByDate = async (req, res) => {
+    promotionService.getPromotionByDate()
         .then(result => res.status(201).json(result))
         .catch(err => res.status(500).json({ message: err.message }));
 }
@@ -70,8 +70,8 @@ module.exports = {
     getAllPromotions,
     addPromotion,
     updatePromotion,
-    searchPromotionByName,  
-    getPormotionByDate,
+    searchPromotionByName,
+    getPromotionByDate,
     getProductsApplyAnPromotion,
     applyPromotionToProduct,
     getCurrentProductsHavingPromotion

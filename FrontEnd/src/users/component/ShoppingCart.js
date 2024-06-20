@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import { getUserIdFromToken } from "../store/actions/authAction";
-import './ShoppingCart.css';
-import { useLocation } from 'react-router-dom';
-import VoucherPopup from './VoucherPopup';
-import AddressPopup from './AddressPopup';
+import "./ShoppingCart.css";
+import { useLocation } from "react-router-dom";
+import VoucherPopup from "./VoucherPopup";
+import AddressPopup from "./AddressPopup";
 const ShoppingCart = () => {
   const { token } = useSelector((state) => state.auth);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -13,9 +13,9 @@ const ShoppingCart = () => {
   const [districts, setDistricts] = useState([]);
   const [selectedCityID, setSelectedCityID] = useState(null);
   const [selectedDistrictID, setSelectedDistrictID] = useState(null);
-  const [receiver, setReceiver] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [address, setAddress] = useState('');
+  const [receiver, setReceiver] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const location = useLocation();
@@ -31,18 +31,24 @@ const ShoppingCart = () => {
   const [points, setPoints] = useState(0);
   const [usePoints, setUsePoints] = useState(false);
   const [showAddressPopup, setShowAddressPopup] = useState(false);
-  const [selectedShippingAddressID, setSelectedShippingAddressID] = useState(null);
+  const [selectedShippingAddressID, setSelectedShippingAddressID] =
+    useState(null);
   const [usingSavedAddress, setUsingSavedAddress] = useState(false);
 
   const params = new URLSearchParams(location.search);
-  let status = params.get('status');
+  let status = params.get("status");
+  if (status === null) {
+    status = '0';
+  }
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/v1/voucher/getVouchersByUserID/${userId}`);
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/voucher/getVouchersByUserID/${userId}`
+        );
         setVouchers(response.data);
       } catch (err) {
-        console.error('Error fetching vouchers:', err);
+        console.error("Error fetching vouchers:", err);
         setError(err.response ? err.response.data.message : err.message);
       }
     };
@@ -58,38 +64,23 @@ const ShoppingCart = () => {
       setSelectedVoucher(voucher);
       setShowVoucherPopup(false);
     } else {
-      alert(`This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0} đ.`);
+      alert(
+        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        } đ.`
+      );
     }
   };
 
-
   useEffect(() => {
-
-    const code = params.get('code');
+    const code = params.get("code");
     const userIdd = getUserIdFromToken(token);
     setUserId(userIdd);
     if (status && code) {
-      if (status === '1') {
-        if (orderID) {
-          axios.post(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`, {
-            statusOrderID: 1
-          })
-          axios.post(`http://localhost:5000/api/v1/order/checkoutOrder`, {
-            userID: userIdd
-          })
-            .then(response => {
-              alert('Payment successful !!!!');
-            })
-            .catch(error => {
-              console.error('Error updating order status:', error);
-              alert('Payment successful, but failed to update order status.');
-            });
-          window.open("http://localhost:3000/", "_self");
-        } else {
-          console.error('orderID is not set');
-        }
+      if (status === "1") {
+        alert("Payment successful !!!!");
+        window.open("http://localhost:3000/", "_self");
       } else if (status === "0") {
-        alert('Payment failed. Please try again.');
+        alert("Payment failed. Please try again.");
       }
     }
   }, [location.search, orderID]);
@@ -99,21 +90,27 @@ const ShoppingCart = () => {
       try {
         const userId = getUserIdFromToken(token);
 
-        if (!userId) throw new Error('Failed to fetch user ID');
+        if (!userId) throw new Error("Failed to fetch user ID");
 
-        const ordersResponse = await axios.get(`http://localhost:5000/api/v1/order/getOpenOrderForUser/${userId}`);
+        const ordersResponse = await axios.get(
+          `http://localhost:5000/api/v1/order/getOpenOrderForUser/${userId}`
+        );
         const orders = ordersResponse.data;
 
-        if (orders.length === 0) throw new Error('No orders found for user');
+        if (orders.length === 0) throw new Error("No orders found for user");
 
         const orderID = orders.OrderID;
         setOrderID(orderID);
 
-        const orderDetailsResponse = await axios.get(`http://localhost:5000/api/v1/order/getOrder/${orderID}`);
+        const orderDetailsResponse = await axios.get(
+          `http://localhost:5000/api/v1/order/getOrder/${orderID}`
+        );
         const orderDetails = orderDetailsResponse.data;
 
-        const productDetailsPromises = orderDetails.map(async orderItem => {
-          const productResponse = await axios.get(`http://localhost:5000/api/v1/product/getProductInforID/${orderItem.ProductID}`);
+        const productDetailsPromises = orderDetails.map(async (orderItem) => {
+          const productResponse = await axios.get(
+            `http://localhost:5000/api/v1/product/getProductInforID/${orderItem.ProductID}`
+          );
           return {
             ...orderItem,
             productInfo: productResponse.data,
@@ -132,7 +129,7 @@ const ShoppingCart = () => {
         setProductQuantities(initialQuantities);
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching order details:', err);
+        console.error("Error fetching order details:", err);
         setError(err.response ? err.response.data.message : err.message);
         setLoading(false);
       }
@@ -140,22 +137,24 @@ const ShoppingCart = () => {
 
     const fetchCities = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/city/getAllCities/');
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/city/getAllCities/"
+        );
         setCities(response.data);
       } catch (err) {
-        console.error('Error fetching cities:', err);
+        console.error("Error fetching cities:", err);
         setError(err.response ? err.response.data.message : err.message);
       }
     };
     const fetchUserDetails = async () => {
       try {
         const userId = getUserIdFromToken(token);
-        const userDetailsResponse = await axios.get(`http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`);
+        const userDetailsResponse = await axios.get(
+          `http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`
+        );
         const userPoints = userDetailsResponse.data.data.Point;
         setPoints(userPoints);
-
       } catch (err) {
-
         setError(err.response ? err.response.data.message : err.message);
       }
     };
@@ -171,10 +170,12 @@ const ShoppingCart = () => {
     const fetchDistricts = async () => {
       if (selectedCityID) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/v1/district/getDistrictByID/${selectedCityID}`);
+          const response = await axios.get(
+            `http://localhost:5000/api/v1/district/getDistrictByID/${selectedCityID}`
+          );
           setDistricts(response.data);
         } catch (err) {
-          console.error('Error fetching districts:', err);
+          console.error("Error fetching districts:", err);
           setError(err.response ? err.response.data.message : err.message);
         }
       }
@@ -183,14 +184,21 @@ const ShoppingCart = () => {
     fetchDistricts();
   }, [selectedCityID]);
 
-  if (loading) return <div><h1>Đang tải...</h1></div>;
+  if (loading)
+    return (
+      <div>
+        <h1>Đang tải...</h1>
+      </div>
+    );
   if (error) return <div>Error: {error}</div>;
 
   const calculateSubtotal = () => {
     return orderDetails.reduce((acc, item) => {
       const productId = item.ProductID;
       if (selectedProducts[productId]) {
-        return acc + (productQuantities[productId] || item.Quantity) * item.Price;
+        return (
+          acc + (productQuantities[productId] || item.Quantity) * item.Price
+        );
       }
       return acc;
     }, 0);
@@ -201,12 +209,11 @@ const ShoppingCart = () => {
       const subtotal = calculateSubtotal();
 
       if (subtotal >= selectedVoucher.MinDiscount) {
-
         const discountPercentage = Number(selectedVoucher.DiscountPercentage);
         const maxDiscountAmount = Number(selectedVoucher.MaxDiscount);
 
         if (isNaN(discountPercentage) || isNaN(maxDiscountAmount)) {
-          console.error('Invalid voucher data:', selectedVoucher);
+          console.error("Invalid voucher data:", selectedVoucher);
           return 0;
         }
 
@@ -215,7 +222,7 @@ const ShoppingCart = () => {
 
         return isNaN(validDiscount) ? 0 : validDiscount;
       } else {
-        console.warn('Subtotal is less than MinDiscount.');
+        console.warn("Subtotal is less than MinDiscount.");
       }
     }
 
@@ -237,7 +244,6 @@ const ShoppingCart = () => {
     return total;
   };
 
-
   const subtotal = calculateSubtotal();
   const discount = 0;
   // const total = subtotal + discount;
@@ -247,18 +253,17 @@ const ShoppingCart = () => {
       setProductToRemove(productId);
       return;
     }
-    setProductQuantities(prevQuantities => ({
+    setProductQuantities((prevQuantities) => ({
       ...prevQuantities,
       [productId]: quantity,
     }));
   };
 
   const handleProductSelect = (productId, isSelected) => {
-    setSelectedProducts(prevSelected => ({
+    setSelectedProducts((prevSelected) => ({
       ...prevSelected,
       [productId]: isSelected,
     }));
-
   };
 
   const handlePaymentMethodChange = (method) => {
@@ -276,82 +281,100 @@ const ShoppingCart = () => {
 
   const handleOrder = async () => {
     try {
-      const selectedProductIds = Object.keys(selectedProducts).filter(productId => selectedProducts[productId]);
+      const selectedProductIds = Object.keys(selectedProducts).filter(
+        (productId) => selectedProducts[productId]
+      );
 
       if (selectedProductIds.length === 0) {
-        alert('Vui lòng chọn ít nhất một sản phẩm.');
+        alert("Vui lòng chọn ít nhất một sản phẩm.");
         return;
       }
 
       if (!paymentMethod) {
-        alert('Vui lòng chọn hình thức thanh toán.');
+        alert("Vui lòng chọn hình thức thanh toán.");
         return;
       }
 
       if (!receiver || !phoneNumber || !address) {
-        alert('Vui lòng nhập hoặc chọn địa chỉ giao hàng.');
+        alert("Vui lòng nhập hoặc chọn địa chỉ giao hàng.");
         return;
       }
 
       if (orderID) {
-
-
         if (usingSavedAddress && selectedShippingAddressID) {
-          await axios.post('http://localhost:5000/api/v1/order/updateShippingAddressID', {
-            orderID,
-            shippingAddressID: selectedShippingAddressID
-          });
+          await axios.post(
+            "http://localhost:5000/api/v1/order/updateShippingAddressID",
+            {
+              orderID,
+              shippingAddressID: selectedShippingAddressID,
+            }
+          );
         } else {
-          const selectedCity = cities.find(city => city.ID === parseInt(selectedCityID))?.CityName;
-          const selectedDistrict = districts.find(district => district.DistrictID === parseInt(selectedDistrictID))?.DistrictName;
+          const selectedCity = cities.find(
+            (city) => city.ID === parseInt(selectedCityID)
+          )?.CityName;
+          const selectedDistrict = districts.find(
+            (district) => district.DistrictID === parseInt(selectedDistrictID)
+          )?.DistrictName;
 
-          await axios.post('http://localhost:5000/api/v1/order/addInfoCusToOrder', {
-            receiver: receiver,
-            phoneNumber: phoneNumber,
-            address: `${address}, ${selectedDistrict}, ${selectedCity}`,
-            userID: userId
-          });
+          await axios.post(
+            "http://localhost:5000/api/v1/order/addInfoCusToOrder",
+            {
+              receiver: receiver,
+              phoneNumber: phoneNumber,
+              address: `${address}, ${selectedDistrict}, ${selectedCity}`,
+              userID: userId,
+            }
+          );
         }
-        const productQuantitiesToUpdate = selectedProductIds.map(productId => ({
-          productID: productId,
-          quantity: productQuantities[productId] || orderDetails.find(item => item.ProductID === productId).Quantity
-        }));
-
-        await axios.post('http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder', {
-          orderID,
-          productQuantities: productQuantitiesToUpdate,
-          paymentStatus: parseInt(status)
-        });
+        const productQuantitiesToUpdate = selectedProductIds.map(
+          (productId) => ({
+            productID: productId,
+            quantity:
+              productQuantities[productId] ||
+              orderDetails.find((item) => item.ProductID === productId)
+                .Quantity,
+          })
+        );
+        await axios.post(
+          "http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder",
+          {
+            orderID,
+            productQuantities: productQuantitiesToUpdate,
+            paymentStatus: parseInt(status),
+          }
+        );
 
         const totalAmount = calculateTotal();
 
-        const response = await axios.post('http://localhost:5000/api/v1/payment/create_payment_url', {
-          orderID,
-          amount: totalAmount,
-          language: "vn"
-        });
+        const response = await axios.post(
+          "http://localhost:5000/api/v1/payment/create_payment_url",
+          {
+            orderID,
+            amount: totalAmount,
+            language: "vn",
+          }
+        );
         if (response) {
           window.open(response.data.url);
           if (status === "1") {
-            await axios.post('http://localhost:5000/api/v1/order/updateTotalAmountOfOrder', {
-              orderID,
-              totalAmount
-            });
 
             if (selectedVoucher) {
-              await axios.post('http://localhost:5000/api/v1/voucher/removeVoucherFromUser', {
-                userID: userId,
-                voucherID: selectedVoucher.VoucherID
-              });
+              await axios.post(
+                "http://localhost:5000/api/v1/voucher/removeVoucherFromUser",
+                {
+                  userID: userId,
+                  voucherID: parseInt(selectedVoucher.VoucherID),
+                }
+              );
             }
           }
-
         }
       } else {
-        console.error('orderID is not set');
+        console.error("orderID is not set");
       }
     } catch (error) {
-      console.error('Error processing order:', error);
+      console.error("Error processing order:", error);
       setError(error.response ? error.response.data.message : error.message);
     }
   };
@@ -359,18 +382,23 @@ const ShoppingCart = () => {
   const confirmRemoveProduct = async () => {
     try {
       if (orderID && productToRemove) {
-        await axios.post('http://localhost:5000/api/v1/order/removeProductFromOrder', {
-          OrderID: orderID,
-          ProductID: productToRemove
-        });
+        await axios.post(
+          "http://localhost:5000/api/v1/order/removeProductFromOrder",
+          {
+            OrderID: orderID,
+            ProductID: productToRemove,
+          }
+        );
 
-        setOrderDetails(prevDetails => prevDetails.filter(item => item.ProductID !== productToRemove));
-        setProductQuantities(prevQuantities => {
+        setOrderDetails((prevDetails) =>
+          prevDetails.filter((item) => item.ProductID !== productToRemove)
+        );
+        setProductQuantities((prevQuantities) => {
           const newQuantities = { ...prevQuantities };
           delete newQuantities[productToRemove];
           return newQuantities;
         });
-        setSelectedProducts(prevSelected => {
+        setSelectedProducts((prevSelected) => {
           const newSelected = { ...prevSelected };
           delete newSelected[productToRemove];
           return newSelected;
@@ -378,7 +406,7 @@ const ShoppingCart = () => {
         setProductToRemove(null);
       }
     } catch (error) {
-      console.error('Error removing product from order:', error);
+      console.error("Error removing product from order:", error);
       setError(error.response ? error.response.data.message : error.message);
     }
   };
@@ -391,7 +419,9 @@ const ShoppingCart = () => {
       <div className="checkout">
         <div className="customer-info">
           <div className="address-section">
-            <button onClick={() => setShowAddressPopup(true)}>Dùng địa chỉ cũ</button>
+            <button onClick={() => setShowAddressPopup(true)}>
+              Dùng địa chỉ cũ
+            </button>
             <input
               type="text"
               placeholder="Người nhận"
@@ -413,16 +443,28 @@ const ShoppingCart = () => {
               onChange={(e) => setAddress(e.target.value)}
               disabled={usingSavedAddress}
             />
-            <select value={selectedCityID} onChange={(e) => setSelectedCityID(e.target.value)} disabled={usingSavedAddress}>
+            <select
+              value={selectedCityID}
+              onChange={(e) => setSelectedCityID(e.target.value)}
+              disabled={usingSavedAddress}
+            >
               <option value="">Chọn thành phố</option>
-              {cities.map(city => (
-                <option key={city.ID} value={city.ID}>{city.CityName}</option>
+              {cities.map((city) => (
+                <option key={city.ID} value={city.ID}>
+                  {city.CityName}
+                </option>
               ))}
             </select>
-            <select value={selectedDistrictID} onChange={(e) => setSelectedDistrictID(e.target.value)} disabled={usingSavedAddress}>
+            <select
+              value={selectedDistrictID}
+              onChange={(e) => setSelectedDistrictID(e.target.value)}
+              disabled={usingSavedAddress}
+            >
               <option value="">Chọn quận huyện</option>
-              {districts.map(district => (
-                <option key={district.DistrictID} value={district.DistrictID}>{district.DistrictName}</option>
+              {districts.map((district) => (
+                <option key={district.DistrictID} value={district.DistrictID}>
+                  {district.DistrictName}
+                </option>
               ))}
             </select>
           </div>
@@ -430,7 +472,7 @@ const ShoppingCart = () => {
 
         <div className="product-info">
           <h3>SẢN PHẨM ({orderDetails.length} sản phẩm)</h3>
-          {orderDetails.map(item => {
+          {orderDetails.map((item) => {
             const productInfo = item.productInfo[0];
             const productId = item.ProductID;
             const quantity = productQuantities[productId] || item.Quantity;
@@ -440,16 +482,32 @@ const ShoppingCart = () => {
                 <input
                   type="checkbox"
                   checked={isSelected}
-                  onChange={(e) => handleProductSelect(productId, e.target.checked)}
+                  onChange={(e) =>
+                    handleProductSelect(productId, e.target.checked)
+                  }
                 />
                 <img src={productInfo?.Image} alt={productInfo?.ProductName} />
                 <div>
-                  <p className='ten-sp-cartth'>{productInfo?.ProductName}</p>
-                  <p className='gia-sp-cartth'>{item.Price.toLocaleString()} đ</p>
+                  <p className="ten-sp-cartth">{productInfo?.ProductName}</p>
+                  <p className="gia-sp-cartth">
+                    {item.Price.toLocaleString()} đ
+                  </p>
                   <div className="quantity-control">
-                    <button onClick={() => handleQuantityChange(productId, quantity - 1)}>-</button>
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(productId, quantity - 1)
+                      }
+                    >
+                      -
+                    </button>
                     <span>Số lượng: {quantity}</span>
-                    <button onClick={() => handleQuantityChange(productId, quantity + 1)}>+</button>
+                    <button
+                      onClick={() =>
+                        handleQuantityChange(productId, quantity + 1)
+                      }
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
               </div>
@@ -465,11 +523,12 @@ const ShoppingCart = () => {
               <span>{subtotal.toLocaleString()} đ</span>
             </div>
             <div className="voucher-selection">
-              <button onClick={() => setShowVoucherPopup(true)}>Chọn Voucher</button>
+              <button onClick={() => setShowVoucherPopup(true)}>
+                Chọn Voucher
+              </button>
               {selectedVoucher && (
                 <p>
                   Voucher đã chọn: - {selectedVoucher.DiscountPercentage || 0}%
-
                 </p>
               )}
             </div>
@@ -503,8 +562,8 @@ const ShoppingCart = () => {
                 id="online"
                 name="payment"
                 value="online"
-                checked={paymentMethod === 'online'}
-                onChange={() => handlePaymentMethodChange('online')}
+                checked={paymentMethod === "online"}
+                onChange={() => handlePaymentMethodChange("online")}
               />
               <label htmlFor="online">
                 <i className="fa fa-credit-card"></i>
@@ -513,7 +572,9 @@ const ShoppingCart = () => {
             </div>
           </div>
           <textarea placeholder="Viết ghi chú, yêu cầu hóa đơn GTGT..."></textarea>
-          <button className="order-btn" onClick={handleOrder}>ĐẶT HÀNG</button>
+          <button className="order-btn" onClick={handleOrder}>
+            ĐẶT HÀNG
+          </button>
         </div>
       </div>
 
@@ -522,8 +583,18 @@ const ShoppingCart = () => {
           <div className="popup-inner-cart-thinh">
             <h2>Xóa sản phẩm</h2>
             <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
-            <button className="popup-btn-cart-thinh" onClick={confirmRemoveProduct}>Có</button>
-            <button className="popup-btn-cart-thinh" onClick={() => setProductToRemove(null)}>Không</button>
+            <button
+              className="popup-btn-cart-thinh"
+              onClick={confirmRemoveProduct}
+            >
+              Có
+            </button>
+            <button
+              className="popup-btn-cart-thinh"
+              onClick={() => setProductToRemove(null)}
+            >
+              Không
+            </button>
           </div>
         </div>
       )}
@@ -542,12 +613,8 @@ const ShoppingCart = () => {
           onClose={() => setShowAddressPopup(false)}
         />
       )}
-
     </div>
   );
 };
 
 export default ShoppingCart;
-
-
-
