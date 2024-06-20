@@ -8,7 +8,7 @@ const orderDAO = {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request()
-        .input("OrderID", mssql.Int, OrderID);
+          .input("OrderID", mssql.Int, OrderID);
         request.query(
           `SELECT o.UserID
           FROM Payment p 
@@ -799,8 +799,8 @@ const orderDAO = {
 
         const request = new mssql.Request();
         request
-          .input("orderId", mssql.Int, orderID)
-          .input("reasonCancelContent", mssql.VarChar, reasonCancelContent);
+          .input('orderId', mssql.Int, orderID)
+          .input('reasonCancelContent', mssql.NVarChar, reasonCancelContent);
 
         const updateQuery = `
               UPDATE Orders

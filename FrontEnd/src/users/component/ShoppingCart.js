@@ -37,6 +37,9 @@ const ShoppingCart = () => {
 
   const params = new URLSearchParams(location.search);
   let status = params.get("status");
+  if (status === null) {
+    status = '0';
+  }
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
@@ -62,8 +65,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       alert(
-        `This voucher requires a minimum purchase of ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -75,8 +77,8 @@ const ShoppingCart = () => {
     setUserId(userIdd);
     if (status && code) {
       if (status === "1") {
-          alert("Payment successful !!!!");
-          window.open("http://localhost:3000/", "_self");
+        alert("Payment successful !!!!");
+        window.open("http://localhost:3000/", "_self");
       } else if (status === "0") {
         alert("Payment failed. Please try again.");
       }
@@ -334,7 +336,6 @@ const ShoppingCart = () => {
                 .Quantity,
           })
         );
-
         await axios.post(
           "http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder",
           {
@@ -357,12 +358,13 @@ const ShoppingCart = () => {
         if (response) {
           window.open(response.data.url);
           if (status === "1") {
+
             if (selectedVoucher) {
               await axios.post(
                 "http://localhost:5000/api/v1/voucher/removeVoucherFromUser",
                 {
                   userID: userId,
-                  voucherID: selectedVoucher.VoucherID,
+                  voucherID: parseInt(selectedVoucher.VoucherID),
                 }
               );
             }
