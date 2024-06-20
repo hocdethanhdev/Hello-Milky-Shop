@@ -2,6 +2,10 @@ const orderDAO = require('../dao/orderDAO');
 
 const orderRepository = {
 
+    getUserIDFromOrderID: (OrderID) => {
+        return orderDAO.getUserIDFromOrderID(OrderID);
+    },
+
     countOrdersIn7Days: () => {
         return orderDAO.countOrdersIn7Days();
     },
