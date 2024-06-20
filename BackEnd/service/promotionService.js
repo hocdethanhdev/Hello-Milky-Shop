@@ -2,8 +2,8 @@ const { getAllPromotions } = require('../dao/promotionDAO');
 const promotionRepository = require('../repository/promotionRepository');
 
 const promotionService = {
-    getPormotionByDate: async () => {
-        return await promotionRepository.getPormotionByDate();
+    getPromotionByDate: async () => {
+        return await promotionRepository.getPromotionByDate();
     },
 
     getAllPromotions: async () => {
