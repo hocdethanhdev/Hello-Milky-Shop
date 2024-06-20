@@ -86,6 +86,8 @@ const getVouchersforUser = async (req, res) => {
     }
 };
 
+
+
 module.exports = {
     getAllVouchers,
     addVoucher,
@@ -94,5 +96,5 @@ module.exports = {
     saveVoucherForUser,
     getVouchersByUserID,
     getVouchersforUser,
-    removeVoucherFromUser
+    removeVoucherFromUser,
 };

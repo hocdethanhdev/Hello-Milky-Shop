@@ -374,9 +374,9 @@ const orderDAO = {
             SELECT orderDate, 0, 0, userID
             FROM Orders
             WHERE OrderID = ${orderID};
-  
+    
             DECLARE @newOrderID INT = SCOPE_IDENTITY();
-  
+    
             INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
             SELECT @newOrderID, ProductID, Quantity, Price
             FROM OrderDetail
@@ -414,6 +414,7 @@ const orderDAO = {
       });
     });
   },
+
   removeProductFromOrder: (orderID, productID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -483,10 +484,10 @@ const orderDAO = {
               const updateProductQueries = orderDetails
                 .map((detail) => {
                   return `
-                                UPDATE Product
-                                SET StockQuantity = StockQuantity - ${detail.Quantity}
-                                WHERE ProductID = '${detail.ProductID}';
-                            `;
+                    UPDATE Product
+                    SET StockQuantity = StockQuantity - ${detail.Quantity}
+                     WHERE ProductID = '${detail.ProductID}';
+                      `;
                 })
                 .join(" ");
 
@@ -623,7 +624,7 @@ const orderDAO = {
     
                     DECLARE @shippingAddressID INT;
                     SET @shippingAddressID = SCOPE_IDENTITY();
-    
+
                     UPDATE Orders
                     SET ShippingAddressID = @shippingAddressID
                     WHERE OrderID = (
@@ -638,6 +639,31 @@ const orderDAO = {
           if (err) return reject(err);
           resolve(result);
         });
+      });
+    });
+  },
+
+  updateShippingAddressID: (orderID, shippingAddressID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        request
+          .input("orderID", mssql.Int, orderID)
+          .input("shippingAddressID", mssql.Int, shippingAddressID);
+
+        const updateQuery = `
+                    UPDATE Orders
+                    SET ShippingAddressID = @shippingAddressID
+                    WHERE OrderID = @orderID;
+                `;
+
+        request.query(updateQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+
       });
     });
   },
@@ -716,7 +742,7 @@ const orderDAO = {
 
 
         const selectQuery = `
-                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, od.Price
+                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price
                   FROM Orders o
                   JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
                   LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID

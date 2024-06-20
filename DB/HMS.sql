@@ -322,3 +322,14 @@ BEGIN
 	WHERE UserID = @UserID
 END;
 GO
+CREATE TRIGGER trg_Change_Quantity_When_User_Get_Voucher
+ON UserVoucher
+AFTER INSERT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	UPDATE Voucher
+	SET Quantity = Quantity - 1
+	FROM Voucher v
+	JOIN inserted i ON i.VoucherID = v.VoucherID
+END;

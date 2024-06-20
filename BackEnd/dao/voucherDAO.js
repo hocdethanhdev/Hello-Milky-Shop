@@ -8,15 +8,6 @@ const voucherDAO = {
             mssql.connect(dbConfig, function (err, result) {
 
                 const request = new mssql.Request();
-                //Change status of voucher when the epiryDate is less than the current day
-                request.query(`
-                        UPDATE Voucher
-                        SET status = 0
-                        WHERE expiryDate < GETDATE() AND status != 0;`,
-                    (err, result) => {
-                        if (err) return reject(err);
-                    });
-
                 request.query(`SELECT * FROM Voucher;`,
                     (err, res) => {
                         if (err) reject(err);
@@ -26,11 +17,52 @@ const voucherDAO = {
             });
         });
     },
+    updateVoucherStatusAndRemoveFromUser: (oldStatus, newStatus) => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err) {
+                if (err) return reject(err);
+
+                const request = new mssql.Request();
+                request
+                    .input("oldStatus", mssql.Int, oldStatus)
+                    .input("newStatus", mssql.Int, newStatus);
+
+                const updateQuery = `
+                    UPDATE Voucher
+                    SET status = @newStatus
+                    WHERE expiryDate < GETDATE() AND status = @oldStatus;
+    
+                `;
+                const deleteQuery = `
+                    DELETE FROM UserVoucher
+                    WHERE VoucherID IN (
+                    SELECT VoucherID FROM Voucher WHERE expiryDate < GETDATE() AND status = @oldStatus
+                    );
+                    `
+
+                request.query(updateQuery, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result);
+                });
+
+                request.query(deleteQuery, (err, result) => {
+                    if (err) return reject(err);
+                    resolve(result);
+                });
+            });
+        });
+    },
+
     getVouchersforUser: () => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err, res) {
                 const request = new mssql.Request();
-                request.query(`SELECT * FROM VOUCHER WHERE GETDATE() <= VOUCHER.EXPIRYDATE;`,
+                request.query(`
+                        SELECT Voucher.*
+                        FROM Voucher
+                        LEFT JOIN UserVoucher ON Voucher.VoucherID = UserVoucher.VoucherID AND UserVoucher.UserID = 'M0000001'
+                        WHERE GETDATE() <= Voucher.ExpiryDate AND UserVoucher.UserID IS NULL;
+                        `,
                     (err, res) => {
                         if (err) reject(err);
 
@@ -243,7 +275,20 @@ const voucherDAO = {
                 request.input('userID', mssql.VarChar, userID);
 
                 const query = `
-                    SELECT * FROM UserVoucher WHERE UserID = @userID;
+                    SELECT 
+                        uv.UserVoucherID, 
+                        uv.UserID, 
+                        uv.VoucherID, 
+                       
+                        v.DiscountPercentage, 
+                        v.MaxDiscount, 
+                        v.MinDiscount, 
+                        v.StartDate, 
+                        v.ExpiryDate, 
+                        v.VoucherName
+                    FROM UserVoucher uv
+                    JOIN Voucher v ON uv.VoucherID = v.VoucherID
+                    WHERE uv.UserID = @userID;
                 `;
 
                 request.query(query, (err, result) => {
@@ -253,6 +298,8 @@ const voucherDAO = {
             });
         });
     }
+
+
 
 };
 

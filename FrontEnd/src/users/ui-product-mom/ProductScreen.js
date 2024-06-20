@@ -33,14 +33,15 @@ const ProductScreen = () => {
         };
 
         const checkUserOrder = async () => {
-            if (isLoggedIn){
+            if (isLoggedIn) {
                 try {
                     const response = await axios.post("http://localhost:5000/api/v1/comment/checkUserOrdered", {
                         UserID: userId,
                         ProductID: productId,
                     });
-    
-                    console.log("API Response:", response.data); // Log response to check count value
+
+
+
                     if (response.data.count > 0) {
                         setCanRate(true);
                     } else {
@@ -49,10 +50,10 @@ const ProductScreen = () => {
                 } catch (err) {
                     console.error("Error checking user order:", err);
                 }
-            }else{
+            } else {
                 setCanRate(false);
             }
-            
+
         };
 
         fetchProduct();

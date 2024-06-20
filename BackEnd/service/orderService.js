@@ -1,5 +1,5 @@
 
-const { getOrderDetailByOrderID, getOrdersForUserByStatusOrderID, updateTotalAmountOfOrder } = require('../dao/orderDAO');
+const { getOrderDetailByOrderID, getOrdersForUserByStatusOrderID, updateTotalAmountOfOrder, updateShippingAddressID } = require('../dao/orderDAO');
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
@@ -146,9 +146,15 @@ const orderService = {
             throw new Error(`Error getting the order detail: ${error.message}`);
         }
     },
-    changeQuantityOfProductInOrder: async (orderID, productQuantities) => {
+    changeQuantityOfProductInOrder: async (orderID, productQuantities, paymentStatus) => {
         try {
-            return await orderRepository.changeQuantityOfProductInOrder(orderID, productQuantities);
+            // Kiểm tra paymentStatus trước khi thực hiện bất kỳ logic nào
+            if (paymentStatus === 0) {
+                return { message: "Payment status is 0, no changes made" };
+            }
+
+            const result = await orderRepository.changeQuantityOfProductInOrder(orderID, productQuantities);
+            return { message: "Order quantities updated and unselected items moved to a new order successfully" };
         } catch (error) {
             throw new Error(`Error changing quantity of products in order: ${error.message}`);
         }
@@ -230,6 +236,16 @@ const orderService = {
             throw new Error(`Error update the total amount of an order: ${error.message}`);
         }
     },
+
+    updateShippingAddressID: async (orderID, shippingAddressID) => {
+        try {
+            const orders = await orderRepository.updateShippingAddressID(orderID, shippingAddressID);
+            return orders;
+        } catch (error) {
+            throw new Error(`Error update the shipping address ID of an order: ${error.message}`);
+        }
+    },
+
     getReasonCancleOrderByUserID: async (userID) => {
         try {
             const orders = await orderRepository.getReasonCancleOrderByUserID(userID);
@@ -239,4 +255,5 @@ const orderService = {
         }
     },
 }
+
 module.exports = orderService;
