@@ -34,7 +34,6 @@ const ShoppingCart = () => {
   const [selectedShippingAddressID, setSelectedShippingAddressID] =
     useState(null);
   const [usingSavedAddress, setUsingSavedAddress] = useState(false);
-  let productQuantitiesToUpdate;
   let totalAmount = 0;
   const params = new URLSearchParams(location.search);
   let status = params.get("status");
@@ -68,55 +67,7 @@ const ShoppingCart = () => {
         } đ.`
       );
     }
-  };
-
-  useEffect(() => {
-    const checkoutOrder = async () => {
-      try {
-        await axios.post(
-          "http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder",
-          {
-            orderID,
-            productQuantities: productQuantitiesToUpdate,
-            paymentStatus: parseInt(status),
-          }
-        );
-        console.log(totalAmount);
-        await axios.post(
-          "http://localhost:5000/api/v1/order/updateTotalAmountOfOrder",
-          {
-            orderID,
-            totalAmount,
-          }
-        );
-        await axios.post(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`, {
-          statusOrderID: 1
-        })
-        await axios.post(`http://localhost:5000/api/v1/order/checkoutOrder`, {
-          userID: userIdd
-        })
-      } catch (err) {
-        console.error("Error fetching:", err);
-        setError(err.response ? err.response.data.message : err.message);
-      }
-    };
-    
-    const code = params.get("code");
-    const userIdd = getUserIdFromToken(token);
-    setUserId(userIdd);
-    if (status && code) {
-      if (status === "1") {
-        alert("Payment successful !!!!");
-
-
-        checkoutOrder();
-
-        window.open("http://localhost:3000/", "_self");
-      } else if (status === "0") {
-        alert("Payment failed. Please try again.");
-      }
-    }
-  }, [location.search, orderID]);
+  };  
 
   useEffect(() => {
     const fetchUserOrders = async () => {
@@ -360,7 +311,7 @@ const ShoppingCart = () => {
             }
           );
         }
-        productQuantitiesToUpdate = selectedProductIds.map(
+        const productQuantitiesToUpdate = selectedProductIds.map(
           (productId) => ({
             productID: productId,
             quantity:
@@ -369,10 +320,16 @@ const ShoppingCart = () => {
                 .Quantity,
           })
         );
-
-        
+        if (productQuantitiesToUpdate.length > 0) {
+          localStorage.setItem(
+            "productQuantitiesToUpdate",
+            JSON.stringify(productQuantitiesToUpdate)
+          );
+        }
 
         totalAmount = calculateTotal();
+        localStorage.setItem("totalAmount", totalAmount);
+        localStorage.setItem("orderID", orderID);
 
         const response = await axios.post(
           "http://localhost:5000/api/v1/payment/create_payment_url",

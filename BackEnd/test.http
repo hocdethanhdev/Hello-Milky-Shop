@@ -123,8 +123,8 @@ POST http://localhost:5000/api/v1/auth/register
 Content-Type: application/json
 
 {
-    "UserName": "Tri",
-    "PhoneNumber": "0348216719",
+    "UserName": "SWP",
+    "PhoneNumber": "84909090909",
     "Password": "1",
     "RoleID": 3
 }

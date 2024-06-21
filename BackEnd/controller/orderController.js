@@ -153,8 +153,8 @@ const getOrderDetailByOrderID = async (req, res) => {
 
 const changeQuantityOfProductInOrder = async (req, res) => {
     try {
-        const { orderID, productQuantities, paymentStatus } = req.body;
-        const result = await orderService.changeQuantityOfProductInOrder(orderID, productQuantities, paymentStatus);
+        const { orderID, productQuantities } = req.body;
+        const result = await orderService.changeQuantityOfProductInOrder(orderID, productQuantities);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });

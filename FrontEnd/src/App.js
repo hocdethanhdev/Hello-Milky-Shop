@@ -47,6 +47,7 @@ import ResetPassword from './users/component/ResetPassword';
 import News from "./users/component/News";
 import AdminSlidebar from "./managers/admin/AdminSlidebar";
 import SignupAd from "./managers/admin/SignupAd";
+import PaymentSuccess from "./users/component/PaymenSuccess";
 
 function App() {
   const { role } = useSelector((state) => state.auth);
@@ -75,6 +76,7 @@ function App() {
   // Default Routes
   const defaultRoutes = useMemo(() => (
     <Routes>
+      <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
       <Route path="/" element={<Product1 />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
