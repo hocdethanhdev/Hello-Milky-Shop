@@ -20,7 +20,6 @@ const ShoppingCart = () => {
   const [error, setError] = useState(null);
   const location = useLocation();
   const [orderID, setOrderID] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [productQuantities, setProductQuantities] = useState({});
   const [selectedProducts, setSelectedProducts] = useState({});
   const [paymentMethod, setPaymentMethod] = useState(null);
@@ -37,7 +36,13 @@ const ShoppingCart = () => {
   let totalAmount = 0;
   const params = new URLSearchParams(location.search);
   let status = params.get("status");
+
+  function getUserID() {
+    return getUserIdFromToken(token);
+  }
+
   useEffect(() => {
+    const userId = getUserID();
     const fetchVouchers = async () => {
       try {
         const response = await axios.get(
@@ -53,12 +58,13 @@ const ShoppingCart = () => {
     if (userId) {
       fetchVouchers();
     }
-  }, [userId]);
+  }, []);
 
   const handleVoucherSelect = (voucher) => {
     const subtotal = calculateTotal();
     if (voucher.MinDiscount !== undefined && subtotal >= voucher.MinDiscount) {
       setSelectedVoucher(voucher);
+      localStorage.setItem("selectedVoucher", voucher.VoucherID);
       setShowVoucherPopup(false);
     } else {
       alert(
@@ -67,12 +73,12 @@ const ShoppingCart = () => {
         } đ.`
       );
     }
-  };  
+  };
 
   useEffect(() => {
     const fetchUserOrders = async () => {
       try {
-        const userId = getUserIdFromToken(token);
+        const userId = getUserID();
 
         if (!userId) throw new Error("Failed to fetch user ID");
 
@@ -132,7 +138,7 @@ const ShoppingCart = () => {
     };
     const fetchUserDetails = async () => {
       try {
-        const userId = getUserIdFromToken(token);
+        const userId = getUserID();
         const userDetailsResponse = await axios.get(
           `http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`
         );
@@ -307,7 +313,7 @@ const ShoppingCart = () => {
               receiver: receiver,
               phoneNumber: phoneNumber,
               address: `${address}, ${selectedDistrict}, ${selectedCity}`,
-              userID: userId,
+              userID: getUserID(),
             }
           );
         }
@@ -330,6 +336,10 @@ const ShoppingCart = () => {
         totalAmount = calculateTotal();
         localStorage.setItem("totalAmount", totalAmount);
         localStorage.setItem("orderID", orderID);
+        console.log(usePoints);
+        if(usePoints){
+          localStorage.setItem("usePoints", usePoints);
+        }
 
         const response = await axios.post(
           "http://localhost:5000/api/v1/payment/create_payment_url",
@@ -340,18 +350,7 @@ const ShoppingCart = () => {
           }
         );
         if (response) {
-          window.open(response.data.url);
-          if (status === "1") {
-            if (selectedVoucher) {
-              await axios.post(
-                "http://localhost:5000/api/v1/voucher/removeVoucherFromUser",
-                {
-                  userID: userId,
-                  voucherID: selectedVoucher.VoucherID,
-                }
-              );
-            }
-          }
+          window.open(response.data.url, "_self");
         }
       } else {
         console.error("orderID is not set");
@@ -554,7 +553,7 @@ const ShoppingCart = () => {
               </label>
             </div>
           </div>
-          <textarea placeholder="Viết ghi chú, yêu cầu hóa đơn GTGT..."></textarea>
+          
           <button className="order-btn" onClick={handleOrder}>
             ĐẶT HÀNG
           </button>
@@ -591,7 +590,7 @@ const ShoppingCart = () => {
 
       {showAddressPopup && (
         <AddressPopup
-          userID={userId}
+          userID={getUserID()}
           onSelect={handleAddressSelect}
           onClose={() => setShowAddressPopup(false)}
         />

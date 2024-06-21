@@ -7,8 +7,11 @@ const orderDAO = {
   getUserIDFromOrderID: (OrderID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request()
-          .input("OrderID", mssql.Int, OrderID);
+        const request = new mssql.Request().input(
+          "OrderID",
+          mssql.Int,
+          OrderID
+        );
         request.query(
           `SELECT o.UserID
           FROM Payment p 
@@ -19,8 +22,8 @@ const orderDAO = {
             if (err) reject(err);
 
             resolve({
-              "err": res?.recordset[0] !== null ? 0 : 1,
-              "UserID": res?.recordset[0].UserID
+              err: res?.recordset[0] !== null ? 0 : 1,
+              UserID: res?.recordset[0].UserID,
             });
           }
         );
@@ -235,7 +238,6 @@ const orderDAO = {
         const request = new mssql.Request();
         request.input("userID", mssql.VarChar, userID);
 
-
         const selectQuery = `            
                   SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price as 'OldPrice', p.Image, od.Price as 'NewPrice', so.StatusOrderName, o.ReasonCancelContent
                   FROM Orders o
@@ -264,7 +266,7 @@ const orderDAO = {
         request.input("userID", mssql.VarChar, userID);
 
         const selectQuery = `
-                    SELECT * FROM Orders 
+                    SELECT TOP 1 * FROM Orders 
                     WHERE UserID = @userID AND status = 0
                 `;
 
@@ -546,6 +548,7 @@ const orderDAO = {
       });
     });
   },
+
   updateStatusOrderID: (orderID, statusOrderID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -800,8 +803,8 @@ const orderDAO = {
 
         const request = new mssql.Request();
         request
-          .input('orderId', mssql.Int, orderID)
-          .input('reasonCancelContent', mssql.NVarChar, reasonCancelContent);
+          .input("orderId", mssql.Int, orderID)
+          .input("reasonCancelContent", mssql.NVarChar, reasonCancelContent);
 
         const updateQuery = `
               UPDATE Orders

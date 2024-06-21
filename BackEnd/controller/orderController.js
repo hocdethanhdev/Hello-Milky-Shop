@@ -93,8 +93,8 @@ const getOrder = async (req, res) => {
 
 const checkoutOrder = async (req, res) => {
     try {
-        const { userID } = req.body;
-        await orderService.checkoutOrder(userID);
+        const { orderID } = req.body;
+        await orderService.checkoutOrder(orderID);
         res.status(200).json({ message: 'Order checked out successfully' });
 
     } catch (error) {

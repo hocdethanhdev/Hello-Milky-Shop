@@ -2,7 +2,7 @@ const userService = require("../service/userService");
 
 const usePoint = async (req, res) => {
   try {
-    const {UserID} = req.body;
+    const { UserID } = req.body;
     if(!UserID) res.status(400).json({
       err: 1,
       message: 'Missing input'

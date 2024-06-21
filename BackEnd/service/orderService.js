@@ -90,13 +90,9 @@ const orderService = {
         }
     },
 
-    checkoutOrder: async (userID) => {
+    checkoutOrder: async (orderID) => {
         try {
-            let openOrder = await orderRepository.getOpenOrderForUser(userID);
-            if (!openOrder) {
-                throw new Error('No open order to checkout');
-            }
-            await orderRepository.checkoutOrder(openOrder.OrderID);
+            await orderRepository.checkoutOrder(orderID);
         } catch (error) {
             throw new Error(`Error checking out order: ${error.message}`);
         }
@@ -152,7 +148,7 @@ const orderService = {
     },
     changeQuantityOfProductInOrder: async (orderID, productQuantities) => {
         try {
-            const result = await orderRepository.changeQuantityOfProductInOrder(orderID, productQuantities);
+            await orderRepository.changeQuantityOfProductInOrder(orderID, productQuantities);
             return { message: "Order quantities updated and unselected items moved to a new order successfully" };
         } catch (error) {
             throw new Error(`Error changing quantity of products in order: ${error.message}`);

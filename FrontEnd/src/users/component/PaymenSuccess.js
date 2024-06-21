@@ -1,127 +1,127 @@
 import React, { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { getUserIdFromToken } from "../store/actions/authAction";
-import { useSelector } from "react-redux";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import {getUserIdFromToken} from "../store/actions/authAction";
 
-const LoginSuccess = () => {
-  const location = useLocation();
+const PaymemSuccess = () => {
   const { token } = useSelector((state) => state.auth);
+
+  const location = useLocation();
   const params = new URLSearchParams(location.search);
   let status = params.get("status");
 
   useEffect(() => {
-    const checkoutOrder = async (orderID, totalAmount, userIdd) => {
+    const checkoutOrder = async (orderID, totalAmount) => {
       try {
         const storedProductQuantities = localStorage.getItem(
           "productQuantitiesToUpdate"
         );
+        const list = JSON.parse(storedProductQuantities);
 
-        // Make the first API request to update product quantities
-        await axios.post(
-          "http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder",
-          {
+        if (list !== null) {
+          localStorage.removeItem("productQuantitiesToUpdate");
+          await axios.post(
+            "http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder",
+            {
+              orderID: orderID,
+              productQuantities: list,
+            }
+          );
+        }
+
+        if (totalAmount) {
+          await axios.post(
+            "http://localhost:5000/api/v1/order/updateTotalAmountOfOrder",
+            {
+              orderID: orderID,
+              totalAmount: totalAmount,
+            }
+          );
+          localStorage.removeItem("totalAmount");
+        }
+
+        if (orderID) {
+          await axios.post(
+            `http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`,
+            {
+              statusOrderID: 1,
+            }
+          );
+
+          await axios.post(`http://localhost:5000/api/v1/order/checkoutOrder`, {
             orderID: orderID,
-            productQuantities: JSON.parse(storedProductQuantities),
-          }
-        );
+          });
 
-        localStorage.removeItem("productQuantitiesToUpdate");
+          localStorage.removeItem("orderID");
+        }
+        const voucher = localStorage.getItem("selectedVoucher");
+        console.log(voucher);
+        if (voucher) {
+          await axios.post(
+            "http://localhost:5000/api/v1/voucher/removeVoucherFromUser",
+            {
+              userID: getUserIdFromToken(token),
+              voucherID: parseInt(voucher)
+            }
+          );
 
-        // Make the second API request to update the total amount
-        await axios.post(
-          "http://localhost:5000/api/v1/order/updateTotalAmountOfOrder",
-          {
-            orderID: orderID,
-            totalAmount: totalAmount,
-          }
-        );
+          localStorage.removeItem("selectedVoucher");
+        }
 
-        localStorage.removeItem("totalAmount");
+        const usePoints = localStorage.getItem('usePoints');
+        console.log(usePoints);
+        if(usePoints){
+          await axios.put(
+            "http://localhost:5000/api/v1/user/usePoint",
+            {
+              UserID: getUserIdFromToken(token)
+            }
+          );
 
-        // Make the third API request to update the order status
-        await axios.post(
-          `http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`,
-          {
-            statusOrderID: 1,
-          }
-        );
+          localStorage.removeItem('usePoint')
+        }
 
-        localStorage.removeItem("orderID");
-
-        // Make the fourth API request to checkout the order
-        await axios.post(`http://localhost:5000/api/v1/order/checkoutOrder`, {
-          userID: userIdd,
-        });
-
-        alert("Giao dịch thành công"); // Move this alert here to ensure it only triggers on successful transaction
+        alert("Giao dịch thành công");
       } catch (err) {
         console.error("Error fetching:", err);
       }
     };
-
     const handlePaymentFailure = (code) => {
-      switch (code) {
-        case "07":
-          alert("Trừ tiền thành công. Giao dịch bị nghi ngờ...");
-          break;
-        case "09":
-          alert(
-            "Giao dịch không thành công do: Thẻ chưa đăng ký Internet Banking..."
-          );
-          break;
-        case "10":
-          alert(
-            "Giao dịch không thành công do: Xác thực thông tin không đúng quá 3 lần..."
-          );
-          break;
-        case "11":
-          alert("Giao dịch không thành công do: Hết hạn chờ thanh toán...");
-          break;
-        case "12":
-          alert("Giao dịch không thành công do: Thẻ bị khóa...");
-          break;
-        case "24":
-          alert("Giao dịch không thành công do: Hủy giao dịch...");
-          break;
-        case "51":
-          alert("Giao dịch không thành công do: Tài khoản không đủ số dư...");
-          break;
-        case "65":
-          alert(
-            "Giao dịch không thành công do: Vượt quá hạn mức giao dịch trong ngày..."
-          );
-          break;
-        case "75":
-          alert("Ngân hàng thanh toán đang bảo trì...");
-          break;
-        case "79":
-          alert(
-            "Giao dịch không thành công do: Nhập sai mật khẩu quá số lần quy định..."
-          );
-          break;
-        case "99":
-          alert("Giao dịch lỗi...");
-          break;
-        default:
-          alert("Giao dịch không thành công. Mã lỗi: " + code);
+      const errorMessages = {
+        "07": "Trừ tiền thành công. Giao dịch bị nghi ngờ...",
+        "09": "Giao dịch không thành công do: Thẻ chưa đăng ký Internet Banking...",
+        10: "Giao dịch không thành công do: Xác thực thông tin không đúng quá 3 lần...",
+        11: "Giao dịch không thành công do: Hết hạn chờ thanh toán...",
+        12: "Giao dịch không thành công do: Thẻ bị khóa...",
+        24: "Giao dịch không thành công do: Hủy giao dịch...",
+        51: "Giao dịch không thành công do: Tài khoản không đủ số dư...",
+        65: "Giao dịch không thành công do: Vượt quá hạn mức giao dịch trong ngày...",
+        75: "Ngân hàng thanh toán đang bảo trì...",
+        79: "Giao dịch không thành công do: Nhập sai mật khẩu quá số lần quy định...",
+        99: "Giao dịch lỗi...",
+      };
+
+      if (errorMessages[code]) {
+        alert(errorMessages[code]);
+      } else {
+        alert(`Giao dịch không thành công. Mã lỗi: ${code}`);
       }
     };
 
     const code = params.get("code");
-    const userIdd = getUserIdFromToken(token);
 
     if (status === "1") {
       const orderID = localStorage.getItem("orderID");
       const totalAmount = localStorage.getItem("totalAmount");
 
-      checkoutOrder(orderID, parseInt(totalAmount), userIdd);
-    } else if (status === "0") {
+      checkoutOrder(orderID, totalAmount);
+    } else if (status === "0" && code) {
       handlePaymentFailure(code);
     }
-  }, []);
+  });
 
   return <Navigate to="/" replace />;
 };
 
-export default LoginSuccess;
+export default PaymemSuccess;

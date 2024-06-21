@@ -97,7 +97,7 @@ const commentDAO = {
 
             resolve({
               err: res?.recordset[0] === null ? 1 : 0,
-              count: res?.recordset[0] === null ? 0 : res.recordset[0].count,
+              count: res?.recordset[0].count,
             });
           }
         );
