@@ -129,17 +129,7 @@ const vnpayReturn = async (req, res, next) => {
         status: paymentStatus,
         code: vnp_Params["vnp_ResponseCode"],
       };
-
-      if (paymentStatus) {
-        await orderService.updateTotalAmountOfOrder(
-          vnp_Params["vnp_TxnRef"],
-          vnp_Params["vnp_Amount"] / 100
-        );
-        
-        await orderService.updateStatusOrderID(vnp_Params["vnp_TxnRef"], 1);
-        const userID = await orderService.getUserIDFromOrderID(parseInt(vnp_Params["vnp_TxnRef"]));
-        await orderService.checkoutOrder(userID.UserID);
-      }
+      
       next();
     } catch (err) {
       console.error(err);

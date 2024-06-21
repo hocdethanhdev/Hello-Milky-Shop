@@ -123,8 +123,8 @@ POST http://localhost:5000/api/v1/auth/register
 Content-Type: application/json
 
 {
-    "UserName": "Nhan",
-    "PhoneNumber": "0348216719",
+    "UserName": "SWP",
+    "PhoneNumber": "84909090909",
     "Password": "1",
     "RoleID": 3
 }
@@ -378,15 +378,13 @@ POST http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder
 Content-Type: application/json
 
 {
-    "orderID": "2",
+    "orderID": "1",
     "productQuantities": [
         {
             "productID": "SE0001",
-            "quantity": 3
+            "quantity": 4
         }      
-    ],
-    "paymentStatus": 1
-
+    ]
 }
 
 ### Thay đổi trạng thái đơn hàng

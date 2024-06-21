@@ -35,7 +35,6 @@ import Termofuse from "./users/component/Termofuse";
 import VoucherStore from "./users/component/VoucherStore";
 import ShoppingCart from "./users/component/ShoppingCart";
 import Bigsales from "./users/component/Bigsales";
-import Dealsoc from "./users/component/Dealsoc";
 import Profile from "./users/profileaccount/profile";
 import Account from "./users/profileaccount/account";
 import Address from "./users/profileaccount/address";
@@ -48,6 +47,7 @@ import ResetPassword from './users/component/ResetPassword';
 import News from "./users/component/News";
 import AdminSlidebar from "./managers/admin/AdminSlidebar";
 import SignupAd from "./managers/admin/SignupAd";
+import PaymentSuccess from "./users/component/PaymenSuccess";
 
 function App() {
   const { role } = useSelector((state) => state.auth);
@@ -76,6 +76,7 @@ function App() {
   // Default Routes
   const defaultRoutes = useMemo(() => (
     <Routes>
+      <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
       <Route path="/" element={<Product1 />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
@@ -89,7 +90,6 @@ function App() {
       <Route path="/Account" element={<Account />} />
       <Route path="/Address" element={<Address />} />
       <Route path="/product/:productId" element={<ProductScreen />} />
-      <Route path="/dealsoc/:promotionId" component={Dealsoc} />
       <Route path="/all-products/:keyword" element={<AllProductScreen />} />
       <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
       <Route path="/sua-cho-me" element={<ListProductMomScreen />} />

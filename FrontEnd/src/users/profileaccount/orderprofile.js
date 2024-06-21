@@ -198,8 +198,7 @@ const OrderProfile = () => {
           >
             Chờ xác nhận
           </li>
-          <li
-            className={activeTab === "Đang giao" ? "active" : ""}
+          <li className={activeTab === "Đang giao" ? "active" : ""}
             onClick={() => setActiveTab("Đang giao")}
           >
             Đang giao

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Sidebar.css";
-import { useState } from 'react';
-import { GiBoxUnpacking } from "react-icons/gi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Sidebar() {
-  const [dropDown, setDropDown] = useState(false)
+  const [dropDown, setDropDown] = useState(false);
+
   return (
     <div className="sidebar-container-st-thinh">
       <nav className="sidebar-st-thinh">
@@ -17,47 +17,58 @@ function Sidebar() {
         </a>
         <a href="/voucher-staff">
           <img
-            src="/ImageMilkShop/CreateVoucher.jpg"
-            alt="Voucher Icon"
-            style={{ width: "24px" }}
-          />{" "}
+            src="https://cdn-icons-png.flaticon.com/128/8464/8464650.png"
+            alt="Manage Orders Icon"
+            style={{ width: "20px", marginRight: "5px" }}
+          />
           Tạo voucher
         </a>
+
         <a href="/report">
           <img
-            src="/ImageMilkShop/XuLyReport.jpg"
-            alt="Report Icon"
-            style={{ width: "24px" }}
-          />{" "}
-          Xử lý report
+            src="https://cdn-icons-png.flaticon.com/128/11383/11383877.png"
+            alt="Manage Orders Icon"
+            style={{ width: "28px" }}
+          />
+          Xử lí report
         </a>
         <a href="/posts">
-          <img
-            src="/ImageMilkShop/QuanLyBaiViet.jpg"
-            alt="Post Icon"
-            style={{ width: "24px" }}
-          />{" "}
+        <img
+            src="https://cdn-icons-png.flaticon.com/128/9458/9458635.png"
+            alt="Manage Orders Icon"
+            style={{ width: "23px" }}
+          />
           Quản lý bài viết
         </a>
-        <div className='manage-st-thinh' onClick={() => { setDropDown(!dropDown) }} ><GiBoxUnpacking /> Quản lí đơn hàng</div>
-        {dropDown &&
-          <div>
+        <a
+          className="manage-st-thinh"
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+            setDropDown(!dropDown);
+          }}
+          href="#">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/839/839860.png"
+            alt="Manage Orders Icon"
+            style={{ width: "24px", marginRight: "2px" }}
+          />
+          Quản lí đơn hàng
+        </a>
+        {dropDown && (
+          <div className="dropdown-content-st-thinh">
             <a href="/confirm">
               <img
-                src="/ImageMilkShop/XacNhanDonHang.jpg"
+                src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
                 alt="Confirm Icon"
                 style={{ width: "24px" }}
               />{" "}
               Xác nhận đơn hàng
             </a>
-            <div>a</div>
           </div>
-        }
-
-
+        )}
         <a href="/products">
           <img
-            src="/ImageMilkShop/QuanLyKho.jpg"
+            src="https://cdn-icons-png.flaticon.com/128/9321/9321486.png"
             alt="Product Icon"
             style={{ width: "24px" }}
           />{" "}

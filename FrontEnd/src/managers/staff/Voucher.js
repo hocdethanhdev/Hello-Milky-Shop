@@ -160,9 +160,7 @@ function Voucher() {
                   
                     <div className="filter-dropdown-thinhvcher">
                     Status
-                      <button onClick={toggleStatusDropdown}>
-                      <FontAwesomeIcon icon={faFilter} />
-                      </button>
+                      
                       {showStatusDropdown && (
                         <ul className="dropdown-content-thinhvcher">
                           <li onClick={() => handleStatusFilter("All")}>All</li>
@@ -175,6 +173,9 @@ function Voucher() {
                         </ul>
                       )}
                     </div>
+                    <button onClick={toggleStatusDropdown}>
+                      <FontAwesomeIcon icon={faFilter} />
+                      </button>
                   </th>
                   <th>Actions</th>
                 </tr>

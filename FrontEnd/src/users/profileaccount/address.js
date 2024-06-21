@@ -90,7 +90,7 @@ function Address() {
           <label htmlFor="address">Địa chỉ:</label>
           <p id="address">{addressData.address}</p>
         </div>
-        <button onClick={() => setShowForm(true)}>Thêm địa chỉ</button>
+        <button className="button-address" onClick={() => setShowForm(true)}>Thêm địa chỉ</button>
         
         {showForm && (
           <form onSubmit={handleSubmit} className="address-form">
@@ -127,8 +127,8 @@ function Address() {
                 required
               />
             </div>
-            <button type="submit">Lưu</button>
-            <button type="button" onClick={() => setShowForm(false)}>Hủy</button>
+            <button className="button-address" type="submit">Lưu</button>
+            <button className="button-address" type="button" onClick={() => setShowForm(false)}>Hủy</button>
           </form>
         )}
       </div>
