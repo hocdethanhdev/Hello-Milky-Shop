@@ -412,7 +412,7 @@ const orderDAO = {
             WHERE OrderID = ${orderID};
 
             DECLARE @newOrderID INT = SCOPE_IDENTITY();
-
+    
             INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
             SELECT @newOrderID, ProductID, Quantity, Price
             FROM OrderDetail
