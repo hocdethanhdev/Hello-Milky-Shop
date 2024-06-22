@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
 import {
-  MDBBtn,
   MDBContainer,
   MDBRow,
   MDBCol,

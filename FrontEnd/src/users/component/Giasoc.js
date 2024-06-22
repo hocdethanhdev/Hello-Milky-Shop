@@ -9,7 +9,9 @@ function Giasoc() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion")
+    fetch(
+      "http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion"
+    )
       .then((response) => response.json())
       .then((data) => {
         setProducts(data);
@@ -24,20 +26,31 @@ function Giasoc() {
 
   const indexOfLastProduct = (currentPage + 1) * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   const totalPages = Math.ceil(products.length / productsPerPage);
 
   const nextPage = () => {
-    setCurrentPage((prevPage) => (prevPage < totalPages - 1 ? prevPage + 1 : 0));
+    setCurrentPage((prevPage) =>
+      prevPage < totalPages - 1 ? prevPage + 1 : 0
+    );
   };
 
   const prevPage = () => {
-    setCurrentPage((prevPage) => (prevPage > 0 ? prevPage - 1 : totalPages - 1));
+    setCurrentPage((prevPage) =>
+      prevPage > 0 ? prevPage - 1 : totalPages - 1
+    );
   };
 
   useEffect(() => {
-    const interval = setInterval(nextPage, 10000); // Auto change page every 10 seconds
+    const interval = setInterval(() => {
+      setCurrentPage((prevPage) =>
+        prevPage > 0 ? prevPage - 1 : totalPages - 1
+      );
+    }, 10000); // Auto change page every 10 seconds
     return () => clearInterval(interval);
   }, [totalPages]);
 
@@ -53,7 +66,8 @@ function Giasoc() {
     <section
       id="list_product_cate-tri"
       className="width-common boxx-common tm-d superSale"
-      data-recoedwidget="true">
+      data-recoedwidget="true"
+    >
       <div className="wrap">
         <div className="category width-common" id="relative-btnMore">
           <div className="box-container-header">
@@ -65,13 +79,15 @@ function Giasoc() {
               <button
                 className="nut-chuyen-gia-soc prev"
                 onClick={prevPage}
-                disabled={currentPage === 0}>
+                disabled={currentPage === 0}
+              >
                 &lt;
               </button>
               <button
                 className="nut-chuyen-gia-soc next"
                 onClick={nextPage}
-                disabled={currentPage === totalPages - 1}>
+                disabled={currentPage === totalPages - 1}
+              >
                 &gt;
               </button>
             </div>

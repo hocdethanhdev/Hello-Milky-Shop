@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { getUserIdFromToken } from "../store/actions/authAction";
 import "./ShoppingCart.css";
-import { useLocation } from "react-router-dom";
 import VoucherPopup from "./VoucherPopup";
 import AddressPopup from "./AddressPopup";
 const ShoppingCart = () => {
@@ -18,7 +17,6 @@ const ShoppingCart = () => {
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const location = useLocation();
   const [orderID, setOrderID] = useState(null);
   const [productQuantities, setProductQuantities] = useState({});
   const [selectedProducts, setSelectedProducts] = useState({});
@@ -33,20 +31,18 @@ const ShoppingCart = () => {
   const [selectedShippingAddressID, setSelectedShippingAddressID] =
     useState(null);
   const [usingSavedAddress, setUsingSavedAddress] = useState(false);
+  const [userID, setUserID] = useState("");
   let totalAmount = 0;
-  const params = new URLSearchParams(location.search);
-  let status = params.get("status");
-
-  function getUserID() {
-    return getUserIdFromToken(token);
-  }
 
   useEffect(() => {
-    const userId = getUserID();
+    setUserID(getUserIdFromToken(token));
+  }, [token]);
+
+  useEffect(() => {
     const fetchVouchers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/voucher/getVouchersByUserID/${userId}`
+          `http://localhost:5000/api/v1/voucher/getVouchersByUserID/${userID}`
         );
         setVouchers(response.data);
       } catch (err) {
@@ -55,10 +51,10 @@ const ShoppingCart = () => {
       }
     };
 
-    if (userId) {
+    if (userID) {
       fetchVouchers();
     }
-  }, []);
+  });
 
   const handleVoucherSelect = (voucher) => {
     const subtotal = calculateTotal();
@@ -78,7 +74,7 @@ const ShoppingCart = () => {
   useEffect(() => {
     const fetchUserOrders = async () => {
       try {
-        const userId = getUserID();
+        const userId = userID;
 
         if (!userId) throw new Error("Failed to fetch user ID");
 
@@ -138,7 +134,7 @@ const ShoppingCart = () => {
     };
     const fetchUserDetails = async () => {
       try {
-        const userId = getUserID();
+        const userId = userID;
         const userDetailsResponse = await axios.get(
           `http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`
         );
@@ -149,12 +145,12 @@ const ShoppingCart = () => {
       }
     };
 
-    if (token) {
+    if (userID) {
       fetchUserOrders();
       fetchCities();
       fetchUserDetails();
     }
-  }, [token]);
+  }, [userID]);
 
   useEffect(() => {
     const fetchDistricts = async () => {
@@ -313,7 +309,7 @@ const ShoppingCart = () => {
               receiver: receiver,
               phoneNumber: phoneNumber,
               address: `${address}, ${selectedDistrict}, ${selectedCity}`,
-              userID: getUserID(),
+              userID: userID,
             }
           );
         }
@@ -337,7 +333,7 @@ const ShoppingCart = () => {
         localStorage.setItem("totalAmount", totalAmount);
         localStorage.setItem("orderID", orderID);
         console.log(usePoints);
-        if(usePoints){
+        if (usePoints) {
           localStorage.setItem("usePoints", usePoints);
         }
 
@@ -553,7 +549,7 @@ const ShoppingCart = () => {
               </label>
             </div>
           </div>
-          
+
           <button className="order-btn" onClick={handleOrder}>
             ĐẶT HÀNG
           </button>
@@ -590,7 +586,7 @@ const ShoppingCart = () => {
 
       {showAddressPopup && (
         <AddressPopup
-          userID={getUserID()}
+          userID={userID}
           onSelect={handleAddressSelect}
           onClose={() => setShowAddressPopup(false)}
         />
