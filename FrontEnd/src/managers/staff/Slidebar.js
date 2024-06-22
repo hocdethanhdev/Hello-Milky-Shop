@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Sidebar() {
   const [dropDown, setDropDown] = useState(false);
 
   return (
     <div className="sidebar-container-st-thinh">
       <nav className="sidebar-st-thinh">
-        <a className="active-st-thinh" href="/dashboard">
+        <a className="active-st-thinh" href="/">
           <img
             src="/ImageMilkShop/dashboard.png"
             alt="Dashboard Icon"
