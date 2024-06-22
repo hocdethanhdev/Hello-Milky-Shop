@@ -19,6 +19,7 @@ function VoucherItem({ voucher }) {
     axios.post("http://localhost:5000/api/v1/voucher/saveVoucherForUser", requestBody)
       .then((response) => {
         alert("Voucher saved successfully!");
+        window.location.reload();
         // Handle success if needed
       })
       .catch((error) => {
@@ -113,7 +114,7 @@ function VoucherStore() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/voucher/getAllVouchers")
+      .get("http://localhost:5000/api/v1/voucher/getVouchersForUser")
       .then((response) => {
         setVouchers(response.data);
       })
