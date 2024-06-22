@@ -58,7 +58,7 @@ function App() {
       <Sidebar />
       <div className="content flex-grow-1">
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/voucher-staff" element={<Voucher />} />
           <Route path="/report" element={<Report />} />
           <Route path="/posts" element={<Posts />} />
