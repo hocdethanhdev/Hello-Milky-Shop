@@ -98,7 +98,7 @@ function Posts() {
 
                                 <td>{new Date(article.PublishDate).toLocaleDateString()}</td>
                                 <td>
-                                    <button onClick={() => handleDetail(article.ArticleID)}>Detail</button>
+                                    
                                     <button onClick={() => handleEditClick(article)}>Edit</button>
                                     <button onClick={() => handleDeleteClick(article.ArticleID)}>Delete</button>
                                 </td>

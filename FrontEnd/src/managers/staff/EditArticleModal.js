@@ -1,65 +1,125 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './EditArticleModal.css'; // Create appropriate CSS for the modal
+import RichTextEditor from '../../users/component/RichTextEditor';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './EditArticleModal.css';
+import sanitizeHtml from 'sanitize-html';
 
 const EditArticleModal = ({ article, onClose, onSave }) => {
     const [formData, setFormData] = useState({
         Title: article.Title,
         HeaderImage: article.HeaderImage,
         Content: article.Content,
-        PublishDate: article.PublishDate.split('T')[0], // Ensure date is in YYYY-MM-DD format
+        PublishDate: new Date(article.PublishDate),
         AuthorID: article.AuthorID,
         ArticleCategoryID: article.ArticleCategoryID
     });
+    const [previewImage, setPreviewImage] = useState(article.HeaderImage); // State for previewing image
+
+    const handleContentChange = (value) => {
+        const sanitizedContent = sanitizeHtml(value, {
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
+            allowedAttributes: {
+                img: ['src', 'alt'],
+            },
+        });
+        setFormData({ ...formData, Content: sanitizedContent });
+    };
+
+    const handleImageChange = (e) => {
+        const imageFile = e.target.files[0];
+        if (imageFile) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewImage(reader.result);
+            };
+            reader.readAsDataURL(imageFile);
+            setFormData({ ...formData, HeaderImage: imageFile });
+        } else {
+            setPreviewImage(null);
+        }
+    };
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:5000/api/v1/article/editArticle/${article.ArticleID}`, formData)
-            .then(response => {
-                onSave(formData); // Notify parent component to update state
-                onClose(); // Close the modal
-                window.location.reload();
-            })
-            .catch(error => {
-                console.error('There was an error updating the article!', error);
+        try {
+            const postData = {
+                ...formData,
+                PublishDate: formData.PublishDate.toISOString().split('T')[0],
+            };
+
+            await axios.put(`http://localhost:5000/api/v1/article/editArticle/${article.ArticleID}`, postData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
+
+            onSave(formData); // Notify parent component to update state
+            onClose(); // Close the modal
+            window.location.reload();
+        } catch (error) {
+            console.error('There was an error updating the article!', error);
+        }
     };
 
     return (
-        <div className="modal-thinhprostedit2">
-            <div className="modal-content-thinhprostedit2">
-                <span className="close-thinhprostedit2" onClick={onClose}>&times;</span>
+        <div className="modal-thinhprostedit2-custom">
+            <div className="modal-content-thinhprostedit2-custom">
+                <span className="close-thinhprostedit2-custom" onClick={onClose}>&times;</span>
                 <h2>Edit Article</h2>
                 <form onSubmit={handleSubmit}>
-                    <label>
-                        Title:
-                        <input type="text" name="Title" value={formData.Title} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Header Image:
-                        <input type="text" name="HeaderImage" value={formData.HeaderImage} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Content:
-                        <textarea name="Content" value={formData.Content} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Publish Date:
-                        <input type="date" name="PublishDate" value={formData.PublishDate} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Author ID:
-                        <input type="text" name="AuthorID" value={formData.AuthorID} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Article Category ID:
-                        <input type="number" name="ArticleCategoryID" value={formData.ArticleCategoryID} onChange={handleChange} />
-                    </label>
-                    <button type="submit">Save</button>
+                    <div className="form-group1">
+                        <label>
+                            Title:
+                            <input type="text" name="Title" value={formData.Title} onChange={handleChange} />
+                        </label>
+                    </div>
+                   
+                    <div className="form-group1">
+                        <label>
+                            Publish Date:
+                            <DatePicker
+                                selected={formData.PublishDate}
+                                onChange={(date) => setFormData({ ...formData, PublishDate: date })}
+                                className="form-control"
+                                dateFormat="yyyy-MM-dd"
+                            />
+                        </label>
+                    </div>
+                    <div className="form-group1">
+                        <label>
+                            Author ID:
+                            <input type="text" name="AuthorID" value={formData.AuthorID} onChange={handleChange} />
+                        </label>
+                    </div>
+                    <div className="form-group1">
+                        <label>
+                            Article Category ID:
+                            <input type="number" name="ArticleCategoryID" value={formData.ArticleCategoryID} onChange={handleChange} />
+                        </label>
+                    </div>
+                    <div className="form-group1">
+                        <label>
+                            Header Image:
+                            <input type="file" onChange={handleImageChange} />
+                        </label>
+                        {previewImage && <img src={previewImage} alt="Preview" className="preview-image2" />}
+                    </div>
+                    <div className="form-group1" style={{ flex: '1 1 100%' }}>
+                        <label>
+                            Content:
+                            <div className="editor">
+                                <RichTextEditor value={formData.Content} onChange={handleContentChange} />
+                                 
+                            </div>
+                        </label>
+                    </div>
+                    <button type="submit" className="btn btn-primary">Save</button>
                 </form>
             </div>
         </div>

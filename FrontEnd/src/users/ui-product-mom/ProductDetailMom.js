@@ -7,7 +7,7 @@ const ProductDetail = ({ product }) => {
                 <h2>Mô tả {product.ProductName}</h2>
                 <div className="wrap">
                     <p className='thong-tin-sua-thinh'>{product.Description}</p>
-                    <h2 className='hd-thinh'>
+                    <h2 className='hd-thinh'>  
                         Hướng dẫn bảo quản:
                     </h2>
                     <p className='con-hd-thinh'>

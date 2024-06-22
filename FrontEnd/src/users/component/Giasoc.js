@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./Product1.css";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import "./Product1.css"; // Adjust CSS file path if needed
 
 function Giasoc() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -7,6 +8,7 @@ function Giasoc() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion")
@@ -40,6 +42,10 @@ function Giasoc() {
     const interval = setInterval(nextPage, 10000); // Auto change page every 10 seconds
     return () => clearInterval(interval);
   }, [totalPages]);
+
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`); // Navigate to specific product page
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -78,9 +84,12 @@ function Giasoc() {
             {currentProducts.map((product, index) => (
               <div key={index} className="item item-giasoc">
                 <div className="image_item">
-                  <a href={`/product/${product.ProductID}`}>
-                    <img src={product.Image} alt={product.ProductName} />
-                  </a>
+                  {/* Attach onClick handler to navigate on image click */}
+                  <img
+                    src={product.Image}
+                    alt={product.ProductName}
+                    onClick={() => handleProductClick(product.ProductID)}
+                  />
                 </div>
                 <div className="price">
                   <h3 className="title-giasoc">

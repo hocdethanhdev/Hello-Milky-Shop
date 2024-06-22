@@ -43,7 +43,7 @@ function Combo1() {
           </div>
           <div className="combo-1f-main">
             <img
-              src="./ImageMilkShop/banner-tang.png"
+              src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FS%E1%BB%AFa%20cho%20m%E1%BA%B9%20b%E1%BA%A7u.png?alt=media&token=ada9f453-d63f-49d5-bcfa-ee44d9ee2dc9"
               alt="Combo siêu tiết kiệm"
             />
           </div>

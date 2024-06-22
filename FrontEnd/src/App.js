@@ -47,7 +47,8 @@ import ResetPassword from './users/component/ResetPassword';
 import News from "./users/component/News";
 import AdminSlidebar from "./managers/admin/AdminSlidebar";
 import SignupAd from "./managers/admin/SignupAd";
-
+import NewsDetail from "./users/component/NewsDetail";
+import ProductHot from "./users/component/ProductHot"
 function App() {
   const { role } = useSelector((state) => state.auth);
 
@@ -95,7 +96,8 @@ function App() {
       <Route path="/ResetPassword" element={<ResetPassword />} />
       <Route path="/ResetPassword" element={<ResetPassword />} />
       <Route path="/News" element={<News />} />
-
+      <Route path="/NewsDetail/:id" element={<NewsDetail />} />
+      <Route path="/ProductHot" element={<ProductHot/>} />
     </Routes>
   ), []);
   const adminRoutes = useMemo(() => (

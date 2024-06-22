@@ -34,7 +34,7 @@ function Combo2() {
                         </div>
                     </div>
                     <div className="combo-2f-main">
-                        <img src="./ImageMilkShop/banner-tang.png" alt="Combo siêu tiết kiệm" />
+                        <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FS%E1%BB%AFa%20cho%20em%20b%C3%A9.png?alt=media&token=ac65ea73-5a08-4f76-be5e-a3c2f01fdcc5" alt="Combo siêu tiết kiệm" />
                     </div>
                     <div className="combo-content-1">
                         {products.map((product, index) => (
