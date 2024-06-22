@@ -68,8 +68,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       alert(
-        `This voucher requires a minimum purchase of ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -337,7 +336,7 @@ const ShoppingCart = () => {
         localStorage.setItem("totalAmount", totalAmount);
         localStorage.setItem("orderID", orderID);
         console.log(usePoints);
-        if(usePoints){
+        if (usePoints) {
           localStorage.setItem("usePoints", usePoints);
         }
 
@@ -553,7 +552,7 @@ const ShoppingCart = () => {
               </label>
             </div>
           </div>
-          
+
           <button className="order-btn" onClick={handleOrder}>
             ĐẶT HÀNG
           </button>
