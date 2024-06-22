@@ -271,26 +271,6 @@ AS
 		INNER JOIN Product p ON i.ProductID = p.ProductID
 		WHERE p.ProductID = i.ProductID;
 	END
-
-go
-CREATE TRIGGER trg_Quantity_In_Stock 
-ON Payment
-AFTER UPDATE
-AS
-BEGIN
-    DECLARE @OrderID int;
-
-    -- Retrieve OrderID from the inserted table
-    SELECT @OrderID = i.OrderID
-    FROM inserted i;
-
-    -- Update the Product table to reflect the new stock quantity
-    UPDATE p
-    SET p.StockQuantity = p.StockQuantity - od.Quantity
-    FROM Product p
-    JOIN OrderDetail od ON p.ProductID = od.ProductID
-    WHERE od.OrderID = @OrderID;
-END;
 go
 CREATE TRIGGER trg_UpdatePointsOnStatusChange
 ON Orders

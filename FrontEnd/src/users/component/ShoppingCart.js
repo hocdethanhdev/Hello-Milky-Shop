@@ -20,7 +20,6 @@ const ShoppingCart = () => {
   const [error, setError] = useState(null);
   const location = useLocation();
   const [orderID, setOrderID] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [productQuantities, setProductQuantities] = useState({});
   const [selectedProducts, setSelectedProducts] = useState({});
   const [paymentMethod, setPaymentMethod] = useState(null);
@@ -34,13 +33,16 @@ const ShoppingCart = () => {
   const [selectedShippingAddressID, setSelectedShippingAddressID] =
     useState(null);
   const [usingSavedAddress, setUsingSavedAddress] = useState(false);
-
+  let totalAmount = 0;
   const params = new URLSearchParams(location.search);
   let status = params.get("status");
-  if (status === null) {
-    status = '0';
+
+  function getUserID() {
+    return getUserIdFromToken(token);
   }
+
   useEffect(() => {
+    const userId = getUserID();
     const fetchVouchers = async () => {
       try {
         const response = await axios.get(
@@ -56,39 +58,27 @@ const ShoppingCart = () => {
     if (userId) {
       fetchVouchers();
     }
-  }, [userId]);
+  }, []);
 
   const handleVoucherSelect = (voucher) => {
     const subtotal = calculateTotal();
     if (voucher.MinDiscount !== undefined && subtotal >= voucher.MinDiscount) {
       setSelectedVoucher(voucher);
+      localStorage.setItem("selectedVoucher", voucher.VoucherID);
       setShowVoucherPopup(false);
     } else {
       alert(
-        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `This voucher requires a minimum purchase of ${
+          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
   };
 
   useEffect(() => {
-    const code = params.get("code");
-    const userIdd = getUserIdFromToken(token);
-    setUserId(userIdd);
-    if (status && code) {
-      if (status === "1") {
-        alert("Payment successful !!!!");
-        window.open("http://localhost:3000/", "_self");
-      } else if (status === "0") {
-        alert("Payment failed. Please try again.");
-      }
-    }
-  }, [location.search, orderID]);
-
-  useEffect(() => {
     const fetchUserOrders = async () => {
       try {
-        const userId = getUserIdFromToken(token);
+        const userId = getUserID();
 
         if (!userId) throw new Error("Failed to fetch user ID");
 
@@ -148,7 +138,7 @@ const ShoppingCart = () => {
     };
     const fetchUserDetails = async () => {
       try {
-        const userId = getUserIdFromToken(token);
+        const userId = getUserID();
         const userDetailsResponse = await axios.get(
           `http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`
         );
@@ -323,7 +313,7 @@ const ShoppingCart = () => {
               receiver: receiver,
               phoneNumber: phoneNumber,
               address: `${address}, ${selectedDistrict}, ${selectedCity}`,
-              userID: userId,
+              userID: getUserID(),
             }
           );
         }
@@ -336,39 +326,31 @@ const ShoppingCart = () => {
                 .Quantity,
           })
         );
-        await axios.post(
-          "http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder",
-          {
-            orderID,
-            productQuantities: productQuantitiesToUpdate,
-            paymentStatus: parseInt(status),
-          }
-        );
+        if (productQuantitiesToUpdate.length > 0) {
+          localStorage.setItem(
+            "productQuantitiesToUpdate",
+            JSON.stringify(productQuantitiesToUpdate)
+          );
+        }
 
-        const totalAmount = calculateTotal();
+        totalAmount = calculateTotal();
+        localStorage.setItem("totalAmount", totalAmount);
+        localStorage.setItem("orderID", orderID);
+        console.log(usePoints);
+        if(usePoints){
+          localStorage.setItem("usePoints", usePoints);
+        }
 
         const response = await axios.post(
           "http://localhost:5000/api/v1/payment/create_payment_url",
           {
             orderID,
-            amount: totalAmount,
+            amount: parseInt(totalAmount),
             language: "vn",
           }
         );
         if (response) {
-          window.open(response.data.url);
-          if (status === "1") {
-
-            if (selectedVoucher) {
-              await axios.post(
-                "http://localhost:5000/api/v1/voucher/removeVoucherFromUser",
-                {
-                  userID: userId,
-                  voucherID: parseInt(selectedVoucher.VoucherID),
-                }
-              );
-            }
-          }
+          window.open(response.data.url, "_self");
         }
       } else {
         console.error("orderID is not set");
@@ -571,7 +553,7 @@ const ShoppingCart = () => {
               </label>
             </div>
           </div>
-          <textarea placeholder="Viết ghi chú, yêu cầu hóa đơn GTGT..."></textarea>
+          
           <button className="order-btn" onClick={handleOrder}>
             ĐẶT HÀNG
           </button>
@@ -608,7 +590,7 @@ const ShoppingCart = () => {
 
       {showAddressPopup && (
         <AddressPopup
-          userID={userId}
+          userID={getUserID()}
           onSelect={handleAddressSelect}
           onClose={() => setShowAddressPopup(false)}
         />
