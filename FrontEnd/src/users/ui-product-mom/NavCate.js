@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import "./NavCate.css"; // Assume styles are defined in NavCate.css or you can use inline styles
-import { useSelector } from "react-redux";
+import "./NavCate.css";
 
 const NavCate = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const { isLoggedIn } = useSelector((state) => state.auth);
 
   return (
     <div className="nav_cate width-common">

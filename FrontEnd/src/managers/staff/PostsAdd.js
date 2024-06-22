@@ -16,7 +16,6 @@ function PostsAdd() {
   const [articleCategoryID, setArticleCategoryID] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [progress, setProgress] = useState(0);
-  const [downloadURL, setDownloadURL] = useState("");
   const [previewImage, setPreviewImage] = useState(null); // State for previewing image
 
   const handleContentChange = (value) => {
@@ -56,7 +55,6 @@ function PostsAdd() {
 
     try {
       const downloadURL = await uploadImage(headerImage, setProgress);
-      setDownloadURL(downloadURL);
 
       const postData = {
         Title: title,

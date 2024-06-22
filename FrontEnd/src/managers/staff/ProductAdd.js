@@ -17,7 +17,6 @@ const ProductAdd = () => {
   const [brands, setBrands] = useState([]);
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
   const [progress, setProgress] = useState(0);
-  const [downloadURL, setDownloadURL] = useState("");
 
   useEffect(() => {
     // Fetch brands from the API
@@ -41,8 +40,7 @@ const ProductAdd = () => {
 
     try {
       const downloadURL = await uploadImage(image, setProgress);
-      setDownloadURL(downloadURL);
-      // After successful upload, proceed to submit product data
+
       const productData = {
         ProductName: productName,
         Description: description,
