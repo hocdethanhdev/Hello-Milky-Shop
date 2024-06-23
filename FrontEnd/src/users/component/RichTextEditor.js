@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import 'boxicons/css/boxicons.min.css';
 import './RichTextEditor.css';
 
-const RichTextEditor = ({ onChange }) => {
+const RichTextEditor = ({ value, onChange }) => {
   const [showCode, setShowCode] = useState(false);
   const contentRef = useRef(null);
 
@@ -45,6 +45,10 @@ const RichTextEditor = ({ onChange }) => {
       contentElement.removeEventListener('input', handleInput);
     };
   }, [onChange]);
+
+  useEffect(() => {
+    contentRef.current.innerHTML = value; // Initialize the editor with the given value
+  }, [value]);
 
   return (
     <div className="rich-text-editor">

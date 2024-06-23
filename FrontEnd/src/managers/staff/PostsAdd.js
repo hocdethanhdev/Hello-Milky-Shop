@@ -126,7 +126,7 @@ function PostsAdd() {
           <div className="col">
             <label htmlFor="content">Content</label>
             <div className="editor">
-              <RichTextEditor onChange={handleContentChange} />
+              <RichTextEditor value="" onChange={handleContentChange} />
             </div>
           </div>
         </div>

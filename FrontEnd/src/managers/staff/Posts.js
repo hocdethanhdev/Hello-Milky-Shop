@@ -116,38 +116,34 @@ function Posts() {
               <tr key={article.ArticleID}>
                 <td>{article.Title}</td>
 
-                <td>{new Date(article.PublishDate).toLocaleDateString()}</td>
-                <td>
-                  <button onClick={() => handleDetail(article.ArticleID)}>
-                    Detail
-                  </button>
-                  <button onClick={() => handleEditClick(article)}>Edit</button>
-                  <button onClick={() => handleDeleteClick(article.ArticleID)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="pagination-container">
-          <ThrowPage
-            current={currentPage}
-            onChange={handlePageChange}
-            total={articles.length}
-            productsPerPage={productsPerPage}
-          />
+                                <td>{new Date(article.PublishDate).toLocaleDateString()}</td>
+                                <td>
+                                    
+                                    <button onClick={() => handleEditClick(article)}>Edit</button>
+                                    <button onClick={() => handleDeleteClick(article.ArticleID)}>Delete</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <div className='pagination-container'>
+                    <ThrowPage
+                        current={currentPage}
+                        onChange={handlePageChange}
+                        total={articles.length}
+                        productsPerPage={productsPerPage}
+                    />
+                </div>
+            </div>
+            {selectedArticleForEdit && (
+                <EditArticleModal
+                    article={selectedArticleForEdit}
+                    onClose={() => setSelectedArticleForEdit(null)}
+                    onSave={handleSaveArticle}
+                />
+            )}
         </div>
-      </div>
-      {selectedArticleForEdit && (
-        <EditArticleModal
-          article={selectedArticleForEdit}
-          onClose={() => setSelectedArticleForEdit(null)}
-          onSave={handleSaveArticle}
-        />
-      )}
-    </div>
-  );
+    );
 
   function handleDetail(id) {
     // Navigate to the detail page

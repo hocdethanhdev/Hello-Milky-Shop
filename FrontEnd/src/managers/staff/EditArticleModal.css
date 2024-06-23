@@ -1,35 +1,101 @@
-.modal-thinhprostedit2 {
+.modal-thinhprostedit2-custom {
     display: flex;
     justify-content: center;
     align-items: center;
     position: fixed;
-    z-index: 1;
-    left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-content-thinhprostedit2 {
-    background-color: #fefefe;
-    margin: 15% auto;
+.modal-content-thinhprostedit2-custom {
+    background-color: #fff;
+    border-radius: 8px;
     padding: 20px;
-    border: 1px solid #888;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     width: 80%;
+    max-width: 800px;
+    margin: auto;
 }
 
-.close-thinhprostedit2 {
+.close-thinhprostedit2-custom {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close-thinhprostedit2:hover,
-.close-thinhprostedit2:focus {
+.close-thinhprostedit2-custom:hover,
+.close-thinhprostedit2-custom:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.modal-thinhprostedit2-custom h2 {
+    margin-top: 0;
+}
+
+.modal-thinhprostedit2-custom form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+
+
+.modal-thinhprostedit2-custom label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.modal-thinhprostedit2-custom input[type="text"],
+.modal-thinhprostedit2-custom input[type="date"],
+.modal-thinhprostedit2-custom textarea,
+.modal-thinhprostedit2-custom input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.modal-thinhprostedit2-custom textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.modal-thinhprostedit2-custom button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-thinhprostedit2-custom button:hover {
+    background-color: #45a049;
+}
+
+.preview-image2 {
+    margin-top: 10px;
+    max-height: 150px;
+    max-width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.form-group1{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
 }

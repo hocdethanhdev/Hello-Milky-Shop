@@ -61,7 +61,7 @@ function Sidebar() {
         <a
           className="manage-st-thinh"
           onClick={(e) => {
-            e.preventDefault(); // Prevent default anchor behavior
+            e.preventDefault();
             setDropDown(!dropDown);
           }}
           href="#"
@@ -101,6 +101,19 @@ function Sidebar() {
           />{" "}
           Quản lý sản phẩm
         </NavLink>
+        <NavLink
+              className={({ isActive }) =>
+                isActive || location.pathname.includes(("/promotionmanage")) || location.pathname.includes(("/addpromotion"))? "active-st-thinh" : ""
+              }
+              to="/promotionmanage"
+            >
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/7650/7650832.png"
+                alt="Confirm Icon"
+                style={{ width: "24px" }}
+              />{" "}
+              Quản lí khuyến mãi
+            </NavLink>
       </nav>
     </div>
   );

@@ -1,75 +1,157 @@
-.promotion-form{
-    display: flex;
-    justify-content: space-between;
-}
-.half{
-    display: block;
-    width: 50%;
-    padding: 20px;
+.add-promotion-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.add-promotion-container {
-    max-width: 800px;
-    margin: auto auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+.promotion-form-container,
+.product-list-container {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.promotion-form-container h2,
+.product-list-container h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.promo-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.promo-half {
+  width: 48%;
+  padding: 20px;
+}
+
+.promo-half label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.promo-half input,
+.promo-half textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+.promo-half textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.promo-half button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.promo-half button:hover {
+  background-color: #218838;
+}
+
+.product-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.select-all-container-tri {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-left: 90%;
+}
+
+.select-all-container-tri input[type="checkbox"] {
   
-  .add-promotion-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-  }
+  margin-left: 10px;
+ 
+}
+
+.product-list-promotion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.product-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  width: calc(25% - 10px);
+}
+
+.product-item input[type="checkbox"] {
+  margin-bottom: 10px;
+  margin-left: 95%;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 15px;
+}
+
+.product-details img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.product-details div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-details h4 {
+  margin: 0;
   
-  .promotion-form {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .half {
-    width: 48%;
-    padding: 20px;
-  }
-  
-  .half label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
-  }
-  
-  .half input,
-  .half textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-sizing: border-box;
-  }
-  
-  .half textarea {
-    resize: vertical;
-    height: 100px;
-  }
-  
-  .half button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .half button:hover {
-    background-color: #218838;
-  }
-  
+  color: #333;
+  text-align: center;
+}
+
+.product-details p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #666;
+  text-align: center;
+}
+
+.filter-container-promotion select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 15%;
+  margin-left: 10px;
+}
