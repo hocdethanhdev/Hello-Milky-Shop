@@ -76,6 +76,8 @@ GET http://localhost:5000/api/v1/product/searchWithPrice/En/0/10000000
 GET http://localhost:5000/api/v1/product/searchWithName?search=en   
 ### lay tat ca san pham voi day du thong tin
 GET http://localhost:5000/api/v1/product/getInfoProductsDetail
+### lấy tất cả sản phẩm cho user
+GET http://localhost:5000/api/v1/product/getAllProductForUser
 ### tao san pham
 POST http://localhost:5000/api/v1/product/createProduct
 Content-Type: application/json
