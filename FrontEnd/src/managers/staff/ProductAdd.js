@@ -1,6 +1,6 @@
 // src/components/ProductAdd/ProductAdd.js
 import React, { useState, useEffect } from "react";
-import { uploadImage } from './UpImage';
+import { uploadImage } from "./UpImage";
 import "./Products.css";
 
 const ProductAdd = () => {
@@ -12,7 +12,8 @@ const ProductAdd = () => {
   const [expirationDate, setExpirationDate] = useState("");
   const [manufacturingDate, setManufacturingDate] = useState("");
   const [brandName, setBrandName] = useState("");
-  const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
+  const [productCategoryName, setProductCategoryName] =
+    useState("Sữa cho em bé");
   const [status, setStatus] = useState(1);
   const [brands, setBrands] = useState([]);
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
@@ -95,8 +96,7 @@ const ProductAdd = () => {
   };
 
   return (
-    <div className="create-product">
-     
+    <div className="container create-product">
       {successMessage && (
         <p
           className={`success-message ${
@@ -106,6 +106,8 @@ const ProductAdd = () => {
           {successMessage}
         </p>
       )}
+      <h1>Thêm sản phẩm</h1>
+
       <form
         id="create-product-form"
         className="product-form"

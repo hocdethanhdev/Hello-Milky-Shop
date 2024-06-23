@@ -1,6 +1,6 @@
 .sidebar-container-st-thinh {
   width: 250px;
-  background-color: #ffae33;
+  background-color: #ff9c1a; /* Darker shade */
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Ensures the sidebar takes the full height of the viewport */
@@ -8,7 +8,7 @@
 
 .sidebar-st-thinh {
   width: 100%;
-  background-color: #ffae33;
+  background-color: #ff9c1a; /* Darker shade */
   color: white;
   display: flex;
   flex-direction: column;
@@ -27,6 +27,11 @@
 .sidebar-st-thinh a:hover {
   background-color: #ddd;
   color: black;
+}
+
+.sidebar-st-thinh .active-st-thinh {
+  background-color: #ddd; /* Change to desired active color */
+  color: black; /* Change to desired active text color */
 }
 
 .card-st-thinh {
@@ -57,10 +62,9 @@
 .bang-st-thinh {
   height: 100%;
   width: 250px;
-  background-color: #ffae33;
+  background-color: #ff9c1a; /* Darker shade */
 }
 
 .dashboard-st-thinh {
   margin-right: 30px;
 }
-

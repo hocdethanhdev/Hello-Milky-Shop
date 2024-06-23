@@ -90,8 +90,6 @@ function Voucher() {
   return (
     <div className="voucher-container-thinhvcher">
       <div className="voucher-body-thinhvcher">
-        <div className="voucher-main-content-thinhvcher">
-          <h1>Voucher Management</h1>
           {successMessage && (
             <p
               className={`success-message-thinhvcher ${
@@ -104,13 +102,14 @@ function Voucher() {
             </p>
           )}
           <div className="voucher-list-thinhvcher">
-            <Link to="/addingvoucher">
-              <div className="d-flex justify-content-end align-items-end">
+            <div className="d-flex justify-content-end align-items-end padding-0">
+              <Link to="/addingvoucher">
                 <button type="button" className="button-add-voucher-thinhvcher">
                   <span className="far fa-plus-square btn btn-secondary"></span>
                 </button>
-              </div>
-            </Link>
+              </Link>
+            </div>
+
             <table>
               <thead>
                 <tr>
@@ -157,10 +156,8 @@ function Voucher() {
                     </button>
                   </th>
                   <th>
-                  
                     <div className="filter-dropdown-thinhvcher">
-                    Status
-                      
+                      Status
                       {showStatusDropdown && (
                         <ul className="dropdown-content-thinhvcher">
                           <li onClick={() => handleStatusFilter("All")}>All</li>
@@ -175,7 +172,7 @@ function Voucher() {
                     </div>
                     <button onClick={toggleStatusDropdown}>
                       <FontAwesomeIcon icon={faFilter} />
-                      </button>
+                    </button>
                   </th>
                   <th>Actions</th>
                 </tr>
@@ -202,7 +199,6 @@ function Voucher() {
               </tbody>
             </table>
           </div>
-        </div>
       </div>
       {selectedVoucherForEdit && (
         <EditVoucherModal

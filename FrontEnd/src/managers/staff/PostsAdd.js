@@ -86,8 +86,8 @@ function PostsAdd() {
 
   return (
     <div className="container post-form">
-      
       {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <h2>Tạo bài viết</h2>
       <form onSubmit={handleSubmit}>
         <div className="row mb-3">
           <div className="col">
