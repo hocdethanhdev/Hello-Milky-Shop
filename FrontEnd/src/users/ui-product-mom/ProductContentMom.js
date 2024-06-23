@@ -51,7 +51,7 @@ const ProductContentMom = ({ product }) => {
                 quantity: quantity,
                 price: product.PriceAfterDiscounts
             });
-            setAvailableStock(availableStock - quantity);
+
             setQuantity(1);
             openCartPopup();
         } catch (error) {
