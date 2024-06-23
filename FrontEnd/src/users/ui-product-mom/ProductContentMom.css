@@ -325,3 +325,10 @@
 .sao-thinh-content {
     padding-right: 280px;
 }
+.out-of-stock-message-thinh {
+    padding-top: 50px;
+    font-weight: bolder;
+    color: gray;
+    font-size: xx-large;
+    text-align: center;
+}
