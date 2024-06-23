@@ -1,52 +1,71 @@
 import React, { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 function Sidebar() {
   const [dropDown, setDropDown] = useState(false);
+  const location = useLocation();
 
   return (
     <div className="sidebar-container-st-thinh">
       <nav className="sidebar-st-thinh">
-        <a className="active-st-thinh" href="/dashboard">
+        <NavLink
+          className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
+          to="/"
+          end
+        >
           <img
             src="/ImageMilkShop/dashboard.png"
             alt="Dashboard Icon"
             style={{ width: "24px" }}
           />{" "}
           Dashboard
-        </a>
-        <a href="/voucher-staff">
+        </NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            isActive || location.pathname.includes(("/voucher-staff")) || location.pathname.includes(("/addingvoucher"))? "active-st-thinh" : ""
+          }
+          to="/voucher-staff"
+        >
           <img
             src="https://cdn-icons-png.flaticon.com/128/8464/8464650.png"
             alt="Manage Orders Icon"
             style={{ width: "20px", marginRight: "5px" }}
           />
-          Tạo voucher
-        </a>
-
-        <a href="/report">
+          Quản lý voucher
+        </NavLink>
+        <NavLink
+          className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
+          to="/report"
+        >
           <img
             src="https://cdn-icons-png.flaticon.com/128/11383/11383877.png"
             alt="Manage Orders Icon"
             style={{ width: "28px" }}
           />
           Xử lí report
-        </a>
-        <a href="/posts">
-        <img
+        </NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            isActive || location.pathname.includes(("/posts")) || location.pathname.includes(("/addingpost"))? "active-st-thinh" : ""
+          }
+          to="/posts"
+        >
+          <img
             src="https://cdn-icons-png.flaticon.com/128/9458/9458635.png"
             alt="Manage Orders Icon"
             style={{ width: "23px" }}
           />
           Quản lý bài viết
-        </a>
+        </NavLink>
         <a
           className="manage-st-thinh"
           onClick={(e) => {
             e.preventDefault(); // Prevent default anchor behavior
             setDropDown(!dropDown);
           }}
-          href="#">
+          href="#"
+        >
           <img
             src="https://cdn-icons-png.flaticon.com/512/839/839860.png"
             alt="Manage Orders Icon"
@@ -56,24 +75,32 @@ function Sidebar() {
         </a>
         {dropDown && (
           <div className="dropdown-content-st-thinh">
-            <a href="/confirm">
+            <NavLink
+              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
+              to="/confirm"
+            >
               <img
                 src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
                 alt="Confirm Icon"
                 style={{ width: "24px" }}
               />{" "}
               Xác nhận đơn hàng
-            </a>
+            </NavLink>
           </div>
         )}
-        <a href="/products">
+        <NavLink
+          className={({ isActive }) =>
+            isActive || location.pathname.includes(("/products")) || location.pathname.includes(("/addingproduct"))? "active-st-thinh" : ""
+          }
+          to="/products"
+        >
           <img
             src="https://cdn-icons-png.flaticon.com/128/9321/9321486.png"
             alt="Product Icon"
             style={{ width: "24px" }}
           />{" "}
           Quản lý sản phẩm
-        </a>
+        </NavLink>
       </nav>
     </div>
   );

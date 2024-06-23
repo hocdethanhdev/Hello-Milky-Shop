@@ -1,0 +1,75 @@
+.promotion-form{
+    display: flex;
+    justify-content: space-between;
+}
+.half{
+    display: block;
+    width: 50%;
+    padding: 20px;
+}
+
+.add-promotion-container {
+    max-width: 800px;
+    margin: auto auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-promotion-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .promotion-form {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .half {
+    width: 48%;
+    padding: 20px;
+  }
+  
+  .half label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .half input,
+  .half textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+  
+  .half textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .half button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .half button:hover {
+    background-color: #218838;
+  }
+  

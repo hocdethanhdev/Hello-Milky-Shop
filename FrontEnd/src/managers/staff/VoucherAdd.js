@@ -64,6 +64,7 @@ function VoucherAdd() {
       {errorMessage && (
         <p className="error-message-thinhvcher">{errorMessage}</p>
       )}
+      <h1>Tạo voucher</h1>
       <form onSubmit={handleSubmit}>
         <div className="half-width">
           <label htmlFor="voucherName">Voucher Name</label>

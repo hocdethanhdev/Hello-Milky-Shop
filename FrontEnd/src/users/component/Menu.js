@@ -1,7 +1,6 @@
 import React from "react";
 import { TiThMenu } from "react-icons/ti";
 import "./Menu.css";
-import { useSelector } from "react-redux";
 
 function Menu() {
   return (
