@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './ProductContentMom.css';
 import CartPopup from './CartPopup';
 import axios from 'axios';
@@ -16,8 +16,11 @@ const ProductContentMom = ({ product }) => {
     const userId = getUserIdFromToken(token);
     const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const [availableStock, setAvailableStock] = useState(product.StockQuantity);
     const [ratingData, setRatingData] = useState({ avg: 0, count: 0 }); // State for rating data
     const navigate = useNavigate();
+    const incrementRef = useRef(null);
+    const decrementRef = useRef(null);
 
     useEffect(() => {
         const fetchRatingData = async () => {
@@ -39,10 +42,6 @@ const ProductContentMom = ({ product }) => {
 
     const openCartPopup = () => setIsCartPopupOpen(true);
     const closeCartPopup = () => setIsCartPopupOpen(false);
-    const incrementQuantity = () => setQuantity(quantity + 1);
-    const decrementQuantity = () => {
-        if (quantity > 1) setQuantity(quantity - 1);
-    };
 
     const handleAddToCart = async () => {
         try {
@@ -52,6 +51,8 @@ const ProductContentMom = ({ product }) => {
                 quantity: quantity,
                 price: product.PriceAfterDiscounts
             });
+            setAvailableStock(availableStock - quantity);
+            setQuantity(1);
             openCartPopup();
         } catch (error) {
             console.error('Error adding product to order:', error);
@@ -70,6 +71,29 @@ const ProductContentMom = ({ product }) => {
         } catch (error) {
             console.error('Error adding product to order:', error);
         }
+    };
+
+    // Handle holding buttons for continuous increment/decrement
+    const startIncrement = () => {
+        stopIncrement(); // Stop any existing interval to prevent multiple intervals
+        incrementRef.current = setInterval(() => {
+            setQuantity(prevQuantity => Math.min(prevQuantity + 1, availableStock));
+        }, 100);
+    };
+
+    const stopIncrement = () => {
+        clearInterval(incrementRef.current);
+    };
+
+    const startDecrement = () => {
+        stopDecrement(); // Stop any existing interval to prevent multiple intervals
+        decrementRef.current = setInterval(() => {
+            setQuantity(prevQuantity => Math.max(prevQuantity - 1, 1));
+        }, 100);
+    };
+
+    const stopDecrement = () => {
+        clearInterval(decrementRef.current);
     };
 
     if (!product) {
@@ -140,22 +164,39 @@ const ProductContentMom = ({ product }) => {
                                 </span>
                                 <div className="clear"></div>
                             </div>
-                            <div className="box_info box_status">
-                                <span className="box_info_txt left">Kho: </span>
-                                <span className="pro_status left">{product.StockQuantity}</span>
-                                <div className="clear"></div>
-                            </div>
-                            <div className="quantity-selector-thinh-cart">
-                                <p>Số lượng: </p>
-                                <button className="quantity-button-thinh-cart" onClick={decrementQuantity}>-</button>
-                                <input type="text" value={quantity} readOnly className="quantity-input-thinh-cart" />
-                                <button className="quantity-button-thinh-cart" onClick={incrementQuantity}>+</button>
-                            </div>
-                        </div>
-                        <div className="box_btn">
-                            <button className="btn_order_now" onClick={handleBuyNow}>Mua ngay</button>
-                            <button className="btn_add_cart" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
-                            <div className="clear"></div>
+
+                            {availableStock > 0 ? (
+                                <>
+                                    <div className="box_info box_status">
+                                        <span className="box_info_txt left">Kho: </span>
+                                        <span className="pro_status left">{availableStock}</span>
+                                        <div className="clear"></div>
+                                    </div>
+                                    <div className="quantity-selector-thinh-cart">
+                                        <p>Số lượng: </p>
+                                        <button
+                                            className="quantity-button-thinh-cart"
+                                            onMouseDown={startDecrement}
+                                            onMouseUp={stopDecrement}
+                                            onMouseLeave={stopDecrement}
+                                        >-</button>
+                                        <input type="text" value={quantity} readOnly className="quantity-input-thinh-cart" />
+                                        <button
+                                            className="quantity-button-thinh-cart"
+                                            onMouseDown={startIncrement}
+                                            onMouseUp={stopIncrement}
+                                            onMouseLeave={stopIncrement}
+                                        >+</button>
+                                    </div>
+                                    <div className="box_btn">
+                                        <button className="btn_order_now" onClick={handleBuyNow}>Mua ngay</button>
+                                        <button className="btn_add_cart" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
+                                        <div className="clear"></div>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="out-of-stock-message-thinh">TẠM HẾT HÀNG</div>
+                            )}
                         </div>
                     </div>
                     <div className='cuc_icon left'>
