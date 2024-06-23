@@ -5,6 +5,7 @@ import { getUserIdFromToken } from "../store/actions/authAction";
 import "./ShoppingCart.css";
 import VoucherPopup from "./VoucherPopup";
 import AddressPopup from "./AddressPopup";
+import { getMaxQuantity } from "./productMax";
 const ShoppingCart = () => {
   const { token } = useSelector((state) => state.auth);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -33,6 +34,65 @@ const ShoppingCart = () => {
   const [usingSavedAddress, setUsingSavedAddress] = useState(false);
   const [userID, setUserID] = useState("");
   let totalAmount = 0;
+  const [incrementIntervalId, setIncrementIntervalId] = useState(null);
+  const [decrementIntervalId, setDecrementIntervalId] = useState(null);
+
+
+  const startIncrement = async (productId) => {
+    stopDecrement(); // Stop decrement if it's running
+
+    // Fetch the maximum quantity for the product
+    const maxQuantity = await getMaxQuantity(productId);
+    const intervalId = setInterval(() => {
+      setProductQuantities((prevQuantities) => {
+        const newQuantity = (prevQuantities[productId] || 1) + 1;
+
+        // Check if the new quantity exceeds the maximum quantity
+        if (newQuantity > maxQuantity) {
+          clearInterval(intervalId); // Stop incrementing if the max is reached
+          return prevQuantities;
+        }
+
+        return {
+          ...prevQuantities,
+          [productId]: newQuantity,
+        };
+      });
+    }, 100);
+
+    setIncrementIntervalId(intervalId);
+  };
+
+
+  const stopIncrement = () => {
+    clearInterval(incrementIntervalId);
+    setIncrementIntervalId(null);
+  };
+
+  const startDecrement = (productId) => {
+    stopIncrement(); // Stop increment if it's running
+    const intervalId = setInterval(() => {
+      setProductQuantities((prevQuantities) => {
+        const newQuantity = (prevQuantities[productId] || 1) - 1;
+        if (newQuantity < 1) {
+          setProductToRemove(productId);
+          clearInterval(intervalId);
+          return prevQuantities;
+        }
+        return {
+          ...prevQuantities,
+          [productId]: newQuantity,
+        };
+      });
+    }, 100);
+    setDecrementIntervalId(intervalId);
+  };
+
+  const stopDecrement = () => {
+    clearInterval(decrementIntervalId);
+    setDecrementIntervalId(null);
+  };
+
 
   useEffect(() => {
     setUserID(getUserIdFromToken(token));
@@ -471,17 +531,17 @@ const ShoppingCart = () => {
                   </p>
                   <div className="quantity-control">
                     <button
-                      onClick={() =>
-                        handleQuantityChange(productId, quantity - 1)
-                      }
+                      onMouseDown={() => startDecrement(productId)}
+                      onMouseUp={stopDecrement}
+                      onMouseLeave={stopDecrement}
                     >
                       -
                     </button>
                     <span>Số lượng: {quantity}</span>
                     <button
-                      onClick={() =>
-                        handleQuantityChange(productId, quantity + 1)
-                      }
+                      onMouseDown={() => startIncrement(productId)}
+                      onMouseUp={stopIncrement}
+                      onMouseLeave={stopIncrement}
                     >
                       +
                     </button>
