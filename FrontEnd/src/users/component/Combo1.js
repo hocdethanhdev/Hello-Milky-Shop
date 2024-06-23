@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Product1.css";
 import StarRating from "../ui-list-product-mom/StarRating";
@@ -11,7 +11,9 @@ function Combo1() {
   useEffect(() => {
     // Call API to fetch product data
     axios
-      .get("http://localhost:5000/api/v1/product/getTop6MilksForPregnantMother/")
+      .get(
+        "http://localhost:5000/api/v1/product/getTop6MilksForPregnantMother/"
+      )
       .then((response) => {
         setProducts(response.data);
       })
@@ -22,8 +24,15 @@ function Combo1() {
 
   // Function to format price
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
   };
+
+  const formatPriceDiscount = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+};
 
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
@@ -35,7 +44,10 @@ function Combo1() {
         <div className="combo-1f-content">
           <div className="combo-1f-header">
             <div className="combo-1f-icon">
-              <img src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60" alt="Combo icon" />
+              <img
+                src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
+                alt="Combo icon"
+              />
             </div>
             <div className="combo-1f-title">
               <h2>Sữa dành cho mẹ</h2>
@@ -50,25 +62,31 @@ function Combo1() {
           <div className="combo-content">
             {Array.isArray(products) &&
               products.map((product, index) => (
-                <div key={product.ProductID} className="combo-item" onClick={() => handleProductClick(product.ProductID)}>
-                  <img
-                    src={product.Image}
-                    alt={`Combo ${index + 1}`}
-                  />
+                <div
+                  key={product.ProductID}
+                  className="combo-item"
+                  onClick={() => handleProductClick(product.ProductID)}
+                >
+                  <img src={product.Image} alt={`Combo ${index + 1}`} />
                   <div className="combo-details">
                     <h3>{product.ProductName}</h3>
+                    <div className="saoduoithinh-1">
+                      <StarRating productId={product.ProductID} />
+                    </div>
                     {product.PriceAfterDiscounts !== product.Price ? (
                       <div className="gia">
-                      <p className="original-price">{formatPrice(product.Price)}</p>
-                        <p className="discounted-price">{formatPrice(product.PriceAfterDiscounts)}</p>
-                        
+                        <p className="discounted-price">
+                          {formatPrice(product.PriceAfterDiscounts)}
+                        </p>
+                        <p className="original-price">
+                          {formatPrice(product.Price)}
+                        </p>
                       </div>
                     ) : (
                       <p>{formatPrice(product.Price)}</p>
-                    )}
-                     <div className='saoduoithinh-1'><StarRating productId={product.ProductID}/></div>
+                    )}  
                   </div>
-                 
+                  {product.Price !== product.PriceAfterDiscounts && <span className="discount">-{formatPriceDiscount((product.Price - product.PriceAfterDiscounts) / 1000)}K</span>}
                 </div>
               ))}
           </div>
