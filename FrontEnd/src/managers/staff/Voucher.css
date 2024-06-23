@@ -3,12 +3,11 @@
 /* Container and Header */
 .voucher-container-thinhvcher {
   margin-top: 20px;
- width: fit-content;
 }
-.voucher-list-thinhvcher button{
+.voucher-list-thinhvcher button {
   border: none;
-  background-color: white;
-} 
+  display: inherit;
+}
 .voucher-header-thinhvcher {
   background-color: #007bff;
   color: white;
@@ -47,7 +46,12 @@
 .voucher-list-thinhvcher table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  flex: 1;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-left: 20px; /* Adjust margin as per your layout */
 }
 
 .voucher-list-thinhvcher th,
@@ -62,8 +66,6 @@
   color: black;
 }
 
-
-
 .voucher-list-thinhvcher td button {
   background-color: #007bff;
   color: white;
@@ -71,7 +73,7 @@
   padding: 8px 12px; /* Adjust padding as needed */
   border-radius: 4px;
   cursor: pointer;
-  margin-right: 5px
+  margin-right: 5px;
 }
 
 .voucher-list-thinhvcher td button:hover {
@@ -100,22 +102,18 @@
   background-color: #0056b3;
 }
 
-
-
 /* Dropdown */
 .filter-dropdown-thinhvcher {
   position: relative;
-  
 }
 
 .filter-dropdown-thinhvcher button {
   border: none;
-  
+  width: 50%;
+  display: block;
   border-radius: 4px;
   cursor: pointer;
 }
-
-
 
 .filter-dropdown-thinhvcher button:hover {
   background-color: #0056b3;
@@ -264,10 +262,10 @@
 }
 .create-voucher {
   background-color: green;
-    border-radius: 10px;
-    padding: 10px;
-    color: white;
-    border: none;
-    margin-left: 40%;
-    margin-top: 30px;
+  border-radius: 10px;
+  padding: 10px;
+  color: white;
+  border: none;
+  margin-left: 40%;
+  margin-top: 30px;
 }

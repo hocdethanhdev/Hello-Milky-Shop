@@ -10,8 +10,8 @@ const LoginEmail = () => {
 
   useEffect(() => {
     dispatch(loginEmail(email));
-  }, []);
-
+  }, [email, dispatch]);
+  
   return <div>{isLoggedIn && <Navigate to={"/"} replace={true} />}</div>;
 };
 

@@ -59,7 +59,7 @@ const ProductScreen = () => {
         fetchProduct();
         checkUserOrder();
 
-    }, [productId, userId]);
+    }, [productId, userId, isLoggedIn]);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;

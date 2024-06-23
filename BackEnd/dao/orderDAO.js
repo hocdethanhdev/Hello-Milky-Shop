@@ -4,6 +4,32 @@ const Order = require("../bo/order");
 const ShippingAddress = require("../bo/shippingAddress");
 
 const orderDAO = {
+  getUserIDFromOrderID: (OrderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input(
+          "OrderID",
+          mssql.Int,
+          OrderID
+        );
+        request.query(
+          `SELECT o.UserID
+          FROM Payment p 
+          JOIN Orders o ON o.OrderID = p.OrderID
+          JOIN Users u ON u.UserID = o.UserID
+          WHERE o.OrderID = @OrderID;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({
+              err: res?.recordset[0] !== null ? 0 : 1,
+              UserID: res?.recordset[0].UserID,
+            });
+          }
+        );
+      });
+    });
+  },
   countOrdersIn7Days: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -213,7 +239,7 @@ const orderDAO = {
         request.input("userID", mssql.VarChar, userID);
 
         const selectQuery = `            
-                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price as 'OldPrice', p.Image, od.Price as 'NewPrice', so.StatusOrderName, o.ReasonCancelContent
+                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price as 'OldPrice', p.Image, od.Price as 'NewPrice', so.StatusOrderName, o.ReasonCancelContent, o.TotalAmount
                   FROM Orders o
                   JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
                   LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID
@@ -240,7 +266,7 @@ const orderDAO = {
         request.input("userID", mssql.VarChar, userID);
 
         const selectQuery = `
-                    SELECT * FROM Orders 
+                    SELECT TOP 1 * FROM Orders 
                     WHERE UserID = @userID AND status = 0
                 `;
 
@@ -354,6 +380,9 @@ const orderDAO = {
     });
   },
 
+
+
+
   changeQuantityOfProductInOrder: (orderID, productQuantities) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -365,22 +394,26 @@ const orderDAO = {
 
           const request = new mssql.Request(transaction);
           // Step 1: Update quantities for selected products
-          const updateQueries = productQuantities.map((pq) => {
-            return `
+          const updateQueries = productQuantities
+            .map((pq) => {
+              return `
               UPDATE OrderDetail
               SET Quantity = ${pq.quantity}
               WHERE OrderID = ${orderID} AND ProductID = '${pq.productID}';
             `;
-          }).join("\n");
+            })
+            .join("\n");
 
           // Step 2: Transfer unselected items to a new order
-          const productIDs = productQuantities.map((pq) => `'${pq.productID}'`).join(",");
+          const productIDs = productQuantities
+            .map((pq) => `'${pq.productID}'`)
+            .join(",");
           const transferUnselectedItemsQuery = `
             INSERT INTO Orders (orderDate, totalAmount, status, userID)
             SELECT orderDate, 0, 0, userID
             FROM Orders
             WHERE OrderID = ${orderID};
-    
+
             DECLARE @newOrderID INT = SCOPE_IDENTITY();
     
             INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
@@ -427,8 +460,9 @@ const orderDAO = {
         if (err) return reject(err);
 
         const request = new mssql.Request();
-        request.input('orderID', mssql.Int, orderID)
-          .input('productID', mssql.VarChar, productID);
+        request
+          .input("orderID", mssql.Int, orderID)
+          .input("productID", mssql.VarChar, productID);
 
         const deleteQuery = `
                 DELETE FROM OrderDetail
@@ -517,6 +551,7 @@ const orderDAO = {
       });
     });
   },
+
   updateStatusOrderID: (orderID, statusOrderID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -572,8 +607,9 @@ const orderDAO = {
         if (err) return reject(err);
 
         const request = new mssql.Request();
-        request.input('orderID', mssql.Int, orderID)
-          .input('productID', mssql.VarChar, productID);
+        request
+          .input("orderID", mssql.Int, orderID)
+          .input("productID", mssql.VarChar, productID);
 
         const deleteQuery = `
                     DELETE FROM OrderDetail
@@ -594,7 +630,7 @@ const orderDAO = {
         if (err) return reject(err);
 
         const request = new mssql.Request();
-        request.input('statusOrderID', mssql.Int, statusOrderID);
+        request.input("statusOrderID", mssql.Int, statusOrderID);
 
         const selectQuery = `
                     SELECT *
@@ -669,7 +705,6 @@ const orderDAO = {
           if (err) return reject(err);
           resolve(result);
         });
-
       });
     });
   },
@@ -743,9 +778,8 @@ const orderDAO = {
 
         const request = new mssql.Request();
         request
-          .input('userID', mssql.VarChar, userID)
-          .input('statusOrderID', mssql.Int, statusOrderID)
-
+          .input("userID", mssql.VarChar, userID)
+          .input("statusOrderID", mssql.Int, statusOrderID);
 
         const selectQuery = `
                   SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price, p.Image, od.Price, o.ReasonCancelContent
@@ -772,8 +806,8 @@ const orderDAO = {
 
         const request = new mssql.Request();
         request
-          .input('orderId', mssql.Int, orderID)
-          .input('reasonCancelContent', mssql.VarChar, reasonCancelContent);
+          .input("orderId", mssql.Int, orderID)
+          .input("reasonCancelContent", mssql.NVarChar, reasonCancelContent);
 
         const updateQuery = `
               UPDATE Orders
@@ -795,7 +829,7 @@ const orderDAO = {
         if (err) return reject(err);
 
         const request = new mssql.Request();
-        request.input('orderId', mssql.Int, orderId);
+        request.input("orderId", mssql.Int, orderId);
 
         const selectQuery = `
                 SELECT *
@@ -818,8 +852,8 @@ const orderDAO = {
 
         const request = new mssql.Request();
         request
-          .input('orderID', mssql.Int, orderID)
-          .input('totalAmount', mssql.Int, totalAmount);
+          .input("orderID", mssql.Int, orderID)
+          .input("totalAmount", mssql.Int, totalAmount);
 
         const selectQuery = `
               UPDATE Orders
@@ -841,9 +875,7 @@ const orderDAO = {
         if (err) return reject(err);
 
         const request = new mssql.Request();
-        request
-          .input('userID', mssql.VarChar, userID)
-
+        request.input("userID", mssql.VarChar, userID);
 
         const selectQuery = `
                  SELECT OrderID, ReasonCancelContent
@@ -859,10 +891,6 @@ const orderDAO = {
       });
     });
   },
-
 };
 
-
-
 module.exports = orderDAO;
-

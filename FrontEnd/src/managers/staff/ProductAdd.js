@@ -1,6 +1,6 @@
 // src/components/ProductAdd/ProductAdd.js
 import React, { useState, useEffect } from "react";
-import { uploadImage } from './UpImage';
+import { uploadImage } from "./UpImage";
 import "./Products.css";
 
 const ProductAdd = () => {
@@ -12,12 +12,12 @@ const ProductAdd = () => {
   const [expirationDate, setExpirationDate] = useState("");
   const [manufacturingDate, setManufacturingDate] = useState("");
   const [brandName, setBrandName] = useState("");
-  const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
+  const [productCategoryName, setProductCategoryName] =
+    useState("Sữa cho em bé");
   const [status, setStatus] = useState(1);
   const [brands, setBrands] = useState([]);
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
   const [progress, setProgress] = useState(0);
-  const [downloadURL, setDownloadURL] = useState("");
 
   useEffect(() => {
     // Fetch brands from the API
@@ -41,8 +41,7 @@ const ProductAdd = () => {
 
     try {
       const downloadURL = await uploadImage(image, setProgress);
-      setDownloadURL(downloadURL);
-      // After successful upload, proceed to submit product data
+
       const productData = {
         ProductName: productName,
         Description: description,
@@ -97,8 +96,7 @@ const ProductAdd = () => {
   };
 
   return (
-    <div className="create-product">
-     
+    <div className="container create-product">
       {successMessage && (
         <p
           className={`success-message ${
@@ -108,6 +106,8 @@ const ProductAdd = () => {
           {successMessage}
         </p>
       )}
+      <h1>Thêm sản phẩm</h1>
+
       <form
         id="create-product-form"
         className="product-form"

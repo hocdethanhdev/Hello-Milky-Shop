@@ -4,6 +4,7 @@
 }
 .hangsao-thinh {
     display: flex;
+    justify-content: center;
 }
 .psao {
     padding-top: 2px;

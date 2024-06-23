@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import 'boxicons/css/boxicons.min.css';
 import './RichTextEditor.css';
 
-const RichTextEditor = () => {
+const RichTextEditor = ({ value, onChange }) => {
   const [showCode, setShowCode] = useState(false);
   const contentRef = useRef(null);
 
@@ -32,18 +32,29 @@ const RichTextEditor = () => {
     const contentElement = contentRef.current;
     contentElement.addEventListener('click', handleLinkClicks);
 
+    const handleInput = () => {
+      if (onChange) {
+        onChange(contentRef.current.innerHTML);
+      }
+    };
+
+    contentElement.addEventListener('input', handleInput);
+
     return () => {
       contentElement.removeEventListener('click', handleLinkClicks);
+      contentElement.removeEventListener('input', handleInput);
     };
-  }, []);
+  }, [onChange]);
+
+  useEffect(() => {
+    contentRef.current.innerHTML = value; // Initialize the editor with the given value
+  }, [value]);
 
   return (
     <div className="rich-text-editor">
       <div className="container-richtext">
         <div className="toolbar-richtext">
           <div className="head-richtext">
-            
-            
             <select onChange={(e) => formatDoc('formatBlock', e.target.value)} defaultValue="">
               <option value="" disabled hidden>
                 Format
@@ -119,11 +130,12 @@ const RichTextEditor = () => {
             </button>
           </div>
         </div>
-        <div id="content" ref={contentRef} contentEditable={!showCode} spellCheck="false">
-
-
-
-        </div>
+        <div
+          id="content"
+          ref={contentRef}
+          contentEditable={!showCode}
+          spellCheck="false"
+        ></div>
       </div>
     </div>
   );

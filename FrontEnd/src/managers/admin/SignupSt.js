@@ -26,7 +26,7 @@ function SignupSt() {
                 >
                     <MDBCardBody className="p-5">
                         <div className="logo-sign-up-ad">
-                            <img src="/ImageMilkShop/Logo.jpg" alt="Milk Store Logo" style={{ width: '100px' }} />
+                            <img src="/ImageMilkShop/Logo.png" alt="Milk Store Logo" style={{ width: '100px' }} />
                         </div>
                         <h2 className="fw-bold mb-5 text-center custom-font-size">Create staff account</h2>
 

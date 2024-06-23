@@ -60,7 +60,14 @@ function Account() {
               <span>
                 {showPassword ? userData.Password : "********"}
               </span>
-             
+
+            </div>
+            <div>
+              <strong>Xu hiện có:</strong>{" "}
+              <span>
+                {userData.Point}
+              </span>
+
             </div>
           </div>
         ) : (

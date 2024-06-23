@@ -27,6 +27,7 @@ h2 {
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin: 10px;
 }
 
 .post-form button {
@@ -46,17 +47,21 @@ h2 {
 .post-list table {
   width: 100%;
   border-collapse: collapse;
+  background-color: white;
 }
+
 
 .post-list th,
 .post-list td {
   padding: 12px;
   border: 1px solid #ddd;
   text-align: left;
+  background-color: white;
 }
 
 .post-list th {
   background-color: #f4f4f4;
+  background-color: white;
 }
 
 .post-list button {
@@ -86,4 +91,16 @@ h2 {
   min-height: 300px;
   padding: 10px;
   border: 1px solid #f1f1f1;
+}
+/* Posts.css */
+.preview-image {
+  max-width: 50%;
+  height: auto;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.button-add-voucher{
+  border: none;
 }

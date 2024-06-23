@@ -123,8 +123,8 @@ POST http://localhost:5000/api/v1/auth/register
 Content-Type: application/json
 
 {
-    "UserName": "Nhan",
-    "PhoneNumber": "0348216719",
+    "UserName": "SWP",
+    "PhoneNumber": "84909090909",
     "Password": "1",
     "RoleID": 3
 }
@@ -368,7 +368,7 @@ GET  http://localhost:5000/api/v1/order/getPreviousOrderAddress/M0000001
 ### Search order dựa vào username
 GET http://localhost:5000/api/v1/order/searchOrderByUserName/A
 ###
-GET http://localhost:5000/api/v1/promotion/getPromotionByDate
+GET http://localhost:5000/api/v1/promotion/getPormotionByDate
 
 ### Lấy chi tiết đơn hàng dựa vào orderID
 GET http://localhost:5000/api/v1/order/getOrderDetailByOrderID/2
@@ -378,15 +378,13 @@ POST http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder
 Content-Type: application/json
 
 {
-    "orderID": "2",
+    "orderID": "1",
     "productQuantities": [
         {
             "productID": "SE0001",
-            "quantity": 3
+            "quantity": 4
         }      
-    ],
-    "paymentStatus": 1
-
+    ]
 }
 
 ### Thay đổi trạng thái đơn hàng
@@ -476,7 +474,7 @@ Content-Type: application/json
 }
 
 ### Lấy những orders cho user phân theo statusOrderID
-GET http://localhost:5000/api/v1/order/getOrdersForUserByStatusOrderID/M0000001/3
+GET http://localhost:5000/api/v1/order/getOrdersForUserByStatusOrderID/M0000001/1
 
 ### Hủy đơn hàng
 POST http://localhost:5000/api/v1/order/cancelOrder
