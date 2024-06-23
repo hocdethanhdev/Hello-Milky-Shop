@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Product1.css";
 import StarRating from "../ui-list-product-mom/StarRating";
 function Combo2() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    fetch("http://localhost:5000/api/v1/product/getTop6MilkForBaby")
+      .then((response) => response.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/product/getTop6MilkForBaby")
       .then((response) => response.json())

@@ -17,7 +17,7 @@ function Giasoc() {
 
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
-};
+  };
 
   useEffect(() => {
     fetch(
@@ -77,10 +77,12 @@ function Giasoc() {
               <div className="image_item">
                 <img src={product.Image} alt={product.ProductName} />
               </div>
-              
+
               <div className="price">
                 <h3 className="title-giasoc">{product.ProductName}</h3>
-                <div className='saoduoithinh'><StarRating productId={product.ProductID} /></div>
+                <div className="saoduoithinh">
+                  <StarRating productId={product.ProductID} />
+                </div>
                 <span className="price_item price_item-Sgg">
                   {product.PriceAfterDiscounts?.toLocaleString("de-DE")}đ
                 </span>
@@ -88,7 +90,15 @@ function Giasoc() {
                   {product.Price?.toLocaleString("de-DE")}đ
                 </span>
               </div>
-              {product.Price !== product.PriceAfterDiscounts && <span className="discount">-{formatPrice((product.Price - product.PriceAfterDiscounts) / 1000)}K</span>}
+              {product.Price !== product.PriceAfterDiscounts && (
+                <span className="discount">
+                  -
+                  {formatPrice(
+                    (product.Price - product.PriceAfterDiscounts) / 1000
+                  )}
+                  K
+                </span>
+              )}
             </div>
           ))}
         </Slider>

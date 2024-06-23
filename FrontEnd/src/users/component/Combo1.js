@@ -28,10 +28,19 @@ function Combo1() {
       style: "currency",
       currency: "VND",
     }).format(price);
+<<<<<<< HEAD
   };
   const formatPriceDiscount = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
+=======
+  };
+
+  const formatPriceDiscount = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+};
+
+>>>>>>> 6b248eda15b6b97eba2dd006feaf27066f2e78da
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
   };
@@ -41,6 +50,7 @@ function Combo1() {
       <div className="combo-1f-wrap">
         <div className="combo-1f-content">
           <div className="combo-1f-header">
+<<<<<<< HEAD
             <a href="/sua-cho-me" className="cate_li_title-trid">
               <div className="combo-1f-icon">
                 <img
@@ -52,6 +62,17 @@ function Combo1() {
                 <h2>Sữa dành cho mẹ</h2>
               </div>
             </a>
+=======
+            <div className="combo-1f-icon">
+              <img
+                src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
+                alt="Combo icon"
+              />
+            </div>
+            <div className="combo-1f-title">
+              <h2>Sữa dành cho mẹ</h2>
+            </div>
+>>>>>>> 6b248eda15b6b97eba2dd006feaf27066f2e78da
           </div>
           <div className="combo-1f-main">
             <img
@@ -63,6 +84,7 @@ function Combo1() {
             
             {Array.isArray(products) &&
               products.map((product, index) => (
+<<<<<<< HEAD
                 
                 <div
                   key={product.ProductID}
@@ -78,11 +100,22 @@ function Combo1() {
                             K
                           </span>
                         )}</div>
+=======
+                <div
+                  key={product.ProductID}
+                  className="combo-item"
+                  onClick={() => handleProductClick(product.ProductID)}
+                >
+>>>>>>> 6b248eda15b6b97eba2dd006feaf27066f2e78da
                   <img src={product.Image} alt={`Combo ${index + 1}`} />
                   <div className="combo-details">
                     <h3>{product.ProductName}</h3>
+                    <div className="saoduoithinh-1">
+                      <StarRating productId={product.ProductID} />
+                    </div>
                     {product.PriceAfterDiscounts !== product.Price ? (
                       <div className="gia">
+<<<<<<< HEAD
                         
                         <p className="original-price">
                           {formatPrice(product.Price)}
@@ -99,6 +132,20 @@ function Combo1() {
                     </div>
                   </div>
                   
+=======
+                        <p className="discounted-price">
+                          {formatPrice(product.PriceAfterDiscounts)}
+                        </p>
+                        <p className="original-price">
+                          {formatPrice(product.Price)}
+                        </p>
+                      </div>
+                    ) : (
+                      <p>{formatPrice(product.Price)}</p>
+                    )}  
+                  </div>
+                  {product.Price !== product.PriceAfterDiscounts && <span className="discount">-{formatPriceDiscount((product.Price - product.PriceAfterDiscounts) / 1000)}K</span>}
+>>>>>>> 6b248eda15b6b97eba2dd006feaf27066f2e78da
                 </div>
                 
               ))}
