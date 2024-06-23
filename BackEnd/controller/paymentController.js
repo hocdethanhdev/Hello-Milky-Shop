@@ -4,6 +4,7 @@ require("dotenv").config();
 let $ = require("jquery");
 const moment = require("moment");
 const { user } = require("../config/db.config");
+const crypto = require("crypto");
 
 const bankCode = "VNBANK";
 
@@ -70,7 +71,6 @@ const createVNPayPayment = async (req, res) => {
 
   let querystring = require("qs");
   let signData = querystring.stringify(vnp_Params, { encode: false });
-  let crypto = require("crypto");
   let hmac = crypto.createHmac("sha512", secretKey);
   let signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
   vnp_Params["vnp_SecureHash"] = signed;
@@ -94,7 +94,6 @@ const vnpayReturn = async (req, res, next) => {
 
   let querystring = require("qs");
   let signData = querystring.stringify(vnp_Params, { encode: false });
-  let crypto = require("crypto");
   let hmac = crypto.createHmac("sha512", secretKey);
   let signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
 

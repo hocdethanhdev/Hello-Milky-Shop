@@ -87,7 +87,7 @@ function Confirm() {
     return (
         <div className="confirm-container">
             <div className="orders-header">
-                <h2>DANH SÁCH ĐƠN HÀNG</h2>
+                <h2></h2>
                 <div className="search-orders">
                     <input type="text" placeholder="Tìm kiếm..." />
                     <button type="button">

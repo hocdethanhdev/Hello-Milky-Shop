@@ -239,7 +239,7 @@ const orderDAO = {
         request.input("userID", mssql.VarChar, userID);
 
         const selectQuery = `            
-                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price as 'OldPrice', p.Image, od.Price as 'NewPrice', so.StatusOrderName, o.ReasonCancelContent
+                  SELECT o.OrderID, p.ProductID, p.ProductName, pc.ProductCategoryName, od.Quantity, p.Price as 'OldPrice', p.Image, od.Price as 'NewPrice', so.StatusOrderName, o.ReasonCancelContent, o.TotalAmount
                   FROM Orders o
                   JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
                   LEFT JOIN OrderDetail od ON o.OrderID = od.OrderID
@@ -380,6 +380,9 @@ const orderDAO = {
     });
   },
 
+
+
+
   changeQuantityOfProductInOrder: (orderID, productQuantities) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -410,7 +413,7 @@ const orderDAO = {
             SELECT orderDate, 0, 0, userID
             FROM Orders
             WHERE OrderID = ${orderID};
-    
+
             DECLARE @newOrderID INT = SCOPE_IDENTITY();
     
             INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)

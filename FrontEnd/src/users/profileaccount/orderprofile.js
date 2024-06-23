@@ -10,6 +10,8 @@ const OrderProfile = () => {
   const [ordersData, setOrdersData] = useState([]);
   const [showCancelPopup, setShowCancelPopup] = useState(false);
   const [orderToCancel, setOrderToCancel] = useState(null);
+  const [orderToConfirm, setOrderToConfirm] = useState(null); // For confirming receipt
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false); // Popup for confirmation
   const { token } = useSelector((state) => state.auth);
   const userIdd = getUserIdFromToken(token);
 
@@ -29,11 +31,14 @@ const OrderProfile = () => {
             OrderID: order.OrderID,
             status: order.StatusOrderName,
             items: [order],
-            totalPrice: calculateTotalPrice([order]),
+            totalPrice: calculateTotalPrice([order])
           });
         }
         return acc;
       }, []);
+
+      // Sort orders by OrderID in descending order
+      groupedOrders.sort((a, b) => b.OrderID - a.OrderID);
 
       setOrdersData(groupedOrders);
     } catch (error) {
@@ -58,8 +63,7 @@ const OrderProfile = () => {
 
   const calculateTotalPrice = (items) => {
     return items.reduce((total, item) => {
-      const discountedPrice = item.NewPrice || item.OldPrice;
-      return total + (item.Quantity * discountedPrice);
+      return item.TotalAmount;
     }, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   };
 
@@ -86,6 +90,25 @@ const OrderProfile = () => {
       setOrderToCancel(null);
     } catch (error) {
       console.error("Error canceling order:", error);
+    }
+  };
+
+  const handleConfirmReceipt = async () => {
+    if (!orderToConfirm) return;
+
+    try {
+      await axios.post(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderToConfirm}`, {
+        statusOrderID: 4
+      });
+
+      // Refetch orders after confirming receipt
+      const statusCode = activeTab === "Tất cả" ? "" : activeTab;
+      fetchOrders(statusCode);
+
+      setShowConfirmPopup(false);
+      setOrderToConfirm(null);
+    } catch (error) {
+      console.error("Error confirming receipt:", error);
     }
   };
 
@@ -118,6 +141,12 @@ const OrderProfile = () => {
                 setShowCancelPopup(true);
                 setOrderToCancel(order.OrderID);
               }}>Hủy đơn hàng</button>
+            )}
+            {order.status === "Đang giao" && (
+              <button className=" btn btn-success" onClick={() => {
+                setShowConfirmPopup(true);
+                setOrderToConfirm(order.OrderID);
+              }}>Đã nhận được hàng</button>
             )}
             {order.status === "Đã hủy" && (
               <p>{order.items[0].ReasonCancelContent ? `Lý do hủy: ${order.items[0].ReasonCancelContent}` : "Đã hủy"}</p>
@@ -201,6 +230,21 @@ const OrderProfile = () => {
             <div className="popup-buttons">
               <button onClick={() => setShowCancelPopup(false)}>Không</button>
               <button onClick={handleCancelOrder}>Có</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showConfirmPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <span className="close-popup" onClick={() => setShowConfirmPopup(false)}>
+              &times;
+            </span>
+            <p>Bạn chắc chắn đã nhận được hàng?</p>
+            <div className="popup-buttons">
+              <button onClick={() => setShowConfirmPopup(false)}>Không</button>
+              <button onClick={handleConfirmReceipt}>Có</button>
             </div>
           </div>
         </div>

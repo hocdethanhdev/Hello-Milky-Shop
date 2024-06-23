@@ -26,6 +26,8 @@ import ManageStaff from "./managers/admin/ManageStaff";
 import ManageMember from "./managers/admin/ManageMember";
 import SignupSt from "./managers/admin/SignupSt";
 import SignupMem from "./managers/admin/SignupMem";
+import AdminSlidebar from "./managers/admin/AdminSlidebar";
+import SignupAd from "./managers/admin/SignupAd";
 
 // User Components
 import Product1 from "./users/component/Product1";
