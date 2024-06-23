@@ -1,6 +1,9 @@
 const productRepository = require("../repository/productRepository");
 
 const productService = {
+  getAllProductForUser: async () => {
+    return await productRepository.getAllProductForUser();
+  },
 
   getTop5ProductBestSeller: async () => {
     return await productRepository.getTop5ProductBestSeller();
