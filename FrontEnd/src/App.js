@@ -16,6 +16,7 @@ import Products from "./managers/staff/Products";
 import VoucherAdd from "./managers/staff/VoucherAdd";
 import ProductAdd from "./managers/staff/ProductAdd";
 import PostsAdd from "./managers/staff/PostsAdd";
+import AddPromotion from "./managers/staff/AddPromotion";
 
 // Admin Components (if needed)
 import MainDash from "./managers/admin/MainDash";
@@ -24,6 +25,8 @@ import ManageStaff from "./managers/admin/ManageStaff";
 import ManageMember from "./managers/admin/ManageMember";
 import SignupSt from "./managers/admin/SignupSt";
 import SignupMem from "./managers/admin/SignupMem";
+import AdminSlidebar from "./managers/admin/AdminSlidebar";
+import SignupAd from "./managers/admin/SignupAd";
 
 // User Components
 import Product1 from "./users/component/Product1";
@@ -45,8 +48,6 @@ import ListProductMomScreen from "./users/ui-list-product-mom/ListProductMomScre
 import RichTextEditor from "./users/component/RichTextEditor";
 import ResetPassword from './users/component/ResetPassword';
 import News from "./users/component/News";
-import AdminSlidebar from "./managers/admin/AdminSlidebar";
-import SignupAd from "./managers/admin/SignupAd";
 import PaymentSuccess from "./users/component/PaymenSuccess";
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
       <div className="content flex-grow-1">
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/AddPromotion" element={<AddPromotion />} />
           <Route path="/voucher-staff" element={<Voucher />} />
           <Route path="/report" element={<Report />} />
           <Route path="/posts" element={<Posts />} />
