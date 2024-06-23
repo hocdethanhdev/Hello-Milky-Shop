@@ -16,6 +16,8 @@ import Products from "./managers/staff/Products";
 import VoucherAdd from "./managers/staff/VoucherAdd";
 import ProductAdd from "./managers/staff/ProductAdd";
 import PostsAdd from "./managers/staff/PostsAdd";
+import PromotionManage from "./managers/staff/PromotionManage";
+import AddPromotion from "./managers/staff/AddPromotion";
 
 // Admin Components (if needed)
 import MainDash from "./managers/admin/MainDash";
@@ -70,6 +72,9 @@ function App() {
             <Route path="/addingvoucher" element={<VoucherAdd />} />
             <Route path="/addingproduct" element={<ProductAdd />} />
             <Route path="/addingpost" element={<PostsAdd />} />
+            <Route path="/promotionmanage" element={<PromotionManage />} />
+            <Route path="/addpromotion" element={<AddPromotion />} />
+
           </Routes>
         </div>
       </div>

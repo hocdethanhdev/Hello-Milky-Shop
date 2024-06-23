@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Sidebar() {
   const [dropDown, setDropDown] = useState(false);
 
@@ -33,7 +32,7 @@ function Sidebar() {
           Xử lí report
         </a>
         <a href="/posts">
-        <img
+          <img
             src="https://cdn-icons-png.flaticon.com/128/9458/9458635.png"
             alt="Manage Orders Icon"
             style={{ width: "23px" }}
@@ -43,7 +42,7 @@ function Sidebar() {
         <a
           className="manage-st-thinh"
           onClick={(e) => {
-            e.preventDefault(); // Prevent default anchor behavior
+            e.preventDefault();
             setDropDown(!dropDown);
           }}
           href="#">
@@ -73,6 +72,14 @@ function Sidebar() {
             style={{ width: "24px" }}
           />{" "}
           Quản lý sản phẩm
+        </a>
+        <a href="/promotionmanage">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/7650/7650832.png"
+            alt="Product Icon"
+            style={{ width: "24px" }}
+          />{" "}
+          Quản lý khuyến mãi
         </a>
       </nav>
     </div>

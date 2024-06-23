@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import RichTextEditor from '../../users/component/RichTextEditor';
 import './EditProductModal.css';
 
 const EditProductModal = ({ product, onClose, onSave }) => {
@@ -11,6 +12,10 @@ const EditProductModal = ({ product, onClose, onSave }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+    };
+
+    const handleDescriptionChange = (value) => {
+        setFormData({ ...formData, Description: value });
     };
 
     const handleSubmit = (e) => {
@@ -29,10 +34,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                             Product Name:
                             <input type="text" name="ProductName" value={formData.ProductName} onChange={handleChange} />
                         </label>
-                        <label>
-                            Description:
-                            <textarea name="Description" value={formData.Description} onChange={handleChange} rows="4" />
-                        </label>
+                        
                         <label>
                             Price:
                             <input type="number" name="Price" value={formData.Price} onChange={handleChange} />
@@ -64,6 +66,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                                 <option value="Sữa cho em bé">Sữa cho em bé</option>
                             </select>
                         </label>
+                        
                         <label>
                             Status:
                             <select name="Status" value={formData.Status} onChange={handleChange}>
@@ -71,7 +74,12 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                                 <option value="1">Still in stock</option>
                             </select>
                         </label>
+                        
                     </div>
+                    <label>
+                            Description:
+                            <RichTextEditor value={formData.Description} onChange={handleDescriptionChange} />
+                        </label>
                     <button type="submit">Save</button>
                 </form>
             </div>
