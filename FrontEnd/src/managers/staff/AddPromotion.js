@@ -135,6 +135,7 @@ function PromotionForm({
 }) {
   return (
     <div className="promotion-form-container">
+      
       <h2>Add Promotion</h2>
       <form onSubmit={handleSubmit}>
         <div className="promo-form">

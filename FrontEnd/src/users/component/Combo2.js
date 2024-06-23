@@ -19,7 +19,9 @@ function Combo2() {
       currency: "VND",
     }).format(price);
   };
-
+  const formatPriceDiscount = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+};
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
   };
@@ -52,7 +54,16 @@ function Combo2() {
               <div
                 key={product.ProductID}
                 className="combo-item-1"
-                onClick={() => handleProductClick(product.ProductID)}>
+                onClick={() => handleProductClick(product.ProductID)}><div>{product.Price !== product.PriceAfterDiscounts && (
+                  <span className="discount-1">
+                    -
+                    {formatPriceDiscount(
+                      (product.Price - product.PriceAfterDiscounts) /
+                        1000
+                    )}
+                    K
+                  </span>
+                )}</div>
                 <img src={product.Image} alt={product.ProductName} />
                 <div className="combo-details-1">
                   <h3>{product.ProductName}</h3>

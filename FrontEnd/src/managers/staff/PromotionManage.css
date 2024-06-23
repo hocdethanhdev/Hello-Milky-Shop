@@ -83,3 +83,8 @@
    
     color: black;
 }
+
+.button-add-promotion {
+    background-color: white;
+    border: none;
+}

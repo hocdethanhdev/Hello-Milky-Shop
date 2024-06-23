@@ -49,8 +49,6 @@ import ListProductMomScreen from "./users/ui-list-product-mom/ListProductMomScre
 import RichTextEditor from "./users/component/RichTextEditor";
 import ResetPassword from "./users/component/ResetPassword";
 import News from "./users/component/News";
-import AdminSlidebar from "./managers/admin/AdminSlidebar";
-import SignupAd from "./managers/admin/SignupAd";
 import NewsDetail from "./users/component/NewsDetail";
 import ProductHot from "./users/component/ProductHot";
 import PaymentSuccess from "./users/component/PaymenSuccess";
@@ -65,7 +63,7 @@ function App() {
         <Sidebar />
         <div className="content flex-grow-1">
           <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/voucher-staff" element={<Voucher />} />
             <Route path="/report" element={<Report />} />
             <Route path="/posts" element={<Posts />} />
