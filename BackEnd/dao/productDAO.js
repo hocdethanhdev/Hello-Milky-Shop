@@ -1,7 +1,6 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
-const ProductPromotionList = require("../bo/productPromotionList");
 
 const productDAO = {
 
@@ -113,7 +112,7 @@ const productDAO = {
           JOIN Brand b ON p.BrandId = b.BrandID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
           LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
-          WHERE p.ProductID = @id AND StockQuantity > 0 AND Status =1
+          WHERE p.ProductID = @id
           GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName, StockQuantity, p.Description;
         ;`,
           (err, res) => {
