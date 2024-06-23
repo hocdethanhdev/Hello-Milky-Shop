@@ -105,6 +105,7 @@
   border: 1px solid #ddd;
   flex-basis: calc(20% - 20px); /* Tính toán flex-basis để tránh cách biệt quá lớn */
   margin: 10px;
+  position: relative;
 }
 
 .item-giasoc {
@@ -694,5 +695,28 @@
   text-decoration: line-through;
   margin-top: 5px;
   font-size: 14px;
+}
+
+span.discount-Sgg {
+  color: #ff6b00;
+  padding-left: 5px;
+}
+
+span.discount.discount-Sgg {
+  color: white;
+}
+
+span.discount {
+  position: absolute;
+  top: 10px;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  right: 13px;
+  font-family: Arial, Tahoma;
+  font-weight: bold !important;
+  background: #f72f2f;
+  padding: 3px 7px;
+  border-radius: 3px;
 }
 

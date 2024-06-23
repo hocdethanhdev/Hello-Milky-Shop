@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router-dom";
+import StarRating from "../ui-list-product-mom/StarRating";
 
 function Giasoc() {
   const navigate = useNavigate();
@@ -13,6 +14,10 @@ function Giasoc() {
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`); // Navigate to specific product page
   };
+
+  const formatPrice = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+};
 
   useEffect(() => {
     fetch(
@@ -72,8 +77,10 @@ function Giasoc() {
               <div className="image_item">
                 <img src={product.Image} alt={product.ProductName} />
               </div>
+              
               <div className="price">
                 <h3 className="title-giasoc">{product.ProductName}</h3>
+                <div className='saoduoithinh'><StarRating productId={product.ProductID} /></div>
                 <span className="price_item price_item-Sgg">
                   {product.PriceAfterDiscounts?.toLocaleString("de-DE")}đ
                 </span>
@@ -81,6 +88,7 @@ function Giasoc() {
                   {product.Price?.toLocaleString("de-DE")}đ
                 </span>
               </div>
+              {product.Price !== product.PriceAfterDiscounts && <span className="discount">-{formatPrice((product.Price - product.PriceAfterDiscounts) / 1000)}K</span>}
             </div>
           ))}
         </Slider>
