@@ -60,45 +60,43 @@ function Combo1() {
             />
           </div>
           <div className="combo-content">
-            
             {Array.isArray(products) &&
               products.map((product, index) => (
-                
                 <div
                   key={product.ProductID}
                   className="combo-item-1"
-                  onClick={() => handleProductClick(product.ProductID)}>
-                    <div>{product.Price !== product.PriceAfterDiscounts && (
-                          <span className="discount-1">
-                            -
-                            {formatPriceDiscount(
-                              (product.Price - product.PriceAfterDiscounts) /
-                                1000
-                            )}
-                            K
-                          </span>
-                        )}</div>
+                  onClick={() => handleProductClick(product.ProductID)}
+                >
+                  <div className="div-discount-1">
+                    {product.Price !== product.PriceAfterDiscounts && (
+                      <span className="discount-1">
+                        -
+                        {formatPriceDiscount(
+                          (product.Price - product.PriceAfterDiscounts) / 1000
+                        )}
+                        K
+                      </span>
+                    )}
+                  </div>
                   <img src={product.Image} alt={`Combo ${index + 1}`} />
                   <div className="combo-details">
                     <h3>{product.ProductName}</h3>
                     {product.PriceAfterDiscounts !== product.Price ? (
                       <div className="gia">
-                        
-                        <p className="original-price">
-                          {formatPrice(product.Price)}
-                        </p>
                         <p className="discounted-price">
                           {formatPrice(product.PriceAfterDiscounts)}
                         </p>
+                        <p className="original-price">
+                          {formatPrice(product.Price)}
+                        </p>
                       </div>
                     ) : (
-                      <p>{formatPrice(product.Price)}</p>
+                      <p className="discounted-price">{formatPrice(product.Price)}</p>
                     )}
                     <div className="saoduoithinh-1">
                       <StarRating productId={product.ProductID} />
                     </div>
                   </div>
-                 
                 </div>
               ))}
           </div>
