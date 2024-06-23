@@ -64,8 +64,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       alert(
-        `This voucher requires a minimum purchase of ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
