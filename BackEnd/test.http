@@ -323,7 +323,7 @@ Content-Type: application/json
     "HeaderImage": "image5.png",
     "Content": "Sữa cho em bé",
     "PublishDate": "2021-05-25",
-    "AuthorID": "M0000001",
+    "AuthorID": "M0000002",
     "ArticleCategoryID": 2
 }
 
@@ -522,4 +522,6 @@ Content-Type: application/json
 }
 ### Lấy lí do hủy đơn hàng
 GET http://localhost:5000/api/v1/order/getReasonCancleOrderByUserID/M0000003/
+### Lấy author name
+GET http://localhost:5000/api/v1/article/getAuthorName/
 

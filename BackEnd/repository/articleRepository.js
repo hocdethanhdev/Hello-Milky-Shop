@@ -26,6 +26,9 @@ const articleRepository = {
   updateArticle: async (article_id, article) => {
     return await articleDAO.updateArticle(article_id, article);
   },
+  getAuthorName: async () => {
+    return await articleDAO.findAuthorName();
+  },
 }
 
 module.exports = articleRepository;
