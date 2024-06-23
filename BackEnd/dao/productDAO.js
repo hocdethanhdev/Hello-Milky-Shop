@@ -584,7 +584,7 @@ const productDAO = {
                    END), p.Price) AS PriceAfterDiscounts
           FROM Product p
           JOIN Brand b ON p.BrandID = b.BrandID
-		      JOIN ProductCategory pc ON pc.ProductCategoryID = p.ProductCategoryID
+		    JOIN ProductCategory pc ON pc.ProductCategoryID = p.ProductCategoryID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
 		      LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
           WHERE pc.ProductCategoryID = 1

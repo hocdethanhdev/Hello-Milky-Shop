@@ -783,7 +783,7 @@ const orderDAO = {
 
         request.query(updateQuery, (err, result) => {
           if (err) return reject(err);
-          resolve(result);
+          z
         });
       });
     });

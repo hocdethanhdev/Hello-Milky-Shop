@@ -173,5 +173,25 @@ const articleDAO = {
     });
 
   },
+
+  findAuthorName: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT ArticleID, AuthorID, UserName as AuthorName
+          FROM Article a
+          JOIN Users u ON a.AuthorID = u.UserID
+          
+          ;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
 }
 module.exports = articleDAO;
