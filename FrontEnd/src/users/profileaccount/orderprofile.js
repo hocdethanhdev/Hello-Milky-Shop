@@ -143,7 +143,7 @@ const OrderProfile = () => {
               }}>Hủy đơn hàng</button>
             )}
             {order.status === "Đang giao" && (
-              <button className="confirm-button" onClick={() => {
+              <button className=" btn btn-success" onClick={() => {
                 setShowConfirmPopup(true);
                 setOrderToConfirm(order.OrderID);
               }}>Đã nhận được hàng</button>
