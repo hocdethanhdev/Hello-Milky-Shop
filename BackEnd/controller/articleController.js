@@ -82,6 +82,16 @@ const updateArticle = async (req, res) => {
     }
 };
 
+const getAuthorName = async (req, res) => {
+    try {
+        const obj = await articleService.getAuthorName ();
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all users:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 module.exports = {
     getArticlesByID,
     getArticlesByContent,
@@ -90,6 +100,6 @@ module.exports = {
     createArticle,
     deleteArticle,
     updateArticle,
-    getArticlesByArticleID
-
+    getArticlesByArticleID,
+    getAuthorName
 }

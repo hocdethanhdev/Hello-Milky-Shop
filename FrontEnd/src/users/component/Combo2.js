@@ -27,7 +27,7 @@ function Combo2() {
   };
   const formatPriceDiscount = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
-};
+  };
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
   };
@@ -60,30 +60,33 @@ function Combo2() {
               <div
                 key={product.ProductID}
                 className="combo-item-1"
-                onClick={() => handleProductClick(product.ProductID)}><div>{product.Price !== product.PriceAfterDiscounts && (
-                  <span className="discount-1">
-                    -
-                    {formatPriceDiscount(
-                      (product.Price - product.PriceAfterDiscounts) /
-                        1000
-                    )}
-                    K
-                  </span>
-                )}</div>
+                onClick={() => handleProductClick(product.ProductID)}
+              >
+                <div className="div-discount-1">
+                  {product.Price !== product.PriceAfterDiscounts && (
+                    <span className="discount-1">
+                      -
+                      {formatPriceDiscount(
+                        (product.Price - product.PriceAfterDiscounts) / 1000
+                      )}
+                      K
+                    </span>
+                  )}
+                </div>
                 <img src={product.Image} alt={product.ProductName} />
                 <div className="combo-details-1">
                   <h3>{product.ProductName}</h3>
                   {product.PriceAfterDiscounts !== product.Price ? (
                     <div className="gia">
+                      <p className="discounted-price">
+                        {formatPrice(product.PriceAfterDiscounts)}
+                      </p>
                       <p className="original-price-1">
                         {formatPrice(product.Price)}
                       </p>
-                      <p className="discounted-price-1">
-                        {formatPrice(product.PriceAfterDiscounts)}
-                      </p>
                     </div>
                   ) : (
-                    <p>{formatPrice(product.Price)}</p>
+                    <p className="discounted-price">{formatPrice(product.Price)}</p>
                   )}
                   <div className="saoduoithinh-1">
                     <StarRating productId={product.ProductID} />

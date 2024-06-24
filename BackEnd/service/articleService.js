@@ -30,6 +30,9 @@ return await articleRepository. deleteArticle (article_id);
 updateArticle: async (article_id, article) => {
 return await articleRepository.updateArticle(article_id, article);
 },
+getAuthorName : async (req, res) => {
+  return await articleRepository.getAuthorName();
+  },
 }
 
 module.exports = articleService;
