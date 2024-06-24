@@ -539,4 +539,8 @@ Content-Type: application/json
 GET http://localhost:5000/api/v1/order/getReasonCancleOrderByUserID/M0000003/
 ### Lấy author name
 GET http://localhost:5000/api/v1/article/getAuthorName/
+### lấy info shipping is deleted
+GET http://localhost:5000/api/v1/shippingAddress/getShippingAddressIsDeleted/
+### update IsDeleted bằng 
+PUT http://localhost:5000/api/v1/shippingAddress/updateDeleted/1
 

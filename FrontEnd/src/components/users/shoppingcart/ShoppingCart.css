@@ -150,7 +150,6 @@ body {
 
 .payment-info p {
   color: #ff6b6b;
-  text-align: center;
 }
 
 .payment-info h4 {
@@ -203,6 +202,7 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+
 .order-btn:hover {
   background-color: #ff6b6b;
 }
@@ -211,10 +211,12 @@ body {
   color: #0c93e4;
   font-weight: bold;
 }
+
 .gia-sp-cartth {
   color: #fd6a02;
   font-weight: bold;
 }
+
 .popup-cart-thinh {
   position: fixed;
   top: 0;
@@ -275,6 +277,7 @@ body {
   padding: 10px 20px;
   border: none;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .product-info-container-long {
@@ -284,7 +287,8 @@ body {
 }
 
 .product-info-long {
-  max-height: 400px; /* Đủ cao để hiển thị 3 sản phẩm */
+  max-height: 400px;
+  /* Đủ cao để hiển thị 3 sản phẩm */
   overflow-y: auto;
   border: 1px solid #ddd;
   padding: 10px;
@@ -351,4 +355,157 @@ body {
 
 .product-info::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.voucher-selection-long button {
+  background-color: #ff7f00;
+  /* Màu nền */
+  color: white;
+  /* Màu chữ */
+  border: none;
+  padding: 10px 15px;
+  /* Khoảng cách bên trong */
+  text-align: center;
+  /* Căn giữa nội dung */
+  text-decoration: none;
+  /* Không có gạch chân */
+  display: inline-block;
+  font-size: 16px;
+  /* Cỡ chữ */
+  cursor: pointer;
+  /* Con trỏ khi di chuột qua */
+  border-radius: 4px;
+  /* Bo góc */
+  transition: background-color 0.3s ease;
+  /* Hiệu ứng khi hover */
+}
+
+.voucher-selection-long button:hover {
+  background-color: #ff7f00;
+  /* Màu nền khi hover */
+}
+
+.custom-radio {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.custom-radio input[type="radio"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+}
+
+.custom-radio input[type="radio"]:checked~.checkmark {
+  border-color: #007bff;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #007bff;
+  transform: translate(-50%, -50%);
+}
+
+.custom-radio input[type="radio"]:checked~.checkmark:after {
+  display: block;
+}
+
+.payment-label {
+  font-weight: bold;
+}
+
+.points-usage-long {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.points-usage-long input[type="checkbox"] {
+  display: none;
+}
+
+.points-usage-long label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon-long {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-right: 10px;
+  position: relative;
+}
+
+.points-usage-long input[type="checkbox"]:checked+label .icon-long::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #007bff;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.total-row.total {
+  font-weight: bold;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.points-usage-long label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon-wrapper-long {
+  margin-left: 0px;
+  /* Khoảng cách giữa checkbox và icon */
+  margin-right: 15px;
+  /* Khoảng cách giữa icon và text */
+  display: flex;
+  align-items: center;
+}
+
+.points-icon {
+  width: 20px;
+  /* Điều chỉnh kích thước phù hợp */
+  height: 20px;
+}
+
+.points-container {
+  margin-top: 10px;
+  /* Điều chỉnh giá trị này để di chuyển xuống */
+  padding-bottom: 0px;
+  /* Thêm khoảng cách dưới nếu cần */
 }
