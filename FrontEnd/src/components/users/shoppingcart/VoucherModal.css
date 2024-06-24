@@ -32,7 +32,7 @@
 }
 
 .tri-voucher {
-    width: calc(50% - 10px);
+    width: calc(100% - 10px);
     /* Chiều rộng của mỗi voucher (2 cái trên mỗi hàng) */
     box-sizing: border-box;
 }
@@ -40,7 +40,6 @@
 .voucher {
     background-color: #ffefed;
     border-radius: 8px;
-    padding: 10px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
