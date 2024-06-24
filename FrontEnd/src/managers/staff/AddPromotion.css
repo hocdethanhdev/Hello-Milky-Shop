@@ -86,9 +86,7 @@
 }
 
 .select-all-container-tri input[type="checkbox"] {
-  
   margin-left: 10px;
- 
 }
 
 .product-list-promotion {
@@ -97,7 +95,7 @@
   gap: 10px;
 }
 
-.product-item {
+.product-item1 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,7 +106,7 @@
   width: calc(25% - 10px);
 }
 
-.product-item input[type="checkbox"] {
+.product-item1 input[type="checkbox"] {
   margin-bottom: 10px;
   margin-left: 95%;
 }
@@ -136,7 +134,7 @@
 
 .product-details h4 {
   margin: 0;
-  
+
   color: #333;
   text-align: center;
 }
