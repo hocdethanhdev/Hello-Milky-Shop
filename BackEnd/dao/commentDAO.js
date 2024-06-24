@@ -13,7 +13,11 @@ const commentDAO = {
           CommentID
         );
         request.query(
-          `SELECT * FROM Comment WHERE CommentID = @CommentID;`,
+          `SELECT CommentID, Description, Rating, CommentDate, Rep, RepDate, ProductID, u.UserName, s.UserName as StaffName
+          FROM Comment c
+          JOIN Users u ON u.UserID = c.UserID
+          LEFT JOIN Users s ON s.UserID = c.StaffID
+          WHERE CommentID = @CommentID;`,
           (err, res) => {
             if (err) reject(err);
 
@@ -62,9 +66,10 @@ const commentDAO = {
           ProductID
         );
         request.query(
-          `SELECT u.UserID, u.UserName, c.CommentDate, c.Rating, c.Description
+          `SELECT CommentID, c.Description, Rating, CommentDate, Rep, RepDate, c.ProductID, u.UserName, s.UserName as StaffName
           FROM Comment c
           JOIN Users u ON u.UserID = c.UserID
+          LEFT JOIN Users s ON s.UserID = c.StaffID          
           WHERE c.ProductID = @ProductID;`,
           (err, res) => {
             if (err) reject(err);
@@ -133,11 +138,11 @@ const commentDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT CommentID, UserName, c.Description, CommentDate, c.ProductID, ProductName, Rep
+          `SELECT CommentID, c.Description, Rating, CommentDate, Rep, RepDate, c.ProductID, u.UserName, s.UserName as StaffName
           FROM Comment c
-          JOIN Users u ON c.UserID = u.UserID 
-          JOIN Product p ON c.ProductID = p.ProductID
-        ;`,
+          JOIN Users u ON u.UserID = c.UserID
+          LEFT JOIN Users s ON s.UserID = c.StaffID
+          JOIN Product p ON p.ProductID = c.ProductID;`,
           (err, res) => {
             if (err) reject(err);
             if (!res.recordset[0])
@@ -155,10 +160,11 @@ const commentDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT CommentID, UserName, c.Description, CommentDate, c.ProductID, ProductName, Rep
+          `SELECT CommentID, c.Description, Rating, CommentDate, Rep, RepDate, c.ProductID, u.UserName, s.UserName as StaffName
           FROM Comment c
-          JOIN Users u ON c.UserID = u.UserID 
-          JOIN Product p ON c.ProductID = p.ProductID
+          JOIN Users u ON u.UserID = c.UserID
+          LEFT JOIN Users s ON s.UserID = c.StaffID
+          JOIN Product p ON p.ProductID = c.ProductID
           WHERE Rep is null
         ;`,
           (err, res) => {
@@ -173,15 +179,16 @@ const commentDAO = {
       });
     });
   },
-  repComment: (id, rep) => {
+  repComment: (id, rep, UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request()
           .input("CommentID", mssql.Int, id)
-          .input("Rep", mssql.NVarChar, rep);
+          .input("Rep", mssql.NVarChar, rep)
+          .input("StaffID", mssql.VarChar, UserID);
         request.query(
           `UPDATE Comment
-          SET Rep = @Rep
+          SET Rep = @Rep, StaffID = @StaffID, RepDate = GETDATE()
           WHERE CommentID = @CommentID
         ;`,
           (err, res) => {
