@@ -259,3 +259,93 @@ body {
 .popup-btn-cart-thinh:hover {
   background-color: #0056b3;
 }
+
+.address-title-long{
+  margin-top: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.custom-button-long {
+  background-color: #007bff; 
+  color: white; 
+  padding: 10px 20px; 
+  border: none; 
+  cursor: pointer; 
+}
+
+.product-info-container-long {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.product-info-long {
+  max-height: 400px; /* Đủ cao để hiển thị 3 sản phẩm */
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.product-item:last-child {
+  border-bottom: none;
+}
+
+.product-item img {
+  width: 60px;
+  height: auto;
+  margin-right: 15px;
+}
+
+.product-item .ten-sp-cartth {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.product-item .gia-sp-cartth {
+  color: #f00;
+  margin-bottom: 5px;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-control button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.quantity-control span {
+  margin: 0 10px;
+}
+
+/* Để đảm bảo scrollbar luôn hiển thị trên các trình duyệt Webkit */
+.product-info::-webkit-scrollbar {
+  width: 6px;
+}
+
+.product-info::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.product-info::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.product-info::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
