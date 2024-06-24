@@ -21,43 +21,6 @@ function Sidebar() {
           />{" "}
           Dashboard
         </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive || location.pathname.includes(("/voucher-staff")) || location.pathname.includes(("/addingvoucher"))? "active-st-thinh" : ""
-          }
-          to="/voucher-staff"
-        >
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/8464/8464650.png"
-            alt="Manage Orders Icon"
-            style={{ width: "20px", marginRight: "5px" }}
-          />
-          Quản lý voucher
-        </NavLink>
-        <NavLink
-          className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
-          to="/report"
-        >
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/11383/11383877.png"
-            alt="Manage Orders Icon"
-            style={{ width: "28px" }}
-          />
-          Xử lí report
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive || location.pathname.includes(("/posts")) || location.pathname.includes(("/addingpost"))? "active-st-thinh" : ""
-          }
-          to="/posts"
-        >
-          <img
-            src="https://cdn-icons-png.flaticon.com/128/9458/9458635.png"
-            alt="Manage Orders Icon"
-            style={{ width: "23px" }}
-          />
-          Quản lý bài viết
-        </NavLink>
         <a
           className="manage-st-thinh"
           onClick={(e) => {
@@ -102,6 +65,35 @@ function Sidebar() {
           Quản lý sản phẩm
         </NavLink>
         <NavLink
+          className={({ isActive }) =>
+            isActive || location.pathname.includes(("/voucher-staff")) || location.pathname.includes(("/addingvoucher"))? "active-st-thinh" : ""
+          }
+          to="/voucher-staff"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/8464/8464650.png"
+            alt="Manage Orders Icon"
+            style={{ width: "20px", marginRight: "5px" }}
+          />
+          Quản lý voucher
+        </NavLink>
+        
+        <NavLink
+          className={({ isActive }) =>
+            isActive || location.pathname.includes(("/posts")) || location.pathname.includes(("/addingpost"))? "active-st-thinh" : ""
+          }
+          to="/posts"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/9458/9458635.png"
+            alt="Manage Orders Icon"
+            style={{ width: "23px" }}
+          />
+          Quản lý bài viết
+        </NavLink>
+       
+        
+        <NavLink
               className={({ isActive }) =>
                 isActive || location.pathname.includes(("/promotionmanage")) || location.pathname.includes(("/addpromotion"))? "active-st-thinh" : ""
               }
@@ -113,6 +105,19 @@ function Sidebar() {
                 style={{ width: "24px" }}
               />{" "}
               Quản lí khuyến mãi
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive || location.pathname.includes(("/")) || location.pathname.includes(("/"))? "active-st-thinh" : ""
+              }
+              to="/feedbackManage"
+            >
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/8013/8013078.png"
+                alt="Confirm Icon"
+                style={{ width: "24px" }}
+              />{" "}
+              Quản lí đánh giá
             </NavLink>
       </nav>
     </div>
