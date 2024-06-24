@@ -3,6 +3,29 @@ const dbConfig = require("../config/db.config");
 const Comment = require("../bo/comment");
 
 const commentDAO = {
+
+  getCommentByID: (CommentID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input(
+          "CommentID",
+          mssql.Int,
+          CommentID
+        );
+        request.query(
+          `SELECT * FROM Comment WHERE CommentID = @CommentID;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({
+              err: res?.recordset[0] ? 0 : 1,
+              data: res.recordset[0] ?? []
+            });
+          }
+        );
+      });
+    });
+  },
   countRatingAndAvgRating: (ProductID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
