@@ -21,13 +21,22 @@ const FeedbackManage = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/v1/comment/getUnansweredComments?page=${currentPage}&limit=${commentsPerPage}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch comments');
+      }
       const data = await response.json();
+      if (!Array.isArray(data)) {
+        throw new Error('Comments data is not an array');
+      }
       setComments(data);
       setTotalComments(data.length);
     } catch (error) {
       console.error('Error fetching comments:', error);
+      setComments([]);
+      setTotalComments(0);
     }
   };
+
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -60,6 +69,7 @@ const FeedbackManage = () => {
   return (
     <div className="feedback-manage">
       <div className="comments-section">
+        <h1>Danh sách Comment</h1>
         {comments.map(comment => (
           <Comment key={comment.CommentID} comment={comment} onSubmit={handleCommentSubmit} />
         ))}
