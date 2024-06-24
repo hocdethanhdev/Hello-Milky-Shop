@@ -392,8 +392,11 @@ const ShoppingCart = () => {
         localStorage.setItem("totalAmount", totalAmount);
         localStorage.setItem("orderID", orderID);
         console.log(usePoints);
+
         if (usePoints) {
           localStorage.setItem("usePoints", usePoints);
+        }else if(!usePoints){
+          localStorage.removeItem("usePoints");
         }
 
         const response = await axios.post(
