@@ -112,7 +112,8 @@ const getUnansweredComments = async (req, res) => {
 
 const repComment = async (req, res) => {
   try {
-    const obj = await commentService.repComment(req.params.id, req.body.Rep);
+    const {UserID, Rep} = req.body;
+    const obj = await commentService.repComment(req.params.id, Rep, UserID);
     res.send(obj);
   } catch (error) {
     console.error("Error while getting all users:", error);

@@ -82,7 +82,9 @@ Description nvarchar(3000) NULL,
 Rating int default 1,
 CommentDate date default getdate() NULL, 
 Rep nvarchar(3000) null,
+RepDate date default getdate() null,
 ProductID varchar(6) foreign key references Product(ProductID),
+StaffID varchar(8)foreign key references Users(UserID) default(null),
 UserID varchar(8) foreign key references Users(UserID), 
 PRIMARY KEY (CommentID));
 go
