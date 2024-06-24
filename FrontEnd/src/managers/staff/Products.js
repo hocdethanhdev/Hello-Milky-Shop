@@ -209,9 +209,8 @@ const Products = () => {
         </div>
         {successMessage && (
           <p
-            className={`success-message ${
-              successMessage.includes("Error") ? "error" : "success"
-            }`}
+            className={`success-message ${successMessage.includes("Error") ? "error" : "success"
+              }`}
           >
             {successMessage}
           </p>
@@ -220,12 +219,12 @@ const Products = () => {
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Mã</th>
                 <th onClick={handleSort} style={{ cursor: "pointer" }}>
-                  Name <FontAwesomeIcon icon={faSort} />
+                  Tên sản phẩm<FontAwesomeIcon icon={faSort} />
                 </th>
                 <th className="category-header">
-                  Category{" "}
+                  Loại sản phẩm {" "}
                   <FontAwesomeIcon
                     icon={faFilter}
                     onClick={toggleCategoryDropdown}
@@ -237,7 +236,7 @@ const Products = () => {
                         data-value="All"
                         onClick={handleCategoryFilter}
                       >
-                        All
+                        Tất cả
                       </li>
                       <li
                         className="dropdown-li-thinh"
@@ -257,7 +256,7 @@ const Products = () => {
                   )}
                 </th>
                 <th className="status-header">
-                  Status{" "}
+                  Trạng thái{" "}
                   <FontAwesomeIcon
                     icon={faFilter}
                     onClick={toggleStatusDropdown}
@@ -288,7 +287,7 @@ const Products = () => {
                     </ul>
                   )}
                 </th>
-                <th>CRUD</th>
+                <th>Thao tác</th>
               </tr>
             </thead>
             <tbody>
@@ -303,19 +302,19 @@ const Products = () => {
                       className="button-product btn btn-warning"
                       onClick={() => handleEditClick(product)}
                     >
-                      Edit
+                      Sửa
                     </button>
                     <button
                       className="button-product btn btn-danger"
                       onClick={() => handleDeleteClick(product.ProductID)}
                     >
-                      Delete
+                      Xóa
                     </button>
                     <button
                       className="button-product btn btn-info"
                       onClick={() => handleDetailClick(product)}
                     >
-                      Detail
+                      Thông tin
                     </button>
                   </td>
                 </tr>

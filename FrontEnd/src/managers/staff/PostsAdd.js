@@ -6,18 +6,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Posts.css";
 import { uploadImage } from "./UpImage";
 import sanitizeHtml from "sanitize-html";
-
+import { useSelector } from "react-redux";
+import { getUserIdFromToken } from "../../users/store/actions/authAction";
 function PostsAdd() {
   const [title, setTitle] = useState("");
   const [headerImage, setHeaderImage] = useState(null);
   const [content, setContent] = useState("");
   const [publishDate, setPublishDate] = useState(new Date());
-  const [authorID, setAuthorID] = useState("");
   const [articleCategoryID, setArticleCategoryID] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [progress, setProgress] = useState(0);
   const [previewImage, setPreviewImage] = useState(null); // State for previewing image
-
+  const { token } = useSelector((state) => state.auth);
+  const userId = getUserIdFromToken(token);
   const handleContentChange = (value) => {
     const sanitizedContent = sanitizeHtml(value, {
       allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
@@ -61,7 +62,7 @@ function PostsAdd() {
         HeaderImage: downloadURL,
         Content: content,
         PublishDate: publishDate.toISOString().split("T")[0],
-        AuthorID: authorID,
+        AuthorID: userId,
         ArticleCategoryID: parseInt(articleCategoryID),
       };
 
@@ -91,7 +92,7 @@ function PostsAdd() {
       <form onSubmit={handleSubmit}>
         <div className="row mb-3">
           <div className="col">
-            <label htmlFor="title">Post Title</label>
+            <label htmlFor="title">Tiêu đề:</label>
             <input
               type="text"
               className="form-control"
@@ -104,7 +105,7 @@ function PostsAdd() {
         </div>
         <div className="row mb-3">
           <div className="col">
-            <label htmlFor="header-image">Header Image</label>
+            <label htmlFor="header-image">Ảnh đầu trang</label>
             <input
               type="file"
               className="form-control"
@@ -124,7 +125,7 @@ function PostsAdd() {
         )}
         <div className="row mb-3">
           <div className="col">
-            <label htmlFor="content">Content</label>
+            <label htmlFor="content">Nội dung</label>
             <div className="editor">
               <RichTextEditor value="" onChange={handleContentChange} />
             </div>
@@ -132,7 +133,7 @@ function PostsAdd() {
         </div>
         <div className="row mb-3">
           <div className="col">
-            <label htmlFor="publish-date">Publish Date</label>
+            <label htmlFor="publish-date">Ngày công bố</label>
             <DatePicker
               selected={publishDate}
               onChange={(date) => setPublishDate(date)}
@@ -143,20 +144,7 @@ function PostsAdd() {
         </div>
         <div className="row mb-3">
           <div className="col">
-            <label htmlFor="author-id">Author ID</label>
-            <input
-              type="text"
-              className="form-control"
-              id="author-id"
-              value={authorID}
-              onChange={(e) => setAuthorID(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="article-category-id">Article Category ID</label>
+            <label htmlFor="article-category-id">Loại bài viết</label>
             <input
               type="number"
               className="form-control"

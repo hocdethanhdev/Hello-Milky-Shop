@@ -67,7 +67,7 @@ function VoucherAdd() {
       <h1>Tạo voucher</h1>
       <form onSubmit={handleSubmit}>
         <div className="half-width">
-          <label htmlFor="voucherName">Voucher Name</label>
+          <label htmlFor="voucherName">Tên Voucher</label>
           <input
             type="text"
             id="voucherName"
@@ -77,7 +77,7 @@ function VoucherAdd() {
             required
           />
 
-          <label htmlFor="quantity">Quantity</label>
+          <label htmlFor="quantity">Số lượng</label>
           <input
             type="number"
             id="quantity"
@@ -86,7 +86,7 @@ function VoucherAdd() {
             onChange={handleChange}
             required
           />
-          <label htmlFor="startDate">Start Date</label>
+          <label htmlFor="startDate">Ngày bắt đầu</label>
           <input
             type="date"
             id="startDate"
@@ -95,7 +95,7 @@ function VoucherAdd() {
             onChange={handleChange}
             required
           />
-          <label htmlFor="discountPercentage">Discount (%)</label>
+          <label htmlFor="discountPercentage">Giảm giá (%)</label>
           <input
             type="number"
             id="discountPercentage"
@@ -106,7 +106,7 @@ function VoucherAdd() {
           />
         </div>
         <div className="half-width">
-          <label htmlFor="minDiscount">Min Discount</label>
+          <label htmlFor="minDiscount">Tối thiểu</label>
           <input
             type="number"
             id="minDiscount"
@@ -116,7 +116,7 @@ function VoucherAdd() {
             required
           />
 
-          <label htmlFor="maxDiscount">Max Discount</label>
+          <label htmlFor="maxDiscount">Tối đa</label>
           <input
             type="number"
             id="maxDiscount"
@@ -125,7 +125,7 @@ function VoucherAdd() {
             onChange={handleChange}
             required
           />
-          <label htmlFor="expiryDate">Expiry Date</label>
+          <label htmlFor="expiryDate">Ngày kết thúc</label>
           <input
             type="date"
             id="expiryDate"
@@ -135,7 +135,7 @@ function VoucherAdd() {
             required
           />
           <button type="submit" className="create-voucher">
-            Create Voucher
+            Tạo voucher
           </button>
         </div>
       </form>

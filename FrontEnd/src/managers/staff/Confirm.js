@@ -86,23 +86,16 @@ function Confirm() {
 
     return (
         <div className="confirm-container">
-            <div className="orders-header">
-                <h2></h2>
-                <div className="search-orders">
-                    <input type="text" placeholder="Tìm kiếm..." />
-                    <button type="button">
-                        <img src="/ImageMilkShop/searchicon.png" alt="Search" style={{ width: '20px' }} />
-                    </button>
-                </div>
-            </div>
+            <br />
+            <br />
             <table>
                 <thead>
                     <tr>
-                        <th>OrderID</th>
-                        <th>OrderDate</th>
-                        <th>StatusOrderID</th>
-                        <th>TotalAmount</th>
-                        <th>Actions</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Ngày đặt hàng</th>
+                        <th>Trạng thái đơn hàng</th>
+                        <th>Tổng</th>
+                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,8 +106,8 @@ function Confirm() {
                             <td>{order.StatusOrderName}</td>
                             <td>{order.TotalAmount}</td>
                             <td>
-                                <button type="button" className="btn btn-primary" onClick={() => editOrder(order.OrderID)}>Edit</button>
-                                <button type="button" className="btn btn-primary" onClick={() => viewOrderDetails(order)}>Detail</button>
+                                <button type="button" className="btn btn-warning" onClick={() => editOrder(order.OrderID)}>Xác Nhận</button>
+                                <button type="button" className="btn btn-primary" onClick={() => viewOrderDetails(order)}>Thông tin</button>
                             </td>
                         </tr>
                     ))}
@@ -130,22 +123,21 @@ function Confirm() {
             </div>
             {selectedOrder && (
                 <Modal
-                    title="Order Details"
+                    title="Thông tin đơn hàng"
                     visible={isDetailModalVisible}
                     onCancel={handleModalClose}
                     footer={[
                         <Button key="close" onClick={handleModalClose}>
-                            Close
+                            Đóng
                         </Button>,
                     ]}
                 >
-                    <p><strong>OrderID:</strong> {selectedOrder.OrderID}</p>
-                    <p><strong>OrderDate:</strong> {new Date(selectedOrder.OrderDate).toLocaleString()}</p>
-                    <p><strong>TotalAmount:</strong> {selectedOrder.TotalAmount}</p>
-                    <p><strong>Status:</strong> {selectedOrder.Status ? 'True' : 'False'}</p>
-                    <p><strong>ShippingAddressID:</strong> {selectedOrder.ShippingAddressID}</p>
-                    <p><strong>UserID:</strong> {selectedOrder.UserID}</p>
-                    <p><strong>StatusOrderName:</strong> {selectedOrder.StatusOrderName}</p>
+                    <p><strong>Mã đơn hàng:</strong> {selectedOrder.OrderID}</p>
+                    <p><strong>Ngày đặt hàng:</strong> {new Date(selectedOrder.OrderDate).toLocaleString()}</p>
+                    <p><strong>Tổng:</strong> {selectedOrder.TotalAmount}</p>
+                    <p><strong>Địa chỉ:</strong> {selectedOrder.ShippingAddressID}</p>
+                    <p><strong>Mã người dùng:</strong> {selectedOrder.UserID}</p>
+                    <p><strong>Trạng thái của đơn hàng:</strong> {selectedOrder.StatusOrderName}</p>
                 </Modal>
             )}
         </div>

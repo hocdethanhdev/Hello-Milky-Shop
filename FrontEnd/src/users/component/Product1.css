@@ -727,17 +727,15 @@ span.discount {
   border-radius: 3px;
 }
 
-<<<<<<< HEAD
 span.discount-1 {
-=======
-.div-discount-1{
-  width: 100%;
-  display: flex;
-  justify-content: end;
+  .div-discount-1 {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
 }
 
-span.discount-1{  
->>>>>>> 1fc1cf385f0c47cad10fcc237114b4001dc91c32
+span.discount-1 {
   color: #fff;
   font-size: 15px;
   text-align: center;

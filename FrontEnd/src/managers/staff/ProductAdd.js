@@ -99,9 +99,8 @@ const ProductAdd = () => {
     <div className="container create-product">
       {successMessage && (
         <p
-          className={`success-message ${
-            successMessage.includes("Error") ? "error" : "success"
-          }`}
+          className={`success-message ${successMessage.includes("Error") ? "error" : "success"
+            }`}
         >
           {successMessage}
         </p>
@@ -114,7 +113,7 @@ const ProductAdd = () => {
         onSubmit={handleSubmit}
       >
         <div className="form-group">
-          <label htmlFor="product-name">Name:</label>
+          <label htmlFor="product-name">Tên sản phẩm:</label>
           <input
             type="text"
             id="product-name"
@@ -125,7 +124,7 @@ const ProductAdd = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="product-description">Description:</label>
+          <label htmlFor="product-description">Mô tả:</label>
           <textarea
             id="product-description"
             name="product-description"
@@ -135,7 +134,7 @@ const ProductAdd = () => {
           ></textarea>
         </div>
         <div className="form-group">
-          <label htmlFor="product-price">Price:</label>
+          <label htmlFor="product-price">Giá:</label>
           <input
             type="number"
             id="product-price"
@@ -146,7 +145,7 @@ const ProductAdd = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="product-stock">Stock Quantity:</label>
+          <label htmlFor="product-stock">Số lượng:</label>
           <input
             type="number"
             id="product-stock"
@@ -157,7 +156,7 @@ const ProductAdd = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="product-image-url">Image:</label>
+          <label htmlFor="product-image-url">Ảnh:</label>
           <input
             type="file"
             id="product-image-url"
@@ -167,7 +166,7 @@ const ProductAdd = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="product-expiration">Expiration Date:</label>
+          <label htmlFor="product-expiration">Hạn sử dụng:</label>
           <input
             type="date"
             id="product-expiration"
@@ -178,7 +177,7 @@ const ProductAdd = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="product-manufacturing">Manufacturing Date:</label>
+          <label htmlFor="product-manufacturing">Ngày sản xuất:</label>
           <input
             type="date"
             id="product-manufacturing"
@@ -189,7 +188,7 @@ const ProductAdd = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="product-brand">Brand:</label>
+          <label htmlFor="product-brand">Hãng:</label>
           <select
             id="product-brand"
             name="product-brand"
@@ -197,7 +196,7 @@ const ProductAdd = () => {
             onChange={(e) => setBrandName(e.target.value)}
             required
           >
-            <option value="">Select Brand</option>
+            <option value="">Chọn hãng</option>
             {brands.map((brand) => (
               <option key={brand.BrandID} value={brand.BrandName}>
                 {brand.BrandName}
@@ -206,7 +205,7 @@ const ProductAdd = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="product-category">Category:</label>
+          <label htmlFor="product-category">Loại sữa:</label>
           <select
             id="product-category"
             name="product-category"
@@ -219,7 +218,7 @@ const ProductAdd = () => {
           </select>
         </div>
         <button type="submit" className="button-product btn btn-primary">
-          Create Product
+          Tạo sản phẩm
         </button>
       </form>
     </div>

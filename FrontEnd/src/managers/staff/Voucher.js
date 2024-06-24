@@ -90,115 +90,114 @@ function Voucher() {
   return (
     <div className="voucher-container-thinhvcher">
       <div className="voucher-body-thinhvcher">
-          {successMessage && (
-            <p
-              className={`success-message-thinhvcher ${
-                successMessage.includes("Lỗi")
-                  ? "error-thinhvcher"
-                  : "success-thinhvcher"
+        {successMessage && (
+          <p
+            className={`success-message-thinhvcher ${successMessage.includes("Lỗi")
+                ? "error-thinhvcher"
+                : "success-thinhvcher"
               }`}
-            >
-              {successMessage}
-            </p>
-          )}
-          <div className="voucher-list-thinhvcher">
-            <div className="d-flex justify-content-end align-items-end padding-0">
-              <Link to="/addingvoucher">
-                <button type="button" className="button-add-voucher-thinhvcher">
-                  <span className="far fa-plus-square btn btn-secondary"></span>
-                </button>
-              </Link>
-            </div>
-
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    Voucher Name
-                    <button onClick={() => handleSort("VoucherName")}>
-                      <FontAwesomeIcon icon={faSort} />
-                    </button>
-                  </th>
-                  <th>
-                    Quantity
-                    <button onClick={() => handleSort("Quantity")}>
-                      <FontAwesomeIcon icon={faSort} />
-                    </button>
-                  </th>
-                  <th>
-                    Discount Percentage
-                    <button onClick={() => handleSort("DiscountPercentage")}>
-                      <FontAwesomeIcon icon={faSort} />
-                    </button>
-                  </th>
-                  <th>
-                    Min Discount
-                    <button onClick={() => handleSort("MinDiscount")}>
-                      <FontAwesomeIcon icon={faSort} />
-                    </button>
-                  </th>
-                  <th>
-                    Max Discount
-                    <button onClick={() => handleSort("MaxDiscount")}>
-                      <FontAwesomeIcon icon={faSort} />
-                    </button>
-                  </th>
-                  <th>
-                    Start Date
-                    <button onClick={() => handleSort("StartDate")}>
-                      <FontAwesomeIcon icon={faSort} />
-                    </button>
-                  </th>
-                  <th>
-                    Expiry Date
-                    <button onClick={() => handleSort("ExpiryDate")}>
-                      <FontAwesomeIcon icon={faSort} />
-                    </button>
-                  </th>
-                  <th>
-                    <div className="filter-dropdown-thinhvcher">
-                      Status
-                      {showStatusDropdown && (
-                        <ul className="dropdown-content-thinhvcher">
-                          <li onClick={() => handleStatusFilter("All")}>All</li>
-                          <li onClick={() => handleStatusFilter("active")}>
-                            Active
-                          </li>
-                          <li onClick={() => handleStatusFilter("inactive")}>
-                            Inactive
-                          </li>
-                        </ul>
-                      )}
-                    </div>
-                    <button onClick={toggleStatusDropdown}>
-                      <FontAwesomeIcon icon={faFilter} />
-                    </button>
-                  </th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredVouchers.map((voucher) => (
-                  <tr key={voucher.VoucherID}>
-                    <td>{voucher.VoucherName}</td>
-                    <td>{voucher.Quantity}</td>
-                    <td>{voucher.DiscountPercentage}%</td>
-                    <td>{voucher.MinDiscount}</td>
-                    <td>{voucher.MaxDiscount}</td>
-                    <td>{new Date(voucher.StartDate).toLocaleDateString()}</td>
-                    <td>{new Date(voucher.ExpiryDate).toLocaleDateString()}</td>
-                    <td>{voucher.Status ? "Active" : "Inactive"}</td>
-                    <td>
-                      <button onClick={() => handleEditClick(voucher)}>
-                        Edit
-                      </button>
-                      <button>Delete</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          >
+            {successMessage}
+          </p>
+        )}
+        <div className="voucher-list-thinhvcher">
+          <div className="d-flex justify-content-end align-items-end padding-0">
+            <Link to="/addingvoucher">
+              <button type="button" className="button-add-voucher-thinhvcher">
+                <span className="far fa-plus-square btn btn-secondary"></span>
+              </button>
+            </Link>
           </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Tên Voucher
+                  <button onClick={() => handleSort("VoucherName")}>
+                    <FontAwesomeIcon icon={faSort} />
+                  </button>
+                </th>
+                <th>
+                  Số lượng
+                  <button onClick={() => handleSort("Quantity")}>
+                    <FontAwesomeIcon icon={faSort} />
+                  </button>
+                </th>
+                <th>
+                  Phần trăm giảm giá
+                  <button onClick={() => handleSort("DiscountPercentage")}>
+                    <FontAwesomeIcon icon={faSort} />
+                  </button>
+                </th>
+                <th>
+                  Tối thiểu
+                  <button onClick={() => handleSort("MinDiscount")}>
+                    <FontAwesomeIcon icon={faSort} />
+                  </button>
+                </th>
+                <th>
+                  Tối đa
+                  <button onClick={() => handleSort("MaxDiscount")}>
+                    <FontAwesomeIcon icon={faSort} />
+                  </button>
+                </th>
+                <th>
+                  Ngày bắt đầu
+                  <button onClick={() => handleSort("StartDate")}>
+                    <FontAwesomeIcon icon={faSort} />
+                  </button>
+                </th>
+                <th>
+                  Ngày kết thúc
+                  <button onClick={() => handleSort("ExpiryDate")}>
+                    <FontAwesomeIcon icon={faSort} />
+                  </button>
+                </th>
+                <th>
+                  <div className="filter-dropdown-thinhvcher">
+                    Trạng thái
+                    {showStatusDropdown && (
+                      <ul className="dropdown-content-thinhvcher">
+                        <li onClick={() => handleStatusFilter("All")}>All</li>
+                        <li onClick={() => handleStatusFilter("active")}>
+                          Khả dụng
+                        </li>
+                        <li onClick={() => handleStatusFilter("inactive")}>
+                          Không khả dụng
+                        </li>
+                      </ul>
+                    )}
+                  </div>
+                  <button onClick={toggleStatusDropdown}>
+                    <FontAwesomeIcon icon={faFilter} />
+                  </button>
+                </th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredVouchers.map((voucher) => (
+                <tr key={voucher.VoucherID}>
+                  <td>{voucher.VoucherName}</td>
+                  <td>{voucher.Quantity}</td>
+                  <td>{voucher.DiscountPercentage}%</td>
+                  <td>{voucher.MinDiscount}</td>
+                  <td>{voucher.MaxDiscount}</td>
+                  <td>{new Date(voucher.StartDate).toLocaleDateString()}</td>
+                  <td>{new Date(voucher.ExpiryDate).toLocaleDateString()}</td>
+                  <td>{voucher.Status ? "Active" : "Inactive"}</td>
+                  <td>
+                    <button onClick={() => handleEditClick(voucher)}>
+                      Sửa
+                    </button>
+                    <button>Xóa</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       {selectedVoucherForEdit && (
         <EditVoucherModal

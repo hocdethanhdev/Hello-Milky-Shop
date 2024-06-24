@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './ListProductMom.css';
 import SliderMoney from './SliderMoney';
 import ThrowPage from './ThrowPage';
+import StarRating from './StarRating';
 
 const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -196,6 +197,7 @@ const ListProductBb = () => {
                                                 {product.ProductName}
                                             </a>
                                         </h3>
+                                        <div className='saoduoithinh'><StarRating productId={product.ProductID} /></div>
                                         <div className="product_price">
                                             <span className="price_item">{formatPrice(product.PriceAfterDiscounts)}₫</span>
                                             {product.Price !== product.PriceAfterDiscounts && <span className="old_price">{formatPrice(product.Price)}₫</span>}

@@ -8,6 +8,7 @@ import EditArticleModal from "./EditArticleModal"; // Import the EditArticleModa
 function Posts() {
   const [articles, setArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
   const [sortConfig, setSortConfig] = useState({
     key: "Title",
     direction: "ascending",
@@ -82,7 +83,7 @@ function Posts() {
           console.error("There was an error deleting the article!", error);
           setErrorMessage(
             "There was an error deleting the article: " +
-              (error.response?.data || error.message)
+            (error.response?.data || error.message)
           );
         });
     }
@@ -104,11 +105,11 @@ function Posts() {
           <thead>
             <tr>
               <th>
-                Title <button onClick={handleSort}>↕</button>
+                Tiêu đề <button onClick={handleSort}>↕</button>
               </th>
 
-              <th>Publish Date</th>
-              <th>Actions</th>
+              <th>Ngày công bố</th>
+              <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -116,34 +117,34 @@ function Posts() {
               <tr key={article.ArticleID}>
                 <td>{article.Title}</td>
 
-                                <td>{new Date(article.PublishDate).toLocaleDateString()}</td>
-                                <td>
-                                    
-                                    <button onClick={() => handleEditClick(article)}>Edit</button>
-                                    <button onClick={() => handleDeleteClick(article.ArticleID)}>Delete</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <div className='pagination-container'>
-                    <ThrowPage
-                        current={currentPage}
-                        onChange={handlePageChange}
-                        total={articles.length}
-                        productsPerPage={productsPerPage}
-                    />
-                </div>
-            </div>
-            {selectedArticleForEdit && (
-                <EditArticleModal
-                    article={selectedArticleForEdit}
-                    onClose={() => setSelectedArticleForEdit(null)}
-                    onSave={handleSaveArticle}
-                />
-            )}
+                <td>{new Date(article.PublishDate).toLocaleDateString()}</td>
+                <td>
+
+                  <button className='btn btn-warning' onClick={() => handleEditClick(article)}>Sửa</button>
+                  <button className='btn btn-danger' onClick={() => handleDeleteClick(article.ArticleID)}>Xóa</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className='pagination-container'>
+          <ThrowPage
+            current={currentPage}
+            onChange={handlePageChange}
+            total={articles.length}
+            productsPerPage={productsPerPage}
+          />
         </div>
-    );
+      </div>
+      {selectedArticleForEdit && (
+        <EditArticleModal
+          article={selectedArticleForEdit}
+          onClose={() => setSelectedArticleForEdit(null)}
+          onSave={handleSaveArticle}
+        />
+      )}
+    </div>
+  );
 
   function handleDetail(id) {
     // Navigate to the detail page

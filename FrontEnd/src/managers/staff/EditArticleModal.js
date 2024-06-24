@@ -77,11 +77,11 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
         <span className="close-thinhprostedit2-custom" onClick={onClose}>
           &times;
         </span>
-        <h2>Edit Article</h2>
+        <h2>Chỉnh sửa bài viết</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group1">
             <label>
-              Title:
+              Tiêu đề:
               <input
                 type="text"
                 name="Title"
@@ -93,7 +93,7 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
 
           <div className="form-group1">
             <label>
-              Publish Date:
+              Ngày công bố:
               <DatePicker
                 selected={formData.PublishDate}
                 onChange={(date) =>
@@ -106,7 +106,7 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
           </div>
           <div className="form-group1">
             <label>
-              Author ID:
+              Mã tác giả:
               <input
                 type="text"
                 name="AuthorID"
@@ -117,7 +117,7 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
           </div>
           <div className="form-group1">
             <label>
-              Article Category ID:
+              Loại bài:
               <input
                 type="number"
                 name="ArticleCategoryID"
@@ -128,7 +128,7 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
           </div>
           <div className="form-group1">
             <label>
-              Header Image:
+              Ảnh đầu trang:
               <input type="file" onChange={handleImageChange} />
             </label>
             {previewImage && (
@@ -142,7 +142,7 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
           <div className="form-group1" style={{ flex: "1 1 100%" }}>
             <div className="row mb-3">
               <div className="col">
-                <label htmlFor="content">Content</label>
+                <label htmlFor="content">Nội dung</label>
                 <div className="editor">
                   <RichTextEditor value={formData.Content} onChange={handleContentChange} />
                 </div>
@@ -150,7 +150,7 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
             </div>
           </div>
           <button type="submit" className="btn btn-primary">
-            Save
+            Lưu
           </button>
         </form>
       </div>
