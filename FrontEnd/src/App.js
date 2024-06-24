@@ -2,9 +2,9 @@ import React, { useMemo } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import Header from "./users/component/Header";
-import Footer from "./users/component/Footer";
-import Sidebar from "./managers/staff/Slidebar";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import Sidebar from "./components/managers/staff/Slidebar";
 
 // Staff Components
 import Dashboard from "./managers/staff/Dashboard";
@@ -21,38 +21,38 @@ import AddPromotion from "./managers/staff/AddPromotion";
 import FeedbackManage from "./managers/staff/FeedbackManage";
 
 // Admin Components (if needed)
-import MainDash from "./managers/admin/MainDash";
-import MangageAdmin from "./managers/admin/ManageAdmin";
-import ManageStaff from "./managers/admin/ManageStaff";
-import ManageMember from "./managers/admin/ManageMember";
-import SignupSt from "./managers/admin/SignupSt";
-import SignupMem from "./managers/admin/SignupMem";
-import AdminSlidebar from "./managers/admin/AdminSlidebar";
-import SignupAd from "./managers/admin/SignupAd";
+import MainDash from "./components/managers/admin/MainDash";
+import MangageAdmin from "./components/managers/admin/ManageAdmin";
+import ManageStaff from "./components/managers/admin/ManageStaff";
+import ManageMember from "./components/managers/admin/ManageMember";
+import SignupSt from "./components/managers/admin/SignupSt";
+import SignupMem from "./components/managers/admin/SignupMem";
+import AdminSlidebar from "./components/managers/admin/AdminSlidebar";
+import SignupAd from "./components/managers/admin/SignupAd";
 
 // User Components
-import Product1 from "./users/component/Product1";
-import Login from "./users/component/Login";
-import Signup from "./users/component/Signup";
-import LoginEmail from "./users/component/LoginEmail";
-import LoginSuccess from "./users/component/LoginSuccess";
-import Termofuse from "./users/component/Termofuse";
-import VoucherStore from "./users/component/VoucherStore";
-import ShoppingCart from "./users/component/ShoppingCart";
-import Bigsales from "./users/component/Bigsales";
-import Profile from "./users/profileaccount/profile";
-import Account from "./users/profileaccount/account";
-import Address from "./users/profileaccount/address";
-import ProductScreen from "./users/ui-product-mom/ProductScreen";
-import AllProductScreen from "./users/ui-list-product-mom/AllProductScreen";
-import ListProductBbScreen from "./users/ui-list-product-mom/ListProductBbScreen";
-import ListProductMomScreen from "./users/ui-list-product-mom/ListProductMomScreen";
-import RichTextEditor from "./users/component/RichTextEditor";
-import ResetPassword from "./users/component/ResetPassword";
-import News from "./users/component/News";
-import NewsDetail from "./users/component/NewsDetail";
-import ProductHot from "./users/component/ProductHot";
-import PaymentSuccess from "./users/component/PaymenSuccess";
+import Product1 from "./components/users/homepage/Product1";
+import Login from "./components/account/Login";
+import Signup from "./components/account/Signup";
+import LoginEmail from "./components/account/LoginEmail";
+import LoginSuccess from "./components/account/LoginSuccess";
+import Termofuse from "./components/account/Termofuse";
+import VoucherStore from "./components/users/homepage/VoucherStore";
+import ShoppingCart from "./components/users/shoppingcart/ShoppingCart";
+import Bigsales from "./components/users/bigsales/Bigsales";
+import Profile from "./components/users/profileaccount/profile";
+import Account from "./components/users/profileaccount/account";
+import Address from "./components/users/profileaccount/address";
+import ProductScreen from "./components/users/product/ui-product-mom/ProductScreen";
+import AllProductScreen from "./components/users/product/ui-list-product-mom/AllProductScreen";
+import ListProductBbScreen from "./components/users/product/ui-list-product-mom/ListProductBbScreen";
+import ListProductMomScreen from "./components/users/product/ui-list-product-mom/ListProductMomScreen";
+import RichTextEditor from "./components/managers/richtext/RichTextEditor";
+import ResetPassword from "./components/account/ResetPassword";
+import News from "./components/users/news/News";
+import NewsDetail from "./components/users/news/NewsDetail";
+import ProductHot from "./components/users/news/ProductHot";
+import PaymentSuccess from "./components/users/shoppingcart/PaymenSuccess";
 
 function App() {
   const { role } = useSelector((state) => state.auth);

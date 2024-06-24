@@ -1,0 +1,747 @@
+/* Danh mục */
+.menu_cate {
+  margin-top: 20px;
+  border-radius: 5px;
+  background-color: #0f7fc1;
+}
+
+.category_table {
+  width: 100%;
+}
+
+/* Mỗi hàng trong bảng danh mục */
+.category_table tbody tr:nth-child(even) {
+  background-color: #e0dbdb; /* Màu nền cho các hàng chẵn */
+}
+
+.category_table tbody tr:nth-child(odd) {
+  background-color: #f1eeee; /* Màu nền cho các hàng lẻ */
+}
+
+/* Màu nền của ô khi di chuột qua */
+.category_table tbody tr:hover td {
+  background-color: #fd3b36; /* Màu hồng khi di chuột qua */
+}
+
+.cate_li_title {
+  display: block;
+  padding: 10px 0;
+  color: #333;
+  text-decoration: none;
+}
+
+.icon_danhmuc {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.img_icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Slider */
+.main_slide {
+  margin-top: 20px;
+}
+
+.box_slider img {
+  width: 80%;
+  height: auto;
+  margin-left: 80px;
+}
+
+.box_product_suggest {
+  margin-top: 20px;
+}
+
+.clear {
+  clear: both;
+}
+
+/* Product 2 */
+#list_product_cate-tri {
+  margin-top: 20px;
+}
+
+.boxx-common {
+  padding: 20px;
+  background-color: white;
+  width: 90%;
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.width-common-product-tri {
+  background-color: #f5f5f5;
+}
+.box-container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.box-title {
+  font-size: 25px;
+  font-weight: bold;
+  color: red;
+  text-align: center;
+  padding: 10px 20px; /* Thêm padding cho tiêu đề */
+  border-radius: 5px; /* Bo góc cho tiêu đề */
+}
+
+.box-container-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  transition: transform 0.3s ease;
+}
+
+.item {
+  border: 1px solid #ddd;
+  flex-basis: calc(
+    20% - 20px
+  ); /* Tính toán flex-basis để tránh cách biệt quá lớn */
+  margin: 10px;
+  position: relative;
+}
+
+.item-giasoc {
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.image_item img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.price {
+  padding: 10px 0;
+  text-align: center;
+}
+
+.title-giasoc a {
+  text-decoration: none;
+  color: #333;
+  font-size: 20px;
+}
+
+.price_item {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff1493; /* Màu hồng */
+}
+
+.old_price {
+  color: #999;
+  text-decoration: line-through;
+}
+
+.discount {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff1493; /* Màu hồng */
+}
+
+.item-giasoc-me {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  /* Điều chỉnh khoảng cách giữa các ô */
+}
+
+.item-giasoc-me .image_item {
+  text-align: center;
+}
+
+.item-giasoc-me .image_item img {
+  max-width: 88%;
+}
+
+.item-giasoc-me .price {
+  padding: 10px;
+}
+
+.item-giasoc-me .title-giasoc {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.item-giasoc-me .price_item {
+  color: #ff0000; /* Màu chữ của giá */
+  font-weight: bold;
+}
+
+.item-giasoc-me .old_price {
+  text-decoration: line-through; /* Chữ gạch ngang */
+  color: #999; /* Màu chữ của giá cũ */
+}
+
+.item-giasoc-me .discount {
+  color: green; /* Màu chữ của giảm giá */
+  font-weight: bold;
+}
+
+/* PRODUCT 3 */
+
+.combo-1f-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.combo-1f-header {
+  align-items: center;
+  background-color: rgb(255 0 0 / 70%);
+  height: 120px;
+  width: 30%;
+  margin-top: 20px;
+}
+
+.combo-1f-icon img {
+  width: 130px;
+  height: 60px;
+  padding-left: 70px;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+
+.combo-1f-title h2 {
+  font-size: 20px;
+  color: whitesmoke;
+
+  margin-left: 30px;
+}
+
+.combo-1f-content {
+  display: flex;
+}
+
+.combo-1f-sidebar {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.combo-1f-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.combo-1f-sidebar ul li {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.combo-1f-main img {
+  width: 400px;
+  height: 100%;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+
+.combo-1f-section {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: white;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.combo-header h2 {
+  font-size: 24px;
+  color: #ff6600;
+}
+
+.combo-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-evenly;
+}
+
+.combo-item {
+  display: flex;
+  border: 1px solid #ddd;
+  width: 200px;
+  text-align: center;
+  margin-left: 20px;
+  margin-top: 20px;
+  transition: transform 0.1s ease-in-out;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.combo-item img {
+  width: 100%; /* Chiều rộng của ảnh bằng với div */
+  height: auto;
+  transition: transform 0.1s ease-in-out;
+}
+
+.combo-item:hover {
+  transform: scale(1.05); /* Scale up the entire item on hover */
+}
+
+.combo-item:hover img {
+  transform: scale(1); /* Scale up the image on hover */
+}
+.combo-details h3 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.combo-details .original-price {
+  color: #6b6b6b;
+  text-decoration: line-through;
+  opacity: 0.6;
+  margin-right: 10px;
+}
+.combo-details .discounted-price {
+  font-weight: bold;
+}
+
+.combo-details p {
+  font-size: 16px;
+  color: #ff6600;
+}
+
+.gia {
+  display: inline-flex;
+  justify-content: space-between;
+}
+/* DÀNH CHO BÉ */
+.combo-2f-section {
+  padding: 20px;
+  background-color: white;
+  margin-top: 20px;
+  border-radius: 5px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #ddd;
+  margin-bottom: 50px;
+}
+
+.combo-2f-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.combo-details-1 .original-price-1 {
+  color: #6b6b6b;
+  text-decoration: line-through;
+  opacity: 0.6;
+  margin-right: 10px;
+}
+
+.combo-details-1 .discounted-price-1 {
+  font-weight: bold;
+}
+
+.combo-2f-header {
+  align-items: center;
+  background-color: rgb(255 145 0);
+  height: 120px;
+  width: 30%;
+  margin-top: 20px;
+}
+
+.combo-2f-icon img {
+  width: 120px;
+  height: 60px;
+  padding-left: 70px;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+
+.combo-2f-title h2 {
+  font-size: 20px;
+  color: whitesmoke;
+
+  margin-left: 30px;
+}
+
+.combo-2f-content {
+  display: flex;
+}
+
+.combo-2f-sidebar {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.combo-2f-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.combo-2f-sidebar ul li {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.combo-2f-main img {
+  width: 400px;
+  height: 100%;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+
+.combo-content-1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-evenly;
+}
+
+.combo-item-1 {
+  display: flex;
+  border: 1px solid #ddd;
+  width: 200px;
+  text-align: center;
+  margin-left: 20px;
+  margin-top: 20px;
+  transition: transform 0.1s ease-in-out;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.combo-item-1 img {
+  width: 70%;
+  height: auto;
+  transition: transform 0.1s ease-in-out;
+}
+
+.combo-item-1:hover {
+  transform: scale(1.05); /* Scale up the entire item on hover */
+}
+
+.combo-item-1:hover img {
+  transform: scale(1); /* Scale up the image on hover */
+}
+.combo-details-1 h3 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.combo-details-1 p {
+  font-size: 16px;
+  color: #ff6600;
+}
+
+/* CSS for the product list container */
+#list_product_cate-tri .wrap {
+  position: relative;
+}
+
+#list_product_cate-tri .navigation {
+  position: absolute;
+  top: 10px; /* Adjust as necessary */
+  right: 10px; /* Adjust as necessary */
+  display: flex;
+  gap: 10px;
+}
+
+#list_product_cate-tri .navigation button {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#list_product_cate-tri .navigation button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+#list_product_cate-tri .navigation button img {
+  width: 16px;
+  height: 16px;
+}
+
+/* CSS for the product list container */
+#list_product_cate-tri .wrap {
+  position: relative;
+}
+
+#list_product_cate-tri .navigation {
+  position: absolute;
+  top: 10px; /* Adjust as necessary */
+  right: 10px; /* Adjust as necessary */
+  display: flex;
+  gap: 10px;
+}
+
+#list_product_cate-tri .navigation button {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+}
+
+#list_product_cate-tri .navigation button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Product1.css */
+
+/* Navigation Buttons */
+
+.nutnhan {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+}
+.nutnhan button {
+  background-color: rgb(13, 122, 231);
+  margin-left: -30px;
+  margin-right: -30px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  margin-top: 150px;
+}
+.navigation-gia-soc .nut-chuyen-gia-soc {
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.navigation-gia-soc .nut-chuyen-gia-soc:hover {
+  background-color: #e1412c;
+  transform: translateY(-50%) scale(1.1); /* Scale up on hover */
+}
+
+/* gắn sao  */
+.saoduoithinh-1 {
+  display: inline-block;
+}
+
+.giasoc-store {
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 10%;
+}
+
+.giasoc-store h1 {
+  color: #ff7e5f;
+}
+
+.voucher-store {
+  padding: 20px;
+}
+
+.box-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.slider-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.item {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.item-giasoc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 50px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.image_item img {
+  width: auto;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.price {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.title-giasoc {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.price_item-Sgg {
+  color: #ff4500;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.old_price {
+  color: #888;
+  text-decoration: line-through;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.voucher-store {
+  padding: 20px;
+}
+
+.box-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.slider-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.item {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.item-giasoc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff;
+  height: 100%; /* Make sure each item takes the full height */
+}
+
+.image_item {
+  flex: 1; /* Allow the image to take up available space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px; /* Set a fixed height for the image container */
+}
+
+.image_item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.price {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.title-giasoc {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  height: 3em; /* Set a fixed height for the title */
+  overflow: hidden; /* Hide overflow text */
+}
+
+.price_item-Sgg {
+  color: #ff4500;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.old_price {
+  color: #888;
+  text-decoration: line-through;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+span.discount-Sgg {
+  color: #ff6b00;
+  padding-left: 5px;
+}
+
+span.discount.discount-Sgg {
+  color: white;
+}
+
+span.discount {
+  position: absolute;
+  top: 10px;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  right: 13px;
+  font-family: Arial, Tahoma;
+  font-weight: bold !important;
+  background: #f72f2f;
+  padding: 3px 7px;
+  border-radius: 3px;
+}
+
+.div-discount-1 {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+span.discount-1 {
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  right: 13px;
+  font-family: Arial, Tahoma;
+  font-weight: bold !important;
+  background: #f72f2f;
+  padding: 3px 7px;
+  border-radius: 3px;
+  margin: 5px 5px;
+}
