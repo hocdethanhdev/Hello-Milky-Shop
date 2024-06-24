@@ -7,7 +7,7 @@ const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
             <h2>Chọn Voucher</h2>
             <ul>
                 {vouchers.map(voucher => (
-                    <div key={voucher.UserVoucherID} onClick={() => handleVoucherSelect(voucher)} className="tri-voucher">
+                    <div key={voucher.UserVoucherID} onClick={() => handleVoucherSelect(voucher)} className="tri-voucher1">
                     <div className="voucher">
                       <div className="voucher-body bg-orange-gradient">
                         <div className="voucher-text">

@@ -31,8 +31,8 @@
     margin: 0;
 }
 
-.tri-voucher {
-    width: calc(100% - 10px);
+.tri-voucher1 {
+    width: calc(50% - 5px);
     /* Chiều rộng của mỗi voucher (2 cái trên mỗi hàng) */
     box-sizing: border-box;
 }
