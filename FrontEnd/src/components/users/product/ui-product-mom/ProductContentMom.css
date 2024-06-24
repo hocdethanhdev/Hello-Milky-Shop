@@ -1,15 +1,14 @@
-.product_content .main_content {
-    padding-top: 20px;
+.product_content1 .main_content {
     margin-bottom: 25px;
 }
-.product_content .nav_cate .nav_top a {
+.product_content1 .nav_cate .nav_top a {
     color: #1c94db;
 }
-.product_content .nav_cate ul li a i {
+.product_content1 .nav_cate ul li a i {
     color: #d3d3d3;
     padding-left: 3px;
 }
-.product_content .nav_cate {
+.product_content1 .nav_cate {
     border-bottom: 1px solid #ddd;
     position: relative;
 }
@@ -24,8 +23,11 @@
     margin: 0 auto;
     border: 1px solid #ddd;
     float: left;
+    border-radius: 5%;
 }
-
+.img_zoom {
+    padding: 20px;
+}
 .img_zoom img {
     width: 100%;
     margin: auto;
@@ -36,6 +38,7 @@
     width: 52%;
     float: right;
     padding-bottom: 50px;
+    padding-top: 25px;
 }
 .detail_right h1 {
     color: #414141 !important;
@@ -270,7 +273,7 @@
     font-weight: bold;
     text-decoration: none;
 }
-.product_content {
+.product_content1 {
     margin-bottom: 50px;
 }
 .thuong-hieu-san-pham {
@@ -314,7 +317,7 @@
     margin: 0 5px;
     border-radius: 20%;
 }
-.product_content {
+.product_content1 {
     background-color: white;
     border-radius: 4%;
 }

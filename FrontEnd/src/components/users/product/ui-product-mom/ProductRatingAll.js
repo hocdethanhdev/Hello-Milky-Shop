@@ -17,6 +17,9 @@ const ProductRatingAll = ({ productId }) => {
                     date: new Date(comment.CommentDate).toLocaleDateString(),
                     rating: comment.Rating,
                     text: comment.Description,
+                    rep: comment.Rep,
+                    repDate: new Date(comment.RepDate).toLocaleDateString(),
+                    staffName: comment.StaffName,
                 }));
                 setRatings(fetchedRatings);
             } catch (error) {
@@ -102,17 +105,32 @@ const ProductRatingAll = ({ productId }) => {
             </div>
             <div className="rating-list-thinhrt">
                 {visibleRatings.map((rating, index) => (
-                    <div key={index} className="rating-item-thinhrt">
-                        <div className="rating-avatar-thinhrt">{rating.name.charAt(0)}</div>
-                        <div className="rating-details-thinhrt">
-                            <div className="rating-name-thinhrt">{rating.name}</div>
-                            <div className="rating-stars-thinhrt1">
-                                {renderStars(rating.rating)}
+                    <React.Fragment key={index}>
+                        <div className="rating-item-thinhrt">
+                            <div className="rating-avatar-thinhrt">{rating.name.charAt(0)}</div>
+                            <div className="rating-details-thinhrt">
+                                <div className="rating-name-thinhrt">{rating.name}</div>
+                                <div className="rating-stars-thinhrt1">
+                                    {renderStars(rating.rating)}
+                                </div>
+                                <div className="rating-text-thinhrt">{rating.text}</div>
+                                <div className="rating-date-thinhrt">{rating.date}</div>
                             </div>
-                            <div className="rating-text-thinhrt">{rating.text}</div>
-                            <div className="rating-date-thinhrt">{rating.date}</div>
                         </div>
-                    </div>
+                        {rating.rep && (
+                            <div className="rep-container-thinhrt">
+                                <div className="rep-avatar-thinhrt">{rating.staffName.charAt(0)}</div>
+                                <div className="rep-details-thinhrt">
+                                    <div className="rep-name-thinhrt">
+                                        <span className="rep-title-thinhrt">{rating.staffName}</span>
+                                        <span className="rep-tag-thinhrt">Quản trị viên</span>
+                                    </div>
+                                    <div className="rep-text-thinhrt">{rating.rep}</div>
+                                    <div className="rep-date-thinhrt">{rating.repDate}</div>
+                                </div>
+                            </div>
+                        )}
+                    </React.Fragment>
                 ))}
             </div>
             {visibleCount < filteredRatings.length && (

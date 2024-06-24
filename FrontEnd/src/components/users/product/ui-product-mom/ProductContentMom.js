@@ -118,7 +118,7 @@ const ProductContentMom = ({ product }) => {
     };
 
     return (
-        <section className="product_content width-common">
+        <section className="product_content1 width-common">
             <div className="wrap">
                 <div className="background_black"></div>
                 <div className="main_content width-common">
