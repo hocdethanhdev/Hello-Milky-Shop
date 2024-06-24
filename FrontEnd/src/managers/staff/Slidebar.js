@@ -114,6 +114,19 @@ function Sidebar() {
               />{" "}
               Quản lí khuyến mãi
             </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive || location.pathname.includes(("/")) || location.pathname.includes(("/"))? "active-st-thinh" : ""
+              }
+              to="/feedbackManage"
+            >
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/8013/8013078.png"
+                alt="Confirm Icon"
+                style={{ width: "24px" }}
+              />{" "}
+              Quản lí đánh giá
+            </NavLink>
       </nav>
     </div>
   );
