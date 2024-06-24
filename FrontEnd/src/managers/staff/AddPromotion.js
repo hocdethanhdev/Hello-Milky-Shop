@@ -219,7 +219,7 @@ function ProductList({ products, selectedProducts, handleProductSelection, handl
       </div>
       <div className="product-list-promotion ">
         {products.map((product) => (
-          <div key={product.ProductID} className="product-item">
+          <div key={product.ProductID} className="product-item1">
             <label className="product-clickable">
               <input
                 type="checkbox"
