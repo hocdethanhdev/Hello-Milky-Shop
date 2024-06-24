@@ -391,13 +391,7 @@ const ShoppingCart = () => {
         totalAmount = calculateTotal();
         localStorage.setItem("totalAmount", totalAmount);
         localStorage.setItem("orderID", orderID);
-        console.log(usePoints);
-
-        if (usePoints) {
-          localStorage.setItem("usePoints", usePoints);
-        }else if(!usePoints){
-          localStorage.removeItem("usePoints");
-        }
+        localStorage.setItem("usePoints", usePoints);        
 
         const response = await axios.post(
           "http://localhost:5000/api/v1/payment/create_payment_url",
