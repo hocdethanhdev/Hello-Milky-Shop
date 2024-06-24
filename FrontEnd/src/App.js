@@ -7,19 +7,18 @@ import Footer from "./components/layout/Footer";
 import Sidebar from "./components/managers/staff/Slidebar";
 
 // Staff Components
-import Dashboard from "./managers/staff/Dashboard";
-import Voucher from "./managers/staff/Voucher";
-import Report from "./managers/staff/Report";
-import Posts from "./managers/staff/Posts";
-import Confirm from "./managers/staff/Confirm";
-import Products from "./managers/staff/Products";
-import VoucherAdd from "./managers/staff/VoucherAdd";
-import ProductAdd from "./managers/staff/ProductAdd";
-import PostsAdd from "./managers/staff/PostsAdd";
-import PromotionManage from "./managers/staff/PromotionManage";
-import AddPromotion from "./managers/staff/AddPromotion";
-import FeedbackManage from "./managers/staff/FeedbackManage";
-
+import Dashboard from "./components/managers/staff/Dashboard";
+import Voucher from "./components/managers/staff/Voucher";
+import Report from "./components/managers/staff/Report";
+import Posts from "./components/managers/staff/Posts";
+import Confirm from "./components/managers/staff/Confirm";
+import Products from "./components/managers/staff/Products";
+import VoucherAdd from "./components/managers/staff/VoucherAdd";
+import ProductAdd from "./components/managers/staff/ProductAdd";
+import PostsAdd from "./components/managers/staff/PostsAdd";
+import PromotionManage from "./components/managers/staff/PromotionManage";
+import AddPromotion from "./components/managers/staff/AddPromotion";
+import FeedbackManage from "./components/managers/staff/FeedbackManage";
 // Admin Components (if needed)
 import MainDash from "./components/managers/admin/MainDash";
 import MangageAdmin from "./components/managers/admin/ManageAdmin";
