@@ -16,4 +16,6 @@ router.get('/getCommentByProductID/:id', commentController.getCommentByProductID
 
 router.get('/countRatingAndAvgRating/:id', commentController.countRatingAndAvgRating);
 
+router.post('/getCommentByID', commentController.getCommentByID);
+
 module.exports = router
