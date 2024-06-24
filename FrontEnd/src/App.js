@@ -18,6 +18,7 @@ import ProductAdd from "./managers/staff/ProductAdd";
 import PostsAdd from "./managers/staff/PostsAdd";
 import PromotionManage from "./managers/staff/PromotionManage";
 import AddPromotion from "./managers/staff/AddPromotion";
+import FeedbackManage from "./managers/staff/FeedbackManage";
 
 // Admin Components (if needed)
 import MainDash from "./managers/admin/MainDash";
@@ -74,7 +75,7 @@ function App() {
             <Route path="/addingpost" element={<PostsAdd />} />
             <Route path="/promotionmanage" element={<PromotionManage />} />
             <Route path="/addpromotion" element={<AddPromotion />} />
-
+            <Route path="/feedbackManage" element={<FeedbackManage/>} />
           </Routes>
         </div>
       </div>
