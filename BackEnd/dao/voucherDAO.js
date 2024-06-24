@@ -53,14 +53,14 @@ const voucherDAO = {
         });
     },
 
-    getVouchersforUser: () => {
+    getVouchersforUser: (UserID) => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err, res) {
-                const request = new mssql.Request();
+                const request = new mssql.Request().input("UserID", mssql.VarChar, UserID);
                 request.query(`
                         SELECT Voucher.*
                         FROM Voucher
-                        LEFT JOIN UserVoucher ON Voucher.VoucherID = UserVoucher.VoucherID AND UserVoucher.UserID = 'M0000001'
+                        LEFT JOIN UserVoucher ON Voucher.VoucherID = UserVoucher.VoucherID AND UserVoucher.UserID = @UserID
                         WHERE GETDATE() <= Voucher.ExpiryDate AND UserVoucher.UserID IS NULL;
                         `,
                     (err, res) => {

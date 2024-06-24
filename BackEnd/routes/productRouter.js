@@ -54,4 +54,6 @@ router.get('/countBrand', productController.countBrand);
 
 router.get('/getTop5ProductBestSeller', productController.getTop5ProductBestSeller);
 
+router.get('/getAllProductForUser', productController.getAllProductForUser);
+
 module.exports = router;

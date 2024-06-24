@@ -102,6 +102,7 @@ function App() {
         <Route path="/Address" element={<Address />} />
         <Route path="/product/:productId" element={<ProductScreen />} />
         <Route path="/all-products/:keyword" element={<AllProductScreen />} />
+        <Route path="/all-products" element={<AllProductScreen />} />
         <Route path="/sua-cho-be" element={<ListProductBbScreen />} />
         <Route path="/sua-cho-me" element={<ListProductMomScreen />} />
         <Route path="/RichTextEditor" element={<RichTextEditor />} />

@@ -21,12 +21,13 @@ const AllProduct = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [priceRange, setPriceRange] = useState([0, 5000000]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [err, setErr] = useState(false);
   const productsPerPage = 12;
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        let apiUrl = `http://localhost:5000/api/v1/product/getAllProducts`;
+        let apiUrl = `http://localhost:5000/api/v1/product/getInfoProductsDetail`;
 
         if (keyword) {
           let modifiedKeyword = keyword.toLowerCase();
@@ -52,8 +53,16 @@ const AllProduct = () => {
           }
         }
 
-        const response = await fetch(apiUrl);
-        const data = await response.json();
+        let response = await fetch(apiUrl);
+        let data = await response.json();
+        setErr(false);
+        if (data.err === "Do not have any product with this names") {
+          setErr(true);
+          response = await fetch(
+            `http://localhost:5000/api/v1/product/getInfoProductsDetail`
+          );
+          data = await response.json();
+        }
 
         if (data && data.length > 0) {
           setOriginalProducts(data);
@@ -253,7 +262,13 @@ const AllProduct = () => {
 
             <div className="clear"></div>
             <div className="list_item_cate">
-              {filteredProducts.length > 0 ? (
+              {err && (
+                <div>
+                  <p className="khong-tim-search">Không tìm thấy sản phẩm</p>
+                  <p className="khong-tim-search">Các sản phẩm gợi ý</p>
+                </div>
+              )}
+              {filteredProducts.length > 0 &&
                 currentProducts.map((product, index) => (
                   <div className="product" key={index}>
                     <div className="product_child">
@@ -298,10 +313,7 @@ const AllProduct = () => {
                       )}
                     </div>
                   </div>
-                ))
-              ) : (
-                <p className="khong-tim-search">Không tìm được sản phẩm</p>
-              )}
+                ))}
               <div className="clear"></div>
             </div>
             <div className="clear"></div>
