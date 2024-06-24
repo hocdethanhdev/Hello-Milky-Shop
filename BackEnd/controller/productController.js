@@ -1,5 +1,14 @@
 const productService = require("../service/productService");
 
+const getAllProductForUser = async (req, res) => {
+  try {
+    const obj = await productService.getAllProductForUser();
+    res.status(200).json(obj)
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+}
+
 const getTop5ProductBestSeller = async (req, res) => {
   try {
     const obj = await productService.getTop5ProductBestSeller();
@@ -288,4 +297,5 @@ module.exports = {
   countProduct,
   countBrand,
   getTop5ProductBestSeller,
+  getAllProductForUser,
 };

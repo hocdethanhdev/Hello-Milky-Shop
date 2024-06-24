@@ -391,6 +391,37 @@ const productDAO = {
       });
     });
   },
+  getAllProductForUser: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT p.ProductID, ProductName, p.Description, Price, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, p.Status, COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts
+        FROM Product p 
+        JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
+        JOIN Brand b ON p.BrandID = b.BrandID
+        LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+        LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
+        WHERE StockQuantity > 0 AND Status =1
+        GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName, p.Description, StockQuantity, ExpirationDate, ManufacturingDate, ProductCategoryName, p.Status
+        `,
+          (err, res) => {
+            if (err) reject(err);
+            const product = res.recordset;
+            if (!product[0])
+              resolve({
+                err: "Not found",
+              });
+            resolve(product);
+          }
+        );
+      });
+    });
+  },
   updateProduct: (param_id, productObject) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {

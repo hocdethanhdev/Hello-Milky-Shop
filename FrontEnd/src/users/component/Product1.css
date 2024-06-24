@@ -265,17 +265,23 @@
 
 .combo-content {
   display: flex;
-
   flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-evenly;
 }
 
 .combo-item {
+  display: flex;
   border: 1px solid #ddd;
   width: 200px;
   text-align: center;
   margin-left: 20px;
   margin-top: 20px;
   transition: transform 0.1s ease-in-out;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .combo-item img {
@@ -299,8 +305,7 @@
 .combo-details .original-price {
   color: #6b6b6b;
   text-decoration: line-through;
-  opacity: 0.4;
-  font-weight: 500;
+  opacity: 0.6;
   margin-right: 10px;
 }
 .combo-details .discounted-price {
@@ -397,18 +402,23 @@
 
 .combo-content-1 {
   display: flex;
-
   flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-evenly;
 }
 
 .combo-item-1 {
+  display: flex;
   border: 1px solid #ddd;
   width: 200px;
   text-align: center;
-
   margin-left: 20px;
   margin-top: 20px;
   transition: transform 0.1s ease-in-out;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .combo-item-1 img {
@@ -719,10 +729,13 @@ span.discount {
   border-radius: 3px;
 }
 
+.div-discount-1{
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
 
-span.discount-1{
-
-  
+span.discount-1{  
   color: #fff;
   font-size: 15px;
   text-align: center;
@@ -732,5 +745,5 @@ span.discount-1{
   background: #f72f2f;
   padding: 3px 7px;
   border-radius: 3px;
-  margin-left: 65%;
+  margin: 5px 5px;
 }
