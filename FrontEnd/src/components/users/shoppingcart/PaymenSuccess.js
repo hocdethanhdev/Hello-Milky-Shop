@@ -70,7 +70,7 @@ const PaymemSuccess = () => {
         }
 
         const usePoints = localStorage.getItem('usePoints');
-        console.log(usePoints);
+
         if (usePoints) {
           await axios.put(
             "http://localhost:5000/api/v1/user/usePoint",
@@ -79,8 +79,8 @@ const PaymemSuccess = () => {
             }
           );
 
-          localStorage.removeItem('usePoint')
         }
+        localStorage.removeItem('usePoint')
 
         alert("Giao dịch thành công");
       } catch (err) {
