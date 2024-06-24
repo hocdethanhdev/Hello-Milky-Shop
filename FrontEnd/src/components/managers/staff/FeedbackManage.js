@@ -1,144 +1,164 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { Pagination } from 'antd';
+import './FeedbackManage.css';
+import { getUserIdFromToken } from "../../store/actions/authAction";
+import { useSelector } from "react-redux";
+import Notification from '../../users/product/ui-product-mom/Notification';
 
-function FeedBackManage() {
-  const feedbacks = [
-    {
-      stars: 5,
-      product: {
-        id: "P001",
-        name: "Product A",
-        image: "https://via.placeholder.com/50"
-      },
-      review: "Excellent!",
-      user: {
-        name: "Trí",
-        date: "6/24/2024",
-        comment: "Ngon"
-      }
-    },
-    {
-      stars: 4,
-      product: {
-        id: "P002",
-        name: "Product B",
-        image: "https://via.placeholder.com/50"
-      },
-      review: "Very good",
-      user: {
-        name: "Trí",
-        date: "6/24/2024",
-        comment: "Ngon"
-      }
-    },
-    {
-      stars: 3,
-      product: {
-        id: "P003",
-        name: "Product C",
-        image: "https://via.placeholder.com/50"
-      },
-      review: "Average",
-      user: {
-        name: "Trí",
-        date: "6/24/2024",
-        comment: "Ngon"
-      }
-    },
-    {
-      stars: 2,
-      product: {
-        id: "P004",
-        name: "Product D",
-        image: "https://via.placeholder.com/50"
-      },
-      review: "Not great",
-      user: {
-        name: "Trí",
-        date: "6/24/2024",
-        comment: "Ngon"
-      }
-    },
-    {
-      stars: 1,
-      product: {
-        id: "P005",
-        name: "Product E",
-        image: "https://via.placeholder.com/50"
-      },
-      review: "Poor",
-      user: {
-        name: "Trí",
-        date: "6/24/2024",
-        comment: "Ngon"
-      }
+const FeedbackManage = () => {
+  const [comments, setComments] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalComments, setTotalComments] = useState(0);
+  const [notification, setNotification] = useState(null);
+  const commentsPerPage = 10;
+  const { token } = useSelector((state) => state.auth);
+  const userId = getUserIdFromToken(token);
+
+  useEffect(() => {
+    fetchComments();
+  }, [currentPage]);
+
+  const fetchComments = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/v1/comment/getUnansweredComments?page=${currentPage}&limit=${commentsPerPage}`);
+      const data = await response.json();
+      setComments(data);
+      setTotalComments(data.length);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
     }
-  ];
-
-  const [reviews, setReviews] = useState(feedbacks.map(feedback => feedback.review));
-
-  const handleReviewChange = (index, event) => {
-    const newReviews = [...reviews];
-    newReviews[index] = event.target.value;
-    setReviews(newReviews);
   };
 
-  const renderStars = (stars) => {
-    const fullStar = "★"; // You can use any star icon or image here
-    const emptyStar = "☆"; // You can use any star icon or image here
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
-    return (
-      <span>
-        {Array(stars)
-          .fill(fullStar)
-          .concat(Array(5 - stars).fill(emptyStar))
-          .join("")}
-      </span>
-    );
+  const handleCommentSubmit = async (commentId, rep) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/v1/comment/repComment/${commentId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          UserID: userId,
+          Rep: rep,
+        }),
+      });
+
+      if (response.ok) {
+        setNotification('Gửi bình luận thành công');
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    } catch (error) {
+      console.error('Error submitting reply:', error);
+    }
   };
 
   return (
-    <div>
-      <h2>Feedback Management</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Số sao</th>
-            <th>Sản phẩm</th>
-            <th>Đánh giá</th>
-          </tr>
-        </thead>
-        <tbody>
-          {feedbacks.map((feedback, index) => (
-            <tr key={index}>
-              <td>
-                <div>
-                  
-                  <p>{feedback.user.name}</p>
-                  {renderStars(feedback.stars)}
-                  <p>{feedback.user.date}</p>
-                  <p>{feedback.user.comment}</p>
-                </div>
-              </td>
-              <td>
-                <div>
-                <img src="" alt={feedback.product.name} />
-                  <p><strong>Mã:</strong> {feedback.product.id}</p>
-                  <p><strong>Tên:</strong> {feedback.product.name}</p>
-                 
-                </div>
-              </td>
-              <td>
-                <textarea
-                 
-                  onChange={(event) => handleReviewChange(index, event)}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="feedback-manage">
+      <div className="comments-section">
+        {comments.map(comment => (
+          <Comment key={comment.CommentID} comment={comment} onSubmit={handleCommentSubmit} />
+        ))}
+      </div>
+      <ThrowPage
+        current={currentPage}
+        onChange={handlePageChange}
+        total={totalComments}
+        productsPerPage={commentsPerPage}
+      />
+      {notification && <Notification message={notification} />}
     </div>
   );
-}
+};
 
-export default FeedBackManage;
+const Comment = ({ comment, onSubmit }) => {
+  const [product, setProduct] = useState(null);
+  const [reply, setReply] = useState('');
+
+  useEffect(() => {
+    fetchProduct();
+  }, [comment.ProductID]);
+
+  const fetchProduct = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/v1/product/getProductInforID/${comment.ProductID}`);
+      const data = await response.json();
+      setProduct(data);
+    } catch (error) {
+      console.error('Error fetching product:', error);
+    }
+  };
+
+  const getInitial = (name) => name.charAt(0).toUpperCase();
+  const renderStars = (count) => {
+    const roundedCount = Math.round(count);
+    return (
+      <div className="stars">
+        {[...Array(5)].map((_, i) => (
+          <span key={i} className={`star ${i < roundedCount ? 'filled' : ''}`}>&#9733;</span>
+        ))}
+      </div>
+    );
+  };
+
+  const handleReplyChange = (e) => {
+    setReply(e.target.value);
+  };
+
+  const handleReplySubmit = () => {
+    onSubmit(comment.CommentID, reply);
+  };
+
+  return (
+    <div className="comment-thinh-cmt">
+      <div className='comment-thinh-fl'>
+        <div className='bl-rep'>
+          <div className="comment-header-thinh-cmt">
+            <div className="initial-thinh-cmt">{getInitial(comment.UserName)}</div>
+            <div className="details-thinh-cmt">
+              <div className="name-and-stars-thinh-cmt">
+                <span className="name-thinh-cmt">{comment.UserName}</span>
+                <span className="stars-thinh-cmt"> {renderStars(comment.Rating)}</span>
+              </div>
+              <div className="comment-content-thinh-cmt">{comment.Description}</div>
+              <div className="time-thinh-cmt">{new Date(comment.CommentDate).toLocaleDateString()}</div>
+            </div>
+          </div>
+          <div className="new-comment-section-thinh-cmt">
+            <textarea
+              placeholder="Nhập bình luận..."
+              maxLength={3000}
+              value={reply}
+              onChange={handleReplyChange}
+            />
+            <button onClick={handleReplySubmit} disabled={!reply}>Gửi</button>
+          </div>
+        </div>
+        {product && (
+          <div className="product-info-thinh-cmt">
+            <img src={product[0].Image} alt={product[0].ProductName} />
+            <div>
+              <div className="product-name-thinh-cmt">{product[0].ProductName}</div>
+              <div className="product-code-thinh-cmt">Mã SP: {comment.ProductID}</div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const ThrowPage = ({ current, onChange, total, productsPerPage }) => {
+  const handlePageChange = (page) => {
+    window.scrollTo(0, 0);
+    onChange(page);
+  };
+
+  return <Pagination current={current} onChange={handlePageChange} total={total} pageSize={productsPerPage} />;
+};
+
+export default FeedbackManage;
