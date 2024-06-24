@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./VoucherStore.css";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../store/actions/authAction";
 
 function VoucherItem({ voucher }) {
@@ -13,10 +13,14 @@ function VoucherItem({ voucher }) {
   const saveVoucherForUser = () => {
     const requestBody = {
       userID: userIdd, // Replace with actual user ID logic
-      voucherID: voucher.VoucherID
+      voucherID: voucher.VoucherID,
     };
 
-    axios.post("http://localhost:5000/api/v1/voucher/saveVoucherForUser", requestBody)
+    axios
+      .post(
+        "http://localhost:5000/api/v1/voucher/saveVoucherForUser",
+        requestBody
+      )
       .then((response) => {
         alert("Voucher saved successfully!");
         window.location.reload();
@@ -40,7 +44,6 @@ function VoucherItem({ voucher }) {
               <strong style={{ fontSize: "1.5rem" }}>
                 {voucher.DiscountPercentage} %
               </strong>
-
             </p>
           </div>
           <div className="voucher-overlay d-none">
@@ -100,10 +103,14 @@ function VoucherItem({ voucher }) {
             </div>
           </div>
           <div className="voucher-save">
-            <button className="btn save-button-voucher" onClick={saveVoucherForUser}>Save</button>
+            <button
+              className="btn save-button-voucher"
+              onClick={saveVoucherForUser}
+            >
+              Save
+            </button>
           </div>
         </div>
-
       </div>
     </div>
   );
@@ -111,21 +118,24 @@ function VoucherItem({ voucher }) {
 
 function VoucherStore() {
   const [vouchers, setVouchers] = useState([]);
-
+  const { token } = useSelector((state) => state.auth);
+  const userIdd = getUserIdFromToken(token);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/voucher/getVouchersForUser")
+      .post("http://localhost:5000/api/v1/voucher/getVouchersForUser", {
+        UserID: userIdd,
+      })
       .then((response) => {
         setVouchers(response.data);
       })
       .catch((error) => {
         console.error("There was an error fetching the vouchers!", error);
       });
-  }, []);
+  }, [userIdd]);
 
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -133,20 +143,7 @@ function VoucherStore() {
     autoplaySpeed: 5000,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-    responsive: [
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-    ],
+    
   };
 
   return (
