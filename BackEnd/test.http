@@ -362,7 +362,12 @@ Content-Type: application/json
     "Status": "False"
 }
 ### Lấy những voucher mà có thể lưu cho user
-GET http://localhost:5000/api/v1/voucher/getVouchersForUser
+POST http://localhost:5000/api/v1/voucher/getVouchersForUser
+Content-Type: application/json
+
+{
+    "UserID": "M0000001"
+}
 
 ### Lấy order trước đó của user
 GET  http://localhost:5000/api/v1/order/getPreviousOrderAddress/M0000001

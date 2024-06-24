@@ -7,7 +7,7 @@ import Giasoc from "./Giasoc.js";
 import Combo1 from "./Combo1.js";
 import Combo2 from "./Combo2.js";
 import VoucherStore from "./VoucherStore.js";
-import Menu from "./Menu";
+import Menu from "./Menu.js";
 import { useSelector } from "react-redux";
 
 function Product1() {

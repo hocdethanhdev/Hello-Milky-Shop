@@ -5,8 +5,8 @@ const voucherService = {
     return await voucherRepository.getAllVouchers();
   },
 
-  getVouchersforUser: async (req, res) => {
-    return await voucherRepository.getVouchersforUser();
+  getVouchersforUser: async (UserID) => {
+    return await voucherRepository.getVouchersforUser(UserID);
   },
 
   addVoucher: (voucherObject) => {

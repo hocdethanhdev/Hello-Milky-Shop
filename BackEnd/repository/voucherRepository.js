@@ -25,8 +25,8 @@ const voucherRepository = {
     getVouchersByUserID: async (userID) => {
         return await voucherDAO.getVouchersByUserID(userID);
     },
-    getVouchersforUser: async () => {
-        return await voucherDAO.getVouchersforUser();
+    getVouchersforUser: async (UserID) => {
+        return await voucherDAO.getVouchersforUser(UserID);
     },
     updateVoucherStatusAndRemoveFromUser: (oldStatus, newStatus) => {
         return voucherDAO.updateVoucherStatusAndRemoveFromUser(oldStatus, newStatus);

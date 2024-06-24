@@ -456,9 +456,7 @@ const ShoppingCart = () => {
       <div className="checkout">
         <div className="customer-info">
           <div className="address-section">
-            <button onClick={() => setShowAddressPopup(true)}>
-              Dùng địa chỉ cũ
-            </button>
+            <h2 className="address-title-long">ĐỊA CHỈ</h2>
             <input
               type="text"
               placeholder="Người nhận"
@@ -480,78 +478,85 @@ const ShoppingCart = () => {
               onChange={(e) => setAddress(e.target.value)}
               disabled={usingSavedAddress}
             />
-            <select
-              value={selectedCityID}
-              onChange={(e) => setSelectedCityID(e.target.value)}
-              disabled={usingSavedAddress}
-            >
-              <option value="">Chọn thành phố</option>
-              {cities.map((city) => (
-                <option key={city.ID} value={city.ID}>
-                  {city.CityName}
-                </option>
-              ))}
-            </select>
-            <select
-              value={selectedDistrictID}
-              onChange={(e) => setSelectedDistrictID(e.target.value)}
-              disabled={usingSavedAddress}
-            >
-              <option value="">Chọn quận huyện</option>
-              {districts.map((district) => (
-                <option key={district.DistrictID} value={district.DistrictID}>
-                  {district.DistrictName}
-                </option>
-              ))}
-            </select>
+            {!usingSavedAddress &&
+              <div>
+                <select
+                  value={selectedCityID}
+                  onChange={(e) => setSelectedCityID(e.target.value)}
+                  disabled={usingSavedAddress}
+                >
+                  <option value="">Chọn thành phố</option>
+                  {cities.map((city) => (
+                    <option key={city.ID} value={city.ID}>
+                      {city.CityName}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={selectedDistrictID}
+                  onChange={(e) => setSelectedDistrictID(e.target.value)}
+                  disabled={usingSavedAddress}
+                >
+                  <option value="">Chọn quận huyện</option>
+                  {districts.map((district) => (
+                    <option key={district.DistrictID} value={district.DistrictID}>
+                      {district.DistrictName}
+                    </option>
+                  ))}
+                </select>
+              </div>}
+            {usingSavedAddress ? <button className="custom-button-long" onClick={() => setUsingSavedAddress(false)}>
+              Thêm địa chỉ mới
+            </button> : <button className="custom-button-long" onClick={() => setShowAddressPopup(true)}>
+              Dùng địa chỉ cũ
+            </button>}
+
           </div>
         </div>
 
-        <div className="product-info">
-          <h3>SẢN PHẨM ({orderDetails.length} sản phẩm)</h3>
-          {orderDetails.map((item) => {
-            const productInfo = item.productInfo[0];
-            const productId = item.ProductID;
-            const quantity = productQuantities[productId] || item.Quantity;
-            const isSelected = selectedProducts[productId] || false;
-            return (
-              <div className="product-item" key={productId}>
-                <input
-                  type="checkbox"
-                  checked={isSelected}
-                  onChange={(e) =>
-                    handleProductSelect(productId, e.target.checked)
-                  }
-                />
-                <img src={productInfo?.Image} alt={productInfo?.ProductName} />
-                <div>
-                  <p className="ten-sp-cartth">{productInfo?.ProductName}</p>
-                  <p className="gia-sp-cartth">
-                    {item.Price.toLocaleString()} đ
-                  </p>
-                  <div className="quantity-control">
-                    <button
-                      onMouseDown={() => startDecrement(productId)}
-                      onMouseUp={stopDecrement}
-                      onMouseLeave={stopDecrement}
-                    >
-                      -
-                    </button>
-                    <span>Số lượng: {quantity}</span>
-                    <button
-                      onMouseDown={() => startIncrement(productId)}
-                      onMouseUp={stopIncrement}
-                      onMouseLeave={stopIncrement}
-                    >
-                      +
-                    </button>
-                  </div>
+        <div className="product-info-container-long">
+      <h3>SẢN PHẨM ({orderDetails.length} sản phẩm)</h3>
+      <div className="product-info-long">
+        {orderDetails.map((item) => {
+          const productInfo = item.productInfo[0];
+          const productId = item.ProductID;
+          const quantity = productQuantities[productId] || item.Quantity;
+          const isSelected = selectedProducts[productId] || false;
+          return (
+            <div className="product-item" key={productId}>
+              <input
+                type="checkbox"
+                checked={isSelected}
+                onChange={(e) => handleProductSelect(productId, e.target.checked)}
+              />
+              <img src={productInfo?.Image} alt={productInfo?.ProductName} />
+              <div>
+                <p className="ten-sp-cartth">{productInfo?.ProductName}</p>
+                <p className="gia-sp-cartth">{item.Price.toLocaleString()} đ</p>
+                <div className="quantity-control">
+                  <button
+                    onMouseDown={() => startDecrement(productId)}
+                    onMouseUp={stopDecrement}
+                    onMouseLeave={stopDecrement}
+                  >
+                    -
+                  </button>
+                  <span>Số lượng: {quantity}</span>
+                  <button
+                    onMouseDown={() => startIncrement(productId)}
+                    onMouseUp={stopIncrement}
+                    onMouseLeave={stopIncrement}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
-            );
-          })}
-        </div>
-
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  
         <div className="payment-info">
           <h3>THANH TOÁN</h3>
           <div className="totals">
@@ -570,7 +575,7 @@ const ShoppingCart = () => {
               )}
             </div>
 
-            <div className="points-usage">
+            <div className="points-usage-long">
               <input
                 type="checkbox"
                 id="usePoints"
@@ -578,6 +583,7 @@ const ShoppingCart = () => {
                 onChange={(e) => setUsePoints(e.target.checked)}
               />
               <label htmlFor="usePoints">
+                <span className="icon-long"></span>
                 Dùng {points} xu - {points * 10}₫
               </label>
             </div>
