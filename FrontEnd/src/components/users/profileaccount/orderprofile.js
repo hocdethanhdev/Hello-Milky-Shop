@@ -228,8 +228,9 @@ const OrderProfile = () => {
             </span>
             <p>Bạn chắc chắn muốn hủy đơn hàng?</p>
             <div className="popup-buttons">
-              <button onClick={() => setShowCancelPopup(false)}>Không</button>
+              
               <button onClick={handleCancelOrder}>Có</button>
+              <button onClick={() => setShowCancelPopup(false)}>Không</button>
             </div>
           </div>
         </div>
