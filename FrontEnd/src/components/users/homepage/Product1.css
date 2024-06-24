@@ -103,7 +103,9 @@
 
 .item {
   border: 1px solid #ddd;
-  flex-basis: calc(20% - 20px); /* Tính toán flex-basis để tránh cách biệt quá lớn */
+  flex-basis: calc(
+    20% - 20px
+  ); /* Tính toán flex-basis để tránh cách biệt quá lớn */
   margin: 10px;
   position: relative;
 }
@@ -533,9 +535,7 @@
   color: white;
   padding: 10px 20px;
   cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -727,12 +727,10 @@ span.discount {
   border-radius: 3px;
 }
 
-span.discount-1 {
-  .div-discount-1 {
-    width: 100%;
-    display: flex;
-    justify-content: end;
-  }
+.div-discount-1 {
+  width: 100%;
+  display: flex;
+  justify-content: end;
 }
 
 span.discount-1 {
