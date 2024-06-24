@@ -391,6 +391,7 @@ const ShoppingCart = () => {
         totalAmount = calculateTotal();
         localStorage.setItem("totalAmount", totalAmount);
         localStorage.setItem("orderID", orderID);
+        console.log(usePoints);
         localStorage.setItem("usePoints", usePoints);        
 
         const response = await axios.post(

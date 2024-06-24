@@ -69,8 +69,7 @@ const PaymemSuccess = () => {
           localStorage.removeItem("selectedVoucher");
         }
 
-        const usePoints = localStorage.getItem('usePoints');
-
+        const usePoints = Boolean.parse(localStorage.getItem('usePoints'));
         if (usePoints) {
           await axios.put(
             "http://localhost:5000/api/v1/user/usePoint",
