@@ -96,6 +96,7 @@ CREATE TABLE ShippingAddress (
 	Receiver nvarchar(50) NOT NULL,
 	PhoneNumber varchar(15) NOT NULL,
 	Address nvarchar(150) NOT NULL,
+	IsDeleted bit default 0,
 	UserID varchar(8) foreign key references Users(UserID),  
 )
 

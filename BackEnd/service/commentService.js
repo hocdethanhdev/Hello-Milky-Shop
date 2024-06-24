@@ -1,6 +1,11 @@
 const commentRepository = require("../repository/commentRepository");
 
 const userService = {
+
+  getCommentByID: async (CommentID) => {
+    return await commentRepository.getCommentByID(CommentID);
+  },
+
   countRatingAndAvgRating: async (ProductID) => {
     return await commentRepository.countRatingAndAvgRating(ProductID);
   },
