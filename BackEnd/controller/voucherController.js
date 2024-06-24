@@ -76,7 +76,8 @@ const getVouchersByUserID = async (req, res) => {
 
 const getVouchersforUser = async (req, res) => {
     try {
-        const obj = await voucherService.getVouchersforUser();
+        const { UserID } = req.body;
+        const obj = await voucherService.getVouchersforUser(UserID);
         if (!obj)
             res.status(404).send('Not found')
         res.send(obj);
