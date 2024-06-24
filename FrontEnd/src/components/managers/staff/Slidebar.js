@@ -107,9 +107,7 @@ function Sidebar() {
               Quản lí khuyến mãi
             </NavLink>
             <NavLink
-              className={({ isActive }) =>
-                isActive || location.pathname.includes(("/")) || location.pathname.includes(("/"))? "active-st-thinh" : ""
-              }
+              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
               to="/feedbackManage"
             >
               <img

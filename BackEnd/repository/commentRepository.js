@@ -26,8 +26,8 @@ const productRepository = {
   getUnansweredComments: async () => {
     return await commentDAO.getUnansweredComments();
   },
-  repComment: async (id, rep) => {
-    return await commentDAO.repComment(id, rep);
+  repComment: async (id, rep, UserID) => {
+    return await commentDAO.repComment(id, rep, UserID);
   },
 };
 

@@ -2,11 +2,12 @@ import React from 'react';
 import "./VoucherModal.css"
 const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
     return (
-        <div className="voucher-popup">
+        <div className="voucher-popup-long">
+            <span className="close-btn-long" onClick={closePopup}>X</span>
             <h2>Chọn Voucher</h2>
             <ul>
                 {vouchers.map(voucher => (
-                    <div key={voucher.UserVoucherID} onClick={() => handleVoucherSelect(voucher)} className="tri-voucher">
+                    <div key={voucher.UserVoucherID} onClick={() => handleVoucherSelect(voucher)} className="tri-voucher1">
                     <div className="voucher">
                       <div className="voucher-body bg-orange-gradient">
                         <div className="voucher-text">
@@ -78,7 +79,6 @@ const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
                   </div>
                 ))}
             </ul>
-            <button onClick={closePopup}>OK</button>
         </div>
     );
 };

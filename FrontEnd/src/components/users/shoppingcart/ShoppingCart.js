@@ -392,9 +392,7 @@ const ShoppingCart = () => {
         localStorage.setItem("totalAmount", totalAmount);
         localStorage.setItem("orderID", orderID);
         console.log(usePoints);
-        if (usePoints) {
-          localStorage.setItem("usePoints", usePoints);
-        }
+        localStorage.setItem("usePoints", usePoints);        
 
         const response = await axios.post(
           "http://localhost:5000/api/v1/payment/create_payment_url",
@@ -564,8 +562,8 @@ const ShoppingCart = () => {
               <span>Tạm tính</span>
               <span>{subtotal.toLocaleString()} đ</span>
             </div>
-            <div className="voucher-selection">
-              <button onClick={() => setShowVoucherPopup(true)}>
+            <div className="voucher-selection-long">
+              <button className="choose-voucher-btn" onClick={() => setShowVoucherPopup(true)}>
                 Chọn Voucher
               </button>
               {selectedVoucher && (
@@ -574,8 +572,7 @@ const ShoppingCart = () => {
                 </p>
               )}
             </div>
-
-            <div className="points-usage-long">
+            <div className="points-usage-long points-container">
               <input
                 type="checkbox"
                 id="usePoints"
@@ -584,13 +581,18 @@ const ShoppingCart = () => {
               />
               <label htmlFor="usePoints">
                 <span className="icon-long"></span>
+                <span className="icon-wrapper-long">
+                  <img src="/ImageMilkShop/icon xu.png" alt="Xu icon" className="points-icon" />
+                </span>
                 Dùng {points} xu - {points * 10}₫
               </label>
             </div>
+
             <div className="total-row">
               <span>Khuyến mãi</span>
               <span>{discount.toLocaleString()} đ</span>
             </div>
+
             <div className="total-row total">
               <span>Thành tiền</span>
               <span>{calculateTotal().toLocaleString()} đ</span>

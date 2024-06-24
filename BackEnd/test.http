@@ -145,10 +145,11 @@ GET http://localhost:5000/api/v1/comment/getAllComments
 ###
 GET http://localhost:5000/api/v1/comment/getUnansweredComments
 ###
-POST http://localhost:5000/api/v1/comment/repComment/6
+POST http://localhost:5000/api/v1/comment/repComment/2
 Content-Type: application/json
 
 {
+    "UserID": "S0000001",
     "Rep": "Cảm ơn bạn"
 }
 ### lấy rep của 1 comment
@@ -156,7 +157,7 @@ POST http://localhost:5000/api/v1/comment/getCommentByID
 Content-Type: application/json
 
 {
-    "CommentID": 1
+    "CommentID": 2
 }
 ### dang nhap gg
 GET http://localhost:5000/api/v1/auth/google
@@ -538,4 +539,8 @@ Content-Type: application/json
 GET http://localhost:5000/api/v1/order/getReasonCancleOrderByUserID/M0000003/
 ### Lấy author name
 GET http://localhost:5000/api/v1/article/getAuthorName/
+### lấy info shipping is deleted
+GET http://localhost:5000/api/v1/shippingAddress/getShippingAddressIsDeleted/
+### update IsDeleted bằng 
+PUT http://localhost:5000/api/v1/shippingAddress/updateDeleted/1
 

@@ -28,8 +28,8 @@ const userService = {
   getUnansweredComments: async () => {
     return await commentRepository.getUnansweredComments();
   },
-  repComment: async (id, rep) => {
-    return await commentRepository.repComment(id, rep);
+  repComment: async (id, rep, UserID) => {
+    return await commentRepository.repComment(id, rep, UserID);
   },
 };
 

@@ -1,80 +1,105 @@
-.voucher-popup {
+.voucher-popup-long {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+    max-width: 900px;
+    width: 90%;
+    margin: 0 auto;
     padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    width: 400px;
-    border-radius: 8px;
 }
 
-.voucher-popup h2 {
-    margin-top: 0;
+.voucher-popup-long h2 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.voucher-popup ul {
-    list-style: none;
-    padding: 0;
-}
-
-.voucher-popup li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-}
-
-.voucher-popup li:hover {
-    background-color: #f9f9f9;
-}
-
-.voucher-item {
+.voucher-popup-long ul {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style-type: none;
+    max-height: 500px;
+    /* Giới hạn chiều cao của danh sách */
+    overflow-y: auto;
+    /* Kích hoạt thanh cuộn dọc */
+    padding: 0;
+    margin: 0;
+}
+
+.tri-voucher1 {
+    width: calc(50% - 5px);
+    /* Chiều rộng của mỗi voucher (2 cái trên mỗi hàng) */
+    box-sizing: border-box;
+}
+
+.voucher {
+    background-color: #ffefed;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.voucher-body {
+    position: relative;
+    padding: 10px;
+    background: linear-gradient(90deg, rgba(255, 94, 58, 1) 0%, rgba(255, 147, 78, 1) 100%);
+    border-radius: 8px;
+    color: white;
+}
+
+.voucher-footer {
+    margin-top: 10px;
 }
 
 .voucher-details {
-    text-align: right;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
 }
 
-.voucher-item input[type="radio"] {
+.details-icon {
     margin-right: 10px;
 }
 
-.voucher-popup button {
-    display: block;
-    margin: 20px auto 0;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.details-text .text-title {
+    font-weight: bold;
 }
 
-.voucher-popup button:disabled {
-    background-color: #ddd;
+.details-text .text-description,
+.text-description-gia {
+    color: #ff4933;
 }
 
-.voucher-popup .close-btn {
+.btn-primary {
+    background-color: #ff4933;
+    border-color: #ff4933;
+}
+
+.btn-primary:hover {
+    background-color: #ff321f;
+    border-color: #ff321f;
+}
+
+.close-btn-long {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: none;
-    border: none;
-    font-size: 18px;
+    font-size: 13px;
     cursor: pointer;
+    color: #000;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 0;
+    transition: background-color 0.3s ease;
 }
 
-.voucher-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
+.close-btn-long:hover {
+    color: #fff;
+    background-color: #ff0000;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
 }
+

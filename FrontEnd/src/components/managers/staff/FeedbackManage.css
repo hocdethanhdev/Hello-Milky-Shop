@@ -1,0 +1,114 @@
+.feedback-manage-thinh-cmt {
+    margin: 20px;
+}
+
+.comments-section-thinh-cmt {
+    margin-bottom: 20px;
+}
+
+.new-comment-section-thinh-cmt textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+    padding: 10px;
+}
+
+.new-comment-section-thinh-cmt button {
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.comment-thinh-cmt {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-header-thinh-cmt {
+    display: flex;
+    align-items: center;
+}
+
+.initial-thinh-cmt {
+    width: 30px;
+    height: 30px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.details-thinh-cmt {
+    display: flex;
+    flex-direction: column;
+}
+
+.name-and-stars-thinh-cmt {
+    display: flex;
+    align-items: center;
+}
+
+.stars-thinh-cmt {
+    margin-left: 10px;
+}
+
+.filled-star-thinh-cmt,
+.empty-star-thinh-cmt {
+    color: gold;
+}
+
+.product-info-thinh-cmt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 4%;
+    padding: 10px;
+    width: 30%;
+    margin: auto;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+
+.product-info-thinh-cmt img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.product-info-thinh-cmt .product-name-thinh-cmt {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #fd6a02;
+}
+
+.product-info-thinh-cmt .product-code-thinh-cmt {
+    color: gray;
+    text-align: center;
+}
+
+.comment-thinh-fl {
+    display: flex;
+    justify-content: space-between;
+}
+.time-thinh-cmt {
+    color: gray;
+}
+.bl-rep {
+    width: 65%;
+}
