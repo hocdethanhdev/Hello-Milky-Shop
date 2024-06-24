@@ -64,7 +64,6 @@ const userDAO = {
             resolve({
               err: res.rowsAffected > 0 ? 0 : 1
             });
-            mssql.close();
           }
         );
       });
