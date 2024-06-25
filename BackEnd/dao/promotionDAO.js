@@ -167,22 +167,91 @@ const promotionDAO = {
         const request = new mssql.Request();
         request.input("promotionID", promotionID);
 
-        const searchQuery = `
-                    SELECT p.* 
-                    FROM Product p
-                    INNER JOIN ProductPromotionList pp ON p.ProductID = pp.ProductID
-                    WHERE pp.PromotionID = @promotionID
-                `;
+        const productsInPromotionQuery = `
+          SELECT p.ProductID, p.ProductName, p.Price, p.Description, p.StockQuantity, p.Image, 
+          p.ExpirationDate, p.ManufacturingDate, p.Status, pc.ProductCategoryName, b.BrandName
+          FROM Product p
+          JOIN Brand b ON b.BrandID = p.BrandID 
+          JOIN ProductCategory pc ON pc.ProductCategoryID = p.ProductCategoryID
+          JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
+          JOIN Promotion promo ON ppl.PromotionID = promo.PromotionID
+          INNER JOIN ProductPromotionList pp ON p.ProductID = pp.ProductID
+		      WHERE p.Status = 1 AND StockQuantity > 0 AND pp.PromotionID = @promotionID
+        `;
 
-        request.query(searchQuery, (err, res) => {
+        const otherProductsQuery = `
+          SELECT p.ProductID, p.ProductName, p.Price, p.Description, p.StockQuantity, p.Image, 
+          p.ExpirationDate, p.ManufacturingDate, p.Status, pc.ProductCategoryName, b.BrandName
+          FROM Product p
+          JOIN Brand b ON b.BrandID = p.BrandID 
+          JOIN ProductCategory pc ON pc.ProductCategoryID = p.ProductCategoryID
+		      WHERE p.ProductID NOT IN (
+            SELECT ProductID 
+            FROM ProductPromotionList 
+            WHERE PromotionID = @promotionID
+          ) AND p.Status = 1;
+        `;
+
+        request.query(productsInPromotionQuery, (err, res1) => {
           if (err) return reject(err);
-          resolve(res.recordset);
+
+          const productsInPromotion = res1.recordset;
+
+          request.query(otherProductsQuery, (err, res2) => {
+            if (err) return reject(err);
+
+            const otherProducts = res2.recordset;
+
+            resolve({
+              productsInPromotion,
+              otherProducts
+            });
+          });
         });
       });
     });
   },
 
-  applyPromotionToProduct: (productID, promotionID) => {
+  deleteProductPromotionsByPromotionID: (promotionID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        request.input("promotionID", mssql.Int, promotionID);
+
+        const deleteQuery = `DELETE FROM ProductPromotionList WHERE PromotionID = @promotionID`;
+
+        request.query(deleteQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      });
+    });
+  },
+
+  insertProductPromotions: (productIDs, promotionID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        const table = new mssql.Table('ProductPromotionList');
+        table.columns.add('ProductID', mssql.VarChar, { nullable: false });
+        table.columns.add('PromotionID', mssql.Int, { nullable: false });
+
+        productIDs.forEach(productID => {
+          table.rows.add(productID, promotionID);
+        });
+
+        request.bulk(table, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      });
+    });
+  },
+  updateProductPriceAfterDiscount: (productID, promotionID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
@@ -192,18 +261,24 @@ const promotionDAO = {
           .input("productID", mssql.VarChar, productID)
           .input("promotionID", mssql.Int, promotionID);
 
-        const insertQuery = `
-                    INSERT INTO ProductPromotionList (ProductID, PromotionID)
-                    VALUES (@productID, @promotionID)
-                `;
+        const updateQuery = `
+          UPDATE ProductPromotionList
+          SET PriceAfterDiscount = (
+            SELECT p.Price * (1 - promo.DiscountPercentage / 100)
+            FROM Product p, Promotion promo
+            WHERE p.ProductID = @productID AND promo.PromotionID = @promotionID
+          )
+          WHERE ProductID = @productID AND PromotionID = @promotionID;
+        `;
 
-        request.query(insertQuery, (err, result) => {
+        request.query(updateQuery, (err, result) => {
           if (err) return reject(err);
           resolve(result);
         });
       });
     });
   },
+
   getCurrentProductsHavingPromotion: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -213,8 +288,9 @@ const promotionDAO = {
         const currentDate = new Date();
 
         const searchQuery = `
-              SELECT 
-              p.ProductID, p.ProductName, p.Description, p.ExpirationDate, p.Image, p.ManufacturingDate, p.Price, p.Status, p.StockQuantity, BrandName,
+          SELECT 
+              p.ProductID, p.ProductName, p.Description, p.ExpirationDate, p.Image, p.ManufacturingDate, 
+              p.Price, p.Status, p.StockQuantity, b.BrandName,
               COALESCE(
               MIN(
               CASE 
@@ -233,19 +309,23 @@ const promotionDAO = {
         JOIN Promotion promo ON ppl.PromotionID = promo.PromotionID
         WHERE p.Status = 1 AND StockQuantity > 0 AND Status =1
         GROUP BY 
-        p.ProductID, p.ProductName, p.Price, p.Description, p.StockQuantity, p.Image, p.ExpirationDate, p.ManufacturingDate, p.Status, p.BrandID, p.ProductCategoryID, b.BrandName
-
-                `;
+        p.ProductID, p.ProductName, p.Price, p.Description, p.StockQuantity, p.Image, 
+        p.ExpirationDate, p.ManufacturingDate, p.Status, p.BrandID, p.ProductCategoryID, b.BrandName
+        `;
 
         request.input("currentDate", mssql.DateTime, currentDate);
 
         request.query(searchQuery, (err, res) => {
           if (err) return reject(err);
-          resolve(res.recordset);
+          resolve({
+            productsWithPromotion: res.recordsets[0],
+            productsWithoutPromotion: res.recordsets[1],
+          });
         });
       });
     });
   },
+
 };
 
 module.exports = promotionDAO;

@@ -42,27 +42,28 @@ const searchPromotionByName = async (req, res) => {
 const getProductsApplyAnPromotion = async (req, res) => {
     try {
         const promotionID = req.params.promotionID;
-        const vouchers = await promotionService.getProductsApplyAnPromotion(promotionID);
-        res.status(200).json(vouchers);
+        const result = await promotionService.getProductsApplyAnPromotion(promotionID);
+        res.status(200).json({
+            productsInPromotion: result.productsInPromotion,
+            otherProducts: result.otherProducts
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+}
 const applyPromotionToProduct = async (req, res) => {
     try {
-        const { productID, promotionID } = req.body;
-        await promotionService.applyPromotionToProduct(productID, promotionID);
-        res.status(200).json({ message: 'Promotion have been apply successfully!!' });
+        const { productIDs, promotionID } = req.body;
+        const result = await promotionService.applyPromotionToProducts(productIDs, promotionID);
+        res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
-
+}
 const getCurrentProductsHavingPromotion = async (req, res) => {
     promotionService.getCurrentProductsHavingPromotion()
         .then(result => res.status(201).json(result))
-        .catch(err => res.status(500).json({ message: err.message })
-        );
+        .catch(err => res.status(500).json({ message: err.message }));
 }
 
 

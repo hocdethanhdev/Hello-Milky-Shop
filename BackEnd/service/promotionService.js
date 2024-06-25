@@ -24,8 +24,20 @@ const promotionService = {
     getProductsApplyAnPromotion: async (promotionID) => {
         return await promotionRepository.getProductsApplyAnPromotion(promotionID);
     },
-    applyPromotionToProduct: async (productID, promotionID) => {
-        return await promotionRepository.applyPromotionToProduct(productID, promotionID);
+    applyPromotionToProducts: async (productIDs, promotionID) => {
+        try {
+            await promotionRepository.deleteProductPromotionsByPromotionID(promotionID);
+            await promotionRepository.insertProductPromotions(productIDs, promotionID);
+
+            // Update PriceAfterDiscount for each product
+            for (let productID of productIDs) {
+                await promotionRepository.updateProductPriceAfterDiscount(productID, promotionID);
+            }
+
+            return { message: 'Promotion applied successfully to the specified products!' };
+        } catch (error) {
+            throw new Error('Error applying promotion to products: ' + error.message);
+        }
     },
     getCurrentProductsHavingPromotion: async () => {
         return await promotionRepository.getCurrentProductsHavingPromotion();
