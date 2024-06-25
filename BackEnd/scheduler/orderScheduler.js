@@ -8,7 +8,6 @@ cron.schedule('0 0 * * *', async () => {
         const oldStatus = 2;
         const newStatus = 3;
         await orderService.updateStatusAfterDays(days, oldStatus, newStatus);
-        console.log('Order statuses updated successfully.');
     } catch (error) {
         console.error(`Error updating order statuses: ${error.message}`);
     }

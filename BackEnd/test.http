@@ -33,12 +33,10 @@ GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
 GET http://localhost:5000/api/v1/order/countOrdersIn7Days
 
 ### count don hang theo statusOrderID
-GET http://localhost:5000/api/v1/order/countOrdersByStatusOrderID
-Content-Type: application/json
+GET http://localhost:5000/api/v1/order/countOrdersByStatusOrderID/1
 
-{
-    "statusOrderID": "1"
-}
+### count tong don hang
+GET http://localhost:5000/api/v1/order/countOrdersPayed
 
 ### dem don hang moi
 GET http://localhost:5000/api/v1/order/countNewOrders
@@ -546,4 +544,10 @@ GET http://localhost:5000/api/v1/article/getAuthorName/
 GET http://localhost:5000/api/v1/shippingAddress/getShippingAddressIsDeleted/
 ### update IsDeleted bằng 
 PUT http://localhost:5000/api/v1/shippingAddress/updateDeleted/1
+### lấy thông tin giao hàng statusorderID mặc định là 2
+POST http://localhost:5000/api/v1/order/getInfoToShip
+Content-Type: application/json
 
+{
+    "StatusOrderID": 2
+}

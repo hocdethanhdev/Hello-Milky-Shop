@@ -52,6 +52,8 @@ import News from "./components/users/news/News";
 import NewsDetail from "./components/users/news/NewsDetail";
 import ProductHot from "./components/users/news/ProductHot";
 import PaymentSuccess from "./components/users/shoppingcart/PaymenSuccess";
+import ChangePassword from "./components/users/profileaccount/ChangePassword";
+import Shipping from "./components/shipping/shipping";
 
 function App() {
   const { role } = useSelector((state) => state.auth);
@@ -106,10 +108,11 @@ function App() {
         <Route path="/sua-cho-me" element={<ListProductMomScreen />} />
         <Route path="/RichTextEditor" element={<RichTextEditor />} />
         <Route path="/ResetPassword" element={<ResetPassword />} />
-        <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/News" element={<News />} />
         <Route path="/NewsDetail/:id" element={<NewsDetail />} />
         <Route path="/ProductHot" element={<ProductHot />} />
+        <Route path="/ChangePassword" element={<ChangePassword/>} />
+        <Route path="/Shipping" element={<Shipping/>} />
       </Routes>
     ),
     []

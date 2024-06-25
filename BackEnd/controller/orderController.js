@@ -1,5 +1,24 @@
 const orderService = require('../service/orderService');
 
+const countOrdersPayed = async (req, res) => {
+    try {
+        const orders = await orderService.countOrdersPayed();
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const getInfoToShip = async (req, res) => {
+    try {
+        const {StatusOrderID} = req.body;
+        const orders = await orderService.getInfoToShip(StatusOrderID);
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 const countOrdersIn7Days = async (req, res) => {
     try {
         const orders = await orderService.countOrdersIn7Days();
@@ -11,7 +30,7 @@ const countOrdersIn7Days = async (req, res) => {
 
 const countOrdersByStatusOrderID = async (req, res) => {
     try {
-        const { statusOrderID } = req.body;
+        const statusOrderID = req.params.id;
         const orders = await orderService.countOrdersByStatusOrderID(statusOrderID);
         res.status(200).json(orders);
     } catch (error) {
@@ -290,4 +309,6 @@ module.exports = {
     updateTotalAmountOfOrder,
     updateShippingAddressID,
     getReasonCancleOrderByUserID,
+    getInfoToShip,
+    countOrdersPayed,
 };

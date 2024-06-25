@@ -4,6 +4,49 @@ const Order = require("../bo/order");
 const ShippingAddress = require("../bo/shippingAddress");
 
 const orderDAO = {
+
+  countOrdersPayed: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT count(OrderID) as count
+          FROM Orders o
+          WHERE Status = 1;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({
+              err: res?.recordset[0] !== null ? 0 : 1,
+              count: res.recordset[0].count
+            });
+          }
+        );
+      });
+    });
+  },
+  getInfoToShip: (StatusOrderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input("StatusOrderID", mssql.Int, StatusOrderID);
+        request.query(
+          `SELECT OrderID, UserName, u.PhoneNumber, sa.Address
+          FROM Orders o
+          JOIN Users u ON u.UserID = o.UserID
+          JOIN ShippingAddress sa ON sa.ShippingAddressID = o.ShippingAddressID
+          WHERE StatusOrderID = @StatusOrderID;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({
+              err: res?.recordset[0] !== null ? 0 : 1,
+              data: res.recordset ?? null
+            });
+          }
+        );
+      });
+    });
+  },
   getUserIDFromOrderID: (OrderID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -817,7 +860,7 @@ const orderDAO = {
 
         request.query(updateQuery, (err, result) => {
           if (err) return reject(err);
-          z
+          resolve(result);
         });
       });
     });
