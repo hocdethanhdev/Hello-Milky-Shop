@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Bigsales.css";
 import { Link } from "react-router-dom";
 import NavCate from "../product/ui-product-mom/NavCate";
+import StarRating from "../product/ui-list-product-mom/StarRating";
 
 const fetchPromotions = async () => {
   try {
@@ -26,6 +27,10 @@ const fetchPromotions = async () => {
   }
 };
 
+const formatPrice = (price) => {
+  return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+};
+
 const fetchProducts = async () => {
   try {
     const response = await fetch("http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion");
@@ -39,6 +44,7 @@ const fetchProducts = async () => {
       name: product.ProductName,
       description: product.Description,
       price: product.Price,
+      priceAf: product.PriceAfterDiscounts,
       imageUrl: product.Image,
       stockQuantity: product.StockQuantity,
     }));
@@ -108,12 +114,22 @@ function Bigsales() {
                           <a href={`/product/${product.id}`} title={product.name} target="_blank">{product.name}</a>
                           <span className="barCode">Mã SP: {product.id}</span>
                         </div>
+                        <div className="saoduoithinh">
+                          <StarRating productId={product.id} />
+                        </div>
                         <div className="money">
-                          <span className="moneyText">{product.price}đ</span>
+                          <span className="moneyText">{formatPrice(product.priceAf)}đ</span>
                           {/* Assuming there is an original price, we can show the discounted price */}
-                          <span className="moneyText2">{(product.price * 1.1).toFixed(0)}đ</span> {/* Placeholder for original price */}
+                          <span className="moneyText2">{formatPrice(product.price)}đ</span> {/* Placeholder for original price */}
                         </div>
                       </div>
+                      <span className="discount">
+                        -
+                        {formatPrice(
+                          (product.price - product.priceAf) / 1000
+                        )}
+                        K
+                      </span>
                     </div>
                   ))}
                 </div>

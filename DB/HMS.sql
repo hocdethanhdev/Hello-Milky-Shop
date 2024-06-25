@@ -222,7 +222,7 @@ AS
     DECLARE @nextID INT; -- Số tự tăng
 
     -- Lấy RoleID của bản ghi vừa chèn
-    SET @prefix = (SELECT CASE WHEN RoleID = 1 THEN 'A' WHEN RoleID = 2 THEN 'S' ELSE 'M' END FROM inserted);
+    SET @prefix = (SELECT CASE WHEN RoleID = 1 THEN 'A' WHEN RoleID = 2 THEN 'S' WHEN RoleID = 4 THEN 'P' ELSE 'M' END FROM inserted);
 
     -- Lấy số tự tăng cho UserID
     SET @nextID = (SELECT ISNULL(MAX(CAST(SUBSTRING(UserID, 2, 7) AS INT)), 0) + 1 FROM Users WHERE SUBSTRING(UserID, 1, 1) = @prefix);
