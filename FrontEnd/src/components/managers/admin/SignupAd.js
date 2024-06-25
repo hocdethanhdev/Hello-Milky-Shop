@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import "./Signup.css";
+import "./SignupAd.css";
 import axios from "axios";
 import { MDBContainer, MDBCard, MDBCardBody, MDBInput } from "mdb-react-ui-kit";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
-function Signup() {
+function SignupAd() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -222,4 +222,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default SignupAd;
