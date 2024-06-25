@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Modal, Button } from "antd";
+import 'antd/dist/reset.css';
+
 import "./shipping.css";
 
 function Shipping() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [confirmingOrderId, setConfirmingOrderId] = useState(null);
 
   useEffect(() => {
     fetchOrders();
@@ -31,25 +36,32 @@ function Shipping() {
     }
   };
 
-  const handleConfirm = async (orderId) => {
+  const handleConfirm = (orderId) => {
+    setConfirmingOrderId(orderId);
+    setModalVisible(true);
+  };
+
+  const handleModalOk = async () => {
     try {
-     const response= await axios.post(
-      `http://localhost:5000/api/v1/order/updateStatusOrderID/${orderId}`,
-      {
-        statusOrderID: 5,
-      }
-    
-    );
-    console.log(response);
-     
-     
-      
+      const response = await axios.post(
+        `http://localhost:5000/api/v1/order/updateStatusOrderID/${confirmingOrderId}`,
+        {
+          statusOrderID: 5,
+        }
+      );
+
+      console.log(response);
 
       // Update the local state to reflect the changes
-      setOrders(orders.filter((order) => order.OrderID !== orderId));
+      setOrders(orders.filter((order) => order.OrderID !== confirmingOrderId));
+      setModalVisible(false);
     } catch (error) {
       console.error("Error updating order status:", error);
     }
+  };
+
+  const handleModalCancel = () => {
+    setModalVisible(false);
   };
 
   if (loading) {
@@ -78,7 +90,8 @@ function Shipping() {
               <td>
                 <button
                   className="btn btn-success"
-                  onClick={() => handleConfirm(order.OrderID)}>
+                  onClick={() => handleConfirm(order.OrderID)}
+                >
                   Xác nhận
                 </button>
               </td>
@@ -86,6 +99,17 @@ function Shipping() {
           ))}
         </tbody>
       </table>
+
+      <Modal
+        title="Xác nhận"
+        visible={modalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        okText="Xác nhận"
+        cancelText="Hủy"
+      >
+        <p>Bạn chắc chắn muốn xác nhận đơn hàng này?</p>
+      </Modal>
     </div>
   );
 }
