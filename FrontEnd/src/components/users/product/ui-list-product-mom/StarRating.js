@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./StarRating.css";
+
 const StarRating = ({ productId }) => {
     const [ratingData, setRatingData] = useState({ count: 0, avg: 0 });
 
@@ -21,15 +21,19 @@ const StarRating = ({ productId }) => {
         fetchRatingData();
     }, [productId]);
 
-    const roundedAvg = Math.round(ratingData.avg * 10) / 10;
-    const fullStars = Math.floor(roundedAvg);
-    const halfStar = (roundedAvg - fullStars) >= 0.5 ? 1 : 0;
-    const emptyStars = 5 - fullStars - halfStar;
+    const fullStars = Math.floor(ratingData.avg);
+    const fractionalPart = ratingData.avg % 1;
+    let hasHalfStar = 0;
+    if (fractionalPart >= 0.5) {
+        hasHalfStar = 1;
+    }
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
     return (
         <div className='hangsao-thinh'>
             <div className='sao-thinh-render'>
                 {'★'.repeat(fullStars)}
+                {hasHalfStar ? '★' : ''}
                 {'☆'.repeat(emptyStars)}
             </div>
             <p className='psao'>({ratingData.count})</p>

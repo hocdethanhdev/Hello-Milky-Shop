@@ -92,3 +92,6 @@ table tbody tr:nth-child(even) {
 .page-dot.active {
   background-color: #717171;
 }
+.pagination-container-cf {
+  padding-left: 500px;
+}
