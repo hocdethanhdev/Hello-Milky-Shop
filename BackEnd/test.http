@@ -543,4 +543,10 @@ GET http://localhost:5000/api/v1/article/getAuthorName/
 GET http://localhost:5000/api/v1/shippingAddress/getShippingAddressIsDeleted/
 ### update IsDeleted bằng 
 PUT http://localhost:5000/api/v1/shippingAddress/updateDeleted/1
+### lấy thông tin giao hàng statusorderID mặc định là 2
+POST http://localhost:5000/api/v1/order/getInfoToShip
+Content-Type: application/json
 
+{
+    "StatusOrderID": 2
+}
