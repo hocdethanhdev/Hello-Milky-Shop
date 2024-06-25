@@ -1,0 +1,40 @@
+.shipping-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+  }
+  
+  .shipping-table th,
+  .shipping-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .shipping-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .shipping-table tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .shipping-button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .shipping-button.save {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+.shipping-content {
+    padding: 20px;
+}
+
+  

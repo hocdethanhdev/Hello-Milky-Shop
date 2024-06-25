@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown ,faCaretUp} from '@fortawesome/free-solid-svg-icons';
 function Sidebar() {
   const [dropDown, setDropDown] = useState(false);
   const location = useLocation();
@@ -35,6 +36,10 @@ function Sidebar() {
             style={{ width: "24px", marginRight: "2px" }}
           />
           Quản lí đơn hàng
+          <FontAwesomeIcon 
+          icon={dropDown ? faCaretUp : faCaretDown} 
+          style={{ marginLeft: "5px" }} 
+        />
         </a>
         {dropDown && (
           <div className="dropdown-content-st-thinh">
