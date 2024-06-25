@@ -74,14 +74,14 @@ function Combo2() {
                   )}
                 </div>
                 <img src={product.Image} alt={product.ProductName} />
-                <div className="combo-details-1">
+                <div className="combo-details">
                   <h3>{product.ProductName}</h3>
                   {product.PriceAfterDiscounts !== product.Price ? (
                     <div className="gia">
                       <p className="discounted-price">
                         {formatPrice(product.PriceAfterDiscounts)}
                       </p>
-                      <p className="original-price-1">
+                      <p className="original-price">
                         {formatPrice(product.Price)}
                       </p>
                     </div>
