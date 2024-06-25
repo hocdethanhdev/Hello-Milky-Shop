@@ -277,7 +277,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:5000/api/v1/promotion/deletePromotion/8
+DELETE http://localhost:5000/api/v1/promotion/deletePromotion/8
 
 
 ###
