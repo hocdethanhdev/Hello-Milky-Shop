@@ -25,10 +25,8 @@ import MangageAdmin from "./components/managers/admin/ManageAdmin";
 import ManageStaff from "./components/managers/admin/ManageStaff";
 import ManageMember from "./components/managers/admin/ManageMember";
 import SignupSt from "./components/managers/admin/SignupSt";
-import SignupMem from "./components/managers/admin/SignupMem";
 import AdminSlidebar from "./components/managers/admin/AdminSlidebar";
 import SignupAd from "./components/managers/admin/SignupAd";
-
 // User Components
 import Product1 from "./components/users/homepage/Product1";
 import Login from "./components/account/Login";
@@ -54,6 +52,10 @@ import ProductHot from "./components/users/news/ProductHot";
 import PaymentSuccess from "./components/users/shoppingcart/PaymenSuccess";
 import ChangePassword from "./components/users/profileaccount/ChangePassword";
 import Shipping from "./components/shipping/shipping";
+import CancelOrder from "./components/managers/staff/CancelOrder";
+import ShippingOrder from "./components/managers/staff/ShippingOrder";
+import ShippedOrder from "./components/managers/staff/ShippedOrder";
+import DoneOrder from "./components/managers/staff/DoneOrder";
 
 function App() {
   const { role } = useSelector((state) => state.auth);
@@ -76,7 +78,11 @@ function App() {
             <Route path="/addingpost" element={<PostsAdd />} />
             <Route path="/promotionmanage" element={<PromotionManage />} />
             <Route path="/addpromotion" element={<AddPromotion />} />
-            <Route path="/feedbackManage" element={<FeedbackManage/>} />
+            <Route path="/feedbackManage" element={<FeedbackManage />} />
+            <Route path="/cancel-order" element={<CancelOrder />} />
+            <Route path="/order-in-transit" element={<ShippingOrder />} />
+            <Route path="/delivered-order" element={<ShippedOrder />} />
+            <Route path="/completed-order" element={<DoneOrder />} />
           </Routes>
         </div>
       </div>
@@ -111,8 +117,7 @@ function App() {
         <Route path="/News" element={<News />} />
         <Route path="/NewsDetail/:id" element={<NewsDetail />} />
         <Route path="/ProductHot" element={<ProductHot />} />
-        <Route path="/ChangePassword" element={<ChangePassword/>} />
-        <Route path="/Shipping" element={<Shipping/>} />
+        <Route path="/ChangePassword" element={<ChangePassword />} />
       </Routes>
     ),
     []
@@ -128,8 +133,19 @@ function App() {
             <Route path="/manage-staff" element={<ManageStaff />} />
             <Route path="/adding-account-admin" element={<SignupAd />} />
             <Route path="/adding-account-staff" element={<SignupSt />} />
-            <Route path="/adding-account-member" element={<SignupMem />} />
             <Route path="/manage-member" element={<ManageMember />} />
+          </Routes>
+        </div>
+      </div>
+    ),
+    []
+  );
+  const shipperRoutes = useMemo(
+    () => (
+      <div className="d-flex">
+        <div className="content flex-grow-1">
+          <Routes>
+            <Route path="/" element={<Shipping />} />
           </Routes>
         </div>
       </div>
@@ -140,7 +156,13 @@ function App() {
     <div>
       <Router>
         <Header />
-        {role === 1 ? adminRoutes : role === 2 ? staffRoutes : defaultRoutes}
+        {role === 1
+          ? adminRoutes
+          : role === 2
+          ? staffRoutes
+          : role === 4
+          ? shipperRoutes
+          : defaultRoutes}
 
         <Footer />
       </Router>

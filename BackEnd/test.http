@@ -272,12 +272,12 @@ POST http://localhost:5000/api/v1/promotion/applyPromotionToProduct
 Content-Type: application/json
 
 {
-    "productID": "SE0001",
-    "promotionID": 1
+    "productIDs": ["SE0004", "SE0005", "SE0006"],
+    "promotionID": 4
 }
 
 ###
-PUT http://localhost:5000/api/v1/promotion/deletePromotion/8
+DELETE http://localhost:5000/api/v1/promotion/deletePromotion/8
 
 
 ###

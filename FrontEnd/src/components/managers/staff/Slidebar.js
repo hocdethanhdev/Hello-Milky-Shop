@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown ,faCaretUp} from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 function Sidebar() {
   const [dropDown, setDropDown] = useState(false);
   const location = useLocation();
@@ -38,10 +38,10 @@ function Sidebar() {
             className="icon-staff-slidebar"
           />
           Quản lí đơn hàng
-          <FontAwesomeIcon 
-          icon={dropDown ? faCaretUp : faCaretDown} 
-          style={{ marginLeft: "5px" }} 
-        />
+          <FontAwesomeIcon
+            icon={dropDown ? faCaretUp : faCaretDown}
+            style={{ marginLeft: "5px" }}
+          />
         </a>
         {dropDown && (
           <div className="dropdown-content-st-thinh">
@@ -56,6 +56,54 @@ function Sidebar() {
                 className="icon-staff-slidebar"
               />{" "}
               Xác nhận đơn hàng
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
+              to="/cancel-order"
+            >
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
+                alt="Confirm Icon"
+                style={{ width: "24px" }}
+                className="icon-staff-slidebar"
+              />{" "}
+              Đơn hàng đã hủy
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
+              to="/order-in-transit"
+            >
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
+                alt="Confirm Icon"
+                style={{ width: "24px" }}
+                className="icon-staff-slidebar"
+              />{" "}
+              Đơn hàng đang giao
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
+              to="/delivered-order"
+            >
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
+                alt="Confirm Icon"
+                style={{ width: "24px" }}
+                className="icon-staff-slidebar"
+              />{" "}
+              Đơn hàng đã giao
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
+              to="/completed-order"
+            >
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
+                alt="Confirm Icon"
+                style={{ width: "24px" }}
+                className="icon-staff-slidebar"
+              />{" "}
+              Đơn hàng đã hoàn thành
             </NavLink>
           </div>
         )}

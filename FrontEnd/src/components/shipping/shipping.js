@@ -1,61 +1,115 @@
 import React, { useEffect, useState } from "react";
-import './shipping.css';  // Import the CSS file
 import axios from "axios";
+import { Modal, Button } from "antd";
+import 'antd/dist/reset.css';
 
+import "./shipping.css";
 
 function Shipping() {
-  const [orders, setOrders] = useState([
-    { id: 1, orderCode: "ORD123", customerName: "John Doe",phoneNumber: "0348216719", address: "123 Main St", status: "Pending" },
-    { id: 2, orderCode: "ORD124", customerName: "Jane Smith", phoneNumber: "0348216719",address: "456 Elm St", status: "Shipped" },
-    // Add more orders as needed
-  ]);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [confirmingOrderId, setConfirmingOrderId] = useState(null);
 
-//   useEffect(() => {
-//     axios
-//       .get("")
-//       .then((response) => {
-//         setArticles(response.data);
-//       })
-//       .catch((error) => {
-//         console.error("There was an error fetching the shipping order!", error);
-//       });
-//   }, []);
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
-  const handleSave = (order) => {
-    // Implement save functionality
-    alert(`Save clicked for order ${order.orderCode}`);
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/order/getInfoToShip",
+        {
+          StatusOrderID: 2,
+        }
+      );
+
+      if (response.data.err === 0) {
+        setOrders(response.data.data);
+      } else {
+        console.error("Unexpected response data:", response.data);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      setLoading(false);
+    }
   };
 
+  const handleConfirm = (orderId) => {
+    setConfirmingOrderId(orderId);
+    setModalVisible(true);
+  };
+
+  const handleModalOk = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/v1/order/updateStatusOrderID/${confirmingOrderId}`,
+        {
+          statusOrderID: 5,
+        }
+      );
+
+      console.log(response);
+
+      // Update the local state to reflect the changes
+      setOrders(orders.filter((order) => order.OrderID !== confirmingOrderId));
+      setModalVisible(false);
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    }
+  };
+
+  const handleModalCancel = () => {
+    setModalVisible(false);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="shipping-content">
-     
-      <table className="shipping-table">
+    <div className="table-container">
+      <table>
         <thead>
           <tr>
             <th>Mã đơn hàng</th>
-            <th>Tên khách hàng</th>
+            <th>Tên người đặt</th>
             <th>Số điện thoại</th>
             <th>Địa chỉ</th>
-            <th>Trạng thái đơn hàng</th>
-            <th>Actions</th>
+            <th>Thao tác</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.id}>
-              <td>{order.orderCode}</td>
-              <td>{order.customerName}</td>
-              <td>{order.phoneNumber}</td>
-              <td>{order.address}</td>
-              <td>{order.status}</td>
+            <tr key={order.OrderID}>
+              <td>{order.OrderID}</td>
+              <td>{order.UserName}</td>
+              <td>{order.PhoneNumber}</td>
+              <td>{order.Address}</td>
               <td>
-                <button className="shipping-button save" onClick={() => handleSave(order)}>Save</button>
-               
+                <button
+                  className="btn btn-success"
+                  onClick={() => handleConfirm(order.OrderID)}
+                >
+                  Xác nhận
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      <Modal
+        title="Xác nhận"
+        visible={modalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        okText="Xác nhận"
+        cancelText="Hủy"
+      >
+        <p>Bạn chắc chắn muốn xác nhận đơn hàng này?</p>
+      </Modal>
     </div>
   );
 }
