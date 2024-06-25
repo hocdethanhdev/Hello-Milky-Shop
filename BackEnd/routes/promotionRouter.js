@@ -18,6 +18,8 @@ router.get('/getCurrentProductsHavingPromotion', promotionController.getCurrentP
 
 router.get('/getPromotionByDate', promotionController.getPromotionByDate)
 
+router.delete('/deletePromotion/:promotion_id', promotionController.deletePromotion);
+
 module.exports = router
 
 

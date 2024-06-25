@@ -43,6 +43,9 @@ const promotionService = {
         return await promotionRepository.getCurrentProductsHavingPromotion();
     },
 
+    deletePromotion: async (promotion_id) => {
+        return await promotionRepository.deletePromotion(promotion_id);
+    },
 };
 
 module.exports = promotionService;
