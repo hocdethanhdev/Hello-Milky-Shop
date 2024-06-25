@@ -272,6 +272,14 @@ const getTop6MilkForBaby = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+const getTop5ProductBestSellerForUser = async (req, res) => {
+  try {
+    const obj = await productService.getTop5ProductBestSellerForUser();
+    res.status(200).json(obj)
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+}
 
 module.exports = {
   getAllProducts,
@@ -298,4 +306,5 @@ module.exports = {
   countBrand,
   getTop5ProductBestSeller,
   getAllProductForUser,
+  getTop5ProductBestSellerForUser
 };

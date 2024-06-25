@@ -56,4 +56,6 @@ router.get('/getTop5ProductBestSeller', productController.getTop5ProductBestSell
 
 router.get('/getAllProductForUser', productController.getAllProductForUser);
 
+router.get('/getTop5ProductBestSellerForUser', productController.getTop5ProductBestSellerForUser);
+
 module.exports = router;
