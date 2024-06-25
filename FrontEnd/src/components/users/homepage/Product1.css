@@ -103,9 +103,7 @@
 
 .item {
   border: 1px solid #ddd;
-  flex-basis: calc(
-    20% - 20px
-  ); /* Tính toán flex-basis để tránh cách biệt quá lớn */
+  flex-basis: calc(20% - 20px); /* Tính toán flex-basis để tránh cách biệt quá lớn */
   margin: 10px;
   position: relative;
 }
@@ -200,7 +198,7 @@
 
 .combo-1f-header {
   align-items: center;
-  background-color: rgb(255 0 0 / 70%);
+  background-color: #248dfd;
   height: 120px;
   width: 30%;
   margin-top: 20px;
@@ -351,7 +349,7 @@
 
 .combo-2f-header {
   align-items: center;
-  background-color: rgb(255 145 0);
+  background-color: #ff4500;
   height: 120px;
   width: 30%;
   margin-top: 20px;
@@ -535,7 +533,9 @@
   color: white;
   padding: 10px 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -565,7 +565,8 @@
 }
 
 .giasoc-store h1 {
-  color: #ff7e5f;
+  color: #ff6b00;
+  font-weight: bolder;
 }
 
 .voucher-store {
