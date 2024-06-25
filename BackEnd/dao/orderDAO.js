@@ -839,7 +839,7 @@ const orderDAO = {
 
         request.query(updateQuery, (err, result) => {
           if (err) return reject(err);
-          z
+          resolve(result);
         });
       });
     });
