@@ -25,7 +25,7 @@ function Giasoc() {
     )
       .then((response) => response.json())
       .then((data) => {
-        setProducts(data);
+        setProducts(data.productsWithPromotion);
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
