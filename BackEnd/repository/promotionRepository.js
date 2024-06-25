@@ -22,16 +22,25 @@ const promotionRepository = {
     getProductsApplyAnPromotion: async (promotionID) => {
         return await promotionDAO.getProductsApplyAnPromotion(promotionID);
     },
-    applyPromotionToProduct: async (productID, promotionID) => {
-        return await promotionDAO.applyPromotionToProduct(productID, promotionID);
-    },
     getAllPromotions: async () => {
         return await promotionDAO.getAllPromotions();
+    },
+    deleteProductPromotionsByPromotionID: async (promotionID) => {
+        return await promotionDAO.deleteProductPromotionsByPromotionID(promotionID);
+    },
+    insertProductPromotions: async (productIDs, promotionID) => {
+        return await promotionDAO.insertProductPromotions(productIDs, promotionID);
+    },
+    updateProductPriceAfterDiscount: async (productID, promotionID) => {
+        return await promotionDAO.updateProductPriceAfterDiscount(productID, promotionID);
     },
     getCurrentProductsHavingPromotion: async () => {
         return await promotionDAO.getCurrentProductsHavingPromotion();
     },
 
+    deletePromotion: async (promotion_id) => {
+        return await promotionDAO.deletePromotions(promotion_id);
+    },
 
 };
 

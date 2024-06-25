@@ -1,6 +1,6 @@
 use HelloMilkyShop
 go
-INSERT INTO Role VALUES ('Admin'), ('Staff'), ('Member')
+INSERT INTO Role VALUES ('Admin'), ('Staff'), ('Member'), ('Shipper')
 go
 INSERT INTO ArticleCategory VALUES (N'Sức Khỏe'), (N'Tin khuyến mãi'), (N'Tư vấn mua sắm')
 go

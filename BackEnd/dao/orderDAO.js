@@ -4,6 +4,27 @@ const Order = require("../bo/order");
 const ShippingAddress = require("../bo/shippingAddress");
 
 const orderDAO = {
+
+  countOrdersPayed: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT count(OrderID) as count
+          FROM Orders o
+          WHERE Status = 1;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({
+              err: res?.recordset[0] !== null ? 0 : 1,
+              count: res.recordset[0].count
+            });
+          }
+        );
+      });
+    });
+  },
   getInfoToShip: (StatusOrderID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -519,7 +540,7 @@ const orderDAO = {
           // Update order status
           const updateOrderQuery = `
                     UPDATE Orders
-                    SET status = 1, StatusOrderID = 1
+                    SET status = 1, StatusOrderID = 1, OrderDate = GETDATE()
                     WHERE orderID = @orderID;
                 `;
 

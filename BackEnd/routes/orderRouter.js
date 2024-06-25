@@ -43,7 +43,9 @@ router.get('/getOpenOrderForUser/:id', orderController.getOpenOrderForUser);
 //Thêm thông tin cus vào đơn hàng
 router.post('/addInfoCusToOrder', orderController.addInfoCusToOrder);
 
-router.get('/countOrdersByStatusOrderID', orderController.countOrdersByStatusOrderID);
+router.get('/countOrdersByStatusOrderID/:id', orderController.countOrdersByStatusOrderID);
+
+router.get('/countOrdersPayed', orderController.countOrdersPayed);
 
 router.get('/countNewOrders', orderController.countNewOrders);
 
