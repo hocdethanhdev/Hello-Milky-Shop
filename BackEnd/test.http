@@ -33,12 +33,10 @@ GET http://localhost:5000/api/v1/user/getUserByID?UserID=M0000001
 GET http://localhost:5000/api/v1/order/countOrdersIn7Days
 
 ### count don hang theo statusOrderID
-GET http://localhost:5000/api/v1/order/countOrdersByStatusOrderID
-Content-Type: application/json
+GET http://localhost:5000/api/v1/order/countOrdersByStatusOrderID/1
 
-{
-    "statusOrderID": "1"
-}
+### count tong don hang
+GET http://localhost:5000/api/v1/order/countOrdersPayed
 
 ### dem don hang moi
 GET http://localhost:5000/api/v1/order/countNewOrders

@@ -4,6 +4,10 @@ const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
 
+    countOrdersPayed: async () => {
+        return await orderRepository.countOrdersPayed();
+    },
+
     getInfoToShip: async (StatusOrderID) => {
         return await orderRepository.getInfoToShip(StatusOrderID);
     },
