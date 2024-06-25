@@ -25,10 +25,8 @@ import MangageAdmin from "./components/managers/admin/ManageAdmin";
 import ManageStaff from "./components/managers/admin/ManageStaff";
 import ManageMember from "./components/managers/admin/ManageMember";
 import SignupSt from "./components/managers/admin/SignupSt";
-import SignupMem from "./components/managers/admin/SignupMem";
 import AdminSlidebar from "./components/managers/admin/AdminSlidebar";
 import SignupAd from "./components/managers/admin/SignupAd";
-
 // User Components
 import Product1 from "./components/users/homepage/Product1";
 import Login from "./components/account/Login";
@@ -135,7 +133,6 @@ function App() {
             <Route path="/manage-staff" element={<ManageStaff />} />
             <Route path="/adding-account-admin" element={<SignupAd />} />
             <Route path="/adding-account-staff" element={<SignupSt />} />
-            <Route path="/adding-account-member" element={<SignupMem />} />
             <Route path="/manage-member" element={<ManageMember />} />
           </Routes>
         </div>
