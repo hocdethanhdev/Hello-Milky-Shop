@@ -62,25 +62,22 @@ const PaymemSuccess = () => {
             "http://localhost:5000/api/v1/voucher/removeVoucherFromUser",
             {
               userID: getUserIdFromToken(token),
-              voucherID: parseInt(voucher)
+              voucherID: parseInt(voucher),
             }
           );
 
           localStorage.removeItem("selectedVoucher");
         }
 
-        const usePoints = Boolean.parse(localStorage.getItem('usePoints'));
-        if (usePoints) {
-          await axios.put(
-            "http://localhost:5000/api/v1/user/usePoint",
-            {
-              UserID: getUserIdFromToken(token)
-            }
-          );
+        const usePoints = localStorage.getItem("usePoints");
+        console.log(usePoints);
+        if (usePoints === "true") {
+          await axios.put("http://localhost:5000/api/v1/user/usePoint", {
+            UserID: getUserIdFromToken(token),
+          });
 
+          localStorage.removeItem("usePoint");
         }
-        localStorage.removeItem('usePoint')
-
         alert("Giao dịch thành công");
       } catch (err) {
         console.error("Error fetching:", err);
