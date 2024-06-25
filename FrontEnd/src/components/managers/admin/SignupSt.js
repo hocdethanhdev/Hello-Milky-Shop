@@ -93,28 +93,12 @@ function Signup() {
           UserName: formData.name,
           PhoneNumber: formData.phone,
           Password: formData.password,
-          Role: 2,
+          RoleID: 2,
         }
       );
 
       if (response.data.err === 0) {
-        const login = await axios.post(
-          "http://localhost:5000/api/v1/auth/login",
-          {
-            PhoneNumber: formData.phone,
-            Password: formData.password,
-          }
-        );
-        if (login.data.err === 0) {
-          window.open(
-            `http://localhost:5000/api/v1/auth/loginSuccess?token=${login.data.token}`,
-            "_self"
-          );
-        } else if (response.data.err === 1) {
-          setMessage("Số điện thoại " + formData.phone + " chưa được đăng kí");
-        } else {
-          setMessage("Sai mật khẩu");
-        }
+        alert("Đăng kí thành công")
       } else if (response.data.err === 2) {
         setMessage("An account with this phone number already exists.");
       }
