@@ -509,3 +509,15 @@ body {
   padding-bottom: 0px;
   /* Thêm khoảng cách dưới nếu cần */
 }
+
+.address-input-long {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  resize: vertical;
+  min-height: 60px;
+  max-height: 150px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+}

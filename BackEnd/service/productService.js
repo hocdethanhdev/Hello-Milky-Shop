@@ -81,6 +81,9 @@ const productService = {
   getTop6MilkForBaby : async () => {
     return await productRepository.getTop6MilkForBaby();
   },
+  getTop5ProductBestSellerForUser: async () => {
+    return await productRepository.getTop5ProductBestSellerForUser();
+  },
 };
 
 module.exports = productService;

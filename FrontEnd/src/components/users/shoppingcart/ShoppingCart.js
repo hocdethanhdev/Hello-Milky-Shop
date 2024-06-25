@@ -392,7 +392,7 @@ const ShoppingCart = () => {
         localStorage.setItem("totalAmount", totalAmount);
         localStorage.setItem("orderID", orderID);
         console.log(usePoints);
-        localStorage.setItem("usePoints", usePoints);        
+        localStorage.setItem("usePoints", usePoints);
 
         const response = await axios.post(
           "http://localhost:5000/api/v1/payment/create_payment_url",
@@ -468,13 +468,16 @@ const ShoppingCart = () => {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               disabled={usingSavedAddress}
+
             />
-            <input
+            <textarea
+              className="address-input-long"
               type="text"
               placeholder="Địa chỉ"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               disabled={usingSavedAddress}
+
             />
             {!usingSavedAddress &&
               <div>
@@ -482,6 +485,7 @@ const ShoppingCart = () => {
                   value={selectedCityID}
                   onChange={(e) => setSelectedCityID(e.target.value)}
                   disabled={usingSavedAddress}
+
                 >
                   <option value="">Chọn thành phố</option>
                   {cities.map((city) => (
@@ -494,6 +498,7 @@ const ShoppingCart = () => {
                   value={selectedDistrictID}
                   onChange={(e) => setSelectedDistrictID(e.target.value)}
                   disabled={usingSavedAddress}
+
                 >
                   <option value="">Chọn quận huyện</option>
                   {districts.map((district) => (

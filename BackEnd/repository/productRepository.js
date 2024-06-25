@@ -89,6 +89,9 @@ const productRepository = {
   getTop6MilkForBaby: async () => {
     return await productDAO.getTop6MilkForBaby();
   },
+  getTop5ProductBestSellerForUser: async() => {
+    return await productDAO.findTop5ProductBestSellerForUser();
+  },
 };
 
 module.exports = productRepository;
