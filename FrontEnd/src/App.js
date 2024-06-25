@@ -76,7 +76,7 @@ function App() {
             <Route path="/addingpost" element={<PostsAdd />} />
             <Route path="/promotionmanage" element={<PromotionManage />} />
             <Route path="/addpromotion" element={<AddPromotion />} />
-            <Route path="/feedbackManage" element={<FeedbackManage/>} />
+            <Route path="/feedbackManage" element={<FeedbackManage />} />
           </Routes>
         </div>
       </div>
@@ -111,8 +111,7 @@ function App() {
         <Route path="/News" element={<News />} />
         <Route path="/NewsDetail/:id" element={<NewsDetail />} />
         <Route path="/ProductHot" element={<ProductHot />} />
-        <Route path="/ChangePassword" element={<ChangePassword/>} />
-        <Route path="/Shipping" element={<Shipping/>} />
+        <Route path="/ChangePassword" element={<ChangePassword />} />
       </Routes>
     ),
     []
@@ -136,11 +135,29 @@ function App() {
     ),
     []
   );
+  const shipperRoutes = useMemo(
+    () => (
+      <div className="d-flex">
+        <div className="content flex-grow-1">
+          <Routes>
+            <Route path="/Shipping" element={<Shipping />} />
+          </Routes>
+        </div>
+      </div>
+    ),
+    []
+  );
   return (
     <div>
       <Router>
         <Header />
-        {role === 1 ? adminRoutes : role === 2 ? staffRoutes : defaultRoutes}
+        {role === 1
+          ? adminRoutes
+          : role === 2
+          ? staffRoutes
+          : role === 4
+          ? shipperRoutes
+          : defaultRoutes}
 
         <Footer />
       </Router>
