@@ -24,7 +24,7 @@ export default function ProductRating({ productID, userID }) {
             case 4:
                 return "Khá tốt";
             case 5:
-                return "Tuyệt cmn vời";
+                return "Tuyệt vời";
             default:
                 return "Đánh giá";
         }
@@ -36,9 +36,10 @@ export default function ProductRating({ productID, userID }) {
                 return "Bình luận..";
             case 1:
             case 2:
+                return "Bạn có vấn đề gì về sản phẩm";
             case 3:
             case 4:
-                return "Bạn có vấn đề gì về sản phẩm";
+                return "Bạn cảm thấy sản phẩm như thế nào";
             case 5:
                 return "Tại sao bạn thích nó?";
             default:

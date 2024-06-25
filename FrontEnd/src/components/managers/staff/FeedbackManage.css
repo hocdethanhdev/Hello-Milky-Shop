@@ -29,6 +29,7 @@
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
+    background-color: white;
 }
 
 .comment-header-thinh-cmt {
@@ -39,7 +40,7 @@
 .initial-thinh-cmt {
     width: 30px;
     height: 30px;
-    background-color: #007bff;
+    background-color: #0f7fc1;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -81,6 +82,7 @@
     margin: auto;
     margin-left: 2.5%;
     margin-right: 2.5%;
+    border: 1px solid #ccc;
 }
 
 .product-info-thinh-cmt img {
@@ -111,4 +113,7 @@
 }
 .bl-rep {
     width: 65%;
+}
+.chuyen-trang-fb {
+    padding-left: 550px;
 }

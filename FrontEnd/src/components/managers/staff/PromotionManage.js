@@ -70,13 +70,13 @@ function PromotionManage() {
         <thead className="promo-thead">
           <tr>
             <th className="promo-th">Stt</th>
-            <th className="promo-th">Promotion Name</th>
-            <th className="promo-th">Image</th>
-            <th className="promo-th">Description</th>
-            <th className="promo-th">Discount Percentage</th>
-            <th className="promo-th">Start Date</th>
-            <th className="promo-th">End Date</th>
-            <th className="promo-th">Actions</th>
+            <th className="promo-th">Tên khuyến mãi</th>
+            <th className="promo-th">Ảnh</th>
+            <th className="promo-th">Mô tả</th>
+            <th className="promo-th">Phần trăm giảm giá</th>
+            <th className="promo-th">Bắt đầu</th>
+            <th className="promo-th">Kết thúc</th>
+            <th className="promo-th">Thao tác</th>
           </tr>
         </thead>
         <tbody className="promo-tbody">

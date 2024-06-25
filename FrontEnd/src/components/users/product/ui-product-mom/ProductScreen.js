@@ -16,7 +16,7 @@ const ProductScreen = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [canRate, setCanRate] = useState(false); // State to control rating visibility
+    const [canRate, setCanRate] = useState(false);
     const { token, isLoggedIn } = useSelector((state) => state.auth);
     const userId = getUserIdFromToken(token);
 
