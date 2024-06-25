@@ -540,7 +540,7 @@ const orderDAO = {
           // Update order status
           const updateOrderQuery = `
                     UPDATE Orders
-                    SET status = 1, StatusOrderID = 1
+                    SET status = 1, StatusOrderID = 1, OrderDate = GETDATE()
                     WHERE orderID = @orderID;
                 `;
 
