@@ -140,7 +140,7 @@ function App() {
       <div className="d-flex">
         <div className="content flex-grow-1">
           <Routes>
-            <Route path="/Shipping" element={<Shipping />} />
+            <Route path="/" element={<Shipping/>} />
           </Routes>
         </div>
       </div>
