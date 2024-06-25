@@ -32,6 +32,9 @@ const promotionRepository = {
         return await promotionDAO.getCurrentProductsHavingPromotion();
     },
 
+    deletePromotion: async (promotion_id) => {
+        return await promotionDAO.deletePromotions(promotion_id);
+    },
 
 };
 

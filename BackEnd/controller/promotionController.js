@@ -65,6 +65,13 @@ const getCurrentProductsHavingPromotion = async (req, res) => {
         );
 }
 
+const deletePromotion = async (req, res) => {
+    promotionService.deletePromotion(req.params.promotion_id)
+        .then(result => res.status(201).json(result))
+        .catch(err => res.status(500).json({ message: err.message })
+        );
+}
+
 
 module.exports = {
     getAllPromotions,
@@ -74,5 +81,6 @@ module.exports = {
     getPromotionByDate,
     getProductsApplyAnPromotion,
     applyPromotionToProduct,
-    getCurrentProductsHavingPromotion
+    getCurrentProductsHavingPromotion,
+    deletePromotion
 };

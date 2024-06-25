@@ -246,6 +246,25 @@ const promotionDAO = {
       });
     });
   },
+
+  deletePromotions: (param_id) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        var request = new mssql.Request()
+          .input("PromotionID", param_id);
+        request.query(
+          `DELETE FROM Promotion WHERE PromotionID = @PromotionID;`,
+          (err, res) => {
+            if (err) reject(err);
+            resolve({
+              message: "Delete successfully"
+            });
+          }
+        );
+      });
+    });
+  },
+
 };
 
 module.exports = promotionDAO;

@@ -276,6 +276,9 @@ Content-Type: application/json
     "promotionID": 1
 }
 
+###
+PUT http://localhost:5000/api/v1/promotion/deletePromotion/8
+
 
 ###
 GET http://localhost:5000/api/v1/order/getAllOrders
