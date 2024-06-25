@@ -1,21 +1,22 @@
 .sidebar-container-st-thinh {
   width: 250px;
-  background-color: #ff9c1a; /* Darker shade */
+  background-color: rgb(255, 255, 255); /* Darker shade */
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Ensures the sidebar takes the full height of the viewport */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-st-thinh {
   width: 100%;
-  background-color: #ff9c1a; /* Darker shade */
+  background-color: rgb(255, 255, 255);
   color: white;
   display: flex;
   flex-direction: column;
 }
 
 .sidebar-st-thinh a {
-  color: white;
+  color: black;
   padding: 14px 20px;
   text-decoration: none;
   text-align: left;
@@ -25,12 +26,12 @@
 }
 
 .sidebar-st-thinh a:hover {
-  background-color: #ddd;
+  background-color: #9bd5f7;
   color: black;
 }
 
 .sidebar-st-thinh .active-st-thinh {
-  background-color: #ddd; /* Change to desired active color */
+  background-color: #5fbbf1; /* Change to desired active color */
   color: black; /* Change to desired active text color */
 }
 

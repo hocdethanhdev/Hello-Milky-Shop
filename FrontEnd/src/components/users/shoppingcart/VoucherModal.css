@@ -74,7 +74,7 @@
     color: #ff4933;
 }
 
-.btn-primary {
+/* .btn-primary {
     background-color: #ff4933;
     border-color: #ff4933;
 }
@@ -82,7 +82,7 @@
 .btn-primary:hover {
     background-color: #ff321f;
     border-color: #ff321f;
-}
+} */
 
 .close-btn-long {
     position: absolute;
@@ -102,4 +102,3 @@
     background-color: #ff0000;
     text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
 }
-

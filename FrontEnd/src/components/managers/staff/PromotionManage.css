@@ -1,6 +1,5 @@
 .promo-table-container {
-    
-    margin: auto;
+    margin: 15px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
@@ -16,7 +15,8 @@
     border-collapse: collapse;
 }
 
-.promo-th, .promo-td {
+.promo-th,
+.promo-td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -72,7 +72,7 @@
     cursor: pointer;
 }
 .page-button:hover {
-    background-color: rgb(95, 130, 234)
+    background-color: rgb(95, 130, 234);
 }
 .page-button:disabled {
     cursor: not-allowed;
@@ -80,7 +80,6 @@
 }
 
 .page-button.active {
-   
     color: black;
 }
 

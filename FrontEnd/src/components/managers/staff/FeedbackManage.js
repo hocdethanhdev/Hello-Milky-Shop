@@ -67,19 +67,21 @@ const FeedbackManage = () => {
   };
 
   return (
-    <div className="feedback-manage">
-      <div className="comments-section">
-        <h1>Danh sách Comment</h1>
+    <div className="feedback-manage-thinh-cmt">
+      <div className="comments-section-thinh-cmt">
         {comments.map(comment => (
           <Comment key={comment.CommentID} comment={comment} onSubmit={handleCommentSubmit} />
         ))}
       </div>
-      <ThrowPage
-        current={currentPage}
-        onChange={handlePageChange}
-        total={totalComments}
-        productsPerPage={commentsPerPage}
-      />
+      <div className='chuyen-trang-fb'>
+        <ThrowPage
+          current={currentPage}
+          onChange={handlePageChange}
+          total={totalComments}
+          productsPerPage={commentsPerPage}
+        />
+      </div>
+
       {notification && <Notification message={notification} />}
     </div>
   );
