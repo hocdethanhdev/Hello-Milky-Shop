@@ -40,6 +40,7 @@ const promotionDAO = {
       promotionObject.promotionName,
       promotionObject.description,
       promotionObject.discountPercentage,
+      promotionObject.image,
       promotionObject.startDate,
       promotionObject.endDate
     );
@@ -59,15 +60,16 @@ const promotionDAO = {
         }
 
         request
-          .input("promotionName", mssql.VarChar, promotion.promotionName)
-          .input("description", mssql.VarChar, promotion.description)
+          .input("promotionName", mssql.NVarChar, promotion.promotionName)
+          .input("description", mssql.NVarChar, promotion.description)
           .input("discountPercentage", mssql.Float, promotion.discountPercentage)
+          .input("image", mssql.VarChar, promotion.image)
           .input("startDate", mssql.DateTime, promotion.startDate)
           .input("endDate", mssql.DateTime, promotion.endDate);
 
         const insertQuery = `
-                    INSERT INTO Promotion (PromotionName, Description, DiscountPercentage, StartDate, EndDate)
-                    VALUES (@promotionName, @description, @discountPercentage, @startDate, @endDate)
+                    INSERT INTO Promotion (PromotionName, Description, DiscountPercentage, Image, StartDate, EndDate)
+                    VALUES (@promotionName, @description, @discountPercentage, @image, @startDate, @endDate)
                 `;
 
         request.query(insertQuery, (err, res) => {
