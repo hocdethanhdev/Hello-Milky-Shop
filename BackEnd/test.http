@@ -416,8 +416,6 @@ GET http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion
 ###
 GET http://localhost:5000/api/v1/city/getAllCities/
 ###
-
-
 GET http://localhost:5000/api/v1/district/getDistrictByID/1
 ###
 POST http://localhost:5000/api/v1/order/addInfoCusToOrder

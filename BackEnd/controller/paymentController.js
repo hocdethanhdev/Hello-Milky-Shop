@@ -1,10 +1,10 @@
 const paymentService = require("../service/paymentService");
-const orderService = require("../service/orderService");
 require("dotenv").config();
 let $ = require("jquery");
 const moment = require("moment");
-const { user } = require("../config/db.config");
 const crypto = require("crypto");
+const axios = require("axios");
+const { log } = require("console");
 
 const bankCode = "VNBANK";
 
@@ -128,7 +128,7 @@ const vnpayReturn = async (req, res, next) => {
         status: paymentStatus,
         code: vnp_Params["vnp_ResponseCode"],
       };
-      
+
       next();
     } catch (err) {
       console.error(err);
@@ -145,6 +145,12 @@ const vnpayReturn = async (req, res, next) => {
     };
     next();
   }
+};
+
+const generateVnpRequestId = () => {
+  return (
+    moment().format("YYYYMMDDHHmmss") + Math.floor(Math.random() * 1000000)
+  );
 };
 
 module.exports = {
