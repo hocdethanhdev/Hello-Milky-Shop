@@ -46,8 +46,6 @@
     gap: 20px;
 }
 
-
-
 .modal-thinhprostedit2-custom label {
     display: block;
     margin-bottom: 5px;
@@ -72,7 +70,6 @@
 }
 
 .modal-thinhprostedit2-custom button {
-    background-color: #4CAF50;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -93,8 +90,7 @@
     border-radius: 4px;
 }
 
-
-.form-group1{
+.form-group1 {
     display: flex;
     flex-direction: column;
     width: 40%;
