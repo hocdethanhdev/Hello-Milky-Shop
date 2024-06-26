@@ -748,3 +748,41 @@ span.discount-1 {
   border-radius: 3px;
   margin: 5px 5px;
 }
+
+.thinh-gia-soc-lam {
+  text-transform: capitalize;
+  font-size: 2em; /* You can adjust the size as needed */
+  background: -webkit-linear-gradient(left, #faaf79, #ff8935, #ff6a00);
+  background: -o-linear-gradient(left, #faaf79, #ff8935, #ff6a00);
+  background: linear-gradient(90deg, #faaf79, #ff8935, #ff6a00);
+  background-repeat: no-repeat;
+  background-size: 90%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0);
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation:
+    shine 5s linear infinite,
+    typing 5s steps(20) infinite;
+}
+
+@keyframes shine {
+  0% {
+    background-position: -1000%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  50%,
+  100% {
+    width: 100%;
+  }
+}

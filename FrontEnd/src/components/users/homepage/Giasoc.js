@@ -65,7 +65,7 @@ function Giasoc() {
 
   return (
     <div className="giasoc-store">
-      <h1>Giá sốc hôm nay</h1>
+      <h1 className="thinh-gia-soc-lam">Giá sốc hôm nay</h1>
       <div className="slider-container">
         <Slider {...settings}>
           {products.map((product, index) => (

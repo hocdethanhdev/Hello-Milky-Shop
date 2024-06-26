@@ -82,6 +82,7 @@ function Header() {
           <div className="box_search-compo-tri">
             <form onSubmit={handleSearch} id="fromSearch">
               <input
+                className="tim-kiem"
                 type="text"
                 name="keyword"
                 placeholder="Bố mẹ tìm gì cho bé hôm nay?"
