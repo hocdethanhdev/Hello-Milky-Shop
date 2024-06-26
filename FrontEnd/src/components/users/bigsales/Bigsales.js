@@ -99,6 +99,7 @@ function Bigsales() {
       <div className="content-tri">
         <div className="contentPro">
           <div className="box_product" id="id920">
+
             <di>
               <div
                 className="box_product_header"
@@ -119,6 +120,7 @@ function Bigsales() {
               data-url="/Desktop/PromotionDetail/ListProduct?pageType=km&danhsachId=920&size=8"
             >
               <div className="bx-wrapper" style={{ width: "100%" }}>
+
                 <div className="bx-viewport">
                   {products.map((product) => (
                     <div className="item_product" key={product.id}>

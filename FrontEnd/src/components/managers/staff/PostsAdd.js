@@ -16,7 +16,7 @@ function PostsAdd() {
   const [articleCategoryID, setArticleCategoryID] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [progress, setProgress] = useState(0);
-  const [previewImage, setPreviewImage] = useState(null); // State for previewing image
+  const [previewImage, setPreviewImage] = useState(null);
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
   const editor = useRef(null);
@@ -25,7 +25,6 @@ function PostsAdd() {
     const imageFile = e.target.files[0];
     setHeaderImage(imageFile);
 
-    // Preview image
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreviewImage(reader.result);
@@ -75,7 +74,6 @@ function PostsAdd() {
         }
       );
       console.log("Post created successfully:", response.data);
-      // Reset form or handle success action
     } catch (error) {
       console.error("Error creating post:", error.response);
       setErrorMessage(
@@ -87,20 +85,37 @@ function PostsAdd() {
   const editorConfig = useMemo(() => ({
     readonly: false,
     toolbar: true,
-    toolbarButtonSize: 'middle',
-    toolbarSticky: false,
-    showCharsCounter: false,
-    showWordsCounter: false,
-    showXPathInStatusbar: false,
     buttons: [
       'bold', 'italic', 'underline', 'strikethrough', 'eraser',
       '|', 'ul', 'ol', 'indent', 'outdent',
       '|', 'font', 'fontsize', 'brush', 'paragraph',
-      '|', 'image', 'link', 'table',
+      '|', 'link', 'table',
       '|', 'align', 'undo', 'redo', 'hr',
-      '|', 'copyformat', 'fullsize'
+      '|', 'copyformat', 'fullsize',
+      {
+        name: 'uploadImage',
+        iconURL: 'https://cdn-icons-png.flaticon.com/512/622/622669.png', // Đường dẫn đến icon của bạn
+        exec: async (editor) => {
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.accept = 'image/*';
+          input.onchange = async (event) => {
+            const file = event.target.files[0];
+            if (file) {
+              try {
+                const url = await uploadImage(file, setProgress);
+                editor.selection.insertHTML(`<img src="${url}" alt="Image" />`);
+              } catch (error) {
+                console.error('Error uploading image:', error);
+              }
+            }
+          };
+          input.click();
+        },
+        tooltip: 'Upload Image'
+      }
     ]
-  }), []);
+  }), [setProgress]);
 
   return (
     <div className="container post-form">
@@ -132,7 +147,6 @@ function PostsAdd() {
             />
           </div>
         </div>
-        {/* Preview image */}
         {previewImage && (
           <div className="row mb-3">
             <div className="col">

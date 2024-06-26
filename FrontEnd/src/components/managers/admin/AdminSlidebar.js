@@ -1,43 +1,84 @@
-import React from 'react';
-import './AdminSlidebar.css';
+import React, { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import "./AdminSlidebar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import { useState } from 'react';
 function AdminSlidebar() {
-    const [dropDown, setDropDown] = useState(false)
-    return (
-        <div className='admin-slidebar'>
+  const [dropDown, setDropDown] = useState(false);
+  const location = useLocation();
 
-            <div >
-                <nav className="sidebara ">
-                    <Link className="activea" to="/admin-dashboard">
-                        <img src="/ImageMilkShop/dashboard.png" alt="Dashboard Icon" style={{ width: '24px' }} /> Dashboard
-                    </Link>
+  const toggleDropdown = () => {
+    setDropDown(!dropDown);
+  };
 
-                    <div className='manage-ad-thinh' onClick={() => { setDropDown(!dropDown) }} >Manage</div>
-
-                    {dropDown &&
-                        <div>
-                            <Link to="/manage-admin" >
-                                <img src="/ImageMilkShop/QuanLyBaiViet.jpg" alt="Post Icon" style={{ width: '24px' }} /> Admin
-                            </Link>
-                            <Link to="/manage-staff">
-                                <img src="/ImageMilkShop/QuanLyBaiViet.jpg" alt="Post Icon" style={{ width: '24px' }} /> Staff
-                            </Link>
-                            <Link to="/manage-member">
-                                <img src="/ImageMilkShop/QuanLyBaiViet.jpg" alt="Post Icon" style={{ width: '24px' }} /> Member
-                            </Link>
-                        </div>
-                    }
-
-                </nav>
-            </div>
-
-
-
+  return (
+    <div className="sidebar-container-st-thinh">
+      <nav className="sidebar-st-thinh">
+        <NavLink
+          className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+          to="/"
+          end>
+          <img
+            src="/ImageMilkShop/dashboard.png"
+            alt="Dashboard Icon"
+            style={{ width: "24px" }}
+            className="icon-staff-slidebar"
+          />{" "}
+          Dashboard
+        </NavLink>
+        <a className="manage-st-thinh" onClick={toggleDropdown} href="#">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/839/839860.png"
+            alt="Manage Orders Icon"
+            style={{ width: "24px", marginRight: "2px" }}
+            className="icon-staff-slidebar"
+          />
+          Quản lí tài khoản
+          <FontAwesomeIcon
+            icon={dropDown ? faCaretUp : faCaretDown}
+            style={{ marginLeft: "5px" }}
+          />
+        </a>
+        <div
+          className={`dropdown-content-st-thinh ${dropDown ? "active" : ""}`}>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/manage-admin">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/15699/15699633.png"
+              alt="Admin icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Admin
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/manage-staff">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/15552/15552446.png"
+              alt="Staff Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Staff
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/manage-member">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/709/709722.png"
+              alt="Member Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Member
+          </NavLink>
         </div>
-    );
+      </nav>
+    </div>
+  );
 }
 
 export default AdminSlidebar;
-

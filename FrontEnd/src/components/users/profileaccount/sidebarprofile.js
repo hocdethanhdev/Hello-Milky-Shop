@@ -1,44 +1,81 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import './sidebarprofile.css';
+import React, { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import "./sidebarprofile.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 function SidebarProfile() {
-  const [dropdownActive, setDropdownActive] = useState(false);
-  const dropdownRef = useRef(null);
+  const [dropDown, setDropDown] = useState(false);
+  const location = useLocation();
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownActive(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const toggleDropdown = () => {
+    setDropDown(!dropDown);
+  };
 
   return (
-    <div className="sidebar">
-      
-      <nav>
-        <ul>
-          <li className="dropdown-parent" onClick={() => setDropdownActive(!dropdownActive)} ref={dropdownRef}>
-            <Link to="/account" className="dropdown-link">Tài Khoản Của Tôi</Link>
-            <ul className={`dropdown ${dropdownActive ? 'dropdown-active' : ''}`}>
-              <li><Link to="/account">Hồ Sơ</Link></li>
-              <li><Link to="/ChangePassword">Đổi mật khẩu</Link></li>
-              <li><Link to="/Address">Địa chỉ</Link></li>
-              {/* Thêm các liên kết khác nếu cần */}
-            </ul>
-          </li>
-          <li>
-            <Link to="/profile">Đơn mua</Link>
-          </li>
-          {/* Thêm các liên kết khác nếu cần */}
-        </ul>
+    <div className="sidebar-container-st-thinh">
+      <nav className="sidebar-st-thinh">
+        <a className="manage-st-thinh" onClick={toggleDropdown} href="#">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/8188/8188338.png"
+            alt="Manage Orders Icon"
+            style={{ width: "24px", marginRight: "2px" }}
+            className="icon-staff-slidebar"
+          />
+          Tài khoản của tôi
+          <FontAwesomeIcon
+            icon={dropDown ? faCaretUp : faCaretDown}
+            style={{ marginLeft: "5px" }}
+          />
+        </a>
+        <div
+          className={`dropdown-content-st-thinh ${dropDown ? "active" : ""}`}>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/account">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/942/942799.png"
+              alt="Confirm Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Hồ sơ
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/ChangePassword">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/159/159478.png"
+              alt="Confirm Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Đổi mật khẩu
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/Address">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/3607/3607275.png"
+              alt="Confirm Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Địa chỉ
+          </NavLink>
+        </div>
+        <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/profile">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/2728/2728577.png"
+              alt="Order Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Đơn hàng của bạn
+          </NavLink>
+        
       </nav>
     </div>
   );
