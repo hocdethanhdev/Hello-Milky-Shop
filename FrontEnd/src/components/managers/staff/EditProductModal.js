@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import RichTextEditor from '../richtext/RichTextEditor';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import JoditEditor from "jodit-react";
+import sanitizeHtml from "sanitize-html";
 import './EditProductModal.css';
 
 const EditProductModal = ({ product, onClose, onSave }) => {
     const [formData, setFormData] = useState({ ...product });
+    const editor = useRef(null);
 
     useEffect(() => {
         setFormData({ ...product });
@@ -23,6 +25,24 @@ const EditProductModal = ({ product, onClose, onSave }) => {
         const updatedFormData = { ...formData, Status: parseInt(formData.Status) }; // Convert Status to number
         onSave(updatedFormData);
     };
+
+    const editorConfig = useMemo(() => ({
+        readonly: false,
+        toolbar: true,
+        toolbarButtonSize: 'middle',
+        toolbarSticky: false,
+        showCharsCounter: false,
+        showWordsCounter: false,
+        showXPathInStatusbar: false,
+        buttons: [
+            'bold', 'italic', 'underline', 'strikethrough', 'eraser',
+            '|', 'ul', 'ol', 'indent', 'outdent',
+            '|', 'font', 'fontsize', 'brush', 'paragraph',
+            '|', 'image', 'link', 'table',
+            '|', 'align', 'undo', 'redo', 'hr',
+            '|', 'copyformat', 'fullsize'
+        ]
+    }), []);
 
     return (
         <div className="modal-thinhprostedit">
@@ -76,9 +96,14 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                         </label>
 
                     </div>
-                    <label>
+                    <label className='edit-pro-thinh'>
                         Description:
-                        <RichTextEditor value={formData.Description} onChange={handleDescriptionChange} />
+                        <JoditEditor
+                            ref={editor}
+                            value={formData.Description}
+                            config={editorConfig}
+                            onBlur={handleDescriptionChange}
+                        />
                     </label>
                     <button type="submit">Save</button>
                 </form>

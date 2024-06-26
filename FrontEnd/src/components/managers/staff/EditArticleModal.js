@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
-import RichTextEditor from "../richtext/RichTextEditor";
+import JoditEditor from "jodit-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./EditArticleModal.css";
@@ -10,22 +10,12 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     Title: article.Title,
     HeaderImage: article.HeaderImage,
-    Content: article.Content,
     PublishDate: new Date(article.PublishDate),
     AuthorID: article.AuthorID,
     ArticleCategoryID: article.ArticleCategoryID,
   });
   const [previewImage, setPreviewImage] = useState(article.HeaderImage); // State for previewing image
-
-  const handleContentChange = (value) => {
-    const sanitizedContent = sanitizeHtml(value, {
-      allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-      allowedAttributes: {
-        img: ["src", "alt"],
-      },
-    });
-    setFormData({ ...formData, Content: sanitizedContent });
-  };
+  const editorRef = useRef(null);
 
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
@@ -48,8 +38,17 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const editorContent = editorRef.current.value;
+      const sanitizedContent = sanitizeHtml(editorContent, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+        allowedAttributes: {
+          img: ["src", "alt"],
+        },
+      });
+
       const postData = {
         ...formData,
+        Content: sanitizedContent,
         PublishDate: formData.PublishDate.toISOString().split("T")[0],
       };
 
@@ -69,6 +68,24 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
     } catch (error) {
       console.error("There was an error updating the article!", error);
     }
+  };
+
+  const editorConfig = {
+    readonly: false,
+    toolbar: true,
+    toolbarButtonSize: 'middle',
+    toolbarSticky: false,
+    showCharsCounter: false,
+    showWordsCounter: false,
+    showXPathInStatusbar: false,
+    buttons: [
+      'bold', 'italic', 'underline', 'strikethrough', 'eraser',
+      '|', 'ul', 'ol', 'indent', 'outdent',
+      '|', 'font', 'fontsize', 'brush', 'paragraph',
+      '|', 'image', 'link', 'table',
+      '|', 'align', 'undo', 'redo', 'hr',
+      '|', 'copyformat', 'fullsize'
+    ]
   };
 
   return (
@@ -144,7 +161,11 @@ const EditArticleModal = ({ article, onClose, onSave }) => {
               <div className="col">
                 <label htmlFor="content">Nội dung</label>
                 <div className="editor">
-                  <RichTextEditor value={formData.Content} onChange={handleContentChange} />
+                  <JoditEditor
+                    ref={editorRef}
+                    value={article.Content}
+                    config={editorConfig}
+                  />
                 </div>
               </div>
             </div>
