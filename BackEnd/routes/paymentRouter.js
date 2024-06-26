@@ -8,8 +8,6 @@ router.get('/vnpay_return', paymentController.vnpayReturn, (req, res) => {
   res.redirect(`${process.env.CLIENT_URL}/PaymentSuccess?status=${req.result.status}&code=${req.result.code}`);
 });
 
-router.post('/refund', paymentController.refund);
-
 module.exports = router
 
 
