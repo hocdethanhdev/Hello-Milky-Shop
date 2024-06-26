@@ -93,11 +93,11 @@ function Bigsales() {
       <div className="content-tri">
         <div className="contentPro">
           <div className="box_product" id="id920">
-            <a href="https://shoptretho.com.vn/danh-muc/sua-cho-tre-em" style={{ textDecoration: 'none' }}>
+            
               <div className="box_product_header" style={{ background: 'url() no-repeat center', backgroundRepeat: 'repeat-y', backgroundColor: '#0f7fc1' }}>
                 <span className="box_product_textHead">Những khuyến mãi đang chờ bạn</span>
               </div>
-            </a>
+           
             <div className="listProduct" id="danhsach920" data-url="/Desktop/PromotionDetail/ListProduct?pageType=km&danhsachId=920&size=8">
               <div className="bx-wrapper" style={{ width: '100%' }}>
                 <div className="bx-viewport">

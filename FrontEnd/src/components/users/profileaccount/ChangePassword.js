@@ -4,6 +4,7 @@ import { getUserIdFromToken } from "../../store/actions/authAction";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import SidebarProfile from "./sidebarprofile";
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState("");
@@ -64,63 +65,67 @@ function ChangePassword() {
   };
 
   return (
-    <div className="change-password-form">
-      <h2>Đổi mật khẩu</h2>
-      <form onSubmit={handleChangePassword}>
-        <div className="password-input">
-          <label htmlFor="oldPassword">Mật khẩu cũ:</label>
-          <div className="input-container">
-            <input
-              type={showOldPassword ? "text" : "password"}
-              id="oldPassword"
-              value={oldPassword}
-              onChange={(e) => setOldPassword(e.target.value)}
-              required
-            />
-           
+    <div className="account-container-account-changepass">
+      <div className="sidebar-wrapper-account-changepass">
+        <SidebarProfile />
+      </div>
+      <div className="change-password-form">
+        <h2>Đổi mật khẩu</h2>
+        <form onSubmit={handleChangePassword}>
+          <div className="password-input">
+            <label htmlFor="oldPassword">Mật khẩu cũ:</label>
+            <div className="input-container">
+              <input
+                type={showOldPassword ? "text" : "password"}
+                id="oldPassword"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+                required
+              />
+            </div>
           </div>
-        </div>
-        <div className="password-input">
-          <label htmlFor="newPassword">Mật khẩu mới:</label>
-          <div className="input-container">
-            <input
-              type={showNewPassword ? "text" : "password"}
-              id="newPassword"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              required
-            />
-            <FontAwesomeIcon
-              icon={faEye}
-              className="password-toggle"
-              onClick={() => toggleShowPassword("new", setShowNewPassword)}
-            />
+          <div className="password-input">
+            <label htmlFor="newPassword">Mật khẩu mới:</label>
+            <div className="input-container">
+              <input
+                type={showNewPassword ? "text" : "password"}
+                id="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+              />
+              <FontAwesomeIcon
+                icon={faEye}
+                className="password-toggle"
+                onClick={() => toggleShowPassword("new", setShowNewPassword)}
+              />
+            </div>
           </div>
-        </div>
-        <div className="password-input">
-          <label htmlFor="confirmNewPassword">Nhập lại mật khẩu mới:</label>
-          <div className="input-container">
-            <input
-              type={showConfirmNewPassword ? "text" : "password"}
-              id="confirmNewPassword"
-              value={confirmNewPassword}
-              onChange={(e) => setConfirmNewPassword(e.target.value)}
-              required
-            />
-            <FontAwesomeIcon
-              icon={faEye}
-              className="password-toggle"
-              onClick={() =>
-                toggleShowPassword("confirm", setShowConfirmNewPassword)
-              }
-            />
+          <div className="password-input">
+            <label htmlFor="confirmNewPassword">Nhập lại mật khẩu mới:</label>
+            <div className="input-container">
+              <input
+                type={showConfirmNewPassword ? "text" : "password"}
+                id="confirmNewPassword"
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                required
+              />
+              <FontAwesomeIcon
+                icon={faEye}
+                className="password-toggle"
+                onClick={() =>
+                  toggleShowPassword("confirm", setShowConfirmNewPassword)
+                }
+              />
+            </div>
           </div>
-        </div>
-        <div>
-          <button type="submit">Đổi mật khẩu</button>
-        </div>
-      </form>
-      {message && <p>{message}</p>}
+          <div>
+            <button type="submit">Đổi mật khẩu</button>
+          </div>
+        </form>
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 }

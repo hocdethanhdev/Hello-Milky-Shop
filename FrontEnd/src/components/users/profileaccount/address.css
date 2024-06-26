@@ -1,5 +1,5 @@
 /* Container styles */
-.account-container-account {
+.account-container-account-address {
   display: flex;
   flex-direction: row;
   padding: 20px;
@@ -67,6 +67,21 @@ button-address:disabled {
   cursor: not-allowed;
 }
 
+.button-address-delete {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: red;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-left: 20px;
+}
+
+
 /* Address form styles */
 .address-form {
   margin-top: 20px;
@@ -99,19 +114,19 @@ button-address:disabled {
   outline: none;
 }
 
-.address-form button {
-  margin-right: 10px;
-  background-color: #28a745;
-}
 
-.address-form button[type="button"] {
-  background-color: #dc3545;
-}
 
-.address-form button[type="button"]:hover {
-  background-color: #c82333;
-}
+
+
 
 .address-form button[type="submit"]:hover {
   background-color: #218838;
+}
+.close-button-address{
+  border: none;
+  margin-left: 98%;
+}
+
+address-table button {
+  background-color: red;
 }

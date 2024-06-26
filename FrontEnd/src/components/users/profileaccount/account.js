@@ -5,10 +5,8 @@ import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import axios from "axios";
 
-
 function Account() {
   const [userData, setUserData] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
 
@@ -31,10 +29,6 @@ function Account() {
     fetchUserData();
   }, [userId]);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
     <div className="account-container">
       <div className="sidebar-wrapper">
@@ -55,19 +49,9 @@ function Account() {
               <strong>Số điện thoại:</strong>{" "}
               {userData.PhoneNumber || "Chưa cập nhật"}
             </div>
-            <div>
-              <strong>Mật khẩu:</strong>{" "}
-              <span>
-                {showPassword ? userData.Password : "********"}
-              </span>
 
-            </div>
             <div>
-              <strong>Xu hiện có:</strong>{" "}
-              <span>
-                {userData.Point}
-              </span>
-
+              <strong>Xu hiện có:</strong> <span>{userData.Point}</span>
             </div>
           </div>
         ) : (
