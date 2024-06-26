@@ -1,20 +1,24 @@
 import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+
 function Sidebar() {
   const [dropDown, setDropDown] = useState(false);
   const location = useLocation();
+
+  const toggleDropdown = () => {
+    setDropDown(!dropDown);
+  };
 
   return (
     <div className="sidebar-container-st-thinh">
       <nav className="sidebar-st-thinh">
         <NavLink
-          className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
+          className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
           to="/"
-          end
-        >
+          end>
           <img
             src="/ImageMilkShop/dashboard.png"
             alt="Dashboard Icon"
@@ -23,14 +27,7 @@ function Sidebar() {
           />{" "}
           Dashboard
         </NavLink>
-        <a
-          className="manage-st-thinh"
-          onClick={(e) => {
-            e.preventDefault();
-            setDropDown(!dropDown);
-          }}
-          href="#"
-        >
+        <a className="manage-st-thinh" onClick={toggleDropdown} href="#">
           <img
             src="https://cdn-icons-png.flaticon.com/512/839/839860.png"
             alt="Manage Orders Icon"
@@ -43,76 +40,73 @@ function Sidebar() {
             style={{ marginLeft: "5px" }}
           />
         </a>
-        {dropDown && (
-          <div className="dropdown-content-st-thinh">
-            <NavLink
-              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
-              to="/confirm"
-            >
-              <img
-                src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
-                alt="Confirm Icon"
-                style={{ width: "24px" }}
-                className="icon-staff-slidebar"
-              />{" "}
-              Xác nhận đơn hàng
-            </NavLink>
-            <NavLink
-              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
-              to="/cancel-order"
-            >
-              <img
-                src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
-                alt="Confirm Icon"
-                style={{ width: "24px" }}
-                className="icon-staff-slidebar"
-              />{" "}
-              Đơn hàng đã hủy
-            </NavLink>
-            <NavLink
-              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
-              to="/order-in-transit"
-            >
-              <img
-                src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
-                alt="Confirm Icon"
-                style={{ width: "24px" }}
-                className="icon-staff-slidebar"
-              />{" "}
-              Đơn hàng đang giao
-            </NavLink>
-            <NavLink
-              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
-              to="/delivered-order"
-            >
-              <img
-                src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
-                alt="Confirm Icon"
-                style={{ width: "24px" }}
-                className="icon-staff-slidebar"
-              />{" "}
-              Đơn hàng đã giao
-            </NavLink>
-            <NavLink
-              className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
-              to="/completed-order"
-            >
-              <img
-                src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
-                alt="Confirm Icon"
-                style={{ width: "24px" }}
-                className="icon-staff-slidebar"
-              />{" "}
-              Đơn hàng đã hoàn thành
-            </NavLink>
-          </div>
-        )}
+        <div
+          className={`dropdown-content-st-thinh ${dropDown ? "active" : ""}`}>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/confirm">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/4056/4056748.png"
+              alt="Confirm Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Xác nhận đơn hàng
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/cancel-order">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/3037/3037017.png"
+              alt="Confirm Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Đơn hàng đã hủy
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/order-in-transit">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/5046/5046856.png"
+              alt="Confirm Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Đơn hàng đang giao
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/delivered-order">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/4543/4543164.png"
+              alt="Confirm Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Đơn hàng đã giao
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            to="/completed-order">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
+              alt="Confirm Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />{" "}
+            Đơn hàng đã hoàn thành
+          </NavLink>
+        </div>
         <NavLink
           className={({ isActive }) =>
-            isActive || location.pathname.includes(("/products")) || location.pathname.includes(("/addingproduct")) ? "active-st-thinh" : ""
+            isActive ||
+            location.pathname.includes("/products") ||
+            location.pathname.includes("/addingproduct")
+              ? "active-st-thinh"
+              : ""
           }
-          to="/products"
-        >
+          to="/products">
           <img
             src="https://cdn-icons-png.flaticon.com/128/9321/9321486.png"
             alt="Product Icon"
@@ -123,10 +117,13 @@ function Sidebar() {
         </NavLink>
         <NavLink
           className={({ isActive }) =>
-            isActive || location.pathname.includes(("/voucher-staff")) || location.pathname.includes(("/addingvoucher")) ? "active-st-thinh" : ""
+            isActive ||
+            location.pathname.includes("/voucher-staff") ||
+            location.pathname.includes("/addingvoucher")
+              ? "active-st-thinh"
+              : ""
           }
-          to="/voucher-staff"
-        >
+          to="/voucher-staff">
           <img
             src="https://cdn-icons-png.flaticon.com/128/8464/8464650.png"
             alt="Manage Orders Icon"
@@ -138,10 +135,13 @@ function Sidebar() {
 
         <NavLink
           className={({ isActive }) =>
-            isActive || location.pathname.includes(("/posts")) || location.pathname.includes(("/addingpost")) ? "active-st-thinh" : ""
+            isActive ||
+            location.pathname.includes("/posts") ||
+            location.pathname.includes("/addingpost")
+              ? "active-st-thinh"
+              : ""
           }
-          to="/posts"
-        >
+          to="/posts">
           <img
             src="https://cdn-icons-png.flaticon.com/128/9458/9458635.png"
             alt="Manage Orders Icon"
@@ -151,13 +151,15 @@ function Sidebar() {
           Quản lý bài viết
         </NavLink>
 
-
         <NavLink
           className={({ isActive }) =>
-            isActive || location.pathname.includes(("/promotionmanage")) || location.pathname.includes(("/addpromotion")) ? "active-st-thinh" : ""
+            isActive ||
+            location.pathname.includes("/promotionmanage") ||
+            location.pathname.includes("/addpromotion")
+              ? "active-st-thinh"
+              : ""
           }
-          to="/promotionmanage"
-        >
+          to="/promotionmanage">
           <img
             src="https://cdn-icons-png.flaticon.com/128/7650/7650832.png"
             alt="Confirm Icon"
@@ -167,9 +169,8 @@ function Sidebar() {
           Quản lí khuyến mãi
         </NavLink>
         <NavLink
-          className={({ isActive }) => isActive ? 'active-st-thinh' : ''}
-          to="/feedbackManage"
-        >
+          className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+          to="/feedbackManage">
           <img
             src="https://cdn-icons-png.flaticon.com/128/8013/8013078.png"
             alt="Confirm Icon"

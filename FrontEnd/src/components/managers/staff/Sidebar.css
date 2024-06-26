@@ -3,8 +3,9 @@
   background-color: rgb(255, 255, 255); /* Darker shade */
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensures the sidebar takes the full height of the viewport */
+  min-height: 50vh; /* Ensures the sidebar takes the full height of the viewport */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding-top: 20px;
 }
 
 .sidebar-st-thinh {
@@ -66,10 +67,44 @@
   background-color: #ff9c1a; /* Darker shade */
 }
 
-.dashboard-st-thinh {
-  margin-right: 30px;
+.dropdown-content-st-thinh {
+  display: none;
+  padding-left: 10px;
+  animation: slideDown 0.6s ease;
 }
 
-.dropdown-content-st-thinh{
-  margin-left: 30px;
+.dropdown-content-st-thinh.active {
+  display: block;
+  animation: slideDown 0.6s ease; /* Re-apply animation for showing */
+}
+
+.dropdown-content-st-thinh.hidden {
+  display: none;
+  animation: slideUp 0.6s ease; /* New animation for hiding */
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.icon-staff-slidebar {
+  vertical-align: middle;
 }
