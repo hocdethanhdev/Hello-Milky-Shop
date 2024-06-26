@@ -1,5 +1,13 @@
 const paymentDAO = require("../dao/paymentDAO");
-const paymentRepository = require("../repository/paymentRepository")
+const paymentRepository = require("../repository/paymentRepository");
+
+const getPaymentInfoByOrderID = async (OrderID) => {
+  const payment = await paymentDAO.getPaymentInfoByOrderID(OrderID);
+  if (payment.err) {
+    return { err: payment.err };
+  }
+  return payment;
+};
 
 const getOrderByID = async (order_id) => {
   const payment = await paymentDAO.getOrderByID(order_id);
@@ -20,4 +28,5 @@ const createPayment = async (PayMethod, TradingCode, CardType, PayDetail, Amount
 module.exports = {
   getOrderByID,
   createPayment,
+  getPaymentInfoByOrderID,
 };

@@ -10,7 +10,7 @@ const shippingAddressDAO = {
         request.query(
           `SELECT *
           FROM ShippingAddress
-          WHERE UserID = @ID
+          WHERE UserID = @ID AND IsDeleted = 0
            
           `,
           (err, res) => {

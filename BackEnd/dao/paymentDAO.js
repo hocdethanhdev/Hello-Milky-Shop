@@ -2,6 +2,23 @@ const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 
 const paymenttDAO = {
+
+  getPaymentInfoByOrderID: (OrderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request()
+          .input("OrderID", mssql.Int, OrderID);
+        request.query(
+          `SELECT * FROM Payment WHERE OrderID = @OrderID
+        ;`,
+          (err, res) => {
+            if (err) reject(err);
+            resolve({err: 0, data: res.recordset || null});
+          }
+        );
+      });
+    });
+  },
   getOrderByID: (orderID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
