@@ -28,8 +28,8 @@
 }
 
 .news-item-image img {
-  max-width: 100%;
-  height: auto;
+  width: 300px;
+  height: 200px;
   border-radius: 8px;
 }
 

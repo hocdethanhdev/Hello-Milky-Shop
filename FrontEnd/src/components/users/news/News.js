@@ -18,7 +18,7 @@ const News = () => {
         if (response.data.length === 0) {
           setErrorMessage("Hiện tại chưa có bài viết nào.");
         }
-        setNews(response.data); 
+        setNews(response.data);
       } catch (error) {
         console.error('Error fetching news:', error);
         setErrorMessage("Error fetching news: " + (error.response?.data || error.message));
@@ -49,7 +49,7 @@ const News = () => {
             {currentPosts.map((article) => (
               <li key={article.ArticleID} className="news-item">
                 <div className="news-item-image">
-                  <img src={`http://localhost:5000/images/${article.HeaderImage}`} alt={article.Title} />
+                  <img className='anh-news-thinh' src={article.HeaderImage} alt={article.Title} />
                 </div>
                 <div className="news-item-content">
                   <h2>{article.Title}</h2>

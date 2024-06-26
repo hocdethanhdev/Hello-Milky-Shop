@@ -3,7 +3,6 @@
 .header-compo-tri {
   background-color: #0f7fc1;
   color: #fff;
-  
 }
 
 .container-compo-tri {
@@ -41,7 +40,7 @@
   margin-top: 20px;
 }
 
-.search-button-header{
+.search-button-header {
   background-color: #ff6a00;
   border: none;
   padding: 10px 15px;
@@ -68,7 +67,6 @@
   text-decoration: none;
   margin: 0 5px;
 }
-
 
 .box_user-compo-tri a:hover {
   color: #fff;
@@ -206,17 +204,13 @@
 }
 
 .DongY {
- 
   margin-right: 10px;
 }
-
-
 
 .DongY,
 .Huy {
   margin-left: 35px;
   margin-right: 35px;
-
 }
 
 .logout-link {
@@ -226,4 +220,7 @@
 
 .logout-link:hover {
   text-decoration: none;
+}
+.tim-kiem {
+  color: black;
 }
