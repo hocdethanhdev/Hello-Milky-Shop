@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./PromotionManage.css"; // Import the CSS file
 import { Link } from "react-router-dom";
+
 function PromotionManage() {
   const [promotions, setPromotions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,8 +27,17 @@ function PromotionManage() {
     console.log("Edit promotion with ID:", promotionId);
   };
 
-  const handleDelete = (promotionId) => {
-    console.log("Delete promotion with ID:", promotionId);
+  const handleDelete = async (promotionId) => {
+    const confirmed = window.confirm("Are you sure you want to delete this promotion?");
+    if (confirmed) {
+      try {
+        await axios.delete(`http://localhost:5000/api/v1/promotion/deletePromotion/${promotionId}`);
+        setPromotions(promotions.filter(promotion => promotion.PromotionID !== promotionId));
+        console.log("Promotion deleted successfully");
+      } catch (error) {
+        console.error("Error deleting promotion:", error);
+      }
+    }
   };
 
   const handleAddToPromotion = async (productID, promotionID) => {

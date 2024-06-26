@@ -18,10 +18,10 @@ const productDAO = {
           ORDER BY SumSell DESC;`,
           (err, res) => {
             if (err) reject(err);
-              resolve({
-                err: res.recordset[0] !== null ? 0 : 1,
-                data: res?.recordset
-              });
+            resolve({
+              err: res.recordset[0] !== null ? 0 : 1,
+              data: res?.recordset
+            });
           }
         );
       });
@@ -36,10 +36,10 @@ const productDAO = {
           `SELECT COUNT(BrandID) AS count FROM Brand;`,
           (err, res) => {
             if (err) reject(err);
-              resolve({
-                err: res.recordset[0] !== null ? 0 : 1,
-                count: res?.recordset[0].count 
-              });
+            resolve({
+              err: res.recordset[0] !== null ? 0 : 1,
+              count: res?.recordset[0].count
+            });
           }
         );
       });
@@ -53,10 +53,10 @@ const productDAO = {
           `SELECT COUNT(ProductID) AS count FROM Product;`,
           (err, res) => {
             if (err) reject(err);
-              resolve({
-                err: res.recordset[0] !== null ? 0 : 1,
-                count: res?.recordset[0].count 
-              });
+            resolve({
+              err: res.recordset[0] !== null ? 0 : 1,
+              count: res?.recordset[0].count
+            });
           }
         );
       });
@@ -277,7 +277,7 @@ const productDAO = {
       });
     });
   },
-  searchWithProductCategory: ( pc) => {
+  searchWithProductCategory: (pc) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request()
@@ -471,12 +471,12 @@ const productDAO = {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         var request = new mssql.Request()
-          .input("ProductID", mssql.VarChar,ProductID)
+          .input("ProductID", mssql.VarChar, ProductID)
           .input("ProductName", mssql.NVarChar, product.ProductName)
           .input("Description", mssql.NVarChar, product.Description)
-          .input("Price", mssql.Int,product.Price)
-          .input("StockQuantity", mssql.Int,product.StockQuantity)
-          .input("Image", mssql.NVarChar,product.Image)
+          .input("Price", mssql.Int, product.Price)
+          .input("StockQuantity", mssql.Int, product.StockQuantity)
+          .input("Image", mssql.NVarChar, product.Image)
           .input("ExpirationDate", product.ExpirationDate)
           .input("ManufacturingDate", product.ManufacturingDate)
           .input("BrandName", mssql.NVarChar, product.BrandName)
@@ -661,25 +661,51 @@ const productDAO = {
           AND StockQuantity > 0 AND Status =1
           GROUP BY p.ProductID, p.ProductName, p.Image, p.Price
       ;`,
-      (err, res) => {
-        if (err) {
-          reject(err);
-          return;
-        }
+          (err, res) => {
+            if (err) {
+              reject(err);
+              return;
+            }
 
-        if (!res || !res.recordset || res.recordset.length === 0) {
-          resolve({
-            err: "Not found",
-          });
-          return;
-        }
+            if (!res || !res.recordset || res.recordset.length === 0) {
+              resolve({
+                err: "Not found",
+              });
+              return;
+            }
 
-        resolve(res.recordset);
-      }
-    );
-  });
-});
-},
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
+
+  findTop5ProductBestSellerForUser: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT TOP 5 p.ProductID, ProductName, SUM(Quantity) AS SumSell
+        FROM Product p
+        JOIN OrderDetail od ON od.ProductID = p.ProductID
+        JOIN Orders o ON o.OrderID = od.OrderID
+        WHERE o.Status = 1 AND o.StatusOrderID = 4 AND od.Quantity > 0
+        GROUP BY p.ProductID, p.ProductName
+        ORDER BY SumSell DESC;
+        ;`,
+          (err, res) => {
+            if (err) reject(err);
+            resolve({
+              err: res.recordset[0] !== null ? 0 : 1,
+              data: res?.recordset
+            });
+          }
+        );
+      });
+    });
+  },
+
 };
 
 module.exports = productDAO;

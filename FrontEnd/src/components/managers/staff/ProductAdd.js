@@ -1,6 +1,8 @@
 // src/components/ProductAdd/ProductAdd.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { uploadImage } from "../uimg/UpImage";
+import JoditEditor from "jodit-react";
+import sanitizeHtml from "sanitize-html";
 import "./Products.css";
 
 const ProductAdd = () => {
@@ -12,12 +14,12 @@ const ProductAdd = () => {
   const [expirationDate, setExpirationDate] = useState("");
   const [manufacturingDate, setManufacturingDate] = useState("");
   const [brandName, setBrandName] = useState("");
-  const [productCategoryName, setProductCategoryName] =
-    useState("Sữa cho em bé");
+  const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
   const [status, setStatus] = useState(1);
   const [brands, setBrands] = useState([]);
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
   const [progress, setProgress] = useState(0);
+  const editor = useRef(null);
 
   useEffect(() => {
     // Fetch brands from the API
@@ -42,9 +44,17 @@ const ProductAdd = () => {
     try {
       const downloadURL = await uploadImage(image, setProgress);
 
+      const editorContent = editor.current.value;
+      const sanitizedContent = sanitizeHtml(editorContent, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+        allowedAttributes: {
+          img: ["src", "alt"],
+        },
+      });
+
       const productData = {
         ProductName: productName,
-        Description: description,
+        Description: sanitizedContent,
         Price: price,
         StockQuantity: stockQuantity,
         Image: downloadURL,
@@ -95,12 +105,29 @@ const ProductAdd = () => {
     }
   };
 
+  const editorConfig = useMemo(() => ({
+    readonly: false,
+    toolbar: true,
+    toolbarButtonSize: 'middle',
+    toolbarSticky: false,
+    showCharsCounter: false,
+    showWordsCounter: false,
+    showXPathInStatusbar: false,
+    buttons: [
+      'bold', 'italic', 'underline', 'strikethrough', 'eraser',
+      '|', 'ul', 'ol', 'indent', 'outdent',
+      '|', 'font', 'fontsize', 'brush', 'paragraph',
+      '|', 'image', 'link', 'table',
+      '|', 'align', 'undo', 'redo', 'hr',
+      '|', 'copyformat', 'fullsize'
+    ]
+  }), []);
+
   return (
     <div className="container create-product">
       {successMessage && (
         <p
-          className={`success-message ${successMessage.includes("Error") ? "error" : "success"
-            }`}
+          className={`success-message ${successMessage.includes("Error") ? "error" : "success"}`}
         >
           {successMessage}
         </p>
@@ -125,13 +152,11 @@ const ProductAdd = () => {
         </div>
         <div className="form-group">
           <label htmlFor="product-description">Mô tả:</label>
-          <textarea
-            id="product-description"
-            name="product-description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          ></textarea>
+          <JoditEditor
+            ref={editor}
+            value=""
+            config={editorConfig}
+          />
         </div>
         <div className="form-group">
           <label htmlFor="product-price">Giá:</label>

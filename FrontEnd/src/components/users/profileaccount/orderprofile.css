@@ -31,6 +31,11 @@
   border: 1px solid #c3e6cb;
 }
 
+.order-summary.delivered {
+  background-color: #d1ecf1;
+  border: 1px solid #bee5eb;
+}
+
 .order-summary.cancel {
   background-color: #f8d7da;
   border: 1px solid #f5c6cb;
@@ -42,8 +47,8 @@
 }
 
 .order-summary.pending {
-  background-color: #d1ecf1;
-  border: 1px solid #bee5eb;
+  background-color: rgb(248, 212, 144);
+  border: 1px solid rgb(231, 196, 130);
 }
 
 .order-summary .order-header {
