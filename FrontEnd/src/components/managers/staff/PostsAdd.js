@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import axios from "axios";
-import RichTextEditor from "../richtext/RichTextEditor";
+import JoditEditor from "jodit-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Posts.css";
@@ -8,10 +8,10 @@ import { uploadImage } from "../uimg/UpImage";
 import sanitizeHtml from "sanitize-html";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
+
 function PostsAdd() {
   const [title, setTitle] = useState("");
   const [headerImage, setHeaderImage] = useState(null);
-  const [content, setContent] = useState("");
   const [publishDate, setPublishDate] = useState(new Date());
   const [articleCategoryID, setArticleCategoryID] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -19,16 +19,7 @@ function PostsAdd() {
   const [previewImage, setPreviewImage] = useState(null); // State for previewing image
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
-  const handleContentChange = (value) => {
-    const sanitizedContent = sanitizeHtml(value, {
-      allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-      allowedAttributes: {
-        img: ["src", "alt"],
-      },
-    });
-
-    setContent(sanitizedContent);
-  };
+  const editor = useRef(null);
 
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
@@ -57,10 +48,18 @@ function PostsAdd() {
     try {
       const downloadURL = await uploadImage(headerImage, setProgress);
 
+      const editorContent = editor.current.value;
+      const sanitizedContent = sanitizeHtml(editorContent, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+        allowedAttributes: {
+          img: ["src", "alt"],
+        },
+      });
+
       const postData = {
         Title: title,
         HeaderImage: downloadURL,
-        Content: content,
+        Content: sanitizedContent,
         PublishDate: publishDate.toISOString().split("T")[0],
         AuthorID: userId,
         ArticleCategoryID: parseInt(articleCategoryID),
@@ -84,6 +83,24 @@ function PostsAdd() {
       );
     }
   };
+
+  const editorConfig = useMemo(() => ({
+    readonly: false,
+    toolbar: true,
+    toolbarButtonSize: 'middle',
+    toolbarSticky: false,
+    showCharsCounter: false,
+    showWordsCounter: false,
+    showXPathInStatusbar: false,
+    buttons: [
+      'bold', 'italic', 'underline', 'strikethrough', 'eraser',
+      '|', 'ul', 'ol', 'indent', 'outdent',
+      '|', 'font', 'fontsize', 'brush', 'paragraph',
+      '|', 'image', 'link', 'table',
+      '|', 'align', 'undo', 'redo', 'hr',
+      '|', 'copyformat', 'fullsize'
+    ]
+  }), []);
 
   return (
     <div className="container post-form">
@@ -127,7 +144,11 @@ function PostsAdd() {
           <div className="col">
             <label htmlFor="content">Nội dung</label>
             <div className="editor">
-              <RichTextEditor value="" onChange={handleContentChange} />
+              <JoditEditor
+                ref={editor}
+                value=""
+                config={editorConfig}
+              />
             </div>
           </div>
         </div>

@@ -4,15 +4,17 @@ import "./orderprofile.css";
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getUserIdFromToken } from "../../store/actions/authAction";
+
 const OrderProfile = () => {
   const [activeTab, setActiveTab] = useState("Tất cả");
   const [ordersData, setOrdersData] = useState([]);
   const [showCancelPopup, setShowCancelPopup] = useState(false);
   const [orderToCancel, setOrderToCancel] = useState(null);
-  const [orderToConfirm, setOrderToConfirm] = useState(null); // For confirming receipt
-  const [showConfirmPopup, setShowConfirmPopup] = useState(false); // Popup for confirmation
+  const [orderToConfirm, setOrderToConfirm] = useState(null);
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const { token } = useSelector((state) => state.auth);
   const userIdd = getUserIdFromToken(token);
+  const [canRateMap, setCanRateMap] = useState({});
 
   const fetchOrders = async (status) => {
     try {
@@ -29,26 +31,36 @@ const OrderProfile = () => {
             status: order.StatusOrderName,
             items: [order],
             totalPrice: calculateTotalPrice([order]),
-           
+
           });
         }
         return acc;
       }, []);
 
-      // Sort orders by OrderID in descending order
       groupedOrders.sort((a, b) => b.OrderID - a.OrderID);
 
       setOrdersData(groupedOrders);
+
+      groupedOrders.forEach(order => {
+        order.items.forEach(async item => {
+          const canRate = await checkUserOrder(userIdd, item.ProductID);
+          setCanRateMap(prev => ({ ...prev, [item.ProductID]: canRate }));
+        });
+      });
+
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
   };
+
   const getStatusFromStatusOrderName = (statusOrderName) => {
     switch (statusOrderName) {
       case "Chờ xác nhận":
         return "Chờ xác nhận";
       case "Đang giao":
         return "Đang giao";
+      case "Đã giao":
+        return "Đã giao";
       case "Đã hủy":
         return "Đã hủy";
       case "Hoàn thành":
@@ -76,9 +88,8 @@ const OrderProfile = () => {
     try {
       await axios.post("http://localhost:5000/api/v1/order/cancelOrder", {
         orderID: orderToCancel,
-        reasonCancelContent: "Đã hủy bởi bạn",userID: userIdd,
+        reasonCancelContent: "Đã hủy bởi bạn", userID: userIdd,
       });
-      // Refetch orders after cancellation
       const statusCode = activeTab === "Tất cả" ? "" : activeTab;
       fetchOrders(statusCode);
       setShowCancelPopup(false);
@@ -96,7 +107,6 @@ const OrderProfile = () => {
         statusOrderID: 4
       });
 
-      // Refetch orders after confirming receipt
       const statusCode = activeTab === "Tất cả" ? "" : activeTab;
       fetchOrders(statusCode);
 
@@ -104,6 +114,19 @@ const OrderProfile = () => {
       setOrderToConfirm(null);
     } catch (error) {
       console.error("Error confirming receipt:", error);
+    }
+  };
+
+  const checkUserOrder = async (userId, productId) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/v1/comment/checkUserOrdered", {
+        UserID: userId,
+        ProductID: productId
+      });
+      return response.data.count > 0;
+    } catch (err) {
+      console.error("Error checking user order:", err);
+      return false;
     }
   };
 
@@ -123,6 +146,9 @@ const OrderProfile = () => {
         case "Chờ xác nhận":
           statusClass = "pending";
           break;
+        case "Đã giao":
+          statusClass = "delivered";
+          break;
         default:
           statusClass = "";
       }
@@ -136,8 +162,8 @@ const OrderProfile = () => {
                 setOrderToCancel(order.OrderID);
               }}>Hủy đơn hàng</button>
             )}
-            {order.status === "Đang giao" && (
-              <button className=" btn btn-success" onClick={() => {
+            {order.status === "Đã giao" && ( // "Confirm Receipt" button for "Đã giao" status
+              <button className="btn btn-success" onClick={() => {
                 setShowConfirmPopup(true);
                 setOrderToConfirm(order.OrderID);
               }}>Đã nhận được hàng</button>
@@ -145,7 +171,6 @@ const OrderProfile = () => {
             {order.status === "Đã hủy" && (
               <p>{order.items[0].ReasonCancelContent ? `Lý do hủy: ${order.items[0].ReasonCancelContent}` : "Đã hủy"}</p>
             )}
-            {order.status === "Hoàn thành"}
           </div>
           {order.items.map((item, idx) => (
             <div key={idx} className="order-item">
@@ -156,90 +181,99 @@ const OrderProfile = () => {
                 <p>Số lượng: {item.Quantity}</p>
               </div>
               <div className="item-price">
-                {order.status === "Hoàn thành" && (
+                {order.status === "Hoàn thành" && canRateMap[item.ProductID] && (
                   <Link to={`/product/${item.ProductID}`} className="rate-button btn btn-warning">
                     Đánh giá
                   </Link>
-                )}<p>
-                {item.OldPrice && item.NewPrice && item.OldPrice !== item.NewPrice && <s>{item.OldPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</s>}
-                {item.NewPrice ? item.NewPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : item.OldPrice && item.OldPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-              </p>
+                )}
+                <p>
+                  {item.OldPrice && item.NewPrice && item.OldPrice !== item.NewPrice && <s>{item.OldPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</s>}
+                  {item.NewPrice ? item.NewPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : item.OldPrice && item.OldPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                </p>
+              </div>
+            </div>
+          ))}
+          <div className="total-price">
+            <p>Thành tiền: {order.totalPrice}</p>
+          </div>
+        </div>
+      );
+    });
+  };
+
+  return (
+    <div className="order-details">
+      <header>
+        <ul>
+          <li
+            className={activeTab === "Tất cả" ? "active" : ""}
+            onClick={() => setActiveTab("Tất cả")}
+          >
+            Tất cả
+          </li>
+          <li
+            className={activeTab === "Chờ xác nhận" ? "active" : ""}
+            onClick={() => setActiveTab("Chờ xác nhận")}
+          >
+            Chờ xác nhận
+          </li>
+          <li className={activeTab === "Đang giao" ? "active" : ""}
+            onClick={() => setActiveTab("Đang giao")}
+          >
+            Đang giao
+          </li>
+          <li
+            className={activeTab === "Đã giao" ? "active" : ""} // New tab for "Đã giao"
+            onClick={() => setActiveTab("Đã giao")}
+          >
+            Đã giao
+          </li>
+          <li
+            className={activeTab === "Hoàn thành" ? "active" : ""}
+            onClick={() => setActiveTab("Hoàn thành")}
+          >
+            Hoàn thành
+          </li>
+          <li
+            className={activeTab === "Đã hủy" ? "active" : ""}
+            onClick={() => setActiveTab("Đã hủy")}
+          >
+            Đã hủy
+          </li>
+        </ul>
+      </header>
+      <div className="order-container">{renderOrders()}</div>
+      {showCancelPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <span className="close-popup" onClick={() => setShowCancelPopup(false)}>
+              &times;
+            </span>
+            <p>Bạn chắc chắn muốn hủy đơn hàng?</p>
+            <div className="popup-buttons">
+              <button onClick={() => setShowCancelPopup(false)}>Không</button>
+              <button onClick={handleCancelOrder}>Có</button>
             </div>
           </div>
-        ))}
-        <div className="total-price">
-          <p>Thành tiền: {order.totalPrice}</p>
         </div>
-      </div>
-    );
-  });
-};
-return (
-  <div className="order-details">
-    <header>
-      <ul>
-        <li
-          className={activeTab === "Tất cả" ? "active" : ""}
-          onClick={() => setActiveTab("Tất cả")}
-        >
-          Tất cả
-        </li>
-        <li
-          className={activeTab === "Chờ xác nhận" ? "active" : ""}
-          onClick={() => setActiveTab("Chờ xác nhận")}
-        >
-          Chờ xác nhận
-        </li>
-        <li className={activeTab === "Đang giao" ? "active" : ""}
-          onClick={() => setActiveTab("Đang giao")}
-        >
-          Đang giao
-        </li>
-        <li
-          className={activeTab === "Hoàn thành" ? "active" : ""}
-          onClick={() => setActiveTab("Hoàn thành")}
-        >
-          Hoàn thành
-        </li>
-        <li
-          className={activeTab === "Đã hủy" ? "active" : ""}
-          onClick={() => setActiveTab("Đã hủy")}
-        >
-          Đã hủy
-        </li>
-      </ul>
-    </header>
-    <div className="order-container">{renderOrders()}</div>
-    {showCancelPopup && (
-      <div className="popup">
-        <div className="popup-content">
-          <span className="close-popup" onClick={() => setShowCancelPopup(false)}>
-            &times;
-          </span>
-          <p>Bạn chắc chắn muốn hủy đơn hàng?</p>
-          <div className="popup-buttons">
-            <button onClick={() => setShowCancelPopup(false)}>Không</button>
-            <button onClick={handleCancelOrder}>Có</button>
-          </div>
-        </div>
-      </div>
-    )}
+      )}
 
-    {showConfirmPopup && (
-      <div className="popup">
-        <div className="popup-content">
-          <span className="close-popup" onClick={() => setShowConfirmPopup(false)}>
-            &times;
-          </span>
-          <p>Bạn chắc chắn đã nhận được hàng?</p>
-          <div className="popup-buttons">
-            <button onClick={() => setShowConfirmPopup(false)}>Không</button>
-            <button onClick={handleConfirmReceipt}>Có</button>
+      {showConfirmPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <span className="close-popup" onClick={() => setShowConfirmPopup(false)}>
+              &times;
+            </span>
+            <p>Bạn chắc chắn đã nhận được hàng?</p>
+            <div className="popup-buttons">
+              <button onClick={() => setShowConfirmPopup(false)}>Không</button>
+              <button onClick={handleConfirmReceipt}>Có</button>
+            </div>
           </div>
         </div>
-      </div>
-    )}
-  </div>
-);
-}
+      )}
+    </div>
+  );
+};
+
 export default OrderProfile;
