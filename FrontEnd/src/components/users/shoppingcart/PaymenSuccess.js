@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 
 const PaymemSuccess = () => {
   const { token } = useSelector((state) => state.auth);
@@ -15,7 +15,9 @@ const PaymemSuccess = () => {
   useEffect(() => {
     const checkoutOrder = async (orderID, totalAmount) => {
       try {
-        const storedProductQuantities = localStorage.getItem("productQuantitiesToUpdate");
+        const storedProductQuantities = localStorage.getItem(
+          "productQuantitiesToUpdate"
+        );
         const list = JSON.parse(storedProductQuantities);
 
         if (list !== null) {
@@ -73,14 +75,13 @@ const PaymemSuccess = () => {
             UserID: getUserIdFromToken(token),
           });
 
-          localStorage.removeItem("usePoints");
+          localStorage.removeItem("usePoint");
         }
-        toast.success("Giao dịch thành công");
+        toast.success("Giao dịch thành công", { duration: 7000 });
       } catch (err) {
         console.error("Error fetching:", err);
       }
     };
-
     const handlePaymentFailure = (code) => {
       const errorMessages = {
         "07": "Trừ tiền thành công. Giao dịch bị nghi ngờ...",
@@ -97,9 +98,9 @@ const PaymemSuccess = () => {
       };
 
       if (errorMessages[code]) {
-        toast.error(errorMessages[code]);
+        toast.error(errorMessages[code], { duration: 7000 });
       } else {
-        toast.error(`Giao dịch không thành công. Mã lỗi: ${code}`);
+        toast.error(`Giao dịch không thành công. Mã lỗi: ${code}`, { duration: 7000 });
       }
     };
 
@@ -110,10 +111,10 @@ const PaymemSuccess = () => {
       const totalAmount = localStorage.getItem("totalAmount");
 
       checkoutOrder(orderID, totalAmount);
-    } else {
+    } else if (status === "0" && code) {
       handlePaymentFailure(code);
     }
-  }, [status, params, token]);
+  });
 
   return <Navigate to="/" replace />;
 };
