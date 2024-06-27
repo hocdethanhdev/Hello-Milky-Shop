@@ -52,7 +52,6 @@ function ShippingOrder() {
                     <tr>
                         <th>Mã đơn hàng</th>
                         <th>Ngày đặt hàng</th>
-                        <th>Trạng thái đơn hàng</th>
                         <th>Tổng</th>
                         <th>Thao tác</th>
                     </tr>
@@ -62,7 +61,6 @@ function ShippingOrder() {
                         <tr key={order.OrderID}>
                             <td>{order.OrderID}</td>
                             <td>{new Date(order.OrderDate).toLocaleDateString()}</td>
-                            <td>{order.StatusOrderName}</td>
                             <td>{order.TotalAmount}</td>
                             <td>
 
@@ -96,7 +94,6 @@ function ShippingOrder() {
                     <p><strong>Tổng:</strong> {selectedOrder.TotalAmount}</p>
                     <p><strong>Địa chỉ:</strong> {selectedOrder.ShippingAddressID}</p>
                     <p><strong>Mã người dùng:</strong> {selectedOrder.UserID}</p>
-                    <p><strong>Trạng thái của đơn hàng:</strong> {selectedOrder.StatusOrderName}</p>
                 </Modal>
             )}
         </div>

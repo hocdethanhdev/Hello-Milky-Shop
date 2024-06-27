@@ -1,5 +1,5 @@
 .sidebar-container-st-thinh {
-  width: 250px;
+  width: 270px;
   background-color: rgb(255, 255, 255); /* Darker shade */
   display: flex;
   flex-direction: column;
@@ -75,7 +75,8 @@
 
 .dropdown-content-st-thinh.active {
   display: block;
-  animation: slideDown 0.6s ease; /* Re-apply animation for showing */
+  animation: slideDown 0.6s ease; 
+  margin-left: 5px;
 }
 
 .dropdown-content-st-thinh.hidden {

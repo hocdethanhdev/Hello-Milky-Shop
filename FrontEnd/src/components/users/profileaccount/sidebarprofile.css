@@ -70,3 +70,12 @@
 .sidebar nav ul li:hover .dropdown {
   display: block;
 }
+.sidebar-container-st-tri {
+width: 250px;
+background-color: rgb(255, 255, 255);
+display: flex;
+flex-direction: column;
+min-height: 50vh;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}

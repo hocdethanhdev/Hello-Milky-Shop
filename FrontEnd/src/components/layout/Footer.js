@@ -72,10 +72,11 @@ function Footer() {
             </div>
 
             <div className="contact col-md-7">
+            <div className="text-footer">
               <h6 className="text-uppercase fw-bold mb-4 text-dark ">
                 Contact
               </h6>
-              <p className="text-dark ">
+              <p className="text-dark">
                 <MDBIcon icon="home" className="me-2" />
                 Đại học FPT Thành phố Hồ Chí Minh
                 <p className="address">
@@ -87,6 +88,7 @@ function Footer() {
                 <MDBIcon icon="envelope" className="me-3" />
                 passmonswp@gmail.com
               </p>
+              </div>
             </div>
           </MDBRow>
         </MDBContainer>

@@ -33,5 +33,13 @@
 
 .address {
     margin: auto;
-    width: 60%;
+ 
+}
+
+.text-footer {
+    text-align: left;
+    margin-left: 30px;
+}
+.text-dark {
+    margin-bottom: 15px;
 }

@@ -93,7 +93,7 @@ function Confirm() {
                     <tr>
                         <th>Mã đơn hàng</th>
                         <th>Ngày đặt hàng</th>
-                        <th>Trạng thái đơn hàng</th>
+                       
                         <th>Tổng</th>
                         <th>Thao tác</th>
                     </tr>
@@ -103,7 +103,7 @@ function Confirm() {
                         <tr key={order.OrderID}>
                             <td>{order.OrderID}</td>
                             <td>{new Date(order.OrderDate).toLocaleDateString()}</td>
-                            <td>{order.StatusOrderName}</td>
+                            
                             <td>{order.TotalAmount}</td>
                             <td>
                                 <button type="button" className="btn btn-warning" onClick={() => editOrder(order.OrderID)}>Xác Nhận</button>
