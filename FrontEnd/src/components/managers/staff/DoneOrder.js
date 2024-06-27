@@ -46,8 +46,6 @@ function DoneOrder() {
 
   return (
     <div className="confirm-container">
-      <br />
-      <br />
       <table>
         <thead>
           <tr>

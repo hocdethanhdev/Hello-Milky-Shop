@@ -1,7 +1,8 @@
 .confirm-container {
-  width: 90%;
-  margin: auto;
+  margin: 20px;
   font-family: Arial, sans-serif;
+  background-color: white;
+  padding: 20px;
 }
 
 .orders-header {
@@ -46,6 +47,7 @@ table td {
   border: 1px solid #ddd;
   text-align: left;
   padding: 8px;
+  background-color: white;
 }
 
 table th {

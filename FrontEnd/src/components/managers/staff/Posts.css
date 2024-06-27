@@ -1,6 +1,7 @@
 .posts-container {
   margin: 20px;
   background-color: white;
+  padding: 20px;
 }
 
 h1,
@@ -89,4 +90,5 @@ h2 {
 }
 .button-add-voucher {
   border: none;
+  background-color: white;
 }

@@ -32,7 +32,7 @@
 }
 
 .address {
-    margin: auto;
+    margin-top: 20px;
  
 }
 
@@ -42,4 +42,8 @@
 }
 .text-dark {
     margin-bottom: 15px;
+}
+
+.text-uppercase-1 {
+    font-size: 20px;
 }

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 function PromotionManage() {
   const [promotions, setPromotions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filterType, setFilterType] = useState("all"); // State for filter type
   const promotionsPerPage = 4; // Number of promotions per page
 
   useEffect(() => {
@@ -28,11 +29,19 @@ function PromotionManage() {
   };
 
   const handleDelete = async (promotionId) => {
-    const confirmed = window.confirm("Are you sure you want to delete this promotion?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this promotion?"
+    );
     if (confirmed) {
       try {
-        await axios.delete(`http://localhost:5000/api/v1/promotion/deletePromotion/${promotionId}`);
-        setPromotions(promotions.filter(promotion => promotion.PromotionID !== promotionId));
+        await axios.delete(
+          `http://localhost:5000/api/v1/promotion/deletePromotion/${promotionId}`
+        );
+        setPromotions(
+          promotions.filter(
+            (promotion) => promotion.PromotionID !== promotionId
+          )
+        );
         console.log("Promotion deleted successfully");
       } catch (error) {
         console.error("Error deleting promotion:", error);
@@ -59,17 +68,39 @@ function PromotionManage() {
     setCurrentPage(page);
   };
 
+  const handleFilterChange = (event) => {
+    setFilterType(event.target.value);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  const filteredPromotions = promotions.filter((promotion) => {
+    const now = new Date();
+    if (filterType === "active") {
+      return new Date(promotion.EndDate) >= now;
+    } else if (filterType === "expired") {
+      return new Date(promotion.EndDate) < now;
+    }
+    return true;
+  });
+
   const indexOfLastPromotion = currentPage * promotionsPerPage;
   const indexOfFirstPromotion = indexOfLastPromotion - promotionsPerPage;
-  const currentPromotions = promotions.slice(
+  const currentPromotions = filteredPromotions.slice(
     indexOfFirstPromotion,
     indexOfLastPromotion
   );
 
   return (
     <div className="promo-table-container">
-      <h1 className="promo-heading">Promotions</h1>
-      <div className="d-flex justify-content-end align-items-end">
+      <div className="d-flex justify-content-between align-items-end">
+        <select
+          className="filter-dropdown-promotion"
+          value={filterType}
+          onChange={handleFilterChange}>
+          <option value="all">Tất cả</option>
+          <option value="active">Còn hạn</option>
+          <option value="expired">Hết hạn</option>
+        </select>
         <Link to="/addpromotion">
           <button type="button" className="button-add-promotion">
             <span className="far fa-plus-square btn btn-secondary"></span>
@@ -131,7 +162,7 @@ function PromotionManage() {
         <ThrowPage
           current={currentPage}
           onChange={handlePageChange}
-          total={promotions.length}
+          total={filteredPromotions.length}
           itemsPerPage={promotionsPerPage}
         />
       </div>

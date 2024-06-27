@@ -73,7 +73,7 @@ function Footer() {
 
             <div className="contact col-md-7">
             <div className="text-footer">
-              <h6 className="text-uppercase fw-bold mb-4 text-dark ">
+              <h6 className="text-uppercase-1 fw-bold mb-4 text-dark ">
                 Contact
               </h6>
               <p className="text-dark">
