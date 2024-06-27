@@ -1,6 +1,6 @@
 .product-list {
   margin-bottom: 20px;
-  padding-left: 50px;
+  
 }
 
 .product-list table {
@@ -34,9 +34,10 @@
 }
 
 .product-container {
-  padding-right: 30px;
-  padding-top: 20px;
+  margin: 20px;
   padding-bottom: 50px;
+  background-color: white;
+  padding: 20px;
 }
 
 /* ______________________________________________________________________ */
@@ -124,4 +125,7 @@ select {
 }
 .button-add-product {
   border: none;
+}
+.button-add-product {
+  background-color: white;
 }
