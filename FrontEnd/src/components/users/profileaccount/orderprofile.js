@@ -59,8 +59,6 @@ const OrderProfile = () => {
         return "Chờ xác nhận";
       case "Đang giao":
         return "Đang giao";
-      case "Đã giao":
-        return "Đã giao";
       case "Đã hủy":
         return "Đã hủy";
       case "Hoàn thành":
@@ -146,9 +144,6 @@ const OrderProfile = () => {
         case "Chờ xác nhận":
           statusClass = "pending";
           break;
-        case "Đã giao":
-          statusClass = "delivered";
-          break;
         default:
           statusClass = "";
       }
@@ -161,12 +156,6 @@ const OrderProfile = () => {
                 setShowCancelPopup(true);
                 setOrderToCancel(order.OrderID);
               }}>Hủy đơn hàng</button>
-            )}
-            {order.status === "Đã giao" && ( // "Confirm Receipt" button for "Đã giao" status
-              <button className="btn btn-success" onClick={() => {
-                setShowConfirmPopup(true);
-                setOrderToConfirm(order.OrderID);
-              }}>Đã nhận được hàng</button>
             )}
             {order.status === "Đã hủy" && (
               <p>{order.items[0].ReasonCancelContent ? `Lý do hủy: ${order.items[0].ReasonCancelContent}` : "Đã hủy"}</p>
@@ -221,12 +210,6 @@ const OrderProfile = () => {
             onClick={() => setActiveTab("Đang giao")}
           >
             Đang giao
-          </li>
-          <li
-            className={activeTab === "Đã giao" ? "active" : ""} // New tab for "Đã giao"
-            onClick={() => setActiveTab("Đã giao")}
-          >
-            Đã giao
           </li>
           <li
             className={activeTab === "Hoàn thành" ? "active" : ""}
