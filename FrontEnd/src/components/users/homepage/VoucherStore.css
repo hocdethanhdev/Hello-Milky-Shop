@@ -9,6 +9,11 @@
   margin-right: auto;
 }
 
+.voucher-title-long {
+  text-align: center;
+  width: 100%;
+}
+
 .voucher-store h1 {
   color: #ff7e5f;
 }

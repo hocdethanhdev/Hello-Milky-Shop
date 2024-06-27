@@ -12,4 +12,6 @@ router.get('/getShippingAddressIsDeleted', shippingAddressController.getShipping
 
 router.put('/updateDeleted/:shippingAddress_id', shippingAddressController.updateDeleted);
 
+router.get('/getInfoAddressWithOrderNearest', shippingAddressController.getInfoAddressWithOrderNearest);
+
 module.exports = router
