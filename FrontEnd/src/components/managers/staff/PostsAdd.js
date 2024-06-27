@@ -3,25 +3,26 @@ import axios from "axios";
 import JoditEditor from "jodit-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "./Posts.css";
 import { uploadImage } from "../uimg/UpImage";
-import sanitizeHtml from "sanitize-html";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
+import DOMPurify from "dompurify"; // Import dompurify
+import { message } from 'antd'; // Import message from antd
 
 function PostsAdd() {
   const [title, setTitle] = useState("");
   const [headerImage, setHeaderImage] = useState(null);
-  const [headerImageURL, setHeaderImageURL] = useState("");
   const [publishDate, setPublishDate] = useState(new Date());
   const [articleCategoryID, setArticleCategoryID] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [progress, setProgress] = useState(0);
-  const [previewImage, setPreviewImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null); // State for previewing image
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
   const editor = useRef(null);
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
     setHeaderImage(imageFile);
 
@@ -35,15 +36,54 @@ function PostsAdd() {
     } else {
       setPreviewImage(null);
     }
+  };
 
-    if (imageFile) {
-      try {
-        const url = await uploadImage(imageFile, setProgress);
-        setHeaderImageURL(url);
-      } catch (error) {
-        console.error("Error uploading header image:", error);
-        setErrorMessage("Error uploading header image: " + error.message);
-      }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!headerImage) {
+      setErrorMessage("Image is required.");
+      return;
+    }
+
+    try {
+      const downloadURL = await uploadImage(headerImage, setProgress);
+
+      const editorContent = editor.current.value;
+      const sanitizedContent = DOMPurify.sanitize(editorContent); // Sanitize with dompurify
+
+      const postData = {
+        Title: title,
+        HeaderImage: downloadURL,
+        Content: sanitizedContent,
+        PublishDate: publishDate.toISOString().split("T")[0],
+        AuthorID: userId,
+        ArticleCategoryID: parseInt(articleCategoryID),
+      };
+
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/article/createArticle/",
+        postData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      message.success('Bài viết đã được tạo thành công.');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+
+      console.log("Post created successfully:", response.data);
+      // Reset form or handle success action
+    } catch (error) {
+      console.error("Error creating post:", error.response);
+      setErrorMessage(
+        "Error creating post: " + (error.response?.data || error.message)
+      );
+      message.error(`Có lỗi xảy ra: ${error.message}`);
     }
   };
 
@@ -61,14 +101,14 @@ function PostsAdd() {
     });
   };
 
+
   const editorConfig = useMemo(() => ({
     readonly: false,
     toolbar: true,
     buttons: [
-      'bold', 'italic', 'underline', 'strikethrough', 'eraser',
-      '|', 'ul', 'ol', 'indent', 'outdent',
+      'bold', 'italic', 'underline', 'eraser', 'ul', 'ol', 'indent', 'outdent',
       '|', 'font', 'fontsize', 'brush', 'paragraph',
-      '|', 'link', 'table',
+      '|', 'table',
       '|', 'align', 'undo', 'redo', 'hr',
       '|', 'copyformat', 'fullsize',
       {
@@ -120,59 +160,13 @@ function PostsAdd() {
     }
   }), [setProgress]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!headerImageURL) {
-      setErrorMessage("Header image is required.");
-      return;
-    }
-
-    try {
-      const editorContent = editor.current.value;
-      const sanitizedContent = sanitizeHtml(editorContent, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-        allowedAttributes: {
-          img: ["src", "alt", "style", "width", "height"],
-        },
-      });
-
-      const postData = {
-        Title: title,
-        HeaderImage: headerImageURL,
-        Content: sanitizedContent,
-        PublishDate: publishDate.toISOString().split("T")[0],
-        AuthorID: userId,
-        ArticleCategoryID: parseInt(articleCategoryID),
-      };
-
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/article/createArticle/",
-        postData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Post created successfully:", response.data);
-      // Reset form or handle success action
-    } catch (error) {
-      console.error("Error creating post:", error.response);
-      setErrorMessage(
-        "Error creating post: " + (error.response?.data || error.message)
-      );
-    }
-  };
-
   return (
     <div className="container post-form">
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <h2>Create Post</h2>
       <form onSubmit={handleSubmit}>
         <div className="row mb-3">
           <div className="col">
-            <label htmlFor="title">Title:</label>
+            <label htmlFor="title">Tiêu đề:</label>
             <input
               type="text"
               className="form-control"
@@ -185,7 +179,7 @@ function PostsAdd() {
         </div>
         <div className="row mb-3">
           <div className="col">
-            <label htmlFor="header-image">Header Image:</label>
+            <label htmlFor="header-image">Ảnh đầu trang</label>
             <input
               type="file"
               className="form-control"
@@ -202,9 +196,39 @@ function PostsAdd() {
             </div>
           </div>
         )}
+        <div className="cuc-cua-ben-post row">
+          <div className="row mb-3 col-md-6">
+            <div className="col day-pub-post">
+              <label htmlFor="publish-date">Ngày công bố</label>
+              <DatePicker
+                selected={publishDate}
+                onChange={(date) => setPublishDate(date)}
+                className="form-control"
+                dateFormat="yyyy-MM-dd"
+              />
+            </div>
+          </div>
+          <div className="row mb-3 col-md-6">
+            <div className="col thinh-khung-hinhh">
+              <label htmlFor="article-category-id">Loại bài viết:</label>
+              <select
+                className="form-control"
+                id="article-category-id"
+                value={articleCategoryID}
+                onChange={(e) => setArticleCategoryID(e.target.value)}
+                required
+              >
+                <option value="" disabled>Chọn loại bài viết</option>
+                <option value="1">Sức Khỏe</option>
+                <option value="2">Tin khuyến mãi</option>
+                <option value="3">Tư vấn mua sắm</option>
+              </select>
+            </div>
+          </div>
+        </div>
         <div className="row mb-3">
           <div className="col">
-            <label htmlFor="content">Content:</label>
+            <label htmlFor="content">Nội dung</label>
             <div className="editor">
               <JoditEditor
                 ref={editor}
@@ -213,36 +237,14 @@ function PostsAdd() {
             </div>
           </div>
         </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="publish-date">Publish Date:</label>
-            <DatePicker
-              selected={publishDate}
-              onChange={(date) => setPublishDate(date)}
-              className="form-control"
-              dateFormat="yyyy-MM-dd"
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="article-category-id">Article Category ID:</label>
-            <input
-              type="number"
-              className="form-control"
-              id="article-category-id"
-              value={articleCategoryID}
-              onChange={(e) => setArticleCategoryID(e.target.value)}
-              required
-            />
-          </div>
-        </div>
+
         <button type="submit" className="btn btn-primary">
           Create Post
         </button>
       </form>
     </div>
   );
+
 }
 
 export default PostsAdd;
