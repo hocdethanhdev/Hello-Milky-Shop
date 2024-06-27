@@ -8,7 +8,6 @@ const passport = require("passport");
 const UserID = "a";
 
 const userDAO = {
-
   changePassword: (Password, UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -21,7 +20,7 @@ const userDAO = {
           (err, res) => {
             if (err) return reject(err);
             resolve({
-              err: res.rowsAffected > 0 ? 0 : 1
+              err: res.rowsAffected > 0 ? 0 : 1,
             });
             mssql.close();
           }
@@ -42,7 +41,7 @@ const userDAO = {
           (err, res) => {
             if (err) return reject(err);
             resolve({
-              status: res?.recordset[0] !== null ? true : false
+              status: res?.recordset[0] !== null ? true : false,
             });
             mssql.close();
           }
@@ -51,18 +50,21 @@ const userDAO = {
     });
   },
 
-  usePoint : (UserID) => {
+  usePoint: (UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
-        const request = new mssql.Request()
-          .input("UserID", mssql.VarChar, UserID);
+        const request = new mssql.Request().input(
+          "UserID",
+          mssql.VarChar,
+          UserID
+        );
         request.query(
           `UPDATE Users SET Point = 0 WHERE UserID = @UserID;`,
           (err, res) => {
             if (err) return reject(err);
             resolve({
-              err: res.rowsAffected > 0 ? 0 : 1
+              err: res.rowsAffected > 0 ? 0 : 1,
             });
           }
         );
@@ -70,19 +72,18 @@ const userDAO = {
     });
   },
 
-  countUserByRole : (RoleID) => {
+  countUserByRole: (RoleID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
-        const request = new mssql.Request()
-          .input("RoleID", mssql.Int, RoleID);
+        const request = new mssql.Request().input("RoleID", mssql.Int, RoleID);
         request.query(
           `SELECT COUNT(UserID) AS count FROM Users WHERE RoleID = @RoleID;`,
           (err, res) => {
             if (err) return reject(err);
             resolve({
               err: res.recordset[0] !== null ? 0 : 1,
-              count: res?.recordset[0].count
+              count: res?.recordset[0].count,
             });
             mssql.close();
           }
@@ -91,7 +92,7 @@ const userDAO = {
     });
   },
 
-  forgetPassword : (Password, UserID) => {
+  forgetPassword: (Password, UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
@@ -104,7 +105,10 @@ const userDAO = {
             if (err) return reject(err);
             resolve({
               err: res.rowsAffected[0] > 0 ? 0 : 1,
-              mes: res.rowsAffected[0] > 0 ? "Change password successfully" : "Error in forgetPassword"
+              mes:
+                res.rowsAffected[0] > 0
+                  ? "Change password successfully"
+                  : "Error in forgetPassword",
             });
             mssql.close();
           }
@@ -118,7 +122,11 @@ const userDAO = {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
 
-        const request = new mssql.Request().input("PhoneNumber", mssql.VarChar, PhoneNumber);
+        const request = new mssql.Request().input(
+          "PhoneNumber",
+          mssql.VarChar,
+          PhoneNumber
+        );
         request.query(
           `SELECT UserID FROM Users WHERE PhoneNumber = @PhoneNumber;`,
           (err, res) => {
@@ -126,7 +134,7 @@ const userDAO = {
             resolve({
               err: res.recordset.length > 0 ? 0 : 1,
               mes: res?.recordset?.length > 0 ? "Exist" : "Not found",
-              data: res.recordset.length > 0 ? res.recordset.UserID : null
+              data: res.recordset.length > 0 ? res.recordset.UserID : null,
             });
           }
         );
@@ -175,18 +183,11 @@ const userDAO = {
         WHERE UserID = @UserID;`,
           (err, res) => {
             if (err) reject(err);
-            if (res.recordset[0])
-              resolve({
-                err: 0,
-                mes: "OK",
-                data: res.recordset[0],
-              });
-            else {
-              resolve({
-                err: 1,
-                mes: "Not found",
-              });
-            }
+            resolve({
+              err: res.recordset[0] !== null ? 0 : 1,
+              mes: res.recordset[0] !== null ? "OK" : "Not found",
+              data: res.recordset[0] ?? null,
+            });
           }
         );
       });
@@ -318,7 +319,17 @@ const userDAO = {
     });
   },
   register: (name, phone, password, role) => {
-    const user = new User(UserID, name, phone, null, password, 1000, null, 1, role);
+    const user = new User(
+      UserID,
+      name,
+      phone,
+      null,
+      password,
+      1000,
+      null,
+      1,
+      role
+    );
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request().input(
@@ -464,10 +475,11 @@ const userDAO = {
           (err, res) => {
             if (err) reject(err);
             resolve(res);
-          })
-      })
-    })
-  }
+          }
+        );
+      });
+    });
+  },
 };
 
 module.exports = userDAO;
