@@ -441,6 +441,5 @@ INSERT INTO StatusOrder(StatusOrderName)
 Values (N'Chờ xác nhận'),
 (N'Đang giao'),
 (N'Đã hủy'),
-(N'Hoàn thành'),
-(N'Đã giao');
+(N'Hoàn thành');
 go	

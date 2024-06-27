@@ -46,7 +46,7 @@ function Shipping() {
       const response = await axios.post(
         `http://localhost:5000/api/v1/order/updateStatusOrderID/${confirmingOrderId}`,
         {
-          statusOrderID: 5,
+          statusOrderID: 4,
         }
       );
 
