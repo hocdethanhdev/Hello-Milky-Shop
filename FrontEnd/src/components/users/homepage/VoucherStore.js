@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "./VoucherStore.css";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
+import { toast, Toaster } from "react-hot-toast";
 
 function VoucherItem({ voucher }) {
   const { token } = useSelector((state) => state.auth);
@@ -22,8 +23,10 @@ function VoucherItem({ voucher }) {
         requestBody
       )
       .then((response) => {
-        alert("Voucher saved successfully!");
-        window.location.reload();
+        toast.success("Bạn đã lấy voucher thành công", { duration: 2000 });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);;
         // Handle success if needed
       })
       .catch((error) => {
@@ -190,7 +193,7 @@ function VoucherStore() {
 
   return (
     <div className="voucher-store">
-      <h1>Voucher</h1>
+      <h1 className="thinh-gia-soc-lam">Voucher</h1>
       <div className="slider-container">
         <Slider {...settings}>
           {vouchers.map((voucher) => (
