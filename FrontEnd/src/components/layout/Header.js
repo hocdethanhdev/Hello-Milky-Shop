@@ -72,10 +72,10 @@ function Header() {
         <div className="logo-compo-tri">
           {role === 0 || role === 3 ? (
             <Link to="/">
-              <img src="/ImageMilkShop/Logo.png" alt="LogoMilky" />
+              <img src="/Screenshot 2024-06-27 235614.png" alt="LogoMilky" />
             </Link>
           ) : (
-            <img src="/ImageMilkShop/Logo.png" alt="LogoMilky" />
+            <img src="/Screenshot 2024-06-27 235614.png" alt="LogoMilky" />
           )}
         </div>
         {(role === 0 || role === 3) && (

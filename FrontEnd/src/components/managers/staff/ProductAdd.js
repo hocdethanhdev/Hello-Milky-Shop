@@ -14,7 +14,8 @@ const ProductAdd = () => {
   const [expirationDate, setExpirationDate] = useState("");
   const [manufacturingDate, setManufacturingDate] = useState("");
   const [brandName, setBrandName] = useState("");
-  const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
+  const [productCategoryName, setProductCategoryName] =
+    useState("Sữa cho em bé");
   const [status, setStatus] = useState(1);
   const [brands, setBrands] = useState([]);
   const [successMessage, setSuccessMessage] = useState(""); // State for success message
@@ -105,40 +106,62 @@ const ProductAdd = () => {
     }
   };
 
-  const editorConfig = useMemo(() => ({
-    readonly: false,
-    toolbar: true,
-    toolbarButtonSize: 'middle',
-    toolbarSticky: false,
-    showCharsCounter: false,
-    showWordsCounter: false,
-    showXPathInStatusbar: false,
-    buttons: [
-      'bold', 'italic', 'underline', 'strikethrough', 'eraser',
-      '|', 'ul', 'ol', 'indent', 'outdent',
-      '|', 'font', 'fontsize', 'brush', 'paragraph',
-      '|', 'image', 'link', 'table',
-      '|', 'align', 'undo', 'redo', 'hr',
-      '|', 'copyformat', 'fullsize'
-    ]
-  }), []);
+  const editorConfig = useMemo(
+    () => ({
+      readonly: false,
+      toolbar: true,
+      toolbarButtonSize: "middle",
+      toolbarSticky: false,
+      showCharsCounter: false,
+      showWordsCounter: false,
+      showXPathInStatusbar: false,
+      buttons: [
+        "bold",
+        "italic",
+        "underline",
+        "strikethrough",
+        "eraser",
+        "|",
+        "ul",
+        "ol",
+        "indent",
+        "outdent",
+        "|",
+        "font",
+        "fontsize",
+        "brush",
+        "paragraph",
+        "|",
+        "image",
+        "link",
+        "table",
+        "|",
+        "align",
+        "undo",
+        "redo",
+        "hr",
+        "|",
+        "copyformat",
+        "fullsize",
+      ],
+    }),
+    []
+  );
 
   return (
     <div className="container create-product">
       {successMessage && (
         <p
-          className={`success-message ${successMessage.includes("Error") ? "error" : "success"}`}
-        >
+          className={`success-message ${
+            successMessage.includes("Error") ? "error" : "success"
+          }`}>
           {successMessage}
         </p>
       )}
-      <h1>Thêm sản phẩm</h1>
-
       <form
         id="create-product-form"
         className="product-form"
-        onSubmit={handleSubmit}
-      >
+        onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="product-name">Tên sản phẩm:</label>
           <input
@@ -150,14 +173,7 @@ const ProductAdd = () => {
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="product-description">Mô tả:</label>
-          <JoditEditor
-            ref={editor}
-            value=""
-            config={editorConfig}
-          />
-        </div>
+
         <div className="form-group">
           <label htmlFor="product-price">Giá:</label>
           <input
@@ -219,8 +235,7 @@ const ProductAdd = () => {
             name="product-brand"
             value={brandName}
             onChange={(e) => setBrandName(e.target.value)}
-            required
-          >
+            required>
             <option value="">Chọn hãng</option>
             {brands.map((brand) => (
               <option key={brand.BrandID} value={brand.BrandName}>
@@ -236,16 +251,22 @@ const ProductAdd = () => {
             name="product-category"
             value={productCategoryName}
             onChange={(e) => setProductCategoryName(e.target.value)}
-            required
-          >
+            required>
             <option value="Sữa cho em bé">Sữa cho em bé</option>
             <option value="Sữa cho mẹ bầu">Sữa cho mẹ bầu</option>
           </select>
         </div>
-        <button type="submit" className="button-product btn btn-primary">
+        <div className="form-group">
+          <label htmlFor="product-description">Mô tả:</label>
+          <JoditEditor ref={editor} value="" config={editorConfig} />
+        </div>
+        
+      </form>
+      <div className="button-create-product">
+        <button type="submit" className="button-add">
           Tạo sản phẩm
         </button>
-      </form>
+      </div>
     </div>
   );
 };
