@@ -63,7 +63,7 @@
   padding: 10px 15px;
   background: #fff;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .voucher-details {
@@ -91,25 +91,7 @@
   color: #ff4933;
 }
 
-.voucher-save {
-  margin-top: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  background-color: #fff;
-}
-
-.voucher-save button {
-  background-color: orange;
-  color: #fff;
-  border-radius: 10px;
-}
-
-.voucher-save button:hover {
-  background-color: rgb(247, 198, 106);
-}
-
 .nhandan {
   display: block;
+  
 }

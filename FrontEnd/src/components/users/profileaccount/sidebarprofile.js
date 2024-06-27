@@ -13,8 +13,9 @@ function SidebarProfile() {
   };
 
   return (
-    <div className="sidebar-container-st-thinh">
+    <div className="sidebar-container-st-tri">
       <nav className="sidebar-st-thinh">
+        
         <a className="manage-st-thinh" onClick={toggleDropdown} href="#">
           <img
             src="https://cdn-icons-png.flaticon.com/128/8188/8188338.png"

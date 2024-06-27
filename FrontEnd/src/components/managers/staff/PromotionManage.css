@@ -1,5 +1,5 @@
 .promo-table-container {
-    margin: 15px;
+    margin: 20px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
@@ -87,3 +87,11 @@
     background-color: white;
     border: none;
 }
+.filter-dropdown-promotion {
+    
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+   margin-bottom: 20px;
+    width: 150px; /* Adjust this value to make the dropdown smaller */
+  }

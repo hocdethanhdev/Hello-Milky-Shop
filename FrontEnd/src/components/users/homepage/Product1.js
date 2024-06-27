@@ -9,6 +9,7 @@ import Combo2 from "./Combo2.js";
 import VoucherStore from "./VoucherStore.js";
 import Menu from "./Menu.js";
 import { useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 function Product1() {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -30,8 +31,11 @@ function Product1() {
           <div className="col-md-3 tri">
             <Menu />
           </div>
+          <Toaster />
+
           <div className="col-md-9 tri">
             <div className="main_slide">
+
               <Slider {...sliderSettings}>
                 <div className="box_slider">
                   <img src="/banner1.png" alt="Banner 1" />

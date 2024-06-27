@@ -7,6 +7,7 @@
 .voucher-list-thinhvcher button {
   border: none;
   display: inherit;
+  background-color: white;
 }
 .voucher-header-thinhvcher {
   background-color: #007bff;
@@ -26,7 +27,7 @@
 /* Main Content */
 .voucher-body-thinhvcher {
   display: flex;
-  flex: 1;
+  background-color: white;
 }
 
 .voucher-main-content-thinhvcher {
@@ -44,7 +45,7 @@
 
 /* Table */
 .voucher-list-thinhvcher table {
-  width: 100%;
+  width: 98.5%;
   border-collapse: collapse;
   flex: 1;
   padding: 20px;
@@ -105,6 +106,7 @@
 /* Dropdown */
 .filter-dropdown-thinhvcher {
   position: relative;
+  display: contents;
 }
 
 .filter-dropdown-thinhvcher button {
@@ -186,6 +188,7 @@
 /* Pagination */
 .pagination-container-thinhvcher {
   margin-top: 20px;
+  
 }
 
 /* Adjustments based on your specific layout needs */

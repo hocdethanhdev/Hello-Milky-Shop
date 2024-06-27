@@ -33,23 +33,23 @@ const NewsDetail = () => {
   // Dummy recommended articles
   const recommendedArticles = [
     {
-      image: 'https://image.lag.vn/upload/news/20/08/10/0rX8jEO_UCPF.jpg',
+      image: 'https://tse1.mm.bing.net/th?id=OIP.aeX5lXSeVNjBChU4Z5zzMAAAAA&pid=Api&P=0&h=180',
       title: 'Recommended Article 1'
     },
     {
-      image:'https://image.lag.vn/upload/news/20/08/10/0rX8jEO_UCPF.jpg',
+      image: 'https://tse1.mm.bing.net/th?id=OIP.aeX5lXSeVNjBChU4Z5zzMAAAAA&pid=Api&P=0&h=180',
       title: 'Recommended Article 2'
     },
     {
-      image: 'https://image.lag.vn/upload/news/20/08/10/0rX8jEO_UCPF.jpg',
+      image: 'https://tse1.mm.bing.net/th?id=OIP.aeX5lXSeVNjBChU4Z5zzMAAAAA&pid=Api&P=0&h=180',
       title: 'Recommended Article 3'
     },
     {
-      image: 'https://image.lag.vn/upload/news/20/08/10/0rX8jEO_UCPF.jpg',
+      image: 'https://tse1.mm.bing.net/th?id=OIP.aeX5lXSeVNjBChU4Z5zzMAAAAA&pid=Api&P=0&h=180',
       title: 'Recommended Article 4'
     },
     {
-      image: 'https://image.lag.vn/upload/news/20/08/10/0rX8jEO_UCPF.jpg',
+      image: 'https://tse1.mm.bing.net/th?id=OIP.aeX5lXSeVNjBChU4Z5zzMAAAAA&pid=Api&P=0&h=180',
       title: 'Recommended Article 5'
     }
   ];

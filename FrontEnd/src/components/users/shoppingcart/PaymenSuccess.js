@@ -3,6 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
+import { toast, Toaster } from "react-hot-toast";
 
 const PaymemSuccess = () => {
   const { token } = useSelector((state) => state.auth);
@@ -56,7 +57,6 @@ const PaymemSuccess = () => {
           localStorage.removeItem("orderID");
         }
         const voucher = localStorage.getItem("selectedVoucher");
-        console.log(voucher);
         if (voucher) {
           await axios.post(
             "http://localhost:5000/api/v1/voucher/removeVoucherFromUser",
@@ -70,7 +70,6 @@ const PaymemSuccess = () => {
         }
 
         const usePoints = localStorage.getItem("usePoints");
-        console.log(usePoints);
         if (usePoints === "true") {
           await axios.put("http://localhost:5000/api/v1/user/usePoint", {
             UserID: getUserIdFromToken(token),
@@ -78,7 +77,7 @@ const PaymemSuccess = () => {
 
           localStorage.removeItem("usePoint");
         }
-        alert("Giao dịch thành công");
+        toast.success("Giao dịch thành công", { duration: 7000 });
       } catch (err) {
         console.error("Error fetching:", err);
       }
@@ -99,9 +98,9 @@ const PaymemSuccess = () => {
       };
 
       if (errorMessages[code]) {
-        alert(errorMessages[code]);
+        toast.error(errorMessages[code], { duration: 7000 });
       } else {
-        alert(`Giao dịch không thành công. Mã lỗi: ${code}`);
+        toast.error(`Giao dịch không thành công. Mã lỗi: ${code}`, { duration: 7000 });
       }
     };
 
