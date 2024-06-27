@@ -107,7 +107,7 @@ function VoucherItem({ voucher }) {
               className="btn save-button-voucher"
               onClick={saveVoucherForUser}
             >
-              Save
+              Nhận
             </button>
           </div>
         </div>

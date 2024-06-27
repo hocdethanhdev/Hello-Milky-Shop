@@ -3,6 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
+import { toast } from "react-hot-toast";
 
 const PaymemSuccess = () => {
   const { token } = useSelector((state) => state.auth);
@@ -14,9 +15,7 @@ const PaymemSuccess = () => {
   useEffect(() => {
     const checkoutOrder = async (orderID, totalAmount) => {
       try {
-        const storedProductQuantities = localStorage.getItem(
-          "productQuantitiesToUpdate"
-        );
+        const storedProductQuantities = localStorage.getItem("productQuantitiesToUpdate");
         const list = JSON.parse(storedProductQuantities);
 
         if (list !== null) {
@@ -56,7 +55,6 @@ const PaymemSuccess = () => {
           localStorage.removeItem("orderID");
         }
         const voucher = localStorage.getItem("selectedVoucher");
-        console.log(voucher);
         if (voucher) {
           await axios.post(
             "http://localhost:5000/api/v1/voucher/removeVoucherFromUser",
@@ -70,19 +68,19 @@ const PaymemSuccess = () => {
         }
 
         const usePoints = localStorage.getItem("usePoints");
-        console.log(usePoints);
         if (usePoints === "true") {
           await axios.put("http://localhost:5000/api/v1/user/usePoint", {
             UserID: getUserIdFromToken(token),
           });
 
-          localStorage.removeItem("usePoint");
+          localStorage.removeItem("usePoints");
         }
-        alert("Giao dịch thành công");
+        toast.success("Giao dịch thành công");
       } catch (err) {
         console.error("Error fetching:", err);
       }
     };
+
     const handlePaymentFailure = (code) => {
       const errorMessages = {
         "07": "Trừ tiền thành công. Giao dịch bị nghi ngờ...",
@@ -99,9 +97,9 @@ const PaymemSuccess = () => {
       };
 
       if (errorMessages[code]) {
-        alert(errorMessages[code]);
+        toast.error(errorMessages[code]);
       } else {
-        alert(`Giao dịch không thành công. Mã lỗi: ${code}`);
+        toast.error(`Giao dịch không thành công. Mã lỗi: ${code}`);
       }
     };
 
@@ -112,10 +110,10 @@ const PaymemSuccess = () => {
       const totalAmount = localStorage.getItem("totalAmount");
 
       checkoutOrder(orderID, totalAmount);
-    } else if (status === "0" && code) {
+    } else {
       handlePaymentFailure(code);
     }
-  });
+  }, [status, params, token]);
 
   return <Navigate to="/" replace />;
 };
