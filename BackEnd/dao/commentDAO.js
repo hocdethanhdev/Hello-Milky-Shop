@@ -169,11 +169,11 @@ const commentDAO = {
         ;`,
           (err, res) => {
             if (err) reject(err);
-            if (!res.recordset[0])
-              resolve({
-                err: "Empty",
-              });
-            resolve(res.recordset);
+            
+            resolve({
+              err: res.recordset[0] === null ? 1 : 0,
+              data: res.recordset[0] === null ? [] : res.recordset
+            });
           }
         );
       });

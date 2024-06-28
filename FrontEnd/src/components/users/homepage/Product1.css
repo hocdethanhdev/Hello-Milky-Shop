@@ -750,6 +750,7 @@ span.discount-1 {
 }
 
 .thinh-gia-soc-lam {
+  font-weight: bolder;
   text-transform: capitalize;
   font-size: 2em; /* You can adjust the size as needed */
   background: -webkit-linear-gradient(left, #faaf79, #ff8935, #ff6a00);
