@@ -92,10 +92,11 @@ function Voucher() {
       <div className="voucher-body-thinhvcher">
         {successMessage && (
           <p
-            className={`success-message-thinhvcher ${successMessage.includes("Lỗi")
-              ? "error-thinhvcher"
-              : "success-thinhvcher"
-              }`}
+            className={`success-message-thinhvcher ${
+              successMessage.includes("Lỗi")
+                ? "error-thinhvcher"
+                : "success-thinhvcher"
+            }`}
           >
             {successMessage}
           </p>
@@ -197,6 +198,14 @@ function Voucher() {
               ))}
             </tbody>
           </table>
+          <div className="pagination-container-thinhvcher">
+            <ThrowPage
+              current={currentPage}
+              onChange={handlePageChange}
+              total={filteredVouchers.length}
+              productsPerPage={10}
+            />
+          </div>
         </div>
       </div>
       {selectedVoucherForEdit && (
@@ -206,14 +215,6 @@ function Voucher() {
           onSave={handleSaveVoucher}
         />
       )}
-      <div className="pagination-container-thinhvcher">
-        <ThrowPage
-          current={currentPage}
-          onChange={handlePageChange}
-          total={filteredVouchers.length}
-          productsPerPage={10}
-        />
-      </div>
     </div>
   );
 }

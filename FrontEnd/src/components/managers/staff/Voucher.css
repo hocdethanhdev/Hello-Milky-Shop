@@ -187,8 +187,8 @@
 
 /* Pagination */
 .pagination-container-thinhvcher {
-  margin-top: 20px;
-  
+  margin: 20px;
+  text-align: center;
 }
 
 /* Adjustments based on your specific layout needs */

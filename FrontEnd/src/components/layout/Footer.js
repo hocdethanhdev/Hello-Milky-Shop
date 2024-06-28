@@ -32,7 +32,7 @@ function Footer() {
   return (
     <MDBFooter className="text-center text-lg-start text-dark bg-white zigzag-pattern">
       <section
-        className=" cho-no-nhay-len d-flex justify-content-center justify-content-lg-between p-4"
+        className="cho-no-nhay-len d-flex justify-content-center justify-content-lg-between p-4 mt-4"
         style={{ borderBottom: "1px solid #000" }}>
         <div className="me-5 d-none d-lg-block">
           <span className="text-dark">Hello Milky Shop</span>

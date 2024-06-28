@@ -7,7 +7,7 @@ function PromotionManage() {
   const [promotions, setPromotions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterType, setFilterType] = useState("all"); // State for filter type
-  const promotionsPerPage = 4; // Number of promotions per page
+  const promotionsPerPage = 5; // Number of promotions per page
 
   useEffect(() => {
     const fetchPromotions = async () => {
