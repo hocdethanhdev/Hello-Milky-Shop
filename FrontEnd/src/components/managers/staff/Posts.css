@@ -32,15 +32,15 @@ h2 {
   margin: 10px;
 }
 
-.post-form button {
+/* .post-form button {
   width: 150px;
   padding: 10px;
-  /* background-color: #007bff; */
+
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
+} */
 
 .post-form button:hover {
   background-color: #0056b3;
