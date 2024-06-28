@@ -553,4 +553,10 @@ Content-Type: application/json
 GET http://localhost:5000/api/v1/product/getTop5ProductBestSellerForUser
 
 ###
-GET http://localhost:5000/api/v1/article/getTop5ArticleSameType/2
+POST http://localhost:5000/api/v1/article/getTop5ArticleSameType
+Content-Type: application/json
+
+{
+    "ArticleID": 1,
+    "ArticleCategoryID": 1
+}

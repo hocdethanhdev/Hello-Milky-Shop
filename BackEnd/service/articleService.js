@@ -2,8 +2,8 @@ const Article = require("../bo/article");
 const articleRepository = require("../repository/articleRepository");
 
 const articleService = {
-  getTop5ArticleSameType: async (id) => {
-    return await articleRepository.getTop5ArticleSameType(id);
+  getTop5ArticleSameType: async (id, aid) => {
+    return await articleRepository.getTop5ArticleSameType(id, aid);
   },
 
   getArticlesByID: async (ID) => {
