@@ -2,14 +2,14 @@ const articleService = require("../service/articleService");
 
 const getTop5ArticleSameType = async (req, res) => {
     try {
-        const id = req.params.id;
-        if(!id){
+        const {ArticleCategoryID, ArticleID} = req.body;
+        if(!ArticleCategoryID || !ArticleID){
             res.status(400).send({
                 err: 1,
                 mes: "Missing input"
             });
         }
-        const obj = await articleService.getTop5ArticleSameType(id);
+        const obj = await articleService.getTop5ArticleSameType(ArticleCategoryID, ArticleID);
         res.send(obj);
     } catch (error) {
         console.error("Error while getting all users:", error);

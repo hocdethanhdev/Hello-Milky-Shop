@@ -9,6 +9,7 @@ function Account() {
   const [userData, setUserData] = useState(null);
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
+  const [updateAccount, setUpdateAccount] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -29,35 +30,56 @@ function Account() {
     fetchUserData();
   }, [userId]);
 
+  const formatPrice = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
+
   return (
     <div className="account-container">
       <div className="sidebar-wrapper">
         <SidebarProfile />
       </div>
-      <div className="account-content">
-        <h2>Thông tin tài khoản</h2>
-        {userData ? (
-          <div>
+      {!updateAccount ? (
+        <div className="account-content">
+          <h2>Thông tin tài khoản</h2>
+          {userData ? (
             <div>
-              <strong>Tên đăng nhập:</strong> {userData.UserName}
-            </div>
+              <div>
+                <strong>Tên tài khoản:</strong> {userData.UserName}
+              </div>
 
-            <div>
-              <strong>Email:</strong> {userData.Email || "Chưa cập nhật"}
-            </div>
-            <div>
-              <strong>Số điện thoại:</strong>{" "}
-              {userData.PhoneNumber || "Chưa cập nhật"}
-            </div>
+              <div>
+                <strong>Email:</strong> {userData.Email || "Chưa cập nhật"}
+              </div>
+              <div>
+                <strong>Số điện thoại:</strong>{" "}
+                {userData.PhoneNumber || "Chưa cập nhật"}
+              </div>
 
-            <div>
-              <strong>Xu hiện có:</strong> <span>{userData.Point}</span>
+              <div>
+                <strong>Xu hiện có:</strong>{" "}
+                <span>
+                  {userData.Point} = {formatPrice(userData.Point * 10)} VND
+                </span>
+              </div>
+              <div onClick={setUpdateAccount(true)}>
+                <button>Cập nhật hồ sơ</button>
+              </div>
             </div>
-          </div>
-        ) : (
-          <p>Đang tải thông tin...</p>
-        )}
-      </div>
+          ) : (
+            <p>Đang tải thông tin...</p>
+          )}
+        </div>
+      ) : (
+        <form>
+          <label>Tên tài khoản</label>
+          <input type="text" value={userData.UserName} id="UserName"/>
+          <label>Email</label>
+          <input type="text" value={userData.Email} id="Email"/>
+          <label>Số điện thoại</label>
+          <input type="text" value={userData.PhoneNumber} id="PhoneNumber"/>
+        </form>
+      )}
     </div>
   );
 }

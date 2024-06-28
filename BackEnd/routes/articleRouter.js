@@ -22,6 +22,6 @@ router.get('/getAllArticles', articleController.getAllArticles);
 
 router.get('/getAuthorName', articleController.getAuthorName);
 
-router.get('/getTop5ArticleSameType/:id', articleController.getTop5ArticleSameType);
+router.post('/getTop5ArticleSameType', articleController.getTop5ArticleSameType);
 
 module.exports = router

@@ -3,14 +3,16 @@ const dbConfig = require("../config/db.config");
 const Article = require("../bo/article");
 
 const articleDAO = {
-  getTop5ArticleSameType: (id) => {
+  getTop5ArticleSameType: (id, aid) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request().input("id", mssql.Int, id);
+        const request = new mssql.Request()
+        .input("id", mssql.Int, id)
+        .input("aid", mssql.Int, aid);
         request.query(
           `SELECT TOP 5 a.*
           FROM Article a
-          WHERE ArticleCategoryID = @id
+          WHERE ArticleCategoryID = @id AND ArticleID != @aid
           `,
           (err, res) => {
             if (err) reject(err);
