@@ -6,6 +6,7 @@ import { faFilter, faSort } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import ProductDetailModal from "./ProductDetailModal";
 import EditProductModal from "./EditProductModal";
+import { message } from 'antd';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -18,7 +19,6 @@ const Products = () => {
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedProductForEdit, setSelectedProductForEdit] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
   const productsPerPage = 10;
 
   useEffect(() => {
@@ -67,6 +67,7 @@ const Products = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0); // Scroll to the top of the page
   };
 
   const handleSort = () => {
@@ -135,7 +136,7 @@ const Products = () => {
         })
         .then((data) => {
           if (data.message !== "Deleted") {
-            setSuccessMessage("Lỗi khi xóa sản phẩm.");
+            message.error("Lỗi khi xóa sản phẩm.");
           } else {
             setProducts(
               products.map((product) =>
@@ -144,11 +145,11 @@ const Products = () => {
                   : product
               )
             );
-            setSuccessMessage("Xóa sản phẩm thành công!");
+            message.success("Xóa sản phẩm thành công!");
           }
         })
         .catch((error) => {
-          setSuccessMessage("Lỗi khi xóa sản phẩm: " + error.message);
+          message.error("Lỗi khi xóa sản phẩm: " + error.message);
         });
     }
   };
@@ -182,11 +183,11 @@ const Products = () => {
               : product
           )
         );
-        setSuccessMessage("Sản phẩm đã được cập nhật thành công!");
+        message.success("Sản phẩm đã được cập nhật thành công!");
         setSelectedProductForEdit(null);
       })
       .catch((error) => {
-        setSuccessMessage("Lỗi khi cập nhật sản phẩm: " + error.message);
+        message.error("Lỗi khi cập nhật sản phẩm: " + error.message);
       });
   };
 
@@ -207,14 +208,6 @@ const Products = () => {
             </button>
           </Link>
         </div>
-        {successMessage && (
-          <p
-            className={`success-message ${successMessage.includes("Error") ? "error" : "success"
-              }`}
-          >
-            {successMessage}
-          </p>
-        )}
         <div className="product-list">
           <table>
             <thead>
@@ -296,25 +289,30 @@ const Products = () => {
                   <td>{product.ProductID}</td>
                   <td>{product.ProductName}</td>
                   <td>{product.ProductCategoryName}</td>
-                  <td>{product.Status ? "Còn hàng" : "Hết hàng"}</td>
+                  <td>
+                    {product.Status ? "Still in stock" : "Out of stock"}
+                  </td>
                   <td>
                     <button
-                      className="button-product btn btn-warning"
-                      onClick={() => handleEditClick(product)}
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => handleDetailClick(product)}
                     >
-                      Sửa
+                      Xem
                     </button>
                     <button
-                      className="button-product btn btn-danger"
+                      type="button"
+                      className="btn btn-danger"
                       onClick={() => handleDeleteClick(product.ProductID)}
                     >
                       Xóa
                     </button>
                     <button
-                      className="button-product btn btn-info"
-                      onClick={() => handleDetailClick(product)}
+                      type="button"
+                      className="btn btn-warning"
+                      onClick={() => handleEditClick(product)}
                     >
-                      Thông tin
+                      Chỉnh sửa
                     </button>
                   </td>
                 </tr>
@@ -322,15 +320,15 @@ const Products = () => {
             </tbody>
           </table>
         </div>
-        <div className="pagination-container">
+        <div className="pagination-thinh">
           <ThrowPage
-            current={currentPage}
-            onChange={handlePageChange}
-            total={filteredProducts.length}
-            productsPerPage={productsPerPage}
+            currentPage={currentPage}
+            totalPages={Math.ceil(filteredProducts.length / productsPerPage)}
+            onPageChange={handlePageChange}
           />
         </div>
       </div>
+
       {selectedProduct && (
         <ProductDetailModal
           product={selectedProduct}

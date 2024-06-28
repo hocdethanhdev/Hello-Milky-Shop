@@ -56,10 +56,10 @@ function Confirm() {
               prevOrders.map((order) =>
                 order.OrderID === orderID
                   ? {
-                      ...order,
-                      StatusOrderID: [2, 2],
-                      StatusOrderName: "Đã xác nhận",
-                    }
+                    ...order,
+                    StatusOrderID: [2, 2],
+                    StatusOrderName: "Đã xác nhận",
+                  }
                   : order
               )
             );
@@ -121,17 +121,17 @@ function Confirm() {
               <td className="col-md-4">
                 {formatPrice(parseInt(order.TotalAmount))}
               </td>
-              <td className="col-md-2">
+              <td className="col-md-2 nut-xndh">
                 <button
                   type="button"
-                  className="btn btn-warning"
+                  className="btn btn-warning xndh"
                   onClick={() => editOrder(order.OrderID)}
                 >
                   Xác Nhận
                 </button>
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-primary xndh"
                   onClick={() => viewOrderDetails(order)}
                 >
                   Thông tin

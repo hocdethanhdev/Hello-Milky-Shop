@@ -1,6 +1,5 @@
 .product-list {
   margin-bottom: 20px;
-  
 }
 
 .product-list table {
@@ -132,7 +131,7 @@ select {
   background-color: white;
 }
 
-.button-create-product button{
+.button-create-product button {
   border-radius: 10px;
   background-color: #007bff;
   padding: 10px;
@@ -140,9 +139,11 @@ select {
   margin-left: 80%;
   color: white;
   border: none;
- 
 }
 
 .form-group-1 {
   width: 92%;
+}
+.select-add-pro {
+  color: black;
 }

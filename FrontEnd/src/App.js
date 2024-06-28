@@ -54,7 +54,6 @@ import ChangePassword from "./components/users/profileaccount/ChangePassword";
 import Shipping from "./components/shipping/shipping";
 import CancelOrder from "./components/managers/staff/CancelOrder";
 import ShippingOrder from "./components/managers/staff/ShippingOrder";
-import ShippedOrder from "./components/managers/staff/ShippedOrder";
 import DoneOrder from "./components/managers/staff/DoneOrder";
 import EditArticletModal from "./components/managers/staff/EditArticleModal";
 
@@ -82,7 +81,6 @@ function App() {
             <Route path="/feedbackManage" element={<FeedbackManage />} />
             <Route path="/cancel-order" element={<CancelOrder />} />
             <Route path="/order-in-transit" element={<ShippingOrder />} />
-            <Route path="/delivered-order" element={<ShippedOrder />} />
             <Route path="/completed-order" element={<DoneOrder />} />
             <Route path="/edit-article/:articleID" element={<EditArticletModal />} />
           </Routes>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import JoditEditor from "jodit-react";
-import sanitizeHtml from "sanitize-html";
+import DOMPurify from "dompurify";
 import './EditProductModal.css';
+import { uploadImage } from "../uimg/UpImage";
 
 const EditProductModal = ({ product, onClose, onSave }) => {
     const [formData, setFormData] = useState({ ...product });
     const editor = useRef(null);
-
+    const [progress, setProgress] = useState(0);
     useEffect(() => {
         setFormData({ ...product });
     }, [product]);
@@ -22,8 +23,35 @@ const EditProductModal = ({ product, onClose, onSave }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const updatedFormData = { ...formData, Status: parseInt(formData.Status) }; // Convert Status to number
+
+        const allowedTags = ["img", "b", "i", "u", "s", "ul", "ol", "li", "p", "br", "hr", "a", "table", "thead", "tbody", "tr", "th", "td", "font", "span", "div"];
+        const allowedAttrs = ["src", "alt", "href", "target", "width", "height", "style", "class", "align", "color", "size"];
+
+        const sanitizedDescription = DOMPurify.sanitize(formData.Description, {
+            ALLOWED_TAGS: allowedTags,
+            ALLOWED_ATTR: allowedAttrs,
+        });
+
+        const updatedFormData = {
+            ...formData,
+            Description: sanitizedDescription,
+            Status: parseInt(formData.Status), // Convert Status to number
+        };
         onSave(updatedFormData);
+    };
+
+    const handleResizeImage = (editor) => {
+        editor.events.on('mouseup', () => {
+            const images = editor.container.querySelectorAll('img');
+            images.forEach((image) => {
+                const width = image.style.width;
+                const height = image.style.height;
+                if (width && height) {
+                    image.setAttribute('width', width);
+                    image.setAttribute('height', height);
+                }
+            });
+        });
     };
 
     const editorConfig = useMemo(() => ({
@@ -40,9 +68,56 @@ const EditProductModal = ({ product, onClose, onSave }) => {
             '|', 'font', 'fontsize', 'brush', 'paragraph',
             '|', 'image', 'link', 'table',
             '|', 'align', 'undo', 'redo', 'hr',
-            '|', 'copyformat', 'fullsize'
-        ]
-    }), []);
+            '|', 'copyformat', 'fullsize',
+            {
+                name: 'uploadImage',
+                iconURL: 'https://cdn-icons-png.flaticon.com/128/685/685669.png',
+                exec: async (editor) => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    input.onchange = async (event) => {
+                        const file = event.target.files[0];
+                        if (file) {
+                            try {
+                                const url = await uploadImage(file, setProgress);
+                                const img = document.createElement('img');
+                                img.src = url;
+                                img.alt = 'Image';
+                                img.style.width = '100px';
+                                img.style.height = 'auto';
+                                editor.selection.insertNode(img);
+                                handleResizeImage(editor);
+                            } catch (error) {
+                                console.error('Error uploading image:', error);
+                            }
+                        }
+                    };
+                    input.click();
+                },
+                tooltip: 'Upload Image'
+            }
+        ],
+        useNativeSpeechRecognition: false,
+        events: {
+            afterInit: (editor) => {
+                handleResizeImage(editor);
+            },
+            change: (newContent) => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = newContent;
+                const images = tempDiv.querySelectorAll('img');
+                images.forEach((image) => {
+                    const width = image.style.width;
+                    const height = image.style.height;
+                    if (width && height) {
+                        image.setAttribute('width', width);
+                        image.setAttribute('height', height);
+                    }
+                });
+            }
+        }
+    }), [setProgress]);
 
     return (
         <div className="modal-thinhprostedit">
