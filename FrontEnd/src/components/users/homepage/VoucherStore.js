@@ -192,13 +192,14 @@ function VoucherStore() {
   return (
     <div className="voucher-store">
       <h1 className="thinh-gia-soc-lam">Voucher</h1>
-      <div className="slider-container">
+      {vouchers.length > 0 ? <div className="slider-container">
         <Slider {...settings}>
           {vouchers.map((voucher) => (
             <VoucherItem key={voucher.VoucherID} voucher={voucher} />
           ))}
         </Slider>
-      </div>
+      </div> : <p className="text-center">Hiện không còn voucher nào</p>}
+      
     </div>
   );
 }
