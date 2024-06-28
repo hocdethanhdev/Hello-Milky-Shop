@@ -87,15 +87,20 @@ function Voucher() {
     setShowStatusDropdown(!showStatusDropdown);
   };
 
+  const formatPrice = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
+
   return (
     <div className="voucher-container-thinhvcher">
       <div className="voucher-body-thinhvcher">
         {successMessage && (
           <p
-            className={`success-message-thinhvcher ${successMessage.includes("Lỗi")
-              ? "error-thinhvcher"
-              : "success-thinhvcher"
-              }`}
+            className={`success-message-thinhvcher ${
+              successMessage.includes("Lỗi")
+                ? "error-thinhvcher"
+                : "success-thinhvcher"
+            }`}
           >
             {successMessage}
           </p>
@@ -182,8 +187,8 @@ function Voucher() {
                   <td>{voucher.VoucherName}</td>
                   <td>{voucher.Quantity}</td>
                   <td>{voucher.DiscountPercentage}%</td>
-                  <td>{voucher.MinDiscount}</td>
-                  <td>{voucher.MaxDiscount}</td>
+                  <td>{formatPrice(voucher.MinDiscount)}</td>
+                  <td>{formatPrice(voucher.MaxDiscount)}</td>
                   <td>{new Date(voucher.StartDate).toLocaleDateString()}</td>
                   <td>{new Date(voucher.ExpiryDate).toLocaleDateString()}</td>
                   <td>{voucher.Status ? "Active" : "Inactive"}</td>
@@ -197,6 +202,14 @@ function Voucher() {
               ))}
             </tbody>
           </table>
+          <div className="pagination-container-thinhvcher">
+            <ThrowPage
+              current={currentPage}
+              onChange={handlePageChange}
+              total={filteredVouchers.length}
+              productsPerPage={10}
+            />
+          </div>
         </div>
       </div>
       {selectedVoucherForEdit && (
@@ -206,14 +219,6 @@ function Voucher() {
           onSave={handleSaveVoucher}
         />
       )}
-      <div className="pagination-container-thinhvcher">
-        <ThrowPage
-          current={currentPage}
-          onChange={handlePageChange}
-          total={filteredVouchers.length}
-          productsPerPage={10}
-        />
-      </div>
     </div>
   );
 }

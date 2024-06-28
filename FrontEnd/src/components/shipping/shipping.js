@@ -69,7 +69,7 @@ function Shipping() {
   }
 
   return (
-    <div className="table-container">
+    <div className="table-container shipping-table">
       <table>
         <thead>
           <tr>

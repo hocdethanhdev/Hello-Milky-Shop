@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, message } from "antd";
+import { Modal, Button } from "antd";
 // import './DoneOrder.css';
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
@@ -44,28 +44,38 @@ function DoneOrder() {
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
 
+  const formatPrice = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
+
   return (
     <div className="confirm-container">
       <table>
         <thead>
-          <tr>
-            <th>Mã đơn hàng</th>
-            <th>Ngày đặt hàng</th>
-            <th>Tổng</th>
-            <th>Thao tác</th>
+          <tr className="row">
+            <th className="col-md-2">Mã đơn hàng</th>
+            <th className="col-md-4">Ngày đặt hàng</th>
+
+            <th className="col-md-4">Tổng</th>
+            <th className="col-md-2">Thao tác</th>
           </tr>
         </thead>
         <tbody>
           {currentOrders.map((order) => (
-            <tr key={order.OrderID}>
-              <td>{order.OrderID}</td>
-              <td>{new Date(order.OrderDate).toLocaleDateString()}</td>
-              <td>{order.TotalAmount}</td>
-              <td>
+            <tr className="row" key={order.OrderID}>
+              <td className="col-md-2">{order.OrderID}</td>
+              <td className="col-md-4">
+                {new Date(order.OrderDate).toLocaleDateString()}
+              </td>
+              <td className="col-md-4">
+                {formatPrice(parseInt(order.TotalAmount))}
+              </td>
+              <td className="col-md-2">
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => viewOrderDetails(order)}>
+                  onClick={() => viewOrderDetails(order)}
+                >
                   Thông tin
                 </button>
               </td>
@@ -90,7 +100,8 @@ function DoneOrder() {
             <Button key="close" onClick={handleModalClose}>
               Đóng
             </Button>,
-          ]}>
+          ]}
+        >
           <p>
             <strong>Mã đơn hàng:</strong> {selectedOrder.OrderID}
           </p>
@@ -99,7 +110,7 @@ function DoneOrder() {
             {new Date(selectedOrder.OrderDate).toLocaleString()}
           </p>
           <p>
-            <strong>Tổng:</strong> {selectedOrder.TotalAmount}
+            <strong>Tổng:</strong> {formatPrice(selectedOrder.TotalAmount)}
           </p>
           <p>
             <strong>Địa chỉ:</strong> {selectedOrder.ShippingAddressID}
