@@ -114,7 +114,7 @@ function PromotionManage() {
             <th className="promo-th">Tên khuyến mãi</th>
             <th className="promo-th">Ảnh</th>
             <th className="promo-th">Mô tả</th>
-            <th className="promo-th">Phần trăm giảm giá</th>
+            <th className="promo-th">Giảm giá</th>
             <th className="promo-th">Bắt đầu</th>
             <th className="promo-th">Kết thúc</th>
             <th className="promo-th">Thao tác</th>

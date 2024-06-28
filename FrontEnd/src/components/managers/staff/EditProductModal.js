@@ -105,7 +105,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                             onBlur={handleDescriptionChange}
                         />
                     </label>
-                    <button type="submit">Save</button>
+                    <button className="button-edit-product" type="submit">Save</button>
                 </form>
             </div>
         </div>
