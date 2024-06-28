@@ -260,9 +260,6 @@
   box-sizing: border-box;
 }
 
-.half-width input[type="date"] {
-  width: calc(100% - 20px); /* Điều chỉnh cho input kiểu date */
-}
 .create-voucher {
   background-color: green;
   border-radius: 10px;

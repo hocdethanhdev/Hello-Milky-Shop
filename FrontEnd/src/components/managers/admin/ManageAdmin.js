@@ -14,14 +14,8 @@ const ManageAdmin = () => {
             })
             .catch(error => console.error('Error fetching users:', error));
     }, []);
-
- 
-   
-    
-
     return (
         <div className="table-container-staff">
-            <h1>Manage Staff Accounts</h1>
             <Link to="/adding-account-staff" className="add-account-link">Add Account</Link>
             <table className="account-table-st">
                 <thead>
