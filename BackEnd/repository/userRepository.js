@@ -1,6 +1,15 @@
 const userDAO = require("../dao/userDAO");
 
 const userRepository = {
+  updateUserEmail: async (UserID, Email) => {
+    return await userDAO.updateUserEmail(UserID, Email);
+  },
+  updateUserName: async (UserID, UserName) => {
+    return await userDAO.updateUserName(UserID, UserName);
+  },
+  updateUserPhoneNumber: async (UserID, PhoneNumber) => {
+    return await userDAO.updateUserPhoneNumber(UserID, PhoneNumber);
+  },
 
   usePoint: async (UserID) => {
     return await userDAO.usePoint(UserID);
@@ -33,7 +42,7 @@ const userRepository = {
   },
   changePointOfUser: async (userID, minusPoint) => {
     return await userDAO.changePointOfUser(userID, minusPoint);
-  }
-}
+  },
+};
 
 module.exports = userRepository;

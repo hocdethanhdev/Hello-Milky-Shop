@@ -4,10 +4,68 @@ const User = require("../bo/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const { updateUserPhoneNumber } = require("../repository/userRepository");
 
 const UserID = "a";
 
 const userDAO = {
+  updateUserEmail: (UserID, Email) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("UserID", mssql.VarChar, UserID)
+          .input("Email", mssql.VarChar, Email);
+        request.query(
+          `UPDATE Users SET Email = @Email WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.rowsAffected > 0 ? 0 : 1,
+            });
+          }
+        );
+      });
+    });
+  },
+  updateUserName: (UserID, UserName) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("UserID", mssql.VarChar, UserID)
+          .input("Email", mssql.NVarChar, UserName);
+        request.query(
+          `UPDATE Users SET UserName = @UserName WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.rowsAffected > 0 ? 0 : 1,
+            });
+          }
+        );
+      });
+    });
+  },
+  updateUserPhoneNumber: (UserID, PhoneNumber) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("UserID", mssql.VarChar, UserID)
+          .input("Email", mssql.VarChar, PhoneNumber);
+        request.query(
+          `UPDATE Users SET PhoneNumber = @PhoneNumber WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.rowsAffected > 0 ? 0 : 1,
+            });
+          }
+        );
+      });
+    });
+  },
   changePassword: (Password, UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -22,7 +80,6 @@ const userDAO = {
             resolve({
               err: res.rowsAffected > 0 ? 0 : 1,
             });
-            mssql.close();
           }
         );
       });

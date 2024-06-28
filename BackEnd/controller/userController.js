@@ -1,5 +1,26 @@
 const userService = require("../service/userService");
 
+const updateUserAccount = async (req, res) => {
+  try {
+    const { UserID, UserName, Email, PhoneNumber } = req.body;
+    if(!UserID) res.status(400).json({
+      err: 1,
+      message: 'Missing input'
+    })
+    let obj;
+    if(UserName !== null){
+      obj = await userService.updateUserName(UserID, UserName);
+    }else if(Email !== null){
+      obj = await userService.updateUserEmail(UserID, Email);
+    }else if(PhoneNumber !== null){
+      obj = await userService.updateUserPhoneNumber(UserID, PhoneNumber);
+    }
+    res.status(200).json(obj)
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const usePoint = async (req, res) => {
   try {
     const { UserID } = req.body;
@@ -114,4 +135,5 @@ module.exports = {
   changePointOfUser,
   countUserByRole,
   usePoint,
+  updateUserAccount,
 };

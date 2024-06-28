@@ -1,7 +1,5 @@
 const router = require('express').Router();
-
 const userController = require("../controller/userController");
-
 const verifyToken = require('../middleware/verifyToken')
 
 router.get('/getAllUsers', userController.getAllUsers);
@@ -21,5 +19,7 @@ router.post('/changePointOfUser', userController.changePointOfUser);
 router.get('/countUserByRole/:role', userController.countUserByRole);
 
 router.put('/usePoint', userController.usePoint);
+
+router.put('/updateUserAccount', userController.updateUserAccount);
 
 module.exports = router
