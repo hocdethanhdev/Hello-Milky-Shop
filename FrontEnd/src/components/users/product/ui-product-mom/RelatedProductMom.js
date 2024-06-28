@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './RelatedProductMom.css';
 import StarRating from '../ui-list-product-mom/StarRating';
-// Formatting functions
+
 const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 };

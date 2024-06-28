@@ -14,6 +14,7 @@
 .news-list {
   list-style: none;
   padding: 0;
+  padding-left: 250px;
 }
 
 .news-item {
@@ -21,6 +22,9 @@
   margin-bottom: 20px;
   border-bottom: 1px solid #ddd;
   padding-bottom: 20px;
+  background-color: white;
+  max-height: 200px;
+  border-radius: 8px;
 }
 
 .news-item-image {
@@ -39,14 +43,17 @@
 }
 
 .news-item h2 {
-  font-size: 24px;
+  font-size: 23px;
   margin-bottom: 10px;
+  padding-top: 10px;
+  font-weight: bold;
 }
 
 .news-item-summary {
   font-size: 16px;
   color: #555;
   margin-bottom: 10px;
+  padding: 5px;
 }
 
 .news-item-summary p {
@@ -65,8 +72,10 @@
   text-decoration: none;
 }
 
-.read-more-link:hover {
-  text-decoration: underline;
+.news-item:hover {
+  background-color: #d9f1ff;
+  border-radius: 5px;
+  padding: 1px;
 }
 
 .pagination {
@@ -93,4 +102,14 @@
 .page-link:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+.pro-list-news {
+  padding-top: 53px;
+}
+.chuyen-trang-new-thinh {
+  padding-left: 450px;
+}
+.category-filter-news {
+  padding-left: 560px;
+  padding-top: 20px;
 }

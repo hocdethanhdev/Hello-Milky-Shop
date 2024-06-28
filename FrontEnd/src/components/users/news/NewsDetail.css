@@ -1,78 +1,96 @@
 /* NewsDetail.css */
 .article-page {
-    display: flex;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-  }
-  
-  .main-article {
-    flex: 3;
-    padding-right: 20px;
-    border-right: 1px solid #ddd;
-  }
-  
-  .sidebar {
-    flex: 1;
-    padding-left: 20px;
-  }
-  
-  .article-header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .article-header h2 {
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .article-meta {
-    font-size: 14px;
-    color: #888;
-  }
-  
-  .article-content {
-    line-height: 1.6;
-    font-size: 16px;
-    color: #555;
-  }
-  
-  .article-content p {
-    margin-bottom: 15px;
-  }
-  
-  .article-image {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 15px;
-  }
-  
-  .sidebar h3 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .recommended-article {
-    display: flex;
-    margin-bottom: 15px;
-  }
-  .recommended-article img{
-    width: 50px;
-  }
-  .recommended-image {
-    width: 80px;
-    height: 80px;
-    margin-right: 10px;
-    object-fit: cover;
-  }
-  
-  .recommended-article p {
-    font-size: 14px;
-    color: #555;
-    margin: 0;
-    align-self: center;
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-bottom: 20px;
+  margin-left: 200px;
+  margin-right: 0;
+}
+
+.main-article {
+  flex: 3;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.sidebar {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.article-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-top: 15px;
+  padding-left: 15px;
+}
+
+.article-header h2 {
+  font-size: 36px;
+  color: #333;
+  font-weight: bolder;
+  text-align: left;
+}
+
+.article-meta {
+  font-size: 14px;
+  color: #888;
+  text-align: left;
+  margin-top: -10px;
+}
+
+.article-content {
+  line-height: 1.6;
+  font-size: 16px;
+  color: #555;
+  padding: 30px;
+  padding-top: 0;
+}
+
+.article-content p {
+  margin-bottom: 15px;
+}
+
+.article-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+.sidebar h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.recommended-article {
+  display: flex;
+  margin-bottom: 15px;
+}
+.recommended-article img {
+  width: 50px;
+}
+.recommended-image {
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.recommended-article p {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+  align-self: center;
+}
+.edit-thinh-new-detail {
+  max-width: 850px;
+  border-radius: 8px;
+  margin-top: 50px;
+}
+.phai-detail-thinh {
+  margin-right: 0;
+  margin-top: 18px;
+}

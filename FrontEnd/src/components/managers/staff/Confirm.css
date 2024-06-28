@@ -59,21 +59,11 @@ table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-.btn {
+.xndh {
   padding: 5px 10px;
   margin: 2px;
   cursor: pointer;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 3px;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3;
+  font-size: 13.4879px;
 }
 
 .pagination {
@@ -99,7 +89,6 @@ table tbody tr:nth-child(even) {
   margin: 20px 20px 0px 20px;
 }
 
-/* Kiểu dáng cho bảng */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -108,7 +97,6 @@ table tbody tr:nth-child(even) {
   text-align: left;
 }
 
-/* Kiểu dáng cho tiêu đề bảng */
 .table-header {
   background-color: #009879;
   color: #ffffff;
@@ -116,18 +104,15 @@ table tbody tr:nth-child(even) {
   font-weight: bold;
 }
 
-/* Kiểu dáng cho các ô trong bảng */
 .table-cell {
   padding: 12px 15px;
   border: 1px solid #ddd;
 }
 
-/* Kiểu dáng cho các hàng */
 .table-row {
   border-bottom: 1px solid #dddddd;
 }
 
-/* Kiểu dáng cho hàng lẻ và chẵn để dễ nhìn */
 .table-row:nth-of-type(even) {
   background-color: #f3f3f3;
 }
@@ -136,21 +121,10 @@ table tbody tr:nth-child(even) {
   border-bottom: 2px solid #009879;
 }
 
-/* Kiểu dáng khi di chuột qua hàng */
 .table-row:hover {
   background-color: #f1f1f1;
 }
 
-/* Kiểu dáng cho nút bấm */
-.btn-primary {
-  background-color: #009879;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.btn-primary:hover {
-  background-color: #007f5f;
+.nut-xndh {
+  display: flex;
 }
