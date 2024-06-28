@@ -7,8 +7,8 @@ import "./Posts.css";
 import { uploadImage } from "../uimg/UpImage";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
-import DOMPurify from "dompurify"; // Import dompurify
-import { message } from 'antd'; // Import message from antd
+import DOMPurify from "dompurify";
+import { message } from 'antd';
 
 function PostsAdd() {
   const [title, setTitle] = useState("");
