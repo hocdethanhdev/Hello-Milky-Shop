@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./MainDash.css";
 import Chart from "react-apexcharts";
 import { HiUsers } from "react-icons/hi";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoneyBillTrendUp } from '@fortawesome/free-solid-svg-icons';
 
 function MainDash() {
   const [productCount, setProductCount] = useState(0);
   const [brandCount, setBrandCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
-  const [notificationCount, setNotificationCount] = useState(56); // Static as per your code
+  const [revenue, setRevenue] = useState(0);
   const [top5BestSell, setTop5BestSell] = useState({
     ProductID: [],
     SumSell: [],
@@ -15,6 +17,11 @@ function MainDash() {
   });
   const [revenueData, setRevenueData] = useState({ months: [], revenue: [] });
   
+  const formattedRevenue = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(revenue);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -35,6 +42,13 @@ function MainDash() {
         );
         const userData = await userRes.json();
         setUserCount(userData.count);
+
+        const revenueRess = await fetch(
+          "http://localhost:5000/api/v1/order/getTodayRevenue"
+        );
+        const revenueDatas = await revenueRess.json();
+        setRevenue(revenueDatas);
+
 
         const top5BestSellRes = await fetch(
           "http://localhost:5000/api/v1/product/getTop5ProductBestSeller"
@@ -323,12 +337,12 @@ function MainDash() {
           </div>
           <div className="card-dasha4">
             <div className="card-inner-dasha">
-              <h3>Notifications</h3>
+              <h3>Doanh thu</h3>
               <span className="material-icons-outlined">
-                notification_important
+                <FontAwesomeIcon icon={faMoneyBillTrendUp} />
               </span>
             </div>
-            <h1>{notificationCount}</h1>
+            <h1>{formattedRevenue}</h1>
           </div>
         </div>
         <div className="charts-dasha">
@@ -342,7 +356,7 @@ function MainDash() {
             />
           </div>
           <div className="charts-card-dasha">
-            <h2 className="chart-title-dasha">Doanh thu</h2>
+            <h2 className="chart-title-dasha">Doanh thu trong 7 tháng</h2>
             <Chart
               options={areaChartOptions.options}
               series={areaChartOptions.series}
