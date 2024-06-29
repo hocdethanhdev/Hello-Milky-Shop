@@ -19,6 +19,7 @@ import PostsAdd from "./components/managers/staff/PostsAdd";
 import PromotionManage from "./components/managers/staff/PromotionManage";
 import AddPromotion from "./components/managers/staff/AddPromotion";
 import FeedbackManage from "./components/managers/staff/FeedbackManage";
+import AnsweredFeedbackManage from "./components/managers/staff/AnsweredFeedbackManage";
 // Admin Components (if needed)
 import MainDash from "./components/managers/admin/MainDash";
 import MangageAdmin from "./components/managers/admin/ManageAdmin";
@@ -83,6 +84,7 @@ function App() {
             <Route path="/order-in-transit" element={<ShippingOrder />} />
             <Route path="/completed-order" element={<DoneOrder />} />
             <Route path="/edit-article/:articleID" element={<EditArticletModal />} />
+            <Route path="/respondedFeedback" element={<AnsweredFeedbackManage />} />
           </Routes>
         </div>
       </div>

@@ -38,7 +38,7 @@ function Product1() {
 
               <Slider {...sliderSettings}>
                 <div className="box_slider">
-                  <img src="/banner1.png" alt="Banner 1" />
+                  <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fsua-optimum-gold-moi.jpg?alt=media&token=4be1e516-7011-4205-891e-7e0ab65f1f1e" alt="Banner 1" />
                 </div>
                 <div className="box_slider">
                   <img src="/banner2.jpg" alt="Banner 2" />
