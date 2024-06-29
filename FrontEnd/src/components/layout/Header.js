@@ -72,10 +72,10 @@ function Header() {
         <div className="logo-compo-tri">
           {role === 0 || role === 3 ? (
             <Link to="/">
-              <img src="/Screenshot 2024-06-27 235614.png" alt="LogoMilky" />
+              <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FScreenshot%202024-06-29%20121611.png?alt=media&token=8a1195ff-50c1-4e1d-ba67-df3442183f9f" alt="LogoMilky" />
             </Link>
           ) : (
-            <img src="/Screenshot 2024-06-27 235614.png" alt="LogoMilky" />
+            <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FScreenshot%202024-06-29%20121611.png?alt=media&token=8a1195ff-50c1-4e1d-ba67-df3442183f9f" alt="LogoMilky" />
           )}
         </div>
         {(role === 0 || role === 3) && (
