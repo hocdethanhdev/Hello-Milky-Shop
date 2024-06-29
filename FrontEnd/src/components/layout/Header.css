@@ -1,8 +1,9 @@
 /* Header.css */
-.logo-compo-tri img{
+.logo-compo-tri img {
   margin-left: 80px;
-  width: 50%;
+  width: 90%;
   height: fit-content;
+  padding-top: 8px;
 }
 .header-compo-tri {
   background-color: #0f7fc1;

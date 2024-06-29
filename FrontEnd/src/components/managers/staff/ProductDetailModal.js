@@ -13,7 +13,7 @@ const ProductDetailModal = ({ product, onClose }) => {
         <span className="close-button-thinhprost" onClick={onClose}>
           &times;
         </span>
-        <h2>Product Details</h2>
+        <h2>Thông tin sản phẩm</h2>
         <div className="modal-thinh-anh-thinhprost">
           <img
             src={product.Image}
@@ -23,37 +23,38 @@ const ProductDetailModal = ({ product, onClose }) => {
         </div>
         <div>
           <p>
-            <strong>ID:</strong> {product.ProductID}
+            <strong>Mã:</strong> {product.ProductID}
           </p>
           <p>
-            <strong>Name:</strong> {product.ProductName}
+            <strong>Tên:</strong> {product.ProductName}
           </p>
           <p>
-            <strong>Description:</strong> {product.Description}
+
+            <strong>mô tả:</strong> <div dangerouslySetInnerHTML={{ __html: product.Description.substring(0, 10000) }} />
           </p>
           <p>
-            <strong>Price:</strong> {formatPrice(product.Price)}
+            <strong>Giá:</strong> {formatPrice(product.Price)}
           </p>
           <p>
-            <strong>Stock Quantity:</strong> {product.StockQuantity}
+            <strong>Số lượng:</strong> {product.StockQuantity}
           </p>
           <p>
-            <strong>Expiration Date:</strong>{" "}
+            <strong>HSD:</strong>{" "}
             {new Date(product.ExpirationDate).toLocaleDateString()}
           </p>
           <p>
-            <strong>Manufacturing Date:</strong>{" "}
+            <strong>NSX:</strong>{" "}
             {new Date(product.ManufacturingDate).toLocaleDateString()}
           </p>
           <p>
-            <strong>Brand:</strong> {product.BrandName}
+            <strong>Hãng:</strong> {product.BrandName}
           </p>
           <p>
-            <strong>Category:</strong> {product.ProductCategoryName}
+            <strong>Loại:</strong> {product.ProductCategoryName}
           </p>
           <p>
-            <strong>Status:</strong>{" "}
-            {product.Status ? "Still in stock" : "Out of stock"}
+            <strong>Trạng thái:</strong>{" "}
+            {product.Status ? "Khả dụng" : "Không khả dụng"}
           </p>
         </div>
       </div>
