@@ -8,6 +8,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
     const [formData, setFormData] = useState({ ...product });
     const editor = useRef(null);
     const [progress, setProgress] = useState(0);
+
     useEffect(() => {
         setFormData({ ...product });
     }, [product]);
@@ -35,7 +36,6 @@ const EditProductModal = ({ product, onClose, onSave }) => {
         const updatedFormData = {
             ...formData,
             Description: sanitizedDescription,
-            Status: parseInt(formData.Status), // Convert Status to number
         };
         onSave(updatedFormData);
     };
@@ -52,6 +52,13 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                 }
             });
         });
+    };
+
+    const getStatusDisplay = (status, stockQuantity) => {
+        if (status === null || status === false) {
+            return "Tạm ẩn";
+        }
+        return status === true && parseInt(stockQuantity) > 0 ? "Còn hàng" : "Hết hàng";
     };
 
     const editorConfig = useMemo(() => ({
@@ -126,48 +133,47 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-grid">
                         <label>
-                            Product Name:
+                            Tên sản phẩm:
                             <input type="text" name="ProductName" value={formData.ProductName} onChange={handleChange} />
                         </label>
 
                         <label>
-                            Price:
+                            Giá:
                             <input type="number" name="Price" value={formData.Price} onChange={handleChange} />
                         </label>
                         <label>
-                            Stock Quantity:
+                            Số lượng:
                             <input type="number" name="StockQuantity" value={formData.StockQuantity} onChange={handleChange} />
                         </label>
                         <label>
-                            Image:
+                            Hình ảnh:
                             <input type="text" name="Image" value={formData.Image} onChange={handleChange} />
                         </label>
                         <label>
-                            Expiration Date:
+                            HSD:
                             <input type="date" name="ExpirationDate" value={formData.ExpirationDate} onChange={handleChange} />
                         </label>
                         <label>
-                            Manufacturing Date:
+                            NSX:
                             <input type="date" name="ManufacturingDate" value={formData.ManufacturingDate} onChange={handleChange} />
                         </label>
                         <label>
-                            Brand Name:
+                            Hãng:
                             <input type="text" name="BrandName" value={formData.BrandName} onChange={handleChange} />
                         </label>
                         <label>
-                            Product Category Name:
+                            Loại:
                             <select name="ProductCategoryName" value={formData.ProductCategoryName} onChange={handleChange}>
                                 <option value="Sữa cho mẹ">Sữa cho mẹ</option>
                                 <option value="Sữa cho em bé">Sữa cho em bé</option>
                             </select>
                         </label>
 
-                        <label>
-                            Status:
-                            <select name="Status" value={formData.Status} onChange={handleChange}>
-                                <option value="0">Out of stock</option>
-                                <option value="1">Still in stock</option>
-                            </select>
+                        <label className='st-thinh-he'>
+                            Trạng thái:
+                            <div className="status-display-thinh">
+                                {getStatusDisplay(formData.Status, formData.StockQuantity)}
+                            </div>
                         </label>
 
                     </div>
