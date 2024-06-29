@@ -128,7 +128,7 @@ function App() {
         <AdminSlidebar />
         <div className="content flex-grow-1">
           <Routes>
-            <Route path="/admin-dashboard" element={<MainDash />} />
+            <Route path="/" element={<MainDash />} />
             <Route path="/manage-admin" element={<MangageAdmin />} />
             <Route path="/manage-staff" element={<ManageStaff />} />
             <Route path="/adding-account-admin" element={<SignupAd />} />

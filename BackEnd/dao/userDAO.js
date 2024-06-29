@@ -255,7 +255,6 @@ const userDAO = {
         const request = new mssql.Request();
         request.query(`SELECT * FROM Users;`, (err, res) => {
           if (err) reject(err);
-
           resolve(res.recordset);
         });
       });
