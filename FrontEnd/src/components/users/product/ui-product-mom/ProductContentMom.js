@@ -81,6 +81,10 @@ const ProductContentMom = ({ product }) => {
         }, 100);
     };
 
+    const increseOne = () => {
+        setQuantity(prevQuantity => Math.min(prevQuantity + 1, availableStock));
+    };
+
     const stopIncrement = () => {
         clearInterval(incrementRef.current);
     };
@@ -90,6 +94,10 @@ const ProductContentMom = ({ product }) => {
         decrementRef.current = setInterval(() => {
             setQuantity(prevQuantity => Math.max(prevQuantity - 1, 1));
         }, 100);
+    };
+
+    const decreseOne = () => {
+        setQuantity(prevQuantity => Math.max(prevQuantity - 1, 1));
     };
 
     const stopDecrement = () => {
@@ -178,12 +186,14 @@ const ProductContentMom = ({ product }) => {
                                             className="quantity-button-thinh-cart"
                                             onMouseDown={startDecrement}
                                             onMouseUp={stopDecrement}
+                                            onClick={decreseOne}
                                             onMouseLeave={stopDecrement}
                                         >-</button>
                                         <input type="text" value={quantity} readOnly className="quantity-input-thinh-cart" />
                                         <button
                                             className="quantity-button-thinh-cart"
                                             onMouseDown={startIncrement}
+                                            onClick={increseOne}
                                             onMouseUp={stopIncrement}
                                             onMouseLeave={stopIncrement}
                                         >+</button>

@@ -92,7 +92,6 @@ const News = () => {
 
           <ul className="news-list">
             {currentPosts.map((article) => (
-              console.log(article.ArticleCategoryID),
               <Link to={`/NewsDetail/${article.ArticleID}`} className="read-more-link" onClick={() => handleProductClick()}>
                 <li key={article.ArticleID} className="news-item">
                   <div className="news-item-image">
