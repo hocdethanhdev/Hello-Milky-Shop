@@ -2,6 +2,16 @@ const User = require("../bo/user");
 const userRepository = require("../repository/userRepository");
 
 const userService = {
+  updateUserEmail: async (UserID, Email) => {
+    return await userRepository.updateUserEmail(UserID, Email);
+  },
+  updateUserName: async (UserID, UserName) => {
+    return await userRepository.updateUserName(UserID, UserName);
+  },
+  updateUserPhoneNumber: async (UserID, PhoneNumber) => {
+    return await userRepository.updateUserPhoneNumber(UserID, PhoneNumber);
+  },
+
 
   usePoint: async (UserID) => {
     return await userRepository.usePoint(UserID);
@@ -33,7 +43,7 @@ const userService = {
   },
   changePointOfUser: async (userID, minusPoint) => {
     return await userRepository.changePointOfUser(userID, minusPoint);
-  }
+  },
 };
 
 module.exports = userService;

@@ -72,3 +72,7 @@
 .account-content p:hover::before {
   transform: scaleX(1);
 }
+
+.update-account {
+  margin-left: 20px;
+}
