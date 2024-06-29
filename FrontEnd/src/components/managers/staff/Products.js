@@ -24,7 +24,7 @@ const Products = () => {
   const [productToDelete, setProductToDelete] = useState(null);
   const productsPerPage = 10;
 
-  useEffect(() => {
+  const fetchInforProductDetail = () => {
     fetch("http://localhost:5000/api/v1/product/getInfoProductsDetail")
       .then((response) => {
         if (!response.ok) {
@@ -37,6 +37,10 @@ const Products = () => {
         setFilteredProducts(data);
       })
       .catch((error) => console.error("Error fetching products:", error));
+  };
+
+  useEffect(() => {
+    fetchInforProductDetail();
   }, []);
 
   useEffect(() => {
@@ -62,9 +66,13 @@ const Products = () => {
     }
 
     if (sortOrder === "asc") {
-      updatedProducts.sort((a, b) => a.ProductName.localeCompare(b.ProductName));
+      updatedProducts.sort((a, b) =>
+        a.ProductName.localeCompare(b.ProductName)
+      );
     } else {
-      updatedProducts.sort((a, b) => b.ProductName.localeCompare(a.ProductName));
+      updatedProducts.sort((a, b) =>
+        b.ProductName.localeCompare(a.ProductName)
+      );
     }
 
     setFilteredProducts(updatedProducts);
@@ -128,12 +136,15 @@ const Products = () => {
   };
 
   const confirmDelete = () => {
-    fetch(`http://localhost:5000/api/v1/product/deleteProduct/${productToDelete}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      `http://localhost:5000/api/v1/product/deleteProduct/${productToDelete}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -152,6 +163,7 @@ const Products = () => {
             )
           );
           message.success("Xóa sản phẩm thành công!");
+          fetchInforProductDetail();
         }
         setShowDeletePopup(false);
       })
@@ -196,6 +208,7 @@ const Products = () => {
           )
         );
         message.success("Sản phẩm đã được cập nhật thành công!");
+        fetchInforProductDetail();
         setSelectedProductForEdit(null);
       })
       .catch((error) => {
@@ -226,7 +239,8 @@ const Products = () => {
               <tr>
                 <th>Mã</th>
                 <th onClick={handleSort} style={{ cursor: "pointer" }}>
-                  Tên sản phẩm<FontAwesomeIcon icon={faSort} />
+                  Tên sản phẩm
+                  <FontAwesomeIcon icon={faSort} />
                 </th>
                 <th className="category-header">
                   Loại sản phẩm{" "}
@@ -309,11 +323,12 @@ const Products = () => {
                   <td>{product.ProductName}</td>
                   <td>{product.ProductCategoryName}</td>
                   <td>
-                    {(product.Status === null) || (product.Status === false)
+                    {product.Status === null || product.Status === false
                       ? "Tạm ẩn"
-                      : product.Status === true && parseInt(product.StockQuantity) > 0
-                        ? "Còn hàng"
-                        : "Hết hàng"}
+                      : product.Status === true &&
+                        parseInt(product.StockQuantity) > 0
+                      ? "Còn hàng"
+                      : "Hết hàng"}
                   </td>
                   <td className="nut-act">
                     <button
