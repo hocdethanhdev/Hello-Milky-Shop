@@ -43,7 +43,13 @@ function AdminSlidebar() {
         <div
           className={`dropdown-content-st-thinh ${dropDown ? "active" : ""}`}>
           <NavLink
-            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            className={({ isActive }) =>
+              isActive ||
+                location.pathname.includes("/manage-admin") ||
+                location.pathname.includes("/adding-account-admin")
+                ? "active-st-thinh"
+                : ""
+            }
             to="/manage-admin">
             <img
               src="https://cdn-icons-png.flaticon.com/128/15699/15699633.png"
@@ -54,7 +60,13 @@ function AdminSlidebar() {
             Admin
           </NavLink>
           <NavLink
-            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+            className={({ isActive }) =>
+              isActive ||
+                location.pathname.includes("/manage-staff") ||
+                location.pathname.includes("/adding-account-staff")
+                ? "active-st-thinh"
+                : ""
+            }
             to="/manage-staff">
             <img
               src="https://cdn-icons-png.flaticon.com/128/15552/15552446.png"

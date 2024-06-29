@@ -76,10 +76,6 @@ function SignupAd() {
       newErrors.confirmPassword = "Passwords do not match.";
     }
 
-    if (!formData.termsAccepted) {
-      newErrors.termsAccepted = "You must accept the terms of use.";
-    }
-
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) {
@@ -173,26 +169,6 @@ function SignupAd() {
             )}
           </div>
 
-          <div className="checkbox-wrapper mb-4">
-            <label htmlFor="flexCheckDefault" className="checkbox-label-tri">
-              <input
-                type="checkbox"
-                id="flexCheckDefault"
-                name="termsAccepted"
-                checked={formData.termsAccepted}
-                onChange={handleChange}
-                className="form-check-input"
-              />
-              Đồng ý với
-              <a href="/termofuse" className="terms-link">
-                điều khoản sử dụng
-              </a>
-              tại Hello Milky Shop
-            </label>
-            {errors.termsAccepted && (
-              <div className="error">{errors.termsAccepted}</div>
-            )}
-          </div>
           <button
             className="signup-button"
             type="button"
