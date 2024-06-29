@@ -4,7 +4,7 @@ import axios from "axios";
 import "./ProductRating.css";
 import Notification from "./Notification"; // Import the Notification component
 
-export default function ProductRating({ productID, userID, fetchComments }) { // Thêm fetchComments vào props
+export default function ProductRating({ productID, userID, fetchComments, setRatingCount }) { // Thêm fetchComments vào props
     const [number, setNumber] = useState(0);
     const [hoverStar, setHoverStar] = useState(undefined);
     const [description, setDescription] = useState("");
@@ -59,10 +59,11 @@ export default function ProductRating({ productID, userID, fetchComments }) { //
                 });
                 console.log("Response:", response.data);
                 setIsSubmitting(false);
-                setNotification("Bình Luận Thành Công!"); 
+                setNotification("Bình Luận Thành Công!");
                 setNumber(0);
                 setDescription("");
-                fetchComments(); // Gọi fetchComments sau khi bình luận thành công
+                fetchComments();
+                setRatingCount(prevCount => prevCount - 1);
             } catch (error) {
                 console.error("Error submitting review:", error);
                 setIsSubmitting(false);
@@ -76,7 +77,7 @@ export default function ProductRating({ productID, userID, fetchComments }) { //
 
     return (
         <div className="ProductRating-thinh-rt">
-            {notification && <Notification message={notification} clearNotification={clearNotification} time={2000} />} 
+            {notification && <Notification message={notification} clearNotification={clearNotification} time={2000} />}
             <div className="content-thinh-rt">
                 <div>
                     <h1>{handleText()}</h1>

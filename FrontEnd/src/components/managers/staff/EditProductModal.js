@@ -3,23 +3,40 @@ import JoditEditor from "jodit-react";
 import DOMPurify from "dompurify";
 import './EditProductModal.css';
 import { uploadImage } from "../uimg/UpImage";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const EditProductModal = ({ product, onClose, onSave }) => {
     const [formData, setFormData] = useState({ ...product });
     const editor = useRef(null);
     const [progress, setProgress] = useState(0);
+    const [previewImage, setPreviewImage] = useState(null);
 
     useEffect(() => {
         setFormData({ ...product });
     }, [product]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+    const handleChange = async (e) => {
+        const { name, value, files } = e.target;
+        if (name === 'Image' && files && files[0]) {
+            const file = files[0];
+            try {
+                const imageUrl = await uploadImage(file, setProgress);
+                setFormData({ ...formData, Image: imageUrl });
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleDescriptionChange = (value) => {
         setFormData({ ...formData, Description: value });
+    };
+
+    const handleDateChange = (date, fieldName) => {
+        setFormData({ ...formData, [fieldName]: date });
     };
 
     const handleSubmit = (e) => {
@@ -145,17 +162,34 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                             Số lượng:
                             <input type="number" name="StockQuantity" value={formData.StockQuantity} onChange={handleChange} />
                         </label>
-                        <label>
-                            Hình ảnh:
-                            <input type="text" name="Image" value={formData.Image} onChange={handleChange} />
-                        </label>
+                        <div className="form-group1">
+                            <label>Hình ảnh: </label>
+                            <input type="file" name="Image" onChange={handleChange} />
+                            {formData.Image && (
+                                <img
+                                    src={formData.Image}
+                                    alt="Preview"
+                                    className="preview-image-2"
+                                />
+                            )}
+                        </div>
                         <label>
                             HSD:
-                            <input type="date" name="ExpirationDate" value={formData.ExpirationDate} onChange={handleChange} />
+                            <DatePicker
+                                selected={formData.ExpirationDate}
+                                onChange={(date) => handleDateChange(date, 'ExpirationDate')}
+                                className="form-control"
+                                dateFormat="yyyy-MM-dd"
+                            />
                         </label>
                         <label>
                             NSX:
-                            <input type="date" name="ManufacturingDate" value={formData.ManufacturingDate} onChange={handleChange} />
+                            <DatePicker
+                                selected={formData.ManufacturingDate}
+                                onChange={(date) => handleDateChange(date, 'ManufacturingDate')}
+                                className="form-control"
+                                dateFormat="yyyy-MM-dd"
+                            />
                         </label>
                         <label>
                             Hãng:

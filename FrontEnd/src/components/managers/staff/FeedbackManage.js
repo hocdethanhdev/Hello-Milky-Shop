@@ -3,13 +3,12 @@ import { Pagination } from "antd";
 import "./FeedbackManage.css";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { useSelector } from "react-redux";
-import Notification from "../../users/product/ui-product-mom/Notification";
 
+import { message } from "antd";
 const FeedbackManage = () => {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalComments, setTotalComments] = useState(0);
-  const [notification, setNotification] = useState(null);
   const commentsPerPage = 10;
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
@@ -60,7 +59,7 @@ const FeedbackManage = () => {
       );
 
       if (response.ok) {
-        setNotification("Gửi bình luận thành công");
+        message.success("Gửi bình luận thành công!");
         fetchComments();
       }
     } catch (error) {
@@ -87,8 +86,6 @@ const FeedbackManage = () => {
           />
         </div>
       </div>
-
-      {notification && <Notification message={notification} />}
     </div>
   );
 };
