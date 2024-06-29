@@ -17,8 +17,29 @@ const ProductScreen = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [canRate, setCanRate] = useState(false);
+    const [ratings, setRatings] = useState([]);
     const { token, isLoggedIn } = useSelector((state) => state.auth);
     const userId = getUserIdFromToken(token);
+
+    const fetchComments = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:5000/api/v1/comment/getCommentByProductID/${productId}`
+            );
+            const fetchedRatings = response.data.data.map((comment) => ({
+                name: comment.UserName,
+                date: new Date(comment.CommentDate).toLocaleDateString(),
+                rating: comment.Rating,
+                text: comment.Description,
+                rep: comment.Rep,
+                repDate: new Date(comment.RepDate).toLocaleDateString(),
+                staffName: comment.StaffName,
+            }));
+            setRatings(fetchedRatings);
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+        }
+    };
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -40,8 +61,6 @@ const ProductScreen = () => {
                         ProductID: productId,
                     });
 
-
-
                     if (response.data.count > 0) {
                         setCanRate(true);
                     } else {
@@ -53,12 +72,11 @@ const ProductScreen = () => {
             } else {
                 setCanRate(false);
             }
-
         };
 
         fetchProduct();
         checkUserOrder();
-
+        fetchComments();
     }, [productId, userId, isLoggedIn]);
 
     if (loading) return <div>Loading...</div>;
@@ -96,8 +114,8 @@ const ProductScreen = () => {
                     <div className='row'>
                         <div className='col-md-9'>
                             <ProductDetail product={product} />
-                            {canRate ? <ProductRating productID={product.ProductID} userID={userId} /> : <div></div>}
-                            <ProductRatingAll productId={product.ProductID} />
+                            {canRate ? <ProductRating productID={product.ProductID} userID={userId} fetchComments={fetchComments} /> : <div></div>}
+                            <ProductRatingAll productId={product.ProductID} ratings={ratings} />
                         </div>
                         <div className='col-md-3'>
                             <RelatedProducts product={product} />

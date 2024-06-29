@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Pagination } from 'antd';
-import './FeedbackManage.css';
+import React, { useEffect, useState } from "react";
+import { Pagination } from "antd";
+import "./FeedbackManage.css";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { useSelector } from "react-redux";
-import Notification from '../../users/product/ui-product-mom/Notification';
+import Notification from "../../users/product/ui-product-mom/Notification";
 
 const FeedbackManage = () => {
   const [comments, setComments] = useState([]);
@@ -20,23 +20,24 @@ const FeedbackManage = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/comment/getUnansweredComments?page=${currentPage}&limit=${commentsPerPage}`);
+      const response = await fetch(
+        `http://localhost:5000/api/v1/comment/getUnansweredComments?page=${currentPage}&limit=${commentsPerPage}`
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch comments');
+        throw new Error("Failed to fetch comments");
       }
       const data = await response.json();
-      if (!Array.isArray(data)) {
-        throw new Error('Comments data is not an array');
+      if (!Array.isArray(data.data)) {
+        throw new Error("Comments data is not an array");
       }
-      setComments(data);
-      setTotalComments(data.length);
+      setComments(data.data); // access the 'data' property
+      setTotalComments(data.data.length);
     } catch (error) {
-      console.error('Error fetching comments:', error);
+      console.error("Error fetching comments:", error);
       setComments([]);
       setTotalComments(0);
     }
   };
-
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -44,42 +45,47 @@ const FeedbackManage = () => {
 
   const handleCommentSubmit = async (commentId, rep) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/comment/repComment/${commentId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          UserID: userId,
-          Rep: rep,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/v1/comment/repComment/${commentId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            UserID: userId,
+            Rep: rep,
+          }),
+        }
+      );
 
       if (response.ok) {
-        setNotification('Gửi bình luận thành công');
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        setNotification("Gửi bình luận thành công");
+        fetchComments();
       }
     } catch (error) {
-      console.error('Error submitting reply:', error);
+      console.error("Error submitting reply:", error);
     }
   };
 
   return (
     <div className="feedback-manage-thinh-cmt">
       <div className="comments-section-thinh-cmt">
-        {comments.map(comment => (
-          <Comment key={comment.CommentID} comment={comment} onSubmit={handleCommentSubmit} />
+        {comments.map((comment) => (
+          <Comment
+            key={comment.CommentID}
+            comment={comment}
+            onSubmit={handleCommentSubmit}
+          />
         ))}
-      </div>
-      <div className='chuyen-trang-fb'>
-        <ThrowPage
-          current={currentPage}
-          onChange={handlePageChange}
-          total={totalComments}
-          productsPerPage={commentsPerPage}
-        />
+        <div className="chuyen-trang-fb">
+          <ThrowPage
+            current={currentPage}
+            onChange={handlePageChange}
+            total={totalComments}
+            productsPerPage={commentsPerPage}
+          />
+        </div>
       </div>
 
       {notification && <Notification message={notification} />}
@@ -89,7 +95,7 @@ const FeedbackManage = () => {
 
 const Comment = ({ comment, onSubmit }) => {
   const [product, setProduct] = useState(null);
-  const [reply, setReply] = useState('');
+  const [reply, setReply] = useState("");
 
   useEffect(() => {
     fetchProduct();
@@ -97,11 +103,13 @@ const Comment = ({ comment, onSubmit }) => {
 
   const fetchProduct = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/product/getProductInforID/${comment.ProductID}`);
+      const response = await fetch(
+        `http://localhost:5000/api/v1/product/getProductInforID/${comment.ProductID}`
+      );
       const data = await response.json();
       setProduct(data);
     } catch (error) {
-      console.error('Error fetching product:', error);
+      console.error("Error fetching product:", error);
     }
   };
 
@@ -111,7 +119,9 @@ const Comment = ({ comment, onSubmit }) => {
     return (
       <div className="stars">
         {[...Array(5)].map((_, i) => (
-          <span key={i} className={`star ${i < roundedCount ? 'filled' : ''}`}>&#9733;</span>
+          <span key={i} className={`star ${i < roundedCount ? "filled" : ""}`}>
+            &#9733;
+          </span>
         ))}
       </div>
     );
@@ -127,17 +137,26 @@ const Comment = ({ comment, onSubmit }) => {
 
   return (
     <div className="comment-thinh-cmt">
-      <div className='comment-thinh-fl'>
-        <div className='bl-rep'>
+      <div className="comment-thinh-fl">
+        <div className="bl-rep">
           <div className="comment-header-thinh-cmt">
-            <div className="initial-thinh-cmt">{getInitial(comment.UserName)}</div>
+            <div className="initial-thinh-cmt">
+              {getInitial(comment.UserName)}
+            </div>
             <div className="details-thinh-cmt">
               <div className="name-and-stars-thinh-cmt">
                 <span className="name-thinh-cmt">{comment.UserName}</span>
-                <span className="stars-thinh-cmt"> {renderStars(comment.Rating)}</span>
+                <span className="stars-thinh-cmt">
+                  {" "}
+                  {renderStars(comment.Rating)}
+                </span>
               </div>
-              <div className="comment-content-thinh-cmt">{comment.Description}</div>
-              <div className="time-thinh-cmt">{new Date(comment.CommentDate).toLocaleDateString()}</div>
+              <div className="comment-content-thinh-cmt">
+                {comment.Description}
+              </div>
+              <div className="time-thinh-cmt">
+                {new Date(comment.CommentDate).toLocaleDateString()}
+              </div>
             </div>
           </div>
           <div className="new-comment-section-thinh-cmt">
@@ -147,15 +166,21 @@ const Comment = ({ comment, onSubmit }) => {
               value={reply}
               onChange={handleReplyChange}
             />
-            <button onClick={handleReplySubmit} disabled={!reply}>Gửi</button>
+            <button onClick={handleReplySubmit} disabled={!reply}>
+              Gửi
+            </button>
           </div>
         </div>
         {product && (
           <div className="product-info-thinh-cmt">
             <img src={product[0].Image} alt={product[0].ProductName} />
             <div>
-              <div className="product-name-thinh-cmt">{product[0].ProductName}</div>
-              <div className="product-code-thinh-cmt">Mã SP: {comment.ProductID}</div>
+              <div className="product-name-thinh-cmt">
+                {product[0].ProductName}
+              </div>
+              <div className="product-code-thinh-cmt">
+                Mã SP: {comment.ProductID}
+              </div>
             </div>
           </div>
         )}
@@ -170,7 +195,14 @@ const ThrowPage = ({ current, onChange, total, productsPerPage }) => {
     onChange(page);
   };
 
-  return <Pagination current={current} onChange={handlePageChange} total={total} pageSize={productsPerPage} />;
+  return (
+    <Pagination
+      current={current}
+      onChange={handlePageChange}
+      total={total}
+      pageSize={productsPerPage}
+    />
+  );
 };
 
 export default FeedbackManage;

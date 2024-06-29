@@ -151,7 +151,7 @@ function Address() {
               <th>Tên người đặt</th>
               <th>Số điện thoại</th>
               <th>Địa chỉ</th>
-              <th></th>
+              <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>

@@ -178,6 +178,29 @@ const commentDAO = {
         );
       });
     });
+  },getAnsweredComments: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT CommentID, c.Description, Rating, CommentDate, Rep, RepDate, c.ProductID, u.UserName, s.UserName as StaffName
+          FROM Comment c
+          JOIN Users u ON u.UserID = c.UserID
+          LEFT JOIN Users s ON s.UserID = c.StaffID
+          JOIN Product p ON p.ProductID = c.ProductID
+          WHERE Rep is not null
+        ;`,
+          (err, res) => {
+            if (err) reject(err);
+            
+            resolve({
+              err: res.recordset[0] === null ? 1 : 0,
+              data: res.recordset[0] === null ? [] : res.recordset
+            });
+          }
+        );
+      });
+    });
   },
   repComment: (id, rep, UserID) => {
     return new Promise((resolve, reject) => {

@@ -560,3 +560,6 @@ Content-Type: application/json
     "ArticleID": 1,
     "ArticleCategoryID": 1
 }
+
+### lấy commemt đã rep
+GET http://localhost:5000/api/v1/comment/getAnsweredComments
