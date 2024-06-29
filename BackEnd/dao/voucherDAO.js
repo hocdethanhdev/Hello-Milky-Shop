@@ -288,7 +288,7 @@ const voucherDAO = {
                         v.VoucherName
                     FROM UserVoucher uv
                     JOIN Voucher v ON uv.VoucherID = v.VoucherID
-                    WHERE uv.UserID = @userID;
+                    WHERE WHERE GETDATE() <= v.ExpiryDate AND GETDATE() >= v.ExpiryDate AND uv.UserID = @userID;
                 `;
 
                 request.query(query, (err, result) => {
