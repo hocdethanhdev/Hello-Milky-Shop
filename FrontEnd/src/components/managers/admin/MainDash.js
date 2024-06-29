@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./MainDash.css";
 import Chart from "react-apexcharts";
 import { HiUsers } from "react-icons/hi";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoneyBillTrendUp } from '@fortawesome/free-solid-svg-icons';
 
 function MainDash() {
   const [productCount, setProductCount] = useState(0);
   const [brandCount, setBrandCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
   const [revenue, setRevenue] = useState(0);
-  const [notificationCount, setNotificationCount] = useState(56); // Static as per your code
   const [top5BestSell, setTop5BestSell] = useState({
     ProductID: [],
     SumSell: [],
@@ -355,7 +356,7 @@ function MainDash() {
             />
           </div>
           <div className="charts-card-dasha">
-            <h2 className="chart-title-dasha">Doanh thu trong tháng 7</h2>
+            <h2 className="chart-title-dasha">Doanh thu trong 7 tháng</h2>
             <Chart
               options={areaChartOptions.options}
               series={areaChartOptions.series}
