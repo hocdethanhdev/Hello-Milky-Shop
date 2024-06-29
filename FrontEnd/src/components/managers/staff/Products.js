@@ -6,7 +6,8 @@ import { faFilter, faSort } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import ProductDetailModal from "./ProductDetailModal";
 import EditProductModal from "./EditProductModal";
-import { message } from 'antd';
+import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
+import { message } from "antd";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,8 @@ const Products = () => {
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedProductForEdit, setSelectedProductForEdit] = useState(null);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
   const productsPerPage = 10;
 
   useEffect(() => {
@@ -46,20 +49,22 @@ const Products = () => {
     }
 
     if (statusFilter !== "All") {
-      updatedProducts = updatedProducts.filter(
-        (product) =>
-          (product.Status ? "Still in stock" : "Out of stock") === statusFilter
-      );
+      updatedProducts = updatedProducts.filter((product) => {
+        if (statusFilter === "Tạm ẩn") {
+          return product.Status === false;
+        } else if (statusFilter === "Còn hàng") {
+          return product.Status === true && product.StockQuantity > 0;
+        } else if (statusFilter === "Hết hàng") {
+          return product.Status === true && product.StockQuantity === 0;
+        }
+        return true;
+      });
     }
 
     if (sortOrder === "asc") {
-      updatedProducts.sort((a, b) =>
-        a.ProductName.localeCompare(b.ProductName)
-      );
+      updatedProducts.sort((a, b) => a.ProductName.localeCompare(b.ProductName));
     } else {
-      updatedProducts.sort((a, b) =>
-        b.ProductName.localeCompare(a.ProductName)
-      );
+      updatedProducts.sort((a, b) => b.ProductName.localeCompare(a.ProductName));
     }
 
     setFilteredProducts(updatedProducts);
@@ -67,7 +72,7 @@ const Products = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo(0, 0);
   };
 
   const handleSort = () => {
@@ -118,40 +123,47 @@ const Products = () => {
   };
 
   const handleDeleteClick = (productId) => {
-    const confirmDelete = window.confirm(
-      "Bạn có chắc muốn xóa sản phẩm này không?"
-    );
-    if (confirmDelete) {
-      fetch(`http://localhost:5000/api/v1/product/deleteProduct/${productId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    setProductToDelete(productId);
+    setShowDeletePopup(true);
+  };
+
+  const confirmDelete = () => {
+    fetch(`http://localhost:5000/api/v1/product/deleteProduct/${productToDelete}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          if (data.message !== "Deleted") {
-            message.error("Lỗi khi xóa sản phẩm.");
-          } else {
-            setProducts(
-              products.map((product) =>
-                product.ProductID === productId
-                  ? { ...product, Status: 0 }
-                  : product
-              )
-            );
-            message.success("Xóa sản phẩm thành công!");
-          }
-        })
-        .catch((error) => {
-          message.error("Lỗi khi xóa sản phẩm: " + error.message);
-        });
-    }
+      .then((data) => {
+        if (data.message !== "Deleted") {
+          message.error("Lỗi khi xóa sản phẩm.");
+        } else {
+          setProducts(
+            products.map((product) =>
+              product.ProductID === productToDelete
+                ? { ...product, Status: 0 }
+                : product
+            )
+          );
+          message.success("Xóa sản phẩm thành công!");
+        }
+        setShowDeletePopup(false);
+      })
+      .catch((error) => {
+        message.error("Lỗi khi xóa sản phẩm: " + error.message);
+        setShowDeletePopup(false);
+      });
+  };
+
+  const cancelDelete = () => {
+    setShowDeletePopup(false);
+    setProductToDelete(null);
   };
 
   const handleEditClick = (product) => {
@@ -217,7 +229,7 @@ const Products = () => {
                   Tên sản phẩm<FontAwesomeIcon icon={faSort} />
                 </th>
                 <th className="category-header">
-                  Loại sản phẩm {" "}
+                  Loại sản phẩm{" "}
                   <FontAwesomeIcon
                     icon={faFilter}
                     onClick={toggleCategoryDropdown}
@@ -265,14 +277,21 @@ const Products = () => {
                       </li>
                       <li
                         className="dropdown-li-thinh"
-                        data-value="Still in stock"
+                        data-value="Tạm ẩn"
+                        onClick={handleStatusFilter}
+                      >
+                        Tạm ẩn
+                      </li>
+                      <li
+                        className="dropdown-li-thinh"
+                        data-value="Còn hàng"
                         onClick={handleStatusFilter}
                       >
                         Còn hàng
                       </li>
                       <li
                         className="dropdown-li-thinh"
-                        data-value="Out of stock"
+                        data-value="Hết hàng"
                         onClick={handleStatusFilter}
                       >
                         Hết hàng
@@ -290,9 +309,13 @@ const Products = () => {
                   <td>{product.ProductName}</td>
                   <td>{product.ProductCategoryName}</td>
                   <td>
-                    {product.Status ? "Still in stock" : "Out of stock"}
+                    {(product.Status === null) || (product.Status === false)
+                      ? "Tạm ẩn"
+                      : product.Status === true && parseInt(product.StockQuantity) > 0
+                        ? "Còn hàng"
+                        : "Hết hàng"}
                   </td>
-                  <td>
+                  <td className="nut-act">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -312,7 +335,7 @@ const Products = () => {
                       className="btn btn-warning"
                       onClick={() => handleEditClick(product)}
                     >
-                      Chỉnh sửa
+                      Sửa
                     </button>
                   </td>
                 </tr>
@@ -340,6 +363,13 @@ const Products = () => {
           product={selectedProductForEdit}
           onClose={handleCloseModal}
           onSave={handleSaveProduct}
+        />
+      )}
+      {showDeletePopup && (
+        <DeleteConfirmationPopup
+          visible={showDeletePopup}
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
         />
       )}
     </div>

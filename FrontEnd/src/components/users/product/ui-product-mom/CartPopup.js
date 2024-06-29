@@ -1,6 +1,6 @@
 import React from 'react';
 import './CartPopup.css';
-
+import { Link } from 'react-router-dom';
 const CartPopup = ({ isOpen, onClose, product, quantity }) => {
     if (!isOpen) {
         return null;
@@ -24,6 +24,11 @@ const CartPopup = ({ isOpen, onClose, product, quantity }) => {
                     <div className="popup-btn-thinh-cart">
                         <button className="btn-go-cart-thinh-cart" onClick={onClose}>Tiếp tục mua hàng</button>
                     </div>
+                    <Link to="/ShoppingCart">
+                        <div className="popup-btn-thinh-cart1">
+                            <button className="btn-go-cart-thinh-cart1" >Thanh Toán</button>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </div>
