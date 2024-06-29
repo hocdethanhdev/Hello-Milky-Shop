@@ -2,16 +2,20 @@ import React, { useEffect, useState } from "react";
 import "./MainDash.css";
 import Chart from "react-apexcharts";
 import { HiUsers } from "react-icons/hi";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoneyBillTrendUp } from "@fortawesome/free-solid-svg-icons";
 
 function MainDash() {
   const [productCount, setProductCount] = useState(0);
   const [brandCount, setBrandCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
   const [revenue, setRevenue] = useState(0);
-  const [topProducts, setTopProducts] = useState([]);
-
+  const [notificationCount, setNotificationCount] = useState(56); // Static as per your code
+  const [top5BestSell, setTop5BestSell] = useState({
+    ProductID: [],
+    SumSell: [],
+    ProductName: [],
+  });
+  const [revenueData, setRevenueData] = useState({ months: [], revenue: [] });
+  
   const formattedRevenue = new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
@@ -20,7 +24,6 @@ function MainDash() {
   useEffect(() => {
     async function fetchData() {
       try {
-        // Fetch general data
         const productRes = await fetch(
           "http://localhost:5000/api/v1/product/countProduct"
         );
@@ -39,18 +42,32 @@ function MainDash() {
         const userData = await userRes.json();
         setUserCount(userData.count);
 
-        const revenueRes = await fetch(
+        const revenueRess = await fetch(
           "http://localhost:5000/api/v1/order/getTodayRevenue"
         );
-        const revenueData = await revenueRes.json();
-        setRevenue(revenueData);
+        const revenueDatas = await revenueRess.json();
+        setRevenue(revenueDatas);
 
-        // Fetch top 5 best-selling products
-        const topProductsRes = await fetch(
+
+        const top5BestSellRes = await fetch(
           "http://localhost:5000/api/v1/product/getTop5ProductBestSeller"
         );
-        const topProductsData = await topProductsRes.json();
-        setTopProducts(topProductsData.data);
+        const top5BestSellData = await top5BestSellRes.json();
+        const ProductID = top5BestSellData.data.map((item) => item.ProductID);
+        const ProductName = top5BestSellData.data.map(
+          (item) => item.ProductName
+        );
+        const SumSell = top5BestSellData.data.map((item) => item.SumSell);
+        setTop5BestSell({ ProductID, SumSell, ProductName });
+
+        const revenueRes = await fetch(
+          "http://localhost:5000/api/v1/order/getRevenueLastSevenMonths"
+        );
+        const revenueData = await revenueRes.json();
+        const months = revenueData.map((item) => item.Month);
+        const revenue = revenueData.map((item) => (parseInt(item.revenue)));
+        console.log(revenue);
+        setRevenueData({ months, revenue });
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -58,47 +75,237 @@ function MainDash() {
     fetchData();
   }, []);
 
-  // Biểu đồ cột cho top 5 sản phẩm bán chạy nhất
-  const barChartOptions = {
-    options: {
-      chart: {
-        id: "top-products-chart",
-        toolbar: {
-          show: false,
-        },
-      },
-      xaxis: {
-        categories: topProducts.map((product) => product.ProductName),
-      },
-    },
-    series: [
-      {
-        name: "Số lượng bán",
-        data: topProducts.map((product) => product.SumSell),
-      },
-    ],
+  const formatPrice = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
-  // Biểu đồ diện tích cho doanh thu
-  const areaChartOptions = {
+  const barChartOptions = {
+    series: [
+      {
+        data: top5BestSell.SumSell,
+        name: "Sản phẩm đã bán",
+      },
+    ],
     options: {
       chart: {
-        id: "revenue-chart",
+        type: "bar",
+        background: "transparent",
+        height: 350,
         toolbar: {
           show: false,
         },
       },
+      colors: ["#2962ff", "#d50000", "#2e7d32", "#ff6d00", "#583cb3"],
+      plotOptions: {
+        bar: {
+          distributed: true,
+          borderRadius: 4,
+          horizontal: false,
+          columnWidth: "40%",
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      fill: {
+        opacity: 1,
+      },
+      grid: {
+        borderColor: "#55596e",
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      stroke: {
+        colors: ["transparent"],
+        show: true,
+        width: 2,
+      },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        theme: "dark",
+        custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+          return `
+                        <div class="apexcharts-tooltip-title" style="font-size: 14px; font-weight: bold;">
+                            ${top5BestSell.ProductName[dataPointIndex]}
+                        </div>
+                        <div class="apexcharts-tooltip-y-group">
+                            <span class="apexcharts-tooltip-text-label">Số lượng bán: </span>
+                            <span class="apexcharts-tooltip-text-value" style="margin-left: 6px;">
+                                ${series[seriesIndex][dataPointIndex]}
+                            </span>
+                        </div>`;
+        },
+      },
       xaxis: {
-        categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        categories: top5BestSell.ProductID,
+        title: {
+          style: {
+            color: "#f5f7ff",
+          },
+        },
+        axisBorder: {
+          show: true,
+          color: "#55596e",
+        },
+        axisTicks: {
+          show: true,
+          color: "#55596e",
+        },
+        labels: {
+          style: {
+            colors: "black",
+          },
+        },
+      },
+      yaxis: {
+        title: {
+          text: "Count",
+          style: {
+            color: "black",
+          },
+        },
+        axisBorder: {
+          color: "#55596e",
+          show: true,
+        },
+        axisTicks: {
+          color: "#55596e",
+          show: true,
+        },
+        labels: {
+          style: {
+            colors: "black",
+          },
+        },
       },
     },
-    series: [
-      {
-        name: "Doanh thu",
-        data: [30, 40, 35, 50, 49, 60, 70],
-      },
-    ],
   };
+
+  const areaChartOptions = {
+    series: [
+        {
+            name: "Doanh thu",
+            data: revenueData.revenue,
+        },
+    ],
+    options: {
+        chart: {
+            type: "area",
+            background: "transparent",
+            height: 350,
+            stacked: false,
+            toolbar: {
+                show: false,
+            },
+        },
+        colors: ["#00ab57"], // Choose your preferred color
+        labels: revenueData.months,
+        dataLabels: {
+            enabled: false,
+        },
+        fill: {
+            gradient: {
+                opacityFrom: 0.4,
+                opacityTo: 0.1,
+                shadeIntensity: 1,
+                stops: [0, 100],
+                type: "vertical",
+            },
+            type: "gradient",
+        },
+        grid: {
+            borderColor: "#55596e",
+            yaxis: {
+                lines: {
+                    show: true,
+                },
+            },
+            xaxis: {
+                lines: {
+                    show: true,
+                },
+            },
+        },
+        legend: {
+            show: false,
+        },
+        markers: {
+            size: 6,
+            strokeColors: "#1b2635",
+            strokeWidth: 3,
+        },
+        stroke: {
+            curve: "smooth",
+        },
+        xaxis: {
+            axisBorder: {
+                color: "#55596e",
+                show: true,
+            },
+            axisTicks: {
+                color: "#55596e",
+                show: true,
+            },
+            labels: {
+                offsetY: 5,
+                style: {
+                    colors: "black", // Change this to your preferred color
+                },
+            },
+        },
+        yaxis: {
+            title: {
+                text: "Revenue",
+                style: {
+                    color: "black", // Change this to your preferred color
+                },
+            },
+            labels: {
+                formatter: function (value) {
+                    return formatPrice(value);
+                },
+                style: {
+                    colors: ["black"], // Change this to your preferred color
+                },
+            },
+        },
+        tooltip: {
+            shared: true,
+            intersect: false,
+            theme: "dark",
+            style: {
+                fontSize: "14px", // Font size of tooltip text
+                maxWidth: "300px", // Max width of the tooltip
+                marginLeft: "6px", // Margin left for tooltip
+            },
+            custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+                return `
+                    <div class="apexcharts-tooltip-title" style="font-size: 14px; font-weight: bold;">
+                        ${revenueData.months[dataPointIndex]}
+                    </div>
+                    <div class="apexcharts-tooltip-y-group">
+                        <span class="apexcharts-tooltip-text-label">Doanh thu: </span>
+                        <span class="apexcharts-tooltip-text-value">
+                            ${formatPrice(series[seriesIndex][dataPointIndex])}
+                        </span>
+                    </div>`;
+            },
+        },
+    },
+};
+
 
   return (
     <div className="grid-container-dasha">
@@ -139,16 +346,16 @@ function MainDash() {
         </div>
         <div className="charts-dasha">
           <div className="charts-card-dasha">
-            <h2 className="chart-title-dasha">Top 5 Products</h2>
+            <h2 className="chart-title-dasha">Top 5 Sản phẩm bán chạy</h2>
             <Chart
               options={barChartOptions.options}
               series={barChartOptions.series}
               type="bar"
-              height={300}
+              height={350}
             />
           </div>
           <div className="charts-card-dasha">
-            <h2 className="chart-title-dasha">Revenue</h2>
+            <h2 className="chart-title-dasha">Doanh thu trong tháng 7</h2>
             <Chart
               options={areaChartOptions.options}
               series={areaChartOptions.series}

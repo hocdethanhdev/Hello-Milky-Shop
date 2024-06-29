@@ -109,7 +109,7 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
                     </div>
                     <button className="save-editpromotion" type="submit">Lưu</button>
                 </form>
-                
+
             </div>
         </div>
     );

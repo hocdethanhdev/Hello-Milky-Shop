@@ -75,8 +75,6 @@ function PostsAdd() {
       setTimeout(() => {
         window.location.reload();
       }, 1000);
-
-      console.log("Post created successfully:", response.data);
       // Reset form or handle success action
     } catch (error) {
       console.error("Error creating post:", error.response);

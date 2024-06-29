@@ -52,7 +52,6 @@ function AddPromotion({ onAddPromotion }) {
         },
         { headers: { "Content-Type": "application/json" } }
       );
-      console.log("New Promotion added:", response.data);
       onAddPromotion(response.data); // Notify parent component of new promotion
     } catch (error) {
       console.error("Error adding promotion:", error);

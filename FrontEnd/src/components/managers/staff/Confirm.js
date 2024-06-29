@@ -79,9 +79,6 @@ function Confirm() {
             );
           });
       },
-      onCancel() {
-        console.log("Hủy thay đổi");
-      },
     });
   };
 

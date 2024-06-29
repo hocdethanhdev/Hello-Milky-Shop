@@ -16,6 +16,10 @@ const shippingAddressRepository = {
   updateDeleted: async (shippingAddress_id) => {
     return await shippingAddressDAO.updateIsDeleted(shippingAddress_id);
   },
+
+  getInfoAddressWithOrderNearest: async () => {
+    return await shippingAddressDAO.findInfoAddressWithOrderNearest();
+  },
 }
 
 module.exports = shippingAddressRepository;

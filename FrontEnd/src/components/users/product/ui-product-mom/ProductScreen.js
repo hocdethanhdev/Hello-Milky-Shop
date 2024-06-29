@@ -20,6 +20,7 @@ const ProductScreen = () => {
     const [ratings, setRatings] = useState([]);
     const { token, isLoggedIn } = useSelector((state) => state.auth);
     const userId = getUserIdFromToken(token);
+    const [ratingCount, setRatingCount] = useState(0);
 
     const fetchComments = async () => {
         try {
@@ -53,6 +54,7 @@ const ProductScreen = () => {
             }
         };
 
+
         const checkUserOrder = async () => {
             if (isLoggedIn) {
                 try {
@@ -60,12 +62,7 @@ const ProductScreen = () => {
                         UserID: userId,
                         ProductID: productId,
                     });
-
-                    if (response.data.count > 0) {
-                        setCanRate(true);
-                    } else {
-                        setCanRate(false);
-                    }
+                    setRatingCount(response.data.count);
                 } catch (err) {
                     console.error("Error checking user order:", err);
                 }
@@ -114,7 +111,7 @@ const ProductScreen = () => {
                     <div className='row'>
                         <div className='col-md-9'>
                             <ProductDetail product={product} />
-                            {canRate ? <ProductRating productID={product.ProductID} userID={userId} fetchComments={fetchComments} /> : <div></div>}
+                            {ratingCount > 0 ? <ProductRating productID={product.ProductID} userID={userId} fetchComments={fetchComments} setRatingCount={setRatingCount} /> : <div></div>}
                             <ProductRatingAll productId={product.ProductID} ratings={ratings} />
                         </div>
                         <div className='col-md-3'>
