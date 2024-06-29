@@ -446,6 +446,10 @@ const ShoppingCart = () => {
     }
   };
 
+  const formatPrice = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
+
   return (
     <div className="checkout-container">
       <br />
@@ -589,7 +593,7 @@ const ShoppingCart = () => {
                 <span className="icon-wrapper-long">
                   <img src="/ImageMilkShop/icon xu.png" alt="Xu icon" className="points-icon" />
                 </span>
-                Dùng {points} xu - {points * 10}₫
+                Dùng {points} xu - {formatPrice(points * 10)}₫
               </label>
             </div>
 

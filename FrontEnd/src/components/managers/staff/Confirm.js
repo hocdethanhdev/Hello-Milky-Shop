@@ -10,19 +10,19 @@ function Confirm() {
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
   const ordersPerPage = 10;
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/1"
-        );
-        const data = await response.json();
-        setOrders(data.address);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      }
-    };
+  const fetchOrders = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/1"
+      );
+      const data = await response.json();
+      setOrders(data.address);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchOrders();
   }, []);
 
@@ -56,18 +56,16 @@ function Confirm() {
               prevOrders.map((order) =>
                 order.OrderID === orderID
                   ? {
-                    ...order,
-                    StatusOrderID: [2, 2],
-                    StatusOrderName: "Đã xác nhận",
-                  }
+                      ...order,
+                      StatusOrderID: [2, 2],
+                      StatusOrderName: "Đã xác nhận",
+                    }
                   : order
               )
             );
 
             message.success("Trạng thái đơn hàng đã được cập nhật.");
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
+            fetchOrders();
           })
           .catch((error) => {
             message.error(
