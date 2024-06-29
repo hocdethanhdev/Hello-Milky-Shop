@@ -110,6 +110,16 @@ const getUnansweredComments = async (req, res) => {
   }
 };
 
+const getAnsweredComments = async (req, res) => {
+  try {
+    const obj = await commentService.getAnsweredComments();
+    res.send(obj);
+  } catch (error) {
+    console.error("Error while getting all users:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const repComment = async (req, res) => {
   try {
     const {UserID, Rep} = req.body;
@@ -130,4 +140,5 @@ module.exports = {
   getCommentByProductID,
   countRatingAndAvgRating,
   getCommentByID,
+  getAnsweredComments,
 };
