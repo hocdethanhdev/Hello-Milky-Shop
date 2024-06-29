@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./MainDash.css";
 import Chart from "react-apexcharts";
-import { barChartOptions, areaChartOptions } from "./chartOptions";
 import { HiUsers } from "react-icons/hi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyBillTrendUp } from "@fortawesome/free-solid-svg-icons";
@@ -11,13 +10,17 @@ function MainDash() {
   const [brandCount, setBrandCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
   const [revenue, setRevenue] = useState(0);
+  const [topProducts, setTopProducts] = useState([]);
+
   const formattedRevenue = new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
   }).format(revenue);
+
   useEffect(() => {
     async function fetchData() {
       try {
+        // Fetch general data
         const productRes = await fetch(
           "http://localhost:5000/api/v1/product/countProduct"
         );
@@ -41,12 +44,61 @@ function MainDash() {
         );
         const revenueData = await revenueRes.json();
         setRevenue(revenueData);
+
+        // Fetch top 5 best-selling products
+        const topProductsRes = await fetch(
+          "http://localhost:5000/api/v1/product/getTop5ProductBestSeller"
+        );
+        const topProductsData = await topProductsRes.json();
+        setTopProducts(topProductsData.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
     fetchData();
   }, []);
+
+  // Biểu đồ cột cho top 5 sản phẩm bán chạy nhất
+  const barChartOptions = {
+    options: {
+      chart: {
+        id: "top-products-chart",
+        toolbar: {
+          show: false,
+        },
+      },
+      xaxis: {
+        categories: topProducts.map((product) => product.ProductName),
+      },
+    },
+    series: [
+      {
+        name: "Số lượng bán",
+        data: topProducts.map((product) => product.SumSell),
+      },
+    ],
+  };
+
+  // Biểu đồ diện tích cho doanh thu
+  const areaChartOptions = {
+    options: {
+      chart: {
+        id: "revenue-chart",
+        toolbar: {
+          show: false,
+        },
+      },
+      xaxis: {
+        categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      },
+    },
+    series: [
+      {
+        name: "Doanh thu",
+        data: [30, 40, 35, 50, 49, 60, 70],
+      },
+    ],
+  };
 
   return (
     <div className="grid-container-dasha">
@@ -92,7 +144,7 @@ function MainDash() {
               options={barChartOptions.options}
               series={barChartOptions.series}
               type="bar"
-              height={350}
+              height={300}
             />
           </div>
           <div className="charts-card-dasha">

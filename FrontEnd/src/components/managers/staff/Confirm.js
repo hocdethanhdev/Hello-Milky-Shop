@@ -152,8 +152,9 @@ function Confirm() {
         <thead>
           <tr className="row">
             <th className="col-md-2">Mã đơn hàng</th>
-            <th className="col-md-4">Ngày đặt hàng</th>
-            <th className="col-md-3">Tổng</th>
+            <th className="col-md-2">Ngày đặt hàng</th>
+            <th className="col-md-2">Tổng</th>
+            <th className="col-md-3">Địa chỉ</th>
             <th className="col-md-3">Thao tác</th>
           </tr>
         </thead>
@@ -161,12 +162,13 @@ function Confirm() {
           {currentOrders.map((order) => (
             <tr className="row" key={order.OrderID}>
               <td className="col-md-2">{order.OrderID}</td>
-              <td className="col-md-4">
+              <td className="col-md-2">
                 {new Date(order.OrderDate).toLocaleDateString()}
               </td>
-              <td className="col-md-3">
+              <td className="col-md-2">
                 {formatPrice(parseInt(order.TotalAmount))}
               </td>
+              <td className="col-md-3">{order.address}</td>
               <td className="col-md-3 nut-xndh">
                 <button
                   type="button"
