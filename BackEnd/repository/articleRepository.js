@@ -2,6 +2,9 @@
 const articleDAO = require("../dao/articleDAO");
 
 const articleRepository = {
+  getTop5ArticleSameType: async (id, aid) => {
+    return await articleDAO.getTop5ArticleSameType(id, aid);
+  },
   getArticlesByID: async (ID) => {
     return await articleDAO.findArticlesByID(ID);
   },

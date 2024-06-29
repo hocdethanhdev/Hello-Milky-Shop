@@ -1,0 +1,52 @@
+.related-articles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.related-article {
+    display: flex;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+}
+.related-article:hover {
+    background-color: rgb(232, 245, 255);
+}
+
+.related-article-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.related-article-content {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.related-article-title {
+    font-size: 24px;
+    margin: 0;
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+
+.related-article-snippet {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.related-article-date {
+    font-size: 12px;
+    color: #777;
+}
+.read-more-link-relate {
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+}

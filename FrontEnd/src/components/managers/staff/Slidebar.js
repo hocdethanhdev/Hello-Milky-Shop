@@ -77,17 +77,6 @@ function Sidebar() {
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
-            to="/delivered-order">
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/4543/4543164.png"
-              alt="Confirm Icon"
-              style={{ width: "24px" }}
-              className="icon-staff-slidebar"
-            />{" "}
-            Đơn hàng đã giao
-          </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
             to="/completed-order">
             <img
               src="https://cdn-icons-png.flaticon.com/128/9422/9422482.png"
@@ -101,8 +90,8 @@ function Sidebar() {
         <NavLink
           className={({ isActive }) =>
             isActive ||
-            location.pathname.includes("/products") ||
-            location.pathname.includes("/addingproduct")
+              location.pathname.includes("/products") ||
+              location.pathname.includes("/addingproduct")
               ? "active-st-thinh"
               : ""
           }
@@ -118,8 +107,8 @@ function Sidebar() {
         <NavLink
           className={({ isActive }) =>
             isActive ||
-            location.pathname.includes("/voucher-staff") ||
-            location.pathname.includes("/addingvoucher")
+              location.pathname.includes("/voucher-staff") ||
+              location.pathname.includes("/addingvoucher")
               ? "active-st-thinh"
               : ""
           }
@@ -136,8 +125,8 @@ function Sidebar() {
         <NavLink
           className={({ isActive }) =>
             isActive ||
-            location.pathname.includes("/posts") ||
-            location.pathname.includes("/addingpost")
+              location.pathname.includes("/posts") ||
+              location.pathname.includes("/addingpost")
               ? "active-st-thinh"
               : ""
           }
@@ -154,8 +143,8 @@ function Sidebar() {
         <NavLink
           className={({ isActive }) =>
             isActive ||
-            location.pathname.includes("/promotionmanage") ||
-            location.pathname.includes("/addpromotion")
+              location.pathname.includes("/promotionmanage") ||
+              location.pathname.includes("/addpromotion")
               ? "active-st-thinh"
               : ""
           }

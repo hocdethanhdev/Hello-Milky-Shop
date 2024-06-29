@@ -1,6 +1,5 @@
 .product-list {
   margin-bottom: 20px;
-  
 }
 
 .product-list table {
@@ -34,18 +33,20 @@
 }
 
 .product-container {
-  margin: 20px;
+  margin: 20px 20px 0px 20px;
   padding-bottom: 50px;
   background-color: white;
-  padding: 20px;
+  padding: 0px 20px 20px 20px;
 }
 
 /* ______________________________________________________________________ */
 
 .create-product {
   margin-top: 20px;
-  padding-bottom: 20px;
-  padding-right: 10px;
+  padding: 20px;
+  background-color: white;
+  width: 96%;
+  margin-bottom: 20px;
 }
 
 .create-product h2 {
@@ -128,4 +129,24 @@ select {
 }
 .button-add-product {
   background-color: white;
+}
+
+.button-create-product button {
+  border-radius: 10px;
+  background-color: #007bff;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: 80%;
+  color: white;
+  border: none;
+}
+
+.form-group-1 {
+  width: 92%;
+}
+.select-add-pro {
+  color: black;
+}
+.nut-act button {
+  margin-right: 5px;
 }

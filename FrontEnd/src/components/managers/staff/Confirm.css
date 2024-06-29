@@ -1,5 +1,5 @@
 .confirm-container {
-  margin: 20px;
+  margin: 20px 20px 0px 20px;
   font-family: Arial, sans-serif;
   background-color: white;
   padding: 20px;
@@ -59,21 +59,11 @@ table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-.btn {
+.xndh {
   padding: 5px 10px;
   margin: 2px;
   cursor: pointer;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 3px;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3;
+  font-size: 13.4879px;
 }
 
 .pagination {
@@ -95,5 +85,46 @@ table tbody tr:nth-child(even) {
   background-color: #717171;
 }
 .pagination-container-cf {
-  padding-left: 500px;
+  text-align: center;
+  margin: 20px 20px 0px 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+.table-header {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+
+.table-cell {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.table-row {
+  border-bottom: 1px solid #dddddd;
+}
+
+.table-row:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.table-row:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.table-row:hover {
+  background-color: #f1f1f1;
+}
+
+.nut-xndh {
+  display: flex;
 }

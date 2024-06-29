@@ -409,9 +409,10 @@ const orderDAO = {
         request.input("orderID", mssql.Int, orderID);
 
         const selectQuery = `
-                    SELECT o.*, od.*
+                    SELECT o.*, od.*, p.*
                     FROM Orders o
                     JOIN OrderDetail od ON o.OrderID = od.OrderID
+                    JOIN Product p ON od.ProductID = p.ProductID
                     WHERE o.OrderID = @orderID
                 `;
 
@@ -676,11 +677,11 @@ const orderDAO = {
         request.input("statusOrderID", mssql.Int, statusOrderID);
 
         const selectQuery = `
-                    SELECT *
+                    SELECT o.*, sa.Receiver, sa.Address 
                     FROM Orders o
                     JOIN StatusOrder s ON o.StatusOrderID = s.StatusOrderID
+                    LEFT JOIN ShippingAddress sa on o.ShippingAddressID = sa.ShippingAddressID
                     WHERE o.Status = 1 AND o.StatusOrderID = @statusOrderID
-
                 `;
 
         request.query(selectQuery, (err, result) => {

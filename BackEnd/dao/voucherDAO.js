@@ -66,7 +66,7 @@ const voucherDAO = {
                     (err, res) => {
                         if (err) reject(err);
 
-                        resolve(res.recordset);
+                        resolve(res?.recordset);
                     });
             });
         });
@@ -288,7 +288,7 @@ const voucherDAO = {
                         v.VoucherName
                     FROM UserVoucher uv
                     JOIN Voucher v ON uv.VoucherID = v.VoucherID
-                    WHERE uv.UserID = @userID;
+                    WHERE GETDATE() <= v.ExpiryDate AND GETDATE() >= v.StartDate AND uv.UserID = @userID;
                 `;
 
                 request.query(query, (err, result) => {

@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Posts.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
-import EditArticleModal from "./EditArticleModal"; // Import the EditArticleModal component
 
 function Posts() {
   const [articles, setArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [sortConfig, setSortConfig] = useState({
     key: "Title",
     direction: "ascending",
   });
-  const [selectedArticleForEdit, setSelectedArticleForEdit] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const productsPerPage = 10;
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -56,18 +54,8 @@ function Posts() {
     indexOfLastProduct
   );
 
-  const handleEditClick = (article) => {
-    setSelectedArticleForEdit(article);
-  };
-
-  const handleSaveArticle = (updatedArticle) => {
-    setArticles(
-      articles.map((article) =>
-        article.ArticleID === updatedArticle.ArticleID
-          ? updatedArticle
-          : article
-      )
-    );
+  const handleEditClick = (articleID) => {
+    navigate(`/edit-article/${articleID}`);
   };
 
   const handleDeleteClick = (articleID) => {
@@ -116,11 +104,9 @@ function Posts() {
             {currentArticles.map((article) => (
               <tr key={article.ArticleID}>
                 <td>{article.Title}</td>
-
                 <td>{new Date(article.PublishDate).toLocaleDateString()}</td>
                 <td>
-
-                  <button className='btn btn-warning' onClick={() => handleEditClick(article)}>Sửa</button>
+                  <button className='btn btn-warning' onClick={() => handleEditClick(article.ArticleID)}>Sửa</button>
                   <button className='btn btn-danger' onClick={() => handleDeleteClick(article.ArticleID)}>Xóa</button>
                 </td>
               </tr>
@@ -136,20 +122,8 @@ function Posts() {
           />
         </div>
       </div>
-      {selectedArticleForEdit && (
-        <EditArticleModal
-          article={selectedArticleForEdit}
-          onClose={() => setSelectedArticleForEdit(null)}
-          onSave={handleSaveArticle}
-        />
-      )}
     </div>
   );
-
-  function handleDetail(id) {
-    // Navigate to the detail page
-    console.log("Detail button clicked for article id:", id);
-  }
 }
 
 export default Posts;

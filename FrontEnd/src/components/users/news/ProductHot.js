@@ -1,46 +1,89 @@
-import React from "react";
-import './ProductHot.css'; // Import your CSS file for styling
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './ProductHot.css';
+import { useNavigate } from 'react-router-dom';
 
-const recommendedArticles = [
-    {
-      image: 'https://wikibacsi.com/wp-content/uploads/2019/06/la-dinh-lang-loi-sua-tot-cho-cac-me-sau-sinh-5.jpg',
-      title: 'Hướng dẫn cách nấu lá đinh lăng lợi sữa cho bà đẻ sau sinh'
-    },
-    {
-      image: 'https://wikibacsi.com/wp-content/uploads/2019/06/la-dinh-lang-loi-sua-tot-cho-cac-me-sau-sinh-5.jpg',
-      title: 'Sau sinh có được ăn dưa chuột không? Mẹ bỉm nên lưu ý gì?'
-    },
-    {
-      image: 'https://wikibacsi.com/wp-content/uploads/2019/06/la-dinh-lang-loi-sua-tot-cho-cac-me-sau-sinh-5.jpg',
-      title: 'Sau sinh có ăn được đậu phụ không? Một số lưu ý quan trọng cho sức khỏe'
-    },
-    {
-      image: 'https://wikibacsi.com/wp-content/uploads/2019/06/la-dinh-lang-loi-sua-tot-cho-cac-me-sau-sinh-5.jpg',
-      title: 'Hướng dẫn cách xông hơi cửa mình sau sinh cho các sản phụ đẻ thường'
-    },
-    {
-      image: 'https://wikibacsi.com/wp-content/uploads/2019/06/la-dinh-lang-loi-sua-tot-cho-cac-me-sau-sinh-5.jpg',
-      title: 'Sau sinh có được ăn bánh ngọt không? Mẹ bỉm sữa cần lưu ý điều gì?'
-    }
-  ];
+// Formatting functions
+const formatPrice = (price) => {
+  if (price == null) return '';
+  return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+};
+
+const calculateDiscount = (originalPrice, discountedPrice) => {
+  if (originalPrice == null || discountedPrice == null || originalPrice === discountedPrice) {
+    return 0;
+  }
+  return originalPrice - discountedPrice;
+};
+
+const formatDiscount = (discount) => {
+  if (discount <= 0) return '';
+  return `-${Math.round(discount / 1000)}K`;
+};
 
 function ProductHot() {
+  const [hotProducts, setHotProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchHotProducts = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/v1/product/getTop5ProductBestSellerForUser');
+
+        if (response.data && response.data.err === 0) {
+          setHotProducts(response.data.data);
+        } else {
+          console.error('Unexpected response data format:', response.data);
+        }
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+
+    fetchHotProducts();
+  }, []);
+
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div className="sidebar-producthot">
       <h3>DÀNH CHO BẠN HÔM NAY</h3>
-      {recommendedArticles.map((article, index) => (
-        <div key={index} className="recommended-article">
-          <img src={article.image} alt={article.title} className="recommended-image" />
-          <div className="recommended-content">
-            <p className="recommended-title">{article.title}</p>
-            <div className="recommended-pricing">
-              <span className="discount-price">{article.discountPrice}</span>
-              <span className="original-price">{article.originalPrice}</span>
+      {hotProducts.map((product) => {
+        const discountAmount = calculateDiscount(product.Price, product.PriceAfterDiscounts);
+        let isDiscounted = product.Price !== product.PriceAfterDiscounts;
+        return (
+          <div key={product.ProductID} className="recommended-article" onClick={() => handleProductClick(product.ProductID)}>
+            <img src={product.Image} alt={product.ProductName} className="recommended-image" />
+            {isDiscounted ? (<div className="discount-badge">
+              {formatDiscount(discountAmount)}
+            </div>) : (<></>)}
+            <div className="recommended-content">
+              <p className="recommended-title">{product.ProductName}</p>
+              <div className="recommended-pricing">
+                {isDiscounted ? (
+                  <>
+                    <span className="discount-price">{formatPrice(product.PriceAfterDiscounts)}₫</span>
+                    <span className="original-price">{formatPrice(product.Price)}₫</span>
+
+                  </>
+                ) : (
+                  <span className="discount-price">{formatPrice(product.Price)}₫</span>
+                )}
+              </div>
             </div>
-            
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

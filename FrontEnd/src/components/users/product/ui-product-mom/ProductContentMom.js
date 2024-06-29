@@ -81,6 +81,10 @@ const ProductContentMom = ({ product }) => {
         }, 100);
     };
 
+    const increseOne = () => {
+        setQuantity(prevQuantity => Math.min(prevQuantity + 1, availableStock));
+    };
+
     const stopIncrement = () => {
         clearInterval(incrementRef.current);
     };
@@ -90,6 +94,10 @@ const ProductContentMom = ({ product }) => {
         decrementRef.current = setInterval(() => {
             setQuantity(prevQuantity => Math.max(prevQuantity - 1, 1));
         }, 100);
+    };
+
+    const decreseOne = () => {
+        setQuantity(prevQuantity => Math.max(prevQuantity - 1, 1));
     };
 
     const stopDecrement = () => {
@@ -178,12 +186,14 @@ const ProductContentMom = ({ product }) => {
                                             className="quantity-button-thinh-cart"
                                             onMouseDown={startDecrement}
                                             onMouseUp={stopDecrement}
+                                            onClick={decreseOne}
                                             onMouseLeave={stopDecrement}
                                         >-</button>
                                         <input type="text" value={quantity} readOnly className="quantity-input-thinh-cart" />
                                         <button
                                             className="quantity-button-thinh-cart"
                                             onMouseDown={startIncrement}
+                                            onClick={increseOne}
                                             onMouseUp={stopIncrement}
                                             onMouseLeave={stopIncrement}
                                         >+</button>
@@ -199,17 +209,17 @@ const ProductContentMom = ({ product }) => {
                             )}
                         </div>
                     </div>
-                    <div className='cuc_icon left'>
-                        <div className='cuc_icon_item left'>
-                            <span className="hinh_icon icon fas fa-shipping-fast"></span>
-                            <span className="icon_title">
+                    <div className='cuc_icon left row'>
+                        <div className='cuc_icon_item left col-md-5 row'>
+                            <span className="hinh_icon icon fas fa-shipping-fast col-md-4"></span>
+                            <span className="icon_title col-md-8">
                                 <div>Giao hàng</div>
                                 <div>toàn quốc</div>
                             </span>
                         </div>
-                        <div className='cuc_icon_item left'>
-                            <span className="hinh_icon icon far fa-check-circle"></span>
-                            <span className="icon_title">
+                        <div className='cuc_icon_item left col-md-5'>
+                            <span className="hinh_icon icon far fa-check-circle col-md-4"></span>
+                            <span className="icon_title col-md-8">
                                 <div>Đảm bảo hàng</div>
                                 <div>chính hãng</div>
                             </span>

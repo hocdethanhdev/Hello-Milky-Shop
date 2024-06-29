@@ -50,8 +50,6 @@ function Shipping() {
         }
       );
 
-      console.log(response);
-
       // Update the local state to reflect the changes
       setOrders(orders.filter((order) => order.OrderID !== confirmingOrderId));
       setModalVisible(false);
@@ -69,7 +67,7 @@ function Shipping() {
   }
 
   return (
-    <div className="table-container">
+    <div className="table-container shipping-table">
       <table>
         <thead>
           <tr>

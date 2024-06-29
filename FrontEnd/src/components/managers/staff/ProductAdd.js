@@ -1,8 +1,9 @@
-// src/components/ProductAdd/ProductAdd.js
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { uploadImage } from "../uimg/UpImage";
+import axios from "axios";
 import JoditEditor from "jodit-react";
-import sanitizeHtml from "sanitize-html";
+import DOMPurify from "dompurify";
+import { uploadImage } from "../uimg/UpImage";
+import { message } from 'antd';
 import "./Products.css";
 
 const ProductAdd = () => {
@@ -10,19 +11,19 @@ const ProductAdd = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [stockQuantity, setStockQuantity] = useState("");
-  const [image, setImage] = useState(null); // Use null instead of ""
+  const [image, setImage] = useState(null);
   const [expirationDate, setExpirationDate] = useState("");
   const [manufacturingDate, setManufacturingDate] = useState("");
   const [brandName, setBrandName] = useState("");
   const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
   const [status, setStatus] = useState(1);
   const [brands, setBrands] = useState([]);
-  const [successMessage, setSuccessMessage] = useState(""); // State for success message
+  const [successMessage, setSuccessMessage] = useState("");
   const [progress, setProgress] = useState(0);
+  const [previewImage, setPreviewImage] = useState(null); // For previewing image
   const editor = useRef(null);
 
   useEffect(() => {
-    // Fetch brands from the API
     fetch("http://localhost:5000/api/v1/product/getAllBrands")
       .then((response) => response.json())
       .then((data) => setBrands(data))
@@ -30,14 +31,26 @@ const ProductAdd = () => {
   }, []);
 
   const handleFileChange = (e) => {
-    setImage(e.target.files[0]); // Store the selected file object in state
+    const imageFile = e.target.files[0];
+    setImage(imageFile);
+
+    // Preview image
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+    };
+    if (imageFile) {
+      reader.readAsDataURL(imageFile);
+    } else {
+      setPreviewImage(null);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!image) {
-      alert("Please select an image.");
+      message.error("Please select an image.");
       return;
     }
 
@@ -45,12 +58,7 @@ const ProductAdd = () => {
       const downloadURL = await uploadImage(image, setProgress);
 
       const editorContent = editor.current.value;
-      const sanitizedContent = sanitizeHtml(editorContent, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
-        allowedAttributes: {
-          img: ["src", "alt"],
-        },
-      });
+      const sanitizedContent = DOMPurify.sanitize(editorContent);
 
       const productData = {
         ProductName: productName,
@@ -65,80 +73,114 @@ const ProductAdd = () => {
         Status: status,
       };
 
-      console.log("Submitting product data:", productData);
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/product/createProduct",
+        productData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      fetch("http://localhost:5000/api/v1/product/createProduct", {
-        method: "POST",
-        body: JSON.stringify(productData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Response from API:", data);
-
-          if (!data) {
-            setSuccessMessage("Error creating product.");
-          } else {
-            setSuccessMessage("Product created successfully!");
-            // Clear form fields after successful creation
-            setProductName("");
-            setDescription("");
-            setPrice("");
-            setStockQuantity("");
-            setImage(null); // Reset to null instead of ""
-            setExpirationDate("");
-            setManufacturingDate("");
-            setBrandName("");
-            setProductCategoryName("Sữa cho em bé");
-            setStatus(1);
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          setSuccessMessage("Error creating product.");
-        });
+      message.success("Product created successfully!");
+      // Reset form
+      setProductName("");
+      setDescription("");
+      setPrice("");
+      setStockQuantity("");
+      setImage(null);
+      setExpirationDate("");
+      setManufacturingDate("");
+      setBrandName("");
+      setProductCategoryName("Sữa cho em bé");
+      setStatus(1);
     } catch (error) {
-      console.error("Upload failed:", error);
-      setSuccessMessage("Error creating product.");
+      console.error("Error creating product:", error);
+      message.error("Error creating product: " + error.message);
     }
+  };
+
+  const handleResizeImage = (editor) => {
+    editor.events.on('mouseup', () => {
+      const images = editor.container.querySelectorAll('img');
+      images.forEach((image) => {
+        const width = image.style.width;
+        const height = image.style.height;
+        if (width && height) {
+          image.setAttribute('width', width);
+          image.setAttribute('height', height);
+        }
+      });
+    });
   };
 
   const editorConfig = useMemo(() => ({
     readonly: false,
     toolbar: true,
-    toolbarButtonSize: 'middle',
-    toolbarSticky: false,
-    showCharsCounter: false,
-    showWordsCounter: false,
-    showXPathInStatusbar: false,
     buttons: [
-      'bold', 'italic', 'underline', 'strikethrough', 'eraser',
-      '|', 'ul', 'ol', 'indent', 'outdent',
+      'bold', 'italic', 'underline', 'eraser', 'ul', 'ol', 'indent', 'outdent',
       '|', 'font', 'fontsize', 'brush', 'paragraph',
-      '|', 'image', 'link', 'table',
+      '|', 'table',
       '|', 'align', 'undo', 'redo', 'hr',
-      '|', 'copyformat', 'fullsize'
-    ]
-  }), []);
+      '|', 'copyformat', 'fullsize',
+      {
+        name: 'uploadImage',
+        iconURL: 'https://cdn-icons-png.flaticon.com/128/685/685669.png',
+        exec: async (editor) => {
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.accept = 'image/*';
+          input.onchange = async (event) => {
+            const file = event.target.files[0];
+            if (file) {
+              try {
+                const url = await uploadImage(file, setProgress);
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = 'Image';
+                img.style.width = '100px';
+                img.style.height = 'auto';
+                editor.selection.insertNode(img);
+                handleResizeImage(editor);
+              } catch (error) {
+                console.error('Error uploading image:', error);
+              }
+            }
+          };
+          input.click();
+        },
+        tooltip: 'Upload Image'
+      }
+    ],
+    events: {
+      afterInit: (editor) => {
+        handleResizeImage(editor);
+      },
+      change: (newContent) => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = newContent;
+        const images = tempDiv.querySelectorAll('img');
+        images.forEach((image) => {
+          const width = image.style.width;
+          const height = image.style.height;
+          if (width && height) {
+            image.setAttribute('width', width);
+            image.setAttribute('height', height);
+          }
+        });
+      }
+    }
+  }), [setProgress]);
 
   return (
     <div className="container create-product">
       {successMessage && (
-        <p
-          className={`success-message ${successMessage.includes("Error") ? "error" : "success"}`}
-        >
+        <p className={`success-message ${successMessage.includes("Error") ? "error" : "success"}`}>
           {successMessage}
         </p>
       )}
-      <h1>Thêm sản phẩm</h1>
-
-      <form
-        id="create-product-form"
-        className="product-form"
-        onSubmit={handleSubmit}
-      >
+      <form id="create-product-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="product-name">Tên sản phẩm:</label>
           <input
@@ -150,14 +192,7 @@ const ProductAdd = () => {
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="product-description">Mô tả:</label>
-          <JoditEditor
-            ref={editor}
-            value=""
-            config={editorConfig}
-          />
-        </div>
+
         <div className="form-group">
           <label htmlFor="product-price">Giá:</label>
           <input
@@ -190,6 +225,11 @@ const ProductAdd = () => {
             required
           />
         </div>
+        {previewImage && (
+          <div className="form-group">
+            <img src={previewImage} alt="Preview" className="preview-image" />
+          </div>
+        )}
         <div className="form-group">
           <label htmlFor="product-expiration">Hạn sử dụng:</label>
           <input
@@ -215,36 +255,57 @@ const ProductAdd = () => {
         <div className="form-group">
           <label htmlFor="product-brand">Hãng:</label>
           <select
+            className="select-add-pro"
             id="product-brand"
             name="product-brand"
             value={brandName}
             onChange={(e) => setBrandName(e.target.value)}
-            required
-          >
+            required>
             <option value="">Chọn hãng</option>
             {brands.map((brand) => (
-              <option key={brand.BrandID} value={brand.BrandName}>
+              <option key={brand.BrandId} value={brand.BrandName}>
                 {brand.BrandName}
               </option>
             ))}
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="product-category">Loại sữa:</label>
+          <label htmlFor="product-category">Loại sản phẩm:</label>
           <select
             id="product-category"
             name="product-category"
             value={productCategoryName}
             onChange={(e) => setProductCategoryName(e.target.value)}
-            required
-          >
+            required>
             <option value="Sữa cho em bé">Sữa cho em bé</option>
+            <option value="Sữa tăng cân">Sữa tăng cân</option>
             <option value="Sữa cho mẹ bầu">Sữa cho mẹ bầu</option>
           </select>
         </div>
-        <button type="submit" className="button-product btn btn-primary">
-          Tạo sản phẩm
-        </button>
+        <div className="form-group">
+          <label htmlFor="product-status">Tình trạng:</label>
+          <select
+            id="product-status"
+            name="product-status"
+            value={status}
+            onChange={(e) => setStatus(parseInt(e.target.value))}
+            required>
+            <option value={1}>Kinh doanh</option>
+            <option value={0}>Ngừng kinh doanh</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="product-description">Mô tả:</label>
+          <div className="editor">
+            <JoditEditor
+              ref={editor}
+              value={description}
+              config={editorConfig}
+              onChange={(newContent) => setDescription(newContent)}
+            />
+          </div>
+        </div>
+        <button type="submit" className="btn btn-primary">Tạo sản phẩm</button>
       </form>
     </div>
   );

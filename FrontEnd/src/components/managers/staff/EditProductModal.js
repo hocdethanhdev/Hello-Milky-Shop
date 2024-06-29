@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import JoditEditor from "jodit-react";
-import sanitizeHtml from "sanitize-html";
+import DOMPurify from "dompurify";
 import './EditProductModal.css';
+import { uploadImage } from "../uimg/UpImage";
 
 const EditProductModal = ({ product, onClose, onSave }) => {
     const [formData, setFormData] = useState({ ...product });
     const editor = useRef(null);
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
         setFormData({ ...product });
@@ -22,8 +24,41 @@ const EditProductModal = ({ product, onClose, onSave }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const updatedFormData = { ...formData, Status: parseInt(formData.Status) }; // Convert Status to number
+
+        const allowedTags = ["img", "b", "i", "u", "s", "ul", "ol", "li", "p", "br", "hr", "a", "table", "thead", "tbody", "tr", "th", "td", "font", "span", "div"];
+        const allowedAttrs = ["src", "alt", "href", "target", "width", "height", "style", "class", "align", "color", "size"];
+
+        const sanitizedDescription = DOMPurify.sanitize(formData.Description, {
+            ALLOWED_TAGS: allowedTags,
+            ALLOWED_ATTR: allowedAttrs,
+        });
+
+        const updatedFormData = {
+            ...formData,
+            Description: sanitizedDescription,
+        };
         onSave(updatedFormData);
+    };
+
+    const handleResizeImage = (editor) => {
+        editor.events.on('mouseup', () => {
+            const images = editor.container.querySelectorAll('img');
+            images.forEach((image) => {
+                const width = image.style.width;
+                const height = image.style.height;
+                if (width && height) {
+                    image.setAttribute('width', width);
+                    image.setAttribute('height', height);
+                }
+            });
+        });
+    };
+
+    const getStatusDisplay = (status, stockQuantity) => {
+        if (status === null || status === false) {
+            return "Tạm ẩn";
+        }
+        return status === true && parseInt(stockQuantity) > 0 ? "Còn hàng" : "Hết hàng";
     };
 
     const editorConfig = useMemo(() => ({
@@ -40,9 +75,56 @@ const EditProductModal = ({ product, onClose, onSave }) => {
             '|', 'font', 'fontsize', 'brush', 'paragraph',
             '|', 'image', 'link', 'table',
             '|', 'align', 'undo', 'redo', 'hr',
-            '|', 'copyformat', 'fullsize'
-        ]
-    }), []);
+            '|', 'copyformat', 'fullsize',
+            {
+                name: 'uploadImage',
+                iconURL: 'https://cdn-icons-png.flaticon.com/128/685/685669.png',
+                exec: async (editor) => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    input.onchange = async (event) => {
+                        const file = event.target.files[0];
+                        if (file) {
+                            try {
+                                const url = await uploadImage(file, setProgress);
+                                const img = document.createElement('img');
+                                img.src = url;
+                                img.alt = 'Image';
+                                img.style.width = '100px';
+                                img.style.height = 'auto';
+                                editor.selection.insertNode(img);
+                                handleResizeImage(editor);
+                            } catch (error) {
+                                console.error('Error uploading image:', error);
+                            }
+                        }
+                    };
+                    input.click();
+                },
+                tooltip: 'Upload Image'
+            }
+        ],
+        useNativeSpeechRecognition: false,
+        events: {
+            afterInit: (editor) => {
+                handleResizeImage(editor);
+            },
+            change: (newContent) => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = newContent;
+                const images = tempDiv.querySelectorAll('img');
+                images.forEach((image) => {
+                    const width = image.style.width;
+                    const height = image.style.height;
+                    if (width && height) {
+                        image.setAttribute('width', width);
+                        image.setAttribute('height', height);
+                    }
+                });
+            }
+        }
+    }), [setProgress]);
 
     return (
         <div className="modal-thinhprostedit">
@@ -51,48 +133,47 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-grid">
                         <label>
-                            Product Name:
+                            Tên sản phẩm:
                             <input type="text" name="ProductName" value={formData.ProductName} onChange={handleChange} />
                         </label>
 
                         <label>
-                            Price:
+                            Giá:
                             <input type="number" name="Price" value={formData.Price} onChange={handleChange} />
                         </label>
                         <label>
-                            Stock Quantity:
+                            Số lượng:
                             <input type="number" name="StockQuantity" value={formData.StockQuantity} onChange={handleChange} />
                         </label>
                         <label>
-                            Image:
+                            Hình ảnh:
                             <input type="text" name="Image" value={formData.Image} onChange={handleChange} />
                         </label>
                         <label>
-                            Expiration Date:
+                            HSD:
                             <input type="date" name="ExpirationDate" value={formData.ExpirationDate} onChange={handleChange} />
                         </label>
                         <label>
-                            Manufacturing Date:
+                            NSX:
                             <input type="date" name="ManufacturingDate" value={formData.ManufacturingDate} onChange={handleChange} />
                         </label>
                         <label>
-                            Brand Name:
+                            Hãng:
                             <input type="text" name="BrandName" value={formData.BrandName} onChange={handleChange} />
                         </label>
                         <label>
-                            Product Category Name:
+                            Loại:
                             <select name="ProductCategoryName" value={formData.ProductCategoryName} onChange={handleChange}>
                                 <option value="Sữa cho mẹ">Sữa cho mẹ</option>
                                 <option value="Sữa cho em bé">Sữa cho em bé</option>
                             </select>
                         </label>
 
-                        <label>
-                            Status:
-                            <select name="Status" value={formData.Status} onChange={handleChange}>
-                                <option value="0">Out of stock</option>
-                                <option value="1">Still in stock</option>
-                            </select>
+                        <label className='st-thinh-he'>
+                            Trạng thái:
+                            <div className="status-display-thinh">
+                                {getStatusDisplay(formData.Status, formData.StockQuantity)}
+                            </div>
                         </label>
 
                     </div>
@@ -105,7 +186,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                             onBlur={handleDescriptionChange}
                         />
                     </label>
-                    <button type="submit">Save</button>
+                    <button className="button-edit-product" type="submit">Save</button>
                 </form>
             </div>
         </div>

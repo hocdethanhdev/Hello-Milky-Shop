@@ -53,7 +53,6 @@ function Dashboard() {
       "Đơn hàng đã hoàn thành",
       "Đơn hàng đã hủy",
       "Đơn hàng đang giao",
-      "Đơn hàng đã giao",
       "Đơn hàng đang chờ xác nhận",
     ],
     datasets: [
@@ -65,8 +64,8 @@ function Dashboard() {
           shippedOrderCount,
           waitingOrdersCount,
         ],
-        backgroundColor: ["#4BC0C0", "#FF6384", "#FFCE56", "#36A2EB", "#9966FF"],
-        hoverBackgroundColor: ["#4BC0C0", "#FF6384", "#FFCE56", "#36A2EB", "#9966FF"],
+        backgroundColor: ["#4BC0C0", "#FF6384", "#FFCE56", "#36A2EB"],
+        hoverBackgroundColor: ["#4BC0C0", "#FF6384", "#FFCE56", "#36A2EB"],
       },
     ],
   };

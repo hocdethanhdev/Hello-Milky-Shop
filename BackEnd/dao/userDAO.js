@@ -8,6 +8,63 @@ const passport = require("passport");
 const UserID = "a";
 
 const userDAO = {
+  updateUserEmail: (UserID, Email) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("UserID", mssql.VarChar, UserID)
+          .input("Email", mssql.VarChar, Email);
+        request.query(
+          `UPDATE Users SET Email = @Email WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.rowsAffected > 0 ? 0 : 1,
+            });
+          }
+        );
+      });
+    });
+  },
+  updateUserName: (UserID, UserName) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("UserID", mssql.VarChar, UserID)
+          .input("UserName", mssql.NVarChar, UserName);
+        request.query(
+          `UPDATE Users SET UserName = @UserName WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.rowsAffected > 0 ? 0 : 1,
+            });
+          }
+        );
+      });
+    });
+  },
+  updateUserPhoneNumber: (UserID, PhoneNumber) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("UserID", mssql.VarChar, UserID)
+          .input("PhoneNumber", mssql.VarChar, PhoneNumber);
+        request.query(
+          `UPDATE Users SET PhoneNumber = @PhoneNumber WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.rowsAffected > 0 ? 0 : 1,
+            });
+          }
+        );
+      });
+    });
+  },
   changePassword: (Password, UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -22,7 +79,6 @@ const userDAO = {
             resolve({
               err: res.rowsAffected > 0 ? 0 : 1,
             });
-            mssql.close();
           }
         );
       });
@@ -184,9 +240,9 @@ const userDAO = {
           (err, res) => {
             if (err) reject(err);
             resolve({
-              err: res.recordset[0] !== null ? 0 : 1,
-              mes: res.recordset[0] !== null ? "OK" : "Not found",
-              data: res.recordset[0] ?? null,
+              err: res?.recordset[0] !== null ? 0 : 1,
+              mes: res?.recordset[0] !== null ? "OK" : "Not found",
+              data: res?.recordset[0] ?? null,
             });
           }
         );
@@ -199,7 +255,6 @@ const userDAO = {
         const request = new mssql.Request();
         request.query(`SELECT * FROM Users;`, (err, res) => {
           if (err) reject(err);
-
           resolve(res.recordset);
         });
       });

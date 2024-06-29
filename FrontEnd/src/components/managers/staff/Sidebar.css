@@ -1,11 +1,11 @@
 .sidebar-container-st-thinh {
   width: 270px;
-  background-color: rgb(255, 255, 255); /* Darker shade */
+  background-color: rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
-  min-height: 50vh; /* Ensures the sidebar takes the full height of the viewport */
+  min-height: 50vh;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 20px;
+  margin: 20px 20px 0px 20px;
 }
 
 .sidebar-st-thinh {

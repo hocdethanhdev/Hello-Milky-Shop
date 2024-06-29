@@ -3,7 +3,6 @@ const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
 
 const productDAO = {
-
   getTop5ProductBestSeller: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -20,7 +19,7 @@ const productDAO = {
             if (err) reject(err);
             resolve({
               err: res.recordset[0] !== null ? 0 : 1,
-              data: res?.recordset
+              data: res?.recordset,
             });
           }
         );
@@ -38,7 +37,7 @@ const productDAO = {
             if (err) reject(err);
             resolve({
               err: res.recordset[0] !== null ? 0 : 1,
-              count: res?.recordset[0].count
+              count: res?.recordset[0].count,
             });
           }
         );
@@ -55,7 +54,7 @@ const productDAO = {
             if (err) reject(err);
             resolve({
               err: res.recordset[0] !== null ? 0 : 1,
-              count: res?.recordset[0].count
+              count: res?.recordset[0].count,
             });
           }
         );
@@ -280,8 +279,11 @@ const productDAO = {
   searchWithProductCategory: (pc) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request()
-          .input("pc", mssql.NVarChar, `%${pc}%`);
+        const request = new mssql.Request().input(
+          "pc",
+          mssql.NVarChar,
+          `%${pc}%`
+        );
         request.query(
           `SELECT p.ProductID, ProductName, p.Image, Price, BrandName, COALESCE(MIN(CASE 
                       WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
@@ -686,26 +688,32 @@ const productDAO = {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request();
         request.query(
-          `SELECT TOP 5 p.ProductID, ProductName, SUM(Quantity) AS SumSell
-        FROM Product p
-        JOIN OrderDetail od ON od.ProductID = p.ProductID
-        JOIN Orders o ON o.OrderID = od.OrderID
-        WHERE o.Status = 1 AND o.StatusOrderID = 4 AND od.Quantity > 0
-        GROUP BY p.ProductID, p.ProductName
-        ORDER BY SumSell DESC;
+          `SELECT TOP 5 
+          p.ProductID, p.ProductName, p.Image, p.Price, SUM(od.Quantity) AS SumSell, COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts
+          FROM Product p
+          LEFT JOIN OrderDetail od ON od.ProductID = p.ProductID
+          LEFT JOIN Orders o ON o.OrderID = od.OrderID
+          LEFT JOIN ProductPromotionList ppl ON ppl.ProductID = p.ProductID
+		      LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
+          WHERE o.Status = 1 AND o.StatusOrderID = 4
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, ppl.PriceAfterDiscount
+          ORDER BY SumSell DESC;
         ;`,
           (err, res) => {
             if (err) reject(err);
             resolve({
-              err: res.recordset[0] !== null ? 0 : 1,
-              data: res?.recordset
+              err: res?.recordset[0] !== null ? 0 : 1,
+              data: res?.recordset,
             });
           }
         );
       });
     });
   },
-
 };
 
 module.exports = productDAO;

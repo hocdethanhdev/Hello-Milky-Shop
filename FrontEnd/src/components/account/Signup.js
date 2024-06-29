@@ -123,7 +123,6 @@ function Signup() {
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
-        console.log("OTP confirmed:", res);
         setLoading(false);
         setConfirmOTP(true);
         toast.success("OTP verified successfully!");

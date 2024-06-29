@@ -25,7 +25,6 @@ function Login() {
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    console.log(`Changing ${name} to ${value}`);
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value
@@ -68,10 +67,6 @@ function Login() {
       setMessage("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
     }
   };
-
-  useEffect(() => {
-    console.log("Form data changed:", formData);
-  }, [formData]);
 
   return (
     <MDBContainer fluid>
