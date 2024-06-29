@@ -560,13 +560,3 @@ Content-Type: application/json
     "ArticleID": 1,
     "ArticleCategoryID": 1
 }
-### update account
-PUT http://localhost:5000/api/v1/user/updateUserAccount
-Content-Type: application/json
-
-{
-    "UserID": "",
-    "Email": "",
-    "PhoneNumber": "",
-    "UserName": ""
-}

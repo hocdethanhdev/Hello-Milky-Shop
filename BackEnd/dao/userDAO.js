@@ -4,7 +4,6 @@ const User = require("../bo/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const { updateUserPhoneNumber } = require("../repository/userRepository");
 
 const UserID = "a";
 
@@ -34,7 +33,7 @@ const userDAO = {
         if (err) return reject(err);
         const request = new mssql.Request()
           .input("UserID", mssql.VarChar, UserID)
-          .input("Email", mssql.NVarChar, UserName);
+          .input("UserName", mssql.NVarChar, UserName);
         request.query(
           `UPDATE Users SET UserName = @UserName WHERE UserID = @UserID;`,
           (err, res) => {
@@ -53,7 +52,7 @@ const userDAO = {
         if (err) return reject(err);
         const request = new mssql.Request()
           .input("UserID", mssql.VarChar, UserID)
-          .input("Email", mssql.VarChar, PhoneNumber);
+          .input("PhoneNumber", mssql.VarChar, PhoneNumber);
         request.query(
           `UPDATE Users SET PhoneNumber = @PhoneNumber WHERE UserID = @UserID;`,
           (err, res) => {
