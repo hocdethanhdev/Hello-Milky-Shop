@@ -3,6 +3,8 @@ import axios from "axios";
 import "./Posts.css";
 import { Link, useNavigate } from "react-router-dom";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter, faSort } from "@fortawesome/free-solid-svg-icons";
 
 function Posts() {
   const [articles, setArticles] = useState([]);
@@ -92,9 +94,9 @@ function Posts() {
         <table>
           <thead>
             <tr>
-              <th>
-                Tiêu đề <button onClick={handleSort}>↕</button>
-              </th>
+            <th onClick={handleSort} style={{ cursor: "pointer" }}>
+                  Tiêu đề <FontAwesomeIcon icon={faSort} />
+                </th>
 
               <th>Ngày công bố</th>
               <th>Thao tác</th>
