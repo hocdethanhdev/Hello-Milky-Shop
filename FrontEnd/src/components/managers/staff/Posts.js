@@ -124,11 +124,6 @@ function Posts() {
       </div>
     </div>
   );
-
-  function handleDetail(id) {
-    // Navigate to the detail page
-    console.log("Detail button clicked for article id:", id);
-  }
 }
 
 export default Posts;

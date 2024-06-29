@@ -57,7 +57,6 @@ export default function ProductRating({ productID, userID, fetchComments }) { //
                     Rating: parseInt(number),
                     Description: description,
                 });
-                console.log("Response:", response.data);
                 setIsSubmitting(false);
                 setNotification("Bình Luận Thành Công!"); 
                 setNumber(0);
