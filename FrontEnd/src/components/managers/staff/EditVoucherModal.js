@@ -49,11 +49,10 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
         <div className="modal-thinhprostedit3">
             <div className="modal-content-thinhprostedit3">
                 <span className="close-thinhprostedit3" onClick={onClose}>&times;</span>
-                <h2>Edit Voucher</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="half-width">
                         <label>
-                            Voucher Name:
+                            Tên voucher:
                             <input
                                 type="text"
                                 name="voucherName"
@@ -63,7 +62,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                             />
                         </label>
                         <label>
-                            Quantity:
+                            Số lượng:
                             <input
                                 type="number"
                                 name="quantity"
@@ -73,7 +72,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                             />
                         </label>
                         <label>
-                            Start Date:
+                            Ngày bất đầu:
                             <input
                                 type="date"
                                 name="startDate"
@@ -83,7 +82,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                             />
                         </label>
                         <label>
-                            Discount Percentage:
+                            Phần trăm giảm giá:
                             <input
                                 type="number"
                                 name="discountPercentage"
@@ -95,7 +94,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                     </div>
                     <div className="half-width">
                         <label>
-                            Min Discount:
+                            Giảm tối thiểu:
                             <input
                                 type="number"
                                 name="minDiscount"
@@ -105,7 +104,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                             />
                         </label>
                         <label>
-                            Max Discount:
+                            Giảm tối đa:
                             <input
                                 type="number"
                                 name="maxDiscount"
@@ -115,7 +114,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                             />
                         </label>
                         <label>
-                            Expiry Date:
+                            Ngày hết hạn:
                             <input
                                 type="date"
                                 name="expiryDate"
@@ -124,7 +123,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                                 required
                             />
                         </label>
-                        <button className=""  type="submit">Save Changes</button>
+                        <button className=""  type="submit">Lưu</button>
                     </div>
                 </form>
             </div>

@@ -109,9 +109,9 @@ const ManageStaff = () => {
                     className="edit-button-staff"
                     onClick={() => handleEdit(account)}
                   >
-                    Edit
+                    Sửa
                   </button>
-                  <button className="delete-button-staff">Delete</button>
+                  <button className="delete-button-staff">Xóa</button>
                 </td>
               </tr>
             ))}
@@ -129,6 +129,7 @@ const ManageStaff = () => {
 
       {/* Edit Popup */}
       {showEditPopup && (
+        
         <div className="edit-popup">
           <div className="edit-popup-content">
             <form onSubmit={handleSubmit}>
@@ -169,6 +170,7 @@ const ManageStaff = () => {
             </form>
           </div>
         </div>
+      
       )}
     </div>
   );

@@ -126,36 +126,36 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-grid">
                         <label>
-                            Product Name:
+                            Tên sản phẩm:
                             <input type="text" name="ProductName" value={formData.ProductName} onChange={handleChange} />
                         </label>
 
                         <label>
-                            Price:
+                            Giá:
                             <input type="number" name="Price" value={formData.Price} onChange={handleChange} />
                         </label>
                         <label>
-                            Stock Quantity:
+                            Số lượng:
                             <input type="number" name="StockQuantity" value={formData.StockQuantity} onChange={handleChange} />
                         </label>
                         <label>
-                            Image:
+                            Ảnh:
                             <input type="text" name="Image" value={formData.Image} onChange={handleChange} />
                         </label>
                         <label>
-                            Expiration Date:
+                            Ngày hết hạn:
                             <input type="date" name="ExpirationDate" value={formData.ExpirationDate} onChange={handleChange} />
                         </label>
                         <label>
-                            Manufacturing Date:
+                            Ngày sản xuất:
                             <input type="date" name="ManufacturingDate" value={formData.ManufacturingDate} onChange={handleChange} />
                         </label>
                         <label>
-                            Brand Name:
+                            Thương hiệu:
                             <input type="text" name="BrandName" value={formData.BrandName} onChange={handleChange} />
                         </label>
                         <label>
-                            Product Category Name:
+                            Phân loại sữa:
                             <select name="ProductCategoryName" value={formData.ProductCategoryName} onChange={handleChange}>
                                 <option value="Sữa cho mẹ">Sữa cho mẹ</option>
                                 <option value="Sữa cho em bé">Sữa cho em bé</option>
@@ -163,7 +163,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                         </label>
 
                         <label>
-                            Status:
+                            Trạng thái:
                             <select name="Status" value={formData.Status} onChange={handleChange}>
                                 <option value="0">Out of stock</option>
                                 <option value="1">Still in stock</option>
@@ -172,7 +172,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
 
                     </div>
                     <label className='edit-pro-thinh'>
-                        Description:
+                        Mô tả:
                         <JoditEditor
                             ref={editor}
                             value={formData.Description}
