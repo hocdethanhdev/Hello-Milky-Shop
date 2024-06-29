@@ -25,17 +25,18 @@ const FeedbackManage = () => {
         throw new Error('Failed to fetch comments');
       }
       const data = await response.json();
-      if (!Array.isArray(data)) {
+      if (!Array.isArray(data.data)) {
         throw new Error('Comments data is not an array');
       }
-      setComments(data);
-      setTotalComments(data.length);
+      setComments(data.data); // access the 'data' property
+      setTotalComments(data.data.length);
     } catch (error) {
       console.error('Error fetching comments:', error);
       setComments([]);
       setTotalComments(0);
     }
   };
+
 
 
   const handlePageChange = (page) => {

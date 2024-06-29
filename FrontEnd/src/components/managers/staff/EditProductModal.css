@@ -77,3 +77,6 @@
 button[type="submit"]:hover {
     background-color: #45a049;
 }
+.status-display-thinh {
+    font-weight: normal;
+}

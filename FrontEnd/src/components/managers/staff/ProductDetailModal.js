@@ -54,7 +54,12 @@ const ProductDetailModal = ({ product, onClose }) => {
           </p>
           <p>
             <strong>Trạng thái:</strong>{" "}
-            {product.Status ? "Khả dụng" : "Không khả dụng"}
+            {product.Status === null || product.Status === false
+              ? "Tạm ẩn"
+              : product.Status === true &&
+                parseInt(product.StockQuantity) > 0
+                ? "Còn hàng"
+                : "Hết hàng"}
           </p>
         </div>
       </div>
