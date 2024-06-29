@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./PromotionManage.css"; // Import the CSS file
 import { Link } from "react-router-dom";
+import EditPromotionModal from "./EditPromotionModal"; // Import the EditPromotionModal
+import { Modal } from 'antd';
 
 function PromotionManage() {
   const [promotions, setPromotions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filterType, setFilterType] = useState("all"); // State for filter type
-  const promotionsPerPage = 5; // Number of promotions per page
+  const [filterType, setFilterType] = useState("all");
+  const [editingPromotion, setEditingPromotion] = useState(null); // State for the promotion being edited
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [promotionToDelete, setPromotionToDelete] = useState(null);
+  const promotionsPerPage = 5;
 
   useEffect(() => {
     const fetchPromotions = async () => {
@@ -24,28 +29,54 @@ function PromotionManage() {
     fetchPromotions();
   }, []);
 
-  const handleEdit = (promotionId) => {
-    console.log("Edit promotion with ID:", promotionId);
+  const handleEdit = (promotion) => {
+    setEditingPromotion(promotion);
   };
 
-  const handleDelete = async (promotionId) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this promotion?"
-    );
-    if (confirmed) {
-      try {
-        await axios.delete(
-          `http://localhost:5000/api/v1/promotion/deletePromotion/${promotionId}`
-        );
-        setPromotions(
-          promotions.filter(
-            (promotion) => promotion.PromotionID !== promotionId
-          )
-        );
-        console.log("Promotion deleted successfully");
-      } catch (error) {
-        console.error("Error deleting promotion:", error);
-      }
+  const handleDelete = (promotionId) => {
+    setPromotionToDelete(promotionId);
+    setDeleteModalVisible(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/v1/promotion/deletePromotion/${promotionToDelete}`
+      );
+      setPromotions(
+        promotions.filter(
+          (promotion) => promotion.PromotionID !== promotionToDelete
+        )
+      );
+      console.log("Promotion deleted successfully");
+    } catch (error) {
+      console.error("Error deleting promotion:", error);
+    } finally {
+      setDeleteModalVisible(false);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteModalVisible(false);
+  };
+
+  const handleSave = async (updatedPromotion) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/v1/promotion/updatePromotion/${updatedPromotion.PromotionID}`,
+        updatedPromotion
+      );
+      setPromotions(
+        promotions.map((promotion) =>
+          promotion.PromotionID === updatedPromotion.PromotionID
+            ? response.data
+            : promotion
+        )
+      );
+      setEditingPromotion(null); // Close the modal
+      console.log("Promotion updated successfully");
+    } catch (error) {
+      console.error("Error updating promotion:", error);
     }
   };
 
@@ -57,10 +88,8 @@ function PromotionManage() {
         { headers: { "Content-Type": "application/json" } }
       );
       console.log("Product added to promotion:", response.data);
-      // Optionally, you can update state or show a success message here
     } catch (error) {
       console.error("Error adding product to promotion:", error);
-      // Handle error scenario, show error message or retry logic
     }
   };
 
@@ -70,7 +99,7 @@ function PromotionManage() {
 
   const handleFilterChange = (event) => {
     setFilterType(event.target.value);
-    setCurrentPage(1); // Reset to first page when filter changes
+    setCurrentPage(1);
   };
 
   const filteredPromotions = promotions.filter((promotion) => {
@@ -144,13 +173,13 @@ function PromotionManage() {
                 <div className="promo-buttons">
                   <button
                     className="promo-button promo-button-edit"
-                    onClick={() => handleEdit(promotion.PromotionID)}>
-                    Edit
+                    onClick={() => handleEdit(promotion)}>
+                    Sửa
                   </button>
                   <button
                     className="promo-button promo-button-delete"
                     onClick={() => handleDelete(promotion.PromotionID)}>
-                    Delete
+                    Xóa
                   </button>
                 </div>
               </td>
@@ -166,6 +195,21 @@ function PromotionManage() {
           itemsPerPage={promotionsPerPage}
         />
       </div>
+      {editingPromotion && (
+        <EditPromotionModal
+          promotion={editingPromotion}
+          onClose={() => setEditingPromotion(null)}
+          onSave={handleSave}
+        />
+      )}
+      <Modal
+        title="Xác nhận xóa khuyến mãi"
+        visible={deleteModalVisible}
+        onOk={confirmDelete}
+        onCancel={handleCancelDelete}
+      >
+        <p>Bạn có chắc chắn muốn xóa khuyến mãi này?</p>
+      </Modal>
     </div>
   );
 }
