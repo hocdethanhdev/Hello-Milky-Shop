@@ -77,7 +77,6 @@ const ResetPassword = () => {
     window.confirmationResult
       .confirm(otp)
       .then(async (res) => {
-        console.log("OTP confirmed:", res);
         setUser(res.user);
         setLoading(false);
         setShowResetForm(true);

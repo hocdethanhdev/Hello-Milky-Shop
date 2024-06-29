@@ -48,7 +48,6 @@ function PromotionManage() {
           (promotion) => promotion.PromotionID !== promotionToDelete
         )
       );
-      console.log("Promotion deleted successfully");
     } catch (error) {
       console.error("Error deleting promotion:", error);
     } finally {
@@ -74,7 +73,6 @@ function PromotionManage() {
         )
       );
       setEditingPromotion(null); // Close the modal
-      console.log("Promotion updated successfully");
       fetchPromotions();
     } catch (error) {
       console.error("Error updating promotion:", error);
@@ -88,7 +86,6 @@ function PromotionManage() {
         { productID, promotionID },
         { headers: { "Content-Type": "application/json" } }
       );
-      console.log("Product added to promotion:", response.data);
     } catch (error) {
       console.error("Error adding product to promotion:", error);
     }
