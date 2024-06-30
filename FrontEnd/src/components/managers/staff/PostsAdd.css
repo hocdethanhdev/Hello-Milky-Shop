@@ -1,106 +1,121 @@
 /* General styling for the form container */
 .container.post-form {
-    width: 95%;
-    margin: 0 auto; 
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;display: flex; /* Sử dụng flexbox để canh chỉnh */
-    flex-direction: column; /* Căn chỉnh theo chiều dọc */
-  }
-  
+  width: 95%;
+  margin: 0 auto; 
+  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20.5px;
+  display: flex; 
+  flex-direction: column; 
+}
 
-  .error-message {
-    color: #dc3545;
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-  
 
-  label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-  }
-  
+.error-message {
+  color: #dc3545;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
 
-  .form-control {
-    width: 2000%;
-    padding: 12px;
-    margin-bottom: 0px;
-    border-radius: 4px;
-    border: 1px solid #ced4da;
-    transition: border-color 0.3s;
-    margin-top: 10px;
-    
 
-  }
-  
-  .form-control:focus {
-    border-color: #80bdff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-  }
-  
-  /* Image preview styling */
-  .preview-image {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* DatePicker styling */
-  .react-datepicker-wrapper,
-  .react-datepicker__input-container,
-  .react-datepicker__input-container input {
-    width: 100%;
-  }
-  
-  .react-datepicker-popper {
-    z-index: 10;
-  }
-  
-  /* Button styling */
-  .longlam {
-    background-color: #007bff;
-    border: none;
-    padding: 10px 16px;
-    font-size: 16px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-    width: 13%;
-    align-self: flex-end; /* Đưa nút sang phải cùng */
-  }
-  
-  .longlam:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Adjustments for mobile devices */
-  @media (max-width: 576px) {
-    .cuc-cua-ben-post .row {
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 0px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  transition: border-color 0.3s;
+  margin-top: 10px;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+/* Image preview styling */
+.preview-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: -120px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.preview-image-container {
+  margin-top: -10px; /* Adjust this value to move the image up or down */
+}
+
+/* DatePicker styling */
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  width: 100%;
+}
+
+.react-datepicker-popper {
+  z-index: 10;
+}
+
+/* Button styling */
+.longlam {
+  background-color: #007bff;
+  border: none;
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  width: 13%;
+  align-self: flex-end; 
+}
+
+.longlam:hover {
+  background-color: #0056b3;
+}
+
+/* Adjustments for mobile devices */
+@media (max-width: 576px) {
+  .row.mb-3 {
       flex-direction: column;
-    }
-  
-    .cuc-cua-ben-post .col-md-6 {
+  }
+
+  .row.mb-3 .col-md-6 {
       width: 100%;
       padding: 0;
-    }
   }
+}
 
-  .form-control1{
-    margin-top: 9px;
-    height: 45%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+.form-control1-container {
+  padding-left: 20px; /* Increased this value to move the dropdown further to the right */
+}
 
+.form-control1 {
+  margin-top: 6px;
+  height: 45%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
 
+.form-control2 {
+  width: 49%; /* Adjust this value to set the width of the header image input */
+}
 
- 
-  
-  
+.image-date-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.day-pub-post {
+  margin-top: 100px;
+}
