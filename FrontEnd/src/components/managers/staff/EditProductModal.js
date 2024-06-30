@@ -9,8 +9,8 @@ import "react-datepicker/dist/react-datepicker.css";
 const EditProductModal = ({ product, onClose, onSave }) => {
     const [formData, setFormData] = useState({ ...product });
     const editor = useRef(null);
+    const modalContentRef = useRef(null);
     const [progress, setProgress] = useState(0);
-    const [previewImage, setPreviewImage] = useState(null);
 
     useEffect(() => {
         setFormData({ ...product });
@@ -77,6 +77,19 @@ const EditProductModal = ({ product, onClose, onSave }) => {
         }
         return status === true && parseInt(stockQuantity) > 0 ? "Còn hàng" : "Hết hàng";
     };
+
+    const handleClickOutside = (event) => {
+        if (modalContentRef.current && !modalContentRef.current.contains(event.target)) {
+            onClose();
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    }, []);
 
     const editorConfig = useMemo(() => ({
         readonly: false,
@@ -145,7 +158,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
 
     return (
         <div className="modal-thinhprostedit">
-            <div className="modal-content-thinhprostedit">
+            <div className="modal-content-thinhprostedit" ref={modalContentRef}>
                 <span className="close-thinhprostedit" onClick={onClose}>&times;</span>
                 <form onSubmit={handleSubmit}>
                     <div className="form-grid">
@@ -212,7 +225,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
 
                     </div>
                     <label className='edit-pro-thinh'>
-                        Description:
+                        Mô tả:
                         <JoditEditor
                             ref={editor}
                             value={formData.Description}

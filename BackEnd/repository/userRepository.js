@@ -1,6 +1,9 @@
 const userDAO = require("../dao/userDAO");
 
 const userRepository = {
+  updateInforUser: async (UserID, UserName, Email, PhoneNumber) => {
+    return await userDAO.updateInforUser(UserID, UserName, Email, PhoneNumber);
+  },
   updateUserEmail: async (UserID, Email) => {
     return await userDAO.updateUserEmail(UserID, Email);
   },
@@ -31,8 +34,8 @@ const userRepository = {
     return await userDAO.findAllUsers();
   },
 
-  deleteUser: async (user_id) => {
-    return await userDAO.deleteUser(user_id);
+  deleteUser: async (user_id, status) => {
+    return await userDAO.deleteUser(user_id, status);
   },
   updateUser: async (user_id, user) => {
     return await userDAO.updateUser(user_id, user);

@@ -4,7 +4,6 @@ const Order = require("../bo/order");
 const ShippingAddress = require("../bo/shippingAddress");
 
 const orderDAO = {
-
   countOrdersPayed: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -18,7 +17,7 @@ const orderDAO = {
 
             resolve({
               err: res?.recordset[0] !== null ? 0 : 1,
-              count: res.recordset[0].count
+              count: res.recordset[0].count,
             });
           }
         );
@@ -28,7 +27,11 @@ const orderDAO = {
   getInfoToShip: (StatusOrderID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
-        const request = new mssql.Request().input("StatusOrderID", mssql.Int, StatusOrderID);
+        const request = new mssql.Request().input(
+          "StatusOrderID",
+          mssql.Int,
+          StatusOrderID
+        );
         request.query(
           `SELECT OrderID, UserName, u.PhoneNumber, sa.Address
           FROM Orders o
@@ -40,7 +43,7 @@ const orderDAO = {
 
             resolve({
               err: res?.recordset[0] !== null ? 0 : 1,
-              data: res.recordset ?? null
+              data: res.recordset ?? null,
             });
           }
         );
@@ -227,12 +230,29 @@ const orderDAO = {
         const insertQuery = `
                     IF EXISTS (SELECT 1 FROM OrderDetail WHERE OrderID = @orderID AND ProductID = @productID)
                     BEGIN
+                        DECLARE @newQuantity INT;
+                        SELECT @newQuantity = CASE 
+                                                WHEN (Quantity + @quantity) > p.StockQuantity THEN p.StockQuantity 
+                                                ELSE (Quantity + @quantity) 
+                                              END
+                        FROM OrderDetail od
+                        JOIN Product p ON od.ProductID = p.ProductID
+                        WHERE od.OrderID = @orderID AND od.ProductID = @productID;
+
                         UPDATE OrderDetail
-                        SET Quantity = Quantity + @quantity
+                        SET Quantity = @newQuantity
                         WHERE OrderID = @orderID AND ProductID = @productID;
                     END
                     ELSE
                     BEGIN
+                        DECLARE @stockQuantity INT;
+                        SELECT @stockQuantity = StockQuantity FROM Product WHERE ProductID = @productID;
+
+                        IF @quantity > @stockQuantity
+                        BEGIN
+                            SET @quantity = @stockQuantity;
+                        END
+
                         INSERT INTO OrderDetail (OrderID, ProductID, Quantity, Price)
                         VALUES (@orderID, @productID, @quantity, @price);
 
@@ -409,7 +429,7 @@ const orderDAO = {
         request.input("orderID", mssql.Int, orderID);
 
         const selectQuery = `
-                    SELECT o.*, od.*, p.*
+                    SELECT o.OrderID, od.Quantity, p.ProductID, p.ProductName, p.Image, p.Price
                     FROM Orders o
                     JOIN OrderDetail od ON o.OrderID = od.OrderID
                     JOIN Product p ON od.ProductID = p.ProductID
@@ -423,9 +443,6 @@ const orderDAO = {
       });
     });
   },
-
-
-
 
   changeQuantityOfProductInOrder: (orderID, productQuantities) => {
     return new Promise((resolve, reject) => {

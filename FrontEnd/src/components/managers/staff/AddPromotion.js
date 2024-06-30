@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { uploadImage } from "../uimg/UpImage";
+import { message } from 'antd';
 import "./AddPromotion.css";
 
-function AddPromotion({ onAddPromotion }) {
+const AddPromotion = () => {
   const [promotionName, setPromotionName] = useState("");
   const [description, setDescription] = useState("");
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [image, setImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -34,29 +39,63 @@ function AddPromotion({ onAddPromotion }) {
     : products;
 
   useEffect(() => {
-    setSelectedProducts([]); // Reset selectedProducts when selectedCategory changes
+    setSelectedProducts([]);
   }, [selectedCategory]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!image) {
+      message.error("Please select an image.");
+      return;
+    }
+
     try {
+      const downloadURL = await uploadImage(image, setProgress);
+
+      const promotionData = {
+        promotionName,
+        description,
+        discountPercentage: parseInt(discountPercentage),
+        startDate,
+        endDate,
+        image: downloadURL,
+      };
+
       const response = await axios.post(
         "http://localhost:5000/api/v1/promotion/addPromotion",
+        promotionData,
+
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      const promotionID = response.data.PromotionID;
+      await axios.post(
+        "http://localhost:5000/api/v1/promotion/applyPromotionToProduct",
         {
-          promotionName,
-          description,
-          discountPercentage: parseInt(discountPercentage), // Ensure it's a number
-          startDate,
-          endDate,
-          products: selectedProducts,
+          productIDs: selectedProducts,
+          promotionID,
         },
         { headers: { "Content-Type": "application/json" } }
       );
-      onAddPromotion(response.data); // Notify parent component of new promotion
+
+      message.success("New Promotion and products added!");
+
+      setPromotionName("");
+      setDescription("");
+      setDiscountPercentage(0);
+      setStartDate("");
+      setEndDate("");
+      setImage(null);
+      setPreviewImage(null);
+      setSelectedProducts([]);
+      setSelectedCategory("");
     } catch (error) {
       console.error("Error adding promotion:", error);
+      message.error("Error adding promotion: " + error.message);
     }
   };
+  
 
   const handleProductSelection = (productId) => {
     setSelectedProducts((prevSelectedProducts) =>
@@ -68,14 +107,25 @@ function AddPromotion({ onAddPromotion }) {
 
   const handleSelectAll = () => {
     if (selectedProducts.length === filteredProducts.length) {
-      setSelectedProducts([]); // Reset if all are already selected
+      setSelectedProducts([]);
     } else {
       setSelectedProducts(filteredProducts.map((product) => product.ProductID));
     }
   };
 
-  const toggleProductSelection = (productId) => {
-    handleProductSelection(productId);
+  const handleImageChange = (e) => {
+    const imageFile = e.target.files[0];
+    setImage(imageFile);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+    };
+    if (imageFile) {
+      reader.readAsDataURL(imageFile);
+    } else {
+      setPreviewImage(null);
+    }
   };
 
   return (
@@ -92,6 +142,8 @@ function AddPromotion({ onAddPromotion }) {
         endDate={endDate}
         setEndDate={setEndDate}
         handleSubmit={handleSubmit}
+        handleImageChange={handleImageChange}
+        previewImage={previewImage}
       />
       <div className="product-list-container">
         <h3>Select Products for Promotion</h3>
@@ -112,14 +164,13 @@ function AddPromotion({ onAddPromotion }) {
           selectedProducts={selectedProducts}
           handleProductSelection={handleProductSelection}
           handleSelectAll={handleSelectAll}
-          toggleProductSelection={toggleProductSelection}
         />
       </div>
     </div>
   );
-}
+};
 
-function PromotionForm({
+const PromotionForm = ({
   promotionName,
   setPromotionName,
   description,
@@ -131,16 +182,17 @@ function PromotionForm({
   endDate,
   setEndDate,
   handleSubmit,
-}) {
+  handleImageChange,
+  previewImage,
+}) => {
   return (
     <div className="promotion-form-container">
-
       <h2>Add Promotion</h2>
       <form onSubmit={handleSubmit}>
         <div className="promo-form">
           <div className="promo-half">
             <div>
-              <label>Promotion Name:</label>
+              <label>Tên khuyến mãi:</label>
               <input
                 type="text"
                 value={promotionName}
@@ -148,9 +200,8 @@ function PromotionForm({
                 required
               />
             </div>
-
             <div>
-              <label>Discount Percentage:</label>
+              <label>Phần trăm khuyến mãi:</label>
               <input
                 type="number"
                 value={discountPercentage}
@@ -159,7 +210,7 @@ function PromotionForm({
               />
             </div>
             <div>
-              <label>Description:</label>
+              <label>Mô tả:</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -167,10 +218,9 @@ function PromotionForm({
               />
             </div>
           </div>
-
           <div className="promo-half">
             <div>
-              <label>Start Date:</label>
+              <label>Ngày bắt đầu:</label>
               <input
                 type="date"
                 value={startDate}
@@ -178,9 +228,8 @@ function PromotionForm({
                 required
               />
             </div>
-
             <div>
-              <label>End Date:</label>
+              <label>Ngày kết thúc:</label>
               <input
                 type="date"
                 value={endDate}
@@ -189,21 +238,31 @@ function PromotionForm({
               />
             </div>
 
+            <div>
+              <label>Image:</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                required
+              />
+              {previewImage && (
+                <div className="form-group">
+                  <img src={previewImage} alt="Preview" className="preview-image" />
+                </div>
+              )}
+            </div>
             <button type="submit">Add Promotion</button>
           </div>
         </div>
       </form>
     </div>
   );
-}
+};
 
-function ProductList({ products, selectedProducts, handleProductSelection, handleSelectAll, toggleProductSelection }) {
+const ProductList = ({ products, selectedProducts, handleProductSelection, handleSelectAll }) => {
   const formatPrice = (price) => {
     return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-  };
-
-  const handleImageClick = (productId) => {
-    toggleProductSelection(productId);
   };
 
   return (
@@ -216,7 +275,7 @@ function ProductList({ products, selectedProducts, handleProductSelection, handl
           onChange={handleSelectAll}
         />
       </div>
-      <div className="product-list-promotion ">
+      <div className="product-list-promotion">
         {products.map((product) => (
           <div key={product.ProductID} className="product-item-promotion-nhan">
             <label className="product-clickable">
@@ -229,7 +288,6 @@ function ProductList({ products, selectedProducts, handleProductSelection, handl
                 <img
                   src={product.Image}
                   alt={product.ProductName}
-                  onClick={() => handleImageClick(product.ProductID)}
                   className={selectedProducts.includes(product.ProductID) ? "selected" : ""}
                 />
                 <div>
@@ -245,6 +303,6 @@ function ProductList({ products, selectedProducts, handleProductSelection, handl
       </div>
     </div>
   );
-}
+};
 
 export default AddPromotion;

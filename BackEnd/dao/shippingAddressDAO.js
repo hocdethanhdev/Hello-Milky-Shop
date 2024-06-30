@@ -94,24 +94,33 @@ const shippingAddressDAO = {
     });
   },
 
-  findInfoAddressWithOrderNearest: () => {
+  findInfoAddressWithOrderNearest: (UserID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function(err, result) {
-        const request = new mssql.Request();
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request().input(
+          "UserID",
+          mssql.VarChar,
+          UserID
+        );
         request.query(
-          `SELECT TOP 1 OrderID, Address
+          `SELECT TOP 1 OrderID, Address, sa.PhoneNumber, sa.Receiver, sa.ShippingAddressID
           FROM ShippingAddress sa
           JOIN Orders o ON sa.ShippingAddressID = o.ShippingAddressID
+		      JOIN Users u ON u.UserID = o.UserID
+          WHERE o.UserID = @UserID AND sa.IsDeleted = 0
+		      ORDER BY o.OrderID DESC
           ;`,
           (err, res) => {
-            if (err) reject (err);
+            if (err) reject(err);
 
-            resolve(res.recordset);
+            resolve({
+              err: res.recordset.length === 0 ? 1 : 0,
+              data: res.recordset[0] ?? null,
+            });
           }
         );
       });
     });
   },
-
-}
+};
 module.exports = shippingAddressDAO;

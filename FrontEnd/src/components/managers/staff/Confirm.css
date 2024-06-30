@@ -128,3 +128,145 @@ table tbody tr:nth-child(even) {
 .nut-xndh {
   display: flex;
 }
+/* Khung chứa cho chi tiết đơn hàng */
+.order-detail-container {
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Tiêu đề của chi tiết đơn hàng */
+.order-detail-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Thông tin đơn hàng */
+.order-detail-info {
+  margin-bottom: 20px;
+}
+
+.order-detail-info p {
+  margin: 5px 0;
+}
+
+/* Hình ảnh sản phẩm */
+.order-detail-image {
+  max-width: 100px;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+/* Bảng chi tiết sản phẩm */
+.order-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-detail-table thead {
+  background-color: #f2f2f2;
+}
+
+.order-detail-table th,
+.order-detail-table td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.order-detail-table th {
+  background-color: #009879;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+.order-detail-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Định dạng cho các nút hành động */
+.order-detail-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.order-detail-buttons button {
+  background-color: #009879;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-left: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.order-detail-buttons button:hover {
+  background-color: #007961;
+}
+.modal-content-scrollable-thinhh {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 16px;
+  margin-top: 25px;
+}
+.modal-content-scrollable-thinhh::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content-scrollable-thinhh::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.modal-content-scrollable-thinhh::-webkit-scrollbar-thumb {
+  background-color: rgb(102, 199, 255);
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+.modal-content-scrollable-thinhh::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.modal-content-scrollable-thinhh-thinhh {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(192, 232, 255) #f1f1f1;
+}
+.ttdh-thong-tin {
+  display: flex;
+}
+
+.table-info-order {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.table-info-order td {
+  padding: 8px;
+}
+
+.table-products-order {
+  width: 100%;
+}
+
+.table-products-order th,
+.table-products-order td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-products-order img {
+  max-width: 50px;
+  max-height: 50px;
+}
+
+.mdh {
+  width: 30%;
+}

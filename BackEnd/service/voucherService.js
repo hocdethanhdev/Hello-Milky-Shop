@@ -1,8 +1,13 @@
+const { deleteVoucher } = require("../dao/voucherDAO");
 const voucherRepository = require("../repository/voucherRepository");
 
 const voucherService = {
   getAllVouchers: async (req, res) => {
     return await voucherRepository.getAllVouchers();
+  },
+
+  deleteVoucher: async (VoucherID) => {
+    return await voucherRepository.deleteVoucher(VoucherID);
   },
 
   getVouchersforUser: async (UserID) => {

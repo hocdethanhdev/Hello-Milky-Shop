@@ -19,14 +19,16 @@ const EditArticleModal = ({ onSave }) => {
     PublishDate: null,
     AuthorID: "",
     ArticleCategoryID: "",
-    Content: ""
+    Content: "",
   });
   const [previewImage, setPreviewImage] = useState(null);
   const editorRef = useRef(null);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/v1/article/getArticlesByArticleID/${articleID}`)
+      .get(
+        `http://localhost:5000/api/v1/article/getArticlesByArticleID/${articleID}`
+      )
       .then((response) => {
         const article = response.data[0];
         const publishDate = new Date(article.PublishDate);
@@ -36,7 +38,7 @@ const EditArticleModal = ({ onSave }) => {
           PublishDate: isNaN(publishDate) ? null : publishDate,
           AuthorID: article.AuthorID,
           ArticleCategoryID: article.ArticleCategoryID,
-          Content: article.Content
+          Content: article.Content,
         });
         setPreviewImage(article.HeaderImage);
       })
@@ -45,15 +47,16 @@ const EditArticleModal = ({ onSave }) => {
       });
   }, [articleID]);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const imageFile = e.target.files[0];
     if (imageFile) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(imageFile);
-      setFormData({ ...formData, HeaderImage: imageFile });
+      try {
+        const imageUrl = await uploadImage(imageFile, setProgress);
+        setPreviewImage(imageUrl);
+        setFormData({ ...formData, HeaderImage: imageUrl });
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     } else {
       setPreviewImage(null);
     }
@@ -79,7 +82,9 @@ const EditArticleModal = ({ onSave }) => {
       const postData = {
         ...formData,
         Content: sanitizedContent,
-        PublishDate: formData.PublishDate ? formData.PublishDate.toISOString().split("T")[0] : null,
+        PublishDate: formData.PublishDate
+          ? formData.PublishDate.toISOString().split("T")[0]
+          : null,
       };
 
       await axios.put(
@@ -92,105 +97,106 @@ const EditArticleModal = ({ onSave }) => {
         }
       );
 
-      message.success('Bài viết đã được sửa thành công.');
-      setTimeout(() => {
-        navigate("/posts");
-
-        window.location.reload();
-        window.scrollTo(0, 0);
-      }, 1000);
+      message.success("Bài viết đã được sửa thành công.");
+      navigate("/posts");
+      window.scrollTo(0, 0);
     } catch (error) {
       console.error("There was an error updating the article!", error);
     }
   };
 
-  // const editorConfig = {
-  //   readonly: false,
-  //   toolbar: true,
-  //   toolbarButtonSize: 'middle',
-  //   toolbarSticky: false,
-  //   showCharsCounter: false,
-  //   showWordsCounter: false,
-  //   showXPathInStatusbar: false,
-  //   buttons: [
-  //     'bold', 'italic', 'underline', 'strikethrough', 'eraser',
-  //     '|', 'ul', 'ol', 'indent', 'outdent',
-  //     '|', 'font', 'fontsize', 'brush', 'paragraph',
-  //     '|', 'image', 'link', 'table',
-  //     '|', 'align', 'undo', 'redo', 'hr',
-  //     '|', 'copyformat', 'fullsize',
-  //   ]
-  // };
-  const editorConfig = useMemo(() => ({
-    readonly: false,
-    toolbar: true,
-    buttons: [
-      'bold', 'italic', 'underline', 'eraser', 'ul', 'ol', 'indent', 'outdent',
-      '|', 'font', 'fontsize', 'brush', 'paragraph',
-      '|', 'table',
-      '|', 'align', 'undo', 'redo', 'hr',
-      '|', 'copyformat', 'fullsize',
-      {
-        name: 'uploadImage',
-        iconURL: 'https://cdn-icons-png.flaticon.com/128/685/685669.png', // Biểu tượng hình ảnh
-        exec: async (editor) => {
-          const input = document.createElement('input');
-          input.type = 'file';
-          input.accept = 'image/*';
-          input.onchange = async (event) => {
-            const file = event.target.files[0];
-            if (file) {
-              try {
-                const url = await uploadImage(file, setProgress);
-                const img = document.createElement('img');
-                img.src = url;
-                img.alt = 'Image';
-                img.style.width = '100px';
-                img.style.height = 'auto';
-                editor.selection.insertNode(img);
-                handleResizeImage(editor);
-              } catch (error) {
-                console.error('Error uploading image:', error);
-              }
-            }
-          };
-          input.click();
-        },
-        tooltip: 'Upload Image'
-      }
-    ],
-    events: {
-      afterInit: (editor) => {
-        handleResizeImage(editor);
-      },
-      change: (newContent) => {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newContent;
-        const images = tempDiv.querySelectorAll('img');
-        images.forEach((image) => {
-          const width = image.style.width;
-          const height = image.style.height;
-          if (width && height) {
-            image.setAttribute('width', width);
-            image.setAttribute('height', height);
-          }
-        });
-      }
-    }
-  }), [setProgress]);
   const handleResizeImage = (editor) => {
-    editor.events.on('mouseup', () => {
-      const images = editor.container.querySelectorAll('img');
+    editor.events.on("mouseup", () => {
+      const images = editor.container.querySelectorAll("img");
       images.forEach((image) => {
         const width = image.style.width;
         const height = image.style.height;
         if (width && height) {
-          image.setAttribute('width', width);
-          image.setAttribute('height', height);
+          image.setAttribute("width", width);
+          image.setAttribute("height", height);
         }
       });
     });
   };
+
+  const editorConfig = useMemo(
+    () => ({
+      readonly: false,
+      toolbar: true,
+      buttons: [
+        "bold",
+        "italic",
+        "underline",
+        "eraser",
+        "ul",
+        "ol",
+        "indent",
+        "outdent",
+        "|",
+        "font",
+        "fontsize",
+        "brush",
+        "paragraph",
+        "|",
+        "table",
+        "|",
+        "align",
+        "undo",
+        "redo",
+        "hr",
+        "|",
+        "copyformat",
+        "fullsize",
+        {
+          name: "uploadImage",
+          iconURL: "https://cdn-icons-png.flaticon.com/128/685/685669.png", // Image icon
+          exec: async (editor) => {
+            const input = document.createElement("input");
+            input.type = "file";
+            input.accept = "image/*";
+            input.onchange = async (event) => {
+              const file = event.target.files[0];
+              if (file) {
+                try {
+                  const url = await uploadImage(file, setProgress);
+                  const img = document.createElement("img");
+                  img.src = url;
+                  img.alt = "Image";
+                  img.style.width = "100px";
+                  img.style.height = "auto";
+                  editor.selection.insertNode(img);
+                  handleResizeImage(editor);
+                } catch (error) {
+                  console.error("Error uploading image:", error);
+                }
+              }
+            };
+            input.click();
+          },
+          tooltip: "Upload Image",
+        },
+      ],
+      events: {
+        afterInit: (editor) => {
+          handleResizeImage(editor);
+        },
+        change: (newContent) => {
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = newContent;
+          const images = tempDiv.querySelectorAll("img");
+          images.forEach((image) => {
+            const width = image.style.width;
+            const height = image.style.height;
+            if (width && height) {
+              image.setAttribute("width", width);
+              image.setAttribute("height", height);
+            }
+          });
+        },
+      },
+    }),
+    [setProgress]
+  );
 
   return (
     <div className="edit-article-page">
@@ -220,11 +226,7 @@ const EditArticleModal = ({ onSave }) => {
           <label>Ảnh đầu trang:</label>
           <input type="file" onChange={handleImageChange} />
           {previewImage && (
-            <img
-              src={previewImage}
-              alt="Preview"
-              className="preview-image-2"
-            />
+            <img src={previewImage} alt="Preview" className="preview-image-2" />
           )}
         </div>
         <div className="col thinh-khung-hinhh">
@@ -237,7 +239,9 @@ const EditArticleModal = ({ onSave }) => {
             onChange={handleChange}
             required
           >
-            <option value="" disabled>Chọn loại bài viết</option>
+            <option value="" disabled>
+              Chọn loại bài viết
+            </option>
             <option value="1">Sức Khỏe</option>
             <option value="2">Tin khuyến mãi</option>
             <option value="3">Tư vấn mua sắm</option>
@@ -251,12 +255,9 @@ const EditArticleModal = ({ onSave }) => {
               value={formData.Content}
               config={editorConfig}
             />
-            {/* cái richtext do nếu bài nhiều nó bị cắn mất thanh slidebar nên bên css t chỉnh max-width 1200px
-            nên là có chỉnh gì thì width đừng quá 1200px */}
           </div>
-
         </div>
-        <button type="submit" className="btn btn-primary long">
+        <button type="submit" className="btn btn-primary long-nut-daga">
           Lưu
         </button>
       </form>

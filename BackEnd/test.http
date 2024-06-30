@@ -143,6 +143,8 @@ GET http://localhost:5000/api/v1/comment/getAllComments
 ###
 GET http://localhost:5000/api/v1/comment/getUnansweredComments
 ###
+GET http://localhost:5000/api/v1/comment/getAnsweredComments
+###
 POST http://localhost:5000/api/v1/comment/repComment/2
 Content-Type: application/json
 
@@ -247,6 +249,7 @@ Content-Type: application/json
     "promotionName": "Summer Sale",
     "description": "Discount for summer season",
     "discountPercentage": 20,
+    "image": "fgasfgvf ádvf",
     "startDate": "2024-06-01",
     "endDate": "2024-08-31"
 }
@@ -368,7 +371,7 @@ PUT http://localhost:5000/api/v1/user/disableUser/M0000002/
 Content-Type: application/json
 
 {
-    "Status": "False"
+    "Status": 0
 }
 ### Lấy những voucher mà có thể lưu cho user
 POST http://localhost:5000/api/v1/voucher/getVouchersForUser
@@ -559,4 +562,24 @@ Content-Type: application/json
 {
     "ArticleID": 1,
     "ArticleCategoryID": 1
+}
+###
+PUT http://localhost:5000/api/v1/voucher/deleteVoucher/10
+
+### lay dia chi gan nhat cua 1 user
+GET http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest
+Content-Type: application/json
+
+{
+    "UserID": "M0000001"
+}
+### sua thong tin user
+PUT http://localhost:5000/api/v1/user/updateInforUser
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "PhoneNumber": "0000000000",
+    "Email": "123@mail",
+    "UserName": "SWP"
 }
