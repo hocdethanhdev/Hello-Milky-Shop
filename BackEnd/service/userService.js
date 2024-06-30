@@ -2,6 +2,10 @@ const User = require("../bo/user");
 const userRepository = require("../repository/userRepository");
 
 const userService = {
+
+  updateInforUser: async (UserID, UserName, Email, PhoneNumber) => {
+    return await userRepository.updateInforUser(UserID, UserName, Email, PhoneNumber);
+  },
   updateUserEmail: async (UserID, Email) => {
     return await userRepository.updateUserEmail(UserID, Email);
   },

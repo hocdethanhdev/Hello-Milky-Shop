@@ -1,6 +1,9 @@
 const userDAO = require("../dao/userDAO");
 
 const userRepository = {
+  updateInforUser: async (UserID, UserName, Email, PhoneNumber) => {
+    return await userDAO.updateInforUser(UserID, UserName, Email, PhoneNumber);
+  },
   updateUserEmail: async (UserID, Email) => {
     return await userDAO.updateUserEmail(UserID, Email);
   },

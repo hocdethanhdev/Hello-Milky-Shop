@@ -573,3 +573,13 @@ Content-Type: application/json
 {
     "UserID": "M0000001"
 }
+### sua thong tin user
+PUT http://localhost:5000/api/v1/user/updateInforUser
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "PhoneNumber": "0000000000",
+    "Email": "123@mail",
+    "UserName": "SWP"
+}

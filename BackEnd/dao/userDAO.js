@@ -8,6 +8,27 @@ const passport = require("passport");
 const UserID = "a";
 
 const userDAO = {
+  updateInforUser: (UserID, UserName, Email, PhoneNumber) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request()
+          .input("UserID", mssql.VarChar, UserID)
+          .input("Email", mssql.VarChar, Email)
+          .input("PhoneNumber", mssql.VarChar, PhoneNumber)
+          .input("UserName", mssql.NVarChar, UserName);
+        request.query(
+          `UPDATE Users SET Email = @Email, PhoneNumber = @PhoneNumber, UserName = @UserName WHERE UserID = @UserID;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.rowsAffected > 0 ? 0 : 1,
+            });
+          }
+        );
+      });
+    });
+  },
   updateUserEmail: (UserID, Email) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
