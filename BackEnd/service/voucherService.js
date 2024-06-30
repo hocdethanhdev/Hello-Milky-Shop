@@ -1,3 +1,4 @@
+const { deleteVoucher } = require("../dao/voucherDAO");
 const voucherRepository = require("../repository/voucherRepository");
 
 const voucherService = {

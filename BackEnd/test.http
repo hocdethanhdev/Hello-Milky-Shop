@@ -249,6 +249,7 @@ Content-Type: application/json
     "promotionName": "Summer Sale",
     "description": "Discount for summer season",
     "discountPercentage": 20,
+    "image": "fgasfgvf ádvf",
     "startDate": "2024-06-01",
     "endDate": "2024-08-31"
 }

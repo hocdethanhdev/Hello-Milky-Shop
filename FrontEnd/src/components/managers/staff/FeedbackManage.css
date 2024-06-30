@@ -1,5 +1,7 @@
 .feedback-manage-thinh-cmt {
     margin: 20px;
+    background-color: white;
+    border-radius: 5px;
 }
 
 .comments-section-thinh-cmt {
@@ -116,4 +118,5 @@
 }
 .chuyen-trang-fb {
     padding-left: 550px;
+    padding-top: 20px;
 }

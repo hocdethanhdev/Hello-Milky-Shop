@@ -69,12 +69,13 @@ const promotionDAO = {
 
         const insertQuery = `
                     INSERT INTO Promotion (PromotionName, Description, DiscountPercentage, Image, StartDate, EndDate)
+                    OUTPUT INSERTED.*
                     VALUES (@promotionName, @description, @discountPercentage, @image, @startDate, @endDate)
                 `;
 
         request.query(insertQuery, (err, res) => {
           if (err) return reject(err);
-          resolve(res);
+          resolve(res.recordset[0]);
         });
       });
     });
@@ -302,7 +303,11 @@ const promotionDAO = {
         var request = new mssql.Request()
           .input("PromotionID", param_id);
         request.query(
-          `DELETE FROM Promotion WHERE PromotionID = @PromotionID;`,
+          `
+          DELETE FROM ProductPromotionList WHERE PromotionID = @PromotionID;
+          DELETE FROM Promotion WHERE PromotionID = @PromotionID;
+
+          `,
           (err, res) => {
             if (err) reject(err);
             resolve({
