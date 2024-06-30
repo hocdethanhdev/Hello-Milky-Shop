@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, message } from "antd";
-import { useLocation } from "react-router-dom";
+import { Modal, Button } from "antd";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 function CancelOrder() {
@@ -9,7 +8,7 @@ function CancelOrder() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
   const [shippingAddress, setShippingAddress] = useState(null);
-  const ordersPerPage = 10;  
+  const ordersPerPage = 10;
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -80,8 +79,9 @@ function CancelOrder() {
         <thead>
           <tr className="row">
             <th className="col-md-2">Mã đơn hàng</th>
-            <th className="col-md-4">Ngày đặt hàng</th>
-            <th className="col-md-3">Tổng</th>
+            <th className="col-md-2">Ngày đặt hàng</th>
+            <th className="col-md-2">Tổng</th>
+            <th className="col-md-3">Địa chỉ</th>
             <th className="col-md-3">Thao tác</th>
           </tr>
         </thead>
@@ -89,18 +89,18 @@ function CancelOrder() {
           {orders.map((order) => (
             <tr className="row" key={order.OrderID}>
               <td className="col-md-2">{order.OrderID}</td>
-              <td className="col-md-4">
+              <td className="col-md-2">
                 {new Date(order.OrderDate).toLocaleDateString()}
               </td>
-              <td className="col-md-3">
+              <td className="col-md-2">
                 {formatPrice(parseInt(order.TotalAmount))}
               </td>
+              <td className="col-md-3">{order.Address}</td>
               <td className="col-md-3 nut-xndh">
                 <button
                   type="button"
                   className="btn btn-primary xndh"
-                  onClick={() => viewOrderDetails(order)}
-                >
+                  onClick={() => viewOrderDetails(order)}>
                   Thông tin
                 </button>
               </td>
@@ -124,12 +124,12 @@ function CancelOrder() {
             <Button key="close" onClick={handleModalClose}>
               Đóng
             </Button>,
-          ]}
-        >
+          ]}>
           <div className="modal-content-scrollable-thinhh">
             <div className="ttdh-thinh">
-            <p className="reason-content"><strong>Lý do hủy:</strong> {selectedOrder.ReasonCancelContent}</p>
-
+              <p className="reason-content">
+                Lý do hủy: {selectedOrder.ReasonCancelContent}
+              </p>
               <h2>Thông tin đơn hàng</h2>
               <table className="table-info-order">
                 <tbody>

@@ -4,31 +4,33 @@
   display: flex;
   flex-direction: row;
   padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
 }
 
 .sidebar-wrapper {
-  flex: 0 0 auto;
+  flex: 0 0 250px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
 .account-content {
   flex: 1;
-  padding-left: 20px;
-}
-
-.account-content {
   padding: 20px;
   background-color: #ffffff;
-  border-left: 1px solid #ddd;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-left: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
 .account-content h2 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin-bottom: 1.5rem;
   color: #333;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2px solid #ccc;
   padding-bottom: 0.5rem;
 }
 
@@ -39,6 +41,7 @@
 .account-content strong {
   margin-right: 0.5rem;
   color: #555;
+  font-weight: 600;
 }
 
 .account-content p {
@@ -55,24 +58,78 @@
   color: #888;
 }
 
-/* Animation on hover */
-
-/* Placeholder animation */
-.account-content p::before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 1px;
-  background-color: #ddd;
-  margin-top: 5px;
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
+.account-content .update-account {
+  margin-left: 10px;
+  cursor: pointer;
+  color: #007bff;
+  transition: color 0.3s ease;
 }
 
-.account-content p:hover::before {
-  transform: scaleX(1);
+.account-content .update-account:hover {
+  color: #0056b3;
 }
 
-.update-account {
-  margin-left: 20px;
+.account-content input[type="text"] {
+  width: 50%;
+  padding: 8px;
+  margin-right: 10px;
+
+  border-radius: 4px;
+}
+
+.account-content button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.account-content .btn-warning {
+  background-color: #ffc107;
+  color: #fff;
+  transition: background-color 0.3s ease;
+  margin-bottom: 12px;
+}
+
+.account-content .btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.account-content .btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 12px;
+}
+
+.account-content .btn-danger:hover {
+  background-color: #c82333;
+}
+
+.account-content span {
+  font-weight: bold;
+  color: #333;
+}
+
+.account-content div input,
+.account-content div button {
+  margin-top: 0.5rem;
+}
+
+.account-content input {
+  transition: border-color 0.3s ease;
+}
+
+.account-content input:focus {
+  border-color: #007bff;
+}
+
+.obj-account {
+  background-color: white;
+  padding: 10px;
+}
+
+.obj-account:hover {
+  background-color: #f5f5f5;
 }

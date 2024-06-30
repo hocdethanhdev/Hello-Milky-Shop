@@ -86,8 +86,9 @@ function DoneOrder() {
         <thead>
           <tr className="row">
             <th className="col-md-2">Mã đơn hàng</th>
-            <th className="col-md-4">Ngày đặt hàng</th>
-            <th className="col-md-3">Tổng</th>
+            <th className="col-md-2">Ngày đặt hàng</th>
+            <th className="col-md-2">Tổng</th>
+            <th className="col-md-3">Địa chỉ</th>
             <th className="col-md-3">Thao tác</th>
           </tr>
         </thead>
@@ -95,18 +96,18 @@ function DoneOrder() {
           {currentOrders.map((order) => (
             <tr className="row" key={order.OrderID}>
               <td className="col-md-2">{order.OrderID}</td>
-              <td className="col-md-4">
+              <td className="col-md-2">
                 {new Date(order.OrderDate).toLocaleDateString()}
               </td>
-              <td className="col-md-3">
+              <td className="col-md-2">
                 {formatPrice(parseInt(order.TotalAmount))}
               </td>
+              <td className="col-md-3">{order.Address}</td>
               <td className="col-md-3">
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => viewOrderDetails(order)}
-                >
+                  onClick={() => viewOrderDetails(order)}>
                   Thông tin
                 </button>
               </td>
@@ -124,15 +125,13 @@ function DoneOrder() {
       </div>
       {selectedOrder && (
         <Modal
-          
           visible={isDetailModalVisible}
           onCancel={handleModalClose}
           footer={[
             <Button key="close" onClick={handleModalClose}>
               Đóng
             </Button>,
-          ]}
-        >
+          ]}>
           <div className="modal-content-scrollable-thinhh">
             <div className="ttdh-thinh">
               <h2>Thông tin đơn hàng</h2>
