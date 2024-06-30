@@ -115,7 +115,7 @@ const getAllUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const obj = await userService.deleteUser(req.params.user_id);
+    const obj = await userService.deleteUser(req.params.user_id, req.body.Status);
     res.send(obj);
   } catch (error) {
     res.status(500).send("Internal Server Error");
