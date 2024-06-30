@@ -92,7 +92,7 @@ const voucherDAO = {
                     (err, res) => {
                         if (err) reject(err);
 
-                        resolve(res.recordset);
+                        resolve(res?.recordset);
                     });
             });
         });

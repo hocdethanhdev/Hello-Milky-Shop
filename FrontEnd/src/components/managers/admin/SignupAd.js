@@ -111,7 +111,7 @@ function SignupAd() {
     >
       <div id="recaptcha-container"></div>
       <MDBCard
-        className="signup-card mx-auto mb-5 p-5 shadow-5"
+        className="signup-card mb-5 p-5 shadow-5"
         style={{ maxWidth: "550px", marginTop: "50px", marginBottom: "200px" }}
       >
         <MDBCardBody className="p-5">

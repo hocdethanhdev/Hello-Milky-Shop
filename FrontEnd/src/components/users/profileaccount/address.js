@@ -99,7 +99,6 @@ function Address() {
       });
 
       if (response.ok) {
-        console.log("Customer info added to order successfully");
         setShowForm(false);
         setNewAddress({ name: "", phone: "", address: "", city: "", district: "" });
         // Optionally, fetch updated address data after adding new address
@@ -124,9 +123,7 @@ function Address() {
         },
       });
   
-      if (response.ok) {
-        console.log("Address deleted successfully");
-  
+      if (response.ok) {  
         // Remove the deleted address from addressData state
         setAddressData(addressData.filter(address => address.ShippingAddressID !== shippingAddressID));
   
@@ -151,7 +148,7 @@ function Address() {
               <th>Tên người đặt</th>
               <th>Số điện thoại</th>
               <th>Địa chỉ</th>
-              <th></th>
+              <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>

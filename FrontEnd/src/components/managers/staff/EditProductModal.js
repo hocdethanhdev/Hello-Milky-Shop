@@ -3,22 +3,40 @@ import JoditEditor from "jodit-react";
 import DOMPurify from "dompurify";
 import './EditProductModal.css';
 import { uploadImage } from "../uimg/UpImage";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const EditProductModal = ({ product, onClose, onSave }) => {
     const [formData, setFormData] = useState({ ...product });
     const editor = useRef(null);
     const [progress, setProgress] = useState(0);
+    const [previewImage, setPreviewImage] = useState(null);
+
     useEffect(() => {
         setFormData({ ...product });
     }, [product]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+    const handleChange = async (e) => {
+        const { name, value, files } = e.target;
+        if (name === 'Image' && files && files[0]) {
+            const file = files[0];
+            try {
+                const imageUrl = await uploadImage(file, setProgress);
+                setFormData({ ...formData, Image: imageUrl });
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleDescriptionChange = (value) => {
         setFormData({ ...formData, Description: value });
+    };
+
+    const handleDateChange = (date, fieldName) => {
+        setFormData({ ...formData, [fieldName]: date });
     };
 
     const handleSubmit = (e) => {
@@ -35,7 +53,6 @@ const EditProductModal = ({ product, onClose, onSave }) => {
         const updatedFormData = {
             ...formData,
             Description: sanitizedDescription,
-            Status: parseInt(formData.Status), // Convert Status to number
         };
         onSave(updatedFormData);
     };
@@ -52,6 +69,13 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                 }
             });
         });
+    };
+
+    const getStatusDisplay = (status, stockQuantity) => {
+        if (status === null || status === false) {
+            return "Tạm ẩn";
+        }
+        return status === true && parseInt(stockQuantity) > 0 ? "Còn hàng" : "Hết hàng";
     };
 
     const editorConfig = useMemo(() => ({
@@ -126,53 +150,69 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-grid">
                         <label>
-                            Product Name:
+                            Tên sản phẩm:
                             <input type="text" name="ProductName" value={formData.ProductName} onChange={handleChange} />
                         </label>
 
                         <label>
-                            Price:
+                            Giá:
                             <input type="number" name="Price" value={formData.Price} onChange={handleChange} />
                         </label>
                         <label>
-                            Stock Quantity:
+                            Số lượng:
                             <input type="number" name="StockQuantity" value={formData.StockQuantity} onChange={handleChange} />
                         </label>
+                        <div className="form-group1">
+                            <label>Hình ảnh: </label>
+                            <input type="file" name="Image" onChange={handleChange} />
+                            {formData.Image && (
+                                <img
+                                    src={formData.Image}
+                                    alt="Preview"
+                                    className="preview-image-2"
+                                />
+                            )}
+                        </div>
                         <label>
-                            Image:
-                            <input type="text" name="Image" value={formData.Image} onChange={handleChange} />
+                            HSD:
+                            <DatePicker
+                                selected={formData.ExpirationDate}
+                                onChange={(date) => handleDateChange(date, 'ExpirationDate')}
+                                className="form-control"
+                                dateFormat="yyyy-MM-dd"
+                            />
                         </label>
                         <label>
-                            Expiration Date:
-                            <input type="date" name="ExpirationDate" value={formData.ExpirationDate} onChange={handleChange} />
+                            NSX:
+                            <DatePicker
+                                selected={formData.ManufacturingDate}
+                                onChange={(date) => handleDateChange(date, 'ManufacturingDate')}
+                                className="form-control"
+                                dateFormat="yyyy-MM-dd"
+                            />
                         </label>
                         <label>
-                            Manufacturing Date:
-                            <input type="date" name="ManufacturingDate" value={formData.ManufacturingDate} onChange={handleChange} />
-                        </label>
-                        <label>
-                            Brand Name:
+                            Hãng:
                             <input type="text" name="BrandName" value={formData.BrandName} onChange={handleChange} />
                         </label>
                         <label>
-                            Product Category Name:
+                            Loại:
                             <select name="ProductCategoryName" value={formData.ProductCategoryName} onChange={handleChange}>
                                 <option value="Sữa cho mẹ">Sữa cho mẹ</option>
                                 <option value="Sữa cho em bé">Sữa cho em bé</option>
                             </select>
                         </label>
 
-                        <label>
-                            Status:
-                            <select name="Status" value={formData.Status} onChange={handleChange}>
-                                <option value="0">Out of stock</option>
-                                <option value="1">Still in stock</option>
-                            </select>
+                        <label className='st-thinh-he'>
+                            Trạng thái:
+                            <div className="status-display-thinh">
+                                {getStatusDisplay(formData.Status, formData.StockQuantity)}
+                            </div>
                         </label>
 
                     </div>
                     <label className='edit-pro-thinh'>
-                        Description:
+                        Mô tả:
                         <JoditEditor
                             ref={editor}
                             value={formData.Description}

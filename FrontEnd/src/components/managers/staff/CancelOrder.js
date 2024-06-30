@@ -56,8 +56,8 @@ function CancelOrder() {
             <th className="col-md-2">Mã đơn hàng</th>
             <th className="col-md-4">Ngày đặt hàng</th>
 
-            <th className="col-md-4">Tổng</th>
-            <th className="col-md-2">Thao tác</th>
+            <th className="col-md-3">Tổng</th>
+            <th className="col-md-3">Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -67,10 +67,10 @@ function CancelOrder() {
               <td className="col-md-4">
                 {new Date(order.OrderDate).toLocaleDateString()}
               </td>
-              <td className="col-md-4">
+              <td className="col-md-3">
                 {formatPrice(parseInt(order.TotalAmount))}
               </td>
-              <td className="col-md-2">
+              <td className="col-md-3">
                 <button
                   type="button"
                   className="btn btn-primary"

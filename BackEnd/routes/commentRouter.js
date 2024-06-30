@@ -4,6 +4,8 @@ const commentController = require("../controller/commentController");
      
 router.get('/getAllComments', commentController.getAllComments);
 
+router.get('/getAnsweredComments', commentController.getAnsweredComments);
+
 router.get('/getUnansweredComments', commentController.getUnansweredComments);
 
 router.post('/repComment/:id', commentController.repComment);

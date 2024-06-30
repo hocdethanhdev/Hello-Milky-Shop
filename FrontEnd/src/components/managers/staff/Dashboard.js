@@ -10,7 +10,6 @@ function Dashboard() {
   const [finishedOrdersCount, setFinishedOrdersCount] = useState(0);
   const [canceledOrdersCount, setCanceledOrdersCount] = useState(0);
   const [shippingOrderCount, setShippingOrdersCount] = useState(0);
-  const [shippedOrderCount, setShippedOrdersCount] = useState(0);
   const [ordersIn7Days, setOrdersIn7Days] = useState([]);
 
   useEffect(() => {
@@ -38,9 +37,6 @@ function Dashboard() {
     fetch("http://localhost:5000/api/v1/order/countOrdersByStatusOrderID/2")
       .then((response) => response.json())
       .then((data) => setShippingOrdersCount(data.count));
-    fetch("http://localhost:5000/api/v1/order/countOrdersByStatusOrderID/5")
-      .then((response) => response.json())
-      .then((data) => setShippedOrdersCount(data.count));
 
     fetch("http://localhost:5000/api/v1/order/countOrdersIn7Days")
       .then((response) => response.json())
@@ -53,7 +49,6 @@ function Dashboard() {
       "Đơn hàng đã hoàn thành",
       "Đơn hàng đã hủy",
       "Đơn hàng đang giao",
-      "Đơn hàng đã giao",
       "Đơn hàng đang chờ xác nhận",
     ],
     datasets: [
@@ -62,11 +57,10 @@ function Dashboard() {
           finishedOrdersCount,
           canceledOrdersCount,
           shippingOrderCount,
-          shippedOrderCount,
           waitingOrdersCount,
         ],
-        backgroundColor: ["#4BC0C0", "#FF6384", "#FFCE56", "#36A2EB", "#9966FF"],
-        hoverBackgroundColor: ["#4BC0C0", "#FF6384", "#FFCE56", "#36A2EB", "#9966FF"],
+        backgroundColor: ["#4BC0C0", "#FF6384", "#FFCE56", "#36A2EB"],
+        hoverBackgroundColor: ["#4BC0C0", "#FF6384", "#FFCE56", "#36A2EB"],
       },
     ],
   };

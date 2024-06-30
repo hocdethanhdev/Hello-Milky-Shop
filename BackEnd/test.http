@@ -560,6 +560,5 @@ Content-Type: application/json
     "ArticleID": 1,
     "ArticleCategoryID": 1
 }
-
 ###
 PUT http://localhost:5000/api/v1/voucher/deleteVoucher/10

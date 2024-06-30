@@ -240,9 +240,9 @@ const userDAO = {
           (err, res) => {
             if (err) reject(err);
             resolve({
-              err: res.recordset[0] !== null ? 0 : 1,
-              mes: res.recordset[0] !== null ? "OK" : "Not found",
-              data: res.recordset[0] ?? null,
+              err: res?.recordset[0] !== null ? 0 : 1,
+              mes: res?.recordset[0] !== null ? "OK" : "Not found",
+              data: res?.recordset[0] ?? null,
             });
           }
         );

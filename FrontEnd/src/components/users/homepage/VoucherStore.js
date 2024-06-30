@@ -38,8 +38,7 @@ function VoucherStore() {
         userID: userIdd, // Replace with actual user ID logic
         voucherID: voucher.VoucherID,
       };
-      console.log(requestBody);
-
+      
       const response = await axios.post(
         "http://localhost:5000/api/v1/voucher/saveVoucherForUser",
         requestBody

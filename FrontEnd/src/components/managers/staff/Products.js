@@ -3,7 +3,7 @@ import "./Products.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faSort } from "@fortawesome/free-solid-svg-icons";
-import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
+import Pagination from "./Pagination";
 import ProductDetailModal from "./ProductDetailModal";
 import EditProductModal from "./EditProductModal";
 import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
@@ -24,6 +24,7 @@ const Products = () => {
   const [productToDelete, setProductToDelete] = useState(null);
   const productsPerPage = 10;
 
+  // Fetch products from the API
   const fetchInforProductDetail = () => {
     fetch("http://localhost:5000/api/v1/product/getInfoProductsDetail")
       .then((response) => {
@@ -39,10 +40,12 @@ const Products = () => {
       .catch((error) => console.error("Error fetching products:", error));
   };
 
+  // Fetch products on component mount
   useEffect(() => {
     fetchInforProductDetail();
   }, []);
 
+  // Apply filters and sorting
   useEffect(() => {
     let updatedProducts = [...products];
 
@@ -78,25 +81,30 @@ const Products = () => {
     setFilteredProducts(updatedProducts);
   }, [products, sortOrder, categoryFilter, statusFilter]);
 
+  // Handle page change
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
   };
 
+  // Toggle sort order
   const handleSort = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
+  // Handle category filter change
   const handleCategoryFilter = (event) => {
     setCategoryFilter(event.target.getAttribute("data-value"));
     setShowCategoryDropdown(false);
   };
 
+  // Handle status filter change
   const handleStatusFilter = (event) => {
     setStatusFilter(event.target.getAttribute("data-value"));
     setShowStatusDropdown(false);
   };
 
+  // Toggle dropdown visibility
   const toggleCategoryDropdown = () => {
     setShowCategoryDropdown(!showCategoryDropdown);
   };
@@ -105,6 +113,7 @@ const Products = () => {
     setShowStatusDropdown(!showStatusDropdown);
   };
 
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".category-header") && showCategoryDropdown) {
@@ -121,20 +130,59 @@ const Products = () => {
     };
   }, [showCategoryDropdown, showStatusDropdown]);
 
+  // Handle product detail modal
   const handleDetailClick = (product) => {
     setSelectedProduct(product);
   };
 
+  // Close modals
   const handleCloseModal = () => {
     setSelectedProduct(null);
     setSelectedProductForEdit(null);
   };
 
+  // Handle product delete
   const handleDeleteClick = (productId) => {
     setProductToDelete(productId);
     setShowDeletePopup(true);
   };
 
+  // Confirm delete
+  const handleToggleStatus = (product) => {
+    const updatedProduct = {
+      ...product,
+      Status: product.Status === 1 ? 0 : 1,
+    };
+
+    fetch(
+      `http://localhost:5000/api/v1/product/editProduct/${product.ProductID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProduct),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProducts((prevProducts) =>
+          prevProducts.map((p) =>
+            p.ProductID === product.ProductID ? updatedProduct : p
+          )
+        );
+        message.success("Trạng thái sản phẩm đã được cập nhật!");
+        fetchInforProductDetail();
+      })
+      .catch((error) => {
+        message.error("Lỗi khi cập nhật trạng thái sản phẩm: " + error.message);
+      });
+  };
   const confirmDelete = () => {
     fetch(
       `http://localhost:5000/api/v1/product/deleteProduct/${productToDelete}`,
@@ -173,15 +221,18 @@ const Products = () => {
       });
   };
 
+  // Cancel delete
   const cancelDelete = () => {
     setShowDeletePopup(false);
     setProductToDelete(null);
   };
 
+  // Handle product edit
   const handleEditClick = (product) => {
     setSelectedProductForEdit(product);
   };
 
+  // Save edited product
   const handleSaveProduct = (updatedProduct) => {
     fetch(
       `http://localhost:5000/api/v1/product/editProduct/${updatedProduct.ProductID}`,
@@ -216,6 +267,7 @@ const Products = () => {
       });
   };
 
+  // Calculate products to display for the current page
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(
@@ -327,8 +379,8 @@ const Products = () => {
                       ? "Tạm ẩn"
                       : product.Status === true &&
                         parseInt(product.StockQuantity) > 0
-                      ? "Còn hàng"
-                      : "Hết hàng"}
+                        ? "Còn hàng"
+                        : "Hết hàng"}
                   </td>
                   <td className="nut-act">
                     <button
@@ -338,13 +390,24 @@ const Products = () => {
                     >
                       Xem
                     </button>
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={() => handleDeleteClick(product.ProductID)}
-                    >
-                      Xóa
-                    </button>
+
+                    {product.Status === true ? (
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => handleDeleteClick(product.ProductID)}
+                      >
+                        Xóa
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-success"
+                        onClick={() => handleToggleStatus(product)}
+                      >
+                        Mở
+                      </button>
+                    )}
                     <button
                       type="button"
                       className="btn btn-warning"
@@ -359,7 +422,7 @@ const Products = () => {
           </table>
         </div>
         <div className="pagination-thinh">
-          <ThrowPage
+          <Pagination
             currentPage={currentPage}
             totalPages={Math.ceil(filteredProducts.length / productsPerPage)}
             onPageChange={handlePageChange}

@@ -94,7 +94,24 @@ const shippingAddressDAO = {
     });
   },
 
+  findInfoAddressWithOrderNearest: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function(err, result) {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT TOP 1 OrderID, Address
+          FROM ShippingAddress sa
+          JOIN Orders o ON sa.ShippingAddressID = o.ShippingAddressID
+          ;`,
+          (err, res) => {
+            if (err) reject (err);
 
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
 
 }
 module.exports = shippingAddressDAO;
