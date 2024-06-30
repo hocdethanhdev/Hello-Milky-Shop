@@ -17,6 +17,32 @@ const voucherDAO = {
             });
         });
     },
+
+    deleteVoucher: (VoucherID) => {
+        return new Promise((resolve, reject) => {
+            mssql.connect(dbConfig, function (err, result) {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                var request = new mssql.Request()
+                    .input("voucherID", VoucherID);
+                request.query(
+                    `UPDATE Voucher
+                    SET Status = 0
+                    WHERE VoucherID = @voucherID;`,
+                    (err, res) => {
+                        if (err) reject(err);
+                        resolve({
+                            message: "Delete successfully"
+                        });
+                    }
+                );
+            });
+        });
+    },
+
     updateVoucherStatusAndRemoveFromUser: (oldStatus, newStatus) => {
         return new Promise((resolve, reject) => {
             mssql.connect(dbConfig, function (err) {

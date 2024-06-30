@@ -12,6 +12,17 @@ const getAllVouchers = async (req, res) => {
     }
 };
 
+const deleteVoucher = async (req, res) => {
+    try {
+        const voucherID = req.params.voucherID;
+        await voucherService.deleteVoucher(voucherID);
+        res.status(200).json({ message: 'Voucher have been deleted successfully' });
+    } catch (error) {
+        console.error("Error while deleting the voucher: ", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 const addVoucher = async (req, res) => {
     try {
         const obj = await voucherService.addVoucher(req.body);
@@ -98,4 +109,5 @@ module.exports = {
     getVouchersByUserID,
     getVouchersforUser,
     removeVoucherFromUser,
+    deleteVoucher
 };

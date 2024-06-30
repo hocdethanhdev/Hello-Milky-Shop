@@ -4,6 +4,9 @@ const voucherRepository = {
     getAllVouchers: async () => {
         return await voucherDAO.findAllVouchers();
     },
+    deleteVoucher: async (VoucherID) => {
+        return await voucherDAO.deleteVoucher(VoucherID);
+    },
     addVoucher: async (voucher) => {
         return await voucherDAO.addVoucher(voucher);
     },
