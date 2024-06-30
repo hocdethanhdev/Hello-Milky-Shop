@@ -65,6 +65,7 @@ const AddPromotion = () => {
       const response = await axios.post(
         "http://localhost:5000/api/v1/promotion/addPromotion",
         promotionData,
+
         { headers: { "Content-Type": "application/json" } }
       );
 
@@ -94,6 +95,7 @@ const AddPromotion = () => {
       message.error("Error adding promotion: " + error.message);
     }
   };
+  
 
   const handleProductSelection = (productId) => {
     setSelectedProducts((prevSelectedProducts) =>
@@ -190,7 +192,7 @@ const PromotionForm = ({
         <div className="promo-form">
           <div className="promo-half">
             <div>
-              <label>Promotion Name:</label>
+              <label>Tên khuyến mãi:</label>
               <input
                 type="text"
                 value={promotionName}
@@ -199,7 +201,7 @@ const PromotionForm = ({
               />
             </div>
             <div>
-              <label>Discount Percentage:</label>
+              <label>Phần trăm khuyến mãi:</label>
               <input
                 type="number"
                 value={discountPercentage}
@@ -208,7 +210,7 @@ const PromotionForm = ({
               />
             </div>
             <div>
-              <label>Description:</label>
+              <label>Mô tả:</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -218,7 +220,7 @@ const PromotionForm = ({
           </div>
           <div className="promo-half">
             <div>
-              <label>Start Date:</label>
+              <label>Ngày bắt đầu:</label>
               <input
                 type="date"
                 value={startDate}
@@ -227,7 +229,7 @@ const PromotionForm = ({
               />
             </div>
             <div>
-              <label>End Date:</label>
+              <label>Ngày kết thúc:</label>
               <input
                 type="date"
                 value={endDate}
@@ -235,6 +237,7 @@ const PromotionForm = ({
                 required
               />
             </div>
+
             <div>
               <label>Image:</label>
               <input

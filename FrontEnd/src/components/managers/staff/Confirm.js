@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Modal, Button, message, Input } from "antd";
 import "./Confirm.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 
 function Confirm() {
@@ -63,10 +63,10 @@ function Confirm() {
               prevOrders.map((order) =>
                 order.OrderID === orderID
                   ? {
-                    ...order,
-                    StatusOrderID: [2, 2],
-                    StatusOrderName: "Đã xác nhận",
-                  }
+                      ...order,
+                      StatusOrderID: [2, 2],
+                      StatusOrderName: "Đã xác nhận",
+                    }
                   : order
               )
             );
@@ -139,10 +139,10 @@ function Confirm() {
     }
   };
 
-  const fetchShippingAddress = async (shippingAddressID) => {
+  const fetchShippingAddress = async (orderID) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/${shippingAddressID}`
+        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
       );
       const data = await response.json();
       setShippingAddress(data);
@@ -155,7 +155,7 @@ function Confirm() {
   const viewOrderDetails = async (order) => {
     const orderDetails = await fetchOrderDetails(order.OrderID);
     setSelectedOrder({ ...order, details: orderDetails });
-    await fetchShippingAddress(order.ShippingAddressID);
+    await fetchShippingAddress(order.OrderID);
     setIsDetailModalVisible(true);
   };
 
@@ -172,7 +172,7 @@ function Confirm() {
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
-
+  console.log(orders);
   return (
     <div className="confirm-container">
       <table>
@@ -195,27 +195,24 @@ function Confirm() {
               <td className="col-md-2">
                 {formatPrice(parseInt(order.TotalAmount))}
               </td>
-              <td className="col-md-3">{order.address}</td>
+              <td className="col-md-3">{order.Address}</td>
               <td className="col-md-3 nut-xndh">
                 <button
                   type="button"
                   className="btn btn-warning xndh"
-                  onClick={() => editOrder(order.OrderID)}
-                >
+                  onClick={() => editOrder(order.OrderID)}>
                   Xác Nhận
                 </button>
                 <button
                   type="button"
                   className="btn btn-primary xndh"
-                  onClick={() => viewOrderDetails(order)}
-                >
+                  onClick={() => viewOrderDetails(order)}>
                   Thông tin
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger xndh"
-                  onClick={() => cancelOrder(order.OrderID)}
-                >
+                  onClick={() => cancelOrder(order.OrderID)}>
                   Hủy đơn
                 </button>
               </td>
@@ -232,6 +229,7 @@ function Confirm() {
         />
       </div>
       {selectedOrder && isDetailModalVisible && (
+        // Inside the Modal component for order details
         <Modal
           visible={isDetailModalVisible}
           onCancel={handleModalClose}
@@ -240,59 +238,83 @@ function Confirm() {
               Đóng
             </Button>,
           ]}
-          className="modal-content-scrollable" // Add this line
-        >
-          <div className="ttdh-thinh">
-            <h2>Thông tin đơn hàng</h2>
-            <p>
-              <strong>Mã đơn hàng:</strong> {selectedOrder.OrderID}
-            </p>
-            <p>
-              <strong>Ngày đặt hàng:</strong>{" "}
-              {new Date(selectedOrder.OrderDate).toLocaleString()}
-            </p>
-            <p>
-              <strong>Tổng:</strong> {formatPrice(selectedOrder.TotalAmount)}
-            </p>
-            {shippingAddress && (
-              <>
-                <p>
-                  <strong>Người nhận:</strong> {shippingAddress[0].Receiver}
-                </p>
-                <p>
-                  <strong>Số điện thoại:</strong> {shippingAddress[0].PhoneNumber}
-                </p>
-                <p>
-                  <strong>Địa chỉ:</strong> {shippingAddress[0].Address}
-                </p>
-              </>
-            )}
-            <p>
-              <strong>Trạng thái của đơn hàng:</strong>{" "}
-              {selectedOrder.StatusOrderName}
-            </p>
-            <table>
-              <thead>
-                <tr>
-                  <th>ProductID</th>
-                  <th>Product Name</th>
-                  <th>Image</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedOrder.details.map((detail) => (
-                  <tr key={detail.ProductID}>
-                    <td>{detail.ProductID}</td>
-                    <td>{detail.ProductName}</td>
-                    <td><img src={detail.Image} alt={detail.ProductName} width="50" /></td>
-                    <td>{formatPrice(detail.Price)}</td>
-                    <td>{detail.Quantity}</td>
+          className="custom-modal-thinhh">
+          <div className="modal-content-scrollable-thinhh">
+            <div className="ttdh-thinh">
+              <h2>Thông tin đơn hàng</h2>
+              <table className="table-info-order">
+                <tbody>
+                  <tr>
+                    <td className="mdh">
+                      <strong>Mã đơn hàng:</strong>
+                    </td>
+                    <td>{selectedOrder.OrderID}</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                  <tr>
+                    <td className="mdh">
+                      <strong>Ngày đặt hàng:</strong>
+                    </td>
+                    <td>
+                      {new Date(selectedOrder.OrderDate).toLocaleString()}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="mdh">
+                      <strong>Tổng:</strong>
+                    </td>
+                    <td>{formatPrice(selectedOrder.TotalAmount)}</td>
+                  </tr>
+                  {shippingAddress && (
+                    <>
+                      <tr>
+                        <td className="mdh">
+                          <strong>Người nhận:</strong>
+                        </td>
+                        <td>{shippingAddress[0].Receiver}</td>
+                      </tr>
+                      <tr>
+                        <td className="mdh">
+                          <strong>Số điện thoại:</strong>
+                        </td>
+                        <td>{shippingAddress[0].PhoneNumber}</td>
+                      </tr>
+                      <tr>
+                        <td className="mdh">
+                          <strong>Địa chỉ:</strong>
+                        </td>
+                        <td>{shippingAddress[0].Address}</td>
+                      </tr>
+                    </>
+                  )}
+                </tbody>
+              </table>
+              <table className="table-products-order">
+                <thead>
+                  <tr>
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Số lượng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedOrder.details.map((detail) => (
+                    <tr key={detail.ProductID}>
+                      <td>{detail.ProductID}</td>
+                      <td>{detail.ProductName}</td>
+                      <td>
+                        <img
+                          src={detail.Image}
+                          alt={detail.ProductName}
+                          width="50"
+                        />
+                      </td>
+                      <td>{detail.Quantity}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </Modal>
       )}
@@ -301,8 +323,7 @@ function Confirm() {
         title="Lý do hủy đơn hàng"
         visible={isCancelModalVisible}
         onOk={handleCancelModalOk}
-        onCancel={handleCancelModalCancel}
-      >
+        onCancel={handleCancelModalCancel}>
         <Input.TextArea
           value={cancelReason}
           onChange={(e) => setCancelReason(e.target.value)}

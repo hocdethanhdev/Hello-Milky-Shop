@@ -573,7 +573,7 @@ GET http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest
 Content-Type: application/json
 
 {
-    "UserID": "M0000003"
+    "UserID": "M0000002"
 }
 ### sua thong tin user
 PUT http://localhost:5000/api/v1/user/updateInforUser

@@ -66,6 +66,9 @@ const productService = {
   deleteProduct: async (product_id) => {
     return await productRepository.deleteProduct(product_id);
   },
+  openProduct: async (product_id) => {
+    return await productRepository.openProduct(product_id);
+  },
   getProductDetailByID: async (product_id) => {
     return await productRepository.getProductDetailByID(product_id);
   },

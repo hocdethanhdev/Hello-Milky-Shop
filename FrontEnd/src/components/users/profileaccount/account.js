@@ -113,7 +113,7 @@ function Account() {
         <h2>Thông tin tài khoản</h2>
         {userData ? (
           <div>
-            <div>
+            <div className="obj-account">
               <strong >Tên tài khoản:</strong>
               {!popupUserNameUpdate ? (
                 <>
@@ -136,6 +136,7 @@ function Account() {
                     value={userNameUpdate}
                     onChange={handleChangeUserName}
                   />
+                  <br/>
                   <button
                     onClick={handleUpdateUserName}
                     className="btn btn-warning"
@@ -155,7 +156,7 @@ function Account() {
               )}
             </div>
 
-            <div>
+            <div className="obj-account">
               <strong>Email:</strong>
               {!popupEmailUpdate ? (
                 <>
@@ -172,12 +173,14 @@ function Account() {
                   />
                 </>
               ) : (
+                
                 <div>
                   <input
                     type="text"
                     value={emailUpdate}
                     onChange={handleChangeEmail}
                   />
+                  <br/>
                   <button
                     onClick={handleUpdateEmail}
                     className="btn btn-warning"
@@ -197,7 +200,7 @@ function Account() {
                 </div>
               )}
             </div>
-            <div>
+            <div className="obj-account">
               <strong>Số điện thoại:</strong>{" "}
               {!popupPhoneUpdate ? (
                 <>
@@ -220,6 +223,7 @@ function Account() {
                     value={phoneUpdate}
                     onChange={handleChangePhoneNumber}
                   />
+                  <br/>
                   <button
                     onClick={handleUpdatePhoneNumber}
                     className="btn btn-warning"
@@ -239,7 +243,7 @@ function Account() {
               )}
             </div>
 
-            <div>
+            <div className="obj-account">
               <strong>Xu hiện có:</strong>{" "}
               <span>
                 {userData.Point} = {formatPrice(userData.Point * 10)} VND

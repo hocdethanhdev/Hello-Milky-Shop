@@ -1,32 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Modal, Button, message } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 const ManageStaff = () => {
   const [accounts, setAccounts] = useState([]);
-  const [editingUser, setEditingUser] = useState(null); // State để lưu thông tin người dùng đang chỉnh sửa
+  const [editingUser, setEditingUser] = useState(null);
   const [editForm, setEditForm] = useState({
     UserName: "",
     Email: "",
     PhoneNumber: "",
-  }); // State để quản lý dữ liệu trong form chỉnh sửa
-  const [showEditPopup, setShowEditPopup] = useState(false); // State để điều khiển sự hiển thị của popup
+  });
+  const [showEditPopup, setShowEditPopup] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const accountsPerPage = 10;
 
-  useEffect(() => {
+  const fetchUsers = () => {
     fetch("http://localhost:5000/api/v1/user/getAllUsers/")
       .then((response) => response.json())
       .then((data) => {
-        // Filter users with RoleID: 2
         const staffAccounts = data.filter((account) => account.RoleID === 2);
         setAccounts(staffAccounts);
       })
       .catch((error) => console.error("Error fetching users:", error));
+  };
+
+  useEffect(() => {
+    fetchUsers();
   }, []);
 
-  // Function to handle editing user
   const handleEdit = (user) => {
     setEditingUser(user);
     setEditForm({
@@ -34,10 +39,9 @@ const ManageStaff = () => {
       Email: user.Email || "",
       PhoneNumber: user.PhoneNumber || "",
     });
-    setShowEditPopup(true); // Hiển thị popup chỉnh sửa
+    setShowEditPopup(true);
   };
 
-  // Function to handle form input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditForm({
@@ -46,36 +50,95 @@ const ManageStaff = () => {
     });
   };
 
-  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the updated data to the server
-    // Example: Call API to update user data
-    // fetch(`http://localhost:5000/api/v1/user/updateUser/${editingUser.UserID}`, {
-    //     method: 'PUT',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(editForm),
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //     // Handle success, update accounts state if necessary
-    // })
-    // .catch(error => console.error('Error updating user:', error));
 
-    // Reset editing state
-    setEditingUser(null);
-    setEditForm({
-      UserName: "",
-      Email: "",
-      PhoneNumber: "",
-    });
-    setShowEditPopup(false); // Đóng popup chỉnh sửa sau khi hoàn thành
+    fetch("http://localhost:5000/api/v1/user/updateInforUser", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        UserID: editingUser.UserID,
+        ...editForm,
+      }),
+    })
+      .then((response) => response.json())
+      .then(() => {
+        message.success("Chỉnh sửa thành công!");
+        setAccounts(
+          accounts.map((account) =>
+            account.UserID === editingUser.UserID
+              ? { ...account, ...editForm }
+              : account
+          )
+        );
+        setShowEditPopup(false);
+        setEditingUser(null);
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+        message.error("Chỉnh sửa thất bại!");
+      });
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const showModal = (user) => {
+    setSelectedUser(user);
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    fetch(
+      `http://localhost:5000/api/v1/user/disableUser/${selectedUser.UserID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ Status: 0 }),
+      }
+    )
+      .then((response) => response.json())
+      .then(() => {
+        setAccounts(
+          accounts.map((account) =>
+            account.UserID === selectedUser.UserID
+              ? { ...account, Status: 0 }
+              : account
+          )
+        );
+        setIsModalVisible(false);
+        fetchUsers();
+      })
+      .catch((error) => console.error("Error updating user status:", error));
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleEnableUser = (user) => {
+    fetch(`http://localhost:5000/api/v1/user/disableUser/${user.UserID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ Status: 1 }),
+    })
+      .then((response) => response.json())
+      .then(() => {
+        setAccounts(
+          accounts.map((account) =>
+            account.UserID === user.UserID ? { ...account, Status: 1 } : account
+          )
+        );
+        fetchUsers();
+      })
+      .catch((error) => console.error("Error enabling user:", error));
   };
 
   return (
@@ -89,28 +152,46 @@ const ManageStaff = () => {
         <table className="account-table-st">
           <thead>
             <tr className="row">
-              <th className="col-md-1">No</th>
-              <th className="col-md-3">Tên tài khoản</th>
+              <th className="col-md-1">Stt</th>
+              <th className="col-md-2">Tên tài khoản</th>
               <th className="col-md-3">Email</th>
-              <th className="col-md-3">Số điện thoại</th>
-              <th className="col-md-2">Action</th>
+              <th className="col-md-2">Số điện thoại</th>
+              <th className="col-md-2">Trạng thái</th>
+              <th className="col-md-2">Thao tác</th>
             </tr>
           </thead>
           <tbody>
             {accounts.map((account, index) => (
               <tr className="row" key={account.UserID}>
                 <td className="col-md-1">{index + 1}</td>
-                <td className="col-md-3">{account.UserName}</td>
+                <td className="col-md-2">{account.UserName}</td>
                 <td className="col-md-3">{account.Email}</td>
-                <td className="col-md-3">{account.PhoneNumber}</td>
+                <td className="col-md-2">{account.PhoneNumber}</td>
+                <td className="col-md-2">
+                  {account.Status ? "Hoạt động" : "Bị khóa"}
+                </td>
                 <td className="col-md-2">
                   <button
-                    className="edit-button-staff"
+                    className="btn btn-warning"
                     onClick={() => handleEdit(account)}
                   >
                     Sửa
                   </button>
-                  <button className="delete-button-staff">Xóa</button>
+                  {account.Status === true ? (
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => showModal(account)}
+                    >
+                      Khóa
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-success"
+                      onClick={() => handleEnableUser(account)}
+                    >
+                      Mở
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
@@ -126,9 +207,7 @@ const ManageStaff = () => {
         </div>
       </div>
 
-      {/* Edit Popup */}
       {showEditPopup && (
-        
         <div className="edit-popup">
           <div className="edit-popup-content">
             <form onSubmit={handleSubmit}>
@@ -169,8 +248,16 @@ const ManageStaff = () => {
             </form>
           </div>
         </div>
-      
       )}
+
+      <Modal
+        title="Confirm Delete"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Bạn có chắc muốn khóa tài khoản này không?</p>
+      </Modal>
     </div>
   );
 };
