@@ -93,7 +93,7 @@ Content-Type: application/json
     "Status": 1
 }
 ### sua san pham
-PUT http://localhost:5000/api/v1/product/editProduct/SE0002
+PUT http://localhost:5000/api/v1/product/editProduct/SE0003
 Content-Type: application/json
 
 {
@@ -108,8 +108,10 @@ Content-Type: application/json
     "ProductCategoryName": "Sữa cho em bé",
     "Status": 1
 }
-###xoa san pham
+### xoa san pham
 PUT http://localhost:5000/api/v1/product/deleteProduct/SE0002
+### mo san pham
+PUT http://localhost:5000/api/v1/product/openProduct/SE0002
 ###
 GET http://localhost:5000/api/v1/product/getProductInfoByID/SE0009
 ###
@@ -142,6 +144,8 @@ POST http://localhost:5000/api/v1/auth/logout
 GET http://localhost:5000/api/v1/comment/getAllComments
 ###
 GET http://localhost:5000/api/v1/comment/getUnansweredComments
+###
+GET http://localhost:5000/api/v1/comment/getAnsweredComments
 ###
 POST http://localhost:5000/api/v1/comment/repComment/2
 Content-Type: application/json
@@ -369,7 +373,7 @@ PUT http://localhost:5000/api/v1/user/disableUser/M0000002/
 Content-Type: application/json
 
 {
-    "Status": "False"
+    "Status": 0
 }
 ### Lấy những voucher mà có thể lưu cho user
 POST http://localhost:5000/api/v1/voucher/getVouchersForUser
@@ -563,3 +567,21 @@ Content-Type: application/json
 }
 ###
 PUT http://localhost:5000/api/v1/voucher/deleteVoucher/10
+
+### lay dia chi gan nhat cua 1 user
+GET http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest
+Content-Type: application/json
+
+{
+    "UserID": "M0000003"
+}
+### sua thong tin user
+PUT http://localhost:5000/api/v1/user/updateInforUser
+Content-Type: application/json
+
+{
+    "UserID": "M0000001",
+    "PhoneNumber": "0000000000",
+    "Email": "123@mail",
+    "UserName": "SWP"
+}
