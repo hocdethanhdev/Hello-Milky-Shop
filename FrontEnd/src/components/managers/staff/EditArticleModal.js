@@ -256,7 +256,7 @@ const EditArticleModal = ({ onSave }) => {
           </div>
 
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary long">
           Lưu
         </button>
       </form>

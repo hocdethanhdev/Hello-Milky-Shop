@@ -76,7 +76,7 @@
     box-sizing: border-box;
 }
 
-.btn-primary {
+.long {
     display: block;
     width: 100%;
     padding: 10px;
@@ -89,6 +89,6 @@
     font-weight: bold;
 }
 
-.btn-primary:hover {
+.long:hover {
     background-color: #0056b3;
 }
