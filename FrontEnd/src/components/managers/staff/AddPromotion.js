@@ -11,6 +11,7 @@ function AddPromotion({ onAddPromotion }) {
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -39,18 +40,22 @@ function AddPromotion({ onAddPromotion }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("promotionName", promotionName);
+    formData.append("description", description);
+    formData.append("discountPercentage", discountPercentage);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    formData.append("products", JSON.stringify(selectedProducts));
+    if (image) {
+      formData.append("image", image);
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/promotion/addPromotion",
-        {
-          promotionName,
-          description,
-          discountPercentage: parseInt(discountPercentage), // Ensure it's a number
-          startDate,
-          endDate,
-          products: selectedProducts,
-        },
-        { headers: { "Content-Type": "application/json" } }
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
       console.log("New Promotion added:", response.data);
       onAddPromotion(response.data); // Notify parent component of new promotion
@@ -79,6 +84,10 @@ function AddPromotion({ onAddPromotion }) {
     handleProductSelection(productId);
   };
 
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
   return (
     <div className="add-promotion-container">
       <PromotionForm
@@ -93,6 +102,7 @@ function AddPromotion({ onAddPromotion }) {
         endDate={endDate}
         setEndDate={setEndDate}
         handleSubmit={handleSubmit}
+        handleImageChange={handleImageChange}
       />
       <div className="product-list-container">
         <h3>Select Products for Promotion</h3>
@@ -132,10 +142,10 @@ function PromotionForm({
   endDate,
   setEndDate,
   handleSubmit,
+  handleImageChange,
 }) {
   return (
     <div className="promotion-form-container">
-
       <h2>Add Promotion</h2>
       <form onSubmit={handleSubmit}>
         <div className="promo-form">
@@ -149,7 +159,6 @@ function PromotionForm({
                 required
               />
             </div>
-
             <div>
               <label>Discount Percentage:</label>
               <input
@@ -167,8 +176,15 @@ function PromotionForm({
                 required
               />
             </div>
+            <div>
+              <label>Image:</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            </div>
           </div>
-
           <div className="promo-half">
             <div>
               <label>Start Date:</label>
@@ -179,7 +195,6 @@ function PromotionForm({
                 required
               />
             </div>
-
             <div>
               <label>End Date:</label>
               <input
@@ -189,7 +204,6 @@ function PromotionForm({
                 required
               />
             </div>
-
             <button type="submit">Add Promotion</button>
           </div>
         </div>

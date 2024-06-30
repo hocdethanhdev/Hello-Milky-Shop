@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './EditPromotionModal.css';
+import ProductSelectionModal from './ProductSelectionModal ';
 
 const EditPromotionModal = ({ promotion, onClose, onSave }) => {
     const [formData, setFormData] = useState({
@@ -10,6 +11,8 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
         endDate: '',
         image: '',
     });
+    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [isProductSelectionModalOpen, setIsProductSelectionModalOpen] = useState(false);
 
     useEffect(() => {
         if (promotion) {
@@ -21,6 +24,7 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
                 endDate: new Date(promotion.EndDate).toISOString().split('T')[0],
                 image: promotion.Image,
             });
+            setSelectedProducts(promotion.Products || []);
         }
     }, [promotion]);
 
@@ -39,8 +43,21 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
             ...formData,
             StartDate: formData.startDate,
             EndDate: formData.endDate,
+            Products: selectedProducts
         };
         onSave(updatedPromotion);
+    };
+
+    const openProductSelectionModal = () => {
+        setIsProductSelectionModalOpen(true);
+    };
+
+    const closeProductSelectionModal = () => {
+        setIsProductSelectionModalOpen(false);
+    };
+
+    const saveSelectedProducts = (products) => {
+        setSelectedProducts(products);
     };
 
     return (
@@ -107,9 +124,20 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
                             />
                         )}
                     </div>
+                    <div className="form-group half">
+                        <button type="button" onClick={openProductSelectionModal}>
+                            Chọn sản phẩm áp dụng khuyến mãi
+                        </button>
+                    </div>
                     <button className="save-editpromotion" type="submit">Lưu</button>
                 </form>
-
+                {isProductSelectionModalOpen && (
+                    <ProductSelectionModal
+                        onClose={closeProductSelectionModal}
+                        onSave={saveSelectedProducts}
+                        selectedProducts={selectedProducts}
+                    />
+                )}
             </div>
         </div>
     );
