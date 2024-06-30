@@ -18,6 +18,8 @@ router.get('/getVouchersByUserID/:userID', voucherController.getVouchersByUserID
 
 router.post('/getVouchersforUser', voucherController.getVouchersforUser);
 
+router.put('/deleteVoucher/:voucherID', voucherController.deleteVoucher);
+
 module.exports = router
 
 

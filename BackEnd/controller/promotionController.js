@@ -44,8 +44,7 @@ const getProductsApplyAnPromotion = async (req, res) => {
         const promotionID = req.params.promotionID;
         const result = await promotionService.getProductsApplyAnPromotion(promotionID);
         res.status(200).json({
-            productsInPromotion: result.productsInPromotion,
-            otherProducts: result.otherProducts
+            result
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
