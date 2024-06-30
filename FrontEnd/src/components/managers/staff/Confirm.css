@@ -210,8 +210,34 @@ table tbody tr:nth-child(even) {
 .order-detail-buttons button:hover {
   background-color: #007961;
 }
-.modal-content-scrollable {
-  max-height: 70vh; /* Adjust as needed */
+.modal-content-scrollable-thinhh {
+  max-height: 70vh;
   overflow-y: auto;
   padding: 16px;
+  margin-top: 25px;
+}
+.modal-content-scrollable-thinhh::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content-scrollable-thinhh::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.modal-content-scrollable-thinhh::-webkit-scrollbar-thumb {
+  background-color: rgb(102, 199, 255);
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+.modal-content-scrollable-thinhh::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.modal-content-scrollable-thinhh-thinhh {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(192, 232, 255) #f1f1f1;
+}
+.ttdh-thong-tin {
+  display: flex;
 }

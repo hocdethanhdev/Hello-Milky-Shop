@@ -139,10 +139,10 @@ function Confirm() {
     }
   };
 
-  const fetchShippingAddress = async (shippingAddressID) => {
+  const fetchShippingAddress = async (orderID) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/${shippingAddressID}`
+        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
       );
       const data = await response.json();
       setShippingAddress(data);
@@ -155,7 +155,7 @@ function Confirm() {
   const viewOrderDetails = async (order) => {
     const orderDetails = await fetchOrderDetails(order.OrderID);
     setSelectedOrder({ ...order, details: orderDetails });
-    await fetchShippingAddress(order.ShippingAddressID);
+    await fetchShippingAddress(order.OrderID);
     setIsDetailModalVisible(true);
   };
 
@@ -240,59 +240,55 @@ function Confirm() {
               Đóng
             </Button>,
           ]}
-          className="modal-content-scrollable" // Add this line
+          className="custom-modal-thinhh"
         >
-          <div className="ttdh-thinh">
-            <h2>Thông tin đơn hàng</h2>
-            <p>
-              <strong>Mã đơn hàng:</strong> {selectedOrder.OrderID}
-            </p>
-            <p>
-              <strong>Ngày đặt hàng:</strong>{" "}
-              {new Date(selectedOrder.OrderDate).toLocaleString()}
-            </p>
-            <p>
-              <strong>Tổng:</strong> {formatPrice(selectedOrder.TotalAmount)}
-            </p>
-            {shippingAddress && (
-              <>
-                <p>
-                  <strong>Người nhận:</strong> {shippingAddress[0].Receiver}
-                </p>
-                <p>
-                  <strong>Số điện thoại:</strong> {shippingAddress[0].PhoneNumber}
-                </p>
-                <p>
-                  <strong>Địa chỉ:</strong> {shippingAddress[0].Address}
-                </p>
-              </>
-            )}
-            <p>
-              <strong>Trạng thái của đơn hàng:</strong>{" "}
-              {selectedOrder.StatusOrderName}
-            </p>
-            <table>
-              <thead>
-                <tr>
-                  <th>ProductID</th>
-                  <th>Product Name</th>
-                  <th>Image</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedOrder.details.map((detail) => (
-                  <tr key={detail.ProductID}>
-                    <td>{detail.ProductID}</td>
-                    <td>{detail.ProductName}</td>
-                    <td><img src={detail.Image} alt={detail.ProductName} width="50" /></td>
-                    <td>{formatPrice(detail.Price)}</td>
-                    <td>{detail.Quantity}</td>
+          <div className="modal-content-scrollable-thinhh">
+            <div className="ttdh-thinh">
+              <h2>Thông tin đơn hàng</h2>
+              <p className="ttdh-thong-tin">
+                <strong>Mã đơn hàng:</strong>  <div>{selectedOrder.OrderID}</div>
+              </p>
+              <p className="ttdh-thong-tin">
+                <strong>Ngày đặt hàng:</strong>{" "}
+                <div>{new Date(selectedOrder.OrderDate).toLocaleString()}</div>
+              </p>
+              <p className="ttdh-thong-tin">
+                <strong>Tổng:</strong> <div>{formatPrice(selectedOrder.TotalAmount)}</div>
+              </p>
+              {shippingAddress && (
+                <>
+                  <p className="ttdh-thong-tin">
+                    <strong>Người nhận:</strong> <div>{shippingAddress[0].Receiver}</div>
+                  </p>
+                  <p className="ttdh-thong-tin">
+                    <strong>Số điện thoại:</strong>  <div>{shippingAddress[0].PhoneNumber}</div>
+                  </p>
+                  <p className="ttdh-thong-tin">
+                    <strong>Địa chỉ:</strong> <div> {shippingAddress[0].Address} </div>
+                  </p>
+                </>
+              )}
+              <table>
+                <thead>
+                  <tr>
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Số lượng</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {selectedOrder.details.map((detail) => (
+                    <tr key={detail.ProductID}>
+                      <td>{detail.ProductID}</td>
+                      <td>{detail.ProductName}</td>
+                      <td><img src={detail.Image} alt={detail.ProductName} width="50" /></td>
+                      <td>{detail.Quantity}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </Modal>
       )}
