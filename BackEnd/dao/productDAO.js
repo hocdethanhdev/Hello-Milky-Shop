@@ -532,7 +532,25 @@ const productDAO = {
       });
     });
   },
-
+  openProduct: (param_id) => {
+    return new Promise((resolve, reject) => {
+      const Status = 1;
+      mssql.connect(dbConfig, function (err, result) {
+        var request = new mssql.Request()
+          .input("ProductID", param_id)
+          .input("Status", Status);
+        request.query(
+          `UPDATE Product SET Status = @Status WHERE ProductID = @ProductID;`,
+          (err, res) => {
+            if (err) reject(err);
+            resolve({
+              message: "Deleted",
+            });
+          }
+        );
+      });
+    });
+  },
   getProductInfoByID: (product_id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {

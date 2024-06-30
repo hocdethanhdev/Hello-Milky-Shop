@@ -74,6 +74,9 @@ const productRepository = {
   deleteProduct: async (product_id) => {
     return await productDAO.deleteProduct(product_id);
   },
+  openProduct: async (product_id) => {
+    return await productDAO.openProduct(product_id);
+  },
   getProductDetailByID: async (product_id) => {
     return await productDAO.getProductDetailByID(product_id);
   },
