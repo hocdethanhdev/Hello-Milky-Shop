@@ -122,7 +122,9 @@ select {
   color: red;
 }
 .pagination-container {
-  margin-left: 30%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 .button-add-product {
   border: none;
