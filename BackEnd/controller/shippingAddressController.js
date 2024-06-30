@@ -41,7 +41,8 @@ const updateDeleted = async (req, res) => {
 
   const getInfoAddressWithOrderNearest = async (req, res) => {
     try {
-        const obj = await shippingAddressService.getInfoAddressWithOrderNearest();
+        const {UserID} = req.body;
+        const obj = await shippingAddressService.getInfoAddressWithOrderNearest(UserID);
         res.send(obj);
     } catch (error) {
         console.error("Error while getting all users:", error);
