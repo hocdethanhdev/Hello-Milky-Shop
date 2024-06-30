@@ -139,10 +139,10 @@ function Confirm() {
     }
   };
 
-  const fetchShippingAddress = async (shippingAddressID) => {
+  const fetchShippingAddress = async (orderID) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/${shippingAddressID}`
+        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
       );
       const data = await response.json();
       setShippingAddress(data);
@@ -155,7 +155,7 @@ function Confirm() {
   const viewOrderDetails = async (order) => {
     const orderDetails = await fetchOrderDetails(order.OrderID);
     setSelectedOrder({ ...order, details: orderDetails });
-    await fetchShippingAddress(order.ShippingAddressID);
+    await fetchShippingAddress(order.OrderID);
     setIsDetailModalVisible(true);
   };
 
