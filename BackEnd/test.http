@@ -370,7 +370,7 @@ PUT http://localhost:5000/api/v1/user/disableUser/M0000002/
 Content-Type: application/json
 
 {
-    "Status": "False"
+    "Status": 0
 }
 ### Lấy những voucher mà có thể lưu cho user
 POST http://localhost:5000/api/v1/voucher/getVouchersForUser

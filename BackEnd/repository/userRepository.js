@@ -31,8 +31,8 @@ const userRepository = {
     return await userDAO.findAllUsers();
   },
 
-  deleteUser: async (user_id) => {
-    return await userDAO.deleteUser(user_id);
+  deleteUser: async (user_id, status) => {
+    return await userDAO.deleteUser(user_id, status);
   },
   updateUser: async (user_id, user) => {
     return await userDAO.updateUser(user_id, user);

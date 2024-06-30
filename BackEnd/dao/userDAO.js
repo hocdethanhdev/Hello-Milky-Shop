@@ -260,13 +260,12 @@ const userDAO = {
       });
     });
   },
-  deleteUser: (param_id) => {
+  deleteUser: (param_id, status) => {
     return new Promise((resolve, reject) => {
-      const Status = "0";
       mssql.connect(dbConfig, function (err, result) {
         var request = new mssql.Request()
           .input("UserID", param_id)
-          .input("Status", Status);
+          .input("Status", status);
         request.query(
           `UPDATE Users SET Status = @Status WHERE UserID = @UserID;`,
           (err, res) => {
