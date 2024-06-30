@@ -8,6 +8,7 @@ import ProductDetailModal from "./ProductDetailModal";
 import EditProductModal from "./EditProductModal";
 import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
 import { message } from "antd";
+import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -288,13 +289,13 @@ const Products = () => {
         <div className="product-list">
           <table>
             <thead>
-              <tr>
-                <th>Mã</th>
-                <th onClick={handleSort} style={{ cursor: "pointer" }}>
+              <tr className="row">
+                <th className="col-md-1">Mã</th>
+                <th className="col-md-4" onClick={handleSort} style={{ cursor: "pointer" }}>
                   Tên sản phẩm
                   <FontAwesomeIcon icon={faSort} />
                 </th>
-                <th className="category-header">
+                <th className="category-header col-md-2">
                   Loại sản phẩm{" "}
                   <FontAwesomeIcon
                     icon={faFilter}
@@ -326,7 +327,7 @@ const Products = () => {
                     </ul>
                   )}
                 </th>
-                <th className="status-header">
+                <th className="status-header col-md-2">
                   Trạng thái{" "}
                   <FontAwesomeIcon
                     icon={faFilter}
@@ -365,24 +366,24 @@ const Products = () => {
                     </ul>
                   )}
                 </th>
-                <th>Thao tác</th>
+                <th className="col-md-3">Thao tác</th>
               </tr>
             </thead>
             <tbody>
               {currentProducts.map((product) => (
-                <tr key={product.ProductID}>
-                  <td>{product.ProductID}</td>
-                  <td>{product.ProductName}</td>
-                  <td>{product.ProductCategoryName}</td>
-                  <td>
+                <tr className="row" key={product.ProductID}>
+                  <td className="col-md-1">{product.ProductID}</td>
+                  <td className="col-md-4">{product.ProductName}</td>
+                  <td className="col-md-2">{product.ProductCategoryName}</td>
+                  <td className="col-md-2">
                     {product.Status === null || product.Status === false
                       ? "Tạm ẩn"
                       : product.Status === true &&
                         parseInt(product.StockQuantity) > 0
-                        ? "Còn hàng"
-                        : "Hết hàng"}
+                      ? "Còn hàng"
+                      : "Hết hàng"}
                   </td>
-                  <td className="nut-act">
+                  <td className="nut-act col-md-3">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -420,13 +421,14 @@ const Products = () => {
               ))}
             </tbody>
           </table>
-        </div>
-        <div className="pagination-thinh">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={Math.ceil(filteredProducts.length / productsPerPage)}
-            onPageChange={handlePageChange}
-          />
+          <div className="pagination-container-cf">
+            <ThrowPage
+              current={currentPage}
+              onChange={handlePageChange}
+              total={filteredProducts.length}
+              itemsPerPage={productsPerPage}
+            />
+          </div>
         </div>
       </div>
 

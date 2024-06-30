@@ -19,8 +19,8 @@ const shippingAddressService = {
     return await shippingAddressRepository.updateDeleted(shippingAddress_id);
   },
   
-  getInfoAddressWithOrderNearest: async () => {
-    return await shippingAddressRepository.getInfoAddressWithOrderNearest();
+  getInfoAddressWithOrderNearest: async (UserID) => {
+    return await shippingAddressRepository.getInfoAddressWithOrderNearest(UserID);
   },
 }
 module.exports = shippingAddressService;

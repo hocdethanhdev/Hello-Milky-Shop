@@ -26,4 +26,6 @@ router.put("/updateUserEmail", userController.updateUserEmail);
 
 router.put("/updateUserPhoneNumber", userController.updateUserPhoneNumber);
 
+router.put("/updateInforUser", userController.updateInforUser);
+
 module.exports = router;
