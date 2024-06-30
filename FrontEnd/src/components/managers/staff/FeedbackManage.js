@@ -9,7 +9,7 @@ const FeedbackManage = () => {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalComments, setTotalComments] = useState(0);
-  const commentsPerPage = 10;
+  const commentsPerPage = 5;
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
 
