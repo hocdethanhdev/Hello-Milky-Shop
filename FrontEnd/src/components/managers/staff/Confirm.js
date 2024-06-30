@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Modal, Button, message, Input } from "antd";
 import "./Confirm.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 
 function Confirm() {
@@ -63,10 +63,10 @@ function Confirm() {
               prevOrders.map((order) =>
                 order.OrderID === orderID
                   ? {
-                    ...order,
-                    StatusOrderID: [2, 2],
-                    StatusOrderName: "Đã xác nhận",
-                  }
+                      ...order,
+                      StatusOrderID: [2, 2],
+                      StatusOrderName: "Đã xác nhận",
+                    }
                   : order
               )
             );
@@ -200,22 +200,19 @@ function Confirm() {
                 <button
                   type="button"
                   className="btn btn-warning xndh"
-                  onClick={() => editOrder(order.OrderID)}
-                >
+                  onClick={() => editOrder(order.OrderID)}>
                   Xác Nhận
                 </button>
                 <button
                   type="button"
                   className="btn btn-primary xndh"
-                  onClick={() => viewOrderDetails(order)}
-                >
+                  onClick={() => viewOrderDetails(order)}>
                   Thông tin
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger xndh"
-                  onClick={() => cancelOrder(order.OrderID)}
-                >
+                  onClick={() => cancelOrder(order.OrderID)}>
                   Hủy đơn
                 </button>
               </td>
@@ -232,6 +229,7 @@ function Confirm() {
         />
       </div>
       {selectedOrder && isDetailModalVisible && (
+        // Inside the Modal component for order details
         <Modal
           visible={isDetailModalVisible}
           onCancel={handleModalClose}
@@ -240,35 +238,57 @@ function Confirm() {
               Đóng
             </Button>,
           ]}
-          className="custom-modal-thinhh"
-        >
+          className="custom-modal-thinhh">
           <div className="modal-content-scrollable-thinhh">
             <div className="ttdh-thinh">
               <h2>Thông tin đơn hàng</h2>
-              <p className="ttdh-thong-tin">
-                <strong>Mã đơn hàng:</strong>  <div>{selectedOrder.OrderID}</div>
-              </p>
-              <p className="ttdh-thong-tin">
-                <strong>Ngày đặt hàng:</strong>{" "}
-                <div>{new Date(selectedOrder.OrderDate).toLocaleString()}</div>
-              </p>
-              <p className="ttdh-thong-tin">
-                <strong>Tổng:</strong> <div>{formatPrice(selectedOrder.TotalAmount)}</div>
-              </p>
-              {shippingAddress && (
-                <>
-                  <p className="ttdh-thong-tin">
-                    <strong>Người nhận:</strong> <div>{shippingAddress[0].Receiver}</div>
-                  </p>
-                  <p className="ttdh-thong-tin">
-                    <strong>Số điện thoại:</strong>  <div>{shippingAddress[0].PhoneNumber}</div>
-                  </p>
-                  <p className="ttdh-thong-tin">
-                    <strong>Địa chỉ:</strong> <div> {shippingAddress[0].Address} </div>
-                  </p>
-                </>
-              )}
-              <table>
+              <table className="table-info-order">
+                <tbody>
+                  <tr>
+                    <td className="mdh">
+                      <strong>Mã đơn hàng:</strong>
+                    </td>
+                    <td>{selectedOrder.OrderID}</td>
+                  </tr>
+                  <tr>
+                    <td className="mdh">
+                      <strong>Ngày đặt hàng:</strong>
+                    </td>
+                    <td>
+                      {new Date(selectedOrder.OrderDate).toLocaleString()}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="mdh">
+                      <strong>Tổng:</strong>
+                    </td>
+                    <td>{formatPrice(selectedOrder.TotalAmount)}</td>
+                  </tr>
+                  {shippingAddress && (
+                    <>
+                      <tr>
+                        <td className="mdh">
+                          <strong>Người nhận:</strong>
+                        </td>
+                        <td>{shippingAddress[0].Receiver}</td>
+                      </tr>
+                      <tr>
+                        <td className="mdh">
+                          <strong>Số điện thoại:</strong>
+                        </td>
+                        <td>{shippingAddress[0].PhoneNumber}</td>
+                      </tr>
+                      <tr>
+                        <td className="mdh">
+                          <strong>Địa chỉ:</strong>
+                        </td>
+                        <td>{shippingAddress[0].Address}</td>
+                      </tr>
+                    </>
+                  )}
+                </tbody>
+              </table>
+              <table className="table-products-order">
                 <thead>
                   <tr>
                     <th>Mã sản phẩm</th>
@@ -282,7 +302,13 @@ function Confirm() {
                     <tr key={detail.ProductID}>
                       <td>{detail.ProductID}</td>
                       <td>{detail.ProductName}</td>
-                      <td><img src={detail.Image} alt={detail.ProductName} width="50" /></td>
+                      <td>
+                        <img
+                          src={detail.Image}
+                          alt={detail.ProductName}
+                          width="50"
+                        />
+                      </td>
                       <td>{detail.Quantity}</td>
                     </tr>
                   ))}
@@ -297,8 +323,7 @@ function Confirm() {
         title="Lý do hủy đơn hàng"
         visible={isCancelModalVisible}
         onOk={handleCancelModalOk}
-        onCancel={handleCancelModalCancel}
-      >
+        onCancel={handleCancelModalCancel}>
         <Input.TextArea
           value={cancelReason}
           onChange={(e) => setCancelReason(e.target.value)}
