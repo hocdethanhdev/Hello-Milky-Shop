@@ -1,5 +1,22 @@
 const userService = require("../service/userService");
 
+const updateInforUser = async (req, res) => {
+  try {
+    const { UserID, UserName, Email, PhoneNumber } = req.body;
+    if (!UserID)
+      res.status(400).json({
+        err: 1,
+        message: "Missing input",
+      });
+
+    const obj = await userService.updateInforUser(UserID, UserName, Email, PhoneNumber);
+
+    res.status(200).json(obj);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const updateUserName = async (req, res) => {
   try {
     const { UserID, UserName } = req.body;
@@ -115,7 +132,10 @@ const getAllUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const obj = await userService.deleteUser(req.params.user_id, req.body.Status);
+    const obj = await userService.deleteUser(
+      req.params.user_id,
+      req.body.Status
+    );
     res.send(obj);
   } catch (error) {
     res.status(500).send("Internal Server Error");
@@ -165,4 +185,5 @@ module.exports = {
   updateUserName,
   updateUserEmail,
   updateUserPhoneNumber,
+  updateInforUser,
 };

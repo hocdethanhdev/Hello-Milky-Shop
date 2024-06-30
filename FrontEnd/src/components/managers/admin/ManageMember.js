@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button } from 'antd';
+import { Modal, Button } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
@@ -17,7 +17,7 @@ const ManageMember = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const accountsPerPage = 10;
 
-  useEffect(() => {
+  const fetchUser = () => {
     fetch("http://localhost:5000/api/v1/user/getAllUsers/")
       .then((response) => response.json())
       .then((data) => {
@@ -25,6 +25,10 @@ const ManageMember = () => {
         setAccounts(staffAccounts);
       })
       .catch((error) => console.error("Error fetching users:", error));
+  };
+
+  useEffect(() => {
+    fetchUser();
   }, []);
 
   const handleEdit = (user) => {
@@ -66,21 +70,29 @@ const ManageMember = () => {
   };
 
   const handleOk = () => {
-    fetch(`http://localhost:5000/api/v1/user/disableUser/${selectedUser.UserID}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ Status: 0 }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setAccounts(accounts.map(account =>
-          account.UserID === selectedUser.UserID ? { ...account, Status: 0 } : account
-        ));
+    fetch(
+      `http://localhost:5000/api/v1/user/disableUser/${selectedUser.UserID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ Status: 0 }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setAccounts(
+          accounts.map((account) =>
+            account.UserID === selectedUser.UserID
+              ? { ...account, Status: 0 }
+              : account
+          )
+        );
         setIsModalVisible(false);
+        fetchUser();
       })
-      .catch(error => console.error("Error updating user status:", error));
+      .catch((error) => console.error("Error updating user status:", error));
   };
 
   const handleCancel = () => {
@@ -95,13 +107,16 @@ const ManageMember = () => {
       },
       body: JSON.stringify({ Status: 1 }),
     })
-      .then(response => response.json())
-      .then(data => {
-        setAccounts(accounts.map(account =>
-          account.UserID === user.UserID ? { ...account, Status: 1 } : account
-        ));
+      .then((response) => response.json())
+      .then((data) => {
+        setAccounts(
+          accounts.map((account) =>
+            account.UserID === user.UserID ? { ...account, Status: 1 } : account
+          )
+        );
+        fetchUser();
       })
-      .catch(error => console.error("Error enabling user:", error));
+      .catch((error) => console.error("Error enabling user:", error));
   };
 
   return (
@@ -125,7 +140,9 @@ const ManageMember = () => {
                 <td className="col-md-2">{account.UserName}</td>
                 <td className="col-md-3">{account.Email}</td>
                 <td className="col-md-2">{account.PhoneNumber}</td>
-                <td className="col-md-2">{account.Status ? 'Hoạt động ' : 'Bị khóa'}</td>
+                <td className="col-md-2">
+                  {account.Status ? "Hoạt động " : "Bị khóa"}
+                </td>
                 <td className="col-md-2">
                   <button
                     className="btn btn-warning"
@@ -147,8 +164,6 @@ const ManageMember = () => {
                     >
                       Mở
                     </button>
-
-
                   )}
                 </td>
               </tr>
