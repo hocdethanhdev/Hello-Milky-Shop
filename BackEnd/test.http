@@ -143,6 +143,8 @@ GET http://localhost:5000/api/v1/comment/getAllComments
 ###
 GET http://localhost:5000/api/v1/comment/getUnansweredComments
 ###
+GET http://localhost:5000/api/v1/comment/getAnsweredComments
+###
 POST http://localhost:5000/api/v1/comment/repComment/2
 Content-Type: application/json
 
