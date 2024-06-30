@@ -39,24 +39,30 @@ function AddPromotion({ onAddPromotion }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const promotionData = {
+      promotionName,
+      description,
+      discountPercentage: parseInt(discountPercentage, 10), // Ensure it's a number
+      startDate,
+      endDate,
+      products: selectedProducts,
+    };
+  
+   
+  
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/promotion/addPromotion",
-        {
-          promotionName,
-          description,
-          discountPercentage: parseInt(discountPercentage), // Ensure it's a number
-          startDate,
-          endDate,
-          products: selectedProducts,
-        },
+        promotionData,
         { headers: { "Content-Type": "application/json" } }
       );
+    
       onAddPromotion(response.data); // Notify parent component of new promotion
     } catch (error) {
-      console.error("Error adding promotion:", error);
+      console.error("Error adding promotion:", error.response?.data || error.message); // Improved error logging
     }
   };
+  
 
   const handleProductSelection = (productId) => {
     setSelectedProducts((prevSelectedProducts) =>
@@ -140,7 +146,7 @@ function PromotionForm({
         <div className="promo-form">
           <div className="promo-half">
             <div>
-              <label>Promotion Name:</label>
+              <label>Tên khuyến mãi:</label>
               <input
                 type="text"
                 value={promotionName}
@@ -150,7 +156,7 @@ function PromotionForm({
             </div>
 
             <div>
-              <label>Discount Percentage:</label>
+              <label>Phần trăm khuyến mãi:</label>
               <input
                 type="number"
                 value={discountPercentage}
@@ -159,7 +165,7 @@ function PromotionForm({
               />
             </div>
             <div>
-              <label>Description:</label>
+              <label>Mô tả:</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -170,7 +176,7 @@ function PromotionForm({
 
           <div className="promo-half">
             <div>
-              <label>Start Date:</label>
+              <label>Ngày bắt đầu:</label>
               <input
                 type="date"
                 value={startDate}
@@ -180,7 +186,7 @@ function PromotionForm({
             </div>
 
             <div>
-              <label>End Date:</label>
+              <label>Ngày kết thúc:</label>
               <input
                 type="date"
                 value={endDate}
@@ -189,7 +195,7 @@ function PromotionForm({
               />
             </div>
 
-            <button type="submit">Add Promotion</button>
+            <button type="submit">Lưu</button>
           </div>
         </div>
       </form>
