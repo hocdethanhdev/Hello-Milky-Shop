@@ -72,7 +72,7 @@ function Dashboard() {
     ),
     datasets: [
       {
-        label: "Đơn hàng trong 7 ngày qua",
+        label: "Số đơn hàng",
         data: ordersIn7Days.map((order) => order.count),
         fill: false,
         backgroundColor: "#FF9F40",
@@ -97,11 +97,11 @@ function Dashboard() {
       </div>
       <div className="charts-st-thinh">
         <div className="chart-container-st-thinh pie-chart-st-thinh">
-          <h2>Order Distribution</h2>
+          <h2>Đơn hàng</h2>
           <Doughnut data={doughnutData} />
         </div>
         <div className="chart-container-st-thinh line-chart-st-thinh">
-          <h2>New Orders Over Time</h2>
+          <h2>Đơn hàng trong 7 ngày qua</h2>
           <Line data={lineData} />
         </div>
       </div>
