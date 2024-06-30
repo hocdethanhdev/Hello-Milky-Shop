@@ -93,7 +93,7 @@ Content-Type: application/json
     "Status": 1
 }
 ### sua san pham
-PUT http://localhost:5000/api/v1/product/editProduct/SE0002
+PUT http://localhost:5000/api/v1/product/editProduct/SE0003
 Content-Type: application/json
 
 {
@@ -108,8 +108,10 @@ Content-Type: application/json
     "ProductCategoryName": "Sữa cho em bé",
     "Status": 1
 }
-###xoa san pham
+### xoa san pham
 PUT http://localhost:5000/api/v1/product/deleteProduct/SE0002
+### mo san pham
+PUT http://localhost:5000/api/v1/product/openProduct/SE0002
 ###
 GET http://localhost:5000/api/v1/product/getProductInfoByID/SE0009
 ###

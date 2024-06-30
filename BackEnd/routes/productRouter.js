@@ -12,6 +12,8 @@ router.post("/createProduct", productController.createProduct);
 
 router.put("/deleteProduct/:product_id", productController.deleteProduct);
 
+router.put("/openProduct/:product_id", productController.openProduct);
+
 router.get("/getAllBrands", productController.getAllBrands);
 
 router.get("/getAllProductCategory", productController.getAllProductCategory);
