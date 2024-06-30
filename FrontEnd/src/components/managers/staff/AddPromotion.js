@@ -141,6 +141,7 @@ const AddPromotion = () => {
         setEndDate={setEndDate}
         handleSubmit={handleSubmit}
         handleImageChange={handleImageChange}
+        previewImage={previewImage}
       />
       <div className="product-list-container">
         <h3>Select Products for Promotion</h3>
