@@ -134,6 +134,7 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
                 {isProductSelectionModalOpen && (
                     <ProductSelectionModal
                         onClose={closeProductSelectionModal}
+                        promotionId={promotion.promotionId}
                         onSave={saveSelectedProducts}
                         selectedProducts={selectedProducts}
                     />
