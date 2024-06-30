@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import DOMPurify from "dompurify";
 import { message } from 'antd';
+import { useNavigate } from "react-router-dom";
 
 function PostsAdd() {
   const [title, setTitle] = useState("");
@@ -21,6 +22,7 @@ function PostsAdd() {
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
   const editor = useRef(null);
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
@@ -72,9 +74,10 @@ function PostsAdd() {
       );
 
       message.success('Bài viết đã được tạo thành công.');
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      navigate("/posts");
+      window.scrollTo(0, 0);
+
+      
       // Reset form or handle success action
     } catch (error) {
       console.error("Error creating post:", error.response);
