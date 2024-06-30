@@ -73,8 +73,6 @@ const ProductAdd = () => {
         Status: status,
       };
 
-      console.log("Submitting product data:", productData);
-
       const response = await axios.post(
         "http://localhost:5000/api/v1/product/createProduct",
         productData,

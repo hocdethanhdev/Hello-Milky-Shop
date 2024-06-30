@@ -409,7 +409,7 @@ const orderDAO = {
         request.input("orderID", mssql.Int, orderID);
 
         const selectQuery = `
-                    SELECT o.*, od.*, p.*
+                    SELECT o.OrderID, od.Quantity, p.ProductID, p.ProductName, p.Image, p.Price
                     FROM Orders o
                     JOIN OrderDetail od ON o.OrderID = od.OrderID
                     JOIN Product p ON od.ProductID = p.ProductID

@@ -45,15 +45,16 @@ const EditArticleModal = ({ onSave }) => {
       });
   }, [articleID]);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const imageFile = e.target.files[0];
     if (imageFile) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(imageFile);
-      setFormData({ ...formData, HeaderImage: imageFile });
+      try {
+        const imageUrl = await uploadImage(imageFile, setProgress);
+        setPreviewImage(imageUrl);
+        setFormData({ ...formData, HeaderImage: imageUrl });
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
     } else {
       setPreviewImage(null);
     }
@@ -104,23 +105,20 @@ const EditArticleModal = ({ onSave }) => {
     }
   };
 
-  // const editorConfig = {
-  //   readonly: false,
-  //   toolbar: true,
-  //   toolbarButtonSize: 'middle',
-  //   toolbarSticky: false,
-  //   showCharsCounter: false,
-  //   showWordsCounter: false,
-  //   showXPathInStatusbar: false,
-  //   buttons: [
-  //     'bold', 'italic', 'underline', 'strikethrough', 'eraser',
-  //     '|', 'ul', 'ol', 'indent', 'outdent',
-  //     '|', 'font', 'fontsize', 'brush', 'paragraph',
-  //     '|', 'image', 'link', 'table',
-  //     '|', 'align', 'undo', 'redo', 'hr',
-  //     '|', 'copyformat', 'fullsize',
-  //   ]
-  // };
+  const handleResizeImage = (editor) => {
+    editor.events.on('mouseup', () => {
+      const images = editor.container.querySelectorAll('img');
+      images.forEach((image) => {
+        const width = image.style.width;
+        const height = image.style.height;
+        if (width && height) {
+          image.setAttribute('width', width);
+          image.setAttribute('height', height);
+        }
+      });
+    });
+  };
+
   const editorConfig = useMemo(() => ({
     readonly: false,
     toolbar: true,
@@ -132,7 +130,7 @@ const EditArticleModal = ({ onSave }) => {
       '|', 'copyformat', 'fullsize',
       {
         name: 'uploadImage',
-        iconURL: 'https://cdn-icons-png.flaticon.com/128/685/685669.png', // Biểu tượng hình ảnh
+        iconURL: 'https://cdn-icons-png.flaticon.com/128/685/685669.png', // Image icon
         exec: async (editor) => {
           const input = document.createElement('input');
           input.type = 'file';
@@ -178,19 +176,6 @@ const EditArticleModal = ({ onSave }) => {
       }
     }
   }), [setProgress]);
-  const handleResizeImage = (editor) => {
-    editor.events.on('mouseup', () => {
-      const images = editor.container.querySelectorAll('img');
-      images.forEach((image) => {
-        const width = image.style.width;
-        const height = image.style.height;
-        if (width && height) {
-          image.setAttribute('width', width);
-          image.setAttribute('height', height);
-        }
-      });
-    });
-  };
 
   return (
     <div className="edit-article-page">
@@ -251,12 +236,9 @@ const EditArticleModal = ({ onSave }) => {
               value={formData.Content}
               config={editorConfig}
             />
-            {/* cái richtext do nếu bài nhiều nó bị cắn mất thanh slidebar nên bên css t chỉnh max-width 1200px
-            nên là có chỉnh gì thì width đừng quá 1200px */}
           </div>
-
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary long-nut-daga">
           Lưu
         </button>
       </form>

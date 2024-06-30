@@ -50,7 +50,6 @@ const ManageStaff = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would typically send the updated data to the server
-    console.log("Submitting edited user:", editForm);
     // Example: Call API to update user data
     // fetch(`http://localhost:5000/api/v1/user/updateUser/${editingUser.UserID}`, {
     //     method: 'PUT',
@@ -109,9 +108,9 @@ const ManageStaff = () => {
                     className="edit-button-staff"
                     onClick={() => handleEdit(account)}
                   >
-                    Edit
+                    Sửa
                   </button>
-                  <button className="delete-button-staff">Delete</button>
+                  <button className="delete-button-staff">Xóa</button>
                 </td>
               </tr>
             ))}
@@ -129,6 +128,7 @@ const ManageStaff = () => {
 
       {/* Edit Popup */}
       {showEditPopup && (
+        
         <div className="edit-popup">
           <div className="edit-popup-content">
             <form onSubmit={handleSubmit}>
@@ -169,6 +169,7 @@ const ManageStaff = () => {
             </form>
           </div>
         </div>
+      
       )}
     </div>
   );

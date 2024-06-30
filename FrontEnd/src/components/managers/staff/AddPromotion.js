@@ -57,7 +57,6 @@ function AddPromotion({ onAddPromotion }) {
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-      console.log("New Promotion added:", response.data);
       onAddPromotion(response.data); // Notify parent component of new promotion
     } catch (error) {
       console.error("Error adding promotion:", error);

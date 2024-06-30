@@ -37,7 +37,6 @@ const ShoppingCart = () => {
   const [incrementIntervalId, setIncrementIntervalId] = useState(null);
   const [decrementIntervalId, setDecrementIntervalId] = useState(null);
 
-
   const startIncrement = async (productId) => {
     stopDecrement(); // Stop decrement if it's running
 
@@ -62,7 +61,6 @@ const ShoppingCart = () => {
 
     setIncrementIntervalId(intervalId);
   };
-
 
   const stopIncrement = () => {
     clearInterval(incrementIntervalId);
@@ -92,7 +90,6 @@ const ShoppingCart = () => {
     clearInterval(decrementIntervalId);
     setDecrementIntervalId(null);
   };
-
 
   useEffect(() => {
     setUserID(getUserIdFromToken(token));
@@ -124,7 +121,8 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       alert(
-        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `This voucher requires a minimum purchase of ${
+          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -391,8 +389,9 @@ const ShoppingCart = () => {
         totalAmount = calculateTotal();
         localStorage.setItem("totalAmount", totalAmount);
         localStorage.setItem("orderID", orderID);
-        console.log(usePoints);
-        localStorage.setItem("usePoints", usePoints);
+        if (usePoints) {
+          localStorage.setItem("usePoints", usePoints);
+        }
 
         const response = await axios.post(
           "http://localhost:5000/api/v1/payment/create_payment_url",
@@ -446,6 +445,10 @@ const ShoppingCart = () => {
     }
   };
 
+  const formatPrice = (price) => {
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
+
   return (
     <div className="checkout-container">
       <br />
@@ -468,7 +471,6 @@ const ShoppingCart = () => {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               disabled={usingSavedAddress}
-
             />
             <textarea
               className="address-input-long"
@@ -477,15 +479,13 @@ const ShoppingCart = () => {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               disabled={usingSavedAddress}
-
             />
-            {!usingSavedAddress &&
+            {!usingSavedAddress && (
               <div>
                 <select
                   value={selectedCityID}
                   onChange={(e) => setSelectedCityID(e.target.value)}
                   disabled={usingSavedAddress}
-
                 >
                   <option value="">Chọn thành phố</option>
                   {cities.map((city) => (
@@ -498,22 +498,34 @@ const ShoppingCart = () => {
                   value={selectedDistrictID}
                   onChange={(e) => setSelectedDistrictID(e.target.value)}
                   disabled={usingSavedAddress}
-
                 >
                   <option value="">Chọn quận huyện</option>
                   {districts.map((district) => (
-                    <option key={district.DistrictID} value={district.DistrictID}>
+                    <option
+                      key={district.DistrictID}
+                      value={district.DistrictID}
+                    >
                       {district.DistrictName}
                     </option>
                   ))}
                 </select>
-              </div>}
-            {usingSavedAddress ? <button className="custom-button-long" onClick={() => setUsingSavedAddress(false)}>
-              Thêm địa chỉ mới
-            </button> : <button className="custom-button-long" onClick={() => setShowAddressPopup(true)}>
-              Dùng địa chỉ cũ
-            </button>}
-
+              </div>
+            )}
+            {usingSavedAddress ? (
+              <button
+                className="custom-button-long"
+                onClick={() => setUsingSavedAddress(false)}
+              >
+                Thêm địa chỉ mới
+              </button>
+            ) : (
+              <button
+                className="custom-button-long"
+                onClick={() => setShowAddressPopup(true)}
+              >
+                Dùng địa chỉ cũ
+              </button>
+            )}
           </div>
         </div>
 
@@ -530,12 +542,19 @@ const ShoppingCart = () => {
                   <input
                     type="checkbox"
                     checked={isSelected}
-                    onChange={(e) => handleProductSelect(productId, e.target.checked)}
+                    onChange={(e) =>
+                      handleProductSelect(productId, e.target.checked)
+                    }
                   />
-                  <img src={productInfo?.Image} alt={productInfo?.ProductName} />
+                  <img
+                    src={productInfo?.Image}
+                    alt={productInfo?.ProductName}
+                  />
                   <div>
                     <p className="ten-sp-cartth">{productInfo?.ProductName}</p>
-                    <p className="gia-sp-cartth">{item.Price.toLocaleString()} đ</p>
+                    <p className="gia-sp-cartth">
+                      {item.Price.toLocaleString()} đ
+                    </p>
                     <div className="quantity-control">
                       <button
                         onMouseDown={() => startDecrement(productId)}
@@ -568,7 +587,10 @@ const ShoppingCart = () => {
               <span>{subtotal.toLocaleString()} đ</span>
             </div>
             <div className="voucher-selection-long">
-              <button className="choose-voucher-btn" onClick={() => setShowVoucherPopup(true)}>
+              <button
+                className="choose-voucher-btn"
+                onClick={() => setShowVoucherPopup(true)}
+              >
                 Chọn Voucher
               </button>
               {selectedVoucher && (
@@ -587,9 +609,13 @@ const ShoppingCart = () => {
               <label htmlFor="usePoints">
                 <span className="icon-long"></span>
                 <span className="icon-wrapper-long">
-                  <img src="/ImageMilkShop/icon xu.png" alt="Xu icon" className="points-icon" />
+                  <img
+                    src="/ImageMilkShop/icon xu.png"
+                    alt="Xu icon"
+                    className="points-icon"
+                  />
                 </span>
-                Dùng {points} xu - {points * 10}₫
+                Dùng {points} xu - {formatPrice(points * 10)}₫
               </label>
             </div>
 

@@ -158,7 +158,7 @@ const OrderProfile = () => {
               }}>Hủy đơn hàng</button>
             )}
             {order.status === "Đã hủy" && (
-              <p>{order.items[0].ReasonCancelContent ? `Lý do hủy: ${order.items[0].ReasonCancelContent}` : "Đã hủy"}</p>
+              <p>{order.items[0].ReasonCancelContent ? `Nhân viên đã hủy, lí do: ${order.items[0].ReasonCancelContent}` : "Đã hủy"}</p>
             )}
           </div>
           {order.items.map((item, idx) => (

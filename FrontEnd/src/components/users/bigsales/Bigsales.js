@@ -13,7 +13,6 @@ const fetchPromotions = async () => {
       throw new Error("Failed to fetch promotions");
     }
     const data = await response.json();
-    console.log("Fetched promotions:", data); // Debugging log
     return data.map((promo) => ({
       id: promo.PromotionID,
       title: promo.PromotionName,
@@ -64,11 +63,9 @@ function Bigsales() {
   useEffect(() => {
     const fetchData = async () => {
       const promotionsData = await fetchPromotions();
-      console.log("Setting promotions:", promotionsData); // Debugging log
       setPromotions(promotionsData);
 
       const productsData = await fetchProducts();
-      console.log("Setting products:", productsData); // Debugging log
       setProducts(productsData);
     };
 
