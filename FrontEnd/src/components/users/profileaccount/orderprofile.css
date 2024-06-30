@@ -172,3 +172,10 @@ button.rate-button:hover {
   background-color: green;
   color: #fff;
 }
+
+
+.date-oderProfile {
+  position: absolute;
+  margin-top: 50px;
+  margin-left: -130px;
+}

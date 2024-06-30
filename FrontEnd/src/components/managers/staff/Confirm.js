@@ -172,7 +172,7 @@ function Confirm() {
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
-  console.log(orders);
+  
   return (
     <div className="confirm-container">
       <table>

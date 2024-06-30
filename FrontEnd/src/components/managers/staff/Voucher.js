@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./Voucher.css";
 import { Link } from "react-router-dom";
+import { Modal, message, Button } from "antd";
 import EditVoucherModal from "./EditVoucherModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort, faFilter } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
+
+const { confirm } = Modal;
 
 function Voucher() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +20,7 @@ function Voucher() {
   const [selectedVoucherForEdit, setSelectedVoucherForEdit] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false); // State to control success message visibility
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     fetchVouchers();
@@ -38,27 +41,35 @@ function Voucher() {
     setSortConfig({ key, direction });
   };
 
+  const showDeleteConfirm = (voucherID) => {
+    confirm({
+      title: "Bạn có chắc chắn muốn xóa voucher này không?",
+      okText: "Có",
+      okType: "danger",
+      cancelText: "Không",
+      onOk() {
+        handleDelete(voucherID);
+      },
+    });
+  };
+
   const handleDelete = (voucherID) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa voucher này không?")) {
-      fetch(`http://localhost:5000/api/v1/voucher/deleteVoucher/${voucherID}`, {
-        method: "PUT",
+    fetch(`http://localhost:5000/api/v1/voucher/deleteVoucher/${voucherID}`, {
+      method: "PUT",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setSuccessMessage("Voucher đã được xóa thành công!");
-          setShowSuccess(true); // Show success message
-          fetchVouchers(); // Nạp lại danh sách sau khi xóa thành công
-        })
-        .catch((error) => {
-          setSuccessMessage("Lỗi khi xóa voucher: " + error.message);
-          setShowSuccess(true); // Show error message
-        });
-    }
+      .then((data) => {
+        message.success("Voucher đã được xóa thành công!");
+        fetchVouchers();
+      })
+      .catch((error) => {
+        message.error("Lỗi khi xóa voucher: " + error.message);
+      });
   };
 
   const handleEditClick = (voucher) => {
@@ -83,13 +94,11 @@ function Voucher() {
         return response.json();
       })
       .then((data) => {
-        setSuccessMessage("Voucher đã được cập nhật thành công!");
-        setShowSuccess(true); // Show success message
+        message.success("Voucher đã được cập nhật thành công!");
         fetchVouchers();
       })
       .catch((error) => {
-        setSuccessMessage("Lỗi khi cập nhật voucher: " + error.message);
-        setShowSuccess(true); // Show error message
+        message.error("Lỗi khi cập nhật voucher: " + error.message);
       });
   };
 
@@ -121,22 +130,15 @@ function Voucher() {
     return statusFilter === "active" ? voucher.Status : !voucher.Status;
   });
 
-  useEffect(() => {
-    if (successMessage) {
-      setShowSuccess(true);
-      const timer = setTimeout(() => {
-        setShowSuccess(false);
-        setSuccessMessage("");
-      }, 3000); // Hides the success message after 3 seconds
-      return () => clearTimeout(timer);
-    }
-  }, [successMessage]);
-
   return (
     <div className="voucher-container-thinhvcher">
       <div className="voucher-body-thinhvcher">
         {showSuccess && (
-          <div className={`success-message-thinhvcher ${successMessage.includes("Lỗi") ? "error-thinhvcher" : "success-thinhvcher"} success-message-show`}>
+          <div
+            className={`success-message-thinhvcher ${
+              successMessage.includes("Lỗi") ? "error-thinhvcher" : "success-thinhvcher"
+            } success-message-show`}
+          >
             {successMessage}
           </div>
         )}
@@ -199,7 +201,7 @@ function Voucher() {
                     Trạng thái
                     {showStatusDropdown && (
                       <ul className="dropdown-content-thinhvcher">
-                        <li onClick={() => handleStatusFilter("All")}>All</li>
+                        <li onClick={() => handleStatusFilter("All")}>Tất cả</li>
                         <li onClick={() => handleStatusFilter("active")}>
                           Khả dụng
                         </li>
@@ -228,12 +230,12 @@ function Voucher() {
                   <td>{new Date(voucher.ExpiryDate).toLocaleDateString()}</td>
                   <td>{voucher.Status ? "Active" : "Inactive"}</td>
                   <td>
-                    <button onClick={() => handleEditClick(voucher)}>
+                    <Button className="hihi" onClick={() => handleEditClick(voucher)}>
                       Sửa
-                    </button>
-                    <button onClick={() => handleDelete(voucher.VoucherID)}>
+                    </Button>
+                    <Button  className="haha" danger onClick={() => showDeleteConfirm(voucher.VoucherID)}>
                       Xóa
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}
