@@ -12,15 +12,16 @@ const ProductSelectionModal = ({ promotionId, selectedProducts, setSelectedProdu
                 // Fetch all products
                 const productsResponse = await axios.get('http://localhost:5000/api/v1/product/getInfoProductsDetail');
                 setProducts(productsResponse.data);
-                console.log(promotionId);
-                // Fetch applied products IDs
+
+                // Fetch applied product IDs for the promotion
                 const appliedProductsResponse = await axios.get(`http://localhost:5000/api/v1/promotion/getProductsApplyAnPromotion/${promotionId}`);
-                const appliedProductIds = appliedProductsResponse.data.appliedProducts.map(product => product.ProductID);
-                console.log(appliedProductIds);
+                const appliedProductIds = appliedProductsResponse.data; // Assuming it returns ["SE0004", "SE0005", "SE0006"]
+
                 // Set pre-selected products
                 setSelectedProducts(appliedProductIds);
             } catch (error) {
                 console.error('Error fetching products or applied products:', error);
+                // Optionally handle error state or inform the user
             }
         };
 
@@ -78,7 +79,7 @@ const ProductSelectionModal = ({ promotionId, selectedProducts, setSelectedProdu
                 </div>
                 <div className="product-list-container-tri">
                     <div className="select-all-container-tri">
-                        <label>Chọn tất cả</label>
+                        <label>Select All</label>
                         <input
                             type="checkbox"
                             checked={selectedProducts.length === filteredProducts.length && filteredProducts.length > 0}
@@ -104,8 +105,8 @@ const ProductSelectionModal = ({ promotionId, selectedProducts, setSelectedProdu
                                         <div>
                                             <p>{product.ProductName}</p>
                                             <p>{formatPrice(product.Price)}</p>
-                                            <p><strong>Kho:</strong> {product.StockQuantity}</p>
-                                            <p><strong>HSD:</strong> {new Date(product.ExpirationDate).toLocaleDateString()}</p>
+                                            <p><strong>Stock:</strong> {product.StockQuantity}</p>
+                                            <p><strong>Expiration Date:</strong> {new Date(product.ExpirationDate).toLocaleDateString()}</p>
                                         </div>
                                     </div>
                                 </label>

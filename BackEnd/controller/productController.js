@@ -216,6 +216,15 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const openProduct = async (req, res) => {
+  try {
+    const obj = await productService.openProduct(req.params.product_id);
+    res.send(obj);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const getProductDetailByID = async (req, res) => {
   try {
     const obj = await productService.getProductDetailByID(
@@ -306,5 +315,6 @@ module.exports = {
   countBrand,
   getTop5ProductBestSeller,
   getAllProductForUser,
-  getTop5ProductBestSellerForUser
+  getTop5ProductBestSellerForUser,
+  openProduct,
 };
