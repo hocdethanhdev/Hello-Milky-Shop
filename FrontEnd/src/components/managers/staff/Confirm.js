@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Modal, Button, message, Input } from "antd";
 import "./Confirm.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
@@ -12,6 +12,7 @@ function Confirm() {
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
+  const [shippingAddress, setShippingAddress] = useState(null);
   const ordersPerPage = 10;
   const { token } = useSelector((state) => state.auth);
   const userIdd = getUserIdFromToken(token);
@@ -62,10 +63,10 @@ function Confirm() {
               prevOrders.map((order) =>
                 order.OrderID === orderID
                   ? {
-                      ...order,
-                      StatusOrderID: [2, 2],
-                      StatusOrderName: "Đã xác nhận",
-                    }
+                    ...order,
+                    StatusOrderID: [2, 2],
+                    StatusOrderName: "Đã xác nhận",
+                  }
                   : order
               )
             );
@@ -125,14 +126,43 @@ function Confirm() {
     setSelectedOrder(null);
   };
 
-  const viewOrderDetails = (order) => {
-    setSelectedOrder(order);
+  const fetchOrderDetails = async (orderID) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/order/getOrderDetailByOrderID/${orderID}`
+      );
+      const data = await response.json();
+      return data.address;
+    } catch (error) {
+      console.error("Error fetching order details:", error);
+      return [];
+    }
+  };
+
+  const fetchShippingAddress = async (shippingAddressID) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/${shippingAddressID}`
+      );
+      const data = await response.json();
+      setShippingAddress(data);
+    } catch (error) {
+      console.error("Error fetching shipping address:", error);
+      setShippingAddress(null);
+    }
+  };
+
+  const viewOrderDetails = async (order) => {
+    const orderDetails = await fetchOrderDetails(order.OrderID);
+    setSelectedOrder({ ...order, details: orderDetails });
+    await fetchShippingAddress(order.ShippingAddressID);
     setIsDetailModalVisible(true);
   };
 
   const handleModalClose = () => {
     setIsDetailModalVisible(false);
     setSelectedOrder(null);
+    setShippingAddress(null);
   };
 
   const indexOfLastOrder = currentPage * ordersPerPage;
@@ -201,7 +231,6 @@ function Confirm() {
       </div>
       {selectedOrder && isDetailModalVisible && (
         <Modal
-          title="Thông tin đơn hàng"
           visible={isDetailModalVisible}
           onCancel={handleModalClose}
           footer={[
@@ -209,29 +238,63 @@ function Confirm() {
               Đóng
             </Button>,
           ]}
+          className="modal-content-scrollable" // Add this line
         >
-          <p>
-            <strong>Mã đơn hàng:</strong> {selectedOrder.OrderID}
-          </p>
-          <p>
-            <strong>Ngày đặt hàng:</strong>{" "}
-            {new Date(selectedOrder.OrderDate).toLocaleString()}
-          </p>
-          <p>
-            <strong>Tổng:</strong> {formatPrice(selectedOrder.TotalAmount)}
-          </p>
-          <p>
-            <strong>Địa chỉ:</strong> {selectedOrder.ShippingAddressID}
-          </p>
-          <p>
-            <strong>Mã người dùng:</strong> {selectedOrder.UserID}
-          </p>
-          <p>
-            <strong>Trạng thái của đơn hàng:</strong>{" "}
-            {selectedOrder.StatusOrderName}
-          </p>
+          <div className="ttdh-thinh">
+            <h2>Thông tin đơn hàng</h2>
+            <p>
+              <strong>Mã đơn hàng:</strong> {selectedOrder.OrderID}
+            </p>
+            <p>
+              <strong>Ngày đặt hàng:</strong>{" "}
+              {new Date(selectedOrder.OrderDate).toLocaleString()}
+            </p>
+            <p>
+              <strong>Tổng:</strong> {formatPrice(selectedOrder.TotalAmount)}
+            </p>
+            {shippingAddress && (
+              <>
+                <p>
+                  <strong>Người nhận:</strong> {shippingAddress[0].Receiver}
+                </p>
+                <p>
+                  <strong>Số điện thoại:</strong> {shippingAddress[0].PhoneNumber}
+                </p>
+                <p>
+                  <strong>Địa chỉ:</strong> {shippingAddress[0].Address}
+                </p>
+              </>
+            )}
+            <p>
+              <strong>Trạng thái của đơn hàng:</strong>{" "}
+              {selectedOrder.StatusOrderName}
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>ProductID</th>
+                  <th>Product Name</th>
+                  <th>Image</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedOrder.details.map((detail) => (
+                  <tr key={detail.ProductID}>
+                    <td>{detail.ProductID}</td>
+                    <td>{detail.ProductName}</td>
+                    <td><img src={detail.Image} alt={detail.ProductName} width="50" /></td>
+                    <td>{formatPrice(detail.Price)}</td>
+                    <td>{detail.Quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </Modal>
       )}
+
       <Modal
         title="Lý do hủy đơn hàng"
         visible={isCancelModalVisible}
