@@ -212,7 +212,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
 
                     </div>
                     <label className='edit-pro-thinh'>
-                        Description:
+                        Mô tả:
                         <JoditEditor
                             ref={editor}
                             value={formData.Description}

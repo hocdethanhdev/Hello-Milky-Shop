@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 const PaymemSuccess = () => {
   const { token } = useSelector((state) => state.auth);
