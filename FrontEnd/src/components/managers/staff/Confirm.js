@@ -172,7 +172,7 @@ function Confirm() {
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
-
+  console.log(orders);
   return (
     <div className="confirm-container">
       <table>
@@ -195,7 +195,7 @@ function Confirm() {
               <td className="col-md-2">
                 {formatPrice(parseInt(order.TotalAmount))}
               </td>
-              <td className="col-md-3">{order.address}</td>
+              <td className="col-md-3">{order.Address}</td>
               <td className="col-md-3 nut-xndh">
                 <button
                   type="button"
