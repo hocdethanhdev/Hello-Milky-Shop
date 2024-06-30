@@ -71,7 +71,7 @@
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 8px 12px; /* Adjust padding as needed */
+  padding: 5px 18px; /* Adjust padding as needed */
   border-radius: 4px;
   cursor: pointer;
   margin-right: 5px;
@@ -83,6 +83,7 @@
 
 .voucher-list-thinhvcher td button:nth-child(2) {
   background-color: #dc3545; /* Màu đỏ cho nút Delete */
+  color: white;
 }
 
 .voucher-list-thinhvcher td button:nth-child(2):hover {
@@ -102,6 +103,11 @@
 .voucher-list-thinhvcher td button:hover {
   background-color: #0056b3;
 }
+
+.haha button{
+  color: white;
+}
+
 
 /* Dropdown */
 .filter-dropdown-thinhvcher {

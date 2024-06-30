@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faSort } from "@fortawesome/free-solid-svg-icons";
+import { Modal } from 'antd';
+
 
 function Posts() {
   const [articles, setArticles] = useState([]);
@@ -61,22 +63,31 @@ function Posts() {
   };
 
   const handleDeleteClick = (articleID) => {
-    if (window.confirm("Are you sure you want to delete this article?")) {
-      axios
-        .put(`http://localhost:5000/api/v1/article/deleteArticle/${articleID}`)
-        .then((response) => {
-          setArticles(
-            articles.filter((article) => article.ArticleID !== articleID)
-          );
-        })
-        .catch((error) => {
-          console.error("There was an error deleting the article!", error);
-          setErrorMessage(
-            "There was an error deleting the article: " +
-            (error.response?.data || error.message)
-          );
-        });
-    }
+    Modal.confirm({
+      title: "Xác nhận xóa bài viết",
+      content: "Bạn có chắc chắn muốn xóa bài viết này?",
+      onOk() {
+        axios
+          .put(
+            `http://localhost:5000/api/v1/article/deleteArticle/${articleID}`
+          )
+          .then((response) => {
+            setArticles(
+              articles.filter((article) => article.ArticleID !== articleID)
+            );
+          })
+          .catch((error) => {
+            console.error("There was an error deleting the article!", error);
+            setErrorMessage(
+              "There was an error deleting the article: " +
+                (error.response?.data || error.message)
+            );
+          });
+      },
+      onCancel() {
+        console.log("Xóa bài viết đã hủy");
+      },
+    });
   };
 
   return (
@@ -94,10 +105,10 @@ function Posts() {
         <table>
           <thead>
             <tr>
-            <th onClick={handleSort} style={{ cursor: "pointer" }}>
-                  Tiêu đề <FontAwesomeIcon icon={faSort} />
-                </th>
-
+              <th onClick={handleSort} style={{ cursor: "pointer" }}>
+                Tiêu đề <FontAwesomeIcon icon={faSort} />
+              </th>
+              <th>Ảnh đầu trang</th>
               <th>Ngày công bố</th>
               <th>Thao tác</th>
             </tr>
@@ -106,16 +117,31 @@ function Posts() {
             {currentArticles.map((article) => (
               <tr key={article.ArticleID}>
                 <td>{article.Title}</td>
+                <td>
+                  <img
+                    src={article.HeaderImage}
+                    alt="Header Image"
+                    style={{ width: "100px" }}
+                  />
+                </td>
                 <td>{new Date(article.PublishDate).toLocaleDateString()}</td>
                 <td>
-                  <button className='btn btn-warning' onClick={() => handleEditClick(article.ArticleID)}>Sửa</button>
-                  <button className='btn btn-danger' onClick={() => handleDeleteClick(article.ArticleID)}>Xóa</button>
+                  <button
+                    className="btn btn-warning"
+                    onClick={() => handleEditClick(article.ArticleID)}>
+                    Sửa
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDeleteClick(article.ArticleID)}>
+                    Xóa
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <div className='pagination-container'>
+        <div className="pagination-container">
           <ThrowPage
             current={currentPage}
             onChange={handlePageChange}

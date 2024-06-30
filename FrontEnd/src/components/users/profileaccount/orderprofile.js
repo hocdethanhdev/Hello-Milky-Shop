@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./orderprofile.css";
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 
 const OrderProfile = () => {
@@ -18,11 +18,18 @@ const OrderProfile = () => {
 
   const fetchOrders = async (status) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/order/getOrdersByUserID/${userIdd}`);
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/order/getOrdersByUserID/${userIdd}`
+      );
       const orders = response.data;
-      const filteredOrders = status ? orders.filter(order => getStatusFromStatusOrderName(order.StatusOrderName) === status) : orders;
+      const filteredOrders = status
+        ? orders.filter(
+            (order) =>
+              getStatusFromStatusOrderName(order.StatusOrderName) === status
+          )
+        : orders;
       const groupedOrders = filteredOrders.reduce((acc, order) => {
-        const existingOrder = acc.find(o => o.OrderID === order.OrderID);
+        const existingOrder = acc.find((o) => o.OrderID === order.OrderID);
         if (existingOrder) {
           existingOrder.items.push(order);
         } else {
@@ -31,7 +38,6 @@ const OrderProfile = () => {
             status: order.StatusOrderName,
             items: [order],
             totalPrice: calculateTotalPrice([order]),
-
           });
         }
         return acc;
@@ -41,13 +47,12 @@ const OrderProfile = () => {
 
       setOrdersData(groupedOrders);
 
-      groupedOrders.forEach(order => {
-        order.items.forEach(async item => {
+      groupedOrders.forEach((order) => {
+        order.items.forEach(async (item) => {
           const canRate = await checkUserOrder(userIdd, item.ProductID);
-          setCanRateMap(prev => ({ ...prev, [item.ProductID]: canRate }));
+          setCanRateMap((prev) => ({ ...prev, [item.ProductID]: canRate }));
         });
       });
-
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
@@ -69,11 +74,13 @@ const OrderProfile = () => {
   };
 
   const calculateTotalPrice = (items) => {
-    return items.reduce((total, item) => {
-      const discountedPrice = item.NewPrice || item.OldPrice;
-      return total + (item.Quantity * discountedPrice);
-      return item.TotalAmount;
-    }, 0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    return items
+      .reduce((total, item) => {
+        const discountedPrice = item.NewPrice || item.OldPrice;
+        return total + item.Quantity * discountedPrice;
+        return item.TotalAmount;
+      }, 0)
+      .toLocaleString("vi-VN", { style: "currency", currency: "VND" });
   };
 
   useEffect(() => {
@@ -86,7 +93,8 @@ const OrderProfile = () => {
     try {
       await axios.post("http://localhost:5000/api/v1/order/cancelOrder", {
         orderID: orderToCancel,
-        reasonCancelContent: "Đã hủy bởi bạn", userID: userIdd,
+        reasonCancelContent: "Đã hủy bởi bạn",
+        userID: userIdd,
       });
       const statusCode = activeTab === "Tất cả" ? "" : activeTab;
       fetchOrders(statusCode);
@@ -101,9 +109,12 @@ const OrderProfile = () => {
     if (!orderToConfirm) return;
 
     try {
-      await axios.post(`http://localhost:5000/api/v1/order/updateStatusOrderID/${orderToConfirm}`, {
-        statusOrderID: 4
-      });
+      await axios.post(
+        `http://localhost:5000/api/v1/order/updateStatusOrderID/${orderToConfirm}`,
+        {
+          statusOrderID: 4,
+        }
+      );
 
       const statusCode = activeTab === "Tất cả" ? "" : activeTab;
       fetchOrders(statusCode);
@@ -117,10 +128,13 @@ const OrderProfile = () => {
 
   const checkUserOrder = async (userId, productId) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/v1/comment/checkUserOrdered", {
-        UserID: userId,
-        ProductID: productId
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/comment/checkUserOrdered",
+        {
+          UserID: userId,
+          ProductID: productId,
+        }
+      );
       return response.data.count > 0;
     } catch (err) {
       console.error("Error checking user order:", err);
@@ -152,13 +166,21 @@ const OrderProfile = () => {
           <div className="order-header">
             <p>{order.status}</p>
             {order.status === "Chờ xác nhận" && (
-              <button className="cancel-button" onClick={() => {
-                setShowCancelPopup(true);
-                setOrderToCancel(order.OrderID);
-              }}>Hủy đơn hàng</button>
+              <button
+                className="cancel-button"
+                onClick={() => {
+                  setShowCancelPopup(true);
+                  setOrderToCancel(order.OrderID);
+                }}>
+                Hủy đơn hàng
+              </button>
             )}
             {order.status === "Đã hủy" && (
-              <p>{order.items[0].ReasonCancelContent ? `Nhân viên đã hủy, lí do: ${order.items[0].ReasonCancelContent}` : "Đã hủy"}</p>
+              <p>
+                {order.items[0].ReasonCancelContent
+                  ? `Nhân viên đã hủy, lí do: ${order.items[0].ReasonCancelContent}`
+                  : "Đã hủy"}
+              </p>
             )}
           </div>
           {order.items.map((item, idx) => (
@@ -168,16 +190,49 @@ const OrderProfile = () => {
                 <p>{item.ProductName}</p>
                 <p>Phân loại hàng: {item.ProductCategoryName}</p>
                 <p>Số lượng: {item.Quantity}</p>
+                <div className="date-oderProfile">
+                  <p>
+                    <strong>Ngày tạo đơn: </strong>
+                    {new Date(item.OrderDate).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
               </div>
+
               <div className="item-price">
-                {order.status === "Hoàn thành" && canRateMap[item.ProductID] && (
-                  <Link to={`/product/${item.ProductID}`} className="rate-button btn btn-warning">
-                    Đánh giá
-                  </Link>
-                )}
+                {order.status === "Hoàn thành" &&
+                  canRateMap[item.ProductID] && (
+                    <Link
+                      to={`/product/${item.ProductID}`}
+                      className="rate-button btn btn-warning">
+                      Đánh giá
+                    </Link>
+                  )}
+
                 <p>
-                  {item.OldPrice && item.NewPrice && item.OldPrice !== item.NewPrice && <s>{item.OldPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</s>}
-                  {item.NewPrice ? item.NewPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : item.OldPrice && item.OldPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                  {item.OldPrice &&
+                    item.NewPrice &&
+                    item.OldPrice !== item.NewPrice && (
+                      <s>
+                        {item.OldPrice.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
+                      </s>
+                    )}
+                  {item.NewPrice
+                    ? item.NewPrice.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : item.OldPrice &&
+                      item.OldPrice.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
                 </p>
               </div>
             </div>
@@ -196,31 +251,27 @@ const OrderProfile = () => {
         <ul>
           <li
             className={activeTab === "Tất cả" ? "active" : ""}
-            onClick={() => setActiveTab("Tất cả")}
-          >
+            onClick={() => setActiveTab("Tất cả")}>
             Tất cả
           </li>
           <li
             className={activeTab === "Chờ xác nhận" ? "active" : ""}
-            onClick={() => setActiveTab("Chờ xác nhận")}
-          >
+            onClick={() => setActiveTab("Chờ xác nhận")}>
             Chờ xác nhận
           </li>
-          <li className={activeTab === "Đang giao" ? "active" : ""}
-            onClick={() => setActiveTab("Đang giao")}
-          >
+          <li
+            className={activeTab === "Đang giao" ? "active" : ""}
+            onClick={() => setActiveTab("Đang giao")}>
             Đang giao
           </li>
           <li
             className={activeTab === "Hoàn thành" ? "active" : ""}
-            onClick={() => setActiveTab("Hoàn thành")}
-          >
+            onClick={() => setActiveTab("Hoàn thành")}>
             Hoàn thành
           </li>
           <li
             className={activeTab === "Đã hủy" ? "active" : ""}
-            onClick={() => setActiveTab("Đã hủy")}
-          >
+            onClick={() => setActiveTab("Đã hủy")}>
             Đã hủy
           </li>
         </ul>
@@ -229,7 +280,9 @@ const OrderProfile = () => {
       {showCancelPopup && (
         <div className="popup">
           <div className="popup-content">
-            <span className="close-popup" onClick={() => setShowCancelPopup(false)}>
+            <span
+              className="close-popup"
+              onClick={() => setShowCancelPopup(false)}>
               &times;
             </span>
             <p>Bạn chắc chắn muốn hủy đơn hàng?</p>
@@ -244,7 +297,9 @@ const OrderProfile = () => {
       {showConfirmPopup && (
         <div className="popup">
           <div className="popup-content">
-            <span className="close-popup" onClick={() => setShowConfirmPopup(false)}>
+            <span
+              className="close-popup"
+              onClick={() => setShowConfirmPopup(false)}>
               &times;
             </span>
             <p>Bạn chắc chắn đã nhận được hàng?</p>
