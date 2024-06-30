@@ -241,3 +241,32 @@ table tbody tr:nth-child(even) {
 .ttdh-thong-tin {
   display: flex;
 }
+
+.table-info-order {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.table-info-order td {
+  padding: 8px;
+}
+
+.table-products-order {
+  width: 100%;
+}
+
+.table-products-order th,
+.table-products-order td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-products-order img {
+  max-width: 50px;
+  max-height: 50px;
+}
+
+.mdh {
+  width: 30%;
+}

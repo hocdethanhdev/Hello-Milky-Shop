@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Voucher.css";
 import { Link } from "react-router-dom";
 import EditVoucherModal from "./EditVoucherModal";
-import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort, faFilter } from "@fortawesome/free-solid-svg-icons";
+import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 function Voucher() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,13 +17,18 @@ function Voucher() {
   const [selectedVoucherForEdit, setSelectedVoucherForEdit] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false); // State to control success message visibility
 
   useEffect(() => {
+    fetchVouchers();
+  }, []);
+
+  const fetchVouchers = () => {
     fetch("http://localhost:5000/api/v1/voucher/getAllVouchers")
       .then((response) => response.json())
       .then((data) => setVouchers(data))
       .catch((error) => console.error("Error fetching vouchers:", error));
-  }, []);
+  };
 
   const handleSort = (key) => {
     let direction = "ascending";
@@ -33,20 +38,28 @@ function Voucher() {
     setSortConfig({ key, direction });
   };
 
-  const sortedVouchers = [...vouchers].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? -1 : 1;
+  const handleDelete = (voucherID) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa voucher này không?")) {
+      fetch(`http://localhost:5000/api/v1/voucher/deleteVoucher/${voucherID}`, {
+        method: "PUT",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setSuccessMessage("Voucher đã được xóa thành công!");
+          setShowSuccess(true); // Show success message
+          fetchVouchers(); // Nạp lại danh sách sau khi xóa thành công
+        })
+        .catch((error) => {
+          setSuccessMessage("Lỗi khi xóa voucher: " + error.message);
+          setShowSuccess(true); // Show error message
+        });
     }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? 1 : -1;
-    }
-    return 0;
-  });
-
-  const filteredVouchers = sortedVouchers.filter((voucher) => {
-    if (statusFilter === "All") return true;
-    return statusFilter === "active" ? voucher.Status : !voucher.Status;
-  });
+  };
 
   const handleEditClick = (voucher) => {
     setSelectedVoucherForEdit(voucher);
@@ -71,10 +84,12 @@ function Voucher() {
       })
       .then((data) => {
         setSuccessMessage("Voucher đã được cập nhật thành công!");
-        window.location.reload();
+        setShowSuccess(true); // Show success message
+        fetchVouchers();
       })
       .catch((error) => {
         setSuccessMessage("Lỗi khi cập nhật voucher: " + error.message);
+        setShowSuccess(true); // Show error message
       });
   };
 
@@ -91,19 +106,39 @@ function Voucher() {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
+  const sortedVouchers = [...vouchers].sort((a, b) => {
+    if (a[sortConfig.key] < b[sortConfig.key]) {
+      return sortConfig.direction === "ascending" ? -1 : 1;
+    }
+    if (a[sortConfig.key] > b[sortConfig.key]) {
+      return sortConfig.direction === "ascending" ? 1 : -1;
+    }
+    return 0;
+  });
+
+  const filteredVouchers = sortedVouchers.filter((voucher) => {
+    if (statusFilter === "All") return true;
+    return statusFilter === "active" ? voucher.Status : !voucher.Status;
+  });
+
+  useEffect(() => {
+    if (successMessage) {
+      setShowSuccess(true);
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+        setSuccessMessage("");
+      }, 3000); // Hides the success message after 3 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
+
   return (
     <div className="voucher-container-thinhvcher">
       <div className="voucher-body-thinhvcher">
-        {successMessage && (
-          <p
-            className={`success-message-thinhvcher ${
-              successMessage.includes("Lỗi")
-                ? "error-thinhvcher"
-                : "success-thinhvcher"
-            }`}
-          >
+        {showSuccess && (
+          <div className={`success-message-thinhvcher ${successMessage.includes("Lỗi") ? "error-thinhvcher" : "success-thinhvcher"} success-message-show`}>
             {successMessage}
-          </p>
+          </div>
         )}
         <div className="voucher-list-thinhvcher">
           <div className="d-flex justify-content-end align-items-end padding-0">
@@ -196,7 +231,9 @@ function Voucher() {
                     <button onClick={() => handleEditClick(voucher)}>
                       Sửa
                     </button>
-                    <button>Xóa</button>
+                    <button onClick={() => handleDelete(voucher.VoucherID)}>
+                      Xóa
+                    </button>
                   </td>
                 </tr>
               ))}

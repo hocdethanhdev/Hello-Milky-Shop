@@ -216,7 +216,6 @@
 }
 
 /* Voucher.css */
-/* Voucher.css */
 
 .voucher-form-thinhvcher {
   max-width: 900px;
@@ -268,4 +267,49 @@
   border: none;
   margin-left: 40%;
   margin-top: 30px;
+}
+
+
+/* Voucher.css */
+
+.success-message-thinhvcher {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 4px;
+  background-color: #d4edda;
+  color: #155724;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; /* Initially hidden */
+}
+
+.error-thinhvcher {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.success-thinhvcher {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* Show the success message */
+.success-message-show {
+  display: block;
+  animation: slideInDown 0.5s ease forwards;
+}
+
+/* Animation for sliding in the success message */
+@keyframes slideInDown {
+  0% {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
 }
