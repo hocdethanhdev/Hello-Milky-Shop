@@ -5,13 +5,6 @@ import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 const ManageMember = () => {
   const [accounts, setAccounts] = useState([]);
-  const [editingUser, setEditingUser] = useState(null);
-  const [editForm, setEditForm] = useState({
-    UserName: "",
-    Email: "",
-    PhoneNumber: "",
-  });
-  const [showEditPopup, setShowEditPopup] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -30,35 +23,6 @@ const ManageMember = () => {
   useEffect(() => {
     fetchUser();
   }, []);
-
-  const handleEdit = (user) => {
-    setEditingUser(user);
-    setEditForm({
-      UserName: user.UserName,
-      Email: user.Email || "",
-      PhoneNumber: user.PhoneNumber || "",
-    });
-    setShowEditPopup(true);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditForm({
-      ...editForm,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setEditingUser(null);
-    setEditForm({
-      UserName: "",
-      Email: "",
-      PhoneNumber: "",
-    });
-    setShowEditPopup(false);
-  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -144,12 +108,6 @@ const ManageMember = () => {
                   {account.Status ? "Hoạt động " : "Bị khóa"}
                 </td>
                 <td className="col-md-2">
-                  <button
-                    className="btn btn-warning"
-                    onClick={() => handleEdit(account)}
-                  >
-                    Sửa
-                  </button>
                   {account.Status === true ? (
                     <button
                       className="btn btn-danger"
@@ -179,49 +137,6 @@ const ManageMember = () => {
           />
         </div>
       </div>
-
-      {showEditPopup && (
-        <div className="edit-popup">
-          <div className="edit-popup-content">
-            <form onSubmit={handleSubmit}>
-              <label>
-                Tên tài khoản:
-                <input
-                  type="text"
-                  name="UserName"
-                  value={editForm.UserName}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <label>
-                Email:
-                <input
-                  type="email"
-                  name="Email"
-                  value={editForm.Email}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Số điện thoại:
-                <input
-                  type="text"
-                  name="PhoneNumber"
-                  value={editForm.PhoneNumber}
-                  onChange={handleChange}
-                />
-              </label>
-              <div className="edit-popup-buttons">
-                <button type="submit">Save Changes</button>
-                <button type="button" onClick={() => setShowEditPopup(false)}>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
       <Modal
         title="Confirm Delete"
