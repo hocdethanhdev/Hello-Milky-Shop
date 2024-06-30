@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Modal } from "antd"; // Import Modal from Ant Design
 import "./EditVoucherModal.css";
 
 const EditVoucherModal = ({ voucher, onClose, onSave }) => {
@@ -12,8 +11,6 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
     startDate: "",
     expiryDate: "",
   });
-
-  const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
 
   useEffect(() => {
     if (voucher) {
@@ -46,13 +43,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
       ExpiryDate: formData.expiryDate,
     };
     onSave(updatedVoucher);
-
-    setModalVisible(true);
-  };
-
-  const handleModalClose = () => {
-    setModalVisible(false); // Close the Ant Design modal
-    onClose(); // Close your custom modal or perform any other necessary action
+    onClose(); // Close the modal after saving
   };
 
   return (
@@ -144,15 +135,6 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
           </form>
         </div>
       </div>
-
-      {/* Ant Design Modal */}
-      <Modal
-        title="Thông báo"
-        visible={modalVisible}
-        onOk={handleModalClose}
-        onCancel={handleModalClose}>
-        <p>Voucher đã được cập nhật thành công!</p>
-      </Modal>
     </div>
   );
 };

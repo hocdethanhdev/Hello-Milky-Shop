@@ -1,115 +1,114 @@
 .modal-thinhprostedit {
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    font-family: Arial, sans-serif;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  font-family: Arial, sans-serif;
 }
 
 .modal-content-thinhprostedit {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #888;
-    width: 60%;
-    max-height: 80%; /* Adjust height as needed */
-    overflow-y: auto; /* Add overflow-y for vertical scrolling */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.3s ease-in-out;
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #888;
+  width: 60%;
+  max-height: 80%; /* Adjust height as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .close-thinhprostedit {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 .close-thinhprostedit:hover,
 .close-thinhprostedit:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 20px;
 }
 
 .form-grid label {
-    display: flex;
-    flex-direction: column;
-    font-weight: bold;
-    color: #333;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #333;
 }
 
 .form-grid input,
 .form-grid select,
 .form-grid textarea {
-    margin-top: 5px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+  margin-top: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 .form-grid textarea {
-    resize: vertical;
+  resize: vertical;
 }
 
 .button-edit-product {
-    background-color: #45a049;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    padding: 10px 30px;
-    margin-left: 89%;
+  background-color: #45a049;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px 30px;
+  margin-left: 89%;
 }
 
 button[type="submit"]:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 .status-display-thinh {
-    font-weight: normal;
+  font-weight: normal;
 }
 .modal-thinhprostedit {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* overlay màu đen mờ */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* overlay màu đen mờ */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal-content-thinhprostedit {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    position: relative;
-    z-index: 1001; /* Đảm bảo rằng nội dung modal nằm trên overlay */
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 1001; /* Đảm bảo rằng nội dung modal nằm trên overlay */
 }
 
 .close-thinhprostedit {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
+  position: absolute;
+  top: 10px;
+  left: 96.4%;
+  cursor: pointer;
 }
 
 .preview-image-2 {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
 }

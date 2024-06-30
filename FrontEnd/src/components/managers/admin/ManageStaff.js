@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Modal, Button } from "antd";
+import { Modal, Button, message } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
@@ -18,7 +18,7 @@ const ManageStaff = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const accountsPerPage = 10;
 
-  const fetUser = () => {
+  const fetchUsers = () => {
     fetch("http://localhost:5000/api/v1/user/getAllUsers/")
       .then((response) => response.json())
       .then((data) => {
@@ -29,7 +29,7 @@ const ManageStaff = () => {
   };
 
   useEffect(() => {
-    fetUser();
+    fetchUsers();
   }, []);
 
   const handleEdit = (user) => {
@@ -49,16 +49,37 @@ const ManageStaff = () => {
       [name]: value,
     });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setEditingUser(null);
-    setEditForm({
-      UserName: "",
-      Email: "",
-      PhoneNumber: "",
-    });
-    setShowEditPopup(false);
+    fetch("http://localhost:5000/api/v1/user/updateInforUser", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        UserID: editingUser.UserID,
+        ...editForm,
+      }),
+    })
+      .then((response) => response.json())
+      .then(() => {
+        message.success("Chỉnh sửa thành công!");
+        setAccounts(
+          accounts.map((account) =>
+            account.UserID === editingUser.UserID
+              ? { ...account, ...editForm }
+              : account
+          )
+        );
+        setShowEditPopup(false);
+        setEditingUser(null);
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+        message.error("Chỉnh sửa thất bại!");
+      });
   };
 
   const handlePageChange = (page) => {
@@ -82,7 +103,7 @@ const ManageStaff = () => {
       }
     )
       .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         setAccounts(
           accounts.map((account) =>
             account.UserID === selectedUser.UserID
@@ -91,7 +112,7 @@ const ManageStaff = () => {
           )
         );
         setIsModalVisible(false);
-        fetUser();
+        fetchUsers();
       })
       .catch((error) => console.error("Error updating user status:", error));
   };
@@ -109,16 +130,17 @@ const ManageStaff = () => {
       body: JSON.stringify({ Status: 1 }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         setAccounts(
           accounts.map((account) =>
             account.UserID === user.UserID ? { ...account, Status: 1 } : account
           )
         );
-        fetUser();
+        fetchUsers();
       })
       .catch((error) => console.error("Error enabling user:", error));
   };
+
   return (
     <div className="table-container-staff manager-container">
       <div className="css-class-account-manager">
@@ -131,8 +153,8 @@ const ManageStaff = () => {
           <thead>
             <tr className="row">
               <th className="col-md-1">Stt</th>
-              <th className="col-md-3">Tên tài khoản</th>
-              <th className="col-md-2">Email</th>
+              <th className="col-md-2">Tên tài khoản</th>
+              <th className="col-md-3">Email</th>
               <th className="col-md-2">Số điện thoại</th>
               <th className="col-md-2">Trạng thái</th>
               <th className="col-md-2">Thao tác</th>
@@ -142,8 +164,8 @@ const ManageStaff = () => {
             {accounts.map((account, index) => (
               <tr className="row" key={account.UserID}>
                 <td className="col-md-1">{index + 1}</td>
-                <td className="col-md-3">{account.UserName}</td>
-                <td className="col-md-2">{account.Email}</td>
+                <td className="col-md-2">{account.UserName}</td>
+                <td className="col-md-3">{account.Email}</td>
                 <td className="col-md-2">{account.PhoneNumber}</td>
                 <td className="col-md-2">
                   {account.Status ? "Hoạt động" : "Bị khóa"}
@@ -227,6 +249,7 @@ const ManageStaff = () => {
           </div>
         </div>
       )}
+
       <Modal
         title="Confirm Delete"
         visible={isModalVisible}
