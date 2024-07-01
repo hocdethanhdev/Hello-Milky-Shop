@@ -190,7 +190,11 @@ function Confirm() {
             <tr className="row" key={order.OrderID}>
               <td className="col-md-2">{order.OrderID}</td>
               <td className="col-md-2">
-                {new Date(order.OrderDate).toLocaleDateString()}
+               {new Date(order.OrderDate).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
               </td>
               <td className="col-md-2">
                 {formatPrice(parseInt(order.TotalAmount))}

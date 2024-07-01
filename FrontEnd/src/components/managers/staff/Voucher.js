@@ -146,7 +146,12 @@ function Voucher() {
     <div className="voucher-container-thinhvcher">
       <div className="voucher-body-thinhvcher">
         {showSuccess && (
-          <div className={`success-message-thinhvcher ${successMessage.includes("Lỗi") ? "error-thinhvcher" : "success-thinhvcher"} success-message-show`}>
+          <div
+            className={`success-message-thinhvcher ${
+              successMessage.includes("Lỗi")
+                ? "error-thinhvcher"
+                : "success-thinhvcher"
+            } success-message-show`}>
             {successMessage}
           </div>
         )}
@@ -234,8 +239,20 @@ function Voucher() {
                   <td>{voucher.DiscountPercentage}%</td>
                   <td>{formatPrice(voucher.MinDiscount)}</td>
                   <td>{formatPrice(voucher.MaxDiscount)}</td>
-                  <td>{new Date(voucher.StartDate).toLocaleDateString()}</td>
-                  <td>{new Date(voucher.ExpiryDate).toLocaleDateString()}</td>
+                  <td>
+                    {new Date(voucher.StartDate).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </td>
+                  <td>
+                    {new Date(voucher.ExpiryDate).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </td>
                   <td>{voucher.Status ? "Active" : "Inactive"}</td>
                   <td>
                     <button onClick={() => handleEditClick(voucher)}>

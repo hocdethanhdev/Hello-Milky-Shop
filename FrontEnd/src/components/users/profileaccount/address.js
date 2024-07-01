@@ -3,6 +3,7 @@ import SidebarProfile from "./sidebarprofile";
 import "./address.css"; // Import the CSS file
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
+import { message } from "antd"; // Import Ant Design message component
 
 function Address() {
   const [addressData, setAddressData] = useState([]);
@@ -81,6 +82,33 @@ function Address() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate inputs
+    if (newAddress.name.length > 50) {
+      message.error("Tên người đặt không vượt quá 50 kí tự.");
+      return;
+    }
+    if (newAddress.phone.length < 11 || newAddress.phone.length > 15) {
+      message.error("Số điện thoại phải lớn hơn 11 và bé hơn 15 kí tự.");
+      return;
+    }
+    if (newAddress.address.length > 150) {
+      message.error("Địa chỉ không vượt quá 150 kí tự.");
+      return;
+    }
+    if (!newAddress.city) {
+      message.error("Vui lòng chọn thành phố.");
+      return;
+    }
+    if (!newAddress.district) {
+      message.error("Vui lòng chọn quận/huyện.");
+      return;
+    }
+    if(!newAddress.address) {
+      message.error("Vui lòng nhập địa chỉ.");
+      return;
+    }
+
     const apiURL = "http://localhost:5000/api/v1/order/addInfoCusToOrder";
 
     try {
@@ -100,14 +128,22 @@ function Address() {
 
       if (response.ok) {
         setShowForm(false);
-        setNewAddress({ name: "", phone: "", address: "", city: "", district: "" });
-        // Optionally, fetch updated address data after adding new address
-        // fetchAddresses();
+        setNewAddress({
+          name: "",
+          phone: "",
+          address: "",
+          city: "",
+          district: "",
+        });
+        // Fetch updated address data after adding a new address
+        fetchAddresses();
+        message.success("Địa chỉ mới đã được lưu thành công!");
       } else {
-        console.error("Failed to add customer info to order");
+        message.error("Thêm địa chỉ thất bại.");
       }
     } catch (error) {
       console.error("Error adding customer info to order:", error);
+      message.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
     }
   };
 
@@ -125,12 +161,30 @@ function Address() {
 
       if (response.ok) {
         // Remove the deleted address from addressData state
-        setAddressData(addressData.filter(address => address.ShippingAddressID !== shippingAddressID));
+        setAddressData(
+          addressData.filter(
+            (address) => address.ShippingAddressID !== shippingAddressID
+          )
+        );
+        message.success("Địa chỉ đã được xóa thành công.");
       } else {
-        console.error("Failed to delete address");
+        message.error("Xóa địa chỉ thất bại.");
       }
     } catch (error) {
       console.error("Error deleting address:", error);
+      message.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    }
+  };
+
+  const fetchAddresses = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/${userId}`
+      );
+      const data = await response.json();
+      setAddressData(data);
+    } catch (error) {
+      console.error("Error fetching address data:", error);
     }
   };
 
@@ -164,8 +218,7 @@ function Address() {
                       padding: "5px",
                       border: "none",
                     }}
-                    onClick={() => handleDelete(address.ShippingAddressID)}
-                  >
+                    onClick={() => handleDelete(address.ShippingAddressID)}>
                     Xóa địa chỉ
                   </button>
                 </td>
@@ -174,8 +227,10 @@ function Address() {
           </tbody>
         </table>
 
-        <button className="button-address" onClick={() => setShowForm(!showForm)}>
-          {showForm ? "Hủy" : "Thêm địa chỉ"}
+        <button
+          className="button-address"
+          onClick={() => setShowForm(!showForm)}>
+          Thêm địa chỉ
         </button>
 
         {showForm && (
@@ -184,8 +239,7 @@ function Address() {
               <button
                 className="close-button-address"
                 type="button"
-                onClick={() => setShowForm(false)}
-              >
+                onClick={() => setShowForm(false)}>
                 ×
               </button>
               <div className="form-group-account">
@@ -196,7 +250,6 @@ function Address() {
                   name="name"
                   value={newAddress.name}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
               <div className="form-group-account">
@@ -207,7 +260,6 @@ function Address() {
                   name="phone"
                   value={newAddress.phone}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
               <div className="form-group-account">
@@ -216,9 +268,7 @@ function Address() {
                   id="newCity"
                   name="city"
                   value={newAddress.city}
-                  onChange={handleCityChange}
-                  required
-                >
+                  onChange={handleCityChange}>
                   <option value="">Chọn thành phố</option>
                   {cities.map((city) => (
                     <option key={city.ID} value={city.ID}>
@@ -234,12 +284,12 @@ function Address() {
                   name="district"
                   value={newAddress.district}
                   onChange={handleInputChange}
-                  required
-                  disabled={!newAddress.city}
-                >
+                  disabled={!newAddress.city}>
                   <option value="">Chọn quận/huyện</option>
                   {districts.map((district) => (
-                    <option key={district.DistrictID} value={district.DistrictID}>
+                    <option
+                      key={district.DistrictID}
+                      value={district.DistrictID}>
                       {district.DistrictName}
                     </option>
                   ))}
@@ -253,7 +303,6 @@ function Address() {
                   name="address"
                   value={newAddress.address}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
 
