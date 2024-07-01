@@ -36,7 +36,9 @@
 .chat-room-list ul li {
   padding: 15px 20px;
   border-bottom: 1px solid #f0f0f0;
-  transition: background-color 0.3s, transform 0.3s;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
 }
 
 .chat-room-list ul li:hover {
@@ -56,4 +58,12 @@
   color: red;
   float: right;
   font-weight: bolder;
+}
+
+.tbao-chat-st-thinh {
+  padding-left: 280px;
+  padding-top: 160px;
+  font-size: 20px;
+  color: rgb(181, 181, 181);
+  font-weight: 500;
 }
