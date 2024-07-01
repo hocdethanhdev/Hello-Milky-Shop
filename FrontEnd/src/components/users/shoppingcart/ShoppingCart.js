@@ -123,8 +123,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       alert(
-        `This voucher requires a minimum purchase of ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -549,7 +548,9 @@ const ShoppingCart = () => {
                       {item.Price.toLocaleString()} đ
                     </p>
                     <div className="quantity-control">
+                      
                       <button
+                        onClick={() => decreseOne(productId)}
                         onMouseDown={() => startDecrement(productId)}
                         onMouseUp={stopDecrement}
                         onMouseLeave={stopDecrement}>
@@ -557,11 +558,13 @@ const ShoppingCart = () => {
                       </button>
                       <span>Số lượng: {quantity}</span>
                       <button
+                        onClick={() => increseOne(productId)}
                         onMouseDown={() => startIncrement(productId)}
                         onMouseUp={stopIncrement}
                         onMouseLeave={stopIncrement}>
                         +
                       </button>
+
                     </div>
                   </div>
                 </div>
