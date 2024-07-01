@@ -10,12 +10,7 @@ const changePassword = async (req, res) => {
   try {
     let obj;
     const { NewPass, OldPass, UserID } = req.body;
-    const hashedOldPass = await authService.hashPassword(OldPass);
-    const checkOldPass = await authService.checkOldPassword(
-      hashedOldPass,
-      UserID
-    );
-    console.log(checkOldPass);
+    const checkOldPass = await authService.checkOldPassword(OldPass, UserID);
     if (checkOldPass.err === 0) {
       const hashedNewPass = await authService.hashPassword(NewPass);
       obj = await authService.changePassword(hashedNewPass, UserID);
