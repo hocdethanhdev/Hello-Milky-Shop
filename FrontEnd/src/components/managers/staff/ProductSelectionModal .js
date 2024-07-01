@@ -119,7 +119,8 @@ const ProductSelectionModal = ({ promotionID, selectedProducts, setSelectedProdu
                     <List.Item>
                         <div className='pro-prom-list-thinh'>
                             <Card
-                                cover={<img alt={item.ProductName} src={item.Image} />}
+                                className={selectedProducts.includes(item.ProductID) ? 'selected-product' : ''}
+                                cover={<img alt={item.ProductName} src={item.Image} className="card-image" />}
                                 actions={[
                                     <Checkbox
                                         checked={selectedProducts.includes(item.ProductID)}
@@ -129,7 +130,6 @@ const ProductSelectionModal = ({ promotionID, selectedProducts, setSelectedProdu
                                     </Checkbox>
                                 ]}
                             >
-
                                 <Tooltip title={item.ProductName}>
                                     <Card.Meta
                                         title={item.ProductName}
@@ -149,7 +149,6 @@ const ProductSelectionModal = ({ promotionID, selectedProducts, setSelectedProdu
                                         }
                                     />
                                 </Tooltip>
-
                             </Card>
                         </div>
                     </List.Item>
