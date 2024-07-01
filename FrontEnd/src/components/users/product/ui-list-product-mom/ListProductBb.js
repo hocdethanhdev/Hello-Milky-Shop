@@ -46,7 +46,9 @@ const ListProductBb = () => {
         "http://localhost:5000/api/v1/product/getAllBrandByCategory/2"
       ); // Replace with your API URL for fetching brands
       const data = await response.json();
-      setBrands(data);
+      if(data.err !== 1){
+        setBrands(data);
+      }
     } catch (error) {
       console.error("Error fetching brands:", error);
     }
