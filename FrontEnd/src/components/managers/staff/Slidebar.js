@@ -224,7 +224,12 @@ function Sidebar() {
           }
           to="/chat-page"
         >
-          <IoChatboxEllipsesOutline width={24} />
+         <img
+              src="https://cdn-icons-png.flaticon.com/128/1370/1370907.png"
+              alt="Chat Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />
           Tư vấn mua hàng
         </NavLink>
       </nav>
