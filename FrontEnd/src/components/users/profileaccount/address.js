@@ -113,7 +113,7 @@ function Address() {
 
   const handleDelete = async (shippingAddressID) => {
     const apiURL = `http://localhost:5000/api/v1/shippingAddress/updateDeleted/${shippingAddressID}`;
-  
+
     try {
       const response = await fetch(apiURL, {
         method: "PUT",
@@ -122,11 +122,10 @@ function Address() {
           Authorization: `Bearer ${token}`,
         },
       });
-  
-      if (response.ok) {  
+
+      if (response.ok) {
         // Remove the deleted address from addressData state
         setAddressData(addressData.filter(address => address.ShippingAddressID !== shippingAddressID));
-  
       } else {
         console.error("Failed to delete address");
       }
@@ -134,7 +133,6 @@ function Address() {
       console.error("Error deleting address:", error);
     }
   };
-  
 
   return (
     <div className="account-container-account-address">
