@@ -63,10 +63,10 @@ function Confirm() {
               prevOrders.map((order) =>
                 order.OrderID === orderID
                   ? {
-                      ...order,
-                      StatusOrderID: [2, 2],
-                      StatusOrderName: "Đã xác nhận",
-                    }
+                    ...order,
+                    StatusOrderID: [2, 2],
+                    StatusOrderName: "Đã xác nhận",
+                  }
                   : order
               )
             );
@@ -172,7 +172,7 @@ function Confirm() {
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
-  
+
   return (
     <div className="confirm-container">
       <table>

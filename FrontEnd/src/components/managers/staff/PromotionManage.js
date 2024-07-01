@@ -79,11 +79,11 @@ function PromotionManage() {
     }
   };
 
-  const handleAddToPromotion = async (productID, promotionID) => {
+  const handleAddToPromotion = async (productIDs, promotionID) => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/promotion/applyPromotionToProduct",
-        { productID, promotionID },
+        { productIDs, promotionID },
         { headers: { "Content-Type": "application/json" } }
       );
     } catch (error) {
