@@ -12,6 +12,7 @@ function ChatWindow({ roomId, onClose }) {
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
   const messagesEndRef = useRef(null);
+  const messageListRef = useRef(null);
 
   useEffect(() => {
     const fetchChatHistory = async () => {
@@ -63,7 +64,9 @@ function ChatWindow({ roomId, onClose }) {
   }, [messages]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messageListRef.current) {
+      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+    }
   };
 
   const handleNewMessage = (msg) => {
@@ -92,8 +95,7 @@ function ChatWindow({ roomId, onClose }) {
         <span>Chat Room</span>
         <button onClick={onClose}>×</button>
       </div>
-      <ul className="message-list-Nhan">
-        <div ref={messagesEndRef} />
+      <ul className="message-list-Nhan" ref={messageListRef}>
 
         {messages.map((msg, index) => (
           <li
@@ -107,6 +109,7 @@ function ChatWindow({ roomId, onClose }) {
             <div className="message-content">{msg.content}</div>
           </li>
         ))}
+        <div ref={messagesEndRef} />
       </ul>
       <form className="input-area-Nhan" onSubmit={handleSubmit}>
         <input
