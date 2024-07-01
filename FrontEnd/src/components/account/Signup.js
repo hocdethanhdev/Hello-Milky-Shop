@@ -44,6 +44,7 @@ function Signup() {
   useEffect(() => {
     onCaptchVerify();
   }, []);
+
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
@@ -55,11 +56,16 @@ function Signup() {
             // No need to call onSignup here, it will be called separately
           },
           "expired-callback": () => {
-            toast.error("Recaptcha expired. Please try again.");
+            toast.error("Recaptcha hết hạn. Hãy thử lại.");
+            // Re-verify captcha when expired
+            window.recaptchaVerifier.clear();
+            onCaptchVerify();
           },
         },
         auth
       );
+    } else {
+      window.recaptchaVerifier.render();
     }
   }
 
@@ -104,16 +110,16 @@ function Signup() {
         window.confirmationResult = confirmationResult;
         setLoading(false);
         setShowOTP(true);
-        toast.success("OTP sent successfully!");
+        toast.success("Gửi OTP thành công.");
       })
       .catch((error) => {
-        console.error("Error sending OTP:", error);
+        console.error("Gửi OTP lỗi:", error);
         setLoading(false);
         setIsSignupAttempted(false);
         if (error.code === "auth/quota-exceeded") {
-          toast.error("Quota exceeded. Please try again later.");
+          toast.error("Quá lượt gửi OTP. Hãy thử lại vào ngày mai.");
         } else {
-          toast.error("Failed to send OTP. Please try again.");
+          toast.error("Gửi OTP thất bại. Hãy thử lại.");
         }
       });
   }
@@ -125,48 +131,49 @@ function Signup() {
       .then(async (res) => {
         setLoading(false);
         setConfirmOTP(true);
-        toast.success("OTP verified successfully!");
-        handleSubmit();
+        toast.success("Xác nhận OTP thành công");
+        // Proceed with signup after OTP is verified
+        await completeSignup();
       })
       .catch((err) => {
-        console.error("Error verifying OTP:", err);
         setLoading(false);
-        toast.error("Failed to verify OTP. Please try again.");
+        toast.error("Xác nhận OTP thất bại. Hãy thử lại.");
       });
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     const newErrors = {};
 
     // Validate name field
     if (!formData.name.trim()) {
-      newErrors.name = "Please enter your name.";
+      newErrors.name = "Hãy nhập tên của bạn.";
     }
 
     // Validate phone number field
     if (!formData.phone.trim()) {
-      newErrors.phone = "Please enter your phone number.";
+      newErrors.phone = "Hãy nhập số điện thoại.";
     } else if (!/^\d{9,11}$/i.test(formData.phone)) {
-      newErrors.phone = "Please enter a valid 10-digit phone number.";
+      newErrors.phone = "Số điện thoại không phù hợp.";
     }
 
     // Validate password field
     if (!formData.password.trim()) {
-      newErrors.password = "Please enter a password.";
+      newErrors.password = "Hãy nhập mật khẩu.";
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long.";
+      newErrors.password = "Mật khẩu phải chứa ít nhất 6 kí tự.";
     }
 
     // Validate confirm password field
     if (!formData.confirmPassword.trim()) {
-      newErrors.confirmPassword = "Please confirm your password.";
+      newErrors.confirmPassword = "Hãy xác nhận mật khẩu.";
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
+      newErrors.confirmPassword = "Mật khẩu xác nhận không khớp.";
     }
 
     // Validate terms accepted
     if (!formData.termsAccepted) {
-      newErrors.termsAccepted = "You must accept the terms of use.";
+      newErrors.termsAccepted =
+        "Hãy đọc và đồng ý với điều khoản của chúng tôi.";
     }
 
     setErrors(newErrors);
@@ -175,6 +182,10 @@ function Signup() {
       return;
     }
 
+    handleSendOTP();
+  };
+
+  const completeSignup = async () => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/auth/register",
@@ -198,13 +209,9 @@ function Signup() {
             `http://localhost:5000/api/v1/auth/loginSuccess?token=${login.data.token}`,
             "_self"
           );
-        } else if (response.data.err === 1) {
-          setMessage("Số điện thoại " + formData.phone + " chưa được đăng kí");
         } else {
-          setMessage("Sai mật khẩu");
+          setMessage("Số điện thoại chưa được đăn kí hoặc sai mật khẩu");
         }
-      } else if (response.data.err === 2) {
-        setMessage("An account with this phone number already exists.");
       }
     } catch (error) {
       console.error(error);
@@ -326,6 +333,7 @@ function Signup() {
                     onOTPVerify();
                   }}
                   disabled={loading}
+                  className="btn btn-success m-4"
                 >
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
@@ -340,7 +348,7 @@ function Signup() {
             className="signup-button"
             type="button"
             onClick={() => {
-              handleSendOTP();
+              handleSubmit();
             }}
           >
             <span className="button-text">Đăng kí</span>
