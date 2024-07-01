@@ -13,37 +13,37 @@
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
-    transition:
-        background-color 0.3s ease,
-        opacity 0.3s ease;
-}
-
-.scroll-to-top-button:hover {
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .scroll-to-top-button:hover {
     opacity: 1;
-}
-
-.scroll-to-top-button i {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+  
+  .scroll-to-top-button i {
     transition: opacity 0.3s ease;
     opacity: 0.7;
-}
-
-.scroll-to-top-button:hover i {
+  }
+  
+  .scroll-to-top-button:hover i {
     opacity: 1;
-}
-
-.address {
+  }
+  
+  .address {
     margin-top: 20px;
- 
-}
-
-.text-footer {
+  }
+  
+  .text-footer {
     text-align: left;
     margin-left: 30px;
-}
-.text-dark {
+  }
+  
+  .text-dark {
     margin-bottom: 15px;
-}
-
-.text-uppercase-1 {
+  }
+  
+  .text-uppercase-1 {
     font-size: 20px;
-}
+  }
+  

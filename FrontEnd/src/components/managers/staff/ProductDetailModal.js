@@ -30,7 +30,7 @@ const ProductDetailModal = ({ product, onClose }) => {
               <strong>Tên:</strong> {product.ProductName}
             </p>
             <p>
-              <strong>mô tả:</strong>{" "}
+              <strong>Mô tả:</strong>{" "}
               <div
                 dangerouslySetInnerHTML={{
                   __html: product.Description.substring(0, 10000),

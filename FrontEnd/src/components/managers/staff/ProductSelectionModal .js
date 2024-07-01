@@ -1,121 +1,160 @@
 import React, { useState, useEffect } from 'react';
+import { Modal, List, Checkbox, Button, Input, Row, Col, Card, Tooltip, Select } from 'antd';
 import axios from 'axios';
+import { SearchOutlined } from '@ant-design/icons';
 import './ProductSelectionModal.css';
+const { Option } = Select;
 
-const ProductSelectionModal = ({ promotionId, selectedProducts, setSelectedProducts, onClose }) => {
+const ProductSelectionModal = ({ promotionID, selectedProducts, setSelectedProducts, onClose }) => {
     const [products, setProducts] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('All');
 
-    useEffect(() => {
-        const fetchProductsAndAppliedProducts = async () => {
-            try {
-                // Fetch all products
-                const productsResponse = await axios.get('http://localhost:5000/api/v1/product/getInfoProductsDetail');
-                setProducts(productsResponse.data);
-                console.log(promotionId);
-                // Fetch applied products IDs
-                const appliedProductsResponse = await axios.get(`http://localhost:5000/api/v1/promotion/getProductsApplyAnPromotion/${promotionId}`);
-                const appliedProductIds = appliedProductsResponse.data.appliedProducts.map(product => product.ProductID);
-                console.log(appliedProductIds);
-                // Set pre-selected products
-                setSelectedProducts(appliedProductIds);
-            } catch (error) {
-                console.error('Error fetching products or applied products:', error);
-            }
-        };
-
-        fetchProductsAndAppliedProducts();
-    }, [promotionId, setSelectedProducts]);
-
-    const handleProductSelection = (productId) => {
-        setSelectedProducts(prevSelectedProducts =>
-            prevSelectedProducts.includes(productId)
-                ? prevSelectedProducts.filter(id => id !== productId)
-                : [...prevSelectedProducts, productId]
-        );
-    };
-
-    const handleSelectAll = () => {
-        const filteredProducts = selectedCategory
-            ? products.filter(product => product.ProductCategoryName === selectedCategory)
-            : products;
-
-        if (selectedProducts.length === filteredProducts.length) {
-            setSelectedProducts([]); // Reset if all are already selected
-        } else {
-            setSelectedProducts(filteredProducts.map(product => product.ProductID));
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/v1/product/getInfoProductsDetail');
+            setProducts(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching products:', error);
         }
     };
 
-    const toggleProductSelection = (productId) => {
-        handleProductSelection(productId);
+    const fetchPromotionProducts = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/v1/promotion/getProductsApplyAnPromotion/${promotionID}`);
+            setSelectedProducts(response.data.result);
+        } catch (error) {
+            console.error('Error fetching promotion products:', error);
+        }
     };
 
-    const filteredProducts = selectedCategory
-        ? products.filter(product => product.ProductCategoryName === selectedCategory)
-        : products;
+    useEffect(() => {
+        fetchProducts();
+        fetchPromotionProducts();
+    }, []);
 
-    const formatPrice = (price) => {
-        return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    const handleCheckboxChange = (productID) => {
+        if (selectedProducts.includes(productID)) {
+            setSelectedProducts(selectedProducts.filter(id => id !== productID));
+        } else {
+            setSelectedProducts([...selectedProducts, productID]);
+        }
     };
+
+    const handleSave = async () => {
+        try {
+            await axios.post(
+                'http://localhost:5000/api/v1/promotion/applyPromotionToProduct',
+                { productIDs: selectedProducts, promotionID },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+            onClose();
+        } catch (error) {
+            console.error('Error adding product to promotion:', error);
+        }
+    };
+
+    const handleSelectAll = () => {
+        if (selectedProducts.length === products.length) {
+            setSelectedProducts([]);
+        } else {
+            setSelectedProducts(products.map(product => product.ProductID));
+        }
+    };
+
+    const filteredProducts = products.filter(product =>
+        (product.ProductName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            product.ProductID.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        (selectedCategory === 'All' || product.ProductCategoryName === selectedCategory)
+    );
 
     return (
-        <div className="modal-product-selection">
-            <div className="modal-content-product-selection">
-                <span className="close-product-selection" onClick={onClose}>&times;</span>
-                <h3>Select Products for Promotion</h3>
-                <div className="filter-container-promotion">
-                    <label>Filter by Category:</label>
-                    <select
+        <Modal
+            visible
+            title="Chọn sản phẩm cho khuyến mãi"
+            onCancel={onClose}
+            footer={null}
+            width={1000}
+        >
+            <Row gutter={[16, 16]} style={{ marginBottom: 16 }} className="sticky-row">
+                <Col span={10}>
+                    <Input
+                        placeholder="Tìm kiếm sản phẩm bằng tên hoặc mã"
+                        prefix={<SearchOutlined />}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </Col>
+                <Col span={6}>
+                    <Select
+                        style={{ width: '100%' }}
+                        placeholder="Filter by category"
                         value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
+                        onChange={(value) => setSelectedCategory(value)}
                     >
-                        <option value="">All Categories</option>
-                        {[...new Set(products.map(product => product.ProductCategoryName))].map((category, index) => (
-                            <option key={index} value={category}>{category}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="product-list-container-tri">
-                    <div className="select-all-container-tri">
-                        <label>Chọn tất cả</label>
-                        <input
-                            type="checkbox"
-                            checked={selectedProducts.length === filteredProducts.length && filteredProducts.length > 0}
-                            onChange={handleSelectAll}
-                        />
-                    </div>
-                    <div className="product-list-promotion">
-                        {filteredProducts.map(product => (
-                            <div key={product.ProductID} className="product-item-promotion-nhan">
-                                <label className="product-clickable">
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedProducts.includes(product.ProductID)}
-                                        onChange={() => handleProductSelection(product.ProductID)}
+                        <Option value="All">Tất cả</Option>
+                        <Option value="Sữa cho mẹ bầu">Sữa cho mẹ bầu</Option>
+                        <Option value="Sữa cho em bé">Sữa cho em bé</Option>
+                    </Select>
+                </Col>
+                <Col span={4}>
+                    <Checkbox
+                        checked={selectedProducts.length === products.length}
+                        onChange={handleSelectAll}
+                    >
+                        Chọn tất cả
+                    </Checkbox>
+                </Col>
+                <Col span={4}>
+                    <Button type="primary" onClick={handleSave} block>Lưu</Button>
+                </Col>
+            </Row>
+            <List
+                loading={loading}
+                grid={{ gutter: 16, column: 4 }}
+                dataSource={filteredProducts}
+                renderItem={item => (
+                    <List.Item>
+                        <div className='pro-prom-list-thinh'>
+                            <Card
+                                className={selectedProducts.includes(item.ProductID) ? 'selected-product' : ''}
+                                cover={<img alt={item.ProductName} src={item.Image} className="card-image" />}
+                                actions={[
+                                    <Checkbox
+                                        checked={selectedProducts.includes(item.ProductID)}
+                                        onChange={() => handleCheckboxChange(item.ProductID)}
+                                    >
+                                        Select
+                                    </Checkbox>
+                                ]}
+                            >
+                                <Tooltip title={item.ProductName}>
+                                    <Card.Meta
+                                        title={item.ProductName}
+                                        description={
+                                            <>
+                                                <p><strong>Giá: </strong> {item.Price}</p>
+                                                <p><strong>Kho: </strong> {item.StockQuantity}</p>
+                                                <p>
+                                                    <strong>HSD: </strong>
+                                                    {new Date(item.ExpirationDate).toLocaleDateString("vi-VN", {
+                                                        day: "2-digit",
+                                                        month: "2-digit",
+                                                        year: "numeric",
+                                                    })}
+                                                </p>
+                                            </>
+                                        }
                                     />
-                                    <div className="product-details">
-                                        <img
-                                            src={product.Image}
-                                            alt={product.ProductName}
-                                            onClick={() => toggleProductSelection(product.ProductID)}
-                                            className={selectedProducts.includes(product.ProductID) ? "selected" : ""}
-                                        />
-                                        <div>
-                                            <p>{product.ProductName}</p>
-                                            <p>{formatPrice(product.Price)}</p>
-                                            <p><strong>Kho:</strong> {product.StockQuantity}</p>
-                                            <p><strong>HSD:</strong> {new Date(product.ExpirationDate).toLocaleDateString()}</p>
-                                        </div>
-                                    </div>
-                                </label>
-                            </div>
-                        ))}
-                    </div>
-                    <button className="save-product-selection" onClick={onClose}>Save</button>
-                </div>
-            </div>
-        </div>
+                                </Tooltip>
+                            </Card>
+                        </div>
+                    </List.Item>
+                )}
+            />
+        </Modal>
     );
 };
 

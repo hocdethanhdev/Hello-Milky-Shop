@@ -11,6 +11,9 @@ const EditProductModal = ({ product, onClose, onSave }) => {
   const editor = useRef(null);
   const modalContentRef = useRef(null);
   const [progress, setProgress] = useState(0);
+  const [errors, setErrors] = useState({});
+  const [expirationDateError, setExpirationDateError] = useState("");
+  const [manufacturingDateError, setManufacturingDateError] = useState("");
 
   useEffect(() => {
     setFormData({ ...product });
@@ -39,8 +42,45 @@ const EditProductModal = ({ product, onClose, onSave }) => {
     setFormData({ ...formData, [fieldName]: date });
   };
 
+  const validateFields = () => {
+    const newErrors = {};
+    if (!formData.ProductName) {
+      newErrors.productName = "Tên sản phẩm không được bỏ trống.";
+    } else if (formData.ProductName.length > 100) {
+      newErrors.productName = "Tên sản phẩm không được quá 100 kí tự.";
+    }
+
+    if (formData.Price === "" || formData.Price < 0) {
+      newErrors.price = "Giá sản phẩm phải lớn hơn 0 và không được bỏ trống.";
+    }
+
+    if (formData.StockQuantity === "") {
+      newErrors.stockQuantity = "Số lượng không được bỏ trống.";
+    }
+
+    if (!formData.BrandName) {
+      newErrors.brandName = "Hãng không được bỏ trống.";
+    }
+
+    if (formData.ExpirationDate < formData.ManufacturingDate) {
+      newErrors.expirationDateError = "Ngày hết hạn không được diễn ra trước ngày sản xuất.";
+    }
+
+    if (formData.ManufacturingDate > formData.ExpirationDate) {
+      newErrors.manufacturingDateError = "Ngày sản xuất không được sau ngày hết hạn.";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!validateFields()) {
+      return;
+    }
 
     const allowedTags = [
       "img",
@@ -89,7 +129,6 @@ const EditProductModal = ({ product, onClose, onSave }) => {
       Description: sanitizedDescription,
     };
     onSave(updatedFormData);
-   
   };
 
   const handleResizeImage = (editor) => {
@@ -237,6 +276,9 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                   value={formData.ProductName}
                   onChange={handleChange}
                 />
+                {errors.productName && (
+                  <p className="error-message">{errors.productName}</p>
+                )}
               </label>
 
               <label>
@@ -247,6 +289,9 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                   value={formData.Price}
                   onChange={handleChange}
                 />
+                {errors.price && (
+                  <p className="error-message">{errors.price}</p>
+                )}
               </label>
               <label>
                 Số lượng:
@@ -256,6 +301,9 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                   value={formData.StockQuantity}
                   onChange={handleChange}
                 />
+                {errors.stockQuantity && (
+                  <p className="error-message">{errors.stockQuantity}</p>
+                )}
               </label>
               <div className="form-group1">
                 <label>Hình ảnh: </label>
@@ -276,17 +324,21 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                   className="form-control"
                   dateFormat="yyyy-MM-dd"
                 />
+                {errors.expirationDateError && (
+                  <p className="error-message">{errors.expirationDateError}</p>
+                )}
               </label>
               <label>
                 NSX:
                 <DatePicker
                   selected={formData.ManufacturingDate}
-                  onChange={(date) =>
-                    handleDateChange(date, "ManufacturingDate")
-                  }
+                  onChange={(date) => handleDateChange(date, "ManufacturingDate")}
                   className="form-control"
                   dateFormat="yyyy-MM-dd"
                 />
+                {errors.manufacturingDateError && (
+                  <p className="error-message">{errors.manufacturingDateError}</p>
+                )}
               </label>
               <label>
                 Hãng:
@@ -296,13 +348,17 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                   value={formData.BrandName}
                   onChange={handleChange}
                 />
+                {errors.brandName && (
+                  <p className="error-message">{errors.brandName}</p>
+                )}
               </label>
               <label>
                 Loại:
                 <select
                   name="ProductCategoryName"
                   value={formData.ProductCategoryName}
-                  onChange={handleChange}>
+                  onChange={handleChange}
+                >
                   <option value="Sữa cho mẹ">Sữa cho mẹ</option>
                   <option value="Sữa cho em bé">Sữa cho em bé</option>
                 </select>

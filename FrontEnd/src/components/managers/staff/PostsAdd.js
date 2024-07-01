@@ -78,7 +78,7 @@ function PostsAdd() {
       navigate("/posts");
       window.scrollTo(0, 0);
 
-      
+
       // Reset form or handle success action
     } catch (error) {
       console.error("Error creating post:", error.response);
@@ -164,87 +164,79 @@ function PostsAdd() {
 
   return (
     <div className="container post-form">
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="title">Tiêu đề:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </div>
+    {errorMessage && <p className="error-message">{errorMessage}</p>}
+    <form onSubmit={handleSubmit}>
+      <div className="row mb-3">
+        <div className="col-md-8"> 
+          <label htmlFor="title">Tiêu đề:</label>
+          <input
+            type="text"
+            className="form-control"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
         </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="header-image">Ảnh đầu trang</label>
-            <input
-              type="file"
-              className="form-control"
-              id="header-image"
-              onChange={handleImageChange}
-              required
-            />
-          </div>
+        <div className="col-md-4 form-control1-container"> 
+          <label htmlFor="article-category-id">Loại bài viết:</label>
+          <select
+            className="form-control1"
+            id="article-category-id"
+            value={articleCategoryID}
+            onChange={(e) => setArticleCategoryID(e.target.value)}
+            required
+          >
+            <option value="" disabled>Chọn loại bài viết</option>
+            <option value="1">Sức Khỏe</option>
+            <option value="2">Tin khuyến mãi</option>
+            <option value="3">Tư vấn mua sắm</option>
+          </select>
+        </div>
+      </div>
+      <div className="row mb-3">
+        <div className="col">
+          <label htmlFor="header-image">Ảnh đầu trang</label>
+          <input
+            type="file"
+            className="form-control2"
+            id="header-image"
+            onChange={handleImageChange}
+          />
+        </div>
+      </div>
+      <div className="row mb-3">
+        <div className="col-md-6">
+          <label htmlFor="publish-date">Ngày công bố</label>
+          <DatePicker
+            selected={publishDate}
+            onChange={(date) => setPublishDate(date)}
+            className="form-control"
+            dateFormat="yyyy-MM-dd"
+          />
         </div>
         {previewImage && (
-          <div className="row mb-3">
-            <div className="col">
-              <img src={previewImage} alt="Preview" className="preview-image" />
-            </div>
+          <div className="col-md-6 preview-image-container">
+            <img src={previewImage} alt="Preview" className="preview-image" />
           </div>
         )}
-        <div className="cuc-cua-ben-post row">
-          <div className="row mb-3 col-md-6">
-            <div className="col day-pub-post">
-              <label htmlFor="publish-date">Ngày công bố</label>
-              <DatePicker
-                selected={publishDate}
-                onChange={(date) => setPublishDate(date)}
-                className="form-control"
-                dateFormat="yyyy-MM-dd"
-              />
-            </div>
-          </div>
-          <div className="row mb-3 col-md-6">
-            <div className="col thinh-khung-hinhh">
-              <label htmlFor="article-category-id">Loại bài viết:</label>
-              <select
-                className="form-control1"
-                id="article-category-id"
-                value={articleCategoryID}
-                onChange={(e) => setArticleCategoryID(e.target.value)}
-                required
-              >
-                <option value="" disabled>Chọn loại bài viết</option>
-                <option value="1">Sức Khỏe</option>
-                <option value="2">Tin khuyến mãi</option>
-                <option value="3">Tư vấn mua sắm</option>
-              </select>
-            </div>
+      </div>
+      <div className="row mb-3">
+        <div className="col">
+          <label htmlFor="content">Nội dung</label>
+          <div className="editor">
+            <JoditEditor
+              ref={editor}
+              config={editorConfig}
+            />
           </div>
         </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="content">Nội dung</label>
-            <div className="editor">
-              <JoditEditor
-                ref={editor}
-                config={editorConfig}
-              />
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" className="btn btn-primary longlam">
-          Create Post
-        </button>
-      </form>
-    </div>
+      </div>
+      <button type="submit" className="btn btn-primary longlam">
+        Create Post
+      </button>
+    </form>
+  </div>
   );
 
 }
