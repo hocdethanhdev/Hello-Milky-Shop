@@ -1,4 +1,3 @@
-/* Popup overlay */
 .popup-add-cart-thinh-cart {
     background: rgba(100, 100, 100, 0.85);
     position: fixed;
@@ -12,8 +11,6 @@
     font-size: 14px;
     color: #222;
 }
-
-/* Popup wrapper */
 .wrapper-popup-cart-thinh-cart {
     border: 1px solid #cacaca;
     position: fixed;
@@ -26,8 +23,6 @@
     top: 50%;
     padding: 15px;
 }
-
-/* Close button */
 .btn-close-cart-thinh-cart {
     float: right;
     width: 30px;
@@ -37,15 +32,11 @@
     right: 5px;
     cursor: pointer;
 }
-
-/* Popup content */
 .popup-cart-thinh-cart {
     background: #fff;
     border-top: 1px solid #eff0f5;
     border-bottom: 1px solid #eff0f5;
 }
-
-/* Product details section */
 .product-details-thinh-cart {
     display: flex;
     align-items: center;
@@ -53,16 +44,12 @@
     padding: 10px;
     border-bottom: 1px solid #e0e0e0;
 }
-
-/* Product image */
 .product-image-thinh-cart {
     width: 25%;
     height: auto;
     display: block;
     margin: 0 auto 10px;
 }
-
-/* Product name */
 .product-name-thinh-cart {
     font-size: 16px;
     font-weight: bold;
@@ -70,29 +57,21 @@
     text-decoration: none;
     margin-bottom: 5px;
 }
-
-/* Product code */
 .product-code-thinh-cart {
     font-size: 12px;
     color: #888;
 }
-
-/* New price */
 .new-price-thinh-cart {
     font-size: 18px;
     font-weight: bold;
     color: #ff5722;
 }
-
-/* Old price */
 .old-price-thinh-cart {
     font-size: 14px;
     text-decoration: line-through;
     color: #888;
     margin-left: 10px;
 }
-
-/* Discount badge */
 .discount-badge-thinh-cart {
     background-color: #ff5722;
     color: #fff;
@@ -102,34 +81,24 @@
     display: inline-block;
     margin-left: 10px;
 }
-
-/* Quantity selector */
 .quantity-selector-thinh-cart {
     display: flex;
     align-items: center;
 }
-
-/* Quantity buttons */
 .quantity-button-thinh-cart {
     border: 1px solid #ccc;
     padding: 5px 10px;
     cursor: pointer;
 }
-
-/* Quantity input */
 .quantity-input-thinh-cart {
     width: 40px;
     text-align: center;
     border: 1px solid #ccc;
     margin: 0 5px;
 }
-
-/* Action buttons */
 .popup-btn-thinh-cart {
     margin-top: 15px;
 }
-
-/* Order now button */
 .btn-order-now-thinh-cart {
     padding: 10px;
     background: #fc6b00;
@@ -140,8 +109,6 @@
     margin-left: 10px;
     cursor: pointer;
 }
-
-/* Go to cart button */
 .btn-go-cart-thinh-cart {
     padding: 8px;
     background: #fff;

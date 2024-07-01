@@ -257,7 +257,7 @@
     justify-content: space-around;
 }
 .hinh_icon {
-    font-size: 36px; /* Make the icon larger */
+    font-size: 36px;
     display: block;
     margin-bottom: 8px;
 }
@@ -284,9 +284,6 @@
     color: #0c93e4;
 }
 
-/* Existing CSS content */
-
-/* Quantity selector */
 .quantity-selector-thinh-cart {
     display: flex;
     align-items: center;
