@@ -158,11 +158,16 @@ const userDAO = {
           .input("OldPass", mssql.VarChar, OldPass)
           .input("UserID", mssql.VarChar, UserID);
         request.query(
-          `SELECT UserID FROM Users WHERE UserID = @UserID AND Password = @OldPass;`,
+          `SELECT Password FROM Users WHERE UserID = @UserID;`,
           (err, res) => {
             if (err) return reject(err);
+
+            const passwordIsValid = bcrypt.compareSync(
+              OldPass,
+              res.recordset[0].Password
+            );
             resolve({
-              err: res.recordset[0] !== null ? 0 : 1
+              err: passwordIsValid ? 0 : 1
             });
           }
         );
