@@ -67,7 +67,7 @@ function StaffChat() {
           {selectedRoom ? (
             <ChatWindow roomId={selectedRoom} userName={selectedUserName} onClose={handleCloseChatWindow} />
           ) : (
-            <div style={{ padding: "20px" }}>Chọn một chat room để bắt đầu trò chuyện</div>
+            <div className="tbao-chat-st-thinh">Chọn khách hàng để tư vấn</div>
           )}
         </div>
       </div>

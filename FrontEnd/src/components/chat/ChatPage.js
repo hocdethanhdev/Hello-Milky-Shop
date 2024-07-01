@@ -116,7 +116,7 @@ function ChatWindow({ roomId, userName, onClose }) {
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
         />
-        <button type="submit">Send</button>
+        <button type="submit">Gửi</button>
       </form>
     </div>
   );

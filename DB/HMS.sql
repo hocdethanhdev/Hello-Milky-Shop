@@ -62,7 +62,7 @@ go
 CREATE TABLE Product (
 ProductID varchar(6) NOT NULL, 
 ProductName nvarchar(100) NULL, 
-Description nvarchar(3000) NULL, 
+Description nvarchar(4000) NULL, 
 Price int NULL, 
 StockQuantity int NULL, 
 Image varchar(255) NULL, 
