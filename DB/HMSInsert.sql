@@ -1,9 +1,5 @@
 use HelloMilkyShop
 go
-delete from Chat
-select * from Chat
-select * from Message
-
 INSERT INTO Role VALUES ('Admin'), ('Staff'), ('Member'), ('Shipper')
 go
 INSERT INTO ArticleCategory VALUES (N'Sức Khỏe'), (N'Tin khuyến mãi'), (N'Tư vấn mua sắm')
