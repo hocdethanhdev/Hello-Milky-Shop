@@ -265,6 +265,7 @@ Content-Type: application/json
     "promotionName": "Summer Sale Updated",
     "description": "Updated discount for summer season",
     "discountPercentage": 24,
+    "image": "",
     "startDate": "2024-06-01",
     "endDate": "2024-08-31"
 }
@@ -573,7 +574,7 @@ GET http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest
 Content-Type: application/json
 
 {
-    "UserID": "M0000001"
+    "UserID": "M0000002"
 }
 ### sua thong tin user
 PUT http://localhost:5000/api/v1/user/updateInforUser

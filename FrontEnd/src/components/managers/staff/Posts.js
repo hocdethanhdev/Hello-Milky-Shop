@@ -117,16 +117,31 @@ function Posts() {
             {currentArticles.map((article) => (
               <tr key={article.ArticleID}>
                 <td>{article.Title}</td>
+                <td>
+                  <img
+                    src={article.HeaderImage}
+                    alt="Header Image"
+                    style={{ width: "100px" }}
+                  />
+                </td>
                 <td>{new Date(article.PublishDate).toLocaleDateString()}</td>
                 <td>
-                  <button className='btn btn-warning' onClick={() => handleEditClick(article.ArticleID)}>Sửa</button>
-                  <button className='btn btn-danger' onClick={() => handleDeleteClick(article.ArticleID)}>Xóa</button>
+                  <button
+                    className="btn btn-warning"
+                    onClick={() => handleEditClick(article.ArticleID)}>
+                    Sửa
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDeleteClick(article.ArticleID)}>
+                    Xóa
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <div className='pagination-container'>
+        <div className="pagination-container">
           <ThrowPage
             current={currentPage}
             onChange={handlePageChange}

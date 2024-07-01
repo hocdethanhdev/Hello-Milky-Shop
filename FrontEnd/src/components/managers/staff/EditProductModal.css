@@ -78,6 +78,10 @@ button[type="submit"]:hover {
 }
 .status-display-thinh {
   font-weight: normal;
+  border: 1px solid #888;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
 }
 .modal-thinhprostedit {
   position: fixed;
