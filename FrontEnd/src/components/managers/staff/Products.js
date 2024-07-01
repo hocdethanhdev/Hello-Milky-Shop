@@ -177,6 +177,7 @@ const Products = () => {
             p.ProductID === product.ProductID ? updatedProduct : p
           )
         );
+        console.log(data);
         message.success("Trạng thái sản phẩm đã được cập nhật!");
         fetchInforProductDetail();
       })
