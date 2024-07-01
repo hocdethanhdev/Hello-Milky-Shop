@@ -1,6 +1,9 @@
 const chatRepository = require("../repository/chatRepository")
 
 const chatService = {
+  getChatUnseen: async (ChatRoom) => {
+    return chatRepository.getChatUnseen(ChatRoom);
+  },
   getAllMessageByChatRoom: async (ChatRoom) => {
     return chatRepository.getAllMessageByChatRoom(ChatRoom);
   },

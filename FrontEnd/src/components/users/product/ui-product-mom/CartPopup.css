@@ -164,10 +164,9 @@
     color: #007bff;
     border-radius: 4px;
     text-transform: uppercase;
-    float: left;
+    float: right;
     cursor: pointer;
     text-decoration: none;
-    margin-left: 420px;
 }
 .btn-go-cart-thinh-cart1:hover {
     background-color: #007bff;
