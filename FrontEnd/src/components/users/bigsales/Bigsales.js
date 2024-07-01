@@ -84,7 +84,17 @@ function Bigsales() {
             <div className="tgkm-promo night">
               Thời gian khuyến mại:{" "}
               <b>
-                {promo.startDate} - {promo.endDate}
+                {new Date(promo.startDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}{" "}
+                -{" "}
+                {new Date(promo.endDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </b>
             </div>
             <div className="promo-description">
@@ -96,7 +106,6 @@ function Bigsales() {
       <div className="content-tri">
         <div className="contentPro">
           <div className="box_product" id="id920">
-
             <di>
               <div
                 className="box_product_header"
@@ -104,8 +113,7 @@ function Bigsales() {
                   background: "url() no-repeat center",
                   backgroundRepeat: "repeat-y",
                   backgroundColor: "#0f7fc1",
-                }}
-              >
+                }}>
                 <span className="box_product_textHead">
                   Những sản phẩm khuyến mãi đang chờ bạn
                 </span>
@@ -114,10 +122,8 @@ function Bigsales() {
             <div
               className="listProduct"
               id="danhsach920"
-              data-url="/Desktop/PromotionDetail/ListProduct?pageType=km&danhsachId=920&size=8"
-            >
+              data-url="/Desktop/PromotionDetail/ListProduct?pageType=km&danhsachId=920&size=8">
               <div className="bx-wrapper" style={{ width: "100%" }}>
-
                 <div className="bx-viewport">
                   {products.map((product) => (
                     <div className="item_product" key={product.id}>
@@ -135,8 +141,7 @@ function Bigsales() {
                           <a
                             href={`/product/${product.id}`}
                             title={product.name}
-                            target="_blank"
-                          >
+                            target="_blank">
                             {product.name}
                           </a>
                           <span className="barCode">Mã SP: {product.id}</span>

@@ -5,20 +5,20 @@ import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import SidebarProfile from "./sidebarprofile";
+import { message } from "antd";
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const [userId, setUserId] = useState(""); // Set this to the actual user ID
-  const [message, setMessage] = useState("");
+  const [userId, setUserId] = useState("");
 
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
   const { token } = useSelector((state) => state.auth);
-  
+
   useEffect(() => {
     setUserId(getUserIdFromToken(token));
   }, [token]);
@@ -27,40 +27,41 @@ function ChangePassword() {
     e.preventDefault();
 
     if (newPassword !== confirmNewPassword) {
-      setMessage("Mật khẩu mới và xác nhận mật khẩu không khớp.");
+      message.error("Mật khẩu mới và xác nhận mật khẩu không khớp.");
       return;
     }
+
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/v1/auth/changePassword",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            UserID: userId,
-            OldPass: oldPassword,
-            NewPass: newPassword,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:5000/api/v1/auth/changePassword", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          UserID: userId,
+          OldPass: oldPassword,
+          NewPass: newPassword,
+        }),
+      });
       const data = await response.json();
-      if (data.err === 1) {
-        setMessage("Đổi mật khẩu thất bại.");
-        return;
+      
+    
+
+      if (data.err === 0) {
+        message.success("Đổi mật khẩu thành công!");
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmNewPassword("");
+      } else {
+        message.error(data.msg || "Mật khẩu cũ không đúng. Vui lòng nhập lại");
       }
-      setMessage("Đổi mật khẩu thành công!");
-      setOldPassword("");
-      setNewPassword("");
-      setConfirmNewPassword("");
     } catch (error) {
       console.error("Error:", error);
-      setMessage("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+      message.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
     }
   };
 
-  const toggleShowPassword = (type, setShowPassword) => {
+  const toggleShowPassword = (setShowPassword) => {
     setShowPassword((prev) => !prev);
   };
 
@@ -82,6 +83,11 @@ function ChangePassword() {
                 onChange={(e) => setOldPassword(e.target.value)}
                 required
               />
+              <FontAwesomeIcon
+                icon={faEye}
+                className="password-toggle"
+                onClick={() => toggleShowPassword(setShowOldPassword)}
+              />
             </div>
           </div>
           <div className="password-input">
@@ -97,7 +103,7 @@ function ChangePassword() {
               <FontAwesomeIcon
                 icon={faEye}
                 className="password-toggle"
-                onClick={() => toggleShowPassword("new", setShowNewPassword)}
+                onClick={() => toggleShowPassword(setShowNewPassword)}
               />
             </div>
           </div>
@@ -114,9 +120,7 @@ function ChangePassword() {
               <FontAwesomeIcon
                 icon={faEye}
                 className="password-toggle"
-                onClick={() =>
-                  toggleShowPassword("confirm", setShowConfirmNewPassword)
-                }
+                onClick={() => toggleShowPassword(setShowConfirmNewPassword)}
               />
             </div>
           </div>
@@ -124,7 +128,6 @@ function ChangePassword() {
             <button type="submit">Đổi mật khẩu</button>
           </div>
         </form>
-        {message && <p>{message}</p>}
       </div>
     </div>
   );

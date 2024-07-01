@@ -45,11 +45,19 @@ const ProductDetailModal = ({ product, onClose }) => {
             </p>
             <p>
               <strong>HSD:</strong>{" "}
-              {new Date(product.ExpirationDate).toLocaleDateString()}
+              {new Date(product.ExpirationDate).toLocaleDateString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
             </p>
             <p>
               <strong>NSX:</strong>{" "}
-              {new Date(product.ManufacturingDate).toLocaleDateString()}
+              {new Date(product.ManufacturingDate).toLocaleDateString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
             </p>
             <p>
               <strong>Hãng:</strong> {product.BrandName}

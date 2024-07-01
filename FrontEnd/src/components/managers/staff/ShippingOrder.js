@@ -97,7 +97,11 @@ function ShippingOrder() {
             <tr className="row" key={order.OrderID}>
               <td className="col-md-2">{order.OrderID}</td>
               <td className="col-md-2">
-                {new Date(order.OrderDate).toLocaleDateString()}
+                {new Date(order.OrderDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </td>
               <td className="col-md-2">
                 {formatPrice(parseInt(order.TotalAmount))}
@@ -148,7 +152,11 @@ function ShippingOrder() {
                       <strong>Ngày đặt hàng:</strong>
                     </td>
                     <td>
-                      {new Date(selectedOrder.OrderDate).toLocaleString()}
+                      {new Date(selectedOrder.OrderDate).toLocaleDateString("vi-VN", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
                     </td>
                   </tr>
                   <tr>

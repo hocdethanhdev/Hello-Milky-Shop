@@ -123,8 +123,7 @@ function PromotionManage() {
         <select
           className="filter-dropdown-promotion"
           value={filterType}
-          onChange={handleFilterChange}
-        >
+          onChange={handleFilterChange}>
           <option value="all">Tất cả</option>
           <option value="active">Còn hạn</option>
           <option value="expired">Hết hạn</option>
@@ -163,23 +162,29 @@ function PromotionManage() {
               <td className="promo-td">{promotion.Description}</td>
               <td className="promo-td">{promotion.DiscountPercentage}%</td>
               <td className="promo-td">
-                {new Date(promotion.StartDate).toLocaleDateString()}
+                {new Date(promotion.StartDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </td>
               <td className="promo-td">
-                {new Date(promotion.EndDate).toLocaleDateString()}
+                {new Date(promotion.EndDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </td>
               <td className="promo-td">
                 <div className="promo-buttons">
                   <button
                     className="promo-button promo-button-edit"
-                    onClick={() => handleEdit(promotion)}
-                  >
+                    onClick={() => handleEdit(promotion)}>
                     Sửa
                   </button>
                   <button
                     className="promo-button promo-button-delete"
-                    onClick={() => handleDelete(promotion.PromotionID)}
-                  >
+                    onClick={() => handleDelete(promotion.PromotionID)}>
                     Xóa
                   </button>
                 </div>
@@ -207,8 +212,7 @@ function PromotionManage() {
         title="Xác nhận xóa khuyến mãi"
         visible={deleteModalVisible}
         onOk={confirmDelete}
-        onCancel={handleCancelDelete}
-      >
+        onCancel={handleCancelDelete}>
         <p>Bạn có chắc chắn muốn xóa khuyến mãi này?</p>
       </Modal>
     </div>
@@ -229,24 +233,21 @@ const ThrowPage = ({ current, onChange, total, itemsPerPage }) => {
       <button
         className="page-button"
         disabled={current === 1}
-        onClick={() => handleClick(current - 1)}
-      >
+        onClick={() => handleClick(current - 1)}>
         &lt;
       </button>
       {[...Array(totalPages)].map((_, index) => (
         <button
           key={index}
           className={`page-button ${current === index + 1 ? "active" : ""}`}
-          onClick={() => handleClick(index + 1)}
-        >
+          onClick={() => handleClick(index + 1)}>
           {index + 1}
         </button>
       ))}
       <button
         className="page-button"
         disabled={current === totalPages}
-        onClick={() => handleClick(current + 1)}
-      >
+        onClick={() => handleClick(current + 1)}>
         &gt;
       </button>
     </div>
