@@ -53,6 +53,13 @@
 .chat-window-container {
   flex: 1;
 }
+
+.notify-chat{
+  color: red;
+  float: right;
+  font-weight: bolder;
+}
+
 .tbao-chat-st-thinh {
   padding-left: 280px;
   padding-top: 160px;
