@@ -51,3 +51,9 @@
 .chat-window-container {
   flex: 1;
 }
+
+.notify-chat{
+  color: red;
+  float: right;
+  font-weight: bolder;
+}
