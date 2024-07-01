@@ -1,0 +1,23 @@
+.staff-chat-container {
+    display: flex;
+    height: 96%;
+    margin: 20px 20px 0px 0px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+  }
+  
+  .chat-room-list {
+    width: 30%;
+    background-color: #f0f0f0;
+  }
+  
+  .chat-window-and-rooms {
+    flex: 1;
+    display: flex;
+  }
+  
+  .chat-window-container {
+    flex: 1;
+  }
+  

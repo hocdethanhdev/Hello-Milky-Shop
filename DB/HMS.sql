@@ -23,16 +23,15 @@ RoleID int foreign key references Role(RoleID) default 3,
 PRIMARY KEY (UserID));
 go
 CREATE TABLE Chat (
-ChatID int IDENTITY NOT NULL,  
-MemberID varchar(8) foreign key references Users(UserID),
-StaffID varchar(8) foreign key references Users(UserID), 
-PRIMARY KEY (ChatID));
+ChatRoom varchar(8)
+PRIMARY KEY (ChatRoom));
 go
 create table Message (
 MessageID int IDENTITY NOT NULL,
 Message nvarchar(750),
-TimeStamp date default getdate(),
-ChatID int foreign key references Chat(ChatID)
+UserID varchar(8) foreign key references Users(UserID) not null,
+TimeStamp datetime default SYSDATETIME(),
+ChatRoom varchar(8) foreign key references Chat(ChatRoom)
 )
 go
 CREATE TABLE ArticleCategory (

@@ -585,3 +585,14 @@ Content-Type: application/json
     "Email": "123@mail",
     "UserName": "SWP"
 }
+
+### get all chat
+GET http://localhost:5000/api/v1/chat/getAllChatRoom
+
+### get message by chatroom
+POST http://localhost:5000/api/v1/chat/getAllMessageByChatRoom
+Content-Type: application/json
+
+{
+    "ChatRoom": "M0000001"
+}

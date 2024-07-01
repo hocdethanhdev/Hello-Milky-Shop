@@ -2,6 +2,7 @@ const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 const Order = require("../bo/order");
 const ShippingAddress = require("../bo/shippingAddress");
+const { data } = require("jquery");
 
 const orderDAO = {
   countOrdersPayed: () => {
@@ -97,7 +98,10 @@ const orderDAO = {
           (err, res) => {
             if (err) reject(err);
 
-            resolve(res.recordset);
+            resolve({
+              err: res.recordset[0] !== null ? 0 :1,
+              data: res.recordset ?? null
+            });
           }
         );
       });
