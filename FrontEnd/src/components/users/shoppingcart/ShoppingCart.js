@@ -121,8 +121,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       alert(
-        `This voucher requires a minimum purchase of ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -556,21 +555,37 @@ const ShoppingCart = () => {
                       {item.Price.toLocaleString()} đ
                     </p>
                     <div className="quantity-control">
-                      <button
+                      {/* <button
                         onMouseDown={() => startDecrement(productId)}
                         onMouseUp={stopDecrement}
                         onMouseLeave={stopDecrement}
+                        onClick={decreseOne}
                       >
+                        -
+                      </button> */}
+                      <button
+                        onClick={() => decreseOne(productId)}
+                        onMouseDown={() => startDecrement(productId)}
+                        onMouseUp={stopDecrement}
+                        onMouseLeave={stopDecrement}>
                         -
                       </button>
                       <span>Số lượng: {quantity}</span>
                       <button
+                        onClick={() => increseOne(productId)}
+                        onMouseDown={() => startIncrement(productId)}
+                        onMouseUp={stopIncrement}
+                        onMouseLeave={stopIncrement}>
+                        +
+                      </button>
+                      {/* <button
                         onMouseDown={() => startIncrement(productId)}
                         onMouseUp={stopIncrement}
                         onMouseLeave={stopIncrement}
+                        onClick={increseOne}
                       >
                         +
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>
