@@ -87,6 +87,7 @@ const promotionDAO = {
       promotionObject.promotionName,
       promotionObject.description,
       promotionObject.discountPercentage,
+      promotionObject.image,
       promotionObject.startDate,
       promotionObject.endDate
     );
@@ -96,9 +97,8 @@ const promotionDAO = {
         if (err) return reject(err);
 
         const request = new mssql.Request();
-
         // Kiểm tra ngày bắt đầu và ngày kết thúc
-        if (new Date(promotion.startDate) > new Date(promotion.endDate)) {
+        if (new Date(promotionObject.startDate) > new Date(promotionObject.endDate)) {
           return reject({
             status: 400,
             message: "Start date cannot be later than end date",
@@ -109,11 +109,8 @@ const promotionDAO = {
           .input("promotionID", promotionID)
           .input("promotionName", mssql.VarChar, promotionObject.promotionName)
           .input("description", mssql.VarChar, promotionObject.description)
-          .input(
-            "discountPercentage",
-            mssql.Float,
-            promotionObject.discountPercentage
-          )
+          .input("discountPercentage", mssql.Float, promotionObject.discountPercentage)
+          .input("image", mssql.VarChar, promotionObject.image)
           .input("startDate", mssql.DateTime, promotionObject.startDate)
           .input("endDate", mssql.DateTime, promotionObject.endDate);
 
@@ -123,6 +120,7 @@ const promotionDAO = {
                         PromotionName = @promotionName,
                         Description = @description,
                         DiscountPercentage = @discountPercentage,
+                        Image = @image,
                         StartDate = @startDate,
                         EndDate = @endDate
                     WHERE PromotionID = @promotionID
