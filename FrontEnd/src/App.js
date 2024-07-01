@@ -57,6 +57,7 @@ import CancelOrder from "./components/managers/staff/CancelOrder";
 import ShippingOrder from "./components/managers/staff/ShippingOrder";
 import DoneOrder from "./components/managers/staff/DoneOrder";
 import EditArticletModal from "./components/managers/staff/EditArticleModal";
+import ChatPage from "./components/managers/staff/ChatStaff";
 
 function App() {
   const { role } = useSelector((state) => state.auth);
@@ -69,6 +70,7 @@ function App() {
         <div className="content flex-grow-1">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/chat-page" element={<ChatPage />} />
             <Route path="/voucher-staff" element={<Voucher />} />
             <Route path="/report" element={<Report />} />
             <Route path="/posts" element={<Posts />} />
@@ -83,8 +85,14 @@ function App() {
             <Route path="/cancel-order" element={<CancelOrder />} />
             <Route path="/order-in-transit" element={<ShippingOrder />} />
             <Route path="/completed-order" element={<DoneOrder />} />
-            <Route path="/edit-article/:articleID" element={<EditArticletModal />} />
-            <Route path="/respondedFeedback" element={<AnsweredFeedbackManage />} />
+            <Route
+              path="/edit-article/:articleID"
+              element={<EditArticletModal />}
+            />
+            <Route
+              path="/respondedFeedback"
+              element={<AnsweredFeedbackManage />}
+            />
           </Routes>
         </div>
       </div>
@@ -161,10 +169,10 @@ function App() {
         {role === 1
           ? adminRoutes
           : role === 2
-            ? staffRoutes
-            : role === 4
-              ? shipperRoutes
-              : defaultRoutes}
+          ? staffRoutes
+          : role === 4
+          ? shipperRoutes
+          : defaultRoutes}
 
         <Footer />
       </Router>

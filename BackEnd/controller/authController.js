@@ -2,23 +2,29 @@ const authService = require("../service/authService");
 const passport = require("passport");
 const User = require("../bo/user");
 const jwt = require("jsonwebtoken");
+const chatService = require("../service/chatService");
+const userService = require("../service/userService");
+const { stringify } = require("qs");
 
 const changePassword = async (req, res) => {
   try {
     let obj;
     const { NewPass, OldPass, UserID } = req.body;
     const hashedOldPass = await authService.hashPassword(OldPass);
-    const checkOldPass = await authService.checkOldPassword(hashedOldPass, UserID);
-    if (checkOldPass.status){
+    const checkOldPass = await authService.checkOldPassword(
+      hashedOldPass,
+      UserID
+    );
+    console.log(checkOldPass);
+    if (checkOldPass.err === 0) {
       const hashedNewPass = await authService.hashPassword(NewPass);
       obj = await authService.changePassword(hashedNewPass, UserID);
-    }else {
+    } else {
       return res.status(400).send({ message: "Old password is incorrect" });
     }
-    
     res.send(obj);
   } catch (error) {
-    console.error("Error in forgetPassword controller:", error);
+    console.error("Error in changePassword controller:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -49,6 +55,16 @@ const checkPhoneNumber = async (req, res) => {
 const login = async (req, res) => {
   try {
     const obj = await authService.login(req.body);
+    if (obj.err === 0) {
+      const user = await userService.getUserByPhoneNumber(req.body.PhoneNumber);
+      const userId = user.data.UserID;
+      if (userId.startsWith("M")) {
+        const chat = await chatService.findRoom(userId);
+        if (chat.err === 1) {
+          await chatService.createChat(userId);
+        }
+      }
+    }
     res.send(obj);
   } catch (error) {
     console.error("Error while logging in:", error);
@@ -100,6 +116,16 @@ const loginEmail = async (req, res) => {
         message: "Missing input",
       });
     const obj = await authService.loginEmail(email);
+    if (obj.err === 0) {
+      const user = await userService.getUserByEmail(email);
+      const userId = user.data.UserID;
+      if (userId.startsWith("M")) {
+        const chat = await chatService.findRoom(userId);
+        if (chat.err === 1) {
+          await chatService.createChat(userId);
+        }
+      }
+    }
     res.status(200).json(obj);
   } catch (error) {
     res.status(500).json({

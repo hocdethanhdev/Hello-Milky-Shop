@@ -1,0 +1,94 @@
+/* ChatPage.css */
+
+.chat-window-Nhan {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.chat-header-Nhan {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #4a90e2;
+  color: #fff;
+  border-radius: 8px 8px 0 0;
+}
+
+.chat-header-Nhan span {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.chat-header-Nhan button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.message-list-Nhan {
+    flex: 1;
+    list-style: none;
+    padding: 15px;
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+    max-height: 70vh;
+  }
+  
+
+.message-list-Nhan li {
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  max-width: 60%;
+  word-wrap: break-word;
+}
+
+.message-list-own-Nhan {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.message-list-other-Nhan {
+  align-self: flex-start;
+  background-color: #e1e1e1;
+  color: #333;
+}
+
+.input-area-Nhan {
+  display: flex;
+  padding: 10px 15px;
+  background-color: #f1f1f1;
+  border-radius: 0 0 8px 8px;
+}
+
+.input-area-Nhan input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin-right: 10px;
+  outline: none;
+}
+
+.input-area-Nhan button {
+  padding: 10px 15px;
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.input-area-Nhan button:hover {
+  background-color: #357ab8;
+}

@@ -8,6 +8,7 @@ import Combo1 from "./Combo1.js";
 import Combo2 from "./Combo2.js";
 import VoucherStore from "./VoucherStore.js";
 import Menu from "./Menu.js";
+import ChatBubble from "../../chat/ChatBubble.js"; // Import ChatBubbleWithWindow component
 import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 
@@ -35,10 +36,12 @@ function Product1() {
 
           <div className="col-md-9 tri">
             <div className="main_slide">
-
               <Slider {...sliderSettings}>
                 <div className="box_slider">
-                  <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fsua-optimum-gold-moi.jpg?alt=media&token=4be1e516-7011-4205-891e-7e0ab65f1f1e" alt="Banner 1" />
+                  <img
+                    src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fsua-optimum-gold-moi.jpg?alt=media&token=4be1e516-7011-4205-891e-7e0ab65f1f1e"
+                    alt="Banner 1"
+                  />
                 </div>
                 <div className="box_slider">
                   <img src="/banner2.jpg" alt="Banner 2" />
@@ -53,23 +56,26 @@ function Product1() {
               <div className="clear" />
             </div>
           </div>
+          {isLoggedIn && (
+            <div className="chat-box">
+              <ChatBubble />
+            </div>
+          )}
         </div>
       </div>
 
       {/* Giá sốc hôm nay */}
       <Giasoc />
 
-      {/* Voucher (only if logged in) */}
+      {/* Hiển thị voucher nếu đã đăng nhập */}
       {isLoggedIn && (
         <div className="voucher_section">
           <VoucherStore />
         </div>
       )}
 
-      {/* PRODUCT 3 */}
+      {/* Combo sản phẩm */}
       <Combo1 />
-
-      {/* COMBO DÀNH CHO BÉ */}
       <Combo2 />
     </section>
   );

@@ -1,17 +1,21 @@
-const chatRepository = require('../repository/chatRepository');
-const Chat = require('../models/Chat');
+const chatRepository = require("../repository/chatRepository")
 
-const createChat = async (memberId, staffId) => {
-  const newChat = new Chat(null, memberId, staffId);
-  return chatRepository.createChat(newChat);
-};
-
-const getChatsByMemberId = async (memberId) => {
-  return chatRepository.getChatsByMemberId(memberId);
-};
-
-const getChatsByStaffId = async (staffId) => {
-  return chatRepository.getChatsByStaffId(staffId);
+const chatService = {
+  getAllMessageByChatRoom: async (ChatRoom) => {
+    return chatRepository.getAllMessageByChatRoom(ChatRoom);
+  },
+  saveMessage: async (Message, UserID, ChatRoom) => {
+    return chatRepository.saveMessage(Message, UserID, ChatRoom);
+  },
+  createChat: async (memberId) => {
+    return chatRepository.createChat(memberId);
+  },
+  findRoom: async (memberId) => {
+    return chatRepository.findRoom(memberId);
+  },
+  getAllChatRoom: async () => {
+    return chatRepository.getAllChatRoom();
+  },
 };
 
 module.exports = chatService;
