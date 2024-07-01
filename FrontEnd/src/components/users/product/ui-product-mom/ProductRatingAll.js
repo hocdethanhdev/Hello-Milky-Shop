@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ProductRatingAll.css";
 
-const ProductRatingAll = ({ productId, ratings }) => { // Nhận ratings từ props
+const ProductRatingAll = ({ productId, ratings }) => {
   const [visibleCount, setVisibleCount] = useState(2);
   const [sortOrder, setSortOrder] = useState("newest");
   const [filterStars, setFilterStars] = useState(null);
@@ -66,17 +66,15 @@ const ProductRatingAll = ({ productId, ratings }) => { // Nhận ratings từ pr
         </div>
         <div className="rating-filters-thinhrt">
           <button
-            className={`filter-btn-thinhrt ${
-              sortOrder === "newest" ? "active" : ""
-            }`}
+            className={`filter-btn-thinhrt ${sortOrder === "newest" ? "active" : ""
+              }`}
             onClick={() => handleSort("newest")}
           >
             Mới nhất
           </button>
           <button
-            className={`filter-btn-thinhrt ${
-              sortOrder === "oldest" ? "active" : ""
-            }`}
+            className={`filter-btn-thinhrt ${sortOrder === "oldest" ? "active" : ""
+              }`}
             onClick={() => handleSort("oldest")}
           >
             Cũ nhất
@@ -86,9 +84,8 @@ const ProductRatingAll = ({ productId, ratings }) => { // Nhận ratings từ pr
           {[5, 4, 3, 2, 1].map((star) => (
             <button
               key={star}
-              className={`star-filter-thinhrt ${
-                filterStars === star ? "active" : ""
-              }`}
+              className={`star-filter-thinhrt ${filterStars === star ? "active" : ""
+                }`}
               onClick={() => handleFilter(star)}
             >
               {star} &#9733;

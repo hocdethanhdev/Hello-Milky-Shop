@@ -47,7 +47,7 @@ const RelatedProducts = ({ product }) => {
 
     const handleProductClick = (productId) => {
         navigate(`/product/${productId}`);
-        window.scrollTo(0, 0); // Scroll to the top of the page
+        window.scrollTo(0, 0);
     };
 
     if (loading) return <div>Loading...</div>;
