@@ -45,7 +45,9 @@ const ListProductMom = () => {
         "http://localhost:5000/api/v1/product/getAllBrandByCategory/1"
       );
       const data = await response.json();
-      setBrands(data);
+      if(data.err !== 1){
+        setBrands(data);
+      }
     } catch (error) {
       console.error("Error fetching brands:", error);
     }
