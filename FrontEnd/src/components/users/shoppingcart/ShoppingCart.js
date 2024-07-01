@@ -39,6 +39,47 @@ const ShoppingCart = () => {
   const [incrementIntervalId, setIncrementIntervalId] = useState(null);
   const [decrementIntervalId, setDecrementIntervalId] = useState(null);
 
+
+  const increaseOne = async (productId) => {
+
+    // Fetch the maximum quantity for the product
+    const maxQuantity = await getMaxQuantity(productId);
+
+    setProductQuantities((prevQuantities) => {
+      const currentQuantity = prevQuantities[productId] || 0;
+
+      // Check if current quantity is already at max
+      if (currentQuantity >= maxQuantity) {
+        return prevQuantities; // Return unchanged quantities
+      }
+
+      // Increase quantity by 1
+      const newQuantity = currentQuantity + 1;
+
+      return {
+        ...prevQuantities,
+        [productId]: newQuantity,
+      };
+    });
+  };
+
+  const decreaseOne = (productId) => {
+
+    setProductQuantities((prevQuantities) => {
+      const newQuantity = (prevQuantities[productId] || 1) - 1;
+
+      if (newQuantity < 1) {
+        setProductToRemove(productId);
+        return prevQuantities;
+      }
+
+      return {
+        ...prevQuantities,
+        [productId]: newQuantity,
+      };
+    });
+  };
+
   const startIncrement = async (productId) => {
     stopDecrement(); // Stop decrement if it's running
 
@@ -548,9 +589,8 @@ const ShoppingCart = () => {
                       {item.Price.toLocaleString()} đ
                     </p>
                     <div className="quantity-control">
-                      
                       <button
-                        onClick={() => decreseOne(productId)}
+                        onClick={() => decreaseOne(productId)}
                         onMouseDown={() => startDecrement(productId)}
                         onMouseUp={stopDecrement}
                         onMouseLeave={stopDecrement}>
@@ -558,7 +598,7 @@ const ShoppingCart = () => {
                       </button>
                       <span>Số lượng: {quantity}</span>
                       <button
-                        onClick={() => increseOne(productId)}
+                        onClick={() => increaseOne(productId)}
                         onMouseDown={() => startIncrement(productId)}
                         onMouseUp={stopIncrement}
                         onMouseLeave={stopIncrement}>
