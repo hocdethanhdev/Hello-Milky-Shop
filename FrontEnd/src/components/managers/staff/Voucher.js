@@ -6,8 +6,8 @@ import EditVoucherModal from "./EditVoucherModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort, faFilter } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
-
-const { confirm } = Modal;
+import DeleteConfirmationPopupForVoucher from "./DeleteConfirmationPopupForVoucher";
+import { message, Modal } from "antd";
 
 function Voucher() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +21,8 @@ function Voucher() {
   const [successMessage, setSuccessMessage] = useState("");
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false); // State for delete confirmation popup
+  const [deleteVoucherId, setDeleteVoucherId] = useState(null); // Track voucher ID to delete
 
   useEffect(() => {
     fetchVouchers();
@@ -54,6 +56,11 @@ function Voucher() {
   };
 
   const handleDelete = (voucherID) => {
+    setDeleteVoucherId(voucherID);
+    setShowDeletePopup(true); // Show delete confirmation popup
+  };
+
+  const confirmDelete = (voucherID) => {
     fetch(`http://localhost:5000/api/v1/voucher/deleteVoucher/${voucherID}`, {
       method: "PUT",
     })
@@ -69,7 +76,14 @@ function Voucher() {
       })
       .catch((error) => {
         message.error("Lỗi khi xóa voucher: " + error.message);
+      })
+      .finally(() => {
+        setShowDeletePopup(false); // Hide delete confirmation popup
       });
+  };
+
+  const cancelDelete = () => {
+    setShowDeletePopup(false); // Hide delete confirmation popup
   };
 
   const handleEditClick = (voucher) => {
@@ -95,9 +109,11 @@ function Voucher() {
       })
       .then((data) => {
         message.success("Voucher đã được cập nhật thành công!");
+        message.success("Voucher đã được cập nhật thành công!");
         fetchVouchers();
       })
       .catch((error) => {
+        message.error("Lỗi khi cập nhật voucher: " + error.message);
         message.error("Lỗi khi cập nhật voucher: " + error.message);
       });
   };
@@ -256,6 +272,13 @@ function Voucher() {
           voucher={selectedVoucherForEdit}
           onClose={() => setSelectedVoucherForEdit(null)}
           onSave={handleSaveVoucher}
+        />
+      )}
+      {showDeletePopup && (
+        <DeleteConfirmationPopupForVoucher
+          visible={showDeletePopup}
+          onConfirm={() => confirmDelete(deleteVoucherId)}
+          onCancel={cancelDelete}
         />
       )}
     </div>
