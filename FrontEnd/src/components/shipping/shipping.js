@@ -49,8 +49,6 @@ function Shipping() {
           statusOrderID: 4,
         }
       );
-
-      // Update the local state to reflect the changes
       setOrders(orders.filter((order) => order.OrderID !== confirmingOrderId));
       setModalVisible(false);
     } catch (error) {
