@@ -278,7 +278,6 @@ const ProductAdd = () => {
             onChange={(e) => setProductCategoryName(e.target.value)}
             required>
             <option value="Sữa cho em bé">Sữa cho em bé</option>
-            <option value="Sữa tăng cân">Sữa tăng cân</option>
             <option value="Sữa cho mẹ bầu">Sữa cho mẹ bầu</option>
           </select>
         </div>
