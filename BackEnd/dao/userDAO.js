@@ -8,6 +8,50 @@ const passport = require("passport");
 const UserID = "a";
 
 const userDAO = {
+  getUserByEmail: (Email) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request().input(
+          "Email",
+          mssql.VarChar,
+          Email
+        );
+        request.query(
+          `SELECT * FROM Users WHERE Email = @Email;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.recordset[0] !== null ? 0 : 1,
+              data: res.recordset[0] ?? null,
+            });
+          }
+        );
+      });
+    });
+  },
+  getUserByPhoneNumber: (PhoneNumber) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+        const request = new mssql.Request().input(
+          "PhoneNumber",
+          mssql.VarChar,
+          PhoneNumber
+        );
+        request.query(
+          `SELECT * FROM Users WHERE PhoneNumber = @PhoneNumber;`,
+          (err, res) => {
+            if (err) return reject(err);
+            resolve({
+              err: res.recordset[0] !== null ? 0 : 1,
+              data: res.recordset[0] ?? null,
+            });
+          }
+        );
+      });
+    });
+  },
   updateInforUser: (UserID, UserName, Email, PhoneNumber) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -118,9 +162,8 @@ const userDAO = {
           (err, res) => {
             if (err) return reject(err);
             resolve({
-              status: res?.recordset[0] !== null ? true : false,
+              err: res.recordset[0] !== null ? 0 : 1
             });
-            mssql.close();
           }
         );
       });

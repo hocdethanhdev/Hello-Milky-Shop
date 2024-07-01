@@ -3,6 +3,8 @@ import { NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+
 
 function Sidebar() {
   const [dropDown, setDropDown] = useState(false);
@@ -204,7 +206,7 @@ function Sidebar() {
             to="/respondedFeedback"
           >
             <img
-              src="https://cdn-icons-png.flaticon.com/128/8013/8013078.png"
+              src="https://cdn-icons-png.flaticon.com/128/1370/1370907.png"
               alt="Responded Feedback Icon"
               style={{ width: "24px" }}
               className="icon-staff-slidebar"
@@ -212,6 +214,24 @@ function Sidebar() {
             Đã phản hồi
           </NavLink>
         </div>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ||
+              location.pathname.includes("/posts") ||
+              location.pathname.includes("/addingpost")
+              ? "active-st-thinh"
+              : ""
+          }
+          to="/chat-page"
+        >
+         <img
+              src="https://cdn-icons-png.flaticon.com/128/1370/1370907.png"
+              alt="Chat Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />
+          Tư vấn mua hàng
+        </NavLink>
       </nav>
     </div>
   );

@@ -40,7 +40,7 @@ function Dashboard() {
 
     fetch("http://localhost:5000/api/v1/order/countOrdersIn7Days")
       .then((response) => response.json())
-      .then((data) => setOrdersIn7Days(data));
+      .then((data) => setOrdersIn7Days(data.data));
   }, []);
 
   // Data for the pie chart
