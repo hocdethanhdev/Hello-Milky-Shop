@@ -40,7 +40,7 @@ const fetchProducts = async () => {
     const data = await response.json();
     if (data.productsWithPromotion === null) {
       throw new Error("Failed to fetch products");
-    } // Debugging log
+    }
     return data.productsWithPromotion.map((product) => ({
       id: product.ProductID,
       name: product.ProductName,
@@ -153,11 +153,9 @@ function Bigsales() {
                           <span className="moneyText">
                             {formatPrice(product.priceAf)}đ
                           </span>
-                          {/* Assuming there is an original price, we can show the discounted price */}
                           <span className="moneyText2">
                             {formatPrice(product.price)}đ
                           </span>{" "}
-                          {/* Placeholder for original price */}
                         </div>
                       </div>
                       <span className="discount">

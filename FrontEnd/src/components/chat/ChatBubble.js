@@ -8,7 +8,7 @@ const { getUserIdFromToken } = require("../store/actions/authAction");
 function ChatBubble({ onClick }) {
   return (
     <div className="chat-bubble" onClick={onClick}>
-      Tư vấn
+      <span class="fas fa-comments icon-chat-buble"></span>
     </div>
   );
 }

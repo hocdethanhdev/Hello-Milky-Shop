@@ -49,27 +49,19 @@ function SignupSt() {
 
   const handleSubmit = async (e) => {
     const newErrors = {};
-
-    // Validate name field
     if (!formData.name.trim()) {
       newErrors.name = "Please enter your name.";
     }
-
-    // Validate phone number field
     if (!formData.phone.trim()) {
       newErrors.phone = "Please enter your phone number.";
     } else if (!/^\d{9,11}$/i.test(formData.phone)) {
       newErrors.phone = "Please enter a valid 10-digit phone number.";
     }
-
-    // Validate password field
     if (!formData.password.trim()) {
       newErrors.password = "Please enter a password.";
     } else if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters long.";
     }
-
-    // Validate confirm password field
     if (!formData.confirmPassword.trim()) {
       newErrors.confirmPassword = "Please confirm your password.";
     } else if (formData.password !== formData.confirmPassword) {

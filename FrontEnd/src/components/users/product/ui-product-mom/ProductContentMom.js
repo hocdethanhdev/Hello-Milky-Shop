@@ -17,7 +17,7 @@ const ProductContentMom = ({ product }) => {
     const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const [availableStock, setAvailableStock] = useState(product.StockQuantity);
-    const [ratingData, setRatingData] = useState({ avg: 0, count: 0 }); // State for rating data
+    const [ratingData, setRatingData] = useState({ avg: 0, count: 0 });
     const navigate = useNavigate();
     const incrementRef = useRef(null);
     const decrementRef = useRef(null);
@@ -27,7 +27,7 @@ const ProductContentMom = ({ product }) => {
             try {
                 const response = await axios.get(`http://localhost:5000/api/v1/comment/countRatingAndAvgRating/${product.ProductID}`);
                 setRatingData({
-                    avg: parseFloat(response.data.avg.toFixed(1)), // Round to 1 decimal place
+                    avg: parseFloat(response.data.avg.toFixed(1)),
                     count: response.data.count
                 });
             } catch (error) {
@@ -73,9 +73,8 @@ const ProductContentMom = ({ product }) => {
         }
     };
 
-    // Handle holding buttons for continuous increment/decrement
     const startIncrement = () => {
-        stopIncrement(); // Stop any existing interval to prevent multiple intervals
+        stopIncrement();
         incrementRef.current = setInterval(() => {
             setQuantity(prevQuantity => Math.min(prevQuantity + 1, availableStock));
         }, 100);
@@ -90,7 +89,7 @@ const ProductContentMom = ({ product }) => {
     };
 
     const startDecrement = () => {
-        stopDecrement(); // Stop any existing interval to prevent multiple intervals
+        stopDecrement();
         decrementRef.current = setInterval(() => {
             setQuantity(prevQuantity => Math.max(prevQuantity - 1, 1));
         }, 100);

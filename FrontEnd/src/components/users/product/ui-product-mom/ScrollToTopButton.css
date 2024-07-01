@@ -3,7 +3,7 @@
     bottom: 20px;
     right: 20px;
     cursor: pointer;
-    display: none; /* Ẩn nút mặc định */
+    display: none;
 }
 
 .btn-scrollTop img {
