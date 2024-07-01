@@ -109,6 +109,7 @@ function Posts() {
               <th onClick={handleSort} style={{ cursor: "pointer" }}>
                 Tiêu đề <FontAwesomeIcon icon={faSort} />
               </th>
+              <th>Ảnh</th>
               <th>Ngày công bố</th>
               <th>Thao tác</th>
             </tr>

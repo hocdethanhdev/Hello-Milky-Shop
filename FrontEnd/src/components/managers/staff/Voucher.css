@@ -4,11 +4,6 @@
 .voucher-container-thinhvcher {
   margin-top: 20px;
 }
-.voucher-list-thinhvcher button {
-  border: none;
-  display: inherit;
-  background-color: white;
-}
 .voucher-header-thinhvcher {
   background-color: #007bff;
   color: white;
@@ -67,29 +62,6 @@
   color: black;
 }
 
-.voucher-list-thinhvcher td button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 18px; /* Adjust padding as needed */
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 5px;
-}
-
-.voucher-list-thinhvcher td button:hover {
-  background-color: #0056b3; /* Màu xanh nhạt khi hover vào nút Edit */
-}
-
-.voucher-list-thinhvcher td button:nth-child(2) {
-  background-color: #dc3545; /* Màu đỏ cho nút Delete */
-  color: white;
-}
-
-.voucher-list-thinhvcher td button:nth-child(2):hover {
-  background-color: #c82333; /* Màu đỏ nhạt khi hover vào nút Delete */
-}
-
 .voucher-list-thinhvcher td {
   padding: 12px;
   border: 1px solid #ddd;
@@ -100,14 +72,9 @@
   white-space: nowrap; /* Prevent text wrapping */
 }
 
-.voucher-list-thinhvcher td button:hover {
-  background-color: #0056b3;
-}
-
-.haha button{
+.haha button {
   color: white;
 }
-
 
 /* Dropdown */
 .filter-dropdown-thinhvcher {
@@ -275,7 +242,6 @@
   margin-top: 30px;
 }
 
-
 /* Voucher.css */
 
 .success-message-thinhvcher {
@@ -318,4 +284,8 @@
     transform: translateX(-50%) translateY(0);
     opacity: 1;
   }
+}
+.sort-vch-thinh {
+  border: none;
+  background-color: white;
 }

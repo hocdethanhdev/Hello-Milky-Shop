@@ -1,38 +1,24 @@
-const { Passport } = require("passport");
-const userDAO = require("../dao/userDAO");
 const authRepository = require("../repository/authRepository");
 const bcrypt = require("bcryptjs");
 
 const changePassword = async (Password, UserID) => {
   const user = await authRepository.changePassword(Password, UserID);
-  if (user.err) {
-    return { err: user.err };
-  }
   return user;
 };
 
 const checkOldPassword = async (OldPass, UserID) => {
   const user = await authRepository.checkOldPassword(OldPass, UserID);
-  if (user.err) {
-    return { err: user.err };
-  }
   return user;
 };
 
 const checkPhoneNumber = async (PhoneNumber) => {
   const user = await authRepository.checkPhoneNumber(PhoneNumber);
-  if (user.err) {
-    return { err: user.err };
-  }
   return user;
 };
 
 const forgetPassword = async (Password, UserID) => {
   try {
     const user = await authRepository.forgetPassword(Password, UserID);
-    if (user.err) {
-      return { err: user.err };
-    }
     return user;
   } catch (error) {
     console.error("Error in forgetPassword service:", error);

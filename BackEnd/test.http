@@ -597,3 +597,11 @@ Content-Type: application/json
 {
     "ChatRoom": "M0000001"
 }
+
+### get tin nhắn chưa đọc
+POST http://localhost:5000/api/v1/chat/getChatUnseen
+Content-Type: application/json
+
+{
+    "ChatRoom": "M0000001"
+}

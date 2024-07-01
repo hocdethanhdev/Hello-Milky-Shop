@@ -20,6 +20,7 @@ import PromotionManage from "./components/managers/staff/PromotionManage";
 import AddPromotion from "./components/managers/staff/AddPromotion";
 import FeedbackManage from "./components/managers/staff/FeedbackManage";
 import AnsweredFeedbackManage from "./components/managers/staff/AnsweredFeedbackManage";
+import EditArticletModal from "./components/managers/staff/EditArticleModal";
 // Admin Components (if needed)
 import MainDash from "./components/managers/admin/MainDash";
 import MangageAdmin from "./components/managers/admin/ManageAdmin";
@@ -56,7 +57,6 @@ import Shipping from "./components/shipping/shipping";
 import CancelOrder from "./components/managers/staff/CancelOrder";
 import ShippingOrder from "./components/managers/staff/ShippingOrder";
 import DoneOrder from "./components/managers/staff/DoneOrder";
-import EditArticletModal from "./components/managers/staff/EditArticleModal";
 import ChatPage from "./components/managers/staff/ChatStaff";
 
 function App() {
@@ -169,10 +169,10 @@ function App() {
         {role === 1
           ? adminRoutes
           : role === 2
-          ? staffRoutes
-          : role === 4
-          ? shipperRoutes
-          : defaultRoutes}
+            ? staffRoutes
+            : role === 4
+              ? shipperRoutes
+              : defaultRoutes}
 
         <Footer />
       </Router>

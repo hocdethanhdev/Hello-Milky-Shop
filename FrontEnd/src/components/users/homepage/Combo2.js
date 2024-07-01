@@ -9,13 +9,11 @@ function Combo2() {
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/product/getTop6MilkForBaby")
       .then((response) => response.json())
-      .then((data) => setProducts(data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-  useEffect(() => {
-    fetch("http://localhost:5000/api/v1/product/getTop6MilkForBaby")
-      .then((response) => response.json())
-      .then((data) => setProducts(data))
+      .then((data) => {
+        if(data.err !== "Not found"){
+          setProducts(data);
+        }
+      })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 

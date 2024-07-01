@@ -212,7 +212,7 @@ function PostsAdd() {
             selected={publishDate}
             onChange={(date) => setPublishDate(date)}
             className="form-control"
-            dateFormat="yyyy-MM-dd"
+            dateFormat="dd-MM-yyyy"
           />
         </div>
         {previewImage && (

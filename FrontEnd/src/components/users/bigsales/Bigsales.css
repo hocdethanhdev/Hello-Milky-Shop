@@ -1,4 +1,3 @@
-/* Bigsales.css */
 .box-banner {
   width: 100%;
   margin: 0 auto;
@@ -108,8 +107,8 @@
 }
 
 .percent {
-  position: absolute; /* Add this */
-  right: 10px; /* Adjust as needed */
+  position: absolute;
+  right: 10px;
   background-color: #ff0000;
   color: #fff;
   padding: 5px;
@@ -120,21 +119,21 @@
 
 .slick-prev:before,
 .slick-next:before {
-  color: rgb(13, 122, 231); /* Change arrow color */
+  color: rgb(13, 122, 231);
 }
 
 .slick-prev {
-  left: -25px; /* Adjust Prev button position */
+  left: -25px;
   z-index: 1;
 }
 
 .slick-next {
-  right: -25px; /* Adjust Next button position */
+  right: -25px;
   z-index: 1;
 }
 
 .box-banner {
-  position: relative; /* Ensure box-banner has relative position for proper button alignment */
+  position: relative;
 }
 
 .slick-arrow {
@@ -151,9 +150,6 @@
   transform: translateY(-50%);
 }
 
-/* sản phẩm */
-
-/* Banner */
 .banner-giasoc {
   margin: 20px auto;
 }
@@ -164,7 +160,6 @@
   height: auto;
 }
 
-/* Content */
 .content-tri {
   max-width: 1200px;
   margin: 0 auto;
@@ -177,7 +172,6 @@
   justify-content: center;
 }
 
-/* Box Product */
 .box_product {
   width: 100%;
   margin-bottom: 30px;
@@ -197,7 +191,6 @@
   text-decoration: none;
 }
 
-/* List Product */
 .listProduct {
   display: flex;
   flex-wrap: wrap;
@@ -208,7 +201,6 @@
   border-radius: 0 0 5px 5px;
 }
 
-/* Item Product */
 .item_product {
   position: relative;
   border: 1px solid #e0e0e0;
@@ -253,7 +245,6 @@
   border-radius: 3px;
 }
 
-/* Product Detail */
 .item_product_detail {
   text-align: left;
 }
@@ -294,7 +285,6 @@
   font-size: 14px;
 }
 
-/* Clear and Responsive */
 .clear {
   clear: both;
 }
@@ -311,7 +301,6 @@
   }
 }
 
-/* Additional Styles */
 .bx-wrapper {
   width: 100% !important;
 }
