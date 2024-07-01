@@ -107,8 +107,8 @@ const promotionDAO = {
 
         request
           .input("promotionID", promotionID)
-          .input("promotionName", mssql.VarChar, promotionObject.promotionName)
-          .input("description", mssql.VarChar, promotionObject.description)
+          .input("promotionName", mssql.NVarChar, promotionObject.promotionName)
+          .input("description", mssql.NVarChar, promotionObject.description)
           .input("discountPercentage", mssql.Float, promotionObject.discountPercentage)
           .input("image", mssql.VarChar, promotionObject.image)
           .input("startDate", mssql.DateTime, promotionObject.startDate)
