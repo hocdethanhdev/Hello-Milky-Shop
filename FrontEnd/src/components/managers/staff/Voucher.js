@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./Voucher.css";
 import { Link } from "react-router-dom";
-import { Modal, message, Button } from "antd";
 import EditVoucherModal from "./EditVoucherModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort, faFilter } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
-
-const { confirm } = Modal;
+import DeleteConfirmationPopupForVoucher from "./DeleteConfirmationPopupForVoucher";
+import { message, Modal } from "antd";
 
 function Voucher() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +20,8 @@ function Voucher() {
   const [successMessage, setSuccessMessage] = useState("");
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false); // State for delete confirmation popup
+  const [deleteVoucherId, setDeleteVoucherId] = useState(null); // Track voucher ID to delete
 
   useEffect(() => {
     fetchVouchers();
@@ -41,19 +42,12 @@ function Voucher() {
     setSortConfig({ key, direction });
   };
 
-  const showDeleteConfirm = (voucherID) => {
-    confirm({
-      title: "Bạn có chắc chắn muốn xóa voucher này không?",
-      okText: "Có",
-      okType: "danger",
-      cancelText: "Không",
-      onOk() {
-        handleDelete(voucherID);
-      },
-    });
+  const handleDelete = (voucherID) => {
+    setDeleteVoucherId(voucherID);
+    setShowDeletePopup(true); // Show delete confirmation popup
   };
 
-  const handleDelete = (voucherID) => {
+  const confirmDelete = (voucherID) => {
     fetch(`http://localhost:5000/api/v1/voucher/deleteVoucher/${voucherID}`, {
       method: "PUT",
     })
@@ -69,7 +63,14 @@ function Voucher() {
       })
       .catch((error) => {
         message.error("Lỗi khi xóa voucher: " + error.message);
+      })
+      .finally(() => {
+        setShowDeletePopup(false); // Hide delete confirmation popup
       });
+  };
+
+  const cancelDelete = () => {
+    setShowDeletePopup(false); // Hide delete confirmation popup
   };
 
   const handleEditClick = (voucher) => {
@@ -130,15 +131,22 @@ function Voucher() {
     return statusFilter === "active" ? voucher.Status : !voucher.Status;
   });
 
+  useEffect(() => {
+    if (successMessage) {
+      setShowSuccess(true);
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+        setSuccessMessage("");
+      }, 3000); // Hides the success message after 3 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
+
   return (
     <div className="voucher-container-thinhvcher">
       <div className="voucher-body-thinhvcher">
         {showSuccess && (
-          <div
-            className={`success-message-thinhvcher ${
-              successMessage.includes("Lỗi") ? "error-thinhvcher" : "success-thinhvcher"
-            } success-message-show`}
-          >
+          <div className={`success-message-thinhvcher ${successMessage.includes("Lỗi") ? "error-thinhvcher" : "success-thinhvcher"} success-message-show`}>
             {successMessage}
           </div>
         )}
@@ -201,7 +209,7 @@ function Voucher() {
                     Trạng thái
                     {showStatusDropdown && (
                       <ul className="dropdown-content-thinhvcher">
-                        <li onClick={() => handleStatusFilter("All")}>Tất cả</li>
+                        <li onClick={() => handleStatusFilter("All")}>All</li>
                         <li onClick={() => handleStatusFilter("active")}>
                           Khả dụng
                         </li>
@@ -230,12 +238,12 @@ function Voucher() {
                   <td>{new Date(voucher.ExpiryDate).toLocaleDateString()}</td>
                   <td>{voucher.Status ? "Active" : "Inactive"}</td>
                   <td>
-                    <Button className="hihi" onClick={() => handleEditClick(voucher)}>
+                    <button onClick={() => handleEditClick(voucher)}>
                       Sửa
-                    </Button>
-                    <Button  className="haha" danger onClick={() => showDeleteConfirm(voucher.VoucherID)}>
+                    </button>
+                    <button onClick={() => handleDelete(voucher.VoucherID)}>
                       Xóa
-                    </Button>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -256,6 +264,13 @@ function Voucher() {
           voucher={selectedVoucherForEdit}
           onClose={() => setSelectedVoucherForEdit(null)}
           onSave={handleSaveVoucher}
+        />
+      )}
+      {showDeletePopup && (
+        <DeleteConfirmationPopupForVoucher
+          visible={showDeletePopup}
+          onConfirm={() => confirmDelete(deleteVoucherId)}
+          onCancel={cancelDelete}
         />
       )}
     </div>
