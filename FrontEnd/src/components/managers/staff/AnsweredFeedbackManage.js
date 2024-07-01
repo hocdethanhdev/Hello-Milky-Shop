@@ -8,17 +8,16 @@ import Notification from "../../users/product/ui-product-mom/Notification";
 const AnsweredFeedbackManage = () => {
     const [comments, setComments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalComments, setTotalComments] = useState(0);
-    const commentsPerPage = 10;
+    const commentsPerPage = 5;
 
     useEffect(() => {
         fetchComments();
-    }, [currentPage]);
+    }, []);
 
     const fetchComments = async () => {
         try {
             const response = await fetch(
-                `http://localhost:5000/api/v1/comment/getAnsweredComments?page=${currentPage}&limit=${commentsPerPage}`
+                `http://localhost:5000/api/v1/comment/getAnsweredComments`
             );
             if (!response.ok) {
                 throw new Error("Failed to fetch comments");
@@ -27,12 +26,11 @@ const AnsweredFeedbackManage = () => {
             if (!Array.isArray(data.data)) {
                 throw new Error("Comments data is not an array");
             }
-            setComments(data.data); // access the 'data' property
-            setTotalComments(data.data.length);
+            const sortedComments = data.data.sort((a, b) => b.CommentID - a.CommentID);
+            setComments(sortedComments);
         } catch (error) {
             console.error("Error fetching comments:", error);
             setComments([]);
-            setTotalComments(0);
         }
     };
 
@@ -40,18 +38,20 @@ const AnsweredFeedbackManage = () => {
         setCurrentPage(page);
     };
 
+    const paginatedComments = comments.slice((currentPage - 1) * commentsPerPage, currentPage * commentsPerPage);
+
     return (
         <div className="feedback-manage-thinh-cmt">
             <div className="comments-section-thinh-cmt">
-                {comments.map((comment) => (
+                {paginatedComments.map((comment) => (
                     <Comment key={comment.CommentID} comment={comment} />
                 ))}
                 <div className="chuyen-trang-fb">
-                    <ThrowPage
+                    <Pagination
                         current={currentPage}
                         onChange={handlePageChange}
-                        total={totalComments}
-                        productsPerPage={commentsPerPage}
+                        total={comments.length}
+                        pageSize={commentsPerPage}
                     />
                 </div>
             </div>
@@ -149,22 +149,6 @@ const Comment = ({ comment }) => {
                 )}
             </div>
         </div>
-    );
-};
-
-const ThrowPage = ({ current, onChange, total, productsPerPage }) => {
-    const handlePageChange = (page) => {
-        window.scrollTo(0, 0);
-        onChange(page);
-    };
-
-    return (
-        <Pagination
-            current={current}
-            onChange={handlePageChange}
-            total={total}
-            pageSize={productsPerPage}
-        />
     );
 };
 

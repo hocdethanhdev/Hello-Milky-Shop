@@ -107,15 +107,15 @@ const promotionDAO = {
 
         request
           .input("promotionID", promotionID)
-          .input("promotionName", mssql.VarChar, promotion.promotionName)
-          .input("description", mssql.VarChar, promotion.description)
+          .input("promotionName", mssql.VarChar, promotionObject.promotionName)
+          .input("description", mssql.VarChar, promotionObject.description)
           .input(
             "discountPercentage",
             mssql.Float,
-            promotion.discountPercentage
+            promotionObject.discountPercentage
           )
-          .input("startDate", mssql.DateTime, promotion.startDate)
-          .input("endDate", mssql.DateTime, promotion.endDate);
+          .input("startDate", mssql.DateTime, promotionObject.startDate)
+          .input("endDate", mssql.DateTime, promotionObject.endDate);
 
         const updateQuery = `
                     UPDATE Promotion
@@ -178,7 +178,11 @@ const promotionDAO = {
 
         request.query(productsInPromotionQuery, (err, result) => {
           if (err) return reject(err);
-          resolve(result.recordset);
+
+          // Map through the recordset to extract ProductID values into an array
+          const productIDs = result.recordset.map(row => row.ProductID);
+
+          resolve(productIDs); // Resolve with the array of ProductIDs
         });
       });
     });
