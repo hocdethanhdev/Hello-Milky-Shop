@@ -210,8 +210,10 @@ function Signup() {
             "_self"
           );
         } else {
-          setMessage("Số điện thoại chưa được đăn kí hoặc sai mật khẩu");
+          setMessage("Số điện thoại chưa được đăng kí hoặc sai mật khẩu");
         }
+      }else {
+        setMessage("Số điện thoại đã được đăng kí");
       }
     } catch (error) {
       console.error(error);
