@@ -7,7 +7,7 @@ import { faSort, faFilter } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import DeleteConfirmationPopupForVoucher from "./DeleteConfirmationPopupForVoucher";
 import { message, Modal } from "antd";
-
+import VoucherDetailModal from "./VoucherDetailModal";
 function Voucher() {
   const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = (page) => {
@@ -22,7 +22,7 @@ function Voucher() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false); // State for delete confirmation popup
   const [deleteVoucherId, setDeleteVoucherId] = useState(null); // Track voucher ID to delete
-
+  const [selectedVoucher, setSelectedVoucher] = useState(null);
   useEffect(() => {
     fetchVouchers();
   }, []);
@@ -76,7 +76,13 @@ function Voucher() {
   const handleEditClick = (voucher) => {
     setSelectedVoucherForEdit(voucher);
   };
+  const handleDetailClick = (voucher) => {
+    setSelectedVoucher(voucher);
+  };
 
+  const handleCloseModal = () => {
+    setSelectedVoucher(null);
+  };
   const handleSaveVoucher = (updatedVoucher) => {
     fetch(
       `http://localhost:5000/api/v1/voucher/updateVoucher/${updatedVoucher.VoucherID}`,
@@ -167,49 +173,41 @@ function Voucher() {
           <table>
             <thead>
               <tr>
-                <th>
+                <th className="col-md-2">
                   Tên Voucher
-                  <button className='sort-vch-thinh' onClick={() => handleSort("VoucherName")}>
+                  <button
+                    className="sort-vch-thinh"
+                    onClick={() => handleSort("VoucherName")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
-                <th>
+                <th className="col-md-2">
                   Số lượng
-                  <button className='sort-vch-thinh' onClick={() => handleSort("Quantity")}>
+                  <button
+                    className="sort-vch-thinh"
+                    onClick={() => handleSort("Quantity")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
-                <th>
+                <th className="col-md-2">
                   Phần trăm giảm giá
-                  <button className='sort-vch-thinh' onClick={() => handleSort("DiscountPercentage")}>
+                  <button
+                    className="sort-vch-thinh"
+                    onClick={() => handleSort("DiscountPercentage")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
-                <th>
-                  Tối thiểu
-                  <button className='sort-vch-thinh' onClick={() => handleSort("MinDiscount")}>
-                    <FontAwesomeIcon icon={faSort} />
-                  </button>
-                </th>
-                <th>
-                  Tối đa
-                  <button className='sort-vch-thinh' onClick={() => handleSort("MaxDiscount")}>
-                    <FontAwesomeIcon icon={faSort} />
-                  </button>
-                </th>
-                <th>
+
+                <th className="col-md-2">
                   Ngày bắt đầu
-                  <button className='sort-vch-thinh' onClick={() => handleSort("StartDate")}>
+                  <button
+                    className="sort-vch-thinh"
+                    onClick={() => handleSort("StartDate")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
-                <th>
-                  Ngày kết thúc
-                  <button className='sort-vch-thinh' onClick={() => handleSort("ExpiryDate")}>
-                    <FontAwesomeIcon icon={faSort} />
-                  </button>
-                </th>
-                <th>
+
+                <th className="col-md-2">
                   <div className="filter-dropdown-thinhvcher">
                     Trạng thái
                     {showStatusDropdown && (
@@ -224,7 +222,9 @@ function Voucher() {
                       </ul>
                     )}
                   </div>
-                  <button className='sort-vch-thinh' onClick={toggleStatusDropdown}>
+                  <button
+                    className="sort-vch-thinh"
+                    onClick={toggleStatusDropdown}>
                     <FontAwesomeIcon icon={faFilter} />
                   </button>
                 </th>
@@ -237,8 +237,6 @@ function Voucher() {
                   <td>{voucher.VoucherName}</td>
                   <td>{voucher.Quantity}</td>
                   <td>{voucher.DiscountPercentage}%</td>
-                  <td>{formatPrice(voucher.MinDiscount)}</td>
-                  <td>{formatPrice(voucher.MaxDiscount)}</td>
                   <td>
                     {new Date(voucher.StartDate).toLocaleDateString("vi-VN", {
                       day: "2-digit",
@@ -246,21 +244,26 @@ function Voucher() {
                       year: "numeric",
                     })}
                   </td>
-                  <td>
-                    {new Date(voucher.ExpiryDate).toLocaleDateString("vi-VN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
-                  </td>
                   <td>{voucher.Status ? "Active" : "Inactive"}</td>
                   <td>
-                    <button className='btn btn-warning edit-vch-bt' onClick={() => handleEditClick(voucher)}>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onClick={() => handleDetailClick(voucher)}>
+                      Xem
+                    </button>
+                    <button
+                      className="btn btn-warning edit-vch-bt"
+                      onClick={() => handleEditClick(voucher)}>
                       Sửa
                     </button>
-                    <button className='btn btn-danger' onClick={() => handleDelete(voucher.VoucherID)}>
-                      Xóa
-                    </button>
+                    {voucher.Status && ( // Render delete button only if voucher is active
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleDelete(voucher.VoucherID)}>
+                        Xóa
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -288,6 +291,12 @@ function Voucher() {
           visible={showDeletePopup}
           onConfirm={() => confirmDelete(deleteVoucherId)}
           onCancel={cancelDelete}
+        />
+      )}
+      {selectedVoucher && (
+        <VoucherDetailModal
+          voucher={selectedVoucher}
+          onClose={handleCloseModal}
         />
       )}
     </div>
