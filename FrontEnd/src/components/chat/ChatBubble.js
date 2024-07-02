@@ -6,8 +6,21 @@ const socket = io("http://localhost:5000");
 const { getUserIdFromToken } = require("../store/actions/authAction");
 
 function ChatBubble({ onClick }) {
+  const [showMiniMessage, setShowMiniMessage] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMiniMessage(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <div className="chat-bubble" onClick={onClick}>
+      {showMiniMessage && (
+        <div className="mini-message">
+          <p className="info-mess-chat">Bạn cần chúng tôi hỗ trợ gì không?</p>
+        </div>
+      )}
       <span class="fas fa-comments icon-chat-buble"></span>
     </div>
   );
