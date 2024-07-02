@@ -32,6 +32,9 @@ const articleRepository = {
   getAuthorName: async () => {
     return await articleDAO.findAuthorName();
   },
+  getCurrentCategoriesInArticles: async () => {
+    return await articleDAO.getCurrentCategoriesInArticles();
+  },
 }
 
 module.exports = articleRepository;

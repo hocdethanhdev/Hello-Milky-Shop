@@ -605,3 +605,6 @@ Content-Type: application/json
 {
     "ChatRoom": "M0000001"
 }
+
+### Get all current category in article
+GET http://localhost:5000/api/v1/article/getCurrentCategoriesInArticles
