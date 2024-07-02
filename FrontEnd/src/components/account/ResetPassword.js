@@ -195,7 +195,7 @@ const ResetPassword = () => {
               />
             </div>
             <button onClick={handlePasswordReset} disabled={loading}>
-              {loading ? "Đang xử lý..." : "Đặt lại mật khẩu"}
+              {loading ? <Loading/> : "Đặt lại mật khẩu"}
             </button>
           </div>
         ) : (

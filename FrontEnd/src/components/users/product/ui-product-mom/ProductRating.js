@@ -3,6 +3,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import axios from "axios";
 import "./ProductRating.css";
 import Notification from "./Notification"; // Import the Notification component
+import Loading from "../../../layout/Loading";
 
 export default function ProductRating({ productID, userID, fetchComments, setRatingCount }) { // Thêm fetchComments vào props
     const [number, setNumber] = useState(0);
@@ -112,7 +113,7 @@ export default function ProductRating({ productID, userID, fetchComments, setRat
                     onClick={handleSubmit}
                     disabled={!number || isSubmitting}
                 >
-                    {isSubmitting ? "Đang gửi..." : "Gửi"}
+                    {isSubmitting ? <Loading/> : "Gửi"}
                 </button>
             </div>
         </div>
