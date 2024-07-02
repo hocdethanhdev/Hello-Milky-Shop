@@ -19,17 +19,17 @@ function PostsAdd() {
   const [articleCategoryID, setArticleCategoryID] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [progress, setProgress] = useState(0);
-  const [previewImage, setPreviewImage] = useState(null); // State for previewing image
+  const [previewImage, setPreviewImage] = useState(null);
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
   const editor = useRef(null);
   const navigate = useNavigate();
+  const [editorContent, setEditorContent] = useState("");
 
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
     setHeaderImage(imageFile);
 
-    // Preview image
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreviewImage(reader.result);
@@ -43,17 +43,41 @@ function PostsAdd() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const editorContent = editor.current.value;
 
-    if (!headerImage) {
-      setErrorMessage("Image is required.");
+
+    if (!title.trim()) {
+      message.warning("Tiêu đề không được để trống.");
+      window.scrollTo(0, 0);
       return;
     }
+    if (!articleCategoryID) {
+      message.warning("Hãy chọn loại bài viết.");
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (!headerImage) {
+      message.warning("Hãy thêm ảnh vào.");
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (!publishDate) {
+      message.warning("Ngày không được bỏ trống.");
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (!editorContent.trim()) {
+      message.warning("Nội dung không được để trống.");
+      window.scrollTo(0, 0);
+      return;
+    }
+
+
 
     try {
       const downloadURL = await uploadImage(headerImage, setProgress);
 
-      const editorContent = editor.current.value;
-      const sanitizedContent = DOMPurify.sanitize(editorContent); // Sanitize with dompurify
+      const sanitizedContent = DOMPurify.sanitize(editorContent);
 
       const postData = {
         Title: title,
@@ -70,24 +94,20 @@ function PostsAdd() {
         {
           headers: {
             "Content-Type": "application/json",
-          },
+          }
         }
       );
 
       message.success('Bài viết đã được tạo thành công.');
       navigate("/posts");
       window.scrollTo(0, 0);
-
-
-      // Reset form or handle success action
     } catch (error) {
-      console.error("Error creating post:", error.response);
-      setErrorMessage(
-        "Error creating post: " + (error.response?.data || error.message)
-      );
       message.error(`Có lỗi xảy ra: ${error.message}`);
     }
   };
+
+
+
 
   const handleResizeImage = (editor) => {
     editor.events.on('mouseup', () => {
@@ -115,7 +135,7 @@ function PostsAdd() {
       '|', 'copyformat', 'fullsize',
       {
         name: 'uploadImage',
-        iconURL: 'https://cdn-icons-png.flaticon.com/128/685/685669.png', // Biểu tượng hình ảnh
+        iconURL: 'https://cdn-icons-png.flaticon.com/128/685/685669.png',
         exec: async (editor) => {
           const input = document.createElement('input');
           input.type = 'file';
@@ -133,7 +153,7 @@ function PostsAdd() {
                 editor.selection.insertNode(img);
                 handleResizeImage(editor);
               } catch (error) {
-                console.error('Error uploading image:', error);
+                console.error('Lỗi up ảnh:', error);
               }
             }
           };
@@ -147,96 +167,93 @@ function PostsAdd() {
         handleResizeImage(editor);
       },
       change: (newContent) => {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newContent;
-        const images = tempDiv.querySelectorAll('img');
-        images.forEach((image) => {
-          const width = image.style.width;
-          const height = image.style.height;
-          if (width && height) {
-            image.setAttribute('width', width);
-            image.setAttribute('height', height);
-          }
-        });
+        const maxChars = 4000;
+        if (newContent.length > maxChars) {
+          editor.value = newContent.substring(0, maxChars);
+          message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
+        }
+        setEditorContent(newContent);
       }
     }
   }), [setProgress]);
 
   return (
     <div className="container post-form">
-    {errorMessage && <p className="error-message">{errorMessage}</p>}
-    <form onSubmit={handleSubmit}>
-      <div className="row mb-3">
-        <div className="col-md-8"> 
-          <label htmlFor="title">Tiêu đề:</label>
-          <input
-            type="text"
-            className="form-control"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-md-4 form-control1-container"> 
-          <label htmlFor="article-category-id">Loại bài viết:</label>
-          <select
-            className="form-control1"
-            id="article-category-id"
-            value={articleCategoryID}
-            onChange={(e) => setArticleCategoryID(e.target.value)}
-            required
-          >
-            <option value="" disabled>Chọn loại bài viết</option>
-            <option value="1">Sức Khỏe</option>
-            <option value="2">Tin khuyến mãi</option>
-            <option value="3">Tư vấn mua sắm</option>
-          </select>
-        </div>
-      </div>
-      <div className="row mb-3">
-        <div className="col">
-          <label htmlFor="header-image">Ảnh đầu trang</label>
-          <input
-            type="file"
-            className="form-control2"
-            id="header-image"
-            onChange={handleImageChange}
-          />
-        </div>
-      </div>
-      <div className="row mb-3">
-        <div className="col-md-6">
-          <label htmlFor="publish-date">Ngày công bố</label>
-          <DatePicker
-            selected={publishDate}
-            onChange={(date) => setPublishDate(date)}
-            className="form-control"
-            dateFormat="dd-MM-yyyy"
-          />
-        </div>
-        {previewImage && (
-          <div className="col-md-6 preview-image-container">
-            <img src={previewImage} alt="Preview" className="preview-image" />
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <form onSubmit={handleSubmit}>
+        <div className="row mb-3">
+          <div className="col-md-8">
+            <label htmlFor="title">Tiêu đề:</label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </div>
-        )}
-      </div>
-      <div className="row mb-3">
-        <div className="col">
-          <label htmlFor="content">Nội dung</label>
-          <div className="editor">
-            <JoditEditor
-              ref={editor}
-              config={editorConfig}
+          <div className="col-md-4 form-control1-container">
+            <label htmlFor="article-category-id">Loại bài viết:</label>
+            <select
+              className="form-control1"
+              id="article-category-id"
+              value={articleCategoryID}
+              onChange={(e) => setArticleCategoryID(e.target.value)}
+            >
+              <option value="" disabled>Chọn loại bài viết</option>
+              <option value="1">Sức Khỏe</option>
+              <option value="2">Tin khuyến mãi</option>
+              <option value="3">Tư vấn mua sắm</option>
+            </select>
+          </div>
+        </div>
+        <div className="row mb-3">
+          <div className="col">
+            <label htmlFor="header-image">Ảnh đầu trang</label>
+            <input
+              type="file"
+              className="form-control2"
+              id="header-image"
+              onChange={handleImageChange}
             />
           </div>
         </div>
-      </div>
-      <button type="submit" className="btn btn-primary longlam">
-        Create Post
-      </button>
-    </form>
-  </div>
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label htmlFor="publish-date">Ngày công bố</label>
+            <DatePicker
+              selected={publishDate}
+              onChange={(date) => setPublishDate(date)}
+              className="form-control"
+              dateFormat="dd-MM-yyyy"
+            />
+          </div>
+          {previewImage && (
+            <div className="col-md-6 preview-image-container">
+              <img src={previewImage} alt="Preview" className="preview-image" />
+            </div>
+          )}
+        </div>
+        <div className="row mb-3">
+          <div className="col">
+            <label htmlFor="content">Nội dung</label>
+            <div className="editor">
+              <JoditEditor
+                ref={editor}
+                config={editorConfig}
+                value={editorContent}
+                onBlur={newContent => setEditorContent(newContent)} // Set content on blur
+              />
+
+
+            </div>
+          </div>
+        </div>
+        <button type="submit" className="btn btn-primary longlam">
+          Tạo bài viết
+        </button>
+      </form>
+    </div>
   );
 
 }

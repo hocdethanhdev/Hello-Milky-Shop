@@ -23,6 +23,7 @@ const EditArticleModal = ({ onSave }) => {
   });
   const [previewImage, setPreviewImage] = useState(null);
   const editorRef = useRef(null);
+  const [editorContent, setEditorContent] = useState("");
 
   useEffect(() => {
     axios
@@ -72,8 +73,33 @@ const EditArticleModal = ({ onSave }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.Title.trim()) {
+      message.warning("Tiêu đề không được để trống.");
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (!formData.ArticleCategoryID) {
+      message.warning("Hãy chọn loại bài viết.");
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (!formData.HeaderImage) {
+      message.warning("Hãy thêm ảnh vào.");
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (!formData.PublishDate) {
+      message.warning("Ngày không được bỏ trống.");
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (!editorContent.trim()) {
+      message.warning("Nội dung không được để trống.");
+      window.scrollTo(0, 0);
+      return;
+    }
+
     try {
-      const editorContent = editorRef.current.value;
       const sanitizedContent = DOMPurify.sanitize(editorContent, {
         ADD_TAGS: ["img"],
         ADD_ATTR: ["src", "alt"],
@@ -104,6 +130,7 @@ const EditArticleModal = ({ onSave }) => {
       console.error("There was an error updating the article!", error);
     }
   };
+
 
   const handleResizeImage = (editor) => {
     editor.events.on("mouseup", () => {
@@ -149,7 +176,7 @@ const EditArticleModal = ({ onSave }) => {
         "fullsize",
         {
           name: "uploadImage",
-          iconURL: "https://cdn-icons-png.flaticon.com/128/685/685669.png", // Image icon
+          iconURL: "https://cdn-icons-png.flaticon.com/128/685/685669.png",
           exec: async (editor) => {
             const input = document.createElement("input");
             input.type = "file";
@@ -181,22 +208,29 @@ const EditArticleModal = ({ onSave }) => {
           handleResizeImage(editor);
         },
         change: (newContent) => {
-          const tempDiv = document.createElement("div");
+          const maxChars = 4000;
+          if (newContent.length > maxChars) {
+            editorRef.current.value = newContent.substring(0, maxChars);
+            message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
+          }
+          const tempDiv = document.createElement('div');
           tempDiv.innerHTML = newContent;
-          const images = tempDiv.querySelectorAll("img");
+          const images = tempDiv.querySelectorAll('img');
           images.forEach((image) => {
             const width = image.style.width;
             const height = image.style.height;
             if (width && height) {
-              image.setAttribute("width", width);
-              image.setAttribute("height", height);
+              image.setAttribute('width', width);
+              image.setAttribute('height', height);
             }
           });
-        },
-      },
+          setEditorContent(newContent); // cập nhật trạng thái editorContent
+        }
+      }
     }),
     [setProgress]
   );
+
 
   return (
     <div className="edit-article-page">
