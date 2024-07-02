@@ -100,7 +100,7 @@ const ShoppingCart = () => {
           [productId]: newQuantity,
         };
       });
-    }, 100);
+    }, 300);
 
     setIncrementIntervalId(intervalId);
   };
@@ -125,7 +125,7 @@ const ShoppingCart = () => {
           [productId]: newQuantity,
         };
       });
-    }, 100);
+    }, 300);
     setDecrementIntervalId(intervalId);
   };
 
