@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const articleController = require("../controller/articleController");
-     
+
 router.get('/getArticlesByID/:ID', articleController.getArticlesByID);
 
 router.get('/getArticlesByArticleID/:ID', articleController.getArticlesByArticleID);
@@ -12,7 +12,7 @@ router.get('/getAllArticles', articleController.getAllArticles);
 
 router.get('/getAllArticleCategory', articleController.getAllArticleCategory);
 
-router.post('/createArticle',articleController.createArticle);
+router.post('/createArticle', articleController.createArticle);
 
 router.put('/deleteArticle/:article_id', articleController.deleteArticle);
 
@@ -23,5 +23,7 @@ router.get('/getAllArticles', articleController.getAllArticles);
 router.get('/getAuthorName', articleController.getAuthorName);
 
 router.post('/getTop5ArticleSameType', articleController.getTop5ArticleSameType);
+
+router.get('/getCurrentCategoriesInArticles', articleController.getCurrentCategoriesInArticles);
 
 module.exports = router
