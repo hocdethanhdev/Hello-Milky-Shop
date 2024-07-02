@@ -21,6 +21,7 @@ import AddPromotion from "./components/managers/staff/AddPromotion";
 import FeedbackManage from "./components/managers/staff/FeedbackManage";
 import AnsweredFeedbackManage from "./components/managers/staff/AnsweredFeedbackManage";
 import EditArticletModal from "./components/managers/staff/EditArticleModal";
+import EditProductModal from "./components/managers/staff/EditProductModal";
 // Admin Components (if needed)
 import MainDash from "./components/managers/admin/MainDash";
 import MangageAdmin from "./components/managers/admin/ManageAdmin";
@@ -93,6 +94,7 @@ function App() {
               path="/respondedFeedback"
               element={<AnsweredFeedbackManage />}
             />
+            <Route path="/edit-product/:productID" element={<EditProductModal />} />
           </Routes>
         </div>
       </div>

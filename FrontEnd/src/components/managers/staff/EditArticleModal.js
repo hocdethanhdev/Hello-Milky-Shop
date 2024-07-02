@@ -9,7 +9,7 @@ import DOMPurify from "dompurify";
 import { message } from "antd";
 import { uploadImage } from "../uimg/UpImage";
 
-const EditArticleModal = ({ onSave }) => {
+const EditArticleModal = () => {
   const { articleID } = useParams();
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
@@ -127,7 +127,7 @@ const EditArticleModal = ({ onSave }) => {
       navigate("/posts");
       window.scrollTo(0, 0);
     } catch (error) {
-      console.error("There was an error updating the article!", error);
+      console.error("Lỗi khi cập nhật bài viết!", error);
     }
   };
 

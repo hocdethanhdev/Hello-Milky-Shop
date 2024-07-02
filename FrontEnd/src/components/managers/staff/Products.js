@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Products.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faSort } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "./Pagination";
@@ -9,6 +9,7 @@ import EditProductModal from "./EditProductModal";
 import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
 import { message } from "antd";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
+
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -24,7 +25,7 @@ const Products = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const productsPerPage = 10;
-
+  const navigate = useNavigate();
   // Fetch products from the API
   const fetchInforProductDetail = () => {
     fetch("http://localhost:5000/api/v1/product/getInfoProductsDetail")
@@ -230,46 +231,11 @@ const Products = () => {
   };
 
   // Handle product edit
-  const handleEditClick = (product) => {
-    setSelectedProductForEdit(product);
+  const handleEditClick = (productID) => {
+    navigate(`/edit-product/${productID}`);
   };
 
-  // Save edited product
-  const handleSaveProduct = (updatedProduct) => {
-    fetch(
-      `http://localhost:5000/api/v1/product/editProduct/${updatedProduct.ProductID}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedProduct),
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setProducts(
-          products.map((product) =>
-            product.ProductID === updatedProduct.ProductID
-              ? updatedProduct
-              : product
-          )
-        );
-        message.success("Sản phẩm đã được cập nhật thành công!");
-        fetchInforProductDetail();
-        setSelectedProductForEdit(null);
-      })
-      .catch((error) => {
-        message.error("Lỗi khi cập nhật sản phẩm: " + error.message);
-      });
-  };
 
-  // Calculate products to display for the current page
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(
@@ -381,8 +347,8 @@ const Products = () => {
                       ? "Tạm ẩn"
                       : product.Status === true &&
                         parseInt(product.StockQuantity) > 0
-                      ? "Còn hàng"
-                      : "Hết hàng"}
+                        ? "Còn hàng"
+                        : "Hết hàng"}
                   </td>
                   <td className="nut-act col-md-3">
                     <button
@@ -413,7 +379,7 @@ const Products = () => {
                     <button
                       type="button"
                       className="btn btn-warning"
-                      onClick={() => handleEditClick(product)}
+                      onClick={() => handleEditClick(product.ProductID)}
                     >
                       Sửa
                     </button>
@@ -437,13 +403,6 @@ const Products = () => {
         <ProductDetailModal
           product={selectedProduct}
           onClose={handleCloseModal}
-        />
-      )}
-      {selectedProductForEdit && (
-        <EditProductModal
-          product={selectedProductForEdit}
-          onClose={handleCloseModal}
-          onSave={handleSaveProduct}
         />
       )}
       {showDeletePopup && (
