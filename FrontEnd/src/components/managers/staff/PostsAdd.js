@@ -203,7 +203,6 @@ function PostsAdd() {
               <option value="" disabled>Chọn loại bài viết</option>
               <option value="1">Sức Khỏe</option>
               <option value="2">Tin khuyến mãi</option>
-              <option value="3">Tư vấn mua sắm</option>
             </select>
           </div>
         </div>
