@@ -18,7 +18,16 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   padding: 2rem;
 }
-
+/* eye icon */
+.password-toggle-icon {
+  position: absolute;
+  right: 10px;
+  top: 34%;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s ease;
+  font-weight: 700;
+}
 
 /* Form input wrapper */
 .input-wrapper-sign {
@@ -37,6 +46,11 @@
 /* Checkbox wrapper */
 .checkbox-wrapper {
   margin-bottom: 1.5rem;
+  padding-right: 10px;
+}
+
+.checkbox-wrapper input{
+  margin-right: 5px;
 }
 
 /* Button styling */
@@ -108,14 +122,9 @@
   text-decoration: underline;
 }
 
-
-
-
 .error {
   color: red;
 }
-
-/* overbox otp popup */
 
 .overlay {
   position: fixed;
@@ -149,5 +158,12 @@
   display: flex;
   justify-content: center;
 }
+.google-button-signup {
+  margin-left: -65px;
+}
 
-
+.checkbox-label-tri {
+  font-weight: normal;
+  font-size: 14px;
+  
+}

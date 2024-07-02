@@ -13,19 +13,15 @@
     text-align: center;
     color: #f9f9f9;
 }
-
-/* Mỗi hàng trong bảng danh mục */
 .category_table tbody tr:nth-child(even) {
-    background-color: #f0f0f0; /* Màu nền cho các hàng chẵn */
+    background-color: #f0f0f0;
 }
 
 .category_table tbody tr:nth-child(odd) {
-    background-color: #ffffff; /* Màu nền cho các hàng lẻ */
+    background-color: #ffffff;
 }
-
-/* Màu nền của ô khi di chuột qua */
 .category_table tbody tr:hover td {
-    background-color: #fd3b36; /* Màu hồng khi di chuột qua */
+    background-color: #fd3b36;
 }
 
 .cate_li_title {
@@ -47,17 +43,13 @@
     border-radius: 50%;
     margin-right: 10px;
 }
-
-/* Slider */
 .main_slide {
     margin-top: 20px;
 }
-
 .box_slider img {
     width: 80%;
     height: auto;
 }
-
 .box_product_suggest {
     margin-top: 20px;
 }

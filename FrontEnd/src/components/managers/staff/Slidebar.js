@@ -194,7 +194,7 @@ function Sidebar() {
             to="/feedbackManage"
           >
             <img
-              src="https://cdn-icons-png.flaticon.com/128/8013/8013078.png"
+              src="https://cdn-icons-png.flaticon.com/128/13339/13339327.png"
               alt="Unresponded Feedback Icon"
               style={{ width: "24px" }}
               className="icon-staff-slidebar"
@@ -206,7 +206,7 @@ function Sidebar() {
             to="/respondedFeedback"
           >
             <img
-              src="https://cdn-icons-png.flaticon.com/128/1370/1370907.png"
+              src="https://cdn-icons-png.flaticon.com/128/3594/3594802.png"
               alt="Responded Feedback Icon"
               style={{ width: "24px" }}
               className="icon-staff-slidebar"
@@ -215,16 +215,15 @@ function Sidebar() {
           </NavLink>
         </div>
         <NavLink
-          className={({ isActive }) =>
-            isActive ||
-              location.pathname.includes("/posts") ||
-              location.pathname.includes("/addingpost")
-              ? "active-st-thinh"
-              : ""
-          }
+          className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
           to="/chat-page"
         >
-          <IoChatboxEllipsesOutline width={24} />
+         <img
+              src="https://cdn-icons-png.flaticon.com/128/1370/1370907.png"
+              alt="Chat Icon"
+              style={{ width: "24px" }}
+              className="icon-staff-slidebar"
+            />
           Tư vấn mua hàng
         </NavLink>
       </nav>

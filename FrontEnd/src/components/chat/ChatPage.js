@@ -6,7 +6,7 @@ import { getUserIdFromToken } from "../store/actions/authAction";
 
 const socket = io("http://localhost:5000");
 
-function ChatWindow({ roomId, onClose }) {
+function ChatWindow({ roomId, userName, onClose }) {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const { token } = useSelector((state) => state.auth);
@@ -92,11 +92,10 @@ function ChatWindow({ roomId, onClose }) {
   return (
     <div className="chat-window-Nhan">
       <div className="chat-header-Nhan">
-        <span>Chat Room</span>
+        <span>{userName}</span>
         <button onClick={onClose}>×</button>
       </div>
       <ul className="message-list-Nhan" ref={messageListRef}>
-
         {messages.map((msg, index) => (
           <li
             key={index}
@@ -117,7 +116,7 @@ function ChatWindow({ roomId, onClose }) {
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
         />
-        <button type="submit">Send</button>
+        <button type="submit">Gửi</button>
       </form>
     </div>
   );

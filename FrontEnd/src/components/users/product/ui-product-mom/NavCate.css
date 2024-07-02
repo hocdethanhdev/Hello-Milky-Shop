@@ -2,7 +2,7 @@
     list-style-type: none;
     padding: 0;
     margin: 0;
-    display: flex; /* Sử dụng flexbox cho các mục trong ul */
+    display: flex;
 }
 .box_list_cate ul {
     display: block;
@@ -40,7 +40,7 @@
     color: #fff;
     font-size: 16px;
     font-weight: bold;
-    padding: 10px 75px; /* Đảm bảo độ dài của "Danh mục" */
+    padding: 10px 75px;
 }
 
 .cate_home i {
@@ -51,25 +51,25 @@
 
 .nav_cate ul li.cate_home.nav_top {
     position: relative;
-} /* xổ ra*/
+}
 
 .cate_home.nav_top:hover .box_list_cate {
     display: flex !important;
-    flex-direction: column; /* Sắp xếp theo chiều dọc */
+    flex-direction: column;
 }
 
 .box_list_cate {
     position: absolute;
     left: 0;
-    top: 100%; /* Align right below the "Danh mục" */
+    top: 100%;
     background: #fff;
-    width: 250px; /* Adjust width as needed */
+    width: 250px;
     z-index: 999;
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.12);
     display: flex;
-    flex-direction: column; /* Sắp xếp theo chiều dọc */
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove margin */
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
 }
 
 .box_list_cate ul li a {
@@ -78,7 +78,7 @@
 }
 
 .menu_cate-thinh {
-    width: 100%; /* Adjust width as needed */
+    width: 100%;
     border-radius: 2px;
     background: #fff;
 }
@@ -90,7 +90,7 @@
 
 .menu_cate-thinh ul li {
     float: none;
-    width: 100%; /* Adjust width as needed */
+    width: 100%;
 }
 
 .menu_cate-thinh ul li.cate_li img.img_icon.icon_hover {

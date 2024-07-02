@@ -16,7 +16,7 @@ function MainDash() {
     ProductName: [],
   });
   const [revenueData, setRevenueData] = useState({ months: [], revenue: [] });
-  
+
   const formattedRevenue = new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
@@ -196,103 +196,103 @@ function MainDash() {
 
   const areaChartOptions = {
     series: [
-        {
-            name: "Doanh thu",
-            data: revenueData.revenue,
-        },
+      {
+        name: "Doanh thu",
+        data: revenueData.revenue,
+      },
     ],
     options: {
-        chart: {
-            type: "area",
-            background: "transparent",
-            height: 350,
-            stacked: false,
-            toolbar: {
-                show: false,
-            },
+      chart: {
+        type: "area",
+        background: "transparent",
+        height: 350,
+        stacked: false,
+        toolbar: {
+          show: false,
         },
-        colors: ["#00ab57"], // Choose your preferred color
-        labels: revenueData.months,
-        dataLabels: {
-            enabled: false,
+      },
+      colors: ["#00ab57"],
+      labels: revenueData.months,
+      dataLabels: {
+        enabled: false,
+      },
+      fill: {
+        gradient: {
+          opacityFrom: 0.4,
+          opacityTo: 0.1,
+          shadeIntensity: 1,
+          stops: [0, 100],
+          type: "vertical",
         },
-        fill: {
-            gradient: {
-                opacityFrom: 0.4,
-                opacityTo: 0.1,
-                shadeIntensity: 1,
-                stops: [0, 100],
-                type: "vertical",
-            },
-            type: "gradient",
-        },
-        grid: {
-            borderColor: "#55596e",
-            yaxis: {
-                lines: {
-                    show: true,
-                },
-            },
-            xaxis: {
-                lines: {
-                    show: true,
-                },
-            },
-        },
-        legend: {
-            show: false,
-        },
-        markers: {
-            size: 6,
-            strokeColors: "#1b2635",
-            strokeWidth: 3,
-        },
-        stroke: {
-            curve: "smooth",
+        type: "gradient",
+      },
+      grid: {
+        borderColor: "#55596e",
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
         xaxis: {
-            axisBorder: {
-                color: "#55596e",
-                show: true,
-            },
-            axisTicks: {
-                color: "#55596e",
-                show: true,
-            },
-            labels: {
-                offsetY: 5,
-                style: {
-                    colors: "black", // Change this to your preferred color
-                },
-            },
+          lines: {
+            show: true,
+          },
         },
-        yaxis: {
-            title: {
-                text: "Revenue",
-                style: {
-                    color: "black", // Change this to your preferred color
-                },
-            },
-            labels: {
-                formatter: function (value) {
-                    return formatPrice(value);
-                },
-                style: {
-                    colors: ["black"], // Change this to your preferred color
-                },
-            },
+      },
+      legend: {
+        show: false,
+      },
+      markers: {
+        size: 6,
+        strokeColors: "#1b2635",
+        strokeWidth: 3,
+      },
+      stroke: {
+        curve: "smooth",
+      },
+      xaxis: {
+        axisBorder: {
+          color: "#55596e",
+          show: true,
         },
-        tooltip: {
-            shared: true,
-            intersect: false,
-            theme: "dark",
-            style: {
-                fontSize: "14px", // Font size of tooltip text
-                maxWidth: "300px", // Max width of the tooltip
-                marginLeft: "6px", // Margin left for tooltip
-            },
-            custom: ({ series, seriesIndex, dataPointIndex, w }) => {
-                return `
+        axisTicks: {
+          color: "#55596e",
+          show: true,
+        },
+        labels: {
+          offsetY: 5,
+          style: {
+            colors: "black",
+          },
+        },
+      },
+      yaxis: {
+        title: {
+          text: "Revenue",
+          style: {
+            color: "black",
+          },
+        },
+        labels: {
+          formatter: function (value) {
+            return formatPrice(value);
+          },
+          style: {
+            colors: ["black"],
+          },
+        },
+      },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        theme: "dark",
+        style: {
+          fontSize: "14px",
+          maxWidth: "300px",
+          marginLeft: "6px",
+        },
+        custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+          return `
                     <div class="apexcharts-tooltip-title" style="font-size: 14px; font-weight: bold;">
                         ${revenueData.months[dataPointIndex]}
                     </div>
@@ -302,10 +302,10 @@ function MainDash() {
                             ${formatPrice(series[seriesIndex][dataPointIndex])}
                         </span>
                     </div>`;
-            },
         },
+      },
     },
-};
+  };
 
 
   return (

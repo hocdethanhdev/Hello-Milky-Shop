@@ -16,6 +16,7 @@ import "react-phone-input-2/lib/style.css";
 import { auth } from "../config/firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
+import { message } from "antd";
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -34,16 +35,18 @@ function Signup() {
     termsAccepted: "",
   });
 
-  const [message, setMessage] = useState("");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [isSignupAttempted, setIsSignupAttempted] = useState(false);
   const [confirmOTP, setConfirmOTP] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   useEffect(() => {
     onCaptchVerify();
   }, []);
+
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
@@ -55,11 +58,16 @@ function Signup() {
             // No need to call onSignup here, it will be called separately
           },
           "expired-callback": () => {
-            toast.error("Recaptcha expired. Please try again.");
+            toast.error("Recaptcha hết hạn. Hãy thử lại.");
+            // Re-verify captcha when expired
+            window.recaptchaVerifier.clear();
+            onCaptchVerify();
           },
         },
         auth
       );
+    } else {
+      window.recaptchaVerifier.render();
     }
   }
 
@@ -104,16 +112,16 @@ function Signup() {
         window.confirmationResult = confirmationResult;
         setLoading(false);
         setShowOTP(true);
-        toast.success("OTP sent successfully!");
+        toast.success("Gửi OTP thành công.");
       })
       .catch((error) => {
-        console.error("Error sending OTP:", error);
+        console.error("Gửi OTP lỗi:", error);
         setLoading(false);
         setIsSignupAttempted(false);
         if (error.code === "auth/quota-exceeded") {
-          toast.error("Quota exceeded. Please try again later.");
+          toast.error("Quá lượt gửi OTP. Hãy thử lại vào ngày mai.");
         } else {
-          toast.error("Failed to send OTP. Please try again.");
+          toast.error("Gửi OTP thất bại. Hãy thử lại.");
         }
       });
   }
@@ -125,56 +133,74 @@ function Signup() {
       .then(async (res) => {
         setLoading(false);
         setConfirmOTP(true);
-        toast.success("OTP verified successfully!");
-        handleSubmit();
+        toast.success("Xác nhận OTP thành công");
+        // Proceed with signup after OTP is verified
+        await completeSignup();
       })
       .catch((err) => {
-        console.error("Error verifying OTP:", err);
         setLoading(false);
-        toast.error("Failed to verify OTP. Please try again.");
+        toast.error("Xác nhận OTP thất bại. Hãy thử lại.");
       });
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     const newErrors = {};
 
     // Validate name field
     if (!formData.name.trim()) {
-      newErrors.name = "Please enter your name.";
+      newErrors.name = "Hãy nhập tên của bạn.";
     }
 
     // Validate phone number field
     if (!formData.phone.trim()) {
-      newErrors.phone = "Please enter your phone number.";
+      newErrors.phone = "Hãy nhập số điện thoại.";
     } else if (!/^\d{9,11}$/i.test(formData.phone)) {
-      newErrors.phone = "Please enter a valid 10-digit phone number.";
+      newErrors.phone = "Số điện thoại không phù hợp.";
     }
 
     // Validate password field
     if (!formData.password.trim()) {
-      newErrors.password = "Please enter a password.";
+      newErrors.password = "Hãy nhập mật khẩu.";
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long.";
+      newErrors.password = "Mật khẩu phải chứa ít nhất 6 kí tự.";
     }
 
     // Validate confirm password field
     if (!formData.confirmPassword.trim()) {
-      newErrors.confirmPassword = "Please confirm your password.";
+      newErrors.confirmPassword = "Hãy xác nhận mật khẩu.";
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
+      newErrors.confirmPassword = "Mật khẩu xác nhận không khớp.";
     }
 
     // Validate terms accepted
     if (!formData.termsAccepted) {
-      newErrors.termsAccepted = "You must accept the terms of use.";
+      newErrors.termsAccepted =
+        "Hãy đọc và đồng ý với điều khoản của chúng tôi.";
     }
-
+    if (
+      !formData.name ||
+      !formData.phone ||
+      !formData.password ||
+      !formData.confirmPassword ||
+      !formData.termsAccepted
+    ) {
+      message.error("Xin nhập đầy đủ thông tin.");
+      setErrors(newErrors);
+      return;
+    }
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) {
+      for (const error in newErrors) {
+        message.error(newErrors[error]);
+      }
       return;
     }
 
+    handleSendOTP();
+  };
+
+  const completeSignup = async () => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/v1/auth/register",
@@ -198,17 +224,15 @@ function Signup() {
             `http://localhost:5000/api/v1/auth/loginSuccess?token=${login.data.token}`,
             "_self"
           );
-        } else if (response.data.err === 1) {
-          setMessage("Số điện thoại " + formData.phone + " chưa được đăng kí");
         } else {
-          setMessage("Sai mật khẩu");
+          message.error("Số điện thoại chưa được đăng kí hoặc sai mật khẩu");
         }
-      } else if (response.data.err === 2) {
-        setMessage("An account with this phone number already exists.");
+      }else {
+        message.error("Số điện thoại đã được đăng kí");
       }
     } catch (error) {
       console.error(error);
-      setMessage("Error signing up. Please try again.");
+      message.error("Error signing up. Please try again.");
     }
   };
 
@@ -219,18 +243,15 @@ function Signup() {
   return (
     <MDBContainer
       fluid
-      className="d-flex justify-content-center align-items-center h-100"
-    >
+      className="d-flex justify-content-center align-items-center h-100">
       <Toaster toastOptions={{ duration: 4000 }} />
 
       <div id="recaptcha-container"></div>
       <MDBCard
         className="signup-card mx-auto mb-5 p-5 shadow-5"
-        style={{ maxWidth: "550px", marginTop: "50px", marginBottom: "200px" }}
-      >
+        style={{ maxWidth: "550px", marginTop: "50px", marginBottom: "200px" }}>
         <MDBCardBody className="p-5">
           <h2 className="fw-bold mb-5 text-center">Tạo một tài khoản mới</h2>
-          {message && <div className="message">{message}</div>}
           <div className="mb-4">
             <MDBInput
               wrapperClass="input-wrapper-sign"
@@ -241,7 +262,6 @@ function Signup() {
               value={formData.name}
               onChange={handleChange}
             />
-            {errors.name && <div className="error">{errors.name}</div>}
           </div>
 
           <div className="mb-4">
@@ -252,35 +272,42 @@ function Signup() {
               inputClass="input-wrapper-sign"
               placeholder="Số điện thoại"
             />
-            {errors.phone && <div className="error">{errors.phone}</div>}
           </div>
 
-          <div className="mb-4">
+          <div className="mb-4 position-relative">
             <MDBInput
               wrapperClass="input-wrapper-sign"
               placeholder="Mật khẩu"
               id="password"
-              type="password"
+              type={passwordVisible ? "text" : "password"}
               name="password"
               value={formData.password}
               onChange={handleChange}
             />
-            {errors.password && <div className="error">{errors.password}</div>}
+            <MDBIcon
+              icon={passwordVisible ? "eye-slash" : "eye"}
+              size="lg"
+              className="password-toggle-icon"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-4 position-relative">
             <MDBInput
               wrapperClass="input-wrapper-sign"
               placeholder="Nhập lại mật khẩu"
               id="confirmPassword"
-              type="password"
+              type={confirmPasswordVisible ? "text" : "password"}
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
             />
-            {errors.confirmPassword && (
-              <div className="error">{errors.confirmPassword}</div>
-            )}
+            <MDBIcon
+              icon={confirmPasswordVisible ? "eye-slash" : "eye"}
+              size="lg"
+              className="password-toggle-icon"
+              onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+            />
           </div>
 
           <div className="checkbox-wrapper mb-4">
@@ -299,9 +326,6 @@ function Signup() {
               </a>
               tại Hello Milky Shop
             </label>
-            {errors.termsAccepted && (
-              <div className="error">{errors.termsAccepted}</div>
-            )}
           </div>
           {isSignupAttempted && showOTP && !confirmOTP && (
             <div className="overlay">
@@ -326,7 +350,7 @@ function Signup() {
                     onOTPVerify();
                   }}
                   disabled={loading}
-                >
+                  className="btn btn-success m-4">
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
                   )}
@@ -340,16 +364,15 @@ function Signup() {
             className="signup-button"
             type="button"
             onClick={() => {
-              handleSendOTP();
-            }}
-          >
+              handleSubmit();
+            }}>
             <span className="button-text">Đăng kí</span>
           </button>
 
           <div className="text-center social-buttons">
             <p>hoặc</p>
 
-            <div className="d-flex flex-row mt-3">
+            <div className="google-button-signup">
               <a href="#" className="google-signup-button">
                 <MDBIcon fab icon="google" size="lg" className="google-icon" />
                 <span onClick={loginGoogle} className="button-text">

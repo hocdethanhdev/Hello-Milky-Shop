@@ -6,6 +6,8 @@ import "./ShoppingCart.css";
 import VoucherPopup from "./VoucherPopup";
 import AddressPopup from "./AddressPopup";
 import { getMaxQuantity } from "./productMax";
+import { message } from 'antd';
+
 const ShoppingCart = () => {
   const { token } = useSelector((state) => state.auth);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -37,6 +39,47 @@ const ShoppingCart = () => {
   const [incrementIntervalId, setIncrementIntervalId] = useState(null);
   const [decrementIntervalId, setDecrementIntervalId] = useState(null);
 
+
+  const increaseOne = async (productId) => {
+
+    // Fetch the maximum quantity for the product
+    const maxQuantity = await getMaxQuantity(productId);
+
+    setProductQuantities((prevQuantities) => {
+      const currentQuantity = prevQuantities[productId] || 0;
+
+      // Check if current quantity is already at max
+      if (currentQuantity >= maxQuantity) {
+        return prevQuantities; // Return unchanged quantities
+      }
+
+      // Increase quantity by 1
+      const newQuantity = currentQuantity + 1;
+
+      return {
+        ...prevQuantities,
+        [productId]: newQuantity,
+      };
+    });
+  };
+
+  const decreaseOne = (productId) => {
+
+    setProductQuantities((prevQuantities) => {
+      const newQuantity = (prevQuantities[productId] || 1) - 1;
+
+      if (newQuantity < 1) {
+        setProductToRemove(productId);
+        return prevQuantities;
+      }
+
+      return {
+        ...prevQuantities,
+        [productId]: newQuantity,
+      };
+    });
+  };
+
   const startIncrement = async (productId) => {
     stopDecrement(); // Stop decrement if it's running
 
@@ -57,7 +100,7 @@ const ShoppingCart = () => {
           [productId]: newQuantity,
         };
       });
-    }, 100);
+    }, 300);
 
     setIncrementIntervalId(intervalId);
   };
@@ -82,7 +125,7 @@ const ShoppingCart = () => {
           [productId]: newQuantity,
         };
       });
-    }, 100);
+    }, 300);
     setDecrementIntervalId(intervalId);
   };
 
@@ -120,9 +163,8 @@ const ShoppingCart = () => {
       localStorage.setItem("selectedVoucher", voucher.VoucherID);
       setShowVoucherPopup(false);
     } else {
-      alert(
-        `This voucher requires a minimum purchase of ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+      message.warning(
+        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -140,8 +182,11 @@ const ShoppingCart = () => {
         );
         const orders = ordersResponse.data;
 
-        if (orders.length === 0) throw new Error("No orders found for user");
-
+        if (orders.length === 0) {
+          message.error("Giỏ hàng của bạn hiện đang trống");
+          // Optionally, you can return or handle this case further
+          return;
+        }
         const orderID = orders.OrderID;
         setOrderID(orderID);
 
@@ -209,7 +254,27 @@ const ShoppingCart = () => {
     }
   }, [userID]);
 
+
+
   useEffect(() => {
+    const checkOldAddress = async () => {
+      try {
+        const userId = userID;
+        const oldAddress = await axios.post(
+          "http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest",
+          {
+            UserID: userId
+          });
+        if (oldAddress.data.err === 1) {
+          setUsingSavedAddress(false);
+        } else {
+          setUsingSavedAddress(true);
+          handleAddressSelect(oldAddress.data.data);
+        }
+      } catch (err) {
+        setError(err.response ? err.response.data.message : err.message);
+      }
+    }
     const fetchDistricts = async () => {
       if (selectedCityID) {
         try {
@@ -224,16 +289,10 @@ const ShoppingCart = () => {
       }
     };
 
+    checkOldAddress();
     fetchDistricts();
-  }, [selectedCityID]);
+  }, [selectedCityID, userID]);
 
-  if (loading)
-    return (
-      <div>
-        <h1>Đang tải...</h1>
-      </div>
-    );
-  if (error) return <div>Error: {error}</div>;
 
   const calculateSubtotal = () => {
     return orderDetails.reduce((acc, item) => {
@@ -302,6 +361,16 @@ const ShoppingCart = () => {
     }));
   };
 
+  useEffect(() => {
+    // Lấy productID từ Local Storage
+    const selectedProductID = localStorage.getItem('selectedProductID');
+    if (selectedProductID) {
+      setSelectedProducts({ [selectedProductID]: true });
+      // Xóa productID khỏi Local Storage sau khi đã đọc
+      localStorage.removeItem('selectedProductID');
+    }
+  }, []);
+
   const handleProductSelect = (productId, isSelected) => {
     setSelectedProducts((prevSelected) => ({
       ...prevSelected,
@@ -321,6 +390,14 @@ const ShoppingCart = () => {
     setUsingSavedAddress(true);
     setShowAddressPopup(false);
   };
+  const handleUseNewAddressSelect = () => {
+    setUsingSavedAddress(false)
+    setReceiver('');
+    setPhoneNumber('');
+    setAddress('');
+    setSelectedShippingAddressID('');
+    setShowAddressPopup(false);
+  };
 
   const handleOrder = async () => {
     try {
@@ -329,17 +406,17 @@ const ShoppingCart = () => {
       );
 
       if (selectedProductIds.length === 0) {
-        alert("Vui lòng chọn ít nhất một sản phẩm.");
+        message.warning("Vui lòng chọn ít nhất một sản phẩm.");
         return;
       }
 
       if (!paymentMethod) {
-        alert("Vui lòng chọn hình thức thanh toán.");
+        message.warning("Vui lòng chọn hình thức thanh toán.");
         return;
       }
 
       if (!receiver || !phoneNumber || !address) {
-        alert("Vui lòng nhập hoặc chọn địa chỉ giao hàng.");
+        message.warning("Vui lòng nhập hoặc chọn địa chỉ giao hàng.");
         return;
       }
 
@@ -448,6 +525,14 @@ const ShoppingCart = () => {
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
+  const calculateKmai = () => {
+    let voucherDiscount = calculateDiscount();
+    let pointsDiscount = usePoints ? points * 10 : 0; // Assuming 1 point = 10₫ discount
+    return voucherDiscount + pointsDiscount;
+  };
+
+  const kmai = calculateKmai();
+
 
   return (
     <div className="checkout-container">
@@ -485,8 +570,7 @@ const ShoppingCart = () => {
                 <select
                   value={selectedCityID}
                   onChange={(e) => setSelectedCityID(e.target.value)}
-                  disabled={usingSavedAddress}
-                >
+                  disabled={usingSavedAddress}>
                   <option value="">Chọn thành phố</option>
                   {cities.map((city) => (
                     <option key={city.ID} value={city.ID}>
@@ -497,14 +581,12 @@ const ShoppingCart = () => {
                 <select
                   value={selectedDistrictID}
                   onChange={(e) => setSelectedDistrictID(e.target.value)}
-                  disabled={usingSavedAddress}
-                >
+                  disabled={usingSavedAddress}>
                   <option value="">Chọn quận huyện</option>
                   {districts.map((district) => (
                     <option
                       key={district.DistrictID}
-                      value={district.DistrictID}
-                    >
+                      value={district.DistrictID}>
                       {district.DistrictName}
                     </option>
                   ))}
@@ -514,15 +596,15 @@ const ShoppingCart = () => {
             {usingSavedAddress ? (
               <button
                 className="custom-button-long"
-                onClick={() => setUsingSavedAddress(false)}
-              >
+                onClick={
+                  handleUseNewAddressSelect
+                }>
                 Thêm địa chỉ mới
               </button>
             ) : (
               <button
                 className="custom-button-long"
-                onClick={() => setShowAddressPopup(true)}
-              >
+                onClick={() => setShowAddressPopup(true)}>
                 Dùng địa chỉ cũ
               </button>
             )}
@@ -557,20 +639,21 @@ const ShoppingCart = () => {
                     </p>
                     <div className="quantity-control">
                       <button
+                        onClick={() => decreaseOne(productId)}
                         onMouseDown={() => startDecrement(productId)}
                         onMouseUp={stopDecrement}
-                        onMouseLeave={stopDecrement}
-                      >
+                        onMouseLeave={stopDecrement}>
                         -
                       </button>
                       <span>Số lượng: {quantity}</span>
                       <button
+                        onClick={() => increaseOne(productId)}
                         onMouseDown={() => startIncrement(productId)}
                         onMouseUp={stopIncrement}
-                        onMouseLeave={stopIncrement}
-                      >
+                        onMouseLeave={stopIncrement}>
                         +
                       </button>
+
                     </div>
                   </div>
                 </div>
@@ -589,8 +672,7 @@ const ShoppingCart = () => {
             <div className="voucher-selection-long">
               <button
                 className="choose-voucher-btn"
-                onClick={() => setShowVoucherPopup(true)}
-              >
+                onClick={() => setShowVoucherPopup(true)}>
                 Chọn Voucher
               </button>
               {selectedVoucher && (
@@ -621,8 +703,10 @@ const ShoppingCart = () => {
 
             <div className="total-row">
               <span>Khuyến mãi</span>
-              <span>{discount.toLocaleString()} đ</span>
+              {kmai ? <span>-{kmai.toLocaleString()} đ</span> : <span>{kmai.toLocaleString()} đ</span>}
+
             </div>
+
 
             <div className="total-row total">
               <span>Thành tiền</span>
@@ -661,14 +745,12 @@ const ShoppingCart = () => {
             <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
             <button
               className="popup-btn-cart-thinh"
-              onClick={confirmRemoveProduct}
-            >
+              onClick={confirmRemoveProduct}>
               Có
             </button>
             <button
               className="popup-btn-cart-thinh"
-              onClick={() => setProductToRemove(null)}
-            >
+              onClick={() => setProductToRemove(null)}>
               Không
             </button>
           </div>

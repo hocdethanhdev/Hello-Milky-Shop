@@ -2,8 +2,8 @@ const articleService = require("../service/articleService");
 
 const getTop5ArticleSameType = async (req, res) => {
     try {
-        const {ArticleCategoryID, ArticleID} = req.body;
-        if(!ArticleCategoryID || !ArticleID){
+        const { ArticleCategoryID, ArticleID } = req.body;
+        if (!ArticleCategoryID || !ArticleID) {
             res.status(400).send({
                 err: 1,
                 mes: "Missing input"
@@ -19,7 +19,7 @@ const getTop5ArticleSameType = async (req, res) => {
 
 const getArticlesByID = async (req, res) => {
     try {
-        const obj = await articleService.getArticlesByID (req.params.ID);
+        const obj = await articleService.getArticlesByID(req.params.ID);
         res.send(obj);
     } catch (error) {
         console.error("Error while getting all users:", error);
@@ -30,7 +30,7 @@ const getArticlesByID = async (req, res) => {
 
 const getArticlesByArticleID = async (req, res) => {
     try {
-        const obj = await articleService.getArticlesByArticleID (req.params.ID);
+        const obj = await articleService.getArticlesByArticleID(req.params.ID);
         res.send(obj);
     } catch (error) {
         console.error("Error while getting all users:", error);
@@ -40,20 +40,20 @@ const getArticlesByArticleID = async (req, res) => {
 
 const getArticlesByContent = async (req, res) => {
     try {
-        const obj = await articleService.getArticlesByContent (req.params.Content);
+        const obj = await articleService.getArticlesByContent(req.params.Content);
         res.send(obj);
     } catch (error) {
         console.error("Error while getting all users:", error);
         res.status(500).send("Internal Server Error");
     }
-}; 
+};
 
 const getAllArticles = async (rep, res) => {
     try {
         const obj = await articleService.getAllArticles();
         res.send(obj);
     } catch (error) {
-        console.error("Error while getting all server",error);
+        console.error("Error while getting all server", error);
         res.status(500).send("Internal Server Error");
     }
 };
@@ -101,10 +101,20 @@ const updateArticle = async (req, res) => {
 
 const getAuthorName = async (req, res) => {
     try {
-        const obj = await articleService.getAuthorName ();
+        const obj = await articleService.getAuthorName();
         res.send(obj);
     } catch (error) {
         console.error("Error while getting all users:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const getCurrentCategoriesInArticles = async (req, res) => {
+    try {
+        const obj = await articleService.getCurrentCategoriesInArticles();
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all current category articles:", error);
         res.status(500).send("Internal Server Error");
     }
 };
@@ -120,4 +130,5 @@ module.exports = {
     getArticlesByArticleID,
     getAuthorName,
     getTop5ArticleSameType,
+    getCurrentCategoriesInArticles
 }

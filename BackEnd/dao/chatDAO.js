@@ -2,6 +2,29 @@ const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 
 const chatDAO = {
+  getChatUnseen: (ChatRoom) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        const request = new mssql.Request()
+        .input("ChatRoom", mssql.NVarChar, ChatRoom);
+        request.query(`
+          Select COUNT(Message) as count 
+          from Message m JOIN Chat c 
+          ON c.ChatRoom = m.ChatRoom
+          WHERE c.ChatRoom = @ChatRoom AND m.TimeStamp > 
+          (SELECT TOP 1 TimeStamp 
+          FROM Message m
+          WHERE SUBSTRING(UserID, 1, 1) = 'S'
+          ORDER BY TimeStamp DESC);`, (err, res) => {
+          if (err) reject(err);
+          resolve({
+            err: res.recordset[0].count !== null ? 0 : 1,
+            count: res.recordset[0].count
+          });
+        });
+      });
+    });
+  },
   getAllMessageByChatRoom: (ChatRoom) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
@@ -85,7 +108,7 @@ const chatDAO = {
           (err, res) => {
             if (err) reject(err);
             resolve({
-              err: res.rowsAffected > 0 ? 0 : 1,
+              err: res?.rowsAffected > 0 ? 0 : 1,
             });
           }
         );

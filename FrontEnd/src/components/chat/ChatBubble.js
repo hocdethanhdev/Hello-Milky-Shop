@@ -6,9 +6,22 @@ const socket = io("http://localhost:5000");
 const { getUserIdFromToken } = require("../store/actions/authAction");
 
 function ChatBubble({ onClick }) {
+  const [showMiniMessage, setShowMiniMessage] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMiniMessage(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <div className="chat-bubble" onClick={onClick}>
-      Tư vấn
+      {showMiniMessage && (
+        <div className="mini-message">
+          <p className="info-mess-chat">Bạn cần chúng tôi hỗ trợ gì không?</p>
+        </div>
+      )}
+      <span className="fas fa-comments icon-chat-buble"></span>
     </div>
   );
 }
@@ -121,11 +134,21 @@ function ChatBubbleWithWindow() {
   const [showChat, setShowChat] = useState(false);
 
   const toggleChat = () => {
-    setShowChat(!showChat);
+    const chatContainer = document.querySelector('.chat-container');
+    if (showChat) {
+      chatContainer.classList.add('close');
+      setTimeout(() => {
+        setShowChat(false);
+        chatContainer.classList.remove('close');
+      }, 500); // Match the duration of the collapse animation
+    } else {
+      setShowChat(true);
+      chatContainer.classList.add('active');
+    }
   };
 
   return (
-    <div className="chat-container">
+    <div className={`chat-container ${showChat ? 'active' : ''}`}>
       <ChatBubble onClick={toggleChat} />
       {showChat && <ChatWindow onClose={toggleChat} />}
     </div>

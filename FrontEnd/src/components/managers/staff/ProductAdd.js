@@ -158,6 +158,12 @@ const ProductAdd = () => {
         handleResizeImage(editor);
       },
       change: (newContent) => {
+        const maxChars = 4000;
+        if (newContent.length > maxChars) {
+          editor.value = newContent.substring(0, maxChars);
+          message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
+
+        }
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = newContent;
         const images = tempDiv.querySelectorAll('img');
@@ -278,7 +284,6 @@ const ProductAdd = () => {
             onChange={(e) => setProductCategoryName(e.target.value)}
             required>
             <option value="Sữa cho em bé">Sữa cho em bé</option>
-            <option value="Sữa tăng cân">Sữa tăng cân</option>
             <option value="Sữa cho mẹ bầu">Sữa cho mẹ bầu</option>
           </select>
         </div>

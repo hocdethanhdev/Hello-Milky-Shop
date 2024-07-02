@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../../store/actions/authAction";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import Loading from '../../../layout/Loading';
 
 const formatPrice = (price) => `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 const calculateDiscount = (originalPrice, discountedPrice) => originalPrice === discountedPrice ? 0 : originalPrice - discountedPrice;
@@ -17,7 +18,7 @@ const ProductContentMom = ({ product }) => {
     const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const [availableStock, setAvailableStock] = useState(product.StockQuantity);
-    const [ratingData, setRatingData] = useState({ avg: 0, count: 0 }); // State for rating data
+    const [ratingData, setRatingData] = useState({ avg: 0, count: 0 });
     const navigate = useNavigate();
     const incrementRef = useRef(null);
     const decrementRef = useRef(null);
@@ -27,7 +28,7 @@ const ProductContentMom = ({ product }) => {
             try {
                 const response = await axios.get(`http://localhost:5000/api/v1/comment/countRatingAndAvgRating/${product.ProductID}`);
                 setRatingData({
-                    avg: parseFloat(response.data.avg.toFixed(1)), // Round to 1 decimal place
+                    avg: parseFloat(response.data.avg.toFixed(1)),
                     count: response.data.count
                 });
             } catch (error) {
@@ -51,7 +52,8 @@ const ProductContentMom = ({ product }) => {
                 quantity: quantity,
                 price: product.PriceAfterDiscounts
             });
-
+            // Lưu productID vào Local Storage
+            localStorage.setItem('selectedProductID', product.ProductID);
             setQuantity(1);
             openCartPopup();
         } catch (error) {
@@ -67,15 +69,16 @@ const ProductContentMom = ({ product }) => {
                 quantity: quantity,
                 price: product.PriceAfterDiscounts
             });
+            // Lưu productID vào Local Storage
+            localStorage.setItem('selectedProductID', product.ProductID);
             navigate('/ShoppingCart');
         } catch (error) {
             console.error('Error adding product to order:', error);
         }
     };
 
-    // Handle holding buttons for continuous increment/decrement
     const startIncrement = () => {
-        stopIncrement(); // Stop any existing interval to prevent multiple intervals
+        stopIncrement();
         incrementRef.current = setInterval(() => {
             setQuantity(prevQuantity => Math.min(prevQuantity + 1, availableStock));
         }, 100);
@@ -90,7 +93,7 @@ const ProductContentMom = ({ product }) => {
     };
 
     const startDecrement = () => {
-        stopDecrement(); // Stop any existing interval to prevent multiple intervals
+        stopDecrement();
         decrementRef.current = setInterval(() => {
             setQuantity(prevQuantity => Math.max(prevQuantity - 1, 1));
         }, 100);
@@ -105,7 +108,7 @@ const ProductContentMom = ({ product }) => {
     };
 
     if (!product) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     const discountAmount = calculateDiscount(product.Price, product.PriceAfterDiscounts);

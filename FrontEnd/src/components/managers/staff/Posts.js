@@ -36,10 +36,9 @@ function Posts() {
     setCurrentPage(page);
   };
 
-  const handleSort = () => {
-    let direction =
-      sortConfig.direction === "ascending" ? "descending" : "ascending";
-    setSortConfig({ key: "Title", direction });
+  const handleSort = (key) => {
+    let direction = sortConfig.direction === "ascending" ? "descending" : "ascending";
+    setSortConfig({ key, direction });
   };
 
   const sortedArticles = [...articles].sort((a, b) => {
@@ -105,37 +104,43 @@ function Posts() {
       <div className="post-list">
         <table>
           <thead>
-            <tr>
-              <th onClick={handleSort} style={{ cursor: "pointer" }}>
+            <tr className="row">
+              <th className="col-md-4" onClick={() => handleSort("Title")} style={{ cursor: "pointer" }}>
                 Tiêu đề <FontAwesomeIcon icon={faSort} />
               </th>
-              <th>Ngày công bố</th>
-              <th>Thao tác</th>
+              <th className="col-md-3">Ảnh</th>
+              <th className="col-md-3" onClick={() => handleSort("PublishDate")} style={{ cursor: "pointer" }}>
+                Ngày công bố <FontAwesomeIcon icon={faSort} />
+              </th>
+              <th className="col-md-2">Thao tác</th>
             </tr>
           </thead>
           <tbody>
             {currentArticles.map((article) => (
-              <tr key={article.ArticleID}>
-                <td>{article.Title}</td>
-                <td>
+              <tr className="row" key={article.ArticleID}>
+                <td className="col-md-4">{article.Title}</td>
+                <td className="col-md-3">
                   <img
+                    className="header-img-post"
                     src={article.HeaderImage}
                     alt="Header Image"
                     style={{ width: "100px" }}
                   />
                 </td>
-                <td>{new Date(article.PublishDate).toLocaleDateString()}</td>
-                <td>
-                  <button
-                    className="btn btn-warning"
-                    onClick={() => handleEditClick(article.ArticleID)}>
-                    Sửa
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handleDeleteClick(article.ArticleID)}>
-                    Xóa
-                  </button>
+                <td className="col-md-3">{new Date(article.PublishDate).toLocaleDateString()}</td>
+                <td className="col-md-2  ">
+                  <div className="nutchung-post">
+                    <button
+                      className="btn btn-warning  sua-post-nut"
+                      onClick={() => handleEditClick(article.ArticleID)}>
+                      Sửa
+                    </button>
+                    <button
+                      className="btn btn-danger "
+                      onClick={() => handleDeleteClick(article.ArticleID)}>
+                      Xóa
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

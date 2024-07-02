@@ -146,7 +146,12 @@ function Voucher() {
     <div className="voucher-container-thinhvcher">
       <div className="voucher-body-thinhvcher">
         {showSuccess && (
-          <div className={`success-message-thinhvcher ${successMessage.includes("Lỗi") ? "error-thinhvcher" : "success-thinhvcher"} success-message-show`}>
+          <div
+            className={`success-message-thinhvcher ${
+              successMessage.includes("Lỗi")
+                ? "error-thinhvcher"
+                : "success-thinhvcher"
+            } success-message-show`}>
             {successMessage}
           </div>
         )}
@@ -164,43 +169,43 @@ function Voucher() {
               <tr>
                 <th>
                   Tên Voucher
-                  <button onClick={() => handleSort("VoucherName")}>
+                  <button className='sort-vch-thinh' onClick={() => handleSort("VoucherName")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
                 <th>
                   Số lượng
-                  <button onClick={() => handleSort("Quantity")}>
+                  <button className='sort-vch-thinh' onClick={() => handleSort("Quantity")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
                 <th>
                   Phần trăm giảm giá
-                  <button onClick={() => handleSort("DiscountPercentage")}>
+                  <button className='sort-vch-thinh' onClick={() => handleSort("DiscountPercentage")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
                 <th>
                   Tối thiểu
-                  <button onClick={() => handleSort("MinDiscount")}>
+                  <button className='sort-vch-thinh' onClick={() => handleSort("MinDiscount")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
                 <th>
                   Tối đa
-                  <button onClick={() => handleSort("MaxDiscount")}>
+                  <button className='sort-vch-thinh' onClick={() => handleSort("MaxDiscount")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
                 <th>
                   Ngày bắt đầu
-                  <button onClick={() => handleSort("StartDate")}>
+                  <button className='sort-vch-thinh' onClick={() => handleSort("StartDate")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
                 <th>
                   Ngày kết thúc
-                  <button onClick={() => handleSort("ExpiryDate")}>
+                  <button className='sort-vch-thinh' onClick={() => handleSort("ExpiryDate")}>
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
@@ -219,7 +224,7 @@ function Voucher() {
                       </ul>
                     )}
                   </div>
-                  <button onClick={toggleStatusDropdown}>
+                  <button className='sort-vch-thinh' onClick={toggleStatusDropdown}>
                     <FontAwesomeIcon icon={faFilter} />
                   </button>
                 </th>
@@ -234,14 +239,26 @@ function Voucher() {
                   <td>{voucher.DiscountPercentage}%</td>
                   <td>{formatPrice(voucher.MinDiscount)}</td>
                   <td>{formatPrice(voucher.MaxDiscount)}</td>
-                  <td>{new Date(voucher.StartDate).toLocaleDateString()}</td>
-                  <td>{new Date(voucher.ExpiryDate).toLocaleDateString()}</td>
+                  <td>
+                    {new Date(voucher.StartDate).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </td>
+                  <td>
+                    {new Date(voucher.ExpiryDate).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </td>
                   <td>{voucher.Status ? "Active" : "Inactive"}</td>
                   <td>
-                    <button onClick={() => handleEditClick(voucher)}>
+                    <button className='btn btn-warning edit-vch-bt' onClick={() => handleEditClick(voucher)}>
                       Sửa
                     </button>
-                    <button onClick={() => handleDelete(voucher.VoucherID)}>
+                    <button className='btn btn-danger' onClick={() => handleDelete(voucher.VoucherID)}>
                       Xóa
                     </button>
                   </td>

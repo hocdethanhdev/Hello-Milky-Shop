@@ -1,80 +1,63 @@
-/* Signup.css */
-
-/* Background image */
 .bg-image {
-    
-    background-size: cover;
-    background-position: center;
-  }
-  
-  /* Card styling */
-  .signup-card {
-    margin: 0 auto;
-    max-width: 600px;
-    border-radius: 1rem;
-    background: hsla(0, 0%, 100%, 0.8);
-    backdrop-filter: blur(30px);
-  }
-  
-  /* Form input wrapper */
-  .input-wrapper {
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Checkbox wrapper */
-  .checkbox-wrapper {
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Button styling */
-  .signup-button {
-    background-color: #1266f1; /* Màu nền của nút */
-    color: #fff; /* Màu chữ của nút */
-  }
-  
-  .signup-button:hover {
-    background-color: #0d55c4; /* Màu nền của nút khi hover */
-  }
-  
-  /* Social buttons */
-  .social-buttons {
-    margin-top: 1.5rem;
-  }
-  
-  .social-buttons .btn {
-    margin-right: 0.5rem;
-  }
-  
-  .social-buttons .btn:last-child {
-    margin-right: 0;
-  }
-  
+  background-size: cover;
+  background-position: center;
+}
+.signup-card {
+  margin: 0 auto;
+  max-width: 600px;
+  border-radius: 1rem;
+  background: hsla(0, 0%, 100%, 0.8);
+  backdrop-filter: blur(30px);
+}
+.input-wrapper {
+  margin-bottom: 1.5rem;
+}
+.checkbox-wrapper {
+  margin-bottom: 1.5rem;
+}
+.signup-button {
+  background-color: #1266f1;
+  color: #fff;
+}
 
-  .google-signup-button {
-    display: inline-block;
-    color: whitesmoke;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    border: 1px solid black;
-    background-color: rgb(194, 57, 11);
-    transition: background-color 0.3s ease;
-    margin-left: 80px;
-    margin-top: 15px;
-  }
+.signup-button:hover {
+  background-color: #0d55c4;
+}
 
-  .terms-link {
-    margin-left: 5px;
-    margin-right: 5px;
-  }
+.social-buttons {
+  margin-top: 1.5rem;
+}
 
-  .checkbox-label input {
-    margin-right: 5px;
-  }
-  .logo-sign-up-ad{
-    margin-top: -50px;
-    padding-bottom: 30px;
-    
-  }
- 
-  
+.social-buttons .btn {
+  margin-right: 0.5rem;
+}
+
+.social-buttons .btn:last-child {
+  margin-right: 0;
+}
+
+.google-signup-button {
+  display: inline-block;
+  color: whitesmoke;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+  background-color: rgb(194, 57, 11);
+  transition: background-color 0.3s ease;
+  margin-left: 80px;
+  margin-top: 15px;
+}
+
+.terms-link {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.checkbox-label input {
+  margin-right: 5px;
+}
+.logo-sign-up-ad {
+  margin-top: -50px;
+  padding-bottom: 30px;
+}

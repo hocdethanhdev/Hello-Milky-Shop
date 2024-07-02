@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './ProductHot.css';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../layout/Loading';
 
 // Formatting functions
 const formatPrice = (price) => {
@@ -52,7 +53,7 @@ function ProductHot() {
     window.scrollTo(0, 0); // Scroll to the top of the page
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

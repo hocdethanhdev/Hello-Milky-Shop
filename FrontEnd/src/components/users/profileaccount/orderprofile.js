@@ -78,7 +78,7 @@ const OrderProfile = () => {
       .reduce((total, item) => {
         const discountedPrice = item.NewPrice || item.OldPrice;
         return total + item.Quantity * discountedPrice;
-        return item.TotalAmount;
+
       }, 0)
       .toLocaleString("vi-VN", { style: "currency", currency: "VND" });
   };

@@ -36,6 +36,9 @@ const articleService = {
   getAuthorName: async (req, res) => {
     return await articleRepository.getAuthorName();
   },
+  getCurrentCategoriesInArticles: async (req, res) => {
+    return await articleRepository.getCurrentCategoriesInArticles();
+  },
 };
 
 module.exports = articleService;
