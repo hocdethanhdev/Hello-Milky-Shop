@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Voucher.css";
+import { message } from "antd";
 
 function VoucherAdd() {
   const [voucherData, setVoucherData] = useState({
@@ -24,6 +25,84 @@ function VoucherAdd() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Destructure voucherData from state
+    const {
+      voucherName,
+      discountPercentage,
+      minDiscount,
+      maxDiscount,
+      startDate,
+      expiryDate,
+      quantity,
+    } = voucherData;
+
+    // Validation checks
+    if (!voucherName) {
+      message.warning("Tên voucher không được bỏ trống.");
+      return;
+    }
+    if (voucherName.length > 30) {
+      message.warning("Tên voucher không được quá 30 kí tự.");
+      return;
+    }
+    if (minDiscount === null || minDiscount === "") {
+      message.warning("Giảm tối thiểu không được bỏ trống.");
+      return;
+    }
+    if (minDiscount < 0) {
+      message.warning("Giảm tối thiểu không được nhỏ hơn 0.");
+      return;
+    }
+    if (quantity === null || quantity === "") {
+      message.warning("Số lượng không được bỏ trống.");
+      return;
+    }
+    if (quantity < 0) {
+      message.warning("Số lượng không được nhỏ hơn 0.");
+      return;
+    }
+    if (maxDiscount === null || maxDiscount === "") {
+      message.warning("Giảm tối đa không được bỏ trống.");
+      return;
+    }
+    if (maxDiscount < 0) {
+      message.warning("Giảm tối đa không được nhỏ hơn 0.");
+      return;
+    }
+    if (!startDate) {
+      message.warning("Ngày bắt đầu không được bỏ trống.");
+      return;
+    }
+
+    // Check if startDate is after today
+    const today = new Date();
+    const start = new Date(startDate);
+    if (start < today) {
+      message.warning("Ngày bắt đầu không được sau ngày hiện tại.");
+      return;
+    }
+
+    if (!expiryDate) {
+      message.warning("Ngày kết thúc không được bỏ trống.");
+      return;
+    }
+    if (new Date(expiryDate) < start) {
+      message.warning("Ngày kết thúc phải sau hoặc bằng ngày bắt đầu.");
+      return;
+    }
+    if (discountPercentage === null || discountPercentage === "") {
+      message.warning("Phần trăm giảm giá không được bỏ trống.");
+      return;
+    }
+    if (discountPercentage < 0) {
+      message.warning("Phần trăm giảm giá không được nhỏ hơn 0.");
+      return;
+    }
+
+
+
+    // If all validations pass, proceed with API call
     fetch("http://localhost:5000/api/v1/voucher/addVoucher", {
       method: "POST",
       headers: {
@@ -74,7 +153,7 @@ function VoucherAdd() {
             name="voucherName"
             value={voucherData.voucherName}
             onChange={handleChange}
-            required
+
           />
 
           <label htmlFor="quantity">Số lượng</label>
@@ -84,7 +163,7 @@ function VoucherAdd() {
             name="quantity"
             value={voucherData.quantity}
             onChange={handleChange}
-            required
+
           />
           <label htmlFor="startDate">Ngày bắt đầu</label>
           <input
@@ -93,37 +172,37 @@ function VoucherAdd() {
             name="startDate"
             value={voucherData.startDate}
             onChange={handleChange}
-            required
+
           />
-          <label htmlFor="discountPercentage">Giảm giá (%)</label>
+          <label htmlFor="discountPercentage">Phần trăm giảm giá (%)</label>
           <input
             type="number"
             id="discountPercentage"
             name="discountPercentage"
             value={voucherData.discountPercentage}
             onChange={handleChange}
-            required
+
           />
         </div>
         <div className="half-width">
-          <label htmlFor="minDiscount">Tối thiểu</label>
+          <label htmlFor="minDiscount"> Giảm tối thiểu</label>
           <input
             type="number"
             id="minDiscount"
             name="minDiscount"
             value={voucherData.minDiscount}
             onChange={handleChange}
-            required
+
           />
 
-          <label htmlFor="maxDiscount">Tối đa</label>
+          <label htmlFor="maxDiscount">Giảm tối đa</label>
           <input
             type="number"
             id="maxDiscount"
             name="maxDiscount"
             value={voucherData.maxDiscount}
             onChange={handleChange}
-            required
+
           />
           <label htmlFor="expiryDate">Ngày kết thúc</label>
           <input
@@ -132,7 +211,7 @@ function VoucherAdd() {
             name="expiryDate"
             value={voucherData.expiryDate}
             onChange={handleChange}
-            required
+
           />
           <button type="submit" className="create-voucher">
             Tạo voucher
