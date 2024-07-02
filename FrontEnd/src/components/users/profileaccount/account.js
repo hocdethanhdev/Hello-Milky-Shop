@@ -6,6 +6,7 @@ import { getUserIdFromToken } from "../../store/actions/authAction";
 import axios from "axios";
 import { CiEdit } from "react-icons/ci";
 import { message } from "antd";
+import Loading from "../../layout/Loading";
 
 function Account() {
   const [userData, setUserData] = useState(null);
@@ -281,7 +282,7 @@ function Account() {
             </div>
           </div>
         ) : (
-          <p>Đang tải thông tin...</p>
+          <Loading/>
         )}
       </div>
     </div>

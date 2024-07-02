@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../../store/actions/authAction";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import Loading from '../../../layout/Loading';
 
 const formatPrice = (price) => `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 const calculateDiscount = (originalPrice, discountedPrice) => originalPrice === discountedPrice ? 0 : originalPrice - discountedPrice;
@@ -104,7 +105,7 @@ const ProductContentMom = ({ product }) => {
     };
 
     if (!product) {
-        return <div>Loading...</div>;
+        return <Loading/>;
     }
 
     const discountAmount = calculateDiscount(product.Price, product.PriceAfterDiscounts);

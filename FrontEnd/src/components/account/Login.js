@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ import {
 } from "mdb-react-ui-kit";
 import axios from "axios";
 import PhoneInput from "react-phone-input-2";
+import { message } from 'antd';
 
 function Login() {
   const loginGoogle = () => {
@@ -22,6 +23,8 @@ function Login() {
     phone: '',
     password: ''
   });
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -38,13 +41,11 @@ function Login() {
     });
   };
 
-  const [message, setMessage] = useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.phone || !formData.password) {
-      setMessage("Vui lòng điền đầy đủ thông tin!");
+      message.error("Vui lòng điền đầy đủ thông tin!");
       return;
     }
 
@@ -59,12 +60,12 @@ function Login() {
       if (response.data.err === 0) {
         window.open(`http://localhost:5000/api/v1/auth/loginSuccess?token=${response.data.token}`, '_self');
       } else if (response.data.err === 1) {
-        setMessage("Số điện thoại " + formData.phone + " chưa được đăng kí");
+        message.error("Số điện thoại " + formData.phone + " chưa được đăng kí");
       } else {
-        setMessage("Sai mật khẩu");
+        message.error("Sai mật khẩu");
       }
     } catch (error) {
-      setMessage("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
+      message.error("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
     }
   };
 
@@ -76,8 +77,6 @@ function Login() {
             <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100" style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.2)' }}>
               <h2 className="fw-bold mb-2 text-uppercase">Đăng nhập</h2>
               <p className="text-dark-50 mb-5"></p>
-
-              {message && <p className="text-danger">{message}</p>}
 
               <PhoneInput className="login-nd"
                 country={"vn"}
@@ -91,23 +90,31 @@ function Login() {
                 size="lg"
                 onChange={handlePhoneChange}
               />
-              <MDBInput className="login-nd"
-                wrapperClass="mb-4 mx-5 w-100"
-                labelClass="text-dark"
-                placeholder="Mật khẩu"
-                id="password"
-                name="password"
-                type="password"
-                size="lg"
-                value={formData.password}
-                onChange={handleChange}
-              />
+              <div className="position-relative mb-4 mx-5 w-100">
+                <MDBInput className="login-nd"
+                  wrapperClass="w-100"
+                  labelClass="text-dark"
+                  placeholder="Mật khẩu"
+                  id="password"
+                  name="password"
+                  type={passwordVisible ? "text" : "password"}
+                  size="lg"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                <MDBIcon
+                  icon={passwordVisible ? "eye-slash" : "eye"}
+                  size="lg"
+                  className="password-toggle-icon"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                />
+              </div>
 
               <p className="small mb-3 pb-lg-2">
                 <Link to="/ResetPassword">
-                <a className="text-dark-50" href="#!">
-                  Quên mật khẩu?
-                </a>
+                  <a className="text-dark-50" href="#!">
+                    Quên mật khẩu?
+                  </a>
                 </Link>
               </p>
               <button className="login-button-trid" type="button" onClick={handleSubmit}>

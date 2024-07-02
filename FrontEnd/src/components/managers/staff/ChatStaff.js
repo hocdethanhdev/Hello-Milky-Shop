@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ChatWindow from "../../chat/ChatPage";
 import "./StaffChat.css";
+import Loading from "../../layout/Loading";
 
 function StaffChat() {
   const [chatRooms, setChatRooms] = useState([]);
@@ -89,7 +90,7 @@ function StaffChat() {
       <div className="chat-room-list col-md-3">
         <h4>Danh sách khách hàng</h4>
         {loading ? (
-          <div>Loading...</div>
+          <Loading/>
         ) : (
           <ul>
             {chatRooms.map((room) => (

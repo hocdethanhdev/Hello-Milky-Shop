@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { uploadImage } from "../uimg/UpImage";
-import { message } from 'antd';
+import { message } from "antd";
 import "./AddPromotion.css";
 
 const AddPromotion = () => {
@@ -32,10 +32,14 @@ const AddPromotion = () => {
     fetchProducts();
   }, []);
 
-  const categories = Array.from(new Set(products.map((product) => product.ProductCategoryName)));
+  const categories = Array.from(
+    new Set(products.map((product) => product.ProductCategoryName))
+  );
 
   const filteredProducts = selectedCategory
-    ? products.filter((product) => product.ProductCategoryName === selectedCategory)
+    ? products.filter(
+        (product) => product.ProductCategoryName === selectedCategory
+      )
     : products;
 
   useEffect(() => {
@@ -45,8 +49,48 @@ const AddPromotion = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate promotion name
+    if (promotionName.trim().length === 0) {
+      message.error("Tên khuyến mãi không được để trống.");
+      return;
+    }
+
+    if (promotionName.trim().length > 255) {
+      message.error("Tên khuyến mãi không được quá 255 kí tự.");
+      return;
+    }
+
+    // Validate discount percentage
+    if (discountPercentage < 0) {
+      message.error("Phần trăm khuyến mãi phải lớn hơn 0");
+      return;
+    }
+    if (!discountPercentage) {
+      message.error("Phần trăm khuyến mãi không được để trống");
+      return;
+    }
+    if (description.trim().length === 0) {
+      message.error("Mô tả không được để trống.");
+      return;
+    }
+    if (!startDate) {
+      message.error("Vui lòng chọn ngày bắt đầu.");
+      return;
+    }
+
+    if (!endDate) {
+      message.error("Vui lòng chọn ngày kết thúc.");
+      return;
+    }
+
+    // Validate start and end date
+    if (new Date(startDate) >= new Date(endDate)) {
+      message.error("Ngày kết thúc phải sau ngày bắt đầu.");
+      return;
+    }
+
     if (!image) {
-      message.error("Please select an image.");
+      message.error("Vui lòng thêm hình ảnh cho khuyến mãi.");
       return;
     }
 
@@ -65,7 +109,6 @@ const AddPromotion = () => {
       const response = await axios.post(
         "http://localhost:5000/api/v1/promotion/addPromotion",
         promotionData,
-
         { headers: { "Content-Type": "application/json" } }
       );
 
@@ -91,11 +134,9 @@ const AddPromotion = () => {
       setSelectedProducts([]);
       setSelectedCategory("");
     } catch (error) {
-      console.error("Error adding promotion:", error);
-      message.error("Error adding promotion: " + error.message);
+      message.error("Vui lòng thêm sản phẩm cho khuyến mãi");
     }
   };
-  
 
   const handleProductSelection = (productId) => {
     setSelectedProducts((prevSelectedProducts) =>
@@ -146,16 +187,17 @@ const AddPromotion = () => {
         previewImage={previewImage}
       />
       <div className="product-list-container">
-        <h3>Select Products for Promotion</h3>
+        <h3>Chọn sản phẩm dành cho khuyến mãi</h3>
         <div className="filter-container-promotion">
-          <label>Filter by Category:</label>
+          <label>Phân loại sữa</label>
           <select
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            <option value="">All Categories</option>
+            onChange={(e) => setSelectedCategory(e.target.value)}>
+            <option value="">Tất cả</option>
             {categories.map((category, index) => (
-              <option key={index} value={category}>{category}</option>
+              <option key={index} value={category}>
+                {category}
+              </option>
             ))}
           </select>
         </div>
@@ -187,7 +229,6 @@ const PromotionForm = ({
 }) => {
   return (
     <div className="promotion-form-container">
-      <h2>Add Promotion</h2>
       <form onSubmit={handleSubmit}>
         <div className="promo-form">
           <div className="promo-half">
@@ -197,7 +238,6 @@ const PromotionForm = ({
                 type="text"
                 value={promotionName}
                 onChange={(e) => setPromotionName(e.target.value)}
-                required
               />
             </div>
             <div>
@@ -206,7 +246,6 @@ const PromotionForm = ({
                 type="number"
                 value={discountPercentage}
                 onChange={(e) => setDiscountPercentage(e.target.value)}
-                required
               />
             </div>
             <div>
@@ -214,7 +253,6 @@ const PromotionForm = ({
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                required
               />
             </div>
           </div>
@@ -225,7 +263,6 @@ const PromotionForm = ({
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                required
               />
             </div>
             <div>
@@ -234,25 +271,27 @@ const PromotionForm = ({
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                required
               />
             </div>
 
             <div>
-              <label>Image:</label>
+              <label>Hình ảnh:</label>
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                required
               />
               {previewImage && (
                 <div className="form-group">
-                  <img src={previewImage} alt="Preview" className="preview-image" />
+                  <img
+                    src={previewImage}
+                    alt="Preview"
+                    className="preview-image-promotion"
+                  />
                 </div>
               )}
             </div>
-            <button type="submit">Add Promotion</button>
+            <button type="submit">Lưu</button>
           </div>
         </div>
       </form>
@@ -260,9 +299,17 @@ const PromotionForm = ({
   );
 };
 
-const ProductList = ({ products, selectedProducts, handleProductSelection, handleSelectAll }) => {
+const ProductList = ({
+  products,
+  selectedProducts,
+  handleProductSelection,
+  handleSelectAll,
+}) => {
   const formatPrice = (price) => {
-    return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    return price.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
   };
 
   return (
@@ -288,13 +335,22 @@ const ProductList = ({ products, selectedProducts, handleProductSelection, handl
                 <img
                   src={product.Image}
                   alt={product.ProductName}
-                  className={selectedProducts.includes(product.ProductID) ? "selected" : ""}
+                  className={
+                    selectedProducts.includes(product.ProductID)
+                      ? "selected"
+                      : ""
+                  }
                 />
                 <div>
                   <p>{product.ProductName}</p>
                   <p>{formatPrice(product.Price)}</p>
-                  <p><strong>Kho:</strong> {product.StockQuantity}</p>
-                  <p><strong>HSD:</strong> {new Date(product.ExpirationDate).toLocaleDateString()}</p>
+                  <p>
+                    <strong>Kho:</strong> {product.StockQuantity}
+                  </p>
+                  <p>
+                    <strong>HSD:</strong>{" "}
+                    {new Date(product.ExpirationDate).toLocaleDateString()}
+                  </p>
                 </div>
               </div>
             </label>

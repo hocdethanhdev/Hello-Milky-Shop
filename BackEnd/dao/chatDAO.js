@@ -108,7 +108,7 @@ const chatDAO = {
           (err, res) => {
             if (err) reject(err);
             resolve({
-              err: res.rowsAffected > 0 ? 0 : 1,
+              err: res?.rowsAffected > 0 ? 0 : 1,
             });
           }
         );

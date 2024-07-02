@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Modal, Button, message } from "antd";
+import { Modal, message } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
@@ -112,6 +112,8 @@ const ManageStaff = () => {
           )
         );
         setIsModalVisible(false);
+        message.success("Khóa tài khoản thành công");
+
         fetchUsers();
       })
       .catch((error) => console.error("Error updating user status:", error));
@@ -136,6 +138,7 @@ const ManageStaff = () => {
             account.UserID === user.UserID ? { ...account, Status: 1 } : account
           )
         );
+        message.success("Mở khóa tài khoản thành công");
         fetchUsers();
       })
       .catch((error) => console.error("Error enabling user:", error));

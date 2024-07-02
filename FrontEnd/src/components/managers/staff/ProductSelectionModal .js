@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, List, Checkbox, Button, Input, Row, Col, Card, Tooltip, Select } from 'antd';
+import { Modal, List, Checkbox, Button, Input, Row, Col, Card, Tooltip, Select, message } from 'antd';
 import axios from 'axios';
 import { SearchOutlined } from '@ant-design/icons';
 import './ProductSelectionModal.css';
@@ -51,6 +51,7 @@ const ProductSelectionModal = ({ promotionID, selectedProducts, setSelectedProdu
                 { headers: { 'Content-Type': 'application/json' } }
             );
             onClose();
+            message.success('Đã cập nhật thành công');
         } catch (error) {
             console.error('Error adding product to promotion:', error);
         }

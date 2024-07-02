@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './News.css';
-import ProductHot from './ProductHot'; // Import the ProductHot component
+import ProductHot from './ProductHot';
 import NavCate from '../product/ui-product-mom/NavCate';
+import Loading from '../../layout/Loading';
 
 const News = () => {
   const [news, setNews] = useState([]);
@@ -11,9 +12,19 @@ const News = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
-  const [selectedCategory, setSelectedCategory] = useState(''); // New state for category filter
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/v1/article/getCurrentCategoriesInArticles');
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
     const fetchNews = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/v1/article/getAllArticles/');
@@ -29,6 +40,7 @@ const News = () => {
       }
     };
 
+    fetchCategories();
     fetchNews();
   }, []);
 
@@ -48,7 +60,8 @@ const News = () => {
   };
 
   const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
+    const selectedCategoryId = event.target.value;
+    setSelectedCategory(selectedCategoryId);
     setCurrentPage(1); // Reset to the first page when category changes
   };
 
@@ -79,13 +92,15 @@ const News = () => {
             <div className="category-filter-news">
               <select id="category" value={selectedCategory} onChange={handleCategoryChange}>
                 <option value="">Tất cả</option>
-                <option value="1">Sức Khỏe</option>
-                <option value="2">Tin khuyến mãi</option>
-                <option value="3">Tư vấn mua sắm</option>
+                {categories.map((category, index) => (
+                  <option key={category.ArticleCategoryID} value={category.ArticleCategoryID}>
+                    {category.ArticleCategoryName}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
-          {loading && <div>Đang tải...</div>}
+          {loading && <Loading/>}
           {errorMessage && <div className="error-message">{errorMessage}</div>}
 
 

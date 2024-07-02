@@ -7,8 +7,8 @@ const articleDAO = {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err, result) {
         const request = new mssql.Request()
-        .input("id", mssql.Int, id)
-        .input("aid", mssql.Int, aid);
+          .input("id", mssql.Int, id)
+          .input("aid", mssql.Int, aid);
         request.query(
           `SELECT TOP 5 a.*
           FROM Article a
@@ -216,5 +216,26 @@ const articleDAO = {
       });
     });
   },
+
+  getCurrentCategoriesInArticles: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err, result) {
+        if (err) {
+          reject(err);
+        } else {
+          const request = new mssql.Request();
+          request.query(
+            `SELECT DISTINCT ac.ArticleCategoryID, ac.ArticleCategoryName
+            FROM ArticleCategory ac
+            JOIN Article a ON ac.ArticleCategoryID = a.ArticleCategoryID;`,
+            (err, res) => {
+              if (err) reject(err);
+              resolve(res.recordset);
+            }
+          );
+        }
+      });
+    });
+  }
 }
 module.exports = articleDAO;

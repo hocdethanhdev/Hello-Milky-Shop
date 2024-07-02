@@ -100,7 +100,7 @@ const ShoppingCart = () => {
           [productId]: newQuantity,
         };
       });
-    }, 100);
+    }, 300);
 
     setIncrementIntervalId(intervalId);
   };
@@ -125,7 +125,7 @@ const ShoppingCart = () => {
           [productId]: newQuantity,
         };
       });
-    }, 100);
+    }, 300);
     setDecrementIntervalId(intervalId);
   };
 
@@ -254,7 +254,27 @@ const ShoppingCart = () => {
     }
   }, [userID]);
 
+
+
   useEffect(() => {
+    const checkOldAddress = async () => {
+      try {
+        const userId = userID;
+        const oldAddress = await axios.post(
+          "http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest",
+          {
+            UserID: userId
+          });
+        if (oldAddress.data.err === 1) {
+          setUsingSavedAddress(false);
+        } else {
+          setUsingSavedAddress(true);
+          handleAddressSelect(oldAddress.data.data);
+        }
+      } catch (err) {
+        setError(err.response ? err.response.data.message : err.message);
+      }
+    }
     const fetchDistricts = async () => {
       if (selectedCityID) {
         try {
@@ -269,8 +289,9 @@ const ShoppingCart = () => {
       }
     };
 
+    checkOldAddress();
     fetchDistricts();
-  }, [selectedCityID]);
+  }, [selectedCityID, userID]);
 
 
   const calculateSubtotal = () => {

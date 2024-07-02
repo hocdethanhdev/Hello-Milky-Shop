@@ -570,11 +570,11 @@ Content-Type: application/json
 PUT http://localhost:5000/api/v1/voucher/deleteVoucher/10
 
 ### lay dia chi gan nhat cua 1 user
-GET http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest
+POST http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest
 Content-Type: application/json
 
 {
-    "UserID": "M0000002"
+    "UserID": "M0000001"
 }
 ### sua thong tin user
 PUT http://localhost:5000/api/v1/user/updateInforUser
@@ -605,3 +605,6 @@ Content-Type: application/json
 {
     "ChatRoom": "M0000001"
 }
+
+### Get all current category in article
+GET http://localhost:5000/api/v1/article/getCurrentCategoriesInArticles
