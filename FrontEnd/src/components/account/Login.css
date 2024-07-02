@@ -1,5 +1,3 @@
-/* Login.css */
-
 body {
   background-size: cover;
   background-position: center;
@@ -33,8 +31,6 @@ body {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Login.css */
-
 .login-form .form-control {
   border-radius: 20px;
   padding: 10px 15px 10px 40px;
@@ -52,13 +48,11 @@ body {
   padding-right: 380px;
 }
 
-
 .p-5 {
-
   /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); */
-
   border-radius: 20px;
 }
+
 .login-form .form-control:focus {
   outline: none;
   border-color: #0f7fc1; /* Màu viền khi focus */
@@ -74,6 +68,7 @@ body {
   border-color: #28a745;
   box-shadow: 0 0 10px rgba(40, 167, 69, 0.2); /* Đổ bóng cho trường hợp lệ */
 }
+
 .login-button-trid {
   background-color: #0f7fc1;
   color: #fff;
@@ -85,6 +80,7 @@ body {
   text-transform: uppercase;
   transition: background-color 0.3s ease;
 }
+
 .login-button-trid {
   background-color: #0f7fc1; /* Màu nền của nút thinh sua phan  */
   color: whitesmoke; /* Màu chữ của nút */
@@ -108,7 +104,6 @@ body {
 .google-signup-button-trid {
   display: inline-block;
   color: whitesmoke;
-
   text-decoration: none;
   padding: 10px 20px;
   border-radius: 20px;
@@ -119,6 +114,7 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
 }
+
 .google-signup-button-trid:hover {
   background-color: rgb(201, 166, 101);
 }
@@ -139,3 +135,19 @@ body {
   font-size: 16px;
   margin-top: 20px;
 }
+
+.position-relative {
+  position: relative;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s ease;
+  font-weight: 600;
+}
+
+

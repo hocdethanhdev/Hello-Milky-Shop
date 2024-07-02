@@ -16,6 +16,7 @@ import "react-phone-input-2/lib/style.css";
 import { auth } from "../config/firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
+import { message } from "antd";
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -34,12 +35,13 @@ function Signup() {
     termsAccepted: "",
   });
 
-  const [message, setMessage] = useState("");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [isSignupAttempted, setIsSignupAttempted] = useState(false);
   const [confirmOTP, setConfirmOTP] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   useEffect(() => {
     onCaptchVerify();
@@ -175,10 +177,23 @@ function Signup() {
       newErrors.termsAccepted =
         "Hãy đọc và đồng ý với điều khoản của chúng tôi.";
     }
-
+    if (
+      !formData.name ||
+      !formData.phone ||
+      !formData.password ||
+      !formData.confirmPassword ||
+      !formData.termsAccepted
+    ) {
+      message.error("Xin nhập đầy đủ thông tin.");
+      setErrors(newErrors);
+      return;
+    }
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) {
+      for (const error in newErrors) {
+        message.error(newErrors[error]);
+      }
       return;
     }
 
@@ -210,14 +225,14 @@ function Signup() {
             "_self"
           );
         } else {
-          setMessage("Số điện thoại chưa được đăng kí hoặc sai mật khẩu");
+          message.error("Số điện thoại chưa được đăng kí hoặc sai mật khẩu");
         }
       }else {
         setMessage("Số điện thoại đã được đăng kí");
       }
     } catch (error) {
       console.error(error);
-      setMessage("Error signing up. Please try again.");
+      message.error("Error signing up. Please try again.");
     }
   };
 
@@ -228,18 +243,15 @@ function Signup() {
   return (
     <MDBContainer
       fluid
-      className="d-flex justify-content-center align-items-center h-100"
-    >
+      className="d-flex justify-content-center align-items-center h-100">
       <Toaster toastOptions={{ duration: 4000 }} />
 
       <div id="recaptcha-container"></div>
       <MDBCard
         className="signup-card mx-auto mb-5 p-5 shadow-5"
-        style={{ maxWidth: "550px", marginTop: "50px", marginBottom: "200px" }}
-      >
+        style={{ maxWidth: "550px", marginTop: "50px", marginBottom: "200px" }}>
         <MDBCardBody className="p-5">
           <h2 className="fw-bold mb-5 text-center">Tạo một tài khoản mới</h2>
-          {message && <div className="message">{message}</div>}
           <div className="mb-4">
             <MDBInput
               wrapperClass="input-wrapper-sign"
@@ -250,7 +262,6 @@ function Signup() {
               value={formData.name}
               onChange={handleChange}
             />
-            {errors.name && <div className="error">{errors.name}</div>}
           </div>
 
           <div className="mb-4">
@@ -261,35 +272,42 @@ function Signup() {
               inputClass="input-wrapper-sign"
               placeholder="Số điện thoại"
             />
-            {errors.phone && <div className="error">{errors.phone}</div>}
           </div>
 
-          <div className="mb-4">
+          <div className="mb-4 position-relative">
             <MDBInput
               wrapperClass="input-wrapper-sign"
               placeholder="Mật khẩu"
               id="password"
-              type="password"
+              type={passwordVisible ? "text" : "password"}
               name="password"
               value={formData.password}
               onChange={handleChange}
             />
-            {errors.password && <div className="error">{errors.password}</div>}
+            <MDBIcon
+              icon={passwordVisible ? "eye-slash" : "eye"}
+              size="lg"
+              className="password-toggle-icon"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-4 position-relative">
             <MDBInput
               wrapperClass="input-wrapper-sign"
               placeholder="Nhập lại mật khẩu"
               id="confirmPassword"
-              type="password"
+              type={confirmPasswordVisible ? "text" : "password"}
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
             />
-            {errors.confirmPassword && (
-              <div className="error">{errors.confirmPassword}</div>
-            )}
+            <MDBIcon
+              icon={confirmPasswordVisible ? "eye-slash" : "eye"}
+              size="lg"
+              className="password-toggle-icon"
+              onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+            />
           </div>
 
           <div className="checkbox-wrapper mb-4">
@@ -308,9 +326,6 @@ function Signup() {
               </a>
               tại Hello Milky Shop
             </label>
-            {errors.termsAccepted && (
-              <div className="error">{errors.termsAccepted}</div>
-            )}
           </div>
           {isSignupAttempted && showOTP && !confirmOTP && (
             <div className="overlay">
@@ -335,8 +350,7 @@ function Signup() {
                     onOTPVerify();
                   }}
                   disabled={loading}
-                  className="btn btn-success m-4"
-                >
+                  className="btn btn-success m-4">
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
                   )}
@@ -351,15 +365,14 @@ function Signup() {
             type="button"
             onClick={() => {
               handleSubmit();
-            }}
-          >
+            }}>
             <span className="button-text">Đăng kí</span>
           </button>
 
           <div className="text-center social-buttons">
             <p>hoặc</p>
 
-            <div className="d-flex flex-row mt-3">
+            <div className="google-button-signup">
               <a href="#" className="google-signup-button">
                 <MDBIcon fab icon="google" size="lg" className="google-icon" />
                 <span onClick={loginGoogle} className="button-text">
