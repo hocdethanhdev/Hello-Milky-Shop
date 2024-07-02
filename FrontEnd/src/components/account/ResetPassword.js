@@ -9,6 +9,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 import "./ResetPassword.css";
 import axios from "axios";
+import Loading from "../layout/Loading";
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState("");
@@ -171,7 +172,7 @@ const ResetPassword = () => {
               />
             </div>
             <button onClick={handlePasswordReset} disabled={loading}>
-              {loading ? "Đang xử lý..." : "Đặt lại mật khẩu"}
+              {loading ? <Loading/> : "Đặt lại mật khẩu"}
             </button>
           </div>
         ) : user ? (

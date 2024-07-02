@@ -1,0 +1,13 @@
+.loading-container {
+    position: fixed; /* Đảm bảo ảnh GIF luôn hiển thị trên tất cả các phần tử khác */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Đảm bảo ảnh GIF luôn nằm trên cùng */
+  }
+  
+  .loading-gif {
+    width: 100px; /* Điều chỉnh kích thước GIF theo ý muốn */
+    height: 100px; /* Điều chỉnh kích thước GIF theo ý muốn */
+  }
+  
