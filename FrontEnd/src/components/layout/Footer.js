@@ -92,27 +92,15 @@ function Footer() {
         </MDBContainer>
       </section>
 
-      <motion.div
+      <div
         className="text-center p-4 fw-bold"
         style={{ backgroundColor: "#0f7fc1" }}
-        whileHover={{ scale: 1.1 }} // Scale up on hover
-        transition={{ duration: 0.3 }} // Smooth transition duration
+        // Smooth transition duration
       >
         <span className="text-white">
           © 2024 Copyright: All rights reserved.
         </span>
-      </motion.div>
-
-      {showScrollButton && (
-        <motion.button
-          className="scroll-to-top-button"
-          onClick={scrollToTop}
-          whileHover={{ scale: 1.1 }} // Scale up on hover
-          transition={{ duration: 0.3 }} // Smooth transition duration
-        >
-          <i className="fas fa-arrow-up"></i>
-        </motion.button>
-      )}
+      </div>
     </MDBFooter>
   );
 }
