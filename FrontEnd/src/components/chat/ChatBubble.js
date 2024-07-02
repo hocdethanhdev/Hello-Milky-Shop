@@ -21,7 +21,7 @@ function ChatBubble({ onClick }) {
           <p className="info-mess-chat">Bạn cần chúng tôi hỗ trợ gì không?</p>
         </div>
       )}
-      <span class="fas fa-comments icon-chat-buble"></span>
+      <span className="fas fa-comments icon-chat-buble"></span>
     </div>
   );
 }
@@ -134,11 +134,21 @@ function ChatBubbleWithWindow() {
   const [showChat, setShowChat] = useState(false);
 
   const toggleChat = () => {
-    setShowChat(!showChat);
+    const chatContainer = document.querySelector('.chat-container');
+    if (showChat) {
+      chatContainer.classList.add('close');
+      setTimeout(() => {
+        setShowChat(false);
+        chatContainer.classList.remove('close');
+      }, 500); // Match the duration of the collapse animation
+    } else {
+      setShowChat(true);
+      chatContainer.classList.add('active');
+    }
   };
 
   return (
-    <div className="chat-container">
+    <div className={`chat-container ${showChat ? 'active' : ''}`}>
       <ChatBubble onClick={toggleChat} />
       {showChat && <ChatWindow onClose={toggleChat} />}
     </div>
