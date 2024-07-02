@@ -21,7 +21,7 @@
 
 /* Main Content */
 .voucher-body-thinhvcher {
-  display: flex;
+  width: 99%;
   background-color: white;
 }
 
@@ -286,6 +286,11 @@
   }
 }
 .sort-vch-thinh {
+  border: none;
+  background-color: white;
+}
+
+.button-add-voucher-thinhvcher {
   border: none;
   background-color: white;
 }
