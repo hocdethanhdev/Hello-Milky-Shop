@@ -787,23 +787,3 @@ span.discount-1 {
     width: 100%;
   }
 }
-.mini-message {
-  position: absolute;
-  bottom: 70px; /* Adjust based on the position of the chat bubble */
-  right: 20px; /* Adjust based on the position of the chat bubble */
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 10px 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  font-size: 14px; /* Adjust font size */
-  color: #333; /* Text color */
-  transition: opacity 0.3s ease-in-out;
-  opacity: 1;
-  margin-bottom: 80px;
-}
-
-.mini-message.fade-out {
-  opacity: 0;
-}

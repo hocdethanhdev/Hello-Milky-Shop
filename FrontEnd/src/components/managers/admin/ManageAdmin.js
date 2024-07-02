@@ -12,7 +12,6 @@ const ManageAdmin = () => {
     fetch("http://localhost:5000/api/v1/user/getAllUsers/")
       .then((response) => response.json())
       .then((data) => {
-        // Filter users with RoleID: 2
         const staffAccounts = data.filter((account) => account.RoleID === 2);
         setAccounts(staffAccounts);
       })

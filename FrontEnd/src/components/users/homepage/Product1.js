@@ -14,15 +14,9 @@ import { Toaster } from "react-hot-toast";
 
 function Product1() {
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const [showMiniMessage, setShowMiniMessage] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowMiniMessage(false);
-    }, 5000);
 
-    return () => clearTimeout(timer);
-  }, []);
+
 
   const sliderSettings = {
     dots: true,
@@ -67,11 +61,6 @@ function Product1() {
           </div>
           {isLoggedIn && (
             <div className="chat-box">
-              {showMiniMessage && (
-                <div className="mini-message">
-                  Bạn cần chúng tôi hỗ trợ gì không?
-                </div>
-              )}
               <ChatBubble />
             </div>
           )}
