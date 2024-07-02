@@ -268,19 +268,25 @@ const EditProductModal = () => {
           handleResizeImage(editor);
         },
         change: (newContent) => {
-          const tempDiv = document.createElement("div");
+          const maxChars = 4000;
+          if (newContent.length > maxChars) {
+            editor.value = newContent.substring(0, maxChars);
+            message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
+
+          }
+          const tempDiv = document.createElement('div');
           tempDiv.innerHTML = newContent;
-          const images = tempDiv.querySelectorAll("img");
+          const images = tempDiv.querySelectorAll('img');
           images.forEach((image) => {
             const width = image.style.width;
             const height = image.style.height;
             if (width && height) {
-              image.setAttribute("width", width);
-              image.setAttribute("height", height);
+              image.setAttribute('width', width);
+              image.setAttribute('height', height);
             }
           });
-        },
-      },
+        }
+      }
     }),
     [setProgress]
   );
