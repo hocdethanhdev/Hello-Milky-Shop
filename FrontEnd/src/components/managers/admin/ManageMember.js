@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button } from "antd";
+import { Modal, Button, message } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
@@ -54,6 +54,7 @@ const ManageMember = () => {
           )
         );
         setIsModalVisible(false);
+        message.success("Khóa tài khoản thành công");
         fetchUser();
       })
       .catch((error) => console.error("Error updating user status:", error));
@@ -78,6 +79,7 @@ const ManageMember = () => {
             account.UserID === user.UserID ? { ...account, Status: 1 } : account
           )
         );
+        message.success("Mở khóa tài khoản thành công");
         fetchUser();
       })
       .catch((error) => console.error("Error enabling user:", error));
