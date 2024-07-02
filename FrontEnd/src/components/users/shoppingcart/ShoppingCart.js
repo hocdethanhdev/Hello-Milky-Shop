@@ -164,7 +164,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       message.warning(
-        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -744,12 +744,12 @@ const ShoppingCart = () => {
             <h2>Xóa sản phẩm</h2>
             <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
             <button
-              className="popup-btn-cart-thinh"
+              className="DongY btn btn-success"
               onClick={confirmRemoveProduct}>
               Có
             </button>
             <button
-              className="popup-btn-cart-thinh"
+              className="Huy btn btn-danger"
               onClick={() => setProductToRemove(null)}>
               Không
             </button>
