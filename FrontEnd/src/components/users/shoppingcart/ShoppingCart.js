@@ -6,6 +6,8 @@ import "./ShoppingCart.css";
 import VoucherPopup from "./VoucherPopup";
 import AddressPopup from "./AddressPopup";
 import { getMaxQuantity } from "./productMax";
+import { message } from 'antd';
+
 const ShoppingCart = () => {
   const { token } = useSelector((state) => state.auth);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -36,6 +38,47 @@ const ShoppingCart = () => {
   let totalAmount = 0;
   const [incrementIntervalId, setIncrementIntervalId] = useState(null);
   const [decrementIntervalId, setDecrementIntervalId] = useState(null);
+
+
+  const increaseOne = async (productId) => {
+
+    // Fetch the maximum quantity for the product
+    const maxQuantity = await getMaxQuantity(productId);
+
+    setProductQuantities((prevQuantities) => {
+      const currentQuantity = prevQuantities[productId] || 0;
+
+      // Check if current quantity is already at max
+      if (currentQuantity >= maxQuantity) {
+        return prevQuantities; // Return unchanged quantities
+      }
+
+      // Increase quantity by 1
+      const newQuantity = currentQuantity + 1;
+
+      return {
+        ...prevQuantities,
+        [productId]: newQuantity,
+      };
+    });
+  };
+
+  const decreaseOne = (productId) => {
+
+    setProductQuantities((prevQuantities) => {
+      const newQuantity = (prevQuantities[productId] || 1) - 1;
+
+      if (newQuantity < 1) {
+        setProductToRemove(productId);
+        return prevQuantities;
+      }
+
+      return {
+        ...prevQuantities,
+        [productId]: newQuantity,
+      };
+    });
+  };
 
   const startIncrement = async (productId) => {
     stopDecrement(); // Stop decrement if it's running
@@ -121,8 +164,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       alert(
-        `This voucher requires a minimum purchase of ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -140,8 +182,11 @@ const ShoppingCart = () => {
         );
         const orders = ordersResponse.data;
 
-        if (orders.length === 0) throw new Error("No orders found for user");
-
+        if (orders.length === 0) {
+          message.error("Giỏ hàng của bạn hiện đang trống");
+          // Optionally, you can return or handle this case further
+          return;
+        }
         const orderID = orders.OrderID;
         setOrderID(orderID);
 
@@ -227,13 +272,6 @@ const ShoppingCart = () => {
     fetchDistricts();
   }, [selectedCityID]);
 
-  if (loading)
-    return (
-      <div>
-        <h1>Đang tải...</h1>
-      </div>
-    );
-  if (error) return <div>Error: {error}</div>;
 
   const calculateSubtotal = () => {
     return orderDetails.reduce((acc, item) => {
@@ -485,8 +523,7 @@ const ShoppingCart = () => {
                 <select
                   value={selectedCityID}
                   onChange={(e) => setSelectedCityID(e.target.value)}
-                  disabled={usingSavedAddress}
-                >
+                  disabled={usingSavedAddress}>
                   <option value="">Chọn thành phố</option>
                   {cities.map((city) => (
                     <option key={city.ID} value={city.ID}>
@@ -497,14 +534,12 @@ const ShoppingCart = () => {
                 <select
                   value={selectedDistrictID}
                   onChange={(e) => setSelectedDistrictID(e.target.value)}
-                  disabled={usingSavedAddress}
-                >
+                  disabled={usingSavedAddress}>
                   <option value="">Chọn quận huyện</option>
                   {districts.map((district) => (
                     <option
                       key={district.DistrictID}
-                      value={district.DistrictID}
-                    >
+                      value={district.DistrictID}>
                       {district.DistrictName}
                     </option>
                   ))}
@@ -514,15 +549,13 @@ const ShoppingCart = () => {
             {usingSavedAddress ? (
               <button
                 className="custom-button-long"
-                onClick={() => setUsingSavedAddress(false)}
-              >
+                onClick={() => setUsingSavedAddress(false)}>
                 Thêm địa chỉ mới
               </button>
             ) : (
               <button
                 className="custom-button-long"
-                onClick={() => setShowAddressPopup(true)}
-              >
+                onClick={() => setShowAddressPopup(true)}>
                 Dùng địa chỉ cũ
               </button>
             )}
@@ -557,20 +590,21 @@ const ShoppingCart = () => {
                     </p>
                     <div className="quantity-control">
                       <button
+                        onClick={() => decreaseOne(productId)}
                         onMouseDown={() => startDecrement(productId)}
                         onMouseUp={stopDecrement}
-                        onMouseLeave={stopDecrement}
-                      >
+                        onMouseLeave={stopDecrement}>
                         -
                       </button>
                       <span>Số lượng: {quantity}</span>
                       <button
+                        onClick={() => increaseOne(productId)}
                         onMouseDown={() => startIncrement(productId)}
                         onMouseUp={stopIncrement}
-                        onMouseLeave={stopIncrement}
-                      >
+                        onMouseLeave={stopIncrement}>
                         +
                       </button>
+
                     </div>
                   </div>
                 </div>
@@ -589,8 +623,7 @@ const ShoppingCart = () => {
             <div className="voucher-selection-long">
               <button
                 className="choose-voucher-btn"
-                onClick={() => setShowVoucherPopup(true)}
-              >
+                onClick={() => setShowVoucherPopup(true)}>
                 Chọn Voucher
               </button>
               {selectedVoucher && (
@@ -661,14 +694,12 @@ const ShoppingCart = () => {
             <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
             <button
               className="popup-btn-cart-thinh"
-              onClick={confirmRemoveProduct}
-            >
+              onClick={confirmRemoveProduct}>
               Có
             </button>
             <button
               className="popup-btn-cart-thinh"
-              onClick={() => setProductToRemove(null)}
-            >
+              onClick={() => setProductToRemove(null)}>
               Không
             </button>
           </div>

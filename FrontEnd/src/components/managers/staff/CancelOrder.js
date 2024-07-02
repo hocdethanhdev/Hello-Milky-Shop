@@ -73,6 +73,10 @@ function CancelOrder() {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
   return (
     <div className="confirm-container">
       <table>
@@ -86,11 +90,15 @@ function CancelOrder() {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {currentOrders.map((order) => (
             <tr className="row" key={order.OrderID}>
               <td className="col-md-2">{order.OrderID}</td>
               <td className="col-md-2">
-                {new Date(order.OrderDate).toLocaleDateString()}
+                {new Date(order.OrderDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </td>
               <td className="col-md-2">
                 {formatPrice(parseInt(order.TotalAmount))}
@@ -144,7 +152,14 @@ function CancelOrder() {
                       <strong>Ngày đặt hàng:</strong>
                     </td>
                     <td>
-                      {new Date(selectedOrder.OrderDate).toLocaleString()}
+                      {new Date(selectedOrder.OrderDate).toLocaleDateString(
+                        "vi-VN",
+                        {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        }
+                      )}
                     </td>
                   </tr>
                   <tr>

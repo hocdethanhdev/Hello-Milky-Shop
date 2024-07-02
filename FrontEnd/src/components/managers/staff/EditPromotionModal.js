@@ -20,7 +20,7 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
                 PromotionID: promotion.PromotionID,
                 startDate: values.startDate.format('YYYY-MM-DD'),
                 endDate: values.endDate.format('YYYY-MM-DD'),
-                Image: previewImage,
+                image: previewImage,
             };
             onSave(updatedPromotion, selectedProducts);
         });

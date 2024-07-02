@@ -8,6 +8,7 @@ function StaffChat() {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [selectedUserName, setSelectedUserName] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [unseenCounts, setUnseenCounts] = useState({});
 
   useEffect(() => {
     const fetchChatRooms = async () => {
@@ -27,6 +28,11 @@ function StaffChat() {
 
         setChatRooms(roomsWithUsers);
         setLoading(false);
+
+        // Fetch unseen counts after fetching rooms
+        roomsWithUsers.forEach(room => {
+          fetchUnseen(room.roomId);
+        });
       } catch (error) {
         console.error("Error fetching chat rooms", error);
         setLoading(false);
@@ -39,11 +45,43 @@ function StaffChat() {
   const handleRoomClick = (roomId, userName) => {
     setSelectedRoom(roomId);
     setSelectedUserName(userName);
+  
+    setUnseenCounts(prevCounts => ({
+      ...prevCounts,
+      [roomId]: 0,
+    }));
   };
+  
 
   const handleCloseChatWindow = () => {
     setSelectedRoom(null);
     setSelectedUserName(null);
+  
+    chatRooms.forEach(room => {
+      fetchUnseen(room.roomId);
+    });
+  };
+  
+
+  const fetchUnseen = async (roomId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/chat/getChatUnseen",
+        { ChatRoom: roomId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = response.data;
+      setUnseenCounts(prevCounts => ({
+        ...prevCounts,
+        [roomId]: data.count,
+      }));
+    } catch (error) {
+      console.error("Error fetching unseen messages", error);
+    }
   };
 
   return (
@@ -57,6 +95,7 @@ function StaffChat() {
             {chatRooms.map((room) => (
               <li key={room.roomId} onClick={() => handleRoomClick(room.roomId, room.userName)}>
                 {room.userName}
+                {unseenCounts[room.roomId] > 0 ? <span className="notify-chat">{unseenCounts[room.roomId]}</span> : <></>}
               </li>
             ))}
           </ul>

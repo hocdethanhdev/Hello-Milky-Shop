@@ -322,7 +322,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                   selected={formData.ExpirationDate}
                   onChange={(date) => handleDateChange(date, "ExpirationDate")}
                   className="form-control"
-                  dateFormat="yyyy-MM-dd"
+                  dateFormat="dd-MM-yyyy"
                 />
                 {errors.expirationDateError && (
                   <p className="error-message">{errors.expirationDateError}</p>
@@ -334,7 +334,7 @@ const EditProductModal = ({ product, onClose, onSave }) => {
                   selected={formData.ManufacturingDate}
                   onChange={(date) => handleDateChange(date, "ManufacturingDate")}
                   className="form-control"
-                  dateFormat="yyyy-MM-dd"
+                  dateFormat="dd-MM-yyyy"
                 />
                 {errors.manufacturingDateError && (
                   <p className="error-message">{errors.manufacturingDateError}</p>
