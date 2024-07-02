@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './newsRelated.css';
 import { Link } from 'react-router-dom';
+import Loading from '../../layout/Loading';
 
 const NewsRelated = ({ articleCategoryID, articleID }) => {
     const [relatedArticles, setRelatedArticles] = useState([]);
@@ -39,7 +40,7 @@ const NewsRelated = ({ articleCategoryID, articleID }) => {
         fetchRelatedArticles();
     }, [articleCategoryID, articleID]);
 
-    if (loading) return <div>Đang tải...</div>;
+    if (loading) return <Loading/>;
     if (errorMessage) return <div className="error-message">{errorMessage}</div>;
 
     return (

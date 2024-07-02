@@ -6,6 +6,7 @@ import NavCate from '../product/ui-product-mom/NavCate';
 import NewsRelated from './newsRelated';
 import ProductHot from './ProductHot';
 import { Link } from 'react-router-dom';
+import Loading from '../../layout/Loading';
 
 const NewsDetail = () => {
   const { id } = useParams();
@@ -33,7 +34,7 @@ const NewsDetail = () => {
     fetchArticle();
   }, [id]);
 
-  if (loading) return <div>Đang tải...</div>;
+  if (loading) return <Loading/>;
   if (errorMessage) return <div className="error-message">{errorMessage}</div>;
   if (!article) return null;
   return (

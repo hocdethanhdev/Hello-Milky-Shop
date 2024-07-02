@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Modal, Button } from "antd";
 import 'antd/dist/reset.css';
+import Loading from "../layout/Loading";
 
 import "./shipping.css";
 
@@ -61,7 +62,7 @@ function Shipping() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading/>;
   }
 
   return (

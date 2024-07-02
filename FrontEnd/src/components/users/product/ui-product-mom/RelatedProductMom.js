@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './RelatedProductMom.css';
 import StarRating from '../ui-list-product-mom/StarRating';
+import Loading from '../../../layout/Loading';
 
 const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -50,7 +51,7 @@ const RelatedProducts = ({ product }) => {
         window.scrollTo(0, 0);
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading/>;
     if (error) return <div>Error: {error.message}</div>;
 
     return (

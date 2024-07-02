@@ -10,6 +10,7 @@ import ProductRating from './ProductRating';
 import ProductRatingAll from './ProductRatingAll';
 import { getUserIdFromToken } from "../../../store/actions/authAction";
 import { useSelector } from "react-redux";
+import Loading from '../../../layout/Loading';
 
 const ProductScreen = () => {
     const { productId } = useParams();
@@ -76,7 +77,7 @@ const ProductScreen = () => {
         fetchComments();
     }, [productId, userId, isLoggedIn]);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading/>;
     if (error) return <div>Error: {error.message}</div>;
 
     return (
