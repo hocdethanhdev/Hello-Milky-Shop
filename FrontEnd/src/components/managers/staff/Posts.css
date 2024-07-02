@@ -91,3 +91,17 @@ h2 {
   border: none;
   background-color: white;
 }
+.nutchung-post {
+  margin-top: 10px;
+  margin-left: 25px;
+}
+.header-img-post {
+  height: 60px;
+  width: 60px;
+}
+.sua-post-nut {
+  margin-right: 5px;
+}
+.posts-container {
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1);
+}
