@@ -278,7 +278,6 @@ const EditArticleModal = () => {
             </option>
             <option value="1">Sức Khỏe</option>
             <option value="2">Tin khuyến mãi</option>
-            <option value="3">Tư vấn mua sắm</option>
           </select>
         </div>
         <div className="form-group1">

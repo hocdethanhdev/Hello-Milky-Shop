@@ -68,6 +68,8 @@ const ProductContentMom = ({ product }) => {
                 quantity: quantity,
                 price: product.PriceAfterDiscounts
             });
+            // Lưu productID vào Local Storage
+            localStorage.setItem('selectedProductID', product.ProductID);
             navigate('/ShoppingCart');
         } catch (error) {
             console.error('Error adding product to order:', error);
@@ -105,7 +107,7 @@ const ProductContentMom = ({ product }) => {
     };
 
     if (!product) {
-        return <Loading/>;
+        return <Loading />;
     }
 
     const discountAmount = calculateDiscount(product.Price, product.PriceAfterDiscounts);
