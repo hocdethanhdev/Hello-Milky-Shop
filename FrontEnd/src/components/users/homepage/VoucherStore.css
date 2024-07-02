@@ -63,7 +63,11 @@
   padding: 10px 15px;
   background: #fff;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
 }
 
 .voucher-details {
@@ -79,6 +83,7 @@
 }
 
 .text-title {
+  display: contents;
   font-weight: bold;
 }
 
@@ -92,6 +97,9 @@
 }
 
 .nhandan {
-  display: block;
-  
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-end;
 }

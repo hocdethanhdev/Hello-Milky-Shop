@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './News.css';
 import ProductHot from './ProductHot';
 import NavCate from '../product/ui-product-mom/NavCate';
+import Loading from '../../layout/Loading';
 
 const News = () => {
   const [news, setNews] = useState([]);
@@ -99,7 +100,7 @@ const News = () => {
               </select>
             </div>
           </div>
-          {loading && <div>Đang tải...</div>}
+          {loading && <Loading/>}
           {errorMessage && <div className="error-message">{errorMessage}</div>}
 
 

@@ -11,14 +11,14 @@
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-}
-
-.voucher-popup-long h2 {
+  }
+  
+  .voucher-popup-long h2 {
     text-align: center;
     margin-bottom: 20px;
-}
-
-.voucher-popup-long ul {
+  }
+  
+  .voucher-popup-long ul {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -29,64 +29,60 @@
     /* Kích hoạt thanh cuộn dọc */
     padding: 0;
     margin: 0;
-}
-
-.tri-voucher1 {
+  }
+  
+  .tri-voucher1 {
     width: calc(50% - 5px);
     /* Chiều rộng của mỗi voucher (2 cái trên mỗi hàng) */
     box-sizing: border-box;
-}
-
-.voucher {
+  }
+  
+  .voucher {
     background-color: #ffefed;
     border-radius: 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-}
-
-.voucher-body {
+  }
+  
+  .voucher-body {
     position: relative;
     padding: 10px;
     background: linear-gradient(90deg, rgba(255, 94, 58, 1) 0%, rgba(255, 147, 78, 1) 100%);
     border-radius: 8px;
     color: white;
-}
-
-.voucher-footer {
-    margin-top: 10px;
-}
-
-.voucher-details {
+  }
+  
+  .voucher-details {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
-}
-
-.details-icon {
+  }
+  
+  .details-icon {
     margin-right: 10px;
-    position: absolute;
-    margin-left: -30px;
-}
-
-.details-text .text-title {
+    position: relative;
+    /* Changed to relative */
+  }
+  
+  .details-text .text-title {
     font-weight: bold;
-}
-
-.details-text .text-description,
-.text-description-gia {
+  }
+  
+  .details-text .text-description,
+  .text-description-gia {
     color: #ff4933;
+  }
+  .voucher-footer {
+    padding: 10px 15px;
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
 }
-
-/* .btn-primary {
-    background-color: #ff4933;
-    border-color: #ff4933;
-}
-
-.btn-primary:hover {
-    background-color: #ff321f;
-    border-color: #ff321f;
-} */
-
-.close-btn-long {
+  
+  .close-btn-long {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -97,10 +93,27 @@
     padding: 10px;
     border-radius: 0;
     transition: background-color 0.3s ease;
-}
-
-.close-btn-long:hover {
+  }
+  
+  .close-btn-long:hover {
     color: #fff;
     background-color: #ff0000;
     text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  }
+  .details-text {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    /* align-content: flex-start; */
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.text-div-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    /* align-content: center; */
+    align-items: center;
 }

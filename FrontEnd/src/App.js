@@ -94,6 +94,7 @@ function App() {
               path="/respondedFeedback"
               element={<AnsweredFeedbackManage />}
             />
+            <Route path="/edit-product/:productID" element={<EditProductModal />} />
           </Routes>
         </div>
       </div>

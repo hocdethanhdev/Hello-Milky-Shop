@@ -215,13 +215,7 @@ function Sidebar() {
           </NavLink>
         </div>
         <NavLink
-          className={({ isActive }) =>
-            isActive ||
-              location.pathname.includes("/posts") ||
-              location.pathname.includes("/addingpost")
-              ? "active-st-thinh"
-              : ""
-          }
+          className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
           to="/chat-page"
         >
          <img
