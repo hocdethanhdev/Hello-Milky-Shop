@@ -52,7 +52,8 @@ const ProductContentMom = ({ product }) => {
                 quantity: quantity,
                 price: product.PriceAfterDiscounts
             });
-
+            // Lưu productID vào Local Storage
+            localStorage.setItem('selectedProductID', product.ProductID);
             setQuantity(1);
             openCartPopup();
         } catch (error) {
