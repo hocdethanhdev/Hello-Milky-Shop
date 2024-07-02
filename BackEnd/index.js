@@ -43,9 +43,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 initRouters(app);
 
+const unreadMessages = {}; // Object to store unread messages count for each room
+
 io.on("connection", (socket) => {
   socket.on("joinRoom", async (roomId) => {
     socket.join(roomId);
+    // Reset the unread message count for the staff who joined the room
+    unreadMessages[roomId] = 0;
+    io.emit("updateUnreadMessageCount", unreadMessages);
   });
 
   socket.on("leaveRoom", (roomId) => {
@@ -59,17 +64,24 @@ io.on("connection", (socket) => {
       day: '2-digit',
     });
     
+    // Increment the unread message count for the room
+    if (!unreadMessages[msg.roomId]) {
+      unreadMessages[msg.roomId] = 0;
+    }
+    unreadMessages[msg.roomId]++;
+    
     io.to(msg.roomId).emit("chat message", {
       content: msg.content,
       userId: msg.userId,
       date: currentDate,
     });
+    io.emit("updateUnreadMessageCount", unreadMessages); // Notify all clients about the updated unread message count
+
     await chatController.saveMessage(msg.content, msg.userId, msg.roomId, currentDate);
   });
 
   socket.on("disconnect", () => {});
 });
-
 
 const PORT = process.env.PORT || 8888;
 server.listen(PORT, () => {
