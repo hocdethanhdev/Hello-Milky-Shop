@@ -486,6 +486,14 @@ const ShoppingCart = () => {
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
+  const calculateKmai = () => {
+    let voucherDiscount = calculateDiscount();
+    let pointsDiscount = usePoints ? points * 10 : 0; // Assuming 1 point = 10₫ discount
+    return voucherDiscount + pointsDiscount;
+  };
+
+  const kmai = calculateKmai();
+
 
   return (
     <div className="checkout-container">
@@ -654,8 +662,10 @@ const ShoppingCart = () => {
 
             <div className="total-row">
               <span>Khuyến mãi</span>
-              <span>{discount.toLocaleString()} đ</span>
+              {kmai ? <span>-{kmai.toLocaleString()} đ</span> : <span>{kmai.toLocaleString()} đ</span>}
+
             </div>
+
 
             <div className="total-row total">
               <span>Thành tiền</span>
