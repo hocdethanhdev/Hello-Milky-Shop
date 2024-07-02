@@ -65,6 +65,9 @@
   display: block;
   margin: 0 auto;
   transition: background-color 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .signup-button:hover {
@@ -90,11 +93,14 @@
   align-items: center;
   color: whitesmoke;
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  background-color: rgb(194, 57, 11);
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #dd4b39;
   transition: background-color 0.3s ease;
   margin-top: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  margin: 0 auto;
 }
 
 .google-signup-button:hover {
