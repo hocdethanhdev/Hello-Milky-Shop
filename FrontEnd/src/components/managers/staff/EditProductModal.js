@@ -1,23 +1,48 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import JoditEditor from "jodit-react";
 import DOMPurify from "dompurify";
 import "./EditProductModal.css";
 import { uploadImage } from "../uimg/UpImage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { message } from "antd";
 
-const EditProductModal = ({ product, onClose, onSave }) => {
-  const [formData, setFormData] = useState({ ...product });
-  const editor = useRef(null);
-  const modalContentRef = useRef(null);
+const EditProductModal = () => {
+  const { productID } = useParams();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState(null);
+  const [brands, setBrands] = useState([]);
   const [progress, setProgress] = useState(0);
   const [errors, setErrors] = useState({});
-  const [expirationDateError, setExpirationDateError] = useState("");
-  const [manufacturingDateError, setManufacturingDateError] = useState("");
+  const editor = useRef(null);
 
   useEffect(() => {
-    setFormData({ ...product });
-  }, [product]);
+    const fetchProductData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/v1/product/getProductInfoByID/${productID}`
+        );
+        const productData = await response.json();
+        setFormData(productData[0]);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+
+    const fetchBrands = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/v1/product/getAllBrands");
+        const brandData = await response.json();
+        setBrands(brandData);
+      } catch (error) {
+        console.error("Error fetching brands:", error);
+      }
+    };
+
+    fetchProductData();
+    fetchBrands();
+  }, [productID]);
 
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
@@ -25,21 +50,21 @@ const EditProductModal = ({ product, onClose, onSave }) => {
       const file = files[0];
       try {
         const imageUrl = await uploadImage(file, setProgress);
-        setFormData({ ...formData, Image: imageUrl });
+        setFormData((prevData) => ({ ...prevData, Image: imageUrl }));
       } catch (error) {
         console.error("Error uploading image:", error);
       }
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
 
   const handleDescriptionChange = (value) => {
-    setFormData({ ...formData, Description: value });
+    setFormData((prevData) => ({ ...prevData, Description: value }));
   };
 
   const handleDateChange = (date, fieldName) => {
-    setFormData({ ...formData, [fieldName]: date });
+    setFormData((prevData) => ({ ...prevData, [fieldName]: date }));
   };
 
   const validateFields = () => {
@@ -62,20 +87,15 @@ const EditProductModal = ({ product, onClose, onSave }) => {
       newErrors.brandName = "Hãng không được bỏ trống.";
     }
 
-    if (formData.ExpirationDate < formData.ManufacturingDate) {
-      newErrors.expirationDateError = "Ngày hết hạn không được diễn ra trước ngày sản xuất.";
-    }
-
-    if (formData.ManufacturingDate > formData.ExpirationDate) {
-      newErrors.manufacturingDateError = "Ngày sản xuất không được sau ngày hết hạn.";
+    if (formData.ExpirationDate && formData.ManufacturingDate && formData.ExpirationDate < formData.ManufacturingDate) {
+      newErrors.expirationDate = "Ngày hết hạn không được diễn ra trước ngày sản xuất.";
     }
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateFields()) {
@@ -127,8 +147,39 @@ const EditProductModal = ({ product, onClose, onSave }) => {
     const updatedFormData = {
       ...formData,
       Description: sanitizedDescription,
+      ExpirationDate: formData.ExpirationDate
+        ? new Date(formData.ExpirationDate).toISOString().split("T")[0]
+        : null,
+      ManufacturingDate: formData.ManufacturingDate
+        ? new Date(formData.ManufacturingDate).toISOString().split("T")[0]
+        : null,
     };
-    onSave(updatedFormData);
+
+    try {
+      console.log("Starting fetch to update product");
+      const response = await fetch(`http://localhost:5000/api/v1/product/editProduct/${productID}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedFormData),
+      });
+
+      console.log("Fetch response received", response);
+
+      if (response.ok) {
+        console.log("Product updated successfully");
+        message.success("Sản phẩm đã được sửa thành công."); // Thêm thông báo thành công
+        navigate("/products");
+      } else {
+        const errorData = await response.json();
+        console.error("Error updating product:", errorData);
+        message.error("Có lỗi xảy ra khi cập nhật sản phẩm.");
+      }
+    } catch (error) {
+      console.error("Error updating product:", error);
+      message.error("Có lỗi xảy ra khi cập nhật sản phẩm.");
+    }
   };
 
   const handleResizeImage = (editor) => {
@@ -144,31 +195,6 @@ const EditProductModal = ({ product, onClose, onSave }) => {
       });
     });
   };
-
-  const getStatusDisplay = (status, stockQuantity) => {
-    if (status === null || status === false) {
-      return "Tạm ẩn";
-    }
-    return status === true && parseInt(stockQuantity) > 0
-      ? "Còn hàng"
-      : "Hết hàng";
-  };
-
-  const handleClickOutside = (event) => {
-    if (
-      modalContentRef.current &&
-      !modalContentRef.current.contains(event.target)
-    ) {
-      onClose();
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true);
-    };
-  }, []);
 
   const editorConfig = useMemo(
     () => ({
@@ -242,150 +268,135 @@ const EditProductModal = ({ product, onClose, onSave }) => {
           handleResizeImage(editor);
         },
         change: (newContent) => {
-          const tempDiv = document.createElement("div");
+          const maxChars = 4000;
+          if (newContent.length > maxChars) {
+            editor.value = newContent.substring(0, maxChars);
+            message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
+
+          }
+          const tempDiv = document.createElement('div');
           tempDiv.innerHTML = newContent;
-          const images = tempDiv.querySelectorAll("img");
+          const images = tempDiv.querySelectorAll('img');
           images.forEach((image) => {
             const width = image.style.width;
             const height = image.style.height;
             if (width && height) {
-              image.setAttribute("width", width);
-              image.setAttribute("height", height);
+              image.setAttribute('width', width);
+              image.setAttribute('height', height);
             }
           });
-        },
-      },
+        }
+      }
     }),
     [setProgress]
   );
 
+  if (!formData) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="modal-thinhprostedit">
-      <div className="modal-content-thinhprostedit" ref={modalContentRef}>
-        <div className="modal-content-scrollable-thinhh">
-          <span className="close-thinhprostedit" onClick={onClose}>
-            &times;
-          </span>
-          <form onSubmit={handleSubmit}>
-            <div className="form-grid">
-              <label>
-                Tên sản phẩm:
-                <input
-                  type="text"
-                  name="ProductName"
-                  value={formData.ProductName}
-                  onChange={handleChange}
-                />
-                {errors.productName && (
-                  <p className="error-message">{errors.productName}</p>
-                )}
-              </label>
-
-              <label>
-                Giá:
-                <input
-                  type="number"
-                  name="Price"
-                  value={formData.Price}
-                  onChange={handleChange}
-                />
-                {errors.price && (
-                  <p className="error-message">{errors.price}</p>
-                )}
-              </label>
-              <label>
-                Số lượng:
-                <input
-                  type="number"
-                  name="StockQuantity"
-                  value={formData.StockQuantity}
-                  onChange={handleChange}
-                />
-                {errors.stockQuantity && (
-                  <p className="error-message">{errors.stockQuantity}</p>
-                )}
-              </label>
-              <div className="form-group1">
-                <label>Hình ảnh: </label>
-                <input type="file" name="Image" onChange={handleChange} />
-                {formData.Image && (
-                  <img
-                    src={formData.Image}
-                    alt="Preview"
-                    className="preview-image-2"
-                  />
-                )}
-              </div>
-              <label>
-                HSD:
-                <DatePicker
-                  selected={formData.ExpirationDate}
-                  onChange={(date) => handleDateChange(date, "ExpirationDate")}
-                  className="form-control"
-                  dateFormat="dd-MM-yyyy"
-                />
-                {errors.expirationDateError && (
-                  <p className="error-message">{errors.expirationDateError}</p>
-                )}
-              </label>
-              <label>
-                NSX:
-                <DatePicker
-                  selected={formData.ManufacturingDate}
-                  onChange={(date) => handleDateChange(date, "ManufacturingDate")}
-                  className="form-control"
-                  dateFormat="dd-MM-yyyy"
-                />
-                {errors.manufacturingDateError && (
-                  <p className="error-message">{errors.manufacturingDateError}</p>
-                )}
-              </label>
-              <label>
-                Hãng:
-                <input
-                  type="text"
-                  name="BrandName"
-                  value={formData.BrandName}
-                  onChange={handleChange}
-                />
-                {errors.brandName && (
-                  <p className="error-message">{errors.brandName}</p>
-                )}
-              </label>
-              <label>
-                Loại:
-                <select
-                  name="ProductCategoryName"
-                  value={formData.ProductCategoryName}
-                  onChange={handleChange}
-                >
-                  <option value="Sữa cho mẹ">Sữa cho mẹ</option>
-                  <option value="Sữa cho em bé">Sữa cho em bé</option>
-                </select>
-              </label>
-
-              <label className="st-thinh-he">
-                Trạng thái:
-                <div className="status-display-thinh">
-                  {getStatusDisplay(formData.Status, formData.StockQuantity)}
-                </div>
-              </label>
-            </div>
-            <label className="edit-pro-thinh">
-              Mô tả:
-              <JoditEditor
-                ref={editor}
-                value={formData.Description}
-                config={editorConfig}
-                onBlur={handleDescriptionChange}
-              />
-            </label>
-            <button className="button-edit-product" type="submit">
-              Save
-            </button>
-          </form>
+    <div className="edit-product-page">
+      <form onSubmit={handleSubmit}>
+        <div className="form-grid">
+          <label>
+            Tên sản phẩm:
+            <input
+              type="text"
+              name="ProductName"
+              value={formData.ProductName}
+              onChange={handleChange}
+            />
+            {errors.productName && (
+              <p className="error-message">{errors.productName}</p>
+            )}
+          </label>
+          <label>
+            Giá:
+            <input
+              type="number"
+              name="Price"
+              value={formData.Price}
+              onChange={handleChange}
+            />
+            {errors.price && <p className="error-message">{errors.price}</p>}
+          </label>
+          <label>
+            Số lượng:
+            <input
+              type="number"
+              name="StockQuantity"
+              value={formData.StockQuantity}
+              onChange={handleChange}
+            />
+            {errors.stockQuantity && (
+              <p className="error-message">{errors.stockQuantity}</p>
+            )}
+          </label>
+          <label>
+            Hãng:
+            <select
+              name="BrandName"
+              value={formData.BrandName}
+              onChange={handleChange}
+            >
+              <option value="">Chọn hãng</option>
+              {brands.map((brand) => (
+                <option key={brand.BrandId} value={brand.BrandName}>
+                  {brand.BrandName}
+                </option>
+              ))}
+            </select>
+            {errors.brandName && (
+              <p className="error-message">{errors.brandName}</p>
+            )}
+          </label>
+          <label>
+            Ngày hết hạn:
+            <DatePicker
+              selected={
+                formData.ExpirationDate
+                  ? new Date(formData.ExpirationDate)
+                  : null
+              }
+              onChange={(date) => handleDateChange(date, "ExpirationDate")}
+              dateFormat="dd/MM/yyyy"
+            />
+            {errors.expirationDate && (
+              <p className="error-message">{errors.expirationDate}</p>
+            )}
+          </label>
+          <label>
+            Ngày sản xuất:
+            <DatePicker
+              selected={
+                formData.ManufacturingDate
+                  ? new Date(formData.ManufacturingDate)
+                  : null
+              }
+              onChange={(date) => handleDateChange(date, "ManufacturingDate")}
+              dateFormat="dd/MM/yyyy"
+            />
+          </label>
+          <label>
+            Mô tả:
+            <JoditEditor
+              ref={editor}
+              value={formData.Description}
+              config={editorConfig}
+              onBlur={(newContent) => handleDescriptionChange(newContent)}
+            />
+          </label>
+          <label>
+            Hình ảnh:
+            <input type="file" name="Image" onChange={handleChange} />
+            {formData.Image && (
+              <img src={formData.Image} alt="Product" width="100" />
+            )}
+          </label>
         </div>
-      </div>
+        <button type="submit">Lưu thay đổi</button>
+      </form>
     </div>
   );
 };

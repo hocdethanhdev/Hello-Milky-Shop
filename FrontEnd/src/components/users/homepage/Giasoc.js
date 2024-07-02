@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router-dom";
 import StarRating from "../product/ui-list-product-mom/StarRating";
+import Loading from "../../layout/Loading";
 
 function Giasoc() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ function Giasoc() {
   }, []);
 
   if (error) {
-    return <div>Error loading products: {error.message}</div>;
+    return <Loading/>;
   }
 
   const settings = {

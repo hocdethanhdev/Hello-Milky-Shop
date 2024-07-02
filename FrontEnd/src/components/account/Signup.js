@@ -227,6 +227,8 @@ function Signup() {
         } else {
           message.error("Số điện thoại chưa được đăng kí hoặc sai mật khẩu");
         }
+      }else {
+        setMessage("Số điện thoại đã được đăng kí");
       }
     } catch (error) {
       console.error(error);

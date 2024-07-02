@@ -52,28 +52,28 @@ function SignupAd() {
 
     // Validate name field
     if (!formData.name.trim()) {
-      newErrors.name = "Please enter your name.";
+      newErrors.name = "Hãy nhập tên của bạn.";
     }
 
     // Validate phone number field
     if (!formData.phone.trim()) {
-      newErrors.phone = "Please enter your phone number.";
+      newErrors.phone = "Hãy nhập số điện thoại.";
     } else if (!/^\d{9,11}$/i.test(formData.phone)) {
-      newErrors.phone = "Please enter a valid 10-digit phone number.";
+      newErrors.phone = "Số điện thoại không phù hợp.";
     }
 
     // Validate password field
     if (!formData.password.trim()) {
-      newErrors.password = "Please enter a password.";
+      newErrors.password = "Hãy nhập mật khẩu.";
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long.";
+      newErrors.password = "Mật khẩu phải chứa ít nhất 6 kí tự.";
     }
 
     // Validate confirm password field
     if (!formData.confirmPassword.trim()) {
-      newErrors.confirmPassword = "Please confirm your password.";
+      newErrors.confirmPassword = "Hãy xác nhận mật khẩu.";
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
+      newErrors.confirmPassword = "Mật khẩu xác nhận không khớp.";
     }
 
     setErrors(newErrors);
@@ -96,11 +96,11 @@ function SignupAd() {
       if (response.data.err === 0) {
         alert("Đăng kí thành công")
       } else if (response.data.err === 2) {
-        setMessage("An account with this phone number already exists.");
+        setMessage("Số điện thoại đã được đăng kí");
       }
     } catch (error) {
       console.error(error);
-      setMessage("Error signing up. Please try again.");
+      setMessage("Đăng kí lỗi. Hãy thử lại.");
     }
   };
 

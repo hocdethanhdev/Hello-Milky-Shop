@@ -158,6 +158,12 @@ const ProductAdd = () => {
         handleResizeImage(editor);
       },
       change: (newContent) => {
+        const maxChars = 4000;
+        if (newContent.length > maxChars) {
+          editor.value = newContent.substring(0, maxChars);
+          message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
+
+        }
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = newContent;
         const images = tempDiv.querySelectorAll('img');
