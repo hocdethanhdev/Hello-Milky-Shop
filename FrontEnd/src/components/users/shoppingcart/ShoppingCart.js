@@ -163,8 +163,8 @@ const ShoppingCart = () => {
       localStorage.setItem("selectedVoucher", voucher.VoucherID);
       setShowVoucherPopup(false);
     } else {
-      alert(
-        `This voucher requires a minimum purchase of ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+      message.warning(
+        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -361,6 +361,16 @@ const ShoppingCart = () => {
     }));
   };
 
+  useEffect(() => {
+    // Lấy productID từ Local Storage
+    const selectedProductID = localStorage.getItem('selectedProductID');
+    if (selectedProductID) {
+      setSelectedProducts({ [selectedProductID]: true });
+      // Xóa productID khỏi Local Storage sau khi đã đọc
+      localStorage.removeItem('selectedProductID');
+    }
+  }, []);
+
   const handleProductSelect = (productId, isSelected) => {
     setSelectedProducts((prevSelected) => ({
       ...prevSelected,
@@ -380,6 +390,14 @@ const ShoppingCart = () => {
     setUsingSavedAddress(true);
     setShowAddressPopup(false);
   };
+  const handleUseNewAddressSelect = () => {
+    setUsingSavedAddress(false)
+    setReceiver('');
+    setPhoneNumber('');
+    setAddress('');
+    setSelectedShippingAddressID('');
+    setShowAddressPopup(false);
+  };
 
   const handleOrder = async () => {
     try {
@@ -388,17 +406,17 @@ const ShoppingCart = () => {
       );
 
       if (selectedProductIds.length === 0) {
-        alert("Vui lòng chọn ít nhất một sản phẩm.");
+        message.warning("Vui lòng chọn ít nhất một sản phẩm.");
         return;
       }
 
       if (!paymentMethod) {
-        alert("Vui lòng chọn hình thức thanh toán.");
+        message.warning("Vui lòng chọn hình thức thanh toán.");
         return;
       }
 
       if (!receiver || !phoneNumber || !address) {
-        alert("Vui lòng nhập hoặc chọn địa chỉ giao hàng.");
+        message.warning("Vui lòng nhập hoặc chọn địa chỉ giao hàng.");
         return;
       }
 
@@ -507,6 +525,14 @@ const ShoppingCart = () => {
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
+  const calculateKmai = () => {
+    let voucherDiscount = calculateDiscount();
+    let pointsDiscount = usePoints ? points * 10 : 0; // Assuming 1 point = 10₫ discount
+    return voucherDiscount + pointsDiscount;
+  };
+
+  const kmai = calculateKmai();
+
 
   return (
     <div className="checkout-container">
@@ -570,7 +596,9 @@ const ShoppingCart = () => {
             {usingSavedAddress ? (
               <button
                 className="custom-button-long"
-                onClick={() => setUsingSavedAddress(false)}>
+                onClick={
+                  handleUseNewAddressSelect
+                }>
                 Thêm địa chỉ mới
               </button>
             ) : (
@@ -675,8 +703,10 @@ const ShoppingCart = () => {
 
             <div className="total-row">
               <span>Khuyến mãi</span>
-              <span>{discount.toLocaleString()} đ</span>
+              {kmai ? <span>-{kmai.toLocaleString()} đ</span> : <span>{kmai.toLocaleString()} đ</span>}
+
             </div>
+
 
             <div className="total-row total">
               <span>Thành tiền</span>
@@ -714,12 +744,12 @@ const ShoppingCart = () => {
             <h2>Xóa sản phẩm</h2>
             <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
             <button
-              className="popup-btn-cart-thinh"
+              className="DongY btn btn-success"
               onClick={confirmRemoveProduct}>
               Có
             </button>
             <button
-              className="popup-btn-cart-thinh"
+              className="Huy btn btn-danger"
               onClick={() => setProductToRemove(null)}>
               Không
             </button>

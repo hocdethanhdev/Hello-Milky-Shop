@@ -67,3 +67,17 @@
   color: rgb(181, 181, 181);
   font-weight: 500;
 }
+
+.unread-count {
+  float: right;
+  background-color: #ff0000;
+  color: #ffffff;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 12px;
+  margin-left: 10px;
+  display: inline-block;
+  min-width: 20px;
+  text-align: center;
+}
+
