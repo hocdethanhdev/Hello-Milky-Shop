@@ -308,3 +308,6 @@
 .chat-container.close .chat-window {
   animation: collapse 0.3s ease-out forwards;
 }
+.icon-chat-buble {
+  font-size: 30px;
+}

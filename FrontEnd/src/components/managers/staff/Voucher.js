@@ -244,7 +244,14 @@ function Voucher() {
                       year: "numeric",
                     })}
                   </td>
-                  <td>{voucher.Status ? "Active" : "Inactive"}</td>
+                  <td>
+                    {new Date(voucher.ExpiryDate).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </td>
+                  <td>{voucher.Status ? "Khả dụng" : "Không khả dụng"}</td>
                   <td>
                     <button
                       type="button"

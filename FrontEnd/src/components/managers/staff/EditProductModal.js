@@ -14,7 +14,6 @@ const EditProductModal = () => {
   const [formData, setFormData] = useState(null);
   const [brands, setBrands] = useState([]);
   const [progress, setProgress] = useState(0);
-  const [errors, setErrors] = useState({});
   const editor = useRef(null);
 
   useEffect(() => {
@@ -66,41 +65,59 @@ const EditProductModal = () => {
   const handleDateChange = (date, fieldName) => {
     setFormData((prevData) => ({ ...prevData, [fieldName]: date }));
   };
-
-  const validateFields = () => {
-    const newErrors = {};
-    if (!formData.ProductName) {
-      newErrors.productName = "Tên sản phẩm không được bỏ trống.";
-    } else if (formData.ProductName.length > 100) {
-      newErrors.productName = "Tên sản phẩm không được quá 100 kí tự.";
-    }
-
-    if (formData.Price === "" || formData.Price < 0) {
-      newErrors.price = "Giá sản phẩm phải lớn hơn 0 và không được bỏ trống.";
-    }
-
-    if (formData.StockQuantity === "") {
-      newErrors.stockQuantity = "Số lượng không được bỏ trống.";
-    }
-
-    if (!formData.BrandName) {
-      newErrors.brandName = "Hãng không được bỏ trống.";
-    }
-
-    if (formData.ExpirationDate && formData.ManufacturingDate && formData.ExpirationDate < formData.ManufacturingDate) {
-      newErrors.expirationDate = "Ngày hết hạn không được diễn ra trước ngày sản xuất.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateFields()) {
+    if (!formData.ProductName) {
+      message.warning("Tên sản phẩm không được bỏ trống.");
+      return;
+    } 
+    if (formData.ProductName.length > 100) {
+      message.warning("Tên sản phẩm không được quá 100 kí tự.");
       return;
     }
+
+    if (!formData.BrandName) {
+      message.warning("Hãng không được bỏ trống.");
+      return;
+    }
+
+    if (formData.StockQuantity === null || formData.StockQuantity === "") {
+      message.warning("Số lượng không được bỏ trống.");
+      return;
+    }
+    if (formData.StockQuantity < 0) {
+      message.warning("Số lượng không được nhỏ hơn 0.");
+      return;
+    }
+
+    if (formData.Price === null || formData.Price === "") {
+      message.warning("Giá không được bỏ trống.");
+      return;
+    }
+    if (formData.Price < 0) {
+      message.warning("Giá không được nhỏ hơn 0.");
+      return;
+    }
+
+    
+  if (!formData.ManufacturingDate) {
+    message.warning("Ngày sản xuất không được bỏ trống.");
+    return;
+  }
+
+  if (!formData.ExpirationDate) {
+    message.warning("Ngày hết hạn không được bỏ trống.");
+    return;
+  }
+
+  const manufacturingDate = new Date(formData.ManufacturingDate);
+  const expirationDate = new Date(formData.ExpirationDate);
+
+  if (expirationDate <= manufacturingDate) {
+    message.warning("Ngày hết hạn phải diễn ra sau ngày sản xuất.");
+    return;
+  }
 
     const allowedTags = [
       "img",
@@ -169,7 +186,7 @@ const EditProductModal = () => {
 
       if (response.ok) {
         console.log("Product updated successfully");
-        message.success("Sản phẩm đã được sửa thành công."); // Thêm thông báo thành công
+        message.success("Sản phẩm đã được sửa thành công.");
         navigate("/products");
       } else {
         const errorData = await response.json();
@@ -272,7 +289,6 @@ const EditProductModal = () => {
           if (newContent.length > maxChars) {
             editor.value = newContent.substring(0, maxChars);
             message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
-
           }
           const tempDiv = document.createElement('div');
           tempDiv.innerHTML = newContent;
@@ -299,7 +315,7 @@ const EditProductModal = () => {
     <div className="edit-product-page">
       <form onSubmit={handleSubmit}>
         <div className="form-grid">
-          <label>
+          <label className="productName-row">
             Tên sản phẩm:
             <input
               type="text"
@@ -307,33 +323,11 @@ const EditProductModal = () => {
               value={formData.ProductName}
               onChange={handleChange}
             />
-            {errors.productName && (
-              <p className="error-message">{errors.productName}</p>
+            {message.productName && (
+              <p className="error-message">{message.productName}</p>
             )}
           </label>
-          <label>
-            Giá:
-            <input
-              type="number"
-              name="Price"
-              value={formData.Price}
-              onChange={handleChange}
-            />
-            {errors.price && <p className="error-message">{errors.price}</p>}
-          </label>
-          <label>
-            Số lượng:
-            <input
-              type="number"
-              name="StockQuantity"
-              value={formData.StockQuantity}
-              onChange={handleChange}
-            />
-            {errors.stockQuantity && (
-              <p className="error-message">{errors.stockQuantity}</p>
-            )}
-          </label>
-          <label>
+          <label className="brand-row">
             Hãng:
             <select
               name="BrandName"
@@ -347,26 +341,33 @@ const EditProductModal = () => {
                 </option>
               ))}
             </select>
-            {errors.brandName && (
-              <p className="error-message">{errors.brandName}</p>
+            {message.brandName && (
+              <p className="error-message">{message.brandName}</p>
             )}
           </label>
-          <label>
-            Ngày hết hạn:
-            <DatePicker
-              selected={
-                formData.ExpirationDate
-                  ? new Date(formData.ExpirationDate)
-                  : null
-              }
-              onChange={(date) => handleDateChange(date, "ExpirationDate")}
-              dateFormat="dd/MM/yyyy"
+          <label className="quantity-row">
+            Số lượng:
+            <input
+              type="number"
+              name="StockQuantity"
+              value={formData.StockQuantity}
+              onChange={handleChange}
             />
-            {errors.expirationDate && (
-              <p className="error-message">{errors.expirationDate}</p>
+            {message.stockQuantity && (
+              <p className="error-message">{message.stockQuantity}</p>
             )}
           </label>
-          <label>
+          <label className="price-row">
+            Giá:
+            <input
+              type="number"
+              name="Price"
+              value={formData.Price}
+              onChange={handleChange}
+            />
+            {message.price && <p className="error-message">{message.price}</p>}
+          </label>
+          <label className="manufacturingDate-row">
             Ngày sản xuất:
             <DatePicker
               selected={
@@ -377,8 +378,33 @@ const EditProductModal = () => {
               onChange={(date) => handleDateChange(date, "ManufacturingDate")}
               dateFormat="dd/MM/yyyy"
             />
+            {message.manufacturingDate && (
+              <p className="error-message">{message.manufacturingDate}</p>
+            )}
           </label>
-          <label>
+          <label className="expirationDate-row">
+            Ngày hết hạn:
+            <DatePicker
+              selected={
+                formData.ExpirationDate
+                  ? new Date(formData.ExpirationDate)
+                  : null
+              }
+              onChange={(date) => handleDateChange(date, "ExpirationDate")}
+              dateFormat="dd/MM/yyyy"
+            />
+            {message.expirationDate && (
+              <p className="error-message">{message.expirationDate}</p>
+            )}
+          </label>
+          <label className="image-row">
+            Hình ảnh:
+            <div className="image-input-container">
+              <input type="file" name="Image" onChange={handleChange} />
+              {formData.Image && <img src={formData.Image} alt="Product" className="product-image-preview" />}
+            </div>
+          </label>
+          <label className="description-row">
             Mô tả:
             <JoditEditor
               ref={editor}
@@ -386,13 +412,6 @@ const EditProductModal = () => {
               config={editorConfig}
               onBlur={(newContent) => handleDescriptionChange(newContent)}
             />
-          </label>
-          <label>
-            Hình ảnh:
-            <input type="file" name="Image" onChange={handleChange} />
-            {formData.Image && (
-              <img src={formData.Image} alt="Product" width="100" />
-            )}
           </label>
         </div>
         <button type="submit">Lưu thay đổi</button>
