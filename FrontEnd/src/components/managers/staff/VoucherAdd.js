@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Voucher.css";
 import { message } from "antd";
+import { formatPrice } from "../../utils/formatPrice";
 
 function VoucherAdd() {
   const [voucherData, setVoucherData] = useState({
@@ -15,12 +16,30 @@ function VoucherAdd() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setVoucherData({
-      ...voucherData,
-      [name]: value,
-    });
+
+    if (name === "minDiscount") {
+      const formattedMinDiscount = formatPrice(value);
+      setVoucherData((prevData) => ({
+        ...prevData,
+        minDiscount: value.replace(/\D/g, ''), // Store numeric value
+        formattedMinDiscount // Store formatted value for display
+      }));
+    } else if (name === "maxDiscount") {
+      const formattedMaxDiscount = formatPrice(value);
+      setVoucherData((prevData) => ({
+        ...prevData,
+        maxDiscount: value.replace(/\D/g, ''), // Store numeric value
+        formattedMaxDiscount // Store formatted value for display
+      }));
+    } else {
+      setVoucherData({
+        ...voucherData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -183,10 +202,10 @@ function VoucherAdd() {
         <div className="half-width">
           <label htmlFor="minDiscount"> Giảm tối thiểu</label>
           <input
-            type="number"
+            type="text"
             id="minDiscount"
             name="minDiscount"
-            value={voucherData.minDiscount}
+            value={voucherData.formattedMinDiscount}
             onChange={handleChange}
           />
 
@@ -195,7 +214,7 @@ function VoucherAdd() {
             type="number"
             id="maxDiscount"
             name="maxDiscount"
-            value={voucherData.maxDiscount}
+            value={voucherData.formattedMaxDiscount}
             onChange={handleChange}
           />
 

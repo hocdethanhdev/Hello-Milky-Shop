@@ -5,6 +5,7 @@ import DOMPurify from "dompurify";
 import { uploadImage } from "../uimg/UpImage";
 import { message } from "antd";
 import "./Products.css";
+import { formatPrice } from "../../utils/formatPrice";
 
 const ProductAdd = () => {
   const [productName, setProductName] = useState("");
@@ -18,7 +19,7 @@ const ProductAdd = () => {
   const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
   const [status, setStatus] = useState(1);
   const [brands, setBrands] = useState([]);
-  const [previewImage, setPreviewImage] = useState(null); // For previewing image
+  const [previewImage, setPreviewImage] = useState(null);
   const editor = useRef(null);
 
   useEffect(() => {
@@ -44,9 +45,14 @@ const ProductAdd = () => {
     }
   };
 
+  const handlePriceChange = (e) => {
+    const { value } = e.target;
+    const formattedPrice = formatPrice(value);
+    setPrice(formattedPrice);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // Validation
     if (!productName) {
       message.error("Tên sản phẩm không được để trống.");
@@ -118,7 +124,7 @@ const ProductAdd = () => {
       const productData = {
         ProductName: productName,
         Description: sanitizedContent,
-        Price: price,
+        Price: parseInt(price.replace(/\D/g, ''), 10),
         StockQuantity: stockQuantity,
         Image: downloadURL,
         ExpirationDate: expirationDate,
@@ -272,11 +278,12 @@ const ProductAdd = () => {
         <div className="form-group">
           <label htmlFor="product-price">Giá:</label>
           <input
-            type="number"
+            type="text"
             id="product-price"
             name="product-price"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={handlePriceChange}
+            required
           />
         </div>
         <div className="form-group">
