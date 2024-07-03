@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { io } from "socket.io-client";
+import axios from "axios";
+
+const socket = io("http://localhost:5000");
 
 function Sidebar() {
   const [dropDown, setDropDown] = useState(false);
   const [feedbackDropDown, setFeedbackDropDown] = useState(false);
   const location = useLocation();
+  const [unreadMessageCounts, setUnreadMessageCounts] = useState(0);
 
   const toggleDropdown = () => {
     setDropDown(!dropDown);
@@ -16,6 +21,28 @@ function Sidebar() {
   const toggleFeedbackDropdown = () => {
     setFeedbackDropDown(!feedbackDropDown);
   };
+
+  useEffect(() => {
+    const fetchChatRooms = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/v1/chat/getAllChatRoom");
+        const rooms = response.data.data;
+      } catch (error) {
+        console.error("Error fetching chat rooms", error);
+      }
+    };
+
+    fetchChatRooms();
+
+    // Listen for unread message count updates
+    socket.on("sumUnreadMessageCount", (counts) => {
+      setUnreadMessageCounts(counts);
+    });
+
+    return () => {
+      socket.off("sumUnreadMessageCount");
+    };
+  }, []);
 
   return (
     <div className="sidebar-container-st-thinh">
@@ -222,7 +249,7 @@ function Sidebar() {
               style={{ width: "24px" }}
               className="icon-staff-slidebar"
             />
-          Tư vấn mua hàng
+          Tư vấn mua hàng {unreadMessageCounts > 0 && unreadMessageCounts}
         </NavLink>
       </nav>
     </div>
