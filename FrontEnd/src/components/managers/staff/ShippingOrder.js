@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 function ShippingOrder() {
-  const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
   const ordersPerPage = 10;
 
   useEffect(() => {
@@ -16,7 +19,7 @@ function ShippingOrder() {
           "http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/2"
         );
         const data = await response.json();
-        setOrders(data.address);
+        setFilteredOrders(data.address);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -72,9 +75,48 @@ function ShippingOrder() {
     setSelectedOrder(null);
   };
 
+  const handleSort = (key) => {
+    let direction = "ascending";
+    setSortConfig((prevSortConfig) => {
+      if (prevSortConfig.key === key && prevSortConfig.direction === "ascending") {
+        direction = "descending";
+      }
+
+      const sortedOrders = [...filteredOrders].sort((a, b) => {
+        if (key === "OrderID" || key === "TotalAmount") {
+          return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
+        } else if (key === "OrderDate") {
+          return direction === "ascending" ? new Date(a[key]) - new Date(b[key]) : new Date(b[key]) - new Date(a[key]);
+        } else {
+          if (a[key] < b[key]) {
+            return direction === "ascending" ? -1 : 1;
+          }
+          if (a[key] > b[key]) {
+            return direction === "ascending" ? 1 : -1;
+          }
+          return 0;
+        }
+      });
+
+      setFilteredOrders(sortedOrders);
+      return { key, direction };
+    });
+  };
+
+  const sortIcon = (key) => {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === "ascending" ? (
+        <FontAwesomeIcon icon={faSortUp} />
+      ) : (
+        <FontAwesomeIcon icon={faSortDown} />
+      );
+    }
+    return <FontAwesomeIcon icon={faSort} />;
+  };
+
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
 
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -85,9 +127,24 @@ function ShippingOrder() {
       <table>
         <thead>
           <tr className="row">
-            <th className="col-md-2">Mã đơn hàng</th>
-            <th className="col-md-2">Ngày đặt hàng</th>
-            <th className="col-md-2">Tổng</th>
+            <th className="col-md-2">
+              Mã đơn hàng
+              <button className="sort-icon-order" onClick={() => handleSort("OrderID")}>
+                {sortIcon("OrderID")}
+              </button>
+            </th>
+            <th className="col-md-2">
+              Ngày đặt hàng
+              <button className="sort-icon-order" onClick={() => handleSort("OrderDate")}>
+                {sortIcon("OrderDate")}
+              </button>
+            </th>
+            <th className="col-md-2">
+              Tổng
+              <button className="sort-icon-order" onClick={() => handleSort("TotalAmount")}>
+                {sortIcon("TotalAmount")}
+              </button>
+            </th>
             <th className="col-md-3">Địa chỉ</th>
             <th className="col-md-3">Thao tác</th>
           </tr>
@@ -103,15 +160,14 @@ function ShippingOrder() {
                   year: "numeric",
                 })}
               </td>
-              <td className="col-md-2">
-                {formatPrice(parseInt(order.TotalAmount))}
-              </td>
+              <td className="col-md-2">{formatPrice(parseInt(order.TotalAmount))}</td>
               <td className="col-md-3">{order.Address}</td>
               <td className="col-md-3">
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => viewOrderDetails(order)}>
+                  onClick={() => viewOrderDetails(order)}
+                >
                   Thông tin
                 </button>
               </td>
@@ -123,11 +179,11 @@ function ShippingOrder() {
         <ThrowPage
           current={currentPage}
           onChange={handlePageChange}
-          total={orders.length}
+          total={filteredOrders.length}
           productsPerPage={ordersPerPage}
         />
       </div>
-      {selectedOrder && (
+      {selectedOrder && isDetailModalVisible && (
         <Modal
           visible={isDetailModalVisible}
           onCancel={handleModalClose}
@@ -135,7 +191,8 @@ function ShippingOrder() {
             <Button key="close" onClick={handleModalClose}>
               Đóng
             </Button>,
-          ]}>
+          ]}
+        >
           <div className="modal-content-scrollable-thinhh">
             <div className="ttdh-thinh">
               <h2>Thông tin đơn hàng</h2>
@@ -152,11 +209,14 @@ function ShippingOrder() {
                       <strong>Ngày đặt hàng:</strong>
                     </td>
                     <td>
-                      {new Date(selectedOrder.OrderDate).toLocaleDateString("vi-VN", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
+                      {new Date(selectedOrder.OrderDate).toLocaleDateString(
+                        "vi-VN",
+                        {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        }
+                      )}
                     </td>
                   </tr>
                   <tr>
@@ -177,7 +237,7 @@ function ShippingOrder() {
                         <td className="mdh">
                           <strong>Số điện thoại:</strong>
                         </td>
-                        <td>{selectedOrder.shippingAddress[0].PhoneNumber}</td>
+                        <td>{selectedOrder.shippingAddress[0].Phone}</td>
                       </tr>
                       <tr>
                         <td className="mdh">
@@ -189,30 +249,28 @@ function ShippingOrder() {
                   )}
                 </tbody>
               </table>
-              <table className="table-products-order">
+              <h3>Chi tiết đơn hàng</h3>
+              <table className="table-info-order">
                 <thead>
                   <tr>
                     <th>Mã sản phẩm</th>
                     <th>Tên sản phẩm</th>
-                    <th>Hình ảnh</th>
                     <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Thành tiền</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedOrder.details.map((detail) => (
-                    <tr key={detail.ProductID}>
-                      <td>{detail.ProductID}</td>
-                      <td>{detail.ProductName}</td>
-                      <td>
-                        <img
-                          src={detail.Image}
-                          alt={detail.ProductName}
-                          width="50"
-                        />
-                      </td>
-                      <td>{detail.Quantity}</td>
-                    </tr>
-                  ))}
+                  {selectedOrder.details &&
+                    selectedOrder.details.map((item) => (
+                      <tr key={item.ProductID}>
+                        <td>{item.ProductID}</td>
+                        <td>{item.ProductName}</td>
+                        <td>{item.Quantity}</td>
+                        <td>{formatPrice(item.Price)}</td>
+                        <td>{formatPrice(item.Quantity * item.Price)}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

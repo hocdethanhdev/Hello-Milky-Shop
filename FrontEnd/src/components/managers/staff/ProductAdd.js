@@ -1,33 +1,38 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import axios from "axios";
 import JoditEditor from "jodit-react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "./Posts.css";
-import "./PostsAdd.css";
-import { uploadImage } from "../uimg/UpImage";
-import { useSelector } from "react-redux";
-import { getUserIdFromToken } from "../../store/actions/authAction";
 import DOMPurify from "dompurify";
+import { uploadImage } from "../uimg/UpImage";
 import { message } from "antd";
-import { useNavigate } from "react-router-dom";
+import "./Products.css";
 
-function PostsAdd() {
-  const [title, setTitle] = useState("");
-  const [headerImage, setHeaderImage] = useState(null);
-  const [publishDate, setPublishDate] = useState(new Date());
-  const [articleCategoryID, setArticleCategoryID] = useState("");
-  const [previewImage, setPreviewImage] = useState(null);
-  const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
+const ProductAdd = () => {
+  const [productName, setProductName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [stockQuantity, setStockQuantity] = useState("");
+  const [image, setImage] = useState(null);
+  const [expirationDate, setExpirationDate] = useState("");
+  const [manufacturingDate, setManufacturingDate] = useState("");
+  const [brandName, setBrandName] = useState("");
+  const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
+  const [status, setStatus] = useState(1);
+  const [brands, setBrands] = useState([]);
+  const [previewImage, setPreviewImage] = useState(null); // For previewing image
   const editor = useRef(null);
-  const navigate = useNavigate();
-  const [editorContent, setEditorContent] = useState("");
 
-  const handleImageChange = (e) => {
+  useEffect(() => {
+    fetch("http://localhost:5000/api/v1/product/getAllBrands")
+      .then((response) => response.json())
+      .then((data) => setBrands(data))
+      .catch((error) => console.error("Error fetching brands:", error));
+  }, []);
+
+  const handleFileChange = (e) => {
     const imageFile = e.target.files[0];
-    setHeaderImage(imageFile);
+    setImage(imageFile);
 
+    // Preview image
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreviewImage(reader.result);
@@ -41,52 +46,91 @@ function PostsAdd() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const editorContent = editor.current.value;
 
-    if (!title.trim()) {
-      message.warning("Tiêu đề không được để trống.");
-      window.scrollTo(0, 0);
+    // Validation
+    if (!productName) {
+      message.error("Tên sản phẩm không được để trống.");
       return;
     }
-    if (!articleCategoryID) {
-      message.warning("Hãy chọn loại bài viết.");
-      window.scrollTo(0, 0);
+    if (productName.length > 100) {
+      message.error("Tên sản phẩm không được vượt quá 100 ký tự.");
       return;
     }
-    if (!headerImage) {
-      message.warning("Hãy thêm ảnh vào.");
-      window.scrollTo(0, 0);
+    if (!price) {
+      message.error("Giá sản phẩm không được để trống.");
       return;
     }
-    if (!publishDate) {
-      message.warning("Ngày không được bỏ trống.");
-      window.scrollTo(0, 0);
+    if (price < 0 || price === 0) {
+      message.error("Giá sản phẩm phải lớn hơn hoặc bằng 0.");
       return;
     }
-    if (!editorContent.trim()) {
-      message.warning("Nội dung không được để trống.");
-      window.scrollTo(0, 0);
+    if (!stockQuantity) {
+      message.error("Số lượng sản phẩm không được để trống.");
+      return;
+    }
+    if (stockQuantity <= 0) {
+      message.error("Số lượng sẩn phẩm phải lớn hơn 0.");
+      return;
+    }
+    if (!image) {
+      message.error("Vui lòng chọn ảnh.");
+      return;
+    }
+    if (!manufacturingDate) {
+      message.error("Ngày sản xuất không được để trống.");
+      return;
+    }
+    if (!expirationDate) {
+      message.error("Hạn sử dụng không được để trống.");
+      return;
+    }
+    if (expirationDate <= manufacturingDate) {
+      message.error("Hạn sử dụng phải sau ngày sản xuất.");
+      return;
+    }
+    if (!brandName) {
+      message.error("Vui lòng chọn hãng.");
+      return;
+    }
+    if (!productCategoryName) {
+      message.error("Vui lòng chọn loại sản phẩm.");
+      return;
+    }
+    if (status === "") {
+      message.error("Vui lòng chọn tình trạng của sản phẩm");
+      return;
+    }
+    if (!description) {
+      message.error("Mô tả không được để trống.");
+      return;
+    }
+    if (description.length > 4000) {
+      message.error("Mô tả không được vượt quá 4000 ký tự.");
       return;
     }
 
     try {
-      // Assuming uploadImage handles progress updates
-      const downloadURL = await uploadImage(headerImage); // Ensure setProgress is defined and correctly handles progress
+      const downloadURL = await uploadImage(image);
 
+      const editorContent = editor.current.value;
       const sanitizedContent = DOMPurify.sanitize(editorContent);
 
-      const postData = {
-        Title: title,
-        HeaderImage: downloadURL,
-        Content: sanitizedContent,
-        PublishDate: publishDate.toISOString().split("T")[0],
-        AuthorID: userId,
-        ArticleCategoryID: parseInt(articleCategoryID),
+      const productData = {
+        ProductName: productName,
+        Description: sanitizedContent,
+        Price: price,
+        StockQuantity: stockQuantity,
+        Image: downloadURL,
+        ExpirationDate: expirationDate,
+        ManufacturingDate: manufacturingDate,
+        BrandName: brandName,
+        ProductCategoryName: productCategoryName,
+        Status: status,
       };
 
       await axios.post(
-        "http://localhost:5000/api/v1/article/createArticle/",
-        postData,
+        "http://localhost:5000/api/v1/product/createProduct",
+        productData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -94,11 +138,22 @@ function PostsAdd() {
         }
       );
 
-      message.success("Bài viết đã được tạo thành công.");
-      navigate("/posts");
-      window.scrollTo(0, 0);
+      message.success("Tạo sản phẩm thành công.");
+      // Reset form
+      setProductName("");
+      setDescription("");
+      setPrice("");
+      setStockQuantity("");
+      setImage(null);
+      setExpirationDate("");
+      setManufacturingDate("");
+      setBrandName("");
+      setProductCategoryName("Sữa cho em bé");
+      setStatus(1);
+      setPreviewImage(null); // Reset preview image
     } catch (error) {
-      message.error(`Có lỗi xảy ra: ${error.message}`);
+      console.error("Error creating product:", error);
+      message.error("Error creating product: " + error.message);
     }
   };
 
@@ -155,7 +210,7 @@ function PostsAdd() {
               const file = event.target.files[0];
               if (file) {
                 try {
-                  const url = await uploadImage(file); // Ensure setProgress is defined and correctly handles progress
+                  const url = await uploadImage(file);
                   const img = document.createElement("img");
                   img.src = url;
                   img.alt = "Image";
@@ -164,7 +219,7 @@ function PostsAdd() {
                   editor.selection.insertNode(img);
                   handleResizeImage(editor);
                 } catch (error) {
-                  console.error("Lỗi up ảnh:", error);
+                  console.error("Error uploading image:", error);
                 }
               }
             };
@@ -183,7 +238,17 @@ function PostsAdd() {
             editor.value = newContent.substring(0, maxChars);
             message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
           }
-          setEditorContent(newContent);
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = newContent;
+          const images = tempDiv.querySelectorAll("img");
+          images.forEach((image) => {
+            const width = image.style.width;
+            const height = image.style.height;
+            if (width && height) {
+              image.setAttribute("width", width);
+              image.setAttribute("height", height);
+            }
+          });
         },
       },
     }),
@@ -191,81 +256,136 @@ function PostsAdd() {
   );
 
   return (
-    <div className="container post-form">
-      <form onSubmit={handleSubmit}>
-        <div className="row mb-3">
-          <div className="col-md-8">
-            <label htmlFor="title">Tiêu đề:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-          <div className="col-md-4 form-control1-container">
-            <label htmlFor="article-category-id">Loại bài viết:</label>
-            <select
-              className="form-control1"
-              id="article-category-id"
-              value={articleCategoryID}
-              onChange={(e) => setArticleCategoryID(e.target.value)}
-            >
-              <option value="" disabled>
-                Chọn loại bài viết
-              </option>
-              <option value="1">Sức Khỏe</option>
-              <option value="2">Tin khuyến mãi</option>
-            </select>
-          </div>
+    <div className="container create-product">
+      <form id="create-product-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="product-name">Tên sản phẩm:</label>
+          <input
+            type="text"
+            id="product-name"
+            name="product-name"
+            value={productName}
+            onChange={(e) => setProductName(e.target.value)}
+          />
         </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="header-image">Ảnh đầu trang</label>
-            <input
-              type="file"
-              className="form-control2"
-              id="header-image"
-              onChange={handleImageChange}
-            />
-          </div>
+
+        <div className="form-group">
+          <label htmlFor="product-price">Giá:</label>
+          <input
+            type="number"
+            id="product-price"
+            name="product-price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
         </div>
-        <div className="row mb-3">
-          <div className="col-md-6">
-            <label htmlFor="publish-date">Ngày công bố</label>
-            <DatePicker
-              selected={publishDate}
-              onChange={(date) => setPublishDate(date)}
-              className="form-control"
-              dateFormat="dd-MM-yyyy"
-            />
-          </div>
+        <div className="form-group">
+          <label htmlFor="product-stock">Số lượng:</label>
+          <input
+            type="number"
+            id="product-stock"
+            name="product-stock"
+            value={stockQuantity}
+            onChange={(e) => setStockQuantity(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="product-image-url">Ảnh:</label>
+          <input
+            type="file"
+            id="product-image-url"
+            name="product-image-url"
+            onChange={handleFileChange}
+          />
           {previewImage && (
-            <div className="col-md-6 preview-image-container">
-              <img src={previewImage} alt="Preview" className="preview-image" />
+            <div className="form-group">
+              <img
+                src={previewImage}
+                alt="Preview"
+                className="preview-image-add-product"
+              />
             </div>
           )}
         </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="content">Nội dung</label>
-            <div className="editor">
-              <JoditEditor
-                ref={editor}
-                config={editorConfig}
-                value={editorContent}
-                onBlur={(newContent) => setEditorContent(newContent)} // Set content on blur
-              />
-            </div>
+        <div className="form-group">
+          <label htmlFor="product-manufacturing">Ngày sản xuất:</label>
+          <input
+            type="date"
+            id="product-manufacturing"
+            name="product-manufacturing"
+            value={manufacturingDate}
+            onChange={(e) => setManufacturingDate(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="product-expiration">Hạn sử dụng:</label>
+          <input
+            type="date"
+            id="product-expiration"
+            name="product-expiration"
+            value={expirationDate}
+            onChange={(e) => setExpirationDate(e.target.value)}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="product-brand">Hãng:</label>
+          <select
+            className="select-add-pro"
+            id="product-brand"
+            name="product-brand"
+            value={brandName}
+            onChange={(e) => setBrandName(e.target.value)}>
+            <option value="">Chọn hãng</option>
+            {brands.map((brand) => (
+              <option key={brand.BrandId} value={brand.BrandName}>
+                {brand.BrandName}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="product-category">Loại sản phẩm:</label>
+          <select
+            id="product-category"
+            name="product-category"
+            value={productCategoryName}
+            onChange={(e) => setProductCategoryName(e.target.value)}>
+            <option value="Sữa cho em bé">Sữa cho em bé</option>
+            <option value="Sữa cho mẹ bầu">Sữa cho mẹ bầu</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="product-status">Tình trạng:</label>
+          <select
+            id="product-status"
+            name="product-status"
+            value={status}
+            onChange={(e) => setStatus(parseInt(e.target.value))}>
+            <option value={1}>Kinh doanh</option>
+            <option value={0}>Ngừng kinh doanh</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="product-description">Mô tả:</label>
+          <div className="editor">
+            <JoditEditor
+              ref={editor}
+              value={description}
+              config={editorConfig}
+              onChange={(newContent) => setDescription(newContent)}
+            />
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">
-          Tạo bài viết
+        <button
+          type="submit"
+          className="btn btn-success"
+          style={{ marginLeft: "40%" }}>
+          Tạo sản phẩm
         </button>
       </form>
     </div>
   );
-}
+};
 
-export default PostsAdd;
+export default ProductAdd;

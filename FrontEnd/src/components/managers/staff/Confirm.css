@@ -270,3 +270,8 @@ table tbody tr:nth-child(even) {
 .mdh {
   width: 30%;
 }
+
+.sort-icon-order {
+  background-color: white;
+  border: none;
+}

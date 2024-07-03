@@ -22,7 +22,6 @@
 .password-toggle-icon {
   position: absolute;
   right: 10px;
-  top: 34%;
   cursor: pointer;
   color: #333;
   transition: color 0.3s ease;

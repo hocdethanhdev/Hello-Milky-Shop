@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 function DoneOrder() {
@@ -7,6 +9,7 @@ function DoneOrder() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
   const ordersPerPage = 10;
 
   useEffect(() => {
@@ -72,6 +75,47 @@ function DoneOrder() {
     setSelectedOrder(null);
   };
 
+  const handleSort = (key) => {
+    let direction = "ascending";
+    setSortConfig((prevSortConfig) => {
+      if (prevSortConfig.key === key && prevSortConfig.direction === "ascending") {
+        direction = "descending";
+      }
+
+      // Customize sorting logic for numeric values (OrderID) and date (OrderDate)
+      const sortedOrders = [...orders].sort((a, b) => {
+        if (key === "OrderID" || key === "TotalAmount") {
+          return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
+        } else if (key === "OrderDate") {
+          return direction === "ascending" ? new Date(a[key]) - new Date(b[key]) : new Date(b[key]) - new Date(a[key]);
+        } else {
+          // Default string sorting logic
+          if (a[key] < b[key]) {
+            return direction === "ascending" ? -1 : 1;
+          }
+          if (a[key] > b[key]) {
+            return direction === "ascending" ? 1 : -1;
+          }
+          return 0;
+        }
+      });
+
+      setOrders(sortedOrders);
+      return { key, direction };
+    });
+  };
+
+  const sortIcon = (key) => {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === "ascending" ? (
+        <FontAwesomeIcon icon={faSortUp} />
+      ) : (
+        <FontAwesomeIcon icon={faSortDown} />
+      );
+    }
+    return <FontAwesomeIcon icon={faSort} />;
+  };
+
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -85,9 +129,24 @@ function DoneOrder() {
       <table>
         <thead>
           <tr className="row">
-            <th className="col-md-2">Mã đơn hàng</th>
-            <th className="col-md-2">Ngày đặt hàng</th>
-            <th className="col-md-2">Tổng</th>
+            <th className="col-md-2">
+              Mã đơn hàng
+              <button className="sort-icon-order" onClick={() => handleSort("OrderID")}>
+                {sortIcon("OrderID")}
+              </button>
+            </th>
+            <th className="col-md-2">
+              Ngày đặt hàng
+              <button className="sort-icon-order" onClick={() => handleSort("OrderDate")}>
+                {sortIcon("OrderDate")}
+              </button>
+            </th>
+            <th className="col-md-2">
+              Tổng
+              <button className="sort-icon-order" onClick={() => handleSort("TotalAmount")}>
+                {sortIcon("TotalAmount")}
+              </button>
+            </th>
             <th className="col-md-3">Địa chỉ</th>
             <th className="col-md-3">Thao tác</th>
           </tr>
