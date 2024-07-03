@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types"; // Import PropTypes
+import React, { useState, useEffect } from "react";
 import { Modal, Button, message } from "antd";
 import ProductSelectionModal from "./ProductSelectionModal ";
 import { uploadImage } from "../uimg/UpImage";
 import moment from "moment";
 import "./EditPromotionModal.css";
+import axios from "axios";
 
 const EditPromotionModal = ({ promotion, onClose, onSave }) => {
   const [promotionName, setPromotionName] = useState(promotion.PromotionName);
@@ -20,8 +20,28 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
   );
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(promotion.Image || null);
+  const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [productSelectionVisible, setProductSelectionVisible] = useState(false);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/product/getInfoProductsDetail"
+        );
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    setSelectedProducts([]);
+  }, [selectedProducts]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,12 +95,12 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
 
       const updatedPromotion = {
         PromotionID: promotion.PromotionID,
-        PromotionName: promotionName,
-        Description: description,
-        DiscountPercentage: parseInt(discountPercentage),
-        StartDate: startDate,
-        EndDate: endDate,
-        Image: downloadURL,
+        promotionName,
+        description,
+        discountPercentage: parseInt(discountPercentage),
+        startDate,
+        endDate,
+        image: downloadURL,
       };
 
       onSave(updatedPromotion, selectedProducts);
@@ -112,8 +132,7 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
       onCancel={onClose}
       onOk={handleSubmit}
       width={800}
-      footer={null}
-    >
+      footer={null}>
       <div className="edit-promotion-form-container">
         <form onSubmit={handleSubmit}>
           <div className="promo-form">
@@ -194,21 +213,6 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
       )}
     </Modal>
   );
-};
-
-// Define prop types for promotion, onClose, and onSave
-EditPromotionModal.propTypes = {
-  promotion: PropTypes.shape({
-    PromotionID: PropTypes.number.isRequired,
-    PromotionName: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    DiscountPercentage: PropTypes.number.isRequired,
-    StartDate: PropTypes.string.isRequired,
-    EndDate: PropTypes.string.isRequired,
-    Image: PropTypes.string,
-  }).isRequired,
-  onClose: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
 };
 
 export default EditPromotionModal;
