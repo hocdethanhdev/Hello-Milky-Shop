@@ -116,3 +116,152 @@ button[type="submit"]:hover {
   height: auto;
   margin-top: 10px;
 }
+
+.edit-product-page {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #ccc;
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+select {
+  appearance: none; /* Remove default arrow on Firefox */
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+img {
+  margin-top: 5px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.Jodit {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.Jodit .editor {
+  height: 200px; /* Set the desired height */
+}
+
+@media screen and (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Đảm bảo "Mô tả" nằm ở hàng cuối cùng của grid */
+.description-row {
+  grid-column: 1 / span 2; /* Chiếm cả 2 cột */
+  grid-row: 6; /* Nằm ở hàng 6 */
+}
+
+/* Chỉnh layout cho các hàng khác */
+.price-row {
+  grid-column: 2; /* Cột đầu tiên */
+  grid-row: 2; /* Hàng 3 */
+
+}
+
+.image-row {
+grid-row: 4;
+width: 50%; 
+
+}
+
+.date-row {
+  grid-column: 1; /* Cột đầu tiên */
+  grid-row: 5; /* Hàng 5 */
+}
+
+.quantity-row{
+  grid-column: 1; 
+  grid-row: 2;
+
+}
+.manufacturingDate-row{
+  grid-column: 1;
+  grid-row: 5;
+}
+
+.expirationDate-row{
+  grid-column: 2;
+  grid-row: 5;
+}
+
+.productName-row{
+  grid-column: 1 ;
+  grid-row: 1;
+  height: 60px;
+  padding-bottom: 10px;
+  width: 100%;
+}
+
+.brand-row{
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.image-input-container {
+  display: flex;
+  align-items: center;
+  width: 200%;
+}
+
+.product-image-preview {
+  margin-left: 10px; /* Khoảng cách giữa input và hình ảnh */
+  width: 120px; /* Chiều rộng hình ảnh */
+  height: 120px; /* Chiều cao hình ảnh */
+  object-fit: cover; /* Đảm bảo hình ảnh phù hợp với khung 120x120 */
+}
+
+
