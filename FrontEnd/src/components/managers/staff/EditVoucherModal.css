@@ -49,7 +49,7 @@
   box-sizing: border-box;
 }
 
-.modal-content-thinhprostedit3 form button {
+ .nutlong-voucher {
   padding: 10px;
   background-color: #4caf50;
   color: white;
@@ -60,6 +60,6 @@
   width: 100px;
 }
 
-.modal-content-thinhprostedit3 form button:hover {
+ .nutlong-voucher:hover {
   background-color: #45a049;
-}
+} 
