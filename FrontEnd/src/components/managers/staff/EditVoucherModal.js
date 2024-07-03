@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // Import PropTypes
 import { message } from "antd";
 import "./EditVoucherModal.css";
+import { formatPrice } from "../../utils/formatPrice";
 
 message.config({
   placement: 'top',
@@ -26,8 +27,8 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
         voucherName: voucher.VoucherName,
         quantity: voucher.Quantity,
         discountPercentage: voucher.DiscountPercentage,
-        minDiscount: voucher.MinDiscount,
-        maxDiscount: voucher.MaxDiscount,
+        minDiscount: formatPrice(voucher.MinDiscount.toString()),
+        maxDiscount: formatPrice(voucher.MaxDiscount.toString()),
         startDate: new Date(voucher.StartDate).toISOString().split("T")[0],
         expiryDate: new Date(voucher.ExpiryDate).toISOString().split("T")[0],
       });
@@ -96,10 +97,19 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
       message.warning("Phần trăm giảm giá không được nhỏ hơn 0.");
       return;
     }
+    const minDiscountNumber = parseFloat(formData.minDiscount.replace(/\./g, ''));
+    const maxDiscountNumber = parseFloat(formData.maxDiscount.replace(/\./g, ''));
+
+    if (isNaN(minDiscountNumber) || isNaN(maxDiscountNumber)) {
+      message.warning("Giảm tối thiểu và Giảm tối đa phải là số hợp lệ.");
+      return;
+    }
 
     const updatedVoucher = {
       ...voucher,
       ...formData,
+      minDiscount: minDiscountNumber,
+      maxDiscount: maxDiscountNumber,
       StartDate: formData.startDate,
       ExpiryDate: formData.expiryDate,
     };
@@ -158,7 +168,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
               <label>
                 Giảm tối thiểu:
                 <input
-                  type="number"
+                  type="text"
                   name="minDiscount"
                   value={formData.minDiscount}
                   onChange={handleChange}
@@ -167,7 +177,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
               <label>
                 Giảm tối đa:
                 <input
-                  type="number"
+                  type="text"
                   name="maxDiscount"
                   value={formData.maxDiscount}
                   onChange={handleChange}

@@ -7,7 +7,7 @@ import { uploadImage } from "../uimg/UpImage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { message } from "antd";
-
+import { formatPrice } from "../../utils/formatPrice";
 const EditProductModal = () => {
   const { productID } = useParams();
   const navigate = useNavigate();
@@ -23,7 +23,10 @@ const EditProductModal = () => {
           `http://localhost:5000/api/v1/product/getProductInfoByID/${productID}`
         );
         const productData = await response.json();
-        setFormData(productData[0]);
+        setFormData({
+          ...productData[0],
+          formattedPrice: formatPrice(productData[0].Price.toString())
+        });
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
@@ -53,6 +56,13 @@ const EditProductModal = () => {
       } catch (error) {
         console.error("Error uploading image:", error);
       }
+    } else if (name === "Price") {
+      const formattedPrice = formatPrice(value);
+      setFormData((prevData) => ({
+        ...prevData,
+        Price: value.replace(/\D/g, ''),
+        formattedPrice
+      }));
     } else {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
@@ -71,7 +81,7 @@ const EditProductModal = () => {
     if (!formData.ProductName) {
       message.warning("Tên sản phẩm không được bỏ trống.");
       return;
-    } 
+    }
     if (formData.ProductName.length > 100) {
       message.warning("Tên sản phẩm không được quá 100 kí tự.");
       return;
@@ -100,24 +110,24 @@ const EditProductModal = () => {
       return;
     }
 
-    
-  if (!formData.ManufacturingDate) {
-    message.warning("Ngày sản xuất không được bỏ trống.");
-    return;
-  }
 
-  if (!formData.ExpirationDate) {
-    message.warning("Ngày hết hạn không được bỏ trống.");
-    return;
-  }
+    if (!formData.ManufacturingDate) {
+      message.warning("Ngày sản xuất không được bỏ trống.");
+      return;
+    }
 
-  const manufacturingDate = new Date(formData.ManufacturingDate);
-  const expirationDate = new Date(formData.ExpirationDate);
+    if (!formData.ExpirationDate) {
+      message.warning("Ngày hết hạn không được bỏ trống.");
+      return;
+    }
 
-  if (expirationDate <= manufacturingDate) {
-    message.warning("Ngày hết hạn phải diễn ra sau ngày sản xuất.");
-    return;
-  }
+    const manufacturingDate = new Date(formData.ManufacturingDate);
+    const expirationDate = new Date(formData.ExpirationDate);
+
+    if (expirationDate <= manufacturingDate) {
+      message.warning("Ngày hết hạn phải diễn ra sau ngày sản xuất.");
+      return;
+    }
 
     const allowedTags = [
       "img",
@@ -360,9 +370,9 @@ const EditProductModal = () => {
           <label className="price-row">
             Giá:
             <input
-              type="number"
+              type="text"
               name="Price"
-              value={formData.Price}
+              value={formData.formattedPrice}
               onChange={handleChange}
             />
             {message.price && <p className="error-message">{message.price}</p>}
