@@ -190,7 +190,7 @@ function CancelOrder() {
           ))}
         </tbody>
       </table>
-      <div className="pagination-container-cf">
+      <div className="pagination-container-cf text-align-center">
         <ThrowPage
           current={currentPage}
           onChange={handlePageChange}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import JoditEditor from "jodit-react";
 import DOMPurify from "dompurify";
@@ -13,6 +13,7 @@ const EditProductModal = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(null);
   const [brands, setBrands] = useState([]);
+  const [progress, setProgress] = useState(0);
   const editor = useRef(null);
 
   useEffect(() => {
@@ -47,7 +48,7 @@ const EditProductModal = () => {
     if (name === "Image" && files && files[0]) {
       const file = files[0];
       try {
-        const imageUrl = await uploadImage(file);
+        const imageUrl = await uploadImage(file, setProgress);
         setFormData((prevData) => ({ ...prevData, Image: imageUrl }));
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -260,7 +261,7 @@ const EditProductModal = () => {
               const file = event.target.files[0];
               if (file) {
                 try {
-                  const url = await uploadImage(file);
+                  const url = await uploadImage(file, setProgress);
                   const img = document.createElement("img");
                   img.src = url;
                   img.alt = "Image";
@@ -303,7 +304,7 @@ const EditProductModal = () => {
         }
       }
     }),
-    []
+    [setProgress]
   );
 
   if (!formData) {
@@ -328,10 +329,14 @@ const EditProductModal = () => {
           </label>
           <label className="brand-row">
             Hãng:
-            <select name="BrandName" value={formData.BrandName} onChange={handleChange}>
+            <select
+              name="BrandName"
+              value={formData.BrandName}
+              onChange={handleChange}
+            >
               <option value="">Chọn hãng</option>
               {brands.map((brand) => (
-                <option key={brand.BrandName} value={brand.BrandName}>
+                <option key={brand.BrandId} value={brand.BrandName}>
                   {brand.BrandName}
                 </option>
               ))}
@@ -365,8 +370,12 @@ const EditProductModal = () => {
           <label className="manufacturingDate-row">
             Ngày sản xuất:
             <DatePicker
-              selected={formData.ExpirationDate ? new Date(formData.ExpirationDate) : null}
-              onChange={(date) => handleDateChange(date, "ExpirationDate")}
+              selected={
+                formData.ManufacturingDate
+                  ? new Date(formData.ManufacturingDate)
+                  : null
+              }
+              onChange={(date) => handleDateChange(date, "ManufacturingDate")}
               dateFormat="dd/MM/yyyy"
             />
             {message.manufacturingDate && (
@@ -400,11 +409,12 @@ const EditProductModal = () => {
             <JoditEditor
               ref={editor}
               value={formData.Description}
-              onChange={handleDescriptionChange}
               config={editorConfig}
+              onBlur={(newContent) => handleDescriptionChange(newContent)}
             />
           </label>
         </div>
+        <button type="submit">Lưu thay đổi</button>
       </form>
     </div>
   );
