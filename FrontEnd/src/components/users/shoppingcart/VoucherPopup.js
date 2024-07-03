@@ -1,5 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./VoucherModal.css";
+
 const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
   return (
     <div className="voucher-popup-long">
@@ -120,6 +122,21 @@ const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
       </ul>
     </div>
   );
+};
+
+VoucherPopup.propTypes = {
+  vouchers: PropTypes.arrayOf(
+    PropTypes.shape({
+      UserVoucherID: PropTypes.string.isRequired,
+      DiscountPercentage: PropTypes.number.isRequired,
+      StartDate: PropTypes.instanceOf(Date).isRequired,
+      ExpiryDate: PropTypes.instanceOf(Date).isRequired,
+      MinDiscount: PropTypes.number.isRequired,
+      MaxDiscount: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  handleVoucherSelect: PropTypes.func.isRequired,
+  closePopup: PropTypes.func.isRequired,
 };
 
 export default VoucherPopup;

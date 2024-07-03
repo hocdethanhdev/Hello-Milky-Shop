@@ -1,4 +1,3 @@
-const User = require("../bo/user");
 const userRepository = require("../repository/userRepository");
 
 const userService = {
@@ -39,7 +38,7 @@ const userService = {
     return await userRepository.getOne(id);
   },
 
-  getAllUsers: async (req, res) => {
+  getAllUsers: async () => {
     return await userRepository.getAllUsers();
   },
   deleteUser: async (user_id, status) => {

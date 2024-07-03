@@ -5,7 +5,7 @@ const Article = require("../bo/article");
 const articleDAO = {
   getTop5ArticleSameType: (id, aid) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
           .input("id", mssql.Int, id)
           .input("aid", mssql.Int, aid);
@@ -28,7 +28,7 @@ const articleDAO = {
   },
   findArticlesByID: (ID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("ID", ID);
         request.query(
           `SELECT *
@@ -48,7 +48,7 @@ const articleDAO = {
 
   findArticlesByArticleID: (ID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("ID", ID);
         request.query(
           `SELECT *
@@ -68,7 +68,7 @@ const articleDAO = {
 
   findArticlesByContent: (Content) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("Content", Content);
         request.query(
           `SELECT *
@@ -88,7 +88,7 @@ const articleDAO = {
 
   findAllArticles: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT *
@@ -106,7 +106,7 @@ const articleDAO = {
 
   findAllArticleCategory: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT ArticleCategoryName 
@@ -127,7 +127,7 @@ const articleDAO = {
     const article = new Article(ArticleID, articleObject.Title, articleObject.HeaderImage, articleObject.Content, articleObject.PublishDate, articleObject.AuthorID, articleObject.ArticleCategoryID);
     return new Promise((resolve, reject) => {
 
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("ArticleID", ArticleID)
           .input("Title", mssql.NVarChar, article.Title)
@@ -141,7 +141,7 @@ const articleDAO = {
           `INSERT INTO Article (Title, HeaderImage, Content, PublishDate, AuthorID, ArticleCategoryID)
           VALUES (@Title, @HeaderImage, @Content, @PublishDate, @AuthorID, @ArticleCategoryID)
           ;`,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "Create successfully"
@@ -154,12 +154,12 @@ const articleDAO = {
 
   deleteArticle: (param_id) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("ArticleID", param_id);
         request.query(
           `DELETE FROM Article WHERE ArticleID = @ArticleID;`,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "Delete successfully"
@@ -173,7 +173,7 @@ const articleDAO = {
 
   updateArticle: (param_id, articleObject) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("ArticleID", param_id)
           .input("Title", mssql.NVarChar, articleObject.Title)
@@ -185,7 +185,7 @@ const articleDAO = {
         request.query(
           `UPDATE Article SET Title =  @Title, HeaderImage = @HeaderImage, Content = @Content, PublishDate = @PublishDate, AuthorID = @AuthorID, ArticleCategoryID = @ArticleCategoryID WHERE ArticleID = @ArticleID
         ;`,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "Edit successfully"
@@ -199,7 +199,7 @@ const articleDAO = {
 
   findAuthorName: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT ArticleID, AuthorID, UserName as AuthorName
@@ -219,7 +219,7 @@ const articleDAO = {
 
   getCurrentCategoriesInArticles: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function (err) {
         if (err) {
           reject(err);
         } else {

@@ -3,8 +3,6 @@ import { NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
-
 
 function Sidebar() {
   const [dropDown, setDropDown] = useState(false);

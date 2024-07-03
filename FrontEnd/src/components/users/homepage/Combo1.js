@@ -24,14 +24,13 @@ function Combo1() {
 
   // Function to format price
   const formatPrice = (price) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
+    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
+
   const formatPriceDiscount = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
+
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
   };

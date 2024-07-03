@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./Bigsales.css";
 import { Link } from "react-router-dom";
+import "./Bigsales.css";
 import NavCate from "../product/ui-product-mom/NavCate";
 import StarRating from "../product/ui-list-product-mom/StarRating";
 
@@ -128,7 +128,7 @@ function Bigsales() {
                   {products.map((product) => (
                     <div className="item_product" key={product.id}>
                       <div className="pro-image">
-                        <a href={`/product/${product.id}`}>
+                        <a href={`/product/${product.id}`} rel="noopener noreferrer">
                           <img
                             src={product.imageUrl}
                             alt={product.name}
@@ -141,7 +141,8 @@ function Bigsales() {
                           <a
                             href={`/product/${product.id}`}
                             title={product.name}
-                            target="_blank">
+                            target="_blank"
+                            rel="noopener noreferrer">
                             {product.name}
                           </a>
                           <span className="barCode">Mã SP: {product.id}</span>

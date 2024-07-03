@@ -25,7 +25,7 @@ const updatePromotion = async (req, res) => {
     const promotionID = req.params.id;
     const promotionData = req.body;
     try {
-        const updatedPromotion = await promotionService.updatePromotion(promotionID, promotionData);
+        await promotionService.updatePromotion(promotionID, promotionData);
         res.status(200).json({ message: 'Promotion have been updated successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 import { Pagination } from "antd";
 import "./FeedbackManage.css";
-import { getUserIdFromToken } from "../../store/actions/authAction";
-import { useSelector } from "react-redux";
-import Notification from "../../users/product/ui-product-mom/Notification";
 
 const AnsweredFeedbackManage = () => {
     const [comments, setComments] = useState([]);
@@ -150,6 +148,21 @@ const Comment = ({ comment }) => {
             </div>
         </div>
     );
+};
+
+// PropTypes validation for Comment component
+Comment.propTypes = {
+    comment: PropTypes.shape({
+        CommentID: PropTypes.number.isRequired,
+        UserName: PropTypes.string.isRequired,
+        Rating: PropTypes.number.isRequired,
+        Description: PropTypes.string.isRequired,
+        CommentDate: PropTypes.string.isRequired,
+        StaffName: PropTypes.string.isRequired,
+        Rep: PropTypes.string.isRequired,
+        RepDate: PropTypes.string.isRequired,
+        ProductID: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default AnsweredFeedbackManage;

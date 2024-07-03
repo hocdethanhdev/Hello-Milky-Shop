@@ -55,9 +55,6 @@ const News = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const nextPage = () => setCurrentPage(currentPage + 1);
   const prevPage = () => setCurrentPage(currentPage - 1);
-  const handleProductClick = (productId) => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
-  };
 
   const handleCategoryChange = (event) => {
     const selectedCategoryId = event.target.value;
@@ -92,7 +89,7 @@ const News = () => {
             <div className="category-filter-news">
               <select id="category" value={selectedCategory} onChange={handleCategoryChange}>
                 <option value="">Tất cả</option>
-                {categories.map((category, index) => (
+                {categories.map((category) => (
                   <option key={category.ArticleCategoryID} value={category.ArticleCategoryID}>
                     {category.ArticleCategoryName}
                   </option>
@@ -103,12 +100,10 @@ const News = () => {
           {loading && <Loading/>}
           {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-
-
           <ul className="news-list">
             {currentPosts.map((article) => (
-              <Link to={`/NewsDetail/${article.ArticleID}`} className="read-more-link" onClick={() => handleProductClick()}>
-                <li key={article.ArticleID} className="news-item">
+              <Link to={`/NewsDetail/${article.ArticleID}`} className="read-more-link" key={article.ArticleID}>
+                <li className="news-item">
                   <div className="news-item-image">
                     <img className='anh-news-thinh' src={article.HeaderImage} alt={article.Title} />
                   </div>

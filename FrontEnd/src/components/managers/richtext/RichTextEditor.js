@@ -1,38 +1,19 @@
-import React, { useState, useRef, useMemo } from "react";
-import JoditEditor from "jodit-react";
+import React, { useState } from 'react';
+import RichTextEditor from './RichTextEditor';
 
-function RichTextEditor({ value, onChange }) {
-  const editor = useRef(null);
+function App() {
+  const [editorContent, setEditorContent] = useState('');
 
-  const config = useMemo(() => ({
-    readonly: false,
-    toolbar: true,
-    toolbarButtonSize: 'middle',
-    toolbarSticky: false,
-    showCharsCounter: false,
-    showWordsCounter: false,
-    showXPathInStatusbar: false,
-    buttons: [
-      'bold', 'italic', 'underline', 'strikethrough', 'eraser',
-      '|', 'ul', 'ol', 'indent', 'outdent',
-      '|', 'font', 'fontsize', 'brush', 'paragraph',
-      '|', 'image', 'link', 'table',
-      '|', 'align', 'undo', 'redo', 'hr',
-      '|', 'copyformat', 'fullsize'
-    ]
-  }), []);
+  const handleEditorChange = (newContent) => {
+    setEditorContent(newContent);
+  };
 
   return (
-    <div>
-      <h1>Welcome to Ageee Dev</h1>
-      <JoditEditor
-        ref={editor}
-        value={value}
-        config={config}
-        onChange={(newContent) => onChange(newContent)}
-      />
+    <div className="App">
+      <h1>My Rich Text Editor</h1>
+      <RichTextEditor value={editorContent} onChange={handleEditorChange} />
     </div>
   );
 }
 
-export default RichTextEditor;
+export default App;

@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types"; // Import PropTypes for prop type validation
 import StarRating from "../product/ui-list-product-mom/StarRating";
 import Loading from "../../layout/Loading";
 
@@ -35,7 +36,7 @@ function Giasoc() {
   }, []);
 
   if (error) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   const settings = {
@@ -106,28 +107,42 @@ function Giasoc() {
       </div>
     </div>
   );
-
-  function SampleNextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", right: "-100px" }}
-        onClick={onClick}
-      />
-    );
-  }
-
-  function SamplePrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", left: "-40px" }}
-        onClick={onClick}
-      />
-    );
-  }
 }
+
+// Prop type validation for SampleNextArrow component
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", right: "-100px" }}
+      onClick={onClick}
+    />
+  );
+}
+
+SampleNextArrow.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
+  onClick: PropTypes.func,
+};
+
+// Prop type validation for SamplePrevArrow component
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", left: "-40px" }}
+      onClick={onClick}
+    />
+  );
+}
+
+SamplePrevArrow.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
+  onClick: PropTypes.func,
+};
 
 export default Giasoc;

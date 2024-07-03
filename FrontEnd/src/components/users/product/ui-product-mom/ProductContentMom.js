@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../../store/actions/authAction";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import Loading from '../../../layout/Loading';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 const formatPrice = (price) => `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 const calculateDiscount = (originalPrice, discountedPrice) => originalPrice === discountedPrice ? 0 : originalPrice - discountedPrice;
@@ -17,7 +18,6 @@ const ProductContentMom = ({ product }) => {
     const userId = getUserIdFromToken(token);
     const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
     const [quantity, setQuantity] = useState(1);
-    const [availableStock, setAvailableStock] = useState(product.StockQuantity);
     const [ratingData, setRatingData] = useState({ avg: 0, count: 0 });
     const navigate = useNavigate();
     const incrementRef = useRef(null);
@@ -80,12 +80,12 @@ const ProductContentMom = ({ product }) => {
     const startIncrement = () => {
         stopIncrement();
         incrementRef.current = setInterval(() => {
-            setQuantity(prevQuantity => Math.min(prevQuantity + 1, availableStock));
+            setQuantity(prevQuantity => Math.min(prevQuantity + 1, product.StockQuantity));
         }, 100);
     };
 
     const increseOne = () => {
-        setQuantity(prevQuantity => Math.min(prevQuantity + 1, availableStock));
+        setQuantity(prevQuantity => Math.min(prevQuantity + 1, product.StockQuantity));
     };
 
     const stopIncrement = () => {
@@ -176,11 +176,11 @@ const ProductContentMom = ({ product }) => {
                                 <div className="clear"></div>
                             </div>
 
-                            {availableStock > 0 ? (
+                            {product.StockQuantity > 0 ? (
                                 <>
                                     <div className="box_info box_status">
                                         <span className="box_info_txt left">Kho: </span>
-                                        <span className="pro_status left">{availableStock}</span>
+                                        <span className="pro_status left">{product.StockQuantity}</span>
                                         <div className="clear"></div>
                                     </div>
                                     <div className="quantity-selector-thinh-cart">
@@ -238,6 +238,19 @@ const ProductContentMom = ({ product }) => {
             <CartPopup isOpen={isCartPopupOpen} onClose={closeCartPopup} product={product} quantity={quantity} />
         </section>
     );
+};
+
+// Define prop types
+ProductContentMom.propTypes = {
+    product: PropTypes.shape({
+        ProductID: PropTypes.string.isRequired,
+        StockQuantity: PropTypes.number.isRequired,
+        Image: PropTypes.string.isRequired,
+        ProductName: PropTypes.string.isRequired,
+        BrandName: PropTypes.string.isRequired,
+        Price: PropTypes.number.isRequired,
+        PriceAfterDiscounts: PropTypes.number.isRequired,
+    }).isRequired,
 };
 
 export default ProductContentMom;

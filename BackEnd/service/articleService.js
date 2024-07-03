@@ -1,4 +1,3 @@
-const Article = require("../bo/article");
 const articleRepository = require("../repository/articleRepository");
 
 const articleService = {
@@ -15,10 +14,10 @@ const articleService = {
   getArticlesByContent: async (Content) => {
     return await articleRepository.getArticlesByContent(Content);
   },
-  getAllArticles: async (req, res) => {
+  getAllArticles: async () => {
     return await articleRepository.getAllArticles();
   },
-  getAllArticleCategory: async (req, res) => {
+  getAllArticleCategory: async () => {
     return await articleRepository.getAllArticleCategory();
   },
 
@@ -33,10 +32,10 @@ const articleService = {
   updateArticle: async (article_id, article) => {
     return await articleRepository.updateArticle(article_id, article);
   },
-  getAuthorName: async (req, res) => {
+  getAuthorName: async () => {
     return await articleRepository.getAuthorName();
   },
-  getCurrentCategoriesInArticles: async (req, res) => {
+  getCurrentCategoriesInArticles: async () => {
     return await articleRepository.getCurrentCategoriesInArticles();
   },
 };

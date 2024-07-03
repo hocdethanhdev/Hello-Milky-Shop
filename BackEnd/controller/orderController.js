@@ -184,7 +184,7 @@ const updateStatusOrderID = async (req, res) => {
     const orderID = req.params.OrderID;
     const { statusOrderID } = req.body;
     try {
-        const result = await orderService.updateStatusOrderID(orderID, statusOrderID);
+        await orderService.updateStatusOrderID(orderID, statusOrderID);
         res.status(200).json({ message: 'Status order ID have been updated successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });

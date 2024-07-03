@@ -4,8 +4,9 @@ import axios from "axios";
 import "./ProductRating.css";
 import Notification from "./Notification"; // Import the Notification component
 import Loading from "../../../layout/Loading";
+import PropTypes from 'prop-types'; // Import PropTypes
 
-export default function ProductRating({ productID, userID, fetchComments, setRatingCount }) { // Thêm fetchComments vào props
+export default function ProductRating({ productID, userID, fetchComments, setRatingCount }) {
     const [number, setNumber] = useState(0);
     const [hoverStar, setHoverStar] = useState(undefined);
     const [description, setDescription] = useState("");
@@ -52,7 +53,7 @@ export default function ProductRating({ productID, userID, fetchComments, setRat
         if (number > 0 && description) {
             setIsSubmitting(true);
             try {
-                const response = await axios.post("http://localhost:5000/api/v1/comment/userComment", {
+                await axios.post("http://localhost:5000/api/v1/comment/userComment", {
                     UserID: userID,
                     ProductID: productID,
                     Rating: parseInt(number),
@@ -119,3 +120,11 @@ export default function ProductRating({ productID, userID, fetchComments, setRat
         </div>
     );
 }
+
+// Prop types definition
+ProductRating.propTypes = {
+    productID: PropTypes.number.isRequired,
+    userID: PropTypes.number.isRequired,
+    fetchComments: PropTypes.func.isRequired,
+    setRatingCount: PropTypes.func.isRequired,
+};

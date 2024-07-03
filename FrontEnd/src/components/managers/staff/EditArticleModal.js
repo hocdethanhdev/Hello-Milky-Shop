@@ -12,7 +12,6 @@ import { uploadImage } from "../uimg/UpImage";
 const EditArticleModal = () => {
   const { articleID } = useParams();
   const navigate = useNavigate();
-  const [progress, setProgress] = useState(0);
   const [formData, setFormData] = useState({
     Title: "",
     HeaderImage: "",
@@ -52,7 +51,7 @@ const EditArticleModal = () => {
     const imageFile = e.target.files[0];
     if (imageFile) {
       try {
-        const imageUrl = await uploadImage(imageFile, setProgress);
+        const imageUrl = await uploadImage(imageFile);
         setPreviewImage(imageUrl);
         setFormData({ ...formData, HeaderImage: imageUrl });
       } catch (error) {
@@ -185,7 +184,7 @@ const EditArticleModal = () => {
               const file = event.target.files[0];
               if (file) {
                 try {
-                  const url = await uploadImage(file, setProgress);
+                  const url = await uploadImage(file);
                   const img = document.createElement("img");
                   img.src = url;
                   img.alt = "Image";
@@ -228,7 +227,7 @@ const EditArticleModal = () => {
         }
       }
     }),
-    [setProgress]
+    []
   );
 
 

@@ -6,7 +6,7 @@ const commentDAO = {
 
   getCommentByID: (CommentID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "CommentID",
           mssql.Int,
@@ -32,7 +32,7 @@ const commentDAO = {
   },
   countRatingAndAvgRating: (ProductID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "ProductID",
           mssql.VarChar,
@@ -59,7 +59,7 @@ const commentDAO = {
   },
   getCommentByProductID: (ProductID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "ProductID",
           mssql.VarChar,
@@ -86,7 +86,7 @@ const commentDAO = {
   userComment: (UserID, ProductID, Rating, Description) => {
     const comment = new Comment(Description, Rating, ProductID, UserID);
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
           .input("UserID", mssql.VarChar, comment.UserID)
           .input("ProductID", mssql.VarChar, comment.ProductID)
@@ -108,7 +108,7 @@ const commentDAO = {
   },
   checkUserOrdered: (UserID, ProductID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
           .input("UserID", mssql.VarChar, UserID)
           .input("ProductID", mssql.VarChar, ProductID);
@@ -135,7 +135,7 @@ const commentDAO = {
 
   getAllComments: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT CommentID, c.Description, Rating, CommentDate, Rep, RepDate, c.ProductID, u.UserName, s.UserName as StaffName
@@ -157,7 +157,7 @@ const commentDAO = {
   },
   getUnansweredComments: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT CommentID, c.Description, Rating, CommentDate, Rep, RepDate, c.ProductID, u.UserName, s.UserName as StaffName
@@ -180,7 +180,7 @@ const commentDAO = {
     });
   },getAnsweredComments: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT CommentID, c.Description, Rating, CommentDate, Rep, RepDate, c.ProductID, u.UserName, s.UserName as StaffName
@@ -204,7 +204,7 @@ const commentDAO = {
   },
   repComment: (id, rep, UserID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
           .input("CommentID", mssql.Int, id)
           .input("Rep", mssql.NVarChar, rep)
@@ -214,7 +214,7 @@ const commentDAO = {
           SET Rep = @Rep, StaffID = @StaffID, RepDate = GETDATE()
           WHERE CommentID = @CommentID
         ;`,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "Successfully",

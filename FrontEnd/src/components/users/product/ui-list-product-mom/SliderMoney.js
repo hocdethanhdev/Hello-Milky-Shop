@@ -1,7 +1,7 @@
-// SliderMoney.js
 import React, { useState } from 'react';
 import ReactSlider from 'react-slider';
 import './SliderMoney.css';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 const SliderMoney = ({ min, max, step, onChange }) => {
     const [values, setValues] = useState([min, max]);
@@ -31,6 +31,14 @@ const SliderMoney = ({ min, max, step, onChange }) => {
             </div>
         </div>
     );
+};
+
+// Define prop types
+SliderMoney.propTypes = {
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+    step: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
 };
 
 export default SliderMoney;

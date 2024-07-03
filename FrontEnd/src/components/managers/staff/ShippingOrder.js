@@ -5,7 +5,6 @@ import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons"
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 function ShippingOrder() {
-  const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
@@ -20,7 +19,6 @@ function ShippingOrder() {
           "http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/2"
         );
         const data = await response.json();
-        setOrders(data.address);
         setFilteredOrders(data.address);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -84,14 +82,12 @@ function ShippingOrder() {
         direction = "descending";
       }
 
-      // Customize sorting logic for numeric values (OrderID) and date (OrderDate)
       const sortedOrders = [...filteredOrders].sort((a, b) => {
         if (key === "OrderID" || key === "TotalAmount") {
           return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
         } else if (key === "OrderDate") {
           return direction === "ascending" ? new Date(a[key]) - new Date(b[key]) : new Date(b[key]) - new Date(a[key]);
         } else {
-          // Default string sorting logic
           if (a[key] < b[key]) {
             return direction === "ascending" ? -1 : 1;
           }
@@ -134,19 +130,19 @@ function ShippingOrder() {
             <th className="col-md-2">
               Mã đơn hàng
               <button className="sort-icon-order" onClick={() => handleSort("OrderID")}>
-              <FontAwesomeIcon icon={faSort} />
+                {sortIcon("OrderID")}
               </button>
             </th>
             <th className="col-md-2">
               Ngày đặt hàng
               <button className="sort-icon-order" onClick={() => handleSort("OrderDate")}>
-              <FontAwesomeIcon icon={faSort} />
+                {sortIcon("OrderDate")}
               </button>
             </th>
             <th className="col-md-2">
               Tổng
               <button className="sort-icon-order" onClick={() => handleSort("TotalAmount")}>
-              <FontAwesomeIcon icon={faSort} />
+                {sortIcon("TotalAmount")}
               </button>
             </th>
             <th className="col-md-3">Địa chỉ</th>
@@ -164,15 +160,14 @@ function ShippingOrder() {
                   year: "numeric",
                 })}
               </td>
-              <td className="col-md-2">
-                {formatPrice(parseInt(order.TotalAmount))}
-              </td>
+              <td className="col-md-2">{formatPrice(parseInt(order.TotalAmount))}</td>
               <td className="col-md-3">{order.Address}</td>
               <td className="col-md-3">
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => viewOrderDetails(order)}>
+                  onClick={() => viewOrderDetails(order)}
+                >
                   Thông tin
                 </button>
               </td>
@@ -248,9 +243,7 @@ function ShippingOrder() {
                         <td className="mdh">
                           <strong>Địa chỉ:</strong>
                         </td>
-                        <td>
-                          {selectedOrder.shippingAddress[0].Address}
-                        </td>
+                        <td>{selectedOrder.shippingAddress[0].Address}</td>
                       </tr>
                     </>
                   )}

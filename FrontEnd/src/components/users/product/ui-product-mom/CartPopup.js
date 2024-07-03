@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './CartPopup.css';
 import { Link } from 'react-router-dom';
+
 const CartPopup = ({ isOpen, onClose, product, quantity }) => {
     if (!isOpen) {
         return null;
@@ -26,13 +28,24 @@ const CartPopup = ({ isOpen, onClose, product, quantity }) => {
                     </div>
                     <Link to="/ShoppingCart">
                         <div className="popup-btn-thinh-cart1">
-                            <button className="btn-go-cart-thinh-cart1" >Thanh Toán</button>
+                            <button className="btn-go-cart-thinh-cart1">Thanh Toán</button>
                         </div>
                     </Link>
                 </div>
             </div>
         </div>
     );
+};
+
+CartPopup.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    product: PropTypes.shape({
+        Image: PropTypes.string.isRequired,
+        ProductName: PropTypes.string.isRequired,
+        ProductID: PropTypes.string.isRequired,
+    }).isRequired,
+    quantity: PropTypes.number.isRequired,
 };
 
 export default CartPopup;

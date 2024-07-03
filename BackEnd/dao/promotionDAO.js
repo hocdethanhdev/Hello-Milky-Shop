@@ -5,7 +5,7 @@ const Promotion = require("../bo/promotion");
 const promotionDAO = {
   getPromotionByDate: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(`
                     SELECT * FROM Promotion 
@@ -23,7 +23,7 @@ const promotionDAO = {
 
   getAllPromotions: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(`SELECT * FROM Promotion;`, (err, res) => {
           if (err) reject(err);
@@ -82,15 +82,6 @@ const promotionDAO = {
   },
 
   updatePromotion: (promotionID, promotionObject) => {
-    const promotion = new Promotion(
-      promotionID,
-      promotionObject.promotionName,
-      promotionObject.description,
-      promotionObject.discountPercentage,
-      promotionObject.image,
-      promotionObject.startDate,
-      promotionObject.endDate
-    );
 
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
@@ -301,7 +292,7 @@ const promotionDAO = {
   },
   deletePromotions: (param_id) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("PromotionID", param_id);
         request.query(
@@ -310,7 +301,7 @@ const promotionDAO = {
           DELETE FROM Promotion WHERE PromotionID = @PromotionID;
 
           `,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "Delete successfully"

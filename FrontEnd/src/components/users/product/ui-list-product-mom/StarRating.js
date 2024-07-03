@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types'; // Import PropTypes
 import "./StarRating.css";
 
 const StarRating = ({ productId }) => {
@@ -39,6 +40,11 @@ const StarRating = ({ productId }) => {
             <p className='psao'>({ratingData.count})</p>
         </div>
     );
+};
+
+// Define prop types
+StarRating.propTypes = {
+    productId: PropTypes.string.isRequired, // Ensure productId is a required number
 };
 
 export default StarRating;

@@ -4,7 +4,7 @@ const dbConfig = require("../config/db.config");
 const chatDAO = {
   getChatUnseen: (ChatRoom) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
         .input("ChatRoom", mssql.NVarChar, ChatRoom);
         request.query(`
@@ -27,7 +27,7 @@ const chatDAO = {
   },
   getAllMessageByChatRoom: (ChatRoom) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
         .input("ChatRoom", mssql.NVarChar, ChatRoom);
         request.query(`SELECT Message, m.UserID, UserName, TimeStamp
@@ -46,7 +46,7 @@ const chatDAO = {
   },
   saveMessage: (Message, UserID, ChatRoom) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
         .input("Message", mssql.NVarChar, Message)
         .input("UserID", mssql.VarChar, UserID)
@@ -62,7 +62,7 @@ const chatDAO = {
   },
   getAllChatRoom: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(`SELECT * FROM Chat;`, (err, res) => {
           if (err) reject(err);
@@ -76,7 +76,7 @@ const chatDAO = {
   },
   findRoom: (memberId) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "ChatRoom",
           mssql.VarChar,
@@ -97,7 +97,7 @@ const chatDAO = {
   },
   createChat: (memberId) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "ChatRoom",
           mssql.VarChar,

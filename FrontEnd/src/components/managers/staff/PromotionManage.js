@@ -4,6 +4,7 @@ import "./PromotionManage.css"; // Import the CSS file
 import { Link } from "react-router-dom";
 import EditPromotionModal from "./EditPromotionModal"; // Import the EditPromotionModal
 import { Modal } from "antd";
+import PropTypes from "prop-types"; // Import PropTypes for type checking
 
 function PromotionManage() {
   const [promotions, setPromotions] = useState([]);
@@ -76,18 +77,6 @@ function PromotionManage() {
       fetchPromotions();
     } catch (error) {
       console.error("Error updating promotion:", error);
-    }
-  };
-
-  const handleAddToPromotion = async (productIDs, promotionID) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/promotion/applyPromotionToProduct",
-        { productIDs, promotionID },
-        { headers: { "Content-Type": "application/json" } }
-      );
-    } catch (error) {
-      console.error("Error adding product to promotion:", error);
     }
   };
 
@@ -254,4 +243,13 @@ const ThrowPage = ({ current, onChange, total, itemsPerPage }) => {
   );
 };
 
+// PropTypes validation for ThrowPage component props
+ThrowPage.propTypes = {
+  current: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+  total: PropTypes.number.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
+};
+
 export default PromotionManage;
+

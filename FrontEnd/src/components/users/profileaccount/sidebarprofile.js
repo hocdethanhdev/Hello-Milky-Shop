@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./sidebarprofile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 function SidebarProfile() {
   const [dropDown, setDropDown] = useState(false);
-  const location = useLocation();
 
   const toggleDropdown = () => {
     setDropDown(!dropDown);

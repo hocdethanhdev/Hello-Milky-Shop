@@ -54,7 +54,7 @@ function Signup() {
         "recaptcha-container",
         {
           size: "invisible",
-          callback: (response) => {
+          callback: () => {
             // No need to call onSignup here, it will be called separately
           },
           "expired-callback": () => {
@@ -130,20 +130,20 @@ function Signup() {
     setLoading(true);
     window.confirmationResult
       .confirm(otp)
-      .then(async (res) => {
+      .then(async () => {
         setLoading(false);
         setConfirmOTP(true);
         toast.success("Xác nhận OTP thành công");
         // Proceed with signup after OTP is verified
         await completeSignup();
       })
-      .catch((err) => {
+      .catch(() => {
         setLoading(false);
         toast.error("Xác nhận OTP thất bại. Hãy thử lại.");
       });
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     const newErrors = {};
 
     // Validate name field

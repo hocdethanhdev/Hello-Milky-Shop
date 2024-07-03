@@ -9,7 +9,7 @@ import { uploadImage } from "../uimg/UpImage";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import DOMPurify from "dompurify";
-import { message } from 'antd';
+import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 
 function PostsAdd() {
@@ -17,8 +17,6 @@ function PostsAdd() {
   const [headerImage, setHeaderImage] = useState(null);
   const [publishDate, setPublishDate] = useState(new Date());
   const [articleCategoryID, setArticleCategoryID] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [progress, setProgress] = useState(0);
   const [previewImage, setPreviewImage] = useState(null);
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
@@ -44,7 +42,6 @@ function PostsAdd() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const editorContent = editor.current.value;
-
 
     if (!title.trim()) {
       message.warning("Tiêu đề không được để trống.");
@@ -72,10 +69,8 @@ function PostsAdd() {
       return;
     }
 
-
-
     try {
-      const downloadURL = await uploadImage(headerImage, setProgress);
+      const downloadURL = await uploadImage(headerImage);
 
       const sanitizedContent = DOMPurify.sanitize(editorContent);
 
@@ -88,17 +83,17 @@ function PostsAdd() {
         ArticleCategoryID: parseInt(articleCategoryID),
       };
 
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5000/api/v1/article/createArticle/",
         postData,
         {
           headers: {
             "Content-Type": "application/json",
-          }
+          },
         }
       );
 
-      message.success('Bài viết đã được tạo thành công.');
+      message.success("Bài viết đã được tạo thành công.");
       navigate("/posts");
       window.scrollTo(0, 0);
     } catch (error) {
@@ -106,80 +101,96 @@ function PostsAdd() {
     }
   };
 
-
-
-
   const handleResizeImage = (editor) => {
-    editor.events.on('mouseup', () => {
-      const images = editor.container.querySelectorAll('img');
+    editor.events.on("mouseup", () => {
+      const images = editor.container.querySelectorAll("img");
       images.forEach((image) => {
         const width = image.style.width;
         const height = image.style.height;
         if (width && height) {
-          image.setAttribute('width', width);
-          image.setAttribute('height', height);
+          image.setAttribute("width", width);
+          image.setAttribute("height", height);
         }
       });
     });
   };
 
-
-  const editorConfig = useMemo(() => ({
-    readonly: false,
-    toolbar: true,
-    buttons: [
-      'bold', 'italic', 'underline', 'eraser', 'ul', 'ol', 'indent', 'outdent',
-      '|', 'font', 'fontsize', 'brush', 'paragraph',
-      '|', 'table',
-      '|', 'align', 'undo', 'redo', 'hr',
-      '|', 'copyformat', 'fullsize',
-      {
-        name: 'uploadImage',
-        iconURL: 'https://cdn-icons-png.flaticon.com/128/685/685669.png',
-        exec: async (editor) => {
-          const input = document.createElement('input');
-          input.type = 'file';
-          input.accept = 'image/*';
-          input.onchange = async (event) => {
-            const file = event.target.files[0];
-            if (file) {
-              try {
-                const url = await uploadImage(file, setProgress);
-                const img = document.createElement('img');
-                img.src = url;
-                img.alt = 'Image';
-                img.style.width = '100px';
-                img.style.height = 'auto';
-                editor.selection.insertNode(img);
-                handleResizeImage(editor);
-              } catch (error) {
-                console.error('Lỗi up ảnh:', error);
+  const editorConfig = useMemo(
+    () => ({
+      readonly: false,
+      toolbar: true,
+      buttons: [
+        "bold",
+        "italic",
+        "underline",
+        "eraser",
+        "ul",
+        "ol",
+        "indent",
+        "outdent",
+        "|",
+        "font",
+        "fontsize",
+        "brush",
+        "paragraph",
+        "|",
+        "table",
+        "|",
+        "align",
+        "undo",
+        "redo",
+        "hr",
+        "|",
+        "copyformat",
+        "fullsize",
+        {
+          name: "uploadImage",
+          iconURL: "https://cdn-icons-png.flaticon.com/128/685/685669.png",
+          exec: async (editor) => {
+            const input = document.createElement("input");
+            input.type = "file";
+            input.accept = "image/*";
+            input.onchange = async (event) => {
+              const file = event.target.files[0];
+              if (file) {
+                try {
+                  const url = await uploadImage(file);
+                  const img = document.createElement("img");
+                  img.src = url;
+                  img.alt = "Image";
+                  img.style.width = "100px";
+                  img.style.height = "auto";
+                  editor.selection.insertNode(img);
+                  handleResizeImage(editor);
+                } catch (error) {
+                  console.error("Lỗi up ảnh:", error);
+                }
               }
-            }
-          };
-          input.click();
+            };
+            input.click();
+          },
+          tooltip: "Upload Image",
         },
-        tooltip: 'Upload Image'
-      }
-    ],
-    events: {
-      afterInit: (editor) => {
-        handleResizeImage(editor);
+      ],
+      events: {
+        afterInit: (editor) => {
+          handleResizeImage(editor);
+        },
+        change: (newContent) => {
+          const maxChars = 4000;
+          if (newContent.length > maxChars) {
+            editor.value = newContent.substring(0, maxChars);
+            message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
+          }
+          setEditorContent(newContent);
+        },
       },
-      change: (newContent) => {
-        const maxChars = 4000;
-        if (newContent.length > maxChars) {
-          editor.value = newContent.substring(0, maxChars);
-          message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
-        }
-        setEditorContent(newContent);
-      }
-    }
-  }), [setProgress]);
+    }),
+    []
+  );
 
   return (
     <div className="container post-form">
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div className="row mb-3">
           <div className="col-md-8">
@@ -200,7 +211,9 @@ function PostsAdd() {
               value={articleCategoryID}
               onChange={(e) => setArticleCategoryID(e.target.value)}
             >
-              <option value="" disabled>Chọn loại bài viết</option>
+              <option value="" disabled>
+                Chọn loại bài viết
+              </option>
               <option value="1">Sức Khỏe</option>
               <option value="2">Tin khuyến mãi</option>
             </select>
@@ -241,20 +254,17 @@ function PostsAdd() {
                 ref={editor}
                 config={editorConfig}
                 value={editorContent}
-                onBlur={newContent => setEditorContent(newContent)} // Set content on blur
+                onBlur={(newContent) => setEditorContent(newContent)} // Set content on blur
               />
-
-
             </div>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary longlam">
+        <button type="submit" className="btn btn-primary">
           Tạo bài viết
         </button>
       </form>
     </div>
   );
-
 }
 
 export default PostsAdd;

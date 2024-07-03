@@ -1,17 +1,15 @@
 import { storage } from "../../config/firebase.config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-export const uploadImage = (image, setProgress) => {
+export const uploadImage = (image) => {
   return new Promise((resolve, reject) => {
     const storageRef = ref(storage, `images/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
-
+  
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progress);
+        console.log("Tải ảnh thành công");
       },
       (error) => {
         console.error("Upload failed:", error);

@@ -1,11 +1,10 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
-const District = require("../bo/district");
 
 const districtDAO = {
     findDistrictByID: (ID) => {
       return new Promise((resolve, reject) => {
-        mssql.connect(dbConfig, function (err, result) {
+        mssql.connect(dbConfig, function () {
           const request = new mssql.Request().input("ID", ID);
           request.query(
             `SELECT d.ID AS DistrictID, d.DistrictName
