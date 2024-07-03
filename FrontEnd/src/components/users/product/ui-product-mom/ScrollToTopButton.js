@@ -28,7 +28,7 @@ const ScrollToTopButton = () => {
 
     return (
         <div className="btn-scrollTop" onClick={scrollToTop} style={{ display: isVisible ? 'block' : 'none' }}>
-            <img src="https://media.shoptretho.com.vn/upload/arrow-up.png" alt="Scroll to top" style={{ height: '50px', width: '50px' }} />
+            <img className="nut-scroll-thinh" src="https://media.shoptretho.com.vn/upload/arrow-up.png" alt="Scroll to top" style={{ height: '50px', width: '50px' }} />
         </div>
     );
 };
