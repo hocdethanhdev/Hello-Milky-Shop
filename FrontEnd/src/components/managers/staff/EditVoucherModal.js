@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { message } from "antd";
 import "./EditVoucherModal.css";
+
+message.config({
+  placement: 'top',
+  top: 10,
+  duration: 3,
+});
 
 const EditVoucherModal = ({ voucher, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -8,16 +15,6 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
     discountPercentage: 0,
     minDiscount: 0,
     maxDiscount: 0,
-    startDate: "",
-    expiryDate: "",
-  });
-
-  const [errors, setErrors] = useState({
-    voucherName: "",
-    quantity: "",
-    discountPercentage: "",
-    minDiscount: "",
-    maxDiscount: "",
     startDate: "",
     expiryDate: "",
   });
@@ -43,81 +40,64 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
       [name]: value,
     }));
   };
-
-  const checkValidation = () => {
-    let valid = true;
-    const newErrors = {
-      voucherName: "",
-      quantity: "",
-      discountPercentage: "",
-      minDiscount: "",
-      maxDiscount: "",
-      startDate: "",
-      expiryDate: "",
-    };
-
-    if (!formData.voucherName) {
-      newErrors.voucherName = "Tên voucher không được bỏ trống.";
-      valid = false;
-    } else if (formData.voucherName.length > 30) {
-      newErrors.voucherName = "Tên voucher không được quá 30 kí tự.";
-      valid = false;
-    }
-
-    if (!formData.quantity) {
-      newErrors.quantity = "Số lượng không được bỏ trống.";
-      valid = false;
-    } else if (formData.quantity < 0) {
-      newErrors.quantity = "Số lượng không được nhỏ hơn 0.";
-      valid = false;
-    }
-
-    if (!formData.discountPercentage) {
-      newErrors.discountPercentage = "Phần trăm giảm giá không được bỏ trống.";
-      valid = false;
-    } else if (formData.discountPercentage < 0) {
-      newErrors.discountPercentage = "Phần trăm giảm giá không được nhỏ hơn 0.";
-      valid = false;
-    }
-
-    if (!formData.minDiscount) {
-      newErrors.minDiscount = "Giảm tối thiểu không được bỏ trống.";
-      valid = false;
-    } else if (formData.minDiscount < 0) {
-      newErrors.minDiscount = "Giảm tối thiểu không được nhỏ hơn 0.";
-      valid = false;
-    }
-
-    if (!formData.maxDiscount) {
-      newErrors.maxDiscount = "Giảm tối đa không được bỏ trống.";
-      valid = false;
-    } else if (formData.maxDiscount < 0) {
-      newErrors.maxDiscount = "Giảm tối đa không được nhỏ hơn 0.";
-      valid = false;
-    }
-
-    if (!formData.startDate) {
-      newErrors.startDate = "Ngày bắt đầu không được bỏ trống.";
-      valid = false;
-    }
-
-    if (!formData.expiryDate) {
-      newErrors.expiryDate = "Ngày hết hạn không được bỏ trống.";
-      valid = false;
-    } else if (new Date(formData.expiryDate) <= new Date(formData.startDate)) {
-      newErrors.expiryDate = "Ngày hết hạn phải sau ngày bắt đầu.";
-      valid = false;
-    }
-
-    setErrors(newErrors);
-    return valid;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!checkValidation()) {
+    if (!formData.voucherName) {
+      message.warning("Tên voucher không được bỏ trống.");
       return;
     }
+    if (formData.voucherName.length > 30) {
+      message.warning("Tên voucher không được quá 30 kí tự.");
+      return;
+    }
+    if (formData.minDiscount === null || formData.minDiscount === "") {
+      message.warning("Giảm tối thiểu không được bỏ trống.");
+      return;
+    }
+    if (formData.minDiscount < 0) {
+      message.warning("Giảm tối thiểu không được nhỏ hơn 0.");
+      return;
+    }
+    if (formData.quantity === null || formData.quantity === "") {
+      message.warning("Số lượng không được bỏ trống.");
+      return;
+    }
+    if (formData.quantity < 0) {
+      message.warning("Số lượng không được nhỏ hơn 0.");
+      return;
+    }
+    if (formData.maxDiscount === null || formData.maxDiscount === "") {
+      message.warning("Giảm tối đa không được bỏ trống.");
+      return;
+    }
+    if (formData.maxDiscount < 0) {
+      message.warning("Giảm tối đa không được nhỏ hơn 0.");
+      return;
+    }
+    if (!formData.startDate) {
+      message.warning("Ngày bắt đầu không được bỏ trống.");
+      return;
+    }
+    if (!formData.expiryDate) {
+      message.warning("Ngày hết hạn không được bỏ trống.");
+      return;
+    }
+     if (new Date(formData.expiryDate) < new Date(formData.startDate)) {
+      message.warning("Ngày hết hạn phải sau ngày bắt đầu.");
+      return;
+    }
+    if (formData.discountPercentage === null || formData.discountPercentage === "") {
+      message.warning("Phần trăm giảm giá không được bỏ trống.");
+      return;
+    }
+    if (formData.discountPercentage < 0) {
+      message.warning("Phần trăm giảm giá không được nhỏ hơn 0.");
+      return;
+    }
+
+
+
+
 
     const updatedVoucher = {
       ...voucher,
@@ -146,11 +126,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                   name="voucherName"
                   value={formData.voucherName}
                   onChange={handleChange}
-                  required
                 />
-                {errors.voucherName && (
-                  <p className="error-message">{errors.voucherName}</p>
-                )}
               </label>
               <label>
                 Số lượng:
@@ -159,11 +135,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                   name="quantity"
                   value={formData.quantity}
                   onChange={handleChange}
-                  required
                 />
-                {errors.quantity && (
-                  <p className="error-message">{errors.quantity}</p>
-                )}
               </label>
               <label>
                 Ngày bắt đầu:
@@ -172,11 +144,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                   name="startDate"
                   value={formData.startDate}
                   onChange={handleChange}
-                  required
                 />
-                {errors.startDate && (
-                  <p className="error-message">{errors.startDate}</p>
-                )}
               </label>
               <label>
                 Phần trăm giảm giá:
@@ -185,11 +153,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                   name="discountPercentage"
                   value={formData.discountPercentage}
                   onChange={handleChange}
-                  required
                 />
-                {errors.discountPercentage && (
-                  <p className="error-message">{errors.discountPercentage}</p>
-                )}
               </label>
             </div>
             <div className="half-width">
@@ -200,11 +164,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                   name="minDiscount"
                   value={formData.minDiscount}
                   onChange={handleChange}
-                  required
                 />
-                {errors.minDiscount && (
-                  <p className="error-message">{errors.minDiscount}</p>
-                )}
               </label>
               <label>
                 Giảm tối đa:
@@ -213,11 +173,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                   name="maxDiscount"
                   value={formData.maxDiscount}
                   onChange={handleChange}
-                  required
                 />
-                {errors.maxDiscount && (
-                  <p className="error-message">{errors.maxDiscount}</p>
-                )}
               </label>
               <label>
                 Ngày hết hạn:
@@ -226,11 +182,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                   name="expiryDate"
                   value={formData.expiryDate}
                   onChange={handleChange}
-                  required
                 />
-                {errors.expiryDate && (
-                  <p className="error-message">{errors.expiryDate}</p>
-                )}
               </label>
               <button className="ant-btn ant-btn-primary" type="submit">
                 Lưu

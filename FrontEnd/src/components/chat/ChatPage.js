@@ -50,7 +50,6 @@ function ChatWindow({ roomId, userName, onClose }) {
     socket.on("connect", () => console.log("Connected to server"));
     socket.on("chat message", handleNewMessage);
 
-    // Clean up event listeners when component unmounts
     return () => {
       socket.emit("leaveRoom", roomId);
       socket.off("connect");
@@ -59,7 +58,6 @@ function ChatWindow({ roomId, userName, onClose }) {
   }, [roomId]);
 
   useEffect(() => {
-    // Auto scroll to bottom when messages change
     scrollToBottom();
   }, [messages]);
 
