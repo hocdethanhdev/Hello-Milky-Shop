@@ -251,7 +251,7 @@ function Voucher() {
                       year: "numeric",
                     })}
                   </td>
-                  <td>{voucher.Status ? "Active" : "Inactive"}</td>
+                  <td>{voucher.Status ? "Khả dụng" : "Không khả dụng"}</td>
                   <td>
                     <button
                       type="button"
