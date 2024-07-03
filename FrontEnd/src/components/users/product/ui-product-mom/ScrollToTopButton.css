@@ -6,14 +6,14 @@
     display: none;
 }
 
-.btn-scrollTop img {
-    height: 50px;
-    width: 50px;
-}
 .btn-scrollTop {
     position: fixed;
     bottom: 20px;
     right: 20px;
     z-index: 1000;
     cursor: pointer;
+}
+
+.nut-scroll-thinh {
+    margin-left: 10px;
 }

@@ -424,7 +424,7 @@ const EditProductModal = () => {
             />
           </label>
         </div>
-        <button type="submit">Lưu thay đổi</button>
+        <button className="submit-edit-pro-thinh" type="submit">Lưu thay đổi</button>
       </form>
     </div>
   );

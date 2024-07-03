@@ -1,49 +1,16 @@
-.scroll-to-top-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    transition: background-color 0.3s ease, opacity 0.3s ease;
-  }
-  
-  .scroll-to-top-button:hover {
-    opacity: 1;
-    background-color: #0056b3; /* Darker shade on hover */
-  }
-  
-  .scroll-to-top-button i {
-    transition: opacity 0.3s ease;
-    opacity: 0.7;
-  }
-  
-  .scroll-to-top-button:hover i {
-    opacity: 1;
-  }
-  
-  .address {
-    margin-top: 20px;
-  }
-  
-  .text-footer {
-    text-align: left;
-    margin-left: 30px;
-  }
-  
-  .text-dark {
-    margin-bottom: 15px;
-  }
-  
-  .text-uppercase-1 {
-    font-size: 20px;
-  }
-  
+.address {
+  margin-top: 20px;
+}
+
+.text-footer {
+  text-align: left;
+  margin-left: 30px;
+}
+
+.text-dark {
+  margin-bottom: 15px;
+}
+
+.text-uppercase-1 {
+  font-size: 20px;
+}

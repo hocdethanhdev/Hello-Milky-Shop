@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Pagination } from "antd";
-import PropTypes from "prop-types"; // Import PropTypes
+import { Pagination, Select, message } from "antd";
+import PropTypes from "prop-types";
 import "./FeedbackManage.css";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { useSelector } from "react-redux";
 
-import { message } from "antd";
+const { Option } = Select;
 
 const FeedbackManage = () => {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalComments, setTotalComments] = useState(0);
+  const [filterProductType, setFilterProductType] = useState("all");
+  const [filterCommentID, setFilterCommentID] = useState("all");
   const commentsPerPage = 5;
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
 
   useEffect(() => {
     fetchComments();
-  }, [currentPage]);
+  });
 
   const fetchComments = async () => {
     try {
@@ -31,8 +33,22 @@ const FeedbackManage = () => {
       if (!Array.isArray(data.data)) {
         throw new Error("Comments data is not an array");
       }
-      setComments(data.data); // access the 'data' property
-      setTotalComments(data.data.length);
+      let filteredComments = data.data;
+      console.log(data.data);
+      if (filterProductType !== "all") {
+        filteredComments = filteredComments.filter(comment =>
+          comment.ProductID.includes(filterProductType)
+        );
+
+      }
+
+      if (filterCommentID === "newest") {
+        filteredComments.sort((a, b) => b.CommentID - a.CommentID);
+      } else if (filterCommentID === "oldest") {
+        filteredComments.sort((a, b) => a.CommentID - b.CommentID);
+      }
+      setComments(filteredComments);
+      setTotalComments(filterCommentID.length);
     } catch (error) {
       console.error("Error fetching comments:", error);
       setComments([]);
@@ -65,12 +81,40 @@ const FeedbackManage = () => {
         fetchComments();
       }
     } catch (error) {
-      console.error("Error submitting reply:", error);
+      console.error("Lỗi khi gửi bình luận:", error);
     }
+  };
+
+  const handleFilterProductTypeChange = (value) => {
+    setFilterProductType(value);
+  };
+
+  const handleFilterCommentIDChange = (value) => {
+    setFilterCommentID(value);
   };
 
   return (
     <div className="feedback-manage-thinh-cmt">
+      <div className="filters-section-thinh-cmt">
+        <Select
+          value={filterProductType}
+          onChange={handleFilterProductTypeChange}
+          style={{ width: 200 }}
+        >
+          <Option value="all">Tất cả</Option>
+          <Option value="SM">Sữa cho mẹ bầu</Option>
+          <Option value="SE">Sữa cho em bé</Option>
+        </Select>
+        <Select
+          value={filterCommentID}
+          onChange={handleFilterCommentIDChange}
+          style={{ width: 200, marginLeft: 10 }}
+        >
+          <Option value="all">Tất cả</Option>
+          <Option value="newest">Mới nhất</Option>
+          <Option value="oldest">Cũ nhất</Option>
+        </Select>
+      </div>
       <div className="comments-section-thinh-cmt">
         {comments.map((comment) => (
           <Comment
@@ -92,9 +136,7 @@ const FeedbackManage = () => {
   );
 };
 
-FeedbackManage.propTypes = {
-  // PropTypes validation here (if any)
-};
+
 
 const Comment = ({ comment, onSubmit }) => {
   const [product, setProduct] = useState(null);
@@ -102,7 +144,7 @@ const Comment = ({ comment, onSubmit }) => {
 
   useEffect(() => {
     fetchProduct();
-  }, [comment.ProductID]);
+  }, []);
 
   const fetchProduct = async () => {
     try {
