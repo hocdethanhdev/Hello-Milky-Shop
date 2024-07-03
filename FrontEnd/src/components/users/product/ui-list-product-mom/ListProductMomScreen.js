@@ -4,27 +4,22 @@ import { Link } from 'react-router-dom';
 import './ListProductMomScreen.css';
 
 import NavCate from '../ui-product-mom/NavCate';
-
-
 import ListProductMom from './ListProductMom';
 
 function ListProductMomScreen() {
     return (
-        <div >
-
-
+        <div>
             <div className='url-list'>
                 <NavCate />
-                <div class="breadcrumb-area-thinh-url">
-                    <div class="container-thinh-url">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="breadcrumb-wrap-thinh-url">
+                <div className="breadcrumb-area-thinh-url">
+                    <div className="container-thinh-url">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="breadcrumb-wrap-thinh-url">
                                     <nav aria-label="breadcrumb-thinh-url">
-                                        <ul class="breadcrumb-thinh-url">
-                                            <li class="breadcrumb-item-thinh-url"><Link to="/"><i class="fa fa-home"></i></Link></li>
-
-                                            <li class="breadcrumb-item-thinh-url active" aria-current="page">Sữa cho mẹ</li>
+                                        <ul className="breadcrumb-thinh-url">
+                                            <li className="breadcrumb-item-thinh-url"><Link to="/"><i className="fa fa-home"></i></Link></li>
+                                            <li className="breadcrumb-item-thinh-url active" aria-current="page">Sữa cho mẹ</li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -33,12 +28,9 @@ function ListProductMomScreen() {
                     </div>
                 </div>
             </div>
-
-
             <div className='main-product-listmom-thinh-screen'>
                 <ListProductMom />
             </div>
-
         </div>
     );
 }

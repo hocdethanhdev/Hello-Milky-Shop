@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import JoditEditor from "jodit-react";
 import DOMPurify from "dompurify";
@@ -272,7 +272,6 @@ const EditProductModal = () => {
           if (newContent.length > maxChars) {
             editor.value = newContent.substring(0, maxChars);
             message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
-
           }
           const tempDiv = document.createElement('div');
           tempDiv.innerHTML = newContent;
@@ -307,10 +306,9 @@ const EditProductModal = () => {
               value={formData.ProductName}
               onChange={handleChange}
             />
-            {errors.productName && (
-              <p className="error-message">{errors.productName}</p>
-            )}
+            {errors.productName && <span className="error">{errors.productName}</span>}
           </label>
+
           <label>
             Giá:
             <input
@@ -319,8 +317,9 @@ const EditProductModal = () => {
               value={formData.Price}
               onChange={handleChange}
             />
-            {errors.price && <p className="error-message">{errors.price}</p>}
+            {errors.price && <span className="error">{errors.price}</span>}
           </label>
+
           <label>
             Số lượng:
             <input
@@ -329,73 +328,71 @@ const EditProductModal = () => {
               value={formData.StockQuantity}
               onChange={handleChange}
             />
-            {errors.stockQuantity && (
-              <p className="error-message">{errors.stockQuantity}</p>
-            )}
+            {errors.stockQuantity && <span className="error">{errors.stockQuantity}</span>}
           </label>
+
           <label>
             Hãng:
-            <select
-              name="BrandName"
-              value={formData.BrandName}
-              onChange={handleChange}
-            >
+            <select name="BrandName" value={formData.BrandName} onChange={handleChange}>
               <option value="">Chọn hãng</option>
               {brands.map((brand) => (
-                <option key={brand.BrandId} value={brand.BrandName}>
+                <option key={brand.BrandName} value={brand.BrandName}>
                   {brand.BrandName}
                 </option>
               ))}
             </select>
-            {errors.brandName && (
-              <p className="error-message">{errors.brandName}</p>
-            )}
+            {errors.brandName && <span className="error">{errors.brandName}</span>}
           </label>
-          <label>
-            Ngày hết hạn:
-            <DatePicker
-              selected={
-                formData.ExpirationDate
-                  ? new Date(formData.ExpirationDate)
-                  : null
-              }
-              onChange={(date) => handleDateChange(date, "ExpirationDate")}
-              dateFormat="dd/MM/yyyy"
-            />
-            {errors.expirationDate && (
-              <p className="error-message">{errors.expirationDate}</p>
-            )}
-          </label>
+
           <label>
             Ngày sản xuất:
             <DatePicker
-              selected={
-                formData.ManufacturingDate
-                  ? new Date(formData.ManufacturingDate)
-                  : null
-              }
+              selected={formData.ManufacturingDate ? new Date(formData.ManufacturingDate) : null}
               onChange={(date) => handleDateChange(date, "ManufacturingDate")}
               dateFormat="dd/MM/yyyy"
             />
           </label>
+
           <label>
+            Ngày hết hạn:
+            <DatePicker
+              selected={formData.ExpirationDate ? new Date(formData.ExpirationDate) : null}
+              onChange={(date) => handleDateChange(date, "ExpirationDate")}
+              dateFormat="dd/MM/yyyy"
+            />
+            {errors.expirationDate && <span className="error">{errors.expirationDate}</span>}
+          </label>
+
+          <label>
+            Hình ảnh:
+            <input type="file" name="Image" onChange={handleChange} />
+            {progress > 0 && (
+              <progress className="image-upload-progress" value={progress} max="100" />
+            )}
+            {formData.Image && (
+              <img className="preview-image" src={formData.Image} alt="Preview" />
+            )}
+          </label>
+
+          <label className="description-label">
             Mô tả:
             <JoditEditor
               ref={editor}
               value={formData.Description}
+              onChange={handleDescriptionChange}
               config={editorConfig}
-              onBlur={(newContent) => handleDescriptionChange(newContent)}
             />
           </label>
-          <label>
-            Hình ảnh:
-            <input type="file" name="Image" onChange={handleChange} />
-            {formData.Image && (
-              <img src={formData.Image} alt="Product" width="100" />
-            )}
-          </label>
         </div>
-        <button type="submit">Lưu thay đổi</button>
+
+        <div className="button-group">
+          <button type="submit" className="btn btn-primary">
+            Cập nhật
+          </button>
+          <button type="button" className="btn btn-secondary" onClick={() => navigate("/products")}>
+            Hủy
+          </button>
+        </div>
       </form>
     </div>
   );

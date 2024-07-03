@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import './AddressPopup.css';
 
@@ -43,6 +44,12 @@ const AddressPopup = ({ userID, onSelect, onClose }) => {
             </div>
         </div>
     );
+};
+
+AddressPopup.propTypes = {
+    userID: PropTypes.string.isRequired,
+    onSelect: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
 };
 
 export default AddressPopup;

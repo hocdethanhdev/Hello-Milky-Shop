@@ -31,7 +31,7 @@ const getAllChatRoom = async (req, res) => {
 
 const saveMessage = async (Message, UserID, ChatRoom) => {
   try {
-    const obj = await chatService.saveMessage(Message, UserID, ChatRoom);
+    await chatService.saveMessage(Message, UserID, ChatRoom);
   } catch (error) {
     console.log("Save message fail");
   }
@@ -43,17 +43,13 @@ const findRoom = async (memberId) => {
     return await chatService.findRoom(memberId);
   } catch (error) {
     console.error("Error while creating chat:", error);
-    res.status(500).send("Internal Server Error");
   }
 };
 const createChat = async (memberId) => {
   try {
-    console.log(2);
     await chatService.createChat(memberId);
-    console.log(1);
   } catch (error) {
     console.error("Error while creating chat:", error);
-    res.status(500).send("Internal Server Error");
   }
 };
 

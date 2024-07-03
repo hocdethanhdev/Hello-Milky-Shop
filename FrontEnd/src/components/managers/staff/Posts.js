@@ -4,7 +4,7 @@ import "./Posts.css";
 import { Link, useNavigate } from "react-router-dom";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faSort } from "@fortawesome/free-solid-svg-icons";
+import { faSort } from "@fortawesome/free-solid-svg-icons"; // Removed unused faFilter import
 import DeleteConfirmationPopupForArticle from "./DeleteConfirmationPopupForArticle";
 
 function Posts() {
@@ -70,7 +70,7 @@ function Posts() {
   const confirmDelete = () => {
     axios
       .put(`http://localhost:5000/api/v1/article/deleteArticle/${deleteArticleId}`)
-      .then((response) => {
+      .then(() => {
         setArticles(
           articles.filter((article) => article.ArticleID !== deleteArticleId)
         );

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './RelatedProductMom.css';
@@ -86,6 +87,16 @@ const RelatedProducts = ({ product }) => {
             </ul>
         </div>
     );
+};
+
+RelatedProducts.propTypes = {
+    product: PropTypes.shape({
+        ProductID: PropTypes.number.isRequired,
+        Price: PropTypes.number.isRequired,
+        PriceAfterDiscounts: PropTypes.number.isRequired,
+        Image: PropTypes.string.isRequired,
+        ProductName: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default RelatedProducts;

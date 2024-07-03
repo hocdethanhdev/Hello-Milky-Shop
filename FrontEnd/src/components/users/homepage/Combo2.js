@@ -6,11 +6,12 @@ import StarRating from "../product/ui-list-product-mom/StarRating";
 function Combo2() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/product/getTop6MilkForBaby")
       .then((response) => response.json())
       .then((data) => {
-        if(data.err !== "Not found"){
+        if (data.err !== "Not found") {
           setProducts(data);
         }
       })
@@ -18,14 +19,9 @@ function Combo2() {
   }, []);
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
-  const formatPriceDiscount = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
+
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
   };
@@ -54,7 +50,7 @@ function Combo2() {
             />
           </div>
           <div className="combo-content-1">
-            {products.map((product, index) => (
+            {products.map((product) => (
               <div
                 key={product.ProductID}
                 className="combo-item-1"
@@ -64,7 +60,7 @@ function Combo2() {
                   {product.Price !== product.PriceAfterDiscounts && (
                     <span className="discount-1">
                       -
-                      {formatPriceDiscount(
+                      {formatPrice(
                         (product.Price - product.PriceAfterDiscounts) / 1000
                       )}
                       K
@@ -84,7 +80,9 @@ function Combo2() {
                       </p>
                     </div>
                   ) : (
-                    <p className="discounted-price">{formatPrice(product.Price)}</p>
+                    <p className="discounted-price">
+                      {formatPrice(product.Price)}
+                    </p>
                   )}
                   <div className="saoduoithinh-1">
                     <StarRating productId={product.ProductID} />

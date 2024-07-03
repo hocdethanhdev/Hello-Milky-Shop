@@ -47,7 +47,7 @@ function SignupAd() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     const newErrors = {};
 
     // Validate name field

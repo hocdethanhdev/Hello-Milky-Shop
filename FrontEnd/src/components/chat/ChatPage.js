@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import "./ChatPage.css";
@@ -119,5 +120,11 @@ function ChatWindow({ roomId, userName, onClose }) {
     </div>
   );
 }
+
+ChatWindow.propTypes = {
+  roomId: PropTypes.string.isRequired, 
+  userName: PropTypes.string.isRequired, 
+  onClose: PropTypes.func.isRequired,
+};
 
 export default ChatWindow;

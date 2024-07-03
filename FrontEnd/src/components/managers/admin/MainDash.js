@@ -17,10 +17,9 @@ function MainDash() {
   });
   const [revenueData, setRevenueData] = useState({ months: [], revenue: [] });
 
-  const formattedRevenue = new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(revenue);
+  const formattedRevenue = (revenue) => {
+    return `${revenue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -136,7 +135,7 @@ function MainDash() {
         shared: true,
         intersect: false,
         theme: "dark",
-        custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+        custom: ({ series, seriesIndex, dataPointIndex}) => {
           return `
                         <div class="apexcharts-tooltip-title" style="font-size: 14px; font-weight: bold;">
                             ${top5BestSell.ProductName[dataPointIndex]}
@@ -291,7 +290,7 @@ function MainDash() {
           maxWidth: "300px",
           marginLeft: "6px",
         },
-        custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+        custom: ({ series, seriesIndex, dataPointIndex }) => {
           return `
                     <div class="apexcharts-tooltip-title" style="font-size: 14px; font-weight: bold;">
                         ${revenueData.months[dataPointIndex]}
@@ -342,7 +341,7 @@ function MainDash() {
                 <FontAwesomeIcon icon={faMoneyBillTrendUp} />
               </span>
             </div>
-            <h1>{formattedRevenue}</h1>
+            <h1>{formattedRevenue(revenue)}</h1>
           </div>
         </div>
         <div className="charts-dasha">

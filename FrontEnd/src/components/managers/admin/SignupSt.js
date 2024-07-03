@@ -47,7 +47,7 @@ function SignupSt() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     const newErrors = {};
     if (!formData.name.trim()) {
       newErrors.name = "Hãy nhập tên của bạn.";

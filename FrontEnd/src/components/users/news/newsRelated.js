@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
 import axios from 'axios';
 import './newsRelated.css';
 import { Link } from 'react-router-dom';
@@ -64,6 +65,12 @@ const NewsRelated = ({ articleCategoryID, articleID }) => {
             ))}
         </div>
     );
+};
+
+// PropTypes validation
+NewsRelated.propTypes = {
+    articleCategoryID: PropTypes.string.isRequired,
+    articleID: PropTypes.string.isRequired
 };
 
 export default NewsRelated;

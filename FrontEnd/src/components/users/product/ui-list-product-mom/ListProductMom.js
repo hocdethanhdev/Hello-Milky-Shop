@@ -170,7 +170,7 @@ const ListProductMom = () => {
               type="hidden"
               value="?page=1&categoryId=PC0046C29C9E334"
             />
-            <div className="title_cate_right" sortex="" sortdir="">
+            <div className="title_cate_right">
               <div className="loc-theo-gia-list-mom">
                 <div className="center-text-list-promom">Lọc theo giá</div>
                 <SliderMoney

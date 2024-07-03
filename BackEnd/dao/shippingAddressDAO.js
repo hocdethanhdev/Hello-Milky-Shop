@@ -1,11 +1,10 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
-const ShippingAddress = require("../bo/shippingAddress");
 
 const shippingAddressDAO = {
   findInfoShippingByUserID: (ID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("ID", ID);
         request.query(
           `SELECT *
@@ -25,7 +24,7 @@ const shippingAddressDAO = {
 
   findInfoShippingByOrderID: (orderID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("orderID", orderID);
         request.query(
           `SELECT Receiver, PhoneNumber, Address
@@ -77,13 +76,13 @@ const shippingAddressDAO = {
   updateIsDeleted: (param_id) => {
     return new Promise((resolve, reject) => {
       const IsDeleted = 1;
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("ShippingAddressID", param_id)
           .input("IsDeleted", IsDeleted);
         request.query(
           `UPDATE ShippingAddress SET IsDeleted = @IsDeleted WHERE ShippingAddressID = @ShippingAddressID;`,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "Update IsDeleted Sucessfully !!!",
@@ -96,7 +95,7 @@ const shippingAddressDAO = {
 
   findInfoAddressWithOrderNearest: (UserID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "UserID",
           mssql.VarChar,

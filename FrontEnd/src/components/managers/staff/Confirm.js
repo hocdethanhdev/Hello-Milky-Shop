@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, message, Input } from "antd";
 import "./Confirm.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
@@ -58,15 +58,15 @@ function Confirm() {
             }
             return response.json();
           })
-          .then((data) => {
+          .then(() => {
             setOrders((prevOrders) =>
               prevOrders.map((order) =>
                 order.OrderID === orderID
                   ? {
-                    ...order,
-                    StatusOrderID: [2, 2],
-                    StatusOrderName: "Đã xác nhận",
-                  }
+                      ...order,
+                      StatusOrderID: [2, 2],
+                      StatusOrderName: "Đã xác nhận",
+                    }
                   : order
               )
             );
@@ -106,7 +106,7 @@ function Confirm() {
         }
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
         setOrders((prevOrders) =>
           prevOrders.filter((order) => order.OrderID !== selectedOrder)
         );
@@ -190,11 +190,11 @@ function Confirm() {
             <tr className="row" key={order.OrderID}>
               <td className="col-md-2">{order.OrderID}</td>
               <td className="col-md-2">
-               {new Date(order.OrderDate).toLocaleDateString("vi-VN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
+                {new Date(order.OrderDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </td>
               <td className="col-md-2">
                 {formatPrice(parseInt(order.TotalAmount))}
@@ -204,19 +204,22 @@ function Confirm() {
                 <button
                   type="button"
                   className="btn btn-warning xndh"
-                  onClick={() => editOrder(order.OrderID)}>
+                  onClick={() => editOrder(order.OrderID)}
+                >
                   Xác Nhận
                 </button>
                 <button
                   type="button"
                   className="btn btn-primary xndh"
-                  onClick={() => viewOrderDetails(order)}>
+                  onClick={() => viewOrderDetails(order)}
+                >
                   Thông tin
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger xndh"
-                  onClick={() => cancelOrder(order.OrderID)}>
+                  onClick={() => cancelOrder(order.OrderID)}
+                >
                   Hủy đơn
                 </button>
               </td>
@@ -242,7 +245,8 @@ function Confirm() {
               Đóng
             </Button>,
           ]}
-          className="custom-modal-thinhh">
+          className="custom-modal-thinhh"
+        >
           <div className="modal-content-scrollable-thinhh">
             <div className="ttdh-thinh">
               <h2>Thông tin đơn hàng</h2>
@@ -327,7 +331,8 @@ function Confirm() {
         title="Lý do hủy đơn hàng"
         visible={isCancelModalVisible}
         onOk={handleCancelModalOk}
-        onCancel={handleCancelModalCancel}>
+        onCancel={handleCancelModalCancel}
+      >
         <Input.TextArea
           value={cancelReason}
           onChange={(e) => setCancelReason(e.target.value)}

@@ -1,12 +1,15 @@
-import "./Chat.css";
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
+import { getUserIdFromToken } from "../store/actions/authAction";
+import PropTypes from "prop-types"; // Import PropTypes
+import "./Chat.css";
+
 const socket = io("http://localhost:5000");
-const { getUserIdFromToken } = require("../store/actions/authAction");
 
 function ChatBubble({ onClick }) {
   const [showMiniMessage, setShowMiniMessage] = useState(true);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowMiniMessage(false);
@@ -14,6 +17,7 @@ function ChatBubble({ onClick }) {
 
     return () => clearTimeout(timer);
   }, []);
+
   return (
     <div className="chat-bubble" onClick={onClick}>
       {showMiniMessage && (
@@ -25,6 +29,10 @@ function ChatBubble({ onClick }) {
     </div>
   );
 }
+
+ChatBubble.propTypes = {
+  onClick: PropTypes.func.isRequired, // onClick là một function và là bắt buộc
+};
 
 function ChatWindow({ onClose }) {
   const [messages, setMessages] = useState([]);
@@ -77,6 +85,14 @@ function ChatWindow({ onClose }) {
     };
   }, [roomId]);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const handleNewMessage = (msg) => {
     if (msg.userId !== userId) {
       setMessages((prevMessages) => [...prevMessages, msg]);
@@ -93,16 +109,6 @@ function ChatWindow({ onClose }) {
       scrollToBottom();
     }
   };
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      scrollToBottom();
-    }
-  }, [messages]);
 
   return (
     <div className="chat-window">
@@ -129,6 +135,10 @@ function ChatWindow({ onClose }) {
     </div>
   );
 }
+
+ChatWindow.propTypes = {
+  onClose: PropTypes.func.isRequired, // onClose là một function và là bắt buộc
+};
 
 function ChatBubbleWithWindow() {
   const [showChat, setShowChat] = useState(false);

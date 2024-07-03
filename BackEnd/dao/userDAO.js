@@ -3,7 +3,6 @@ const dbConfig = require("../config/db.config");
 const User = require("../bo/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const passport = require("passport");
 
 const UserID = "a";
 
@@ -269,7 +268,7 @@ const userDAO = {
 
   getUserByID: (id) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("UserID", id);
         request.query(
           `
@@ -298,7 +297,7 @@ const userDAO = {
 
   getOne: (id) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("UserID", id);
         request.query(
           `
@@ -320,7 +319,7 @@ const userDAO = {
   },
   findAllUsers: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(`SELECT * FROM Users;`, (err, res) => {
           if (err) reject(err);
@@ -331,13 +330,13 @@ const userDAO = {
   },
   deleteUser: (param_id, status) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("UserID", param_id)
           .input("Status", status);
         request.query(
           `UPDATE Users SET Status = @Status WHERE UserID = @UserID;`,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "0",
@@ -349,7 +348,7 @@ const userDAO = {
   },
   updateUser: (param_id, userObject) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("UserID", param_id)
           .input("Status", mssql.Bit, userObject.Status)
@@ -358,7 +357,7 @@ const userDAO = {
         request.query(
           `UPDATE Users SET RoleID = @RoleID  WHERE UserID = @UserID
           ;`,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "Edit successfully",
@@ -370,7 +369,7 @@ const userDAO = {
   },
   findUserByRoleID: (ID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("ID", ID);
         request.query(
           `SELECT *
@@ -388,7 +387,7 @@ const userDAO = {
   },
   login: (login) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
           .input("PhoneNumber", mssql.VarChar, login.PhoneNumber)
           .input("Password", mssql.VarChar, login.Password);
@@ -454,7 +453,7 @@ const userDAO = {
       role
     );
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "PhoneNumber",
           user.PhoneNumber
@@ -483,7 +482,7 @@ const userDAO = {
               .input("RoleID", mssql.Int, user.RoleID || 3);
             insertRequest.query(
               `INSERT INTO Users (UserID, UserName, PhoneNumber, Password, Point, RoleID) VALUES (@UserID, @UserName, @PhoneNumber, @PasswordHash, @Point, @RoleID);`,
-              (err, res) => {
+              (err) => {
                 if (err) {
                   console.error("Insert query execution error:", err);
                   return reject({
@@ -505,7 +504,7 @@ const userDAO = {
   },
   findOrCreate: (profile) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const checkMail = new mssql.Request().input(
           "Email",
           profile.emails[0].value
@@ -524,7 +523,7 @@ const userDAO = {
                 .input("RoleID", mssql.Int, 3);
               request.query(
                 `INSERT INTO Users(UserID, UserName, Email, Point, RoleID) values (@UserID, @UserName, @Email, @Point, @RoleID)`,
-                (err, res) => {
+                (err) => {
                   if (err) reject(err);
                   resolve();
                 }
@@ -537,7 +536,7 @@ const userDAO = {
   },
   loginEmail: (email) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "Email",
           mssql.VarChar,
@@ -583,7 +582,7 @@ const userDAO = {
   },
   changePointOfUser: (UserID, MinusPoint) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
 
         const request = new mssql.Request()

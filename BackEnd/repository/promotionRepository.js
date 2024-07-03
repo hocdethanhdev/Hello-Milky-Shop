@@ -22,9 +22,6 @@ const promotionRepository = {
     getProductsApplyAnPromotion: async (promotionID) => {
         return await promotionDAO.getProductsApplyAnPromotion(promotionID);
     },
-    getAllPromotions: async () => {
-        return await promotionDAO.getAllPromotions();
-    },
     deleteProductPromotionsByPromotionID: async (promotionID) => {
         return await promotionDAO.deleteProductPromotionsByPromotionID(promotionID);
     },

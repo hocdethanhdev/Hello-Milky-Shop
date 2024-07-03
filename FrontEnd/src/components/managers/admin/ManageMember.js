@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, message } from "antd";
+import { Modal, message } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
@@ -45,7 +45,7 @@ const ManageMember = () => {
       }
     )
       .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         setAccounts(
           accounts.map((account) =>
             account.UserID === selectedUser.UserID
@@ -73,7 +73,7 @@ const ManageMember = () => {
       body: JSON.stringify({ Status: 1 }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         setAccounts(
           accounts.map((account) =>
             account.UserID === user.UserID ? { ...account, Status: 1 } : account

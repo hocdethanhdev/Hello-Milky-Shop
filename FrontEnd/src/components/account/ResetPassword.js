@@ -33,7 +33,7 @@ const ResetPassword = () => {
         "recaptcha-container",
         {
           size: "invisible",
-          callback: (response) => {
+          callback: () => {
             // Callback when recaptcha is verified
           },
           "expired-callback": () => {
@@ -136,7 +136,7 @@ const ResetPassword = () => {
         }
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
         setLoading(false);
         toast.success("Password reset successfully!");
       })

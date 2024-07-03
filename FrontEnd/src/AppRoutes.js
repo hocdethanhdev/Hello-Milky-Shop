@@ -12,7 +12,6 @@ import Termofuse from './users/component/Termofuse';
 import VoucherStore from './users/component/VoucherStore';
 import ShoppingCart from './users/component/ShoppingCart';
 import Bigsales from './users/component/Bigsales';
-import Dealsoc from './users/component/Dealsoc';
 import News from './users/component/News';
 import Header from './users/component/Header';
 import ListProductMomScreen from './users/ui-list-product-mom/ListProductMomScreen';

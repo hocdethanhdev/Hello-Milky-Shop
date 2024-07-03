@@ -1,4 +1,6 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useRef, useMemo } from "react";
+import PropTypes from "prop-types"; // Import PropTypes
+
 import JoditEditor from "jodit-react";
 
 function RichTextEditor({ value, onChange }) {
@@ -34,5 +36,11 @@ function RichTextEditor({ value, onChange }) {
     </div>
   );
 }
+
+// PropTypes validation
+RichTextEditor.propTypes = {
+  value: PropTypes.string, // Assuming value is a string
+  onChange: PropTypes.func.isRequired, // onChange is a required function prop
+};
 
 export default RichTextEditor;

@@ -19,7 +19,6 @@ const Products = () => {
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedProductForEdit, setSelectedProductForEdit] = useState(null);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const productsPerPage = 10;
@@ -138,7 +137,6 @@ const Products = () => {
   // Close modals
   const handleCloseModal = () => {
     setSelectedProduct(null);
-    setSelectedProductForEdit(null);
   };
 
   // Handle product delete

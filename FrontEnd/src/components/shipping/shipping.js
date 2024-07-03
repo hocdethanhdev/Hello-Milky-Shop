@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Modal, Button } from "antd";
+import { Modal } from "antd"; // Removed unused Button import
 import 'antd/dist/reset.css';
 import Loading from "../layout/Loading";
 
@@ -44,7 +44,7 @@ function Shipping() {
 
   const handleModalOk = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `http://localhost:5000/api/v1/order/updateStatusOrderID/${confirmingOrderId}`,
         {
           statusOrderID: 4,

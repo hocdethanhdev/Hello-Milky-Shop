@@ -3,207 +3,215 @@ const dbConfig = require("../config/db.config");
 const Voucher = require("../bo/voucher");
 
 const voucherDAO = {
-    findAllVouchers: () => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err, result) {
+  findAllVouchers: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function () {
+        const request = new mssql.Request();
+        request.query(`SELECT * FROM Voucher;`, (err, res) => {
+          if (err) reject(err);
 
-                const request = new mssql.Request();
-                request.query(`SELECT * FROM Voucher;`,
-                    (err, res) => {
-                        if (err) reject(err);
-
-                        resolve(res.recordset);
-                    });
-            });
+          resolve(res.recordset);
         });
-    },
+      });
+    });
+  },
 
-    deleteVoucher: (VoucherID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err, result) {
-                if (err) {
-                    reject(err);
-                    return;
-                }
+  deleteVoucher: (VoucherID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) {
+          reject(err);
+          return;
+        }
 
-                var request = new mssql.Request()
-                    .input("voucherID", VoucherID);
-                request.query(
-                    `UPDATE Voucher
+        var request = new mssql.Request().input("voucherID", VoucherID);
+        request.query(
+          `UPDATE Voucher
                     SET Status = 0
                     WHERE VoucherID = @voucherID;`,
-                    (err, res) => {
-                        if (err) reject(err);
-                        resolve({
-                            message: "Delete successfully"
-                        });
-                    }
-                );
+          (err) => {
+            if (err) reject(err);
+            resolve({
+              message: "Delete successfully",
             });
-        });
-    },
+          }
+        );
+      });
+    });
+  },
 
-    updateVoucherStatusAndRemoveFromUser: (oldStatus, newStatus) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  updateVoucherStatusAndRemoveFromUser: (oldStatus, newStatus) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request
-                    .input("oldStatus", mssql.Int, oldStatus)
-                    .input("newStatus", mssql.Int, newStatus);
+        const request = new mssql.Request();
+        request
+          .input("oldStatus", mssql.Int, oldStatus)
+          .input("newStatus", mssql.Int, newStatus);
 
-                const updateQuery = `
+        const updateQuery = `
                     UPDATE Voucher
                     SET status = @newStatus
                     WHERE expiryDate < GETDATE() AND status = @oldStatus;
     
                 `;
-                const deleteQuery = `
+        const deleteQuery = `
                     DELETE FROM UserVoucher
                     WHERE VoucherID IN (
                     SELECT VoucherID FROM Voucher WHERE expiryDate < GETDATE() AND status = @oldStatus
                     );
-                    `
+                    `;
 
-                request.query(updateQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                });
-
-                request.query(deleteQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                });
-            });
+        request.query(updateQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
-    },
 
-    getVouchersforUser: (UserID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err, res) {
-                const request = new mssql.Request().input("UserID", mssql.VarChar, UserID);
-                request.query(`
+        request.query(deleteQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      });
+    });
+  },
+
+  getVouchersforUser: (UserID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function () {
+        const request = new mssql.Request().input(
+          "UserID",
+          mssql.VarChar,
+          UserID
+        );
+        request.query(
+          `
                         SELECT Voucher.*
                         FROM Voucher
                         LEFT JOIN UserVoucher ON Voucher.VoucherID = UserVoucher.VoucherID AND UserVoucher.UserID = @UserID
                         WHERE GETDATE() <= Voucher.ExpiryDate AND UserVoucher.UserID IS NULL;
                         `,
-                    (err, res) => {
-                        if (err) reject(err);
+          (err, res) => {
+            if (err) reject(err);
 
-                        resolve(res?.recordset);
-                    });
-            });
-        });
-    },
+            resolve(res?.recordset);
+          }
+        );
+      });
+    });
+  },
 
-    addVoucher: (voucherObject) => {
-        const VoucherID = 1;
-        const voucher = new Voucher(VoucherID, voucherObject.quantity, voucherObject.discountPercentage,
-            voucherObject.maxDiscount, voucherObject.minDiscount, voucherObject.startDate, voucherObject.expiryDate, voucherObject.voucherName);
+  addVoucher: (voucherObject) => {
+    const VoucherID = 1;
+    const voucher = new Voucher(
+      VoucherID,
+      voucherObject.quantity,
+      voucherObject.discountPercentage,
+      voucherObject.maxDiscount,
+      voucherObject.minDiscount,
+      voucherObject.startDate,
+      voucherObject.expiryDate,
+      voucherObject.voucherName
+    );
 
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err, result) {
-                if (err) return reject(err);
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
+        // Kiểm tra ngày bắt đầu và ngày kết thúc
+        if (new Date(voucher.startDate) > new Date(voucher.expiryDate)) {
+          return reject({
+            status: 400,
+            message: "Start date cannot be later than expiry date",
+          });
+        }
 
-                // Kiểm tra ngày bắt đầu và ngày kết thúc
-                if (new Date(voucher.startDate) > new Date(voucher.expiryDate)) {
-                    return reject({
-                        status: 400,
-                        message: 'Start date cannot be later than expiry date'
-                    });
-                }
-
-                //  Thêm dữ liệu voucher vào cơ sở dữ liệu
-                const insertRequest = new mssql.Request();
-                insertRequest
-                    .input('quantity', mssql.Int, voucher.quantity)
-                    .input('discountPercentage', mssql.Float, voucher.discountPercentage)
-                    .input('maxDiscount', mssql.Int, voucher.maxDiscount)
-                    .input('minDiscount', mssql.Int, voucher.minDiscount)
-                    .input('startDate', mssql.Date, voucher.startDate)
-                    .input('expiryDate', mssql.Date, voucher.expiryDate)
-                    .input('voucherName', mssql.VarChar, voucher.voucherName);
-                insertRequest.query(`
+        //  Thêm dữ liệu voucher vào cơ sở dữ liệu
+        const insertRequest = new mssql.Request();
+        insertRequest
+          .input("quantity", mssql.Int, voucher.quantity)
+          .input("discountPercentage", mssql.Float, voucher.discountPercentage)
+          .input("maxDiscount", mssql.Int, voucher.maxDiscount)
+          .input("minDiscount", mssql.Int, voucher.minDiscount)
+          .input("startDate", mssql.Date, voucher.startDate)
+          .input("expiryDate", mssql.Date, voucher.expiryDate)
+          .input("voucherName", mssql.VarChar, voucher.voucherName);
+        insertRequest.query(
+          `
                         INSERT INTO Voucher(Quantity, DiscountPercentage, MaxDiscount, MinDiscount, StartDate, ExpiryDate, VoucherName)
                         VALUES (@quantity, @discountPercentage, @maxDiscount, @minDiscount, @StartDate, @expiryDate, @voucherName)
                     ;`,
-                    (err, res) => {
-                        if (err)
-                            return reject(err);
+          (err, res) => {
+            if (err) return reject(err);
 
-                        resolve(res.recordset);
-                    })
-            });
-        });
-    },
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
 
-    searchVoucherByDate: (startDate, expiryDate) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err, result) {
-                const request = new mssql.Request()
-                    .input('startDate', mssql.Date, startDate)
-                    .input('expiryDate', mssql.Date, expiryDate);
+  searchVoucherByDate: (startDate, expiryDate) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function () {
+        const request = new mssql.Request()
+          .input("startDate", mssql.Date, startDate)
+          .input("expiryDate", mssql.Date, expiryDate);
 
-                const query = `
+        const query = `
                 SELECT * FROM Voucher 
                 WHERE expiryDate BETWEEN @startDate AND @expiryDate
             `;
 
-                request.query(query, (err, res) => {
-                    if (err) reject(err);
+        request.query(query, (err, res) => {
+          if (err) reject(err);
 
-                    const voucher = res.recordset;
-                    if (!voucher[0]) resolve({
-                        err: "Not found the voucher!"
-                    })
-                    resolve(voucher);
-                })
-            })
-        })
-    },
-    updateVoucher: (voucherID, voucherObject) => {
-        const voucher = new Voucher(
-            voucherID,
-            voucherObject.quantity,
-            voucherObject.discountPercentage,
-            voucherObject.maxDiscount,
-            voucherObject.minDiscount,
-            voucherObject.startDate,
-            voucherObject.expiryDate,
-            voucherObject.voucherName);
-        return new Promise((resolve, reject) => {
+          const voucher = res.recordset;
+          if (!voucher[0])
+            resolve({
+              err: "Not found the voucher!",
+            });
+          resolve(voucher);
+        });
+      });
+    });
+  },
+  updateVoucher: (voucherID, voucherObject) => {
+    const voucher = new Voucher(
+      voucherID,
+      voucherObject.quantity,
+      voucherObject.discountPercentage,
+      voucherObject.maxDiscount,
+      voucherObject.minDiscount,
+      voucherObject.startDate,
+      voucherObject.expiryDate,
+      voucherObject.voucherName
+    );
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-            mssql.connect(dbConfig, function (err) {
+        const request = new mssql.Request();
 
-                if (err) return reject(err);
+        // Kiểm tra ngày bắt đầu và ngày kết thúc
+        if (new Date(voucher.startDate) > new Date(voucher.expiryDate)) {
+          return reject({
+            status: 400,
+            message: "Start date cannot be later than expiry date",
+          });
+        }
 
-                const request = new mssql.Request();
+        request
+          .input("voucherID", voucherID)
+          .input("quantity", mssql.Int, voucher.quantity)
+          .input("discountPercentage", mssql.Float, voucher.discountPercentage)
+          .input("maxDiscount", mssql.Int, voucher.maxDiscount)
+          .input("minDiscount", mssql.Int, voucher.minDiscount)
+          .input("startDate", mssql.Date, voucher.startDate)
+          .input("expiryDate", mssql.Date, voucher.expiryDate)
+          .input("voucherName", mssql.VarChar, voucher.voucherName);
 
-                // Kiểm tra ngày bắt đầu và ngày kết thúc
-                if (new Date(voucher.startDate) > new Date(voucher.expiryDate)) {
-                    return reject({
-                        status: 400,
-                        message: 'Start date cannot be later than expiry date'
-                    });
-                }
-
-
-                request
-                    .input('voucherID', voucherID)
-                    .input('quantity', mssql.Int, voucher.quantity)
-                    .input('discountPercentage', mssql.Float, voucher.discountPercentage)
-                    .input('maxDiscount', mssql.Int, voucher.maxDiscount)
-                    .input('minDiscount', mssql.Int, voucher.minDiscount)
-                    .input('startDate', mssql.Date, voucher.startDate)
-                    .input('expiryDate', mssql.Date, voucher.expiryDate)
-                    .input('voucherName', mssql.VarChar, voucher.voucherName);
-
-
-                const updateQuery = `
+        const updateQuery = `
                     UPDATE Voucher
                     SET 
                         quantity = @quantity,
@@ -215,92 +223,94 @@ const voucherDAO = {
                         voucherName = @voucherName
                     WHERE voucherID = @voucherID
                 `;
-                request.query(updateQuery, (err, res) => {
-                    if (err) {
-                        return reject(err);
-                    }
-                    resolve(res);
-                })
+        request.query(updateQuery, (err, res) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(res);
+        });
+      });
+    });
+  },
 
-            })
-        })
-    },
+  saveVoucherForUser: (userID, voucherID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-    saveVoucherForUser: (userID, voucherID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+        const request = new mssql.Request();
+        request
+          .input("userID", mssql.VarChar, userID)
+          .input("voucherID", mssql.Int, voucherID);
 
-                const request = new mssql.Request();
-                request.input('userID', mssql.VarChar, userID)
-                    .input('voucherID', mssql.Int, voucherID);
-
-                const insertQuery = `
+        const insertQuery = `
                     INSERT INTO UserVoucher (UserID, VoucherID)
                     VALUES (@userID, @voucherID);
                 `;
 
-                request.query(insertQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                });
-            });
+        request.query(insertQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
-    },
+      });
+    });
+  },
 
-    removeVoucherFromUser: (userID, voucherID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  removeVoucherFromUser: (userID, voucherID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('userID', mssql.VarChar, userID)
-                    .input('voucherID', mssql.Int, voucherID);
+        const request = new mssql.Request();
+        request
+          .input("userID", mssql.VarChar, userID)
+          .input("voucherID", mssql.Int, voucherID);
 
-                const deleteQuery = `
+        const deleteQuery = `
                     DELETE FROM UserVoucher 
                     WHERE UserID = @userID AND VoucherID = @voucherID;
                 `;
 
-                request.query(deleteQuery, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result);
-                });
-            });
+        request.query(deleteQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
         });
-    },
+      });
+    });
+  },
 
-    getVoucherForUser: (userID, voucherID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  getVoucherForUser: (userID, voucherID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('userID', mssql.VarChar, userID)
-                    .input('voucherID', mssql.Int, voucherID);
+        const request = new mssql.Request();
+        request
+          .input("userID", mssql.VarChar, userID)
+          .input("voucherID", mssql.Int, voucherID);
 
-                const query = `
+        const query = `
                     SELECT * FROM UserVoucher 
                     WHERE UserID = @userID AND VoucherID = @voucherID;
                 `;
 
-                request.query(query, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result.recordset[0]);  // Return the first matching record if exists
-                });
-            });
+        request.query(query, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset[0]); // Return the first matching record if exists
         });
-    },
+      });
+    });
+  },
 
-    getVouchersByUserID: (userID) => {
-        return new Promise((resolve, reject) => {
-            mssql.connect(dbConfig, function (err) {
-                if (err) return reject(err);
+  getVouchersByUserID: (userID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
 
-                const request = new mssql.Request();
-                request.input('userID', mssql.VarChar, userID);
+        const request = new mssql.Request();
+        request.input("userID", mssql.VarChar, userID);
 
-                const query = `
+        const query = `
                     SELECT 
                         uv.UserVoucherID, 
                         uv.UserID, 
@@ -317,16 +327,13 @@ const voucherDAO = {
                     WHERE GETDATE() <= v.ExpiryDate AND GETDATE() >= v.StartDate AND uv.UserID = @userID;
                 `;
 
-                request.query(query, (err, result) => {
-                    if (err) return reject(err);
-                    resolve(result.recordset);
-                });
-            });
+        request.query(query, (err, result) => {
+          if (err) return reject(err);
+          resolve(result.recordset);
         });
-    }
-
-
-
+      });
+    });
+  },
 };
 
 module.exports = voucherDAO;

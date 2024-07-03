@@ -100,8 +100,6 @@ function VoucherAdd() {
       return;
     }
 
-
-
     // If all validations pass, proceed with API call
     fetch("http://localhost:5000/api/v1/voucher/addVoucher", {
       method: "POST",
@@ -116,7 +114,7 @@ function VoucherAdd() {
         }
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
         setSuccessMessage("Voucher created successfully!");
         setErrorMessage("");
         setVoucherData({
@@ -153,7 +151,6 @@ function VoucherAdd() {
             name="voucherName"
             value={voucherData.voucherName}
             onChange={handleChange}
-
           />
 
           <label htmlFor="quantity">Số lượng</label>
@@ -163,8 +160,8 @@ function VoucherAdd() {
             name="quantity"
             value={voucherData.quantity}
             onChange={handleChange}
-
           />
+
           <label htmlFor="startDate">Ngày bắt đầu</label>
           <input
             type="date"
@@ -172,8 +169,8 @@ function VoucherAdd() {
             name="startDate"
             value={voucherData.startDate}
             onChange={handleChange}
-
           />
+
           <label htmlFor="discountPercentage">Phần trăm giảm giá (%)</label>
           <input
             type="number"
@@ -181,7 +178,6 @@ function VoucherAdd() {
             name="discountPercentage"
             value={voucherData.discountPercentage}
             onChange={handleChange}
-
           />
         </div>
         <div className="half-width">
@@ -192,7 +188,6 @@ function VoucherAdd() {
             name="minDiscount"
             value={voucherData.minDiscount}
             onChange={handleChange}
-
           />
 
           <label htmlFor="maxDiscount">Giảm tối đa</label>
@@ -202,8 +197,8 @@ function VoucherAdd() {
             name="maxDiscount"
             value={voucherData.maxDiscount}
             onChange={handleChange}
-
           />
+
           <label htmlFor="expiryDate">Ngày kết thúc</label>
           <input
             type="date"
@@ -211,8 +206,8 @@ function VoucherAdd() {
             name="expiryDate"
             value={voucherData.expiryDate}
             onChange={handleChange}
-
           />
+
           <button type="submit" className="create-voucher">
             Tạo voucher
           </button>

@@ -1,12 +1,11 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
-const City = require("../bo/city");
 
 const cityDAO = {
 
     findAllCities: () => {
         return new Promise((resolve, reject) => {
-          mssql.connect(dbConfig, function(err, result) {
+          mssql.connect(dbConfig, function() {
             const request = new mssql.Request();
             request.query(
               `SELECT *

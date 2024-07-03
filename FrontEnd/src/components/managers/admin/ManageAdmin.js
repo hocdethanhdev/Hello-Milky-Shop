@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Modal, message } from "antd";
+import { message } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
@@ -14,8 +14,6 @@ const ManageAdmin = () => {
   });
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
   const accountsPerPage = 10;
 
   const fetchUsers = () => {

@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import "./ProductDetailModal.css";
 
 const formatPrice = (price) => {
@@ -78,6 +80,23 @@ const ProductDetailModal = ({ product, onClose }) => {
       </div>
     </div>
   );
+};
+
+ProductDetailModal.propTypes = {
+  product: PropTypes.shape({
+    ProductID: PropTypes.number.isRequired,
+    ProductName: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Image: PropTypes.string.isRequired,
+    Price: PropTypes.number.isRequired,
+    StockQuantity: PropTypes.number.isRequired,
+    ExpirationDate: PropTypes.string.isRequired,
+    ManufacturingDate: PropTypes.string.isRequired,
+    BrandName: PropTypes.string.isRequired,
+    ProductCategoryName: PropTypes.string.isRequired,
+    Status: PropTypes.bool.isRequired,
+  }),
+  onClose: PropTypes.func.isRequired,
 };
 
 export default ProductDetailModal;

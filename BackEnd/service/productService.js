@@ -33,16 +33,16 @@ const productService = {
     return await productRepository.getProductByCategory(pc);
   },
 
-  getAllProducts: async (req, res) => {
+  getAllProducts: async () => {
     return await productRepository.getAllProducts();
   },
-  getAllBrands: async (req, res) => {
+  getAllBrands: async () => {
     return await productRepository.getAllBrands();
   },
   searchWithBrand: async (name, brand) => {
     return await productRepository.searchWithBrand(name, brand);
   },
-  getAllProductCategory: async (req, res) => {
+  getAllProductCategory: async () => {
     return await productRepository.getAllProductCategory();
   },
   searchWithProductCategory: async ( pc) => {
@@ -54,7 +54,7 @@ const productService = {
   searchWithName: async (name) => {
     return await productRepository.searchWithName(name);
   },
-  getInfoProductsDetail: async (req, res) => {
+  getInfoProductsDetail: async () => {
     return await productRepository.getInfoProductsDetail();
   },
   updateProduct: async (product_id, product) => {

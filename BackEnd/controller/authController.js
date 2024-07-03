@@ -1,10 +1,6 @@
 const authService = require("../service/authService");
-const passport = require("passport");
-const User = require("../bo/user");
-const jwt = require("jsonwebtoken");
 const chatService = require("../service/chatService");
 const userService = require("../service/userService");
-const { stringify } = require("qs");
 
 const changePassword = async (req, res) => {
   try {
@@ -71,7 +67,6 @@ let checkLoggedOut = (req, res) => {
   if (req.isAuthenticated()) {
     return res.redirect("/");
   }
-  next();
 };
 
 const register = async (req, res) => {
@@ -103,7 +98,7 @@ const logout = async (req, res) => {
 };
 
 const loginEmail = async (req, res) => {
-  const { email } = req?.body;
+  const { email } = req.body;
   try {
     if (!email)
       res.status(404).json({
