@@ -77,7 +77,7 @@ const VoucherDetailModal = ({ voucher, onClose }) => {
               <td>
                 <strong>Trạng thái:</strong>
               </td>
-              <td>{voucher.Status ? "Active" : "Inactive"}</td>
+              <td>{voucher.Status ? "Khả dụng" : "Không khả dụng"}</td>
             </tr>
           </tbody>
         </table>
