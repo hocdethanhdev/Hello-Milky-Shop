@@ -72,7 +72,9 @@ function Account() {
         }
       );
       fetchUserData();
-      message.success("Cập nhật email thành công");
+      if(updateEmail.data.err === 0){
+        message.success("Cập nhật thành công");
+      }else message.error("Cập nhật thất bại");
     } catch (error) {
       console.error("Error updating email:", error);
     }
@@ -94,7 +96,9 @@ function Account() {
         }
       );
       fetchUserData();
-      message.success("Cập nhật tên tài khoản thành công");
+      if(updateUserName.data.err === 0){
+        message.success("Cập nhật thành công");
+      }else message.error("Cập nhật thất bại");
     } catch (error) {
       console.error("Error updating username:", error);
     }
@@ -116,8 +120,9 @@ function Account() {
         }
       );
       fetchUserData();
-      message.success("Cập nhật số điện thoại thành công");
-    } catch (error) {
+      if(updatePhoneNumber.data.err === 0){
+        message.success("Cập nhật thành công");
+      }else message.error("Cập nhật thất bại");    } catch (error) {
       console.error("Error updating phone number:", error);
     }
     setPopupPhoneUpdate(false);

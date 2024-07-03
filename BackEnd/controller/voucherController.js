@@ -25,7 +25,7 @@ const deleteVoucher = async (req, res) => {
 
 const addVoucher = async (req, res) => {
     try {
-        const obj = await voucherService.addVoucher(req.body);
+        await voucherService.addVoucher(req.body);
         res.status(200).json({ message: 'Voucher have been added successfully' });
     } catch (error) {
         console.error("Error while adding the voucher: ", error);
@@ -48,7 +48,7 @@ const updateVoucher = async (req, res) => {
     const voucherID = req.params.id;
     const voucherData = req.body;
     try {
-        const updatedVoucher = await voucherService.updateVoucher(voucherID, voucherData);
+        await voucherService.updateVoucher(voucherID, voucherData);
         res.status(200).json({ message: 'Voucher have been update successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });

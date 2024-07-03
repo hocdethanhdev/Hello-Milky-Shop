@@ -1,13 +1,10 @@
 const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
-const Order = require("../bo/order");
-const ShippingAddress = require("../bo/shippingAddress");
-const { data } = require("jquery");
 
 const orderDAO = {
   countOrdersPayed: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT count(OrderID) as count
@@ -27,7 +24,7 @@ const orderDAO = {
   },
   getInfoToShip: (StatusOrderID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "StatusOrderID",
           mssql.Int,
@@ -53,7 +50,7 @@ const orderDAO = {
   },
   getUserIDFromOrderID: (OrderID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "OrderID",
           mssql.Int,
@@ -79,7 +76,7 @@ const orderDAO = {
   },
   countOrdersIn7Days: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `WITH DateList AS (
@@ -110,7 +107,7 @@ const orderDAO = {
 
   countOrdersByStatusOrderID: (statusOrderID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
 
         const request = new mssql.Request();
@@ -133,7 +130,7 @@ const orderDAO = {
 
   countNewOrders: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT COUNT(OrderID) as count
@@ -152,7 +149,7 @@ const orderDAO = {
 
   getAllOrders: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT * FROM Orders 
@@ -573,7 +570,7 @@ const orderDAO = {
                     WHERE OrderID = @orderID;
                 `;
 
-          request.query(updateOrderQuery, (err, result) => {
+          request.query(updateOrderQuery, (err) => {
             if (err) {
               transaction.rollback();
               return reject(err);
@@ -659,29 +656,6 @@ const orderDAO = {
                 `;
 
         request.query(updateQuery, (err, result) => {
-          if (err) return reject(err);
-          resolve(result);
-        });
-      });
-    });
-  },
-
-  removeProductFromOrder: (orderID, productID) => {
-    return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err) {
-        if (err) return reject(err);
-
-        const request = new mssql.Request();
-        request
-          .input("orderID", mssql.Int, orderID)
-          .input("productID", mssql.VarChar, productID);
-
-        const deleteQuery = `
-                    DELETE FROM OrderDetail
-                    WHERE OrderID = @orderID AND ProductID = @productID;
-                `;
-
-        request.query(deleteQuery, (err, result) => {
           if (err) return reject(err);
           resolve(result);
         });
@@ -776,7 +750,7 @@ const orderDAO = {
 
   getTodayRevenue: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
 
         const request = new mssql.Request();
@@ -797,7 +771,7 @@ const orderDAO = {
 
   getRevenueLastSevenMonths: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
 
         const request = new mssql.Request();

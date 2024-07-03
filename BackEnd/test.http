@@ -608,3 +608,12 @@ Content-Type: application/json
 
 ### Get all current category in article
 GET http://localhost:5000/api/v1/article/getCurrentCategoriesInArticles
+
+### Update UserName
+PUT http://localhost:5000/api/v1/user/updateUserName
+Content-Type: application/json
+
+{
+    "UserID": "M0000001", 
+    "UserName": "Nhan"
+}

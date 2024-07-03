@@ -5,7 +5,7 @@ const paymenttDAO = {
 
   getPaymentInfoByOrderID: (OrderID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
           .input("OrderID", mssql.Int, OrderID);
         request.query(
@@ -21,7 +21,7 @@ const paymenttDAO = {
   },
   getOrderByID: (orderID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
           .input("OrderID", mssql.Int, orderID);
         request.query(
@@ -39,7 +39,7 @@ const paymenttDAO = {
   },
   createPayment: (PayMethod, TradingCode, CardType, PayDetail, Amount, PayTime, OrderID) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
           .input("PayMethod", mssql.VarChar, PayMethod)
           .input("TradingCode", mssql.VarChar, TradingCode)

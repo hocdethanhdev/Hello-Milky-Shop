@@ -17,7 +17,6 @@ const ProductScreen = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [canRate, setCanRate] = useState(false);
     const [ratings, setRatings] = useState([]);
     const { token, isLoggedIn } = useSelector((state) => state.auth);
     const userId = getUserIdFromToken(token);
@@ -68,7 +67,7 @@ const ProductScreen = () => {
                     console.error("Error checking user order:", err);
                 }
             } else {
-                setCanRate(false);
+                return;
             }
         };
 

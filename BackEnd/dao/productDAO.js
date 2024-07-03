@@ -5,7 +5,7 @@ const Product = require("../bo/product");
 const productDAO = {
   getTop5ProductBestSeller: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT TOP 5 p.ProductID, ProductName, SUM(Quantity) AS SumSell
@@ -29,7 +29,7 @@ const productDAO = {
 
   countBrand: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT COUNT(BrandID) AS count FROM Brand;`,
@@ -46,7 +46,7 @@ const productDAO = {
   },
   countProduct: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT COUNT(ProductID) AS count FROM Product;`,
@@ -63,7 +63,7 @@ const productDAO = {
   },
   getTop6ProductByBrand: (id) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("id", mssql.VarChar, id);
         request.query(
           `SELECT TOP 6 p.ProductID, ProductName, Price, p.Image, COALESCE(MIN(CASE 
@@ -99,7 +99,7 @@ const productDAO = {
 
   getProductInforID: (id) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("id", mssql.VarChar, id);
         request.query(
           `Select p.ProductID, ProductName, BrandName, StockQuantity, Price, COALESCE(MIN(CASE 
@@ -131,7 +131,7 @@ const productDAO = {
 
   getAllBrandByCategory: (pc) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("pc", mssql.Int, pc);
         request.query(
           `SELECT BrandName 
@@ -157,7 +157,7 @@ const productDAO = {
 
   getProductByCategory: (pc) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("pc", mssql.Int, pc);
         request.query(
           `SELECT p.ProductID, ProductName, p.Image, Price, BrandName, COALESCE(MIN(CASE 
@@ -187,7 +187,7 @@ const productDAO = {
   },
   findAllProducts: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT ProductID, ProductName, ProductCategoryName, Status 
@@ -210,7 +210,7 @@ const productDAO = {
   },
   getAllBrands: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT BrandName
@@ -233,7 +233,7 @@ const productDAO = {
   },
   searchWithBrand: (name, brand) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
           .input("Name", mssql.NVarChar, `%${name}%`)
           .input("BrandName", brand);
@@ -258,7 +258,7 @@ const productDAO = {
   },
   getAllProductCategory: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT ProductCategoryName
@@ -278,7 +278,7 @@ const productDAO = {
   },
   searchWithProductCategory: (pc) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "pc",
           mssql.NVarChar,
@@ -312,7 +312,7 @@ const productDAO = {
   },
   searchWithPrice: (name, min, max) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request()
           .input("Name", mssql.NVarChar, `%${name}%`)
           .input("Min", mssql.Int, min)
@@ -338,7 +338,7 @@ const productDAO = {
   },
   searchWithName: (name) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input(
           "Name",
           mssql.NVarChar,
@@ -372,7 +372,7 @@ const productDAO = {
   },
   findInfoProductsDetail: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT ProductID, ProductName, Description, Price, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
@@ -395,7 +395,7 @@ const productDAO = {
   },
   getAllProductForUser: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT p.ProductID, ProductName, p.Description, Price, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, p.Status, COALESCE(MIN(CASE 
@@ -426,7 +426,7 @@ const productDAO = {
   },
   updateProduct: (param_id, productObject) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("ProductID", param_id)
           .input("ProductName", mssql.NVarChar, productObject.ProductName)
@@ -445,7 +445,7 @@ const productDAO = {
           .input("Status", mssql.Bit, productObject.Status);
         request.query(
           `UPDATE Product SET ProductName = @ProductName, Description = @Description, Price = @Price , StockQuantity = @StockQuantity , Image = @Image , ExpirationDate = @ExpirationDate , ManufacturingDate = @ManufacturingDate, BrandID = (SELECT BrandID FROM Brand WHERE BrandName = @BrandName), ProductCategoryID = (SELECT ProductCategoryID FROM ProductCategory WHERE ProductCategoryName = @ProductCategoryName), Status = @Status WHERE ProductID = @ProductID;`,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "Edit successfully",
@@ -471,7 +471,7 @@ const productDAO = {
       productObject.Status
     );
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("ProductID", mssql.VarChar, ProductID)
           .input("ProductName", mssql.NVarChar, product.ProductName)
@@ -500,7 +500,7 @@ const productDAO = {
               request.query(
                 `INSERT INTO Product (ProductID, ProductName, Description, Price, StockQuantity, Image, ExpirationDate, ManufacturingDate, BrandID, ProductCategoryID, Status) VALUES
                 (@ProductID, @ProductName, @Description, @Price, @StockQuantity, @Image, @ExpirationDate, @ManufacturingDate, (SELECT TOP 1 BrandID FROM Brand WHERE BrandName = @BrandName), (SELECT TOP 1 ProductCategoryID FROM ProductCategory WHERE ProductCategoryName = @ProductCategoryName), @Status);`,
-                (err, res) => {
+                (err) => {
                   if (err) reject(err);
                   resolve({
                     message: "Create successfully",
@@ -516,13 +516,13 @@ const productDAO = {
   deleteProduct: (param_id) => {
     return new Promise((resolve, reject) => {
       const Status = 0;
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("ProductID", param_id)
           .input("Status", Status);
         request.query(
           `UPDATE Product SET Status = @Status WHERE ProductID = @ProductID;`,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "Deleted",
@@ -535,13 +535,13 @@ const productDAO = {
   openProduct: (param_id) => {
     return new Promise((resolve, reject) => {
       const Status = 1;
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("ProductID", param_id)
           .input("Status", Status);
         request.query(
           `UPDATE Product SET Status = @Status WHERE ProductID = @ProductID;`,
-          (err, res) => {
+          (err) => {
             if (err) reject(err);
             resolve({
               message: "Deleted",
@@ -553,7 +553,7 @@ const productDAO = {
   },
   getProductInfoByID: (product_id) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("ProductID", product_id);
         request.query(
           `SELECT p.ProductID, ProductName, Description, Price, PriceAfterDiscount, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
@@ -584,7 +584,7 @@ const productDAO = {
 
   get5ProductsLowestFinalPrice: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT TOP 5 p.ProductID, p.ProductName, p.Price,
@@ -624,7 +624,7 @@ const productDAO = {
 
   getTop6MilksForPregnantMother: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT TOP 6 p.ProductID, ProductName, Price, p.Image, COALESCE(MIN(CASE 
@@ -664,7 +664,7 @@ const productDAO = {
 
   getTop6MilkForBaby: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT TOP 6 p.ProductID, ProductName, Price, p.Image, COALESCE(MIN(CASE 
@@ -703,7 +703,7 @@ const productDAO = {
 
   findTop5ProductBestSellerForUser: () => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function (err, result) {
+      mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
           `SELECT TOP 5 

@@ -1,29 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { MDBFooter, MDBContainer, MDBRow, MDBIcon } from "mdb-react-ui-kit";
-import { motion } from "framer-motion"; // Import motion from framer-motion
 import "./Footer.css";
 
 function Footer() {
-  const [showScrollButton, setShowScrollButton] = useState(false);
-
   useEffect(() => {
+    const handleScroll = () => {
+      const scrollDistance = window.scrollY;
+      // Example logic for showing scroll button
+      if (scrollDistance > 100) {
+        // Implement logic if needed
+      } else {
+        // Implement logic if needed
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleScroll = () => {
-    const scrollDistance = window.scrollY;
-
-    if (scrollDistance > 100) {
-      setShowScrollButton(true);
-    } else {
-      setShowScrollButton(false);
-    }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   return (
     <MDBFooter className="text-center text-lg-start text-dark bg-white zigzag-pattern">
@@ -95,7 +88,6 @@ function Footer() {
       <div
         className="text-center p-4 fw-bold"
         style={{ backgroundColor: "#0f7fc1" }}
-        // Smooth transition duration
       >
         <span className="text-white">
           © 2024 Copyright: All rights reserved.

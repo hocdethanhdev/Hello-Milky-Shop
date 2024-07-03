@@ -18,8 +18,6 @@ const ShoppingCart = () => {
   const [receiver, setReceiver] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [orderID, setOrderID] = useState(null);
   const [productQuantities, setProductQuantities] = useState({});
   const [selectedProducts, setSelectedProducts] = useState({});
@@ -146,8 +144,7 @@ const ShoppingCart = () => {
         );
         setVouchers(response.data);
       } catch (err) {
-        console.error("Error fetching vouchers:", err);
-        setError(err.response ? err.response.data.message : err.message);
+        console.error("Error fetching vouchers:", err.response ? err.response.data.message : err.message);
       }
     };
 
@@ -215,11 +212,8 @@ const ShoppingCart = () => {
 
         setOrderDetails(fullOrderDetails);
         setProductQuantities(initialQuantities);
-        setLoading(false);
       } catch (err) {
-        console.error("Error fetching order details:", err);
-        setError(err.response ? err.response.data.message : err.message);
-        setLoading(false);
+        console.error("Error fetching order details:", err.response ? err.response.data.message : err.message);
       }
     };
 
@@ -230,8 +224,7 @@ const ShoppingCart = () => {
         );
         setCities(response.data);
       } catch (err) {
-        console.error("Error fetching cities:", err);
-        setError(err.response ? err.response.data.message : err.message);
+        console.error("Error fetching cities:", err.response ? err.response.data.message : err.message);
       }
     };
     const fetchUserDetails = async () => {
@@ -243,7 +236,7 @@ const ShoppingCart = () => {
         const userPoints = userDetailsResponse.data.data.Point;
         setPoints(userPoints);
       } catch (err) {
-        setError(err.response ? err.response.data.message : err.message);
+        console.log((err.response ? err.response.data.message : err.message));
       }
     };
 
@@ -272,7 +265,7 @@ const ShoppingCart = () => {
           handleAddressSelect(oldAddress.data.data);
         }
       } catch (err) {
-        setError(err.response ? err.response.data.message : err.message);
+        console.log(err.response ? err.response.data.message : err.message);
       }
     }
     const fetchDistricts = async () => {
@@ -283,8 +276,7 @@ const ShoppingCart = () => {
           );
           setDistricts(response.data);
         } catch (err) {
-          console.error("Error fetching districts:", err);
-          setError(err.response ? err.response.data.message : err.message);
+          console.error("Error fetching districts:", err.response ? err.response.data.message : err.message);
         }
       }
     };
@@ -347,19 +339,7 @@ const ShoppingCart = () => {
   };
 
   const subtotal = calculateSubtotal();
-  const discount = 0;
   // const total = subtotal + discount;
-
-  const handleQuantityChange = (productId, quantity) => {
-    if (quantity < 1) {
-      setProductToRemove(productId);
-      return;
-    }
-    setProductQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [productId]: quantity,
-    }));
-  };
 
   useEffect(() => {
     // Lấy productID từ Local Storage
@@ -485,8 +465,7 @@ const ShoppingCart = () => {
         console.error("orderID is not set");
       }
     } catch (error) {
-      console.error("Error processing order:", error);
-      setError(error.response ? error.response.data.message : error.message);
+      console.error("Error processing order:", error.response ? error.response.data.message : error.message);
     }
   };
 
@@ -517,8 +496,7 @@ const ShoppingCart = () => {
         setProductToRemove(null);
       }
     } catch (error) {
-      console.error("Error removing product from order:", error);
-      setError(error.response ? error.response.data.message : error.message);
+      console.error("Error removing product from order:", error.response ? error.response.data.message : error.message);
     }
   };
 
@@ -677,7 +655,7 @@ const ShoppingCart = () => {
               </button>
               {selectedVoucher && (
                 <p>
-                  Voucher đã chọn: - {selectedVoucher.DiscountPercentage || 0}%
+                  Voucher đã chọn: {selectedVoucher.DiscountPercentage || 0}%
                 </p>
               )}
             </div>

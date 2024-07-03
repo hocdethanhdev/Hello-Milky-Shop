@@ -2,14 +2,13 @@ const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 const initRouters = require("./routes");
 require("./config/passport");
 const http = require("http");
 const socketIo = require("socket.io");
 require("./scheduler/voucherScheduler");
 const chatController = require("./controller/chatController");
-const { error } = require("console");
 
 const app = express();
 const server = http.createServer(app);

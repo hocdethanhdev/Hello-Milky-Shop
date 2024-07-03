@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Confirm.css";
 import { Modal, Button, message, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort } from "@fortawesome/free-solid-svg-icons"; // Import icon sort
+import { faSort } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
@@ -61,7 +61,7 @@ function Confirm() {
             }
             return response.json();
           })
-          .then((data) => {
+          .then(() => {
             setOrders((prevOrders) =>
               prevOrders.map((order) =>
                 order.OrderID === orderID
@@ -109,7 +109,7 @@ function Confirm() {
         }
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
         setOrders((prevOrders) =>
           prevOrders.filter((order) => order.OrderID !== selectedOrder)
         );
@@ -178,32 +178,26 @@ function Confirm() {
 
   const handleSort = (key) => {
     let direction = "ascending";
-    setSortConfig((prevSortConfig) => {
-      if (
-        prevSortConfig.key === key &&
-        prevSortConfig.direction === "ascending"
-      ) {
-        direction = "descending";
-      }
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
 
-      const sortedOrders = [...orders].sort((a, b) => {
-        if (key === "OrderID") {
-          return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
-        } else {
-
-          if (a[key] < b[key]) {
-            return direction === "ascending" ? -1 : 1;
-          }
-          if (a[key] > b[key]) {
-            return direction === "ascending" ? 1 : -1;
-          }
-          return 0;
+    const sortedOrders = [...orders].sort((a, b) => {
+      if (key === "OrderID") {
+        return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
+      } else {
+        if (a[key] < b[key]) {
+          return direction === "ascending" ? -1 : 1;
         }
-      });
-
-      setOrders(sortedOrders);
-      return { key, direction };
+        if (a[key] > b[key]) {
+          return direction === "ascending" ? 1 : -1;
+        }
+        return 0;
+      }
     });
+
+    setOrders(sortedOrders);
+    setSortConfig({ key, direction });
   };
 
   return (
@@ -258,19 +252,22 @@ function Confirm() {
                 <button
                   type="button"
                   className="btn btn-warning xndh"
-                  onClick={() => editOrder(order.OrderID)}>
+                  onClick={() => editOrder(order.OrderID)}
+                >
                   Xác Nhận
                 </button>
                 <button
                   type="button"
                   className="btn btn-primary xndh"
-                  onClick={() => viewOrderDetails(order)}>
+                  onClick={() => viewOrderDetails(order)}
+                >
                   Thông tin
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger xndh"
-                  onClick={() => cancelOrder(order.OrderID)}>
+                  onClick={() => cancelOrder(order.OrderID)}
+                >
                   Hủy đơn
                 </button>
               </td>
@@ -294,7 +291,8 @@ function Confirm() {
             <Button key="close" onClick={handleModalClose}>
               Đóng
             </Button>,
-          ]}>
+          ]}
+        >
           <div className="order-details">
             <h2>Thông tin đơn hàng #{selectedOrder.OrderID}</h2>
             <div className="order-info">
@@ -338,7 +336,8 @@ function Confirm() {
         title="Hủy đơn hàng"
         visible={isCancelModalVisible}
         onOk={handleCancelModalOk}
-        onCancel={handleCancelModalCancel}>
+        onCancel={handleCancelModalCancel}
+      >
         <Input.TextArea
           placeholder="Nhập lý do hủy đơn hàng"
           value={cancelReason}

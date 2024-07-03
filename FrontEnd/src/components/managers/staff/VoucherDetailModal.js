@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./VoucherDetailModal.css";
 
 const formatPrice = (price) => {
@@ -83,6 +84,20 @@ const VoucherDetailModal = ({ voucher, onClose }) => {
       </div>
     </div>
   );
+};
+
+VoucherDetailModal.propTypes = {
+  voucher: PropTypes.shape({
+    VoucherName: PropTypes.string.isRequired,
+    Quantity: PropTypes.number.isRequired,
+    DiscountPercentage: PropTypes.number.isRequired,
+    MinDiscount: PropTypes.number.isRequired,
+    MaxDiscount: PropTypes.number.isRequired,
+    StartDate: PropTypes.instanceOf(Date).isRequired,
+    ExpiryDate: PropTypes.instanceOf(Date).isRequired,
+    Status: PropTypes.bool.isRequired,
+  }),
+  onClose: PropTypes.func.isRequired,
 };
 
 export default VoucherDetailModal;

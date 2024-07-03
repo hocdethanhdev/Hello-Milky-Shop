@@ -90,7 +90,6 @@ const deleteArticle = async (req, res) => {
 
 const updateArticle = async (req, res) => {
     try {
-        const article = req.body;
         const obj = await articleService.updateArticle(req.params.article_id, req.body);
         res.send(obj);
     } catch (error) {

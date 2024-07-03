@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Pagination } from "antd";
+import PropTypes from "prop-types"; // Import PropTypes
 import "./FeedbackManage.css";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { useSelector } from "react-redux";
 
 import { message } from "antd";
+
 const FeedbackManage = () => {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -88,6 +90,10 @@ const FeedbackManage = () => {
       </div>
     </div>
   );
+};
+
+FeedbackManage.propTypes = {
+  // PropTypes validation here (if any)
 };
 
 const Comment = ({ comment, onSubmit }) => {
@@ -186,6 +192,11 @@ const Comment = ({ comment, onSubmit }) => {
   );
 };
 
+Comment.propTypes = {
+  comment: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
+
 const ThrowPage = ({ current, onChange, total, productsPerPage }) => {
   const handlePageChange = (page) => {
     window.scrollTo(0, 0);
@@ -200,6 +211,13 @@ const ThrowPage = ({ current, onChange, total, productsPerPage }) => {
       pageSize={productsPerPage}
     />
   );
+};
+
+ThrowPage.propTypes = {
+  current: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+  total: PropTypes.number.isRequired,
+  productsPerPage: PropTypes.number.isRequired,
 };
 
 export default FeedbackManage;

@@ -1,16 +1,9 @@
 import React from 'react';
-import type { PaginationProps } from 'antd';
+import PropTypes from 'prop-types';
 import { Pagination } from 'antd';
 
-interface ThrowPageProps {
-    current: number;
-    onChange: PaginationProps['onChange'];
-    total: number;
-    productsPerPage: number;
-}
-
-const ThrowPage: React.FC<ThrowPageProps> = ({ current, onChange, total, productsPerPage }) => {
-    const handlePageChange = (page: number) => {
+const ThrowPage = ({ current, onChange, total, productsPerPage }) => {
+    const handlePageChange = (page) => {
         // Scroll to top of the page
         window.scrollTo(0, 0);
         // Call the onChange prop to update the current page
@@ -18,6 +11,13 @@ const ThrowPage: React.FC<ThrowPageProps> = ({ current, onChange, total, product
     };
 
     return <Pagination current={current} onChange={handlePageChange} total={total} pageSize={productsPerPage} />;
+};
+
+ThrowPage.propTypes = {
+    current: PropTypes.number.isRequired,
+    onChange: PropTypes.func,
+    total: PropTypes.number.isRequired,
+    productsPerPage: PropTypes.number.isRequired,
 };
 
 export default ThrowPage;

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import PropTypes from 'prop-types';
 import "./ProductRatingAll.css";
 
-const ProductRatingAll = ({ productId, ratings }) => {
+const ProductRatingAll = ({ ratings }) => {
   const [visibleCount, setVisibleCount] = useState(2);
   const [sortOrder, setSortOrder] = useState("newest");
   const [filterStars, setFilterStars] = useState(null);
@@ -139,6 +140,20 @@ const ProductRatingAll = ({ productId, ratings }) => {
       )}
     </div>
   );
+};
+
+ProductRatingAll.propTypes = {
+  ratings: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      rating: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+      rep: PropTypes.string,
+      repDate: PropTypes.string,
+      staffName: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default ProductRatingAll;

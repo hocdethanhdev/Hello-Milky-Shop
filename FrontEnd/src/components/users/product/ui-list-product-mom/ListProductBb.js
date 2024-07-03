@@ -29,7 +29,7 @@ const ListProductBb = () => {
     try {
       const response = await fetch(
         "http://localhost:5000/api/v1/product/getProductByCategory/2/"
-      ); // Replace with your API URL
+      );
       const data = await response.json();
       if (data.err !== "Do not have any product with this category") {
         setOriginalProducts(data);
@@ -44,7 +44,7 @@ const ListProductBb = () => {
     try {
       const response = await fetch(
         "http://localhost:5000/api/v1/product/getAllBrandByCategory/2"
-      ); // Replace with your API URL for fetching brands
+      );
       const data = await response.json();
       if(data.err !== 1){
         setBrands(data);
@@ -175,7 +175,7 @@ const ListProductBb = () => {
               type="hidden"
               value="?page=1&categoryId=PC0046C29C9E334"
             />
-            <div className="title_cate_right" sortex="" sortdir="">
+            <div className="title_cate_right">
               <div className="loc-theo-gia-list-mom">
                 <div className="center-text-list-promom">Lọc theo giá</div>
                 <SliderMoney

@@ -1,8 +1,8 @@
 const paymentService = require("../service/paymentService");
 require("dotenv").config();
-let $ = require("jquery");
 const moment = require("moment");
 const crypto = require("crypto");
+const { Buffer } = require("buffer"); // Explicitly import Buffer from Node.js buffer module
 
 const bankCode = "VNBANK";
 
@@ -10,15 +10,21 @@ function sortObject(obj) {
   let sorted = {};
   let str = [];
   let key;
+
+  // Loop through keys of the object
   for (key in obj) {
-    if (obj.hasOwnProperty(key)) {
+    // Check if the key exists directly on the object
+    if (Object.hasOwnProperty.call(obj, key)) {
       str.push(encodeURIComponent(key));
     }
   }
+
   str.sort();
+
   for (key = 0; key < str.length; key++) {
     sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, "+");
   }
+
   return sorted;
 }
 
@@ -70,7 +76,8 @@ const createVNPayPayment = async (req, res) => {
   let querystring = require("qs");
   let signData = querystring.stringify(vnp_Params, { encode: false });
   let hmac = crypto.createHmac("sha512", secretKey);
-  let signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
+  let signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex"); // Ensure Buffer is imported correctly
+
   vnp_Params["vnp_SecureHash"] = signed;
   vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
 
@@ -87,7 +94,6 @@ const vnpayReturn = async (req, res, next) => {
 
   vnp_Params = sortObject(vnp_Params);
 
-  let tmnCode = process.env.VNPAY_TMN_CODE;
   let secretKey = process.env.VNPAY_HASH_SECRET;
 
   let querystring = require("qs");
@@ -110,7 +116,7 @@ const vnpayReturn = async (req, res, next) => {
         const PayMethod = "VNPay";
         let date = new Date();
         let PayTime = moment(date).format("YYYY-MM-DD HH:mm:ss").toString();
-        const pay = paymentService.createPayment(
+        await paymentService.createPayment(
           PayMethod,
           vnp_Params["vnp_TransactionNo"],
           vnp_Params["vnp_CardType"],

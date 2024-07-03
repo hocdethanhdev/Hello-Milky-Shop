@@ -1,6 +1,6 @@
 const cityRepository = require("../repository/cityRepository");
 const cityService = {
-getAllCities: async (req, res) => {
+getAllCities: async () => {
     return await cityRepository.getAllCities();
   },
 }

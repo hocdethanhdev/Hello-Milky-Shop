@@ -1,5 +1,4 @@
 
-const { getOrderDetailByOrderID, getOrdersForUserByStatusOrderID, updateTotalAmountOfOrder, updateShippingAddressID } = require('../dao/orderDAO');
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
@@ -49,7 +48,7 @@ const orderService = {
         return await orderRepository.getOpenOrderForUser(id);
     },
 
-    getAllOrders: async (req, res) => {
+    getAllOrders: async () => {
         return await orderRepository.getAllOrders();
     },
 
@@ -174,13 +173,6 @@ const orderService = {
             await orderRepository.updateStatusAfterDays(days, oldStatus, newStatus);
         } catch (error) {
             throw new Error(`Error updating status of orders: ${error.message}`);
-        }
-    },
-    removeProductFromOrder: async (orderID, productID) => {
-        try {
-            await orderRepository.removeProductFromOrder(orderID, productID);
-        } catch (error) {
-            throw new Error(`Error removing product from order: ${error.message}`);
         }
     },
     getOrdersByStatusOrderID: async (orderID) => {

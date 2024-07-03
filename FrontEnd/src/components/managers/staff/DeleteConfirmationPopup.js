@@ -1,5 +1,5 @@
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Modal, Button } from 'antd';
 
 const DeleteConfirmationPopup = ({ visible, onConfirm, onCancel }) => {
@@ -21,6 +21,12 @@ const DeleteConfirmationPopup = ({ visible, onConfirm, onCancel }) => {
             <p>Bạn có chắc muốn xóa sản phẩm này không?</p>
         </Modal>
     );
+};
+
+DeleteConfirmationPopup.propTypes = {
+    visible: PropTypes.bool.isRequired,
+    onConfirm: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
 };
 
 export default DeleteConfirmationPopup;

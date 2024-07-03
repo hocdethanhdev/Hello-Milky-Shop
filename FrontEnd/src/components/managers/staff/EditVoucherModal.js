@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 import { message } from "antd";
 import "./EditVoucherModal.css";
 
@@ -40,6 +41,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
       [name]: value,
     }));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.voucherName) {
@@ -82,7 +84,7 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
       message.warning("Ngày hết hạn không được bỏ trống.");
       return;
     }
-     if (new Date(formData.expiryDate) < new Date(formData.startDate)) {
+    if (new Date(formData.expiryDate) < new Date(formData.startDate)) {
       message.warning("Ngày hết hạn phải sau ngày bắt đầu.");
       return;
     }
@@ -94,10 +96,6 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
       message.warning("Phần trăm giảm giá không được nhỏ hơn 0.");
       return;
     }
-
-
-
-
 
     const updatedVoucher = {
       ...voucher,
@@ -193,6 +191,12 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
       </div>
     </div>
   );
+};
+
+EditVoucherModal.propTypes = {
+  voucher: PropTypes.object, // Validate that voucher is an object
+  onClose: PropTypes.func.isRequired, // Validate onClose is a function and required
+  onSave: PropTypes.func.isRequired, // Validate onSave is a function and required
 };
 
 export default EditVoucherModal;

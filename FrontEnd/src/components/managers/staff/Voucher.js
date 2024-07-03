@@ -6,8 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort, faFilter } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import DeleteConfirmationPopupForVoucher from "./DeleteConfirmationPopupForVoucher";
-import { message, Modal } from "antd";
+import { message } from "antd";
 import VoucherDetailModal from "./VoucherDetailModal";
+
 function Voucher() {
   const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = (page) => {
@@ -23,6 +24,7 @@ function Voucher() {
   const [showDeletePopup, setShowDeletePopup] = useState(false); // State for delete confirmation popup
   const [deleteVoucherId, setDeleteVoucherId] = useState(null); // Track voucher ID to delete
   const [selectedVoucher, setSelectedVoucher] = useState(null);
+
   useEffect(() => {
     fetchVouchers();
   }, []);
@@ -57,7 +59,7 @@ function Voucher() {
         }
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
         message.success("Voucher đã được xóa thành công!");
         fetchVouchers();
       })
@@ -76,6 +78,7 @@ function Voucher() {
   const handleEditClick = (voucher) => {
     setSelectedVoucherForEdit(voucher);
   };
+
   const handleDetailClick = (voucher) => {
     setSelectedVoucher(voucher);
   };
@@ -83,6 +86,7 @@ function Voucher() {
   const handleCloseModal = () => {
     setSelectedVoucher(null);
   };
+
   const handleSaveVoucher = (updatedVoucher) => {
     fetch(
       `http://localhost:5000/api/v1/voucher/updateVoucher/${updatedVoucher.VoucherID}`,
@@ -100,7 +104,7 @@ function Voucher() {
         }
         return response.json();
       })
-      .then((data) => {
+      .then(() => {
         message.success("Voucher đã được cập nhật thành công!");
         fetchVouchers();
       })
@@ -116,10 +120,6 @@ function Voucher() {
 
   const toggleStatusDropdown = () => {
     setShowStatusDropdown(!showStatusDropdown);
-  };
-
-  const formatPrice = (price) => {
-    return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
   const sortedVouchers = [...vouchers].sort((a, b) => {
@@ -255,7 +255,7 @@ function Voucher() {
                   <td>
                     <button
                       type="button"
-                      class="btn btn-primary"
+                      className="btn btn-primary"
                       onClick={() => handleDetailClick(voucher)}>
                       Xem
                     </button>

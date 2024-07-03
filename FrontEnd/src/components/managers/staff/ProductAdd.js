@@ -18,8 +18,6 @@ const ProductAdd = () => {
   const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
   const [status, setStatus] = useState(1);
   const [brands, setBrands] = useState([]);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [progress, setProgress] = useState(0);
   const [previewImage, setPreviewImage] = useState(null); // For previewing image
   const editor = useRef(null);
 
@@ -112,7 +110,7 @@ const ProductAdd = () => {
     }
 
     try {
-      const downloadURL = await uploadImage(image, setProgress);
+      const downloadURL = await uploadImage(image);
 
       const editorContent = editor.current.value;
       const sanitizedContent = DOMPurify.sanitize(editorContent);
@@ -130,7 +128,7 @@ const ProductAdd = () => {
         Status: status,
       };
 
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5000/api/v1/product/createProduct",
         productData,
         {
@@ -212,7 +210,7 @@ const ProductAdd = () => {
               const file = event.target.files[0];
               if (file) {
                 try {
-                  const url = await uploadImage(file, setProgress);
+                  const url = await uploadImage(file);
                   const img = document.createElement("img");
                   img.src = url;
                   img.alt = "Image";
@@ -254,19 +252,11 @@ const ProductAdd = () => {
         },
       },
     }),
-    [setProgress]
+    []
   );
 
   return (
     <div className="container create-product">
-      {successMessage && (
-        <p
-          className={`success-message ${
-            successMessage.includes("Error") ? "error" : "success"
-          }`}>
-          {successMessage}
-        </p>
-      )}
       <form id="create-product-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="product-name">Tên sản phẩm:</label>
