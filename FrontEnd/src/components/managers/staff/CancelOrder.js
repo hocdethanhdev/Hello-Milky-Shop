@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button } from "antd";
+import { Modal, Button, message } from "antd";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { getUserIdFromToken } from "../../store/actions/authAction";
+import { faSort } from "@fortawesome/free-solid-svg-icons";
+import "./Confirm.css";
 
 function CancelOrder() {
   const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
   const [shippingAddress, setShippingAddress] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
+  const [searchText, setSearchText] = useState("");
   const ordersPerPage = 10;
+  const { token } = useSelector((state) => state.auth);
+  const userId = getUserIdFromToken(token);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -18,6 +29,7 @@ function CancelOrder() {
         );
         const data = await response.json();
         setOrders(data.address);
+        setFilteredOrders(data.address);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -73,18 +85,85 @@ function CancelOrder() {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
+  const handleSort = (key) => {
+    let direction = "ascending";
+    setSortConfig((prevSortConfig) => {
+      if (prevSortConfig.key === key && prevSortConfig.direction === "ascending") {
+        direction = "descending";
+      }
+
+      // Customize sorting logic for numeric values (OrderID) and date (OrderDate)
+      const sortedOrders = [...filteredOrders].sort((a, b) => {
+        if (key === "OrderID" || key === "TotalAmount") {
+          return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
+        } else if (key === "OrderDate") {
+          return direction === "ascending" ? new Date(a[key]) - new Date(b[key]) : new Date(b[key]) - new Date(a[key]);
+        } else {
+          // Default string sorting logic
+          if (a[key] < b[key]) {
+            return direction === "ascending" ? -1 : 1;
+          }
+          if (a[key] > b[key]) {
+            return direction === "ascending" ? 1 : -1;
+          }
+          return 0;
+        }
+      });
+
+      setFilteredOrders(sortedOrders);
+      return { key, direction };
+    });
+  };
+
+  const handleSearch = (e) => {
+    const searchText = e.target.value.toLowerCase();
+    setSearchText(searchText);
+    const filteredData = orders.filter((order) =>
+      Object.values(order).some((val) =>
+        typeof val === "string" ? val.toLowerCase().includes(searchText) : false
+      )
+    );
+    setFilteredOrders(filteredData);
+  };
+
+  const sortIcon = (key) => {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === "ascending" ? (
+        <FontAwesomeIcon icon={faSortUp} />
+      ) : (
+        <FontAwesomeIcon icon={faSortDown} />
+      );
+    }
+    return null;
+  };
+
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
 
   return (
     <div className="confirm-container">
       <table>
         <thead>
           <tr className="row">
-            <th className="col-md-2">Mã đơn hàng</th>
-            <th className="col-md-2">Ngày đặt hàng</th>
-            <th className="col-md-2">Tổng</th>
+            <th className="col-md-2">
+              Mã đơn hàng
+              <button className="sort-icon-order" onClick={() => handleSort("OrderID")}>
+              <FontAwesomeIcon icon={faSort} />
+              </button>
+            </th>
+            <th className="col-md-2">
+              Ngày đặt hàng
+              <button className="sort-icon-order" onClick={() => handleSort("OrderDate")}>
+              <FontAwesomeIcon icon={faSort} />
+              </button>
+            </th>
+            <th className="col-md-2">
+              Tổng
+              <button className="sort-icon-order" onClick={() => handleSort("TotalAmount")}>
+              <FontAwesomeIcon icon={faSort} />
+              </button>
+            </th>
             <th className="col-md-3">Địa chỉ</th>
             <th className="col-md-3">Thao tác</th>
           </tr>
@@ -100,15 +179,10 @@ function CancelOrder() {
                   year: "numeric",
                 })}
               </td>
-              <td className="col-md-2">
-                {formatPrice(parseInt(order.TotalAmount))}
-              </td>
+              <td className="col-md-2">{formatPrice(parseInt(order.TotalAmount))}</td>
               <td className="col-md-3">{order.Address}</td>
               <td className="col-md-3 nut-xndh">
-                <button
-                  type="button"
-                  className="btn btn-primary xndh"
-                  onClick={() => viewOrderDetails(order)}>
+                <button type="button" className="btn btn-primary xndh" onClick={() => viewOrderDetails(order)}>
                   Thông tin
                 </button>
               </td>
@@ -120,7 +194,7 @@ function CancelOrder() {
         <ThrowPage
           current={currentPage}
           onChange={handlePageChange}
-          total={orders.length}
+          total={filteredOrders.length}
           productsPerPage={ordersPerPage}
         />
       </div>
@@ -132,7 +206,8 @@ function CancelOrder() {
             <Button key="close" onClick={handleModalClose}>
               Đóng
             </Button>,
-          ]}>
+          ]}
+        >
           <div className="modal-content-scrollable-thinhh">
             <div className="ttdh-thinh">
               <p className="reason-content">
@@ -207,11 +282,7 @@ function CancelOrder() {
                       <td>{detail.ProductID}</td>
                       <td>{detail.ProductName}</td>
                       <td>
-                        <img
-                          src={detail.Image}
-                          alt={detail.ProductName}
-                          width="50"
-                        />
+                        <img src={detail.Image} alt={detail.ProductName} width="50" />
                       </td>
                       <td>{detail.Quantity}</td>
                     </tr>
