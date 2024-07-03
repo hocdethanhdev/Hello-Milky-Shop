@@ -150,4 +150,12 @@ body {
   font-weight: 600;
 }
 
-
+.password-toggle-icon1 {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s ease;
+  font-weight: 700;
+}
