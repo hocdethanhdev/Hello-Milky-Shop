@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { MDBFooter, MDBContainer, MDBRow, MDBIcon } from "mdb-react-ui-kit";
 import "./Footer.css";
-import ScollToTopButton from "../users/product/ui-product-mom/ScrollToTopButton"
+import ScollToTopButton from "../users/product/ui-product-mom/ScrollToTopButton";
+
 function Footer() {
   useEffect(() => {
     const handleScroll = () => {
@@ -34,11 +35,10 @@ function Footer() {
             <a href="https://www.facebook.com/" className="me-4 text-reset">
               <MDBIcon fab icon="facebook-f" />
             </a>
-
-            <a href="" className="me-4 text-reset">
+            <a href="https://www.google.com" className="me-4 text-reset">
               <MDBIcon fab icon="google" />
             </a>
-            <a href="" className="me-4 text-reset">
+            <a href="https://www.instagram.com" className="me-4 text-reset">
               <MDBIcon fab icon="instagram" />
             </a>
           </div>

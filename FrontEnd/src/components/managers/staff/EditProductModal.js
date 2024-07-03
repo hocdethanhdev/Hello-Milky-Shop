@@ -7,13 +7,12 @@ import { uploadImage } from "../uimg/UpImage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { message } from "antd";
-
+import { formatPrice } from "../../utils/formatPrice";
 const EditProductModal = () => {
   const { productID } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(null);
   const [brands, setBrands] = useState([]);
-  const [progress, setProgress] = useState(0);
   const editor = useRef(null);
 
   useEffect(() => {
@@ -23,7 +22,10 @@ const EditProductModal = () => {
           `http://localhost:5000/api/v1/product/getProductInfoByID/${productID}`
         );
         const productData = await response.json();
-        setFormData(productData[0]);
+        setFormData({
+          ...productData[0],
+          formattedPrice: formatPrice(productData[0].Price.toString())
+        });
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
@@ -48,11 +50,18 @@ const EditProductModal = () => {
     if (name === "Image" && files && files[0]) {
       const file = files[0];
       try {
-        const imageUrl = await uploadImage(file, setProgress);
+        const imageUrl = await uploadImage(file);
         setFormData((prevData) => ({ ...prevData, Image: imageUrl }));
       } catch (error) {
         console.error("Error uploading image:", error);
       }
+    } else if (name === "Price") {
+      const formattedPrice = formatPrice(value);
+      setFormData((prevData) => ({
+        ...prevData,
+        Price: value.replace(/\D/g, ''),
+        formattedPrice
+      }));
     } else {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
@@ -256,7 +265,7 @@ const EditProductModal = () => {
               const file = event.target.files[0];
               if (file) {
                 try {
-                  const url = await uploadImage(file, setProgress);
+                  const url = await uploadImage(file);
                   const img = document.createElement("img");
                   img.src = url;
                   img.alt = "Image";
@@ -299,7 +308,7 @@ const EditProductModal = () => {
         }
       }
     }),
-    [setProgress]
+    []
   );
 
   if (!formData) {
@@ -355,9 +364,9 @@ const EditProductModal = () => {
           <label className="price-row">
             Giá:
             <input
-              type="number"
+              type="text"
               name="Price"
-              value={formData.Price}
+              value={formData.formattedPrice}
               onChange={handleChange}
             />
             {message.price && <p className="error-message">{message.price}</p>}
