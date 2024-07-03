@@ -26,9 +26,11 @@ function Combo1() {
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
+
   const formatPriceDiscount = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
+
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
   };

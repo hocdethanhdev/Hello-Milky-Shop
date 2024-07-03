@@ -243,7 +243,7 @@ const ProductContentMom = ({ product }) => {
 // Define prop types
 ProductContentMom.propTypes = {
     product: PropTypes.shape({
-        ProductID: PropTypes.number.isRequired,
+        ProductID: PropTypes.string.isRequired,
         StockQuantity: PropTypes.number.isRequired,
         Image: PropTypes.string.isRequired,
         ProductName: PropTypes.string.isRequired,
