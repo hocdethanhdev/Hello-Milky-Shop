@@ -3,7 +3,7 @@ import axios from "axios";
 import JoditEditor from "jodit-react";
 import DOMPurify from "dompurify";
 import { uploadImage } from "../uimg/UpImage";
-import { message } from 'antd';
+import { message } from "antd";
 import "./Products.css";
 
 const ProductAdd = () => {
@@ -15,7 +15,8 @@ const ProductAdd = () => {
   const [expirationDate, setExpirationDate] = useState("");
   const [manufacturingDate, setManufacturingDate] = useState("");
   const [brandName, setBrandName] = useState("");
-  const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
+  const [productCategoryName, setProductCategoryName] =
+    useState("Sữa cho em bé");
   const [status, setStatus] = useState(1);
   const [brands, setBrands] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
@@ -49,8 +50,80 @@ const ProductAdd = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation
+    const today = new Date().toISOString().split("T")[0];
+
+    if (!productName) {
+      message.error("Tên sản phẩm không được để trống.");
+      return;
+    }
+    if (productName.length > 100) {
+      message.error("Tên sản phẩm không được vượt quá 100 ký tự.");
+      return;
+    }
+    if (!price) {
+      message.error("Giá sản phẩm không được để trống .");
+      return;
+    }
+    if (price < 0 || price === 0) {
+      message.error("Giá sản phẩm phải lớn hơn hoặc bằng 0.");
+      return;
+    }
+    if (!stockQuantity) {
+      message.error("Số lượng sản phẩm không được để trống.");
+      return;
+    }
+    if (stockQuantity <= 0) {
+      message.error("Số lượng sẩn phẩm phải lớn hơn 0.");
+      return;
+    }
+
     if (!image) {
-      message.error("Please select an image.");
+      message.error("Vui lòng chọn ảnh.");
+      return;
+    }
+    if (!manufacturingDate) {
+      message.error("Ngày sản xuất không được để trống.");
+      return;
+    }
+    if (manufacturingDate < today) {
+      message.error("Ngày sản xuất đã qua");
+      return;
+    }
+    if (!expirationDate) {
+      message.error("Hạn sử dụng không được để trống.");
+      return;
+    }
+    if (expirationDate < today) {
+      message.error("Hạn sử dụng không được trước ngày sản xuất.");
+      return;
+    }
+    if (!manufacturingDate) {
+      message.error("Ngày sản xuất không được để trống.");
+      return;
+    }
+    if (manufacturingDate < today) {
+      message.error("Ngày sản xuất không được là ngày hôm nay hoặc trước.");
+      return;
+    }
+    if (!brandName) {
+      message.error("Vui lòng chọn hãng.");
+      return;
+    }
+    if (!productCategoryName) {
+      message.error("Vui lòng chọn loại sản phẩm.");
+      return;
+    }
+    if (status === "") {
+      message.error("Vui lòng chọn tình trạng của sản phẩm");
+      return;
+    }
+    if (!description) {
+      message.error("Mô tả không được để trống.");
+      return;
+    }
+    if (description.length > 4000) {
+      message.error("Mô tả không được vượt quá 4000 ký tự.");
       return;
     }
 
@@ -102,87 +175,110 @@ const ProductAdd = () => {
   };
 
   const handleResizeImage = (editor) => {
-    editor.events.on('mouseup', () => {
-      const images = editor.container.querySelectorAll('img');
+    editor.events.on("mouseup", () => {
+      const images = editor.container.querySelectorAll("img");
       images.forEach((image) => {
         const width = image.style.width;
         const height = image.style.height;
         if (width && height) {
-          image.setAttribute('width', width);
-          image.setAttribute('height', height);
+          image.setAttribute("width", width);
+          image.setAttribute("height", height);
         }
       });
     });
   };
 
-  const editorConfig = useMemo(() => ({
-    readonly: false,
-    toolbar: true,
-    buttons: [
-      'bold', 'italic', 'underline', 'eraser', 'ul', 'ol', 'indent', 'outdent',
-      '|', 'font', 'fontsize', 'brush', 'paragraph',
-      '|', 'table',
-      '|', 'align', 'undo', 'redo', 'hr',
-      '|', 'copyformat', 'fullsize',
-      {
-        name: 'uploadImage',
-        iconURL: 'https://cdn-icons-png.flaticon.com/128/685/685669.png',
-        exec: async (editor) => {
-          const input = document.createElement('input');
-          input.type = 'file';
-          input.accept = 'image/*';
-          input.onchange = async (event) => {
-            const file = event.target.files[0];
-            if (file) {
-              try {
-                const url = await uploadImage(file, setProgress);
-                const img = document.createElement('img');
-                img.src = url;
-                img.alt = 'Image';
-                img.style.width = '100px';
-                img.style.height = 'auto';
-                editor.selection.insertNode(img);
-                handleResizeImage(editor);
-              } catch (error) {
-                console.error('Error uploading image:', error);
+  const editorConfig = useMemo(
+    () => ({
+      readonly: false,
+      toolbar: true,
+      buttons: [
+        "bold",
+        "italic",
+        "underline",
+        "eraser",
+        "ul",
+        "ol",
+        "indent",
+        "outdent",
+        "|",
+        "font",
+        "fontsize",
+        "brush",
+        "paragraph",
+        "|",
+        "table",
+        "|",
+        "align",
+        "undo",
+        "redo",
+        "hr",
+        "|",
+        "copyformat",
+        "fullsize",
+        {
+          name: "uploadImage",
+          iconURL: "https://cdn-icons-png.flaticon.com/128/685/685669.png",
+          exec: async (editor) => {
+            const input = document.createElement("input");
+            input.type = "file";
+            input.accept = "image/*";
+            input.onchange = async (event) => {
+              const file = event.target.files[0];
+              if (file) {
+                try {
+                  const url = await uploadImage(file, setProgress);
+                  const img = document.createElement("img");
+                  img.src = url;
+                  img.alt = "Image";
+                  img.style.width = "100px";
+                  img.style.height = "auto";
+                  editor.selection.insertNode(img);
+                  handleResizeImage(editor);
+                } catch (error) {
+                  console.error("Error uploading image:", error);
+                }
               }
-            }
-          };
-          input.click();
+            };
+            input.click();
+          },
+          tooltip: "Upload Image",
         },
-        tooltip: 'Upload Image'
-      }
-    ],
-    events: {
-      afterInit: (editor) => {
-        handleResizeImage(editor);
-      },
-      change: (newContent) => {
-        const maxChars = 4000;
-        if (newContent.length > maxChars) {
-          editor.value = newContent.substring(0, maxChars);
-          message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
-
-        }
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newContent;
-        const images = tempDiv.querySelectorAll('img');
-        images.forEach((image) => {
-          const width = image.style.width;
-          const height = image.style.height;
-          if (width && height) {
-            image.setAttribute('width', width);
-            image.setAttribute('height', height);
+      ],
+      events: {
+        afterInit: (editor) => {
+          handleResizeImage(editor);
+        },
+        change: (newContent) => {
+          const maxChars = 4000;
+          if (newContent.length > maxChars) {
+            editor.value = newContent.substring(0, maxChars);
+            message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
           }
-        });
-      }
-    }
-  }), [setProgress]);
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = newContent;
+          const images = tempDiv.querySelectorAll("img");
+          images.forEach((image) => {
+            const width = image.style.width;
+            const height = image.style.height;
+            if (width && height) {
+              image.setAttribute("width", width);
+              image.setAttribute("height", height);
+            }
+          });
+        },
+      },
+    }),
+    [setProgress]
+  );
 
   return (
     <div className="container create-product">
       {successMessage && (
-        <p className={`success-message ${successMessage.includes("Error") ? "error" : "success"}`}>
+        <p
+          className={`success-message ${
+            successMessage.includes("Error") ? "error" : "success"
+          }`}>
           {successMessage}
         </p>
       )}
@@ -195,7 +291,6 @@ const ProductAdd = () => {
             name="product-name"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
-            required
           />
         </div>
 
@@ -207,7 +302,6 @@ const ProductAdd = () => {
             name="product-price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
-            required
           />
         </div>
         <div className="form-group">
@@ -218,7 +312,6 @@ const ProductAdd = () => {
             name="product-stock"
             value={stockQuantity}
             onChange={(e) => setStockQuantity(e.target.value)}
-            required
           />
         </div>
         <div className="form-group">
@@ -228,24 +321,16 @@ const ProductAdd = () => {
             id="product-image-url"
             name="product-image-url"
             onChange={handleFileChange}
-            required
           />
-        </div>
-        {previewImage && (
-          <div className="form-group">
-            <img src={previewImage} alt="Preview" className="preview-image" />
-          </div>
-        )}
-        <div className="form-group">
-          <label htmlFor="product-expiration">Hạn sử dụng:</label>
-          <input
-            type="date"
-            id="product-expiration"
-            name="product-expiration"
-            value={expirationDate}
-            onChange={(e) => setExpirationDate(e.target.value)}
-            required
-          />
+          {previewImage && (
+            <div className="form-group">
+              <img
+                src={previewImage}
+                alt="Preview"
+                className="preview-image-add-product"
+              />
+            </div>
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="product-manufacturing">Ngày sản xuất:</label>
@@ -255,9 +340,19 @@ const ProductAdd = () => {
             name="product-manufacturing"
             value={manufacturingDate}
             onChange={(e) => setManufacturingDate(e.target.value)}
-            required
           />
         </div>
+        <div className="form-group">
+          <label htmlFor="product-expiration">Hạn sử dụng:</label>
+          <input
+            type="date"
+            id="product-expiration"
+            name="product-expiration"
+            value={expirationDate}
+            onChange={(e) => setExpirationDate(e.target.value)}
+          />
+        </div>
+
         <div className="form-group">
           <label htmlFor="product-brand">Hãng:</label>
           <select
@@ -265,8 +360,7 @@ const ProductAdd = () => {
             id="product-brand"
             name="product-brand"
             value={brandName}
-            onChange={(e) => setBrandName(e.target.value)}
-            required>
+            onChange={(e) => setBrandName(e.target.value)}>
             <option value="">Chọn hãng</option>
             {brands.map((brand) => (
               <option key={brand.BrandId} value={brand.BrandName}>
@@ -281,8 +375,7 @@ const ProductAdd = () => {
             id="product-category"
             name="product-category"
             value={productCategoryName}
-            onChange={(e) => setProductCategoryName(e.target.value)}
-            required>
+            onChange={(e) => setProductCategoryName(e.target.value)}>
             <option value="Sữa cho em bé">Sữa cho em bé</option>
             <option value="Sữa cho mẹ bầu">Sữa cho mẹ bầu</option>
           </select>
@@ -293,8 +386,7 @@ const ProductAdd = () => {
             id="product-status"
             name="product-status"
             value={status}
-            onChange={(e) => setStatus(parseInt(e.target.value))}
-            required>
+            onChange={(e) => setStatus(parseInt(e.target.value))}>
             <option value={1}>Kinh doanh</option>
             <option value={0}>Ngừng kinh doanh</option>
           </select>
@@ -310,7 +402,12 @@ const ProductAdd = () => {
             />
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">Tạo sản phẩm</button>
+        <button
+          type="submit"
+          className="btn btn-success"
+          style={{ marginLeft: "40%" }}>
+          Tạo sản phẩm
+        </button>
       </form>
     </div>
   );

@@ -282,7 +282,7 @@ function Account() {
             </div>
           </div>
         ) : (
-          <Loading/>
+          <Loading />
         )}
       </div>
     </div>
