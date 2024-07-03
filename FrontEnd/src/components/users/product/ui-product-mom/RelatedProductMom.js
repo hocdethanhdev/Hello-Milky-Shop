@@ -91,7 +91,7 @@ const RelatedProducts = ({ product }) => {
 
 RelatedProducts.propTypes = {
     product: PropTypes.shape({
-        ProductID: PropTypes.number.isRequired,
+        ProductID: PropTypes.string.isRequired,
         Price: PropTypes.number.isRequired,
         PriceAfterDiscounts: PropTypes.number.isRequired,
         Image: PropTypes.string.isRequired,

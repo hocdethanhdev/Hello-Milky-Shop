@@ -96,7 +96,7 @@ const AddPromotion = () => {
 
     try {
       const downloadURL = await uploadImage(image);
-
+      console.log(downloadURL);
       const promotionData = {
         promotionName,
         description,
@@ -213,21 +213,7 @@ const AddPromotion = () => {
   );
 };
 
-AddPromotion.propTypes = {
-  promotionName: PropTypes.string.isRequired,
-  setPromotionName: PropTypes.func.isRequired,
-  description: PropTypes.string.isRequired,
-  setDescription: PropTypes.func.isRequired,
-  discountPercentage: PropTypes.number.isRequired,
-  setDiscountPercentage: PropTypes.func.isRequired,
-  startDate: PropTypes.string.isRequired,
-  setStartDate: PropTypes.func.isRequired,
-  endDate: PropTypes.string.isRequired,
-  setEndDate: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  handleImageChange: PropTypes.func.isRequired,
-  previewImage: PropTypes.string,
-};
+// Remove PropTypes for AddPromotion functional component
 
 const PromotionForm = ({
   promotionName,
@@ -317,18 +303,18 @@ const PromotionForm = ({
 };
 
 PromotionForm.propTypes = {
-  promotionName: PropTypes.string.isRequired,
-  setPromotionName: PropTypes.func.isRequired,
-  description: PropTypes.string.isRequired,
-  setDescription: PropTypes.func.isRequired,
-  discountPercentage: PropTypes.number.isRequired,
-  setDiscountPercentage: PropTypes.func.isRequired,
-  startDate: PropTypes.string.isRequired,
-  setStartDate: PropTypes.func.isRequired,
-  endDate: PropTypes.string.isRequired,
-  setEndDate: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  handleImageChange: PropTypes.func.isRequired,
+  promotionName: PropTypes.string,
+  setPromotionName: PropTypes.func,
+  description: PropTypes.string,
+  setDescription: PropTypes.func,
+  discountPercentage: PropTypes.number,
+  setDiscountPercentage: PropTypes.func,
+  startDate: PropTypes.string,
+  setStartDate: PropTypes.func,
+  endDate: PropTypes.string,
+  setEndDate: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  handleImageChange: PropTypes.func,
   previewImage: PropTypes.string,
 };
 

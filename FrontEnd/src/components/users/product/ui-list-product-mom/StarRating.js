@@ -44,7 +44,7 @@ const StarRating = ({ productId }) => {
 
 // Define prop types
 StarRating.propTypes = {
-    productId: PropTypes.number.isRequired, // Ensure productId is a required number
+    productId: PropTypes.string.isRequired, // Ensure productId is a required number
 };
 
 export default StarRating;

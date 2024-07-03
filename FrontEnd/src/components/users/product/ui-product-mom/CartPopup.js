@@ -43,7 +43,7 @@ CartPopup.propTypes = {
     product: PropTypes.shape({
         Image: PropTypes.string.isRequired,
         ProductName: PropTypes.string.isRequired,
-        ProductID: PropTypes.number.isRequired,
+        ProductID: PropTypes.string.isRequired,
     }).isRequired,
     quantity: PropTypes.number.isRequired,
 };

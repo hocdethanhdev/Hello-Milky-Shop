@@ -5,9 +5,12 @@ export const uploadImage = (image) => {
   return new Promise((resolve, reject) => {
     const storageRef = ref(storage, `images/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
-
+  
     uploadTask.on(
       "state_changed",
+      (snapshot) => {
+        console.log("Tải ảnh thành công");
+      },
       (error) => {
         console.error("Upload failed:", error);
         reject("Upload failed: " + error.message);

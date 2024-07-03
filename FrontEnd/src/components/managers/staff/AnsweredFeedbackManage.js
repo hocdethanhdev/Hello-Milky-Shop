@@ -161,7 +161,7 @@ Comment.propTypes = {
         StaffName: PropTypes.string.isRequired,
         Rep: PropTypes.string.isRequired,
         RepDate: PropTypes.string.isRequired,
-        ProductID: PropTypes.number.isRequired,
+        ProductID: PropTypes.string.isRequired,
     }).isRequired,
 };
 
