@@ -293,9 +293,10 @@
     margin-right: 405px;
 }
 .quantity-selector-thinh-cart p {
-    padding-right: 50px;
     color: #6b6b6b;
     font-size: 15px;
+    margin-top: 15px;
+    margin-right: 20px;
 }
 
 .quantity-button-thinh-cart {
