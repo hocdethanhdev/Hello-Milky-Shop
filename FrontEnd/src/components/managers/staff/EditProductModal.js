@@ -71,7 +71,7 @@ const EditProductModal = () => {
     if (!formData.ProductName) {
       message.warning("Tên sản phẩm không được bỏ trống.");
       return;
-    } 
+    }
     if (formData.ProductName.length > 100) {
       message.warning("Tên sản phẩm không được quá 100 kí tự.");
       return;
@@ -100,24 +100,24 @@ const EditProductModal = () => {
       return;
     }
 
-    
-  if (!formData.ManufacturingDate) {
-    message.warning("Ngày sản xuất không được bỏ trống.");
-    return;
-  }
 
-  if (!formData.ExpirationDate) {
-    message.warning("Ngày hết hạn không được bỏ trống.");
-    return;
-  }
+    if (!formData.ManufacturingDate) {
+      message.warning("Ngày sản xuất không được bỏ trống.");
+      return;
+    }
 
-  const manufacturingDate = new Date(formData.ManufacturingDate);
-  const expirationDate = new Date(formData.ExpirationDate);
+    if (!formData.ExpirationDate) {
+      message.warning("Ngày hết hạn không được bỏ trống.");
+      return;
+    }
 
-  if (expirationDate <= manufacturingDate) {
-    message.warning("Ngày hết hạn phải diễn ra sau ngày sản xuất.");
-    return;
-  }
+    const manufacturingDate = new Date(formData.ManufacturingDate);
+    const expirationDate = new Date(formData.ExpirationDate);
+
+    if (expirationDate <= manufacturingDate) {
+      message.warning("Ngày hết hạn phải diễn ra sau ngày sản xuất.");
+      return;
+    }
 
     const allowedTags = [
       "img",
@@ -414,7 +414,7 @@ const EditProductModal = () => {
             />
           </label>
         </div>
-        <button type="submit">Lưu thay đổi</button>
+        <button className="submit-edit-pro-thinh" type="submit">Lưu thay đổi</button>
       </form>
     </div>
   );
