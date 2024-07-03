@@ -15,8 +15,7 @@ const ProductAdd = () => {
   const [expirationDate, setExpirationDate] = useState("");
   const [manufacturingDate, setManufacturingDate] = useState("");
   const [brandName, setBrandName] = useState("");
-  const [productCategoryName, setProductCategoryName] =
-    useState("Sữa cho em bé");
+  const [productCategoryName, setProductCategoryName] = useState("Sữa cho em bé");
   const [status, setStatus] = useState(1);
   const [brands, setBrands] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
@@ -51,8 +50,6 @@ const ProductAdd = () => {
     e.preventDefault();
 
     // Validation
-    const today = new Date().toISOString().split("T")[0];
-
     if (!productName) {
       message.error("Tên sản phẩm không được để trống.");
       return;
@@ -62,7 +59,7 @@ const ProductAdd = () => {
       return;
     }
     if (!price) {
-      message.error("Giá sản phẩm không được để trống .");
+      message.error("Giá sản phẩm không được để trống.");
       return;
     }
     if (price < 0 || price === 0) {
@@ -77,7 +74,6 @@ const ProductAdd = () => {
       message.error("Số lượng sẩn phẩm phải lớn hơn 0.");
       return;
     }
-
     if (!image) {
       message.error("Vui lòng chọn ảnh.");
       return;
@@ -86,24 +82,12 @@ const ProductAdd = () => {
       message.error("Ngày sản xuất không được để trống.");
       return;
     }
-    if (manufacturingDate < today) {
-      message.error("Ngày sản xuất đã qua");
-      return;
-    }
     if (!expirationDate) {
       message.error("Hạn sử dụng không được để trống.");
       return;
     }
-    if (expirationDate < today) {
-      message.error("Hạn sử dụng không được trước ngày sản xuất.");
-      return;
-    }
-    if (!manufacturingDate) {
-      message.error("Ngày sản xuất không được để trống.");
-      return;
-    }
-    if (manufacturingDate < today) {
-      message.error("Ngày sản xuất không được là ngày hôm nay hoặc trước.");
+    if (expirationDate <= manufacturingDate) {
+      message.error("Hạn sử dụng phải sau ngày sản xuất.");
       return;
     }
     if (!brandName) {
@@ -156,7 +140,7 @@ const ProductAdd = () => {
         }
       );
 
-      message.success("Product created successfully!");
+      message.success("Tạo sản phẩm thành công.");
       // Reset form
       setProductName("");
       setDescription("");
@@ -168,6 +152,7 @@ const ProductAdd = () => {
       setBrandName("");
       setProductCategoryName("Sữa cho em bé");
       setStatus(1);
+      setPreviewImage(null); // Reset preview image
     } catch (error) {
       console.error("Error creating product:", error);
       message.error("Error creating product: " + error.message);

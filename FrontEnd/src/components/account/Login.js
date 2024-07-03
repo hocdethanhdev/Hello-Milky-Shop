@@ -105,7 +105,7 @@ function Login() {
                 <MDBIcon
                   icon={passwordVisible ? "eye-slash" : "eye"}
                   size="lg"
-                  className="password-toggle-icon"
+                  className="password-toggle-icon1"
                   onClick={() => setPasswordVisible(!passwordVisible)}
                 />
               </div>
