@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { uploadImage } from "../uimg/UpImage";
 import { message } from "antd";
-import PropTypes from "prop-types"; // Import PropTypes for prop validation
 import "./AddPromotion.css";
 
 const AddPromotion = () => {
@@ -96,7 +95,7 @@ const AddPromotion = () => {
 
     try {
       const downloadURL = await uploadImage(image);
-      console.log(downloadURL);
+
       const promotionData = {
         promotionName,
         description,
@@ -122,7 +121,7 @@ const AddPromotion = () => {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      message.success("Khuyến mãi mới và sản phẩm đã được thêm!");
+      message.success("New Promotion and products added!");
 
       setPromotionName("");
       setDescription("");
@@ -134,7 +133,7 @@ const AddPromotion = () => {
       setSelectedProducts([]);
       setSelectedCategory("");
     } catch (error) {
-      message.error("Đã có lỗi xảy ra khi thêm sản phẩm cho khuyến mãi.");
+      message.error("Vui lòng thêm sản phẩm cho khuyến mãi");
     }
   };
 
@@ -192,8 +191,7 @@ const AddPromotion = () => {
           <label>Phân loại sữa</label>
           <select
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
+            onChange={(e) => setSelectedCategory(e.target.value)}>
             <option value="">Tất cả</option>
             {categories.map((category, index) => (
               <option key={index} value={category}>
@@ -212,8 +210,6 @@ const AddPromotion = () => {
     </div>
   );
 };
-
-// Remove PropTypes for AddPromotion functional component
 
 const PromotionForm = ({
   promotionName,
@@ -302,54 +298,66 @@ const PromotionForm = ({
   );
 };
 
-PromotionForm.propTypes = {
-  promotionName: PropTypes.string,
-  setPromotionName: PropTypes.func,
-  description: PropTypes.string,
-  setDescription: PropTypes.func,
-  discountPercentage: PropTypes.number,
-  setDiscountPercentage: PropTypes.func,
-  startDate: PropTypes.string,
-  setStartDate: PropTypes.func,
-  endDate: PropTypes.string,
-  setEndDate: PropTypes.func,
-  handleSubmit: PropTypes.func,
-  handleImageChange: PropTypes.func,
-  previewImage: PropTypes.string,
-};
-
 const ProductList = ({
   products,
   selectedProducts,
   handleProductSelection,
   handleSelectAll,
 }) => {
+  const formatPrice = (price) => {
+    return price.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+  };
+
   return (
-    <div className="product-list">
-      <button onClick={handleSelectAll}>
-        {selectedProducts.length === products.length
-          ? "Bỏ chọn tất cả"
-          : "Chọn tất cả"}
-      </button>
-      {products.map((product) => (
-        <div key={product.ProductID} className="product-item">
-          <input
-            type="checkbox"
-            checked={selectedProducts.includes(product.ProductID)}
-            onChange={() => handleProductSelection(product.ProductID)}
-          />
-          <label>{product.ProductName}</label>
-        </div>
-      ))}
+    <div className="product-list-container-tri">
+      <div className="select-all-container-tri">
+        <label>Chọn tất cả</label>
+        <input
+          type="checkbox"
+          checked={selectedProducts.length === products.length}
+          onChange={handleSelectAll}
+        />
+      </div>
+      <div className="product-list-promotion">
+        {products.map((product) => (
+          <div key={product.ProductID} className="product-item-promotion-nhan">
+            <label className="product-clickable">
+              <input
+                type="checkbox"
+                checked={selectedProducts.includes(product.ProductID)}
+                onChange={() => handleProductSelection(product.ProductID)}
+              />
+              <div className="product-details">
+                <img
+                  src={product.Image}
+                  alt={product.ProductName}
+                  className={
+                    selectedProducts.includes(product.ProductID)
+                      ? "selected"
+                      : ""
+                  }
+                />
+                <div>
+                  <p>{product.ProductName}</p>
+                  <p>{formatPrice(product.Price)}</p>
+                  <p>
+                    <strong>Kho:</strong> {product.StockQuantity}
+                  </p>
+                  <p>
+                    <strong>HSD:</strong>{" "}
+                    {new Date(product.ExpirationDate).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+            </label>
+          </div>
+        ))}
+      </div>
     </div>
   );
-};
-
-ProductList.propTypes = {
-  products: PropTypes.array.isRequired,
-  selectedProducts: PropTypes.array.isRequired,
-  handleProductSelection: PropTypes.func.isRequired,
-  handleSelectAll: PropTypes.func.isRequired,
 };
 
 export default AddPromotion;

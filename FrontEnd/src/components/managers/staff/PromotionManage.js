@@ -3,7 +3,7 @@ import axios from "axios";
 import "./PromotionManage.css"; // Import the CSS file
 import { Link } from "react-router-dom";
 import EditPromotionModal from "./EditPromotionModal"; // Import the EditPromotionModal
-import { Modal } from "antd";
+import { Modal, message } from "antd";
 import PropTypes from "prop-types"; // Import PropTypes for type checking
 
 function PromotionManage() {
@@ -49,8 +49,10 @@ function PromotionManage() {
           (promotion) => promotion.PromotionID !== promotionToDelete
         )
       );
+      message.success("Đã xóa khuyến mãi thành công"); // Show success message
     } catch (error) {
       console.error("Error deleting promotion:", error);
+      message.error("Xảy ra lỗi khi xóa khuyến mãi"); // Show error message
     } finally {
       setDeleteModalVisible(false);
     }
@@ -201,7 +203,8 @@ function PromotionManage() {
         title="Xác nhận xóa khuyến mãi"
         visible={deleteModalVisible}
         onOk={confirmDelete}
-        onCancel={handleCancelDelete}>
+        onCancel={handleCancelDelete}
+      >
         <p>Bạn có chắc chắn muốn xóa khuyến mãi này?</p>
       </Modal>
     </div>
@@ -222,21 +225,24 @@ const ThrowPage = ({ current, onChange, total, itemsPerPage }) => {
       <button
         className="page-button"
         disabled={current === 1}
-        onClick={() => handleClick(current - 1)}>
+        onClick={() => handleClick(current - 1)}
+      >
         &lt;
       </button>
       {[...Array(totalPages)].map((_, index) => (
         <button
           key={index}
           className={`page-button ${current === index + 1 ? "active" : ""}`}
-          onClick={() => handleClick(index + 1)}>
+          onClick={() => handleClick(index + 1)}
+        >
           {index + 1}
         </button>
       ))}
       <button
         className="page-button"
         disabled={current === totalPages}
-        onClick={() => handleClick(current + 1)}>
+        onClick={() => handleClick(current + 1)}
+      >
         &gt;
       </button>
     </div>
@@ -252,4 +258,3 @@ ThrowPage.propTypes = {
 };
 
 export default PromotionManage;
-
