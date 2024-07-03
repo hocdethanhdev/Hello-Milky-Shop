@@ -22,14 +22,15 @@
 .article-header {
   text-align: center;
   margin-bottom: 20px;
-  padding-top: 15px;
-  padding-left: 15px;
+  padding-top: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .article-header h2 {
-  font-size: 36px;
+  font-size: 48px;
   color: #333;
-  font-weight: bolder;
+  font-weight: bold;
   text-align: left;
 }
 
@@ -38,6 +39,7 @@
   color: #888;
   text-align: left;
   margin-top: -10px;
+  padding-bottom: 20px;
 }
 
 .article-content {

@@ -226,11 +226,6 @@ const EditProductModal = () => {
     () => ({
       readonly: false,
       toolbar: true,
-      toolbarButtonSize: "middle",
-      toolbarSticky: false,
-      showCharsCounter: false,
-      showWordsCounter: false,
-      showXPathInStatusbar: false,
       buttons: [
         "bold",
         "italic",
