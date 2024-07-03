@@ -73,7 +73,7 @@
   margin-left: 89%;
 }
 
-button[type="submit"]:hover {
+.submit-edit-pro-thinh:hover {
   background-color: #45a049;
 }
 .status-display-thinh {
@@ -157,7 +157,7 @@ select {
   margin-top: 5px;
 }
 
-button[type="submit"] {
+.submit-edit-pro-thinh {
   background-color: #4caf50;
   color: white;
   border: none;
@@ -171,11 +171,11 @@ button[type="submit"] {
   margin-top: 10px;
 }
 
-button[type="submit"]:hover {
+.submit-edit-pro-thinh:hover {
   background-color: #45a049;
 }
 
-img {
+.product-image-preview {
   margin-top: 5px;
 }
 
@@ -209,13 +209,11 @@ label {
 .price-row {
   grid-column: 2; /* Cột đầu tiên */
   grid-row: 2; /* Hàng 3 */
-
 }
 
 .image-row {
-grid-row: 4;
-width: 50%; 
-
+  grid-row: 4;
+  width: 50%;
 }
 
 .date-row {
@@ -223,30 +221,29 @@ width: 50%;
   grid-row: 5; /* Hàng 5 */
 }
 
-.quantity-row{
-  grid-column: 1; 
+.quantity-row {
+  grid-column: 1;
   grid-row: 2;
-
 }
-.manufacturingDate-row{
+.manufacturingDate-row {
   grid-column: 1;
   grid-row: 5;
 }
 
-.expirationDate-row{
+.expirationDate-row {
   grid-column: 2;
   grid-row: 5;
 }
 
-.productName-row{
-  grid-column: 1 ;
+.productName-row {
+  grid-column: 1;
   grid-row: 1;
   height: 60px;
   padding-bottom: 10px;
   width: 100%;
 }
 
-.brand-row{
+.brand-row {
   grid-column: 2;
   grid-row: 1;
 }
@@ -263,5 +260,3 @@ width: 50%;
   height: 120px; /* Chiều cao hình ảnh */
   object-fit: cover; /* Đảm bảo hình ảnh phù hợp với khung 120x120 */
 }
-
-
