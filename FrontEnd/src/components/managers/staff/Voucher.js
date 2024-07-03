@@ -8,6 +8,7 @@ import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import DeleteConfirmationPopupForVoucher from "./DeleteConfirmationPopupForVoucher";
 import { message } from "antd";
 import VoucherDetailModal from "./VoucherDetailModal";
+import { formatPrice } from "../../utils/formatPrice";
 
 function Voucher() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -153,11 +154,10 @@ function Voucher() {
       <div className="voucher-body-thinhvcher">
         {showSuccess && (
           <div
-            className={`success-message-thinhvcher ${
-              successMessage.includes("Lỗi")
+            className={`success-message-thinhvcher ${successMessage.includes("Lỗi")
                 ? "error-thinhvcher"
                 : "success-thinhvcher"
-            } success-message-show`}>
+              } success-message-show`}>
             {successMessage}
           </div>
         )}

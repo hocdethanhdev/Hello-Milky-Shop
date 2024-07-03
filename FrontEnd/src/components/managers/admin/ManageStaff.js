@@ -243,9 +243,9 @@ const ManageStaff = () => {
                 />
               </label>
               <div className="edit-popup-buttons">
-                <button type="submit">Save Changes</button>
+                <button type="submit">Lưu</button>
                 <button type="button" onClick={() => setShowEditPopup(false)}>
-                  Cancel
+                  Hủy bỏ
                 </button>
               </div>
             </form>
@@ -254,7 +254,7 @@ const ManageStaff = () => {
       )}
 
       <Modal
-        title="Confirm Delete"
+        title="Xác nhận khóa tài khoản"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}

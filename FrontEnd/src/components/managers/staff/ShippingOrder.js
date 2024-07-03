@@ -237,7 +237,7 @@ function ShippingOrder() {
                         <td className="mdh">
                           <strong>Số điện thoại:</strong>
                         </td>
-                        <td>{selectedOrder.shippingAddress[0].Phone}</td>
+                        <td>{selectedOrder.shippingAddress[0].PhoneNumber}</td>
                       </tr>
                       <tr>
                         <td className="mdh">

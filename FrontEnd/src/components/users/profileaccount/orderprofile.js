@@ -24,9 +24,9 @@ const OrderProfile = () => {
       const orders = response.data;
       const filteredOrders = status
         ? orders.filter(
-            (order) =>
-              getStatusFromStatusOrderName(order.StatusOrderName) === status
-          )
+          (order) =>
+            getStatusFromStatusOrderName(order.StatusOrderName) === status
+        )
         : orders;
       const groupedOrders = filteredOrders.reduce((acc, order) => {
         const existingOrder = acc.find((o) => o.OrderID === order.OrderID);
@@ -178,7 +178,7 @@ const OrderProfile = () => {
             {order.status === "Đã hủy" && (
               <p>
                 {order.items[0].ReasonCancelContent
-                  ? `Nhân viên đã hủy, lí do: ${order.items[0].ReasonCancelContent}`
+                  ? `Lí do hủy: ${order.items[0].ReasonCancelContent}`
                   : "Đã hủy"}
               </p>
             )}
@@ -225,14 +225,14 @@ const OrderProfile = () => {
                     )}
                   {item.NewPrice
                     ? item.NewPrice.toLocaleString("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      })
+                      style: "currency",
+                      currency: "VND",
+                    })
                     : item.OldPrice &&
-                      item.OldPrice.toLocaleString("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      })}
+                    item.OldPrice.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                 </p>
               </div>
             </div>

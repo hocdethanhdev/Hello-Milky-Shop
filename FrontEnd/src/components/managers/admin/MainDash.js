@@ -135,7 +135,7 @@ function MainDash() {
         shared: true,
         intersect: false,
         theme: "dark",
-        custom: ({ series, seriesIndex, dataPointIndex}) => {
+        custom: ({ series, seriesIndex, dataPointIndex }) => {
           return `
                         <div class="apexcharts-tooltip-title" style="font-size: 14px; font-weight: bold;">
                             ${top5BestSell.ProductName[dataPointIndex]}
@@ -171,7 +171,7 @@ function MainDash() {
       },
       yaxis: {
         title: {
-          text: "Count",
+          text: "",
           style: {
             color: "black",
           },
@@ -267,7 +267,7 @@ function MainDash() {
       },
       yaxis: {
         title: {
-          text: "Revenue",
+          text: "",
           style: {
             color: "black",
           },
@@ -313,21 +313,21 @@ function MainDash() {
         <div className="main-cards-dasha">
           <div className="card-dasha1">
             <div className="card-inner-dasha">
-              <h3>Products</h3>
+              <h3>Sản phẩm</h3>
               <span className="material-icons-outlined fas fa-box"></span>
             </div>
             <h1>{productCount}</h1>
           </div>
           <div className="card-dasha2">
             <div className="card-inner-dasha">
-              <h3>Brands</h3>
+              <h3>Hãng</h3>
               <span className="material-icons-outlined fab fa-bandcamp"></span>
             </div>
             <h1>{brandCount}</h1>
           </div>
           <div className="card-dasha3">
             <div className="card-inner-dasha">
-              <h3>Users</h3>
+              <h3>Khách hàng</h3>
               <span className="material-icons-outlined">
                 <HiUsers />
               </span>

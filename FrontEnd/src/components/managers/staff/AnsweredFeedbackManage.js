@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types"; // Import PropTypes
-import { Pagination } from "antd";
+import PropTypes from "prop-types";
+import { Pagination, Select } from "antd";
 import "./FeedbackManage.css";
+
+const { Option } = Select;
 
 const AnsweredFeedbackManage = () => {
     const [comments, setComments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [filterProductType, setFilterProductType] = useState("all");
+    const [filterCommentID, setFilterCommentID] = useState("all");
     const commentsPerPage = 5;
 
     useEffect(() => {
         fetchComments();
-    }, []);
+    }, [filterProductType, filterCommentID]);
 
     const fetchComments = async () => {
         try {
@@ -24,8 +28,21 @@ const AnsweredFeedbackManage = () => {
             if (!Array.isArray(data.data)) {
                 throw new Error("Comments data is not an array");
             }
-            const sortedComments = data.data.sort((a, b) => b.CommentID - a.CommentID);
-            setComments(sortedComments);
+            let filteredComments = data.data;
+
+            if (filterProductType !== "all") {
+                filteredComments = filteredComments.filter(comment =>
+                    comment.ProductID.includes(filterProductType)
+                );
+            }
+
+            if (filterCommentID === "newest") {
+                filteredComments.sort((a, b) => b.CommentID - a.CommentID);
+            } else if (filterCommentID === "oldest") {
+                filteredComments.sort((a, b) => a.CommentID - b.CommentID);
+            }
+
+            setComments(filteredComments);
         } catch (error) {
             console.error("Error fetching comments:", error);
             setComments([]);
@@ -36,10 +53,38 @@ const AnsweredFeedbackManage = () => {
         setCurrentPage(page);
     };
 
+    const handleFilterProductTypeChange = (value) => {
+        setFilterProductType(value);
+    };
+
+    const handleFilterCommentIDChange = (value) => {
+        setFilterCommentID(value);
+    };
+
     const paginatedComments = comments.slice((currentPage - 1) * commentsPerPage, currentPage * commentsPerPage);
 
     return (
         <div className="feedback-manage-thinh-cmt">
+            <div className="filters-section-thinh-cmt">
+                <Select
+                    value={filterProductType}
+                    onChange={handleFilterProductTypeChange}
+                    style={{ width: 200 }}
+                >
+                    <Option value="all">Tất cả</Option>
+                    <Option value="SM">Sữa cho mẹ bầu</Option>
+                    <Option value="SE">Sữa cho em bé</Option>
+                </Select>
+                <Select
+                    value={filterCommentID}
+                    onChange={handleFilterCommentIDChange}
+                    style={{ width: 200, marginLeft: 10 }}
+                >
+                    <Option value="all">Tất cả</Option>
+                    <Option value="newest">Mới nhất</Option>
+                    <Option value="oldest">Cũ nhất</Option>
+                </Select>
+            </div>
             <div className="comments-section-thinh-cmt">
                 {paginatedComments.map((comment) => (
                     <Comment key={comment.CommentID} comment={comment} />
@@ -62,7 +107,7 @@ const Comment = ({ comment }) => {
 
     useEffect(() => {
         fetchProduct();
-    }, [comment.ProductID]);
+    });
 
     const fetchProduct = async () => {
         try {
