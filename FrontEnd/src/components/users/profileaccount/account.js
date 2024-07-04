@@ -145,7 +145,7 @@ function Account() {
   return (
     <div className="account-container">
       <div className="sidebar-wrapper">
-        <SidebarProfile />
+        <SidebarProfile userData={userData} />
       </div>
 
       <div className="account-content">
