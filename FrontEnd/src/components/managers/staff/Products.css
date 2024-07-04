@@ -37,6 +37,7 @@
   padding-bottom: 50px;
   background-color: white;
   padding: 0px 20px 20px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* ______________________________________________________________________ */
@@ -47,7 +48,6 @@
   background-color: white;
   width: 99%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
- 
 }
 
 .create-product h2 {
