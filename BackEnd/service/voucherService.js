@@ -1,3 +1,4 @@
+const { openVoucher } = require("../controller/voucherController");
 const voucherRepository = require("../repository/voucherRepository");
 
 const voucherService = {
@@ -62,6 +63,10 @@ const voucherService = {
     } catch (error) {
       throw new Error(`Error updating voucher status and removing from user: ${error.message}`);
     }
+  },
+
+  openVoucher: async (VoucherID) => {
+    return await voucherRepository.openVoucher(VoucherID);
   },
 
 
