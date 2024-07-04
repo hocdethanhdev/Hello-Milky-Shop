@@ -93,3 +93,7 @@
   margin-bottom: 20px;
   width: 150px; /* Adjust this value to make the dropdown smaller */
 }
+
+.promo-actions button {
+  margin-right: 10px;
+}
