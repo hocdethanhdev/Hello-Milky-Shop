@@ -53,7 +53,6 @@ function StaffChat() {
   const handleRoomClick = (roomId, userName) => {
     setSelectedRoom(roomId);
     setSelectedUserName(userName);
-    // Reset unread messages count for the selected room
     setUnreadMessageCounts((prevCounts) => ({
       ...prevCounts,
       [roomId]: 0,
