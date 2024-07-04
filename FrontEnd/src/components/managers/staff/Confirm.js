@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Confirm.css";
 import { Modal, Button, message, Input } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort } from "@fortawesome/free-solid-svg-icons"; // Import icon sort
+import { faSort } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
@@ -17,7 +17,7 @@ function Confirm() {
   const [shippingAddress, setShippingAddress] = useState(null);
   const ordersPerPage = 10;
   const { token } = useSelector((state) => state.auth);
-  const userIdd = getUserIdFromToken(token);
+  const userId = getUserIdFromToken(token);
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
 
   const fetchOrders = async () => {
@@ -100,7 +100,7 @@ function Confirm() {
       body: JSON.stringify({
         orderID: selectedOrder,
         reasonCancelContent: cancelReason,
-        userID: userIdd,
+        userID: userId,
       }),
     })
       .then((response) => {
@@ -135,7 +135,7 @@ function Confirm() {
         `http://localhost:5000/api/v1/order/getOrderDetailByOrderID/${orderID}`
       );
       const data = await response.json();
-      return data.address; 
+      return data.address;
     } catch (error) {
       console.error("Error fetching order details:", error);
       return [];
@@ -168,67 +168,93 @@ function Confirm() {
     setShippingAddress(null);
   };
 
-  const indexOfLastOrder = currentPage * ordersPerPage;
-  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
-
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
   const handleSort = (key) => {
     let direction = "ascending";
-    setSortConfig((prevSortConfig) => {
-      if (prevSortConfig.key === key && prevSortConfig.direction === "ascending") {
-        direction = "descending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+
+    const sortedOrders = [...orders].sort((a, b) => {
+      if (key === "OrderID") {
+        return direction === "ascending"
+          ? a.OrderID - b.OrderID
+          : b.OrderID - a.OrderID;
+      } else if (key === "OrderDate") {
+        return direction === "ascending"
+          ? new Date(a.OrderDate) - new Date(b.OrderDate)
+          : new Date(b.OrderDate) - new Date(a.OrderDate);
+      } else if (key === "TotalAmount") {
+        return direction === "ascending"
+          ? a.TotalAmount - b.TotalAmount
+          : b.TotalAmount - a.TotalAmount;
       }
-  
-      const sortedOrders = [...orders].sort((a, b) => {
-        if (key === "OrderID") {
-          return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
-        } else {
-          if (a[key] < b[key]) {
-            return direction === "ascending" ? -1 : 1;
-          }
-          if (a[key] > b[key]) {
-            return direction === "ascending" ? 1 : -1;
-          }
-          return 0;
-        }
-      });
-  
-      setOrders(sortedOrders);
-      return { key, direction };
+      return 0;
     });
+
+    setOrders(sortedOrders);
+    setSortConfig({ key, direction });
   };
-  
+
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const sortedOrders = [...orders].sort((a, b) => {
+    if (sortConfig.key === "OrderID") {
+      return sortConfig.direction === "ascending"
+        ? a.OrderID - b.OrderID
+        : b.OrderID - a.OrderID;
+    } else if (sortConfig.key === "OrderDate") {
+      return sortConfig.direction === "ascending"
+        ? new Date(a.OrderDate) - new Date(b.OrderDate)
+        : new Date(b.OrderDate) - new Date(a.OrderDate);
+    } else if (sortConfig.key === "TotalAmount") {
+      return sortConfig.direction === "ascending"
+        ? a.TotalAmount - b.TotalAmount
+        : b.TotalAmount - a.TotalAmount;
+    }
+    return 0;
+  });
+
+  const currentOrders = sortedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
 
   return (
     <div className="confirm-container">
       <table>
         <thead>
           <tr className="row">
-            <th className="col-md-2">
+            <th
+              className={`col-md-2 ${
+                sortConfig.key === "OrderID" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("OrderID")}
+            >
               Mã đơn hàng
-              <button
-                className="sort-icon-order"
-                onClick={() => handleSort("OrderID")}>
+              <button className={`sort-icon-order `}>
                 <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-2">
+            <th
+              className={`col-md-2 ${
+                sortConfig.key === "OrderDate" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("OrderDate")}
+            >
               Ngày đặt hàng
-              <button
-                className="sort-icon-order"
-                onClick={() => handleSort("OrderDate")}>
+              <button className={`sort-icon-order`}>
                 <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-2">
+            <th
+              className={`col-md-2 ${
+                sortConfig.key === "TotalAmount" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("TotalAmount")}
+            >
               Tổng
-              <button
-                className="sort-icon-order"
-                onClick={() => handleSort("TotalAmount")}>
+              <button className={`sort-icon-order`}>
                 <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
@@ -255,19 +281,22 @@ function Confirm() {
                 <button
                   type="button"
                   className="btn btn-warning xndh"
-                  onClick={() => editOrder(order.OrderID)}>
-                  Xác Nhận
+                  onClick={() => editOrder(order.OrderID)}
+                >
+                  Xác nhận
                 </button>
                 <button
                   type="button"
                   className="btn btn-primary xndh"
-                  onClick={() => viewOrderDetails(order)}>
+                  onClick={() => viewOrderDetails(order)}
+                >
                   Thông tin
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger xndh"
-                  onClick={() => cancelOrder(order.OrderID)}>
+                  onClick={() => cancelOrder(order.OrderID)}
+                >
                   Hủy đơn
                 </button>
               </td>
@@ -275,67 +304,78 @@ function Confirm() {
           ))}
         </tbody>
       </table>
-      <div className="pagination-container-cf">
+      <div className="pagination">
         <ThrowPage
-          current={currentPage}
-          onChange={handlePageChange}
-          total={orders.length}
-          productsPerPage={ordersPerPage}
+          currentPage={currentPage}
+          ordersPerPage={ordersPerPage}
+          totalOrders={orders.length}
+          onPageChange={handlePageChange}
         />
       </div>
-      {selectedOrder && isDetailModalVisible && (
-        <Modal
-          visible={isDetailModalVisible}
-          onCancel={handleModalClose}
-          footer={[
-            <Button key="close" onClick={handleModalClose}>
-              Đóng
-            </Button>,
-          ]}>
-          <div className="order-details">
-            <h2>Thông tin đơn hàng #{selectedOrder.OrderID}</h2>
-            <div className="order-info">
-              <p>
-                <strong>Ngày đặt hàng:</strong>{" "}
-                {new Date(selectedOrder.OrderDate).toLocaleString()}
-              </p>
-              <p>
-                <strong>Tổng tiền:</strong>{" "}
-                {formatPrice(parseInt(selectedOrder.TotalAmount))}
-              </p>
-              <p>
-                <strong>Địa chỉ:</strong> {selectedOrder.Address}
-              </p>
-              <h3>Chi tiết đơn hàng</h3>
-              <ul>
-                {selectedOrder.details.map((detail, index) => (
-                  <li key={index}>
-                    {detail.ProductName} - Số lượng: {detail.Quantity}
-                  </li>
-                ))}
-              </ul>
-              {shippingAddress && (
-                <div>
-                  <h3>Thông tin giao hàng</h3>
-                  <p>
-                    <strong>Tên người nhận:</strong>{" "}
-                    {shippingAddress.ContactName}
-                  </p>
-                  <p>
-                    <strong>Số điện thoại:</strong>{" "}
-                    {shippingAddress.ContactPhone}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </Modal>
-      )}
+
       <Modal
-        title="Hủy đơn hàng"
+        title="Thông tin chi tiết đơn hàng"
+        visible={isDetailModalVisible}
+        onCancel={handleModalClose}
+        footer={[
+          <Button key="close" onClick={handleModalClose}>
+            Đóng
+          </Button>,
+        ]}
+      >
+        {selectedOrder && (
+          <div>
+            <p>
+              <strong>Mã đơn hàng:</strong> {selectedOrder.OrderID}
+            </p>
+            <p>
+              <strong>Ngày đặt hàng:</strong>{" "}
+              {new Date(selectedOrder.OrderDate).toLocaleDateString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
+            </p>
+            <p>
+              <strong>Tổng tiền:</strong>{" "}
+              {formatPrice(parseInt(selectedOrder.TotalAmount))}
+            </p>
+            <p>
+              <strong>Địa chỉ:</strong> {selectedOrder.Address}
+            </p>
+            <h3>Chi tiết đơn hàng:</h3>
+            <ul>
+              {selectedOrder.details.map((item) => (
+                <li key={item.ProductID}>
+                  {item.ProductName} - Số lượng: {item.Quantity} - Đơn giá:{" "}
+                  {formatPrice(parseInt(item.UnitPrice))}
+                </li>
+              ))}
+            </ul>
+            {shippingAddress && (
+              <div>
+                <h3>Thông tin giao hàng:</h3>
+                <p>
+                  <strong>Tên người nhận:</strong> {shippingAddress.ContactName}
+                </p>
+                <p>
+                  <strong>Số điện thoại:</strong> {shippingAddress.Phone}
+                </p>
+                <p>
+                  <strong>Địa chỉ:</strong> {shippingAddress.Address}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+      </Modal>
+
+      <Modal
+        title="Lý do hủy đơn hàng"
         visible={isCancelModalVisible}
         onOk={handleCancelModalOk}
-        onCancel={handleCancelModalCancel}>
+        onCancel={handleCancelModalCancel}
+      >
         <Input.TextArea
           placeholder="Nhập lý do hủy đơn hàng"
           value={cancelReason}

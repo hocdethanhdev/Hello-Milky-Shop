@@ -103,7 +103,24 @@ const articleDAO = {
       });
     });
   },
+  findAllArticlesForViewer: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function () {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT *
+          FROM Article
+          WHERE PublishDate <= GETDATE();
+          `,
+          (err, res) => {
+            if (err) reject(err);
 
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
   findAllArticleCategory: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function () {

@@ -4,6 +4,9 @@ const chatRepository = {
   getChatUnseen: async (ChatRoom) => {
     return chatDAO.getChatUnseen(ChatRoom);
   },
+  getAllChatUnseen: async () => {
+    return chatDAO.getAllChatUnseen();
+  },
   getAllMessageByChatRoom: async (ChatRoom) => {
     return chatDAO.getAllMessageByChatRoom(ChatRoom);
   },

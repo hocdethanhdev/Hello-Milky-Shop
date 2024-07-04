@@ -17,6 +17,9 @@ const articleService = {
   getAllArticles: async () => {
     return await articleRepository.getAllArticles();
   },
+  getAllArticlesforViewer: async () => {
+    return await articleRepository.getAllArticlesforViewer();
+  },
   getAllArticleCategory: async () => {
     return await articleRepository.getAllArticleCategory();
   },
