@@ -11,6 +11,7 @@ function Confirm() {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrderID, setSelectedOrderID] = useState(null);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
@@ -87,7 +88,7 @@ function Confirm() {
   };
 
   const cancelOrder = (orderID) => {
-    setSelectedOrder(orderID);
+    setSelectedOrderID(orderID);
     setIsCancelModalVisible(true);
   };
 
@@ -98,8 +99,8 @@ function Confirm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        orderID: selectedOrder,
-        reasonCancelContent: cancelReason,
+        orderID: selectedOrderID,
+        reasonCancelContent: cancelReason || "Hủy bởi nhân viên",
         userID: userId,
       }),
     })
@@ -107,6 +108,7 @@ function Confirm() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+        fetchOrders();
         return response.json();
       })
       .then((data) => {
@@ -226,7 +228,7 @@ function Confirm() {
         <thead>
           <tr className="row">
             <th
-              className={`col-md-2 ${
+              className={`promo-th col-md-2 ${
                 sortConfig.key === "OrderID" ? sortConfig.direction : ""
               }`}
               onClick={() => handleSort("OrderID")}
@@ -237,7 +239,7 @@ function Confirm() {
               </button>
             </th>
             <th
-              className={`col-md-2 ${
+              className={`promo-th col-md-2 ${
                 sortConfig.key === "OrderDate" ? sortConfig.direction : ""
               }`}
               onClick={() => handleSort("OrderDate")}
@@ -248,7 +250,7 @@ function Confirm() {
               </button>
             </th>
             <th
-              className={`col-md-2 ${
+              className={`promo-th col-md-2 ${
                 sortConfig.key === "TotalAmount" ? sortConfig.direction : ""
               }`}
               onClick={() => handleSort("TotalAmount")}
@@ -258,8 +260,8 @@ function Confirm() {
                 <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-3">Địa chỉ</th>
-            <th className="col-md-3">Thao tác</th>
+            <th className="promo-th col-md-3">Địa chỉ</th>
+            <th className="promo-th col-md-3">Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -304,12 +306,12 @@ function Confirm() {
           ))}
         </tbody>
       </table>
-      <div className="pagination">
+      <div className="pagination-container-thinhvcher">
         <ThrowPage
-          currentPage={currentPage}
-          ordersPerPage={ordersPerPage}
-          totalOrders={orders.length}
-          onPageChange={handlePageChange}
+          current={currentPage}
+          onChange={handlePageChange}
+          total={sortedOrders.length}
+          productsPerPage={10}
         />
       </div>
 
@@ -343,7 +345,6 @@ function Confirm() {
             <p>
               <strong>Địa chỉ:</strong> {selectedOrder.Address}
             </p>
-            <h3>Chi tiết đơn hàng:</h3>
             <ul>
               {selectedOrder.details.map((item) => (
                 <li key={item.ProductID}>
@@ -354,7 +355,7 @@ function Confirm() {
             </ul>
             {shippingAddress && (
               <div>
-                <h3>Thông tin giao hàng:</h3>
+               
                 <p>
                   <strong>Tên người nhận:</strong> {shippingAddress.ContactName}
                 </p>
