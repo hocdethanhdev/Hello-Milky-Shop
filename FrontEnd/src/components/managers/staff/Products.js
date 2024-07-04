@@ -384,7 +384,7 @@ const Products = () => {
               ))}
             </tbody>
           </table>
-          <div className="pagination-container-cf">
+          <div className="pagination">
             <ThrowPage
               current={currentPage}
               onChange={handlePageChange}
