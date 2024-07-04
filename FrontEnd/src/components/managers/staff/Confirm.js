@@ -306,7 +306,7 @@ function Confirm() {
           ))}
         </tbody>
       </table>
-      <div className="pagination-container-thinhvcher">
+      <div className="pagination-container-thinhvcher throw-page-confirm">
         <ThrowPage
           current={currentPage}
           onChange={handlePageChange}
