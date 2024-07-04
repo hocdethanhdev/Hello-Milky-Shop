@@ -3,6 +3,8 @@ import axios from "axios";
 import { uploadImage } from "../uimg/UpImage";
 import { message } from "antd";
 import "./AddPromotion.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddPromotion = () => {
   const [promotionName, setPromotionName] = useState("");
@@ -100,8 +102,8 @@ const AddPromotion = () => {
         promotionName,
         description,
         discountPercentage: parseInt(discountPercentage),
-        startDate,
-        endDate,
+        startDate: startDate.toLocaleDateString("vi-VN"), 
+        endDate: endDate.toLocaleDateString("vi-VN"), 
         image: downloadURL,
       };
 
@@ -126,8 +128,8 @@ const AddPromotion = () => {
       setPromotionName("");
       setDescription("");
       setDiscountPercentage(0);
-      setStartDate("");
-      setEndDate("");
+      setStartDate(null);
+      setEndDate(null);
       setImage(null);
       setPreviewImage(null);
       setSelectedProducts([]);
@@ -230,7 +232,7 @@ const PromotionForm = ({
     <div className="promotion-form-container">
       <form onSubmit={handleSubmit}>
         <div className="promo-form">
-          <div className="promo-half">
+          <div className="promo-half2">
             <div>
               <label>Tên khuyến mãi:</label>
               <input
@@ -255,21 +257,25 @@ const PromotionForm = ({
               />
             </div>
           </div>
-          <div className="promo-half">
-            <div>
+          <div className="promo-half2">
+          <div >
               <label>Ngày bắt đầu:</label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                className="form-control"
+                dateFormat="dd/MM/yyyy"
+                placeholderText="dd/mm/yyyy"
               />
             </div>
-            <div>
+            <div >
               <label>Ngày kết thúc:</label>
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                className="form-control"
+                dateFormat="dd/MM/yyyy"
+                placeholderText="dd/mm/yyyy"
               />
             </div>
 
@@ -290,7 +296,7 @@ const PromotionForm = ({
                 </div>
               )}
             </div>
-            <button type="submit">Lưu</button>
+            <button className="longlamluu" type="submit">Lưu</button>
           </div>
         </div>
       </form>
