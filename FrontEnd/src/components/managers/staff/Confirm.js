@@ -11,6 +11,7 @@ function Confirm() {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrderID, setSelectedOrderID] = useState(null);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
@@ -87,7 +88,7 @@ function Confirm() {
   };
 
   const cancelOrder = (orderID) => {
-    setSelectedOrder(orderID);
+    setSelectedOrderID(orderID);
     setIsCancelModalVisible(true);
   };
 
@@ -98,8 +99,8 @@ function Confirm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        orderID: selectedOrder,
-        reasonCancelContent: cancelReason,
+        orderID: selectedOrderID,
+        reasonCancelContent: cancelReason || "Hủy bởi nhân viên",
         userID: userId,
       }),
     })
@@ -107,6 +108,7 @@ function Confirm() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+        fetchOrders();
         return response.json();
       })
       .then((data) => {
