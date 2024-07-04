@@ -11,6 +11,7 @@ import Menu from "./Menu.js";
 import ChatBubble from "../../chat/ChatBubble.js"; // Import ChatBubbleWithWindow component
 import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import Tintuc from "./Tintuc.js";
 
 function Product1() {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -77,6 +78,8 @@ function Product1() {
       {/* Combo sản phẩm */}
       <Combo1 />
       <Combo2 />
+      <div className="tin-tuc-home"><Tintuc /></div>
+
     </section>
   );
 }

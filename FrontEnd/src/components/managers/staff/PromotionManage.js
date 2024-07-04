@@ -17,7 +17,7 @@ function PromotionManage() {
   const [editingPromotion, setEditingPromotion] = useState(null);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [promotionToDelete, setPromotionToDelete] = useState(null);
-  const promotionsPerPage = 5; // Adjust this value as needed
+  const promotionsPerPage = 5;
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
   const [selectedPromotion, setSelectedPromotion] = useState(null);
 
@@ -89,8 +89,10 @@ function PromotionManage() {
       fetchPromotions();
     } catch (error) {
       console.error("Error updating promotion:", error);
+      message.error("Xảy ra lỗi khi cập nhật khuyến mãi");
     }
   };
+
 
   const handleFilterChange = (event) => {
     setFilterType(event.target.value);
@@ -177,9 +179,8 @@ function PromotionManage() {
           <tr>
             <th className="promo-th col-md-1">Stt</th>
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "PromotionName" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "PromotionName" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("PromotionName")}
             >
               Tên khuyến mãi
@@ -189,11 +190,10 @@ function PromotionManage() {
             </th>
             <th className="promo-th col-md-2">Ảnh</th>
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "DiscountPercentage"
-                  ? sortConfig.direction
-                  : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "DiscountPercentage"
+                ? sortConfig.direction
+                : ""
+                }`}
               onClick={() => handleSort("DiscountPercentage")}
             >
               Giảm giá
@@ -202,9 +202,8 @@ function PromotionManage() {
               </button>
             </th>
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "StartDate" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "StartDate" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("StartDate")}
             >
               Bắt đầu
@@ -268,8 +267,8 @@ function PromotionManage() {
       {editingPromotion && (
         <EditPromotionModal
           promotion={editingPromotion}
+          onClose={() => setEditingPromotion(null)}
           onSave={handleSave}
-          onCancel={() => setEditingPromotion(null)}
         />
       )}
       {selectedPromotion && (

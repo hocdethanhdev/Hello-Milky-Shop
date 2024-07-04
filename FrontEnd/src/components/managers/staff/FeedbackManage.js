@@ -34,7 +34,6 @@ const FeedbackManage = () => {
         throw new Error("Comments data is not an array");
       }
       let filteredComments = data.data;
-      console.log(data.data);
       if (filterProductType !== "all") {
         filteredComments = filteredComments.filter(comment =>
           comment.ProductID.includes(filterProductType)

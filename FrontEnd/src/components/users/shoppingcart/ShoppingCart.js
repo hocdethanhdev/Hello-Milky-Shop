@@ -151,7 +151,7 @@ const ShoppingCart = () => {
     if (userID) {
       fetchVouchers();
     }
-  });
+  }, [userID]);
 
   const handleVoucherSelect = (voucher) => {
     const subtotal = calculateTotal();

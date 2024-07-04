@@ -7,6 +7,7 @@
 
 .comments-section-thinh-cmt {
     margin-bottom: 20px;
+    padding: 0px 20px 20px;
 }
 
 .new-comment-section-thinh-cmt textarea {
@@ -118,7 +119,7 @@
     width: 65%;
 }
 .chuyen-trang-fb {
-    padding-left: 550px;
+    display: ruby-text;
     padding-top: 20px;
     padding-bottom: 10px;
 }
