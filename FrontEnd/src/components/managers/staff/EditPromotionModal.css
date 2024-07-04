@@ -1,3 +1,44 @@
 .edit-promotion-form-container {
   width: 100%;
 }
+
+.longdanglam{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.promo-half1 {
+  width: 48%;
+  padding: 20px;
+}
+
+.promo-half1 label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.promo-half1 input,
+.promo-half1 textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+.promo-half1 textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+
