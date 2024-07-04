@@ -304,12 +304,12 @@ function Confirm() {
           ))}
         </tbody>
       </table>
-      <div className="pagination">
+      <div className="pagination-container-thinhvcher">
         <ThrowPage
-          currentPage={currentPage}
-          ordersPerPage={ordersPerPage}
-          totalOrders={orders.length}
-          onPageChange={handlePageChange}
+          current={currentPage}
+          onChange={handlePageChange}
+          total={sortedOrders.length}
+          productsPerPage={10}
         />
       </div>
 
