@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, message } from "antd";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +15,6 @@ function CancelOrder() {
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
   const [shippingAddress, setShippingAddress] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
-  const [searchText, setSearchText] = useState("");
   const ordersPerPage = 10;
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
@@ -88,7 +86,10 @@ function CancelOrder() {
   const handleSort = (key) => {
     let direction = "ascending";
     setSortConfig((prevSortConfig) => {
-      if (prevSortConfig.key === key && prevSortConfig.direction === "ascending") {
+      if (
+        prevSortConfig.key === key &&
+        prevSortConfig.direction === "ascending"
+      ) {
         direction = "descending";
       }
 
@@ -97,7 +98,9 @@ function CancelOrder() {
         if (key === "OrderID" || key === "TotalAmount") {
           return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
         } else if (key === "OrderDate") {
-          return direction === "ascending" ? new Date(a[key]) - new Date(b[key]) : new Date(b[key]) - new Date(a[key]);
+          return direction === "ascending"
+            ? new Date(a[key]) - new Date(b[key])
+            : new Date(b[key]) - new Date(a[key]);
         } else {
           // Default string sorting logic
           if (a[key] < b[key]) {
@@ -115,57 +118,52 @@ function CancelOrder() {
     });
   };
 
-  const handleSearch = (e) => {
-    const searchText = e.target.value.toLowerCase();
-    setSearchText(searchText);
-    const filteredData = orders.filter((order) =>
-      Object.values(order).some((val) =>
-        typeof val === "string" ? val.toLowerCase().includes(searchText) : false
-      )
-    );
-    setFilteredOrders(filteredData);
-  };
-
-  const sortIcon = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === "ascending" ? (
-        <FontAwesomeIcon icon={faSortUp} />
-      ) : (
-        <FontAwesomeIcon icon={faSortDown} />
-      );
-    }
-    return null;
-  };
-
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const currentOrders = filteredOrders.slice(
+    indexOfFirstOrder,
+    indexOfLastOrder
+  );
 
   return (
     <div className="confirm-container">
       <table>
         <thead>
           <tr className="row">
-            <th className="col-md-2">
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "OrderID" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("OrderID")}>
               Mã đơn hàng
-              <button className="sort-icon-order" onClick={() => handleSort("OrderID")}>
-              <FontAwesomeIcon icon={faSort} />
+              <button className={`sort-icon-order `}>
+                <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-2">
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "OrderDate" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("OrderDate")}
+            >
               Ngày đặt hàng
-              <button className="sort-icon-order" onClick={() => handleSort("OrderDate")}>
-              <FontAwesomeIcon icon={faSort} />
+              <button className={`sort-icon-order`}>
+                <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-2">
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "TotalAmount" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("TotalAmount")}
+            >
               Tổng
-              <button className="sort-icon-order" onClick={() => handleSort("TotalAmount")}>
-              <FontAwesomeIcon icon={faSort} />
+              <button className={`sort-icon-order`}>
+                <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-3">Địa chỉ</th>
-            <th className="col-md-3">Thao tác</th>
+            <th className="promo-th col-md-3">Địa chỉ</th>
+            <th className="promo-th col-md-3">Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -179,10 +177,15 @@ function CancelOrder() {
                   year: "numeric",
                 })}
               </td>
-              <td className="col-md-2">{formatPrice(parseInt(order.TotalAmount))}</td>
+              <td className="col-md-2">
+                {formatPrice(parseInt(order.TotalAmount))}
+              </td>
               <td className="col-md-3">{order.Address}</td>
               <td className="col-md-3 nut-xndh">
-                <button type="button" className="btn btn-primary xndh" onClick={() => viewOrderDetails(order)}>
+                <button
+                  type="button"
+                  className="btn btn-primary xndh"
+                  onClick={() => viewOrderDetails(order)}>
                   Thông tin
                 </button>
               </td>
@@ -206,8 +209,7 @@ function CancelOrder() {
             <Button key="close" onClick={handleModalClose}>
               Đóng
             </Button>,
-          ]}
-        >
+          ]}>
           <div className="modal-content-scrollable-thinhh">
             <div className="ttdh-thinh">
               <p className="reason-content">
@@ -282,7 +284,11 @@ function CancelOrder() {
                       <td>{detail.ProductID}</td>
                       <td>{detail.ProductName}</td>
                       <td>
-                        <img src={detail.Image} alt={detail.ProductName} width="50" />
+                        <img
+                          src={detail.Image}
+                          alt={detail.ProductName}
+                          width="50"
+                        />
                       </td>
                       <td>{detail.Quantity}</td>
                     </tr>
