@@ -29,20 +29,20 @@
   justify-content: space-between;
 }
 
-.promo-half {
+.promo-half2 {
   width: 48%;
   padding: 20px;
 }
 
-.promo-half label {
+.promo-half2 label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
   color: #555;
 }
 
-.promo-half input,
-.promo-half textarea {
+.promo-half2 input,
+.promo-half2 textarea {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -51,12 +51,12 @@
   box-sizing: border-box;
 }
 
-.promo-half textarea {
+.promo-half2 textarea {
   resize: vertical;
   height: 100px;
 }
 
-.promo-half button {
+.longlamluu {
   display: block;
   width: 100%;
   padding: 10px;
@@ -68,7 +68,7 @@
   font-size: 16px;
 }
 
-.promo-half button:hover {
+.promo-half2 button:hover {
   background-color: #218838;
 }
 
