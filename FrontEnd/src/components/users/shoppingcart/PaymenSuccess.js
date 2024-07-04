@@ -107,13 +107,16 @@ const PaymemSuccess = () => {
     };
 
     const transferOrderDetailsToNewOrder = async (orderID) => {
-      const trans = await axios.post(
+      await axios.post(
         "http://localhost:5000/api/v1/order/transferOrderDetailsToNewOrder",
         {
           OrderID: orderID,
         }
       );
-      console.log(trans.data.err);
+      localStorage.removeItem('orderID');
+      localStorage.removeItem('usePoints');
+      localStorage.removeItem('productQuantitiesToUpdate');
+      localStorage.removeItem('totalAmount');
     };
 
     const code = params.get("code");
