@@ -100,18 +100,29 @@ const PaymemSuccess = () => {
       if (errorMessages[code]) {
         toast.error(errorMessages[code], { duration: 7000 });
       } else {
-        toast.error(`Giao dịch không thành công. Mã lỗi: ${code}`, { duration: 7000 });
+        toast.error(`Giao dịch không thành công. Mã lỗi: ${code}`, {
+          duration: 7000,
+        });
       }
     };
 
+    const transferOrderDetailsToNewOrder = async (orderID) => {
+      const trans = await axios.post(
+        "http://localhost:5000/api/v1/order/transferOrderDetailsToNewOrder",
+        {
+          OrderID: orderID,
+        }
+      );
+      console.log(trans.data.err);
+    };
+
     const code = params.get("code");
-
+    const orderID = localStorage.getItem("orderID");
+    const totalAmount = localStorage.getItem("totalAmount");
     if (status === "1") {
-      const orderID = localStorage.getItem("orderID");
-      const totalAmount = localStorage.getItem("totalAmount");
-
       checkoutOrder(orderID, totalAmount);
     } else if (status === "0" && code) {
+      transferOrderDetailsToNewOrder(orderID);
       handlePaymentFailure(code);
     }
   });

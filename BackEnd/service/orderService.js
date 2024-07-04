@@ -3,6 +3,10 @@ const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
 
+    transferOrderDetailsToNewOrder: async (OrderID) => {
+        return await orderRepository.transferOrderDetailsToNewOrder(OrderID);
+    },
+
     countOrdersPayed: async () => {
         return await orderRepository.countOrdersPayed();
     },
