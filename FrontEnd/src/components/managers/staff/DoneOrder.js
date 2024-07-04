@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { faSort } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 function DoneOrder() {
@@ -78,7 +78,10 @@ function DoneOrder() {
   const handleSort = (key) => {
     let direction = "ascending";
     setSortConfig((prevSortConfig) => {
-      if (prevSortConfig.key === key && prevSortConfig.direction === "ascending") {
+      if (
+        prevSortConfig.key === key &&
+        prevSortConfig.direction === "ascending"
+      ) {
         direction = "descending";
       }
 
@@ -87,7 +90,9 @@ function DoneOrder() {
         if (key === "OrderID" || key === "TotalAmount") {
           return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
         } else if (key === "OrderDate") {
-          return direction === "ascending" ? new Date(a[key]) - new Date(b[key]) : new Date(b[key]) - new Date(a[key]);
+          return direction === "ascending"
+            ? new Date(a[key]) - new Date(b[key])
+            : new Date(b[key]) - new Date(a[key]);
         } else {
           // Default string sorting logic
           if (a[key] < b[key]) {
@@ -105,17 +110,6 @@ function DoneOrder() {
     });
   };
 
-  const sortIcon = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === "ascending" ? (
-        <FontAwesomeIcon icon={faSortUp} />
-      ) : (
-        <FontAwesomeIcon icon={faSortDown} />
-      );
-    }
-    return <FontAwesomeIcon icon={faSort} />;
-  };
-
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -129,26 +123,38 @@ function DoneOrder() {
       <table>
         <thead>
           <tr className="row">
-            <th className="col-md-2">
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "OrderID" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("OrderID")}>
               Mã đơn hàng
-              <button className="sort-icon-order" onClick={() => handleSort("OrderID")}>
-                {sortIcon("OrderID")}
+              <button className={`sort-icon-order `}>
+                <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-2">
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "OrderDate" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("OrderDate")}>
               Ngày đặt hàng
-              <button className="sort-icon-order" onClick={() => handleSort("OrderDate")}>
-                {sortIcon("OrderDate")}
+              <button className={`sort-icon-order`}>
+                <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-2">
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "TotalAmount" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("TotalAmount")}>
               Tổng
-              <button className="sort-icon-order" onClick={() => handleSort("TotalAmount")}>
-                {sortIcon("TotalAmount")}
+              <button className={`sort-icon-order`}>
+                <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-3">Địa chỉ</th>
-            <th className="col-md-3">Thao tác</th>
+            <th className="promo-th col-md-3">Địa chỉ</th>
+            <th className="promo-th col-md-3">Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -211,14 +217,17 @@ function DoneOrder() {
                       <strong>Ngày đặt hàng:</strong>
                     </td>
                     <td>
-                      {new Date(selectedOrder.OrderDate).toLocaleString("vi-VN", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        second: "2-digit",
-                      })}
+                      {new Date(selectedOrder.OrderDate).toLocaleString(
+                        "vi-VN",
+                        {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          second: "2-digit",
+                        }
+                      )}
                     </td>
                   </tr>
                   <tr>
