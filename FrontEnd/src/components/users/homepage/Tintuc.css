@@ -1,0 +1,79 @@
+/* Tintuc.css */
+.tintuc-container {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.tintuc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tintuc-header h2 {
+    margin: 0;
+}
+
+.tintuc-header .view-all-thinh-new {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.tintuc-articles {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.tintuc-article {
+    width: 23%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    padding: 15px;
+    box-sizing: border-box;
+    transition: box-shadow 0.3s;
+    margin-bottom: 20px;
+}
+
+.tintuc-article:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tintuc-image {
+    width: 260px;
+    height: 175px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.tintuc-article h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.tintuc-article p {
+    font-size: 14px;
+    color: #666;
+}
+.tintuc-container {
+    padding: 25px;
+}
+.tintuc-article:hover {
+    transform: scale(1.05);
+}
+
+.tintuc-article:hover img {
+    transform: scale(1);
+}
+.view-all-thinh-new:hover {
+    color: #ff6600;
+}
+.thinh-gia-soc-lam {
+    max-width: 400px;
+}
