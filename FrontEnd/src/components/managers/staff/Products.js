@@ -8,12 +8,14 @@ import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
 import { message } from "antd";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
-
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortOrder, setSortOrder] = useState({
+    column: "ProductName",
+    order: "asc",
+  });
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
@@ -23,7 +25,7 @@ const Products = () => {
   const [productToDelete, setProductToDelete] = useState(null);
   const productsPerPage = 10;
   const navigate = useNavigate();
-  // Fetch products from the API
+
   const fetchInforProductDetail = () => {
     fetch("http://localhost:5000/api/v1/product/getInfoProductsDetail")
       .then((response) => {
@@ -39,12 +41,10 @@ const Products = () => {
       .catch((error) => console.error("Error fetching products:", error));
   };
 
-  // Fetch products on component mount
   useEffect(() => {
     fetchInforProductDetail();
   }, []);
 
-  // Apply filters and sorting
   useEffect(() => {
     let updatedProducts = [...products];
 
@@ -67,43 +67,45 @@ const Products = () => {
       });
     }
 
-    if (sortOrder === "asc") {
+    if (sortOrder.order === "asc") {
       updatedProducts.sort((a, b) =>
-        a.ProductName.localeCompare(b.ProductName)
+        a[sortOrder.column]
+          .toString()
+          .localeCompare(b[sortOrder.column].toString())
       );
     } else {
       updatedProducts.sort((a, b) =>
-        b.ProductName.localeCompare(a.ProductName)
+        b[sortOrder.column]
+          .toString()
+          .localeCompare(a[sortOrder.column].toString())
       );
     }
 
     setFilteredProducts(updatedProducts);
   }, [products, sortOrder, categoryFilter, statusFilter]);
 
-  // Handle page change
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
   };
 
-  // Toggle sort order
-  const handleSort = () => {
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  const handleSort = (column) => {
+    setSortOrder((prevSortOrder) => ({
+      column,
+      order: prevSortOrder.order === "asc" ? "desc" : "asc",
+    }));
   };
 
-  // Handle category filter change
   const handleCategoryFilter = (event) => {
     setCategoryFilter(event.target.getAttribute("data-value"));
     setShowCategoryDropdown(false);
   };
 
-  // Handle status filter change
   const handleStatusFilter = (event) => {
     setStatusFilter(event.target.getAttribute("data-value"));
     setShowStatusDropdown(false);
   };
 
-  // Toggle dropdown visibility
   const toggleCategoryDropdown = () => {
     setShowCategoryDropdown(!showCategoryDropdown);
   };
@@ -112,7 +114,6 @@ const Products = () => {
     setShowStatusDropdown(!showStatusDropdown);
   };
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".category-header") && showCategoryDropdown) {
@@ -129,23 +130,19 @@ const Products = () => {
     };
   }, [showCategoryDropdown, showStatusDropdown]);
 
-  // Handle product detail modal
   const handleDetailClick = (product) => {
     setSelectedProduct(product);
   };
 
-  // Close modals
   const handleCloseModal = () => {
     setSelectedProduct(null);
   };
 
-  // Handle product delete
   const handleDeleteClick = (productId) => {
     setProductToDelete(productId);
     setShowDeletePopup(true);
   };
 
-  // Confirm delete
   const handleToggleStatus = (product) => {
     const updatedProduct = {
       ...product,
@@ -182,6 +179,7 @@ const Products = () => {
         message.error("Lỗi khi cập nhật trạng thái sản phẩm: " + error.message);
       });
   };
+
   const confirmDelete = () => {
     fetch(
       `http://localhost:5000/api/v1/product/deleteProduct/${productToDelete}`,
@@ -220,17 +218,14 @@ const Products = () => {
       });
   };
 
-  // Cancel delete
   const cancelDelete = () => {
     setShowDeletePopup(false);
     setProductToDelete(null);
   };
 
-  // Handle product edit
   const handleEditClick = (productID) => {
     navigate(`/edit-product/${productID}`);
   };
-
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -253,8 +248,17 @@ const Products = () => {
           <table>
             <thead>
               <tr className="row">
-                <th className="col-md-1">Mã</th>
-                <th className="col-md-4" onClick={handleSort} style={{ cursor: "pointer" }}>
+                <th
+                  className="col-md-1"
+                  onClick={() => handleSort("ProductID")}
+                  style={{ cursor: "pointer" }}>
+                  Mã
+                  <FontAwesomeIcon icon={faSort} />
+                </th>
+                <th
+                  className="col-md-4"
+                  onClick={() => handleSort("ProductName")}
+                  style={{ cursor: "pointer" }}>
                   Tên sản phẩm
                   <FontAwesomeIcon icon={faSort} />
                 </th>
@@ -269,22 +273,19 @@ const Products = () => {
                       <li
                         className="dropdown-li-thinh"
                         data-value="All"
-                        onClick={handleCategoryFilter}
-                      >
+                        onClick={handleCategoryFilter}>
                         Tất cả
                       </li>
                       <li
                         className="dropdown-li-thinh"
                         data-value="Sữa cho em bé"
-                        onClick={handleCategoryFilter}
-                      >
+                        onClick={handleCategoryFilter}>
                         Sữa cho em bé
                       </li>
                       <li
                         className="dropdown-li-thinh"
                         data-value="Sữa cho mẹ bầu"
-                        onClick={handleCategoryFilter}
-                      >
+                        onClick={handleCategoryFilter}>
                         Sữa cho mẹ bầu
                       </li>
                     </ul>
@@ -301,29 +302,25 @@ const Products = () => {
                       <li
                         className="dropdown-li-thinh"
                         data-value="All"
-                        onClick={handleStatusFilter}
-                      >
+                        onClick={handleStatusFilter}>
                         Tất cả
                       </li>
                       <li
                         className="dropdown-li-thinh"
                         data-value="Tạm ẩn"
-                        onClick={handleStatusFilter}
-                      >
+                        onClick={handleStatusFilter}>
                         Tạm ẩn
                       </li>
                       <li
                         className="dropdown-li-thinh"
                         data-value="Còn hàng"
-                        onClick={handleStatusFilter}
-                      >
+                        onClick={handleStatusFilter}>
                         Còn hàng
                       </li>
                       <li
                         className="dropdown-li-thinh"
                         data-value="Hết hàng"
-                        onClick={handleStatusFilter}
-                      >
+                        onClick={handleStatusFilter}>
                         Hết hàng
                       </li>
                     </ul>
@@ -343,15 +340,14 @@ const Products = () => {
                       ? "Tạm ẩn"
                       : product.Status === true &&
                         parseInt(product.StockQuantity) > 0
-                        ? "Còn hàng"
-                        : "Hết hàng"}
+                      ? "Còn hàng"
+                      : "Hết hàng"}
                   </td>
                   <td className="nut-act col-md-3">
                     <button
                       type="button"
                       className="btn btn-primary"
-                      onClick={() => handleDetailClick(product)}
-                    >
+                      onClick={() => handleDetailClick(product)}>
                       Xem
                     </button>
 
@@ -359,24 +355,21 @@ const Products = () => {
                       <button
                         type="button"
                         className="btn btn-danger"
-                        onClick={() => handleDeleteClick(product.ProductID)}
-                      >
+                        onClick={() => handleDeleteClick(product.ProductID)}>
                         Xóa
                       </button>
                     ) : (
                       <button
                         type="button"
                         className="btn btn-success"
-                        onClick={() => handleToggleStatus(product)}
-                      >
+                        onClick={() => handleToggleStatus(product)}>
                         Mở
                       </button>
                     )}
                     <button
                       type="button"
                       className="btn btn-warning"
-                      onClick={() => handleEditClick(product.ProductID)}
-                    >
+                      onClick={() => handleEditClick(product.ProductID)}>
                       Sửa
                     </button>
                   </td>
