@@ -29,7 +29,9 @@ function ChatWindow({ roomId, userName, onClose }) {
           }
         );
         const result = await response.json();
-        if (result.err === 0) {
+        if (result.err === 0 && result.data.length === 0) {
+          setMessages(null);
+        } else if (result.err === 0) {
           const messages = result.data.map((msg) => ({
             content: msg.Message,
             userId: msg.UserID,
@@ -122,8 +124,8 @@ function ChatWindow({ roomId, userName, onClose }) {
 }
 
 ChatWindow.propTypes = {
-  roomId: PropTypes.string.isRequired, 
-  userName: PropTypes.string.isRequired, 
+  roomId: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
