@@ -570,6 +570,8 @@ Content-Type: application/json
 }
 ###
 PUT http://localhost:5000/api/v1/voucher/deleteVoucher/10
+###
+PUT http://localhost:5000/api/v1/voucher/openVoucher/10
 
 ### lay dia chi gan nhat cua 1 user
 POST http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest

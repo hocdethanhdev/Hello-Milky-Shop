@@ -334,6 +334,30 @@ const voucherDAO = {
       });
     });
   },
+
+  openVoucher: (VoucherID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        var request = new mssql.Request().input("voucherID", VoucherID);
+        request.query(
+          `UPDATE Voucher
+                    SET Status = 1
+                    WHERE VoucherID = @voucherID;`,
+          (err) => {
+            if (err) reject(err);
+            resolve({
+              message: "Open successfully",
+            });
+          }
+        );
+      });
+    });
+  },
 };
 
 module.exports = voucherDAO;

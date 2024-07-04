@@ -4,6 +4,8 @@ import ProductSelectionModal from "./ProductSelectionModal ";
 import { uploadImage } from "../uimg/UpImage";
 import moment from "moment";
 import "./EditPromotionModal.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const EditPromotionModal = ({ promotion, onClose, onSave }) => {
   const [promotionName, setPromotionName] = useState(promotion.PromotionName);
@@ -12,10 +14,10 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
     promotion.DiscountPercentage
   );
   const [startDate, setStartDate] = useState(
-    moment(promotion.StartDate).format("YYYY-MM-DD")
+    promotion.StartDate ? new Date(promotion.StartDate) : null
   );
   const [endDate, setEndDate] = useState(
-    moment(promotion.EndDate).format("YYYY-MM-DD")
+    promotion.EndDate ? new Date(promotion.EndDate) : null
   );
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(promotion.Image || null);
@@ -82,8 +84,8 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
         promotionName,
         description,
         discountPercentage: parseInt(discountPercentage),
-        startDate,
-        endDate,
+        StartDate: moment(startDate).format("YYYY-MM-DD"),
+        EndDate: moment(endDate).format("YYYY-MM-DD"),
         image: downloadURL,
       };
 
@@ -112,7 +114,7 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
   return (
     <Modal
       visible
-      title="Edit Promotion"
+      title="Chỉnh sửa khuyến mãi"
       onCancel={onClose}
       onOk={handleSubmit}
       width={800}
@@ -120,7 +122,7 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
       <div className="edit-promotion-form-container">
         <form onSubmit={handleSubmit}>
           <div className="promo-form">
-            <div className="promo-half">
+            <div className="promo-half1">
               <div>
                 <label>Tên khuyến mãi:</label>
                 <input
@@ -145,21 +147,21 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
                 />
               </div>
             </div>
-            <div className="promo-half">
-              <div>
+            <div className="promo-half1">
+            <div>
                 <label>Ngày bắt đầu:</label>
-                <input
-                  type="date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  dateFormat="dd/MM/yyyy"
                 />
               </div>
               <div>
                 <label>Ngày kết thúc:</label>
-                <input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
+                <DatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                  dateFormat="dd/MM/yyyy"
                 />
               </div>
               <div>
@@ -179,7 +181,7 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
                   </div>
                 )}
               </div>
-              <button type="submit">Lưu</button>
+              <button className="longdanglam" type="submit">Lưu</button>
             </div>
           </div>
         </form>

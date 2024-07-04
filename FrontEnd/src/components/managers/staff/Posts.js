@@ -6,6 +6,7 @@ import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import DeleteConfirmationPopupForArticle from "./DeleteConfirmationPopupForArticle";
+import { message } from "antd";
 
 function Posts() {
   const [articles, setArticles] = useState([]);
@@ -72,6 +73,7 @@ function Posts() {
           articles.filter((article) => article.ArticleID !== deleteArticleId)
         );
         setShowDeletePopup(false);
+        message.success('Xóa bài viết thành công');
       })
       .catch((error) => {
         console.error("There was an error deleting the article!", error);
@@ -124,7 +126,13 @@ function Posts() {
                     style={{ width: "100px" }}
                   />
                 </td>
-                <td className="col-md-3">{new Date(article.PublishDate).toLocaleDateString()}</td>
+                <td className="col-md-3">
+                  {new Date(article.PublishDate).toLocaleDateString("vi-VN", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </td>
                 <td className="col-md-2">
                   <div className="nutchung-post">
                     <button
