@@ -73,9 +73,10 @@
 }
 
 .news-item:hover {
-  background-color: #d9f1ff;
-  border-radius: 5px;
-  padding: 1px;
+  transform: scale(1.02);
+}
+.news-item:hover img {
+  transform: scale(1.02);
 }
 
 .pagination {

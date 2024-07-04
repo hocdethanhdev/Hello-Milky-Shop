@@ -12,7 +12,7 @@ const articleDAO = {
         request.query(
           `SELECT TOP 5 a.*
           FROM Article a
-          WHERE ArticleCategoryID = @id AND ArticleID != @aid
+          WHERE ArticleCategoryID = @id AND ArticleID != @aid AND PublishDate <= GETDATE()
           `,
           (err, res) => {
             if (err) reject(err);
@@ -262,7 +262,7 @@ const articleDAO = {
           `SELECT TOP 4 *
            FROM Article
            WHERE PublishDate <= GETDATE()
-           ORDER BY ArticleID DESC;
+           ORDER BY PublishDate DESC;
           `,
           (err, res) => {
             if (err) reject(err);
