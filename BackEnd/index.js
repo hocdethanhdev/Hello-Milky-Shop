@@ -43,7 +43,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 initRouters(app);
 
 const unreadMessages = {};
-var sumUnreadMessages = 0;
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", async (roomId) => {
@@ -51,7 +50,6 @@ io.on("connection", (socket) => {
 
     unreadMessages[roomId] = 0;
     io.emit("updateUnreadMessageCount", unreadMessages);
-    io.emit("sumUnreadMessageCount", sumUnreadMessages);
   });
 
   socket.on("leaveRoom", (roomId) => {
@@ -60,12 +58,10 @@ io.on("connection", (socket) => {
 
   socket.on("chat message", async (msg) => {
     if (!unreadMessages[msg.roomId] || msg.userId.startsWith("S")) {
-      sumUnreadMessages -= unreadMessages[msg.roomId];
       unreadMessages[msg.roomId] = 0;
     }
     if (msg.userId.startsWith("M")) {
       unreadMessages[msg.roomId]++;
-      sumUnreadMessages++;
     }
 
     io.to(msg.roomId).emit("chat message", {
@@ -73,7 +69,6 @@ io.on("connection", (socket) => {
       userId: msg.userId,
     });
     io.emit("updateUnreadMessageCount", unreadMessages);
-    io.emit("sumUnreadMessageCount", sumUnreadMessages);
 
     await chatController.saveMessage(msg.content, msg.userId, msg.roomId);
   });
