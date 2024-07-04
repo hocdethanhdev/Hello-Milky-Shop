@@ -718,9 +718,9 @@ const productDAO = {
           LEFT JOIN ProductPromotionList ppl ON ppl.ProductID = p.ProductID
 		      LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
           WHERE o.Status = 1 AND o.StatusOrderID = 4
-          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, ppl.PriceAfterDiscount
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price
           ORDER BY SumSell DESC;
-        ;`,
+        `,
           (err, res) => {
             if (err) reject(err);
             resolve({

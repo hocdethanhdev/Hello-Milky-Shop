@@ -197,6 +197,7 @@ const EditProductModal = () => {
         console.log("Product updated successfully");
         message.success("Sản phẩm đã được sửa thành công.");
         navigate("/products");
+        window.scrollTo(0, 0);
       } else {
         const errorData = await response.json();
         console.error("Error updating product:", errorData);
