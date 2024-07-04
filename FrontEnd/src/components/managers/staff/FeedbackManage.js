@@ -198,8 +198,12 @@ const Comment = ({ comment, onSubmit }) => {
               <div className="comment-content-thinh-cmt">
                 {comment.Description}
               </div>
-              <div className="time-thinh-cmt">
-                {new Date(comment.CommentDate).toLocaleDateString()}
+              <div className="time-thinh-cmt"> 
+              {new Date(comment.CommentDate).toLocaleDateString("vi-VN", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
               </div>
             </div>
           </div>
