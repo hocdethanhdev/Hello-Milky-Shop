@@ -13,7 +13,7 @@
   padding: 0;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   overflow-y: auto; /* Đảm bảo thanh cuộn dọc xuất hiện */
-  height: 100%; /* Hoặc một giá trị cố định như 500px */
+  height: 100%;/* Hoặc một giá trị cố định như 500px */
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -33,6 +33,7 @@
   padding: 0;
   list-style: none;
   margin: 0;
+  max-height: 55vh;
 }
 
 .chat-room-list ul li {
