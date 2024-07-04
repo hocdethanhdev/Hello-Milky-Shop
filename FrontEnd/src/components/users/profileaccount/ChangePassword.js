@@ -67,7 +67,7 @@ function ChangePassword() {
 
   return (
     <div className="account-container-account-changepass">
-      <div className="sidebar-wrapper-account-changepass">
+      <div className="sidebar-wrapper">
         <SidebarProfile />
       </div>
       <div className="change-password-form">

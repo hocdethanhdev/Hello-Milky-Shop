@@ -16,47 +16,50 @@ const OrderProfile = () => {
   const userIdd = getUserIdFromToken(token);
   const [canRateMap, setCanRateMap] = useState({});
 
-  const fetchOrders = useCallback(async (status) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/api/v1/order/getOrdersByUserID/${userIdd}`
-      );
-      const orders = response.data;
-      const filteredOrders = status
-        ? orders.filter(
-          (order) =>
-            getStatusFromStatusOrderName(order.StatusOrderName) === status
-        )
-        : orders;
-      const groupedOrders = filteredOrders.reduce((acc, order) => {
-        const existingOrder = acc.find((o) => o.OrderID === order.OrderID);
-        if (existingOrder) {
-          existingOrder.items.push(order);
-        } else {
-          acc.push({
-            OrderID: order.OrderID,
-            status: order.StatusOrderName,
-            items: [order],
-            totalPrice: calculateTotalPrice([order]),
+  const fetchOrders = useCallback(
+    async (status) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/order/getOrdersByUserID/${userIdd}`
+        );
+        const orders = response.data;
+        const filteredOrders = status
+          ? orders.filter(
+              (order) =>
+                getStatusFromStatusOrderName(order.StatusOrderName) === status
+            )
+          : orders;
+        const groupedOrders = filteredOrders.reduce((acc, order) => {
+          const existingOrder = acc.find((o) => o.OrderID === order.OrderID);
+          if (existingOrder) {
+            existingOrder.items.push(order);
+          } else {
+            acc.push({
+              OrderID: order.OrderID,
+              status: order.StatusOrderName,
+              items: [order],
+              totalPrice: calculateTotalPrice([order]),
+            });
+          }
+          return acc;
+        }, []);
+
+        groupedOrders.sort((a, b) => b.OrderID - a.OrderID);
+
+        setOrdersData(groupedOrders);
+
+        groupedOrders.forEach((order) => {
+          order.items.forEach(async (item) => {
+            const canRate = await checkUserOrder(userIdd, item.ProductID);
+            setCanRateMap((prev) => ({ ...prev, [item.ProductID]: canRate }));
           });
-        }
-        return acc;
-      }, []);
-
-      groupedOrders.sort((a, b) => b.OrderID - a.OrderID);
-
-      setOrdersData(groupedOrders);
-
-      groupedOrders.forEach((order) => {
-        order.items.forEach(async (item) => {
-          const canRate = await checkUserOrder(userIdd, item.ProductID);
-          setCanRateMap((prev) => ({ ...prev, [item.ProductID]: canRate }));
         });
-      });
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    }
-  }, [userIdd]);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    },
+    [userIdd]
+  );
 
   const getStatusFromStatusOrderName = (statusOrderName) => {
     switch (statusOrderName) {
@@ -127,6 +130,7 @@ const OrderProfile = () => {
 
   const checkUserOrder = async (userId, productId) => {
     try {
+      if(!userId || !productId) return false;
       const response = await axios.post(
         "http://localhost:5000/api/v1/comment/checkUserOrdered",
         {
@@ -134,7 +138,8 @@ const OrderProfile = () => {
           ProductID: productId,
         }
       );
-      return response.data.count > 0;
+      const check = response.data.count > 0;
+      return check;
     } catch (err) {
       console.error("Error checking user order:", err);
       return false;
@@ -170,7 +175,8 @@ const OrderProfile = () => {
                 onClick={() => {
                   setShowCancelPopup(true);
                   setOrderToCancel(order.OrderID);
-                }}>
+                }}
+              >
                 Hủy đơn hàng
               </button>
             )}
@@ -183,13 +189,10 @@ const OrderProfile = () => {
             )}
           </div>
           {order.items.map((item, idx) => (
-
             <div key={idx} className="order-item">
-              <Link
-                to={`/product/${item.ProductID}`}
-                title={item.ProductName}
-              >
-                <img src={item.Image} alt="Product" /></Link>
+              <Link to={`/product/${item.ProductID}`} title={item.ProductName}>
+                <img src={item.Image} alt="Product" />
+              </Link>
               <div className="item-details">
                 <p>{item.ProductName}</p>
                 <p>Phân loại hàng: {item.ProductCategoryName}</p>
@@ -211,7 +214,8 @@ const OrderProfile = () => {
                   canRateMap[item.ProductID] && (
                     <Link
                       to={`/product/${item.ProductID}`}
-                      className="rate-button btn btn-warning">
+                      className="rate-button btn btn-warning"
+                    >
                       Đánh giá
                     </Link>
                   )}
@@ -229,18 +233,17 @@ const OrderProfile = () => {
                     )}
                   {item.NewPrice
                     ? item.NewPrice.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })
+                        style: "currency",
+                        currency: "VND",
+                      })
                     : item.OldPrice &&
-                    item.OldPrice.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
+                      item.OldPrice.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
                 </p>
               </div>
             </div>
-
           ))}
           <div className="total-price">
             <p>Thành tiền: {order.totalPrice}</p>
@@ -256,27 +259,32 @@ const OrderProfile = () => {
         <ul>
           <li
             className={activeTab === "Tất cả" ? "active" : ""}
-            onClick={() => setActiveTab("Tất cả")}>
+            onClick={() => setActiveTab("Tất cả")}
+          >
             Tất cả
           </li>
           <li
             className={activeTab === "Chờ xác nhận" ? "active" : ""}
-            onClick={() => setActiveTab("Chờ xác nhận")}>
+            onClick={() => setActiveTab("Chờ xác nhận")}
+          >
             Chờ xác nhận
           </li>
           <li
             className={activeTab === "Đang giao" ? "active" : ""}
-            onClick={() => setActiveTab("Đang giao")}>
+            onClick={() => setActiveTab("Đang giao")}
+          >
             Đang giao
           </li>
           <li
             className={activeTab === "Hoàn thành" ? "active" : ""}
-            onClick={() => setActiveTab("Hoàn thành")}>
+            onClick={() => setActiveTab("Hoàn thành")}
+          >
             Hoàn thành
           </li>
           <li
             className={activeTab === "Đã hủy" ? "active" : ""}
-            onClick={() => setActiveTab("Đã hủy")}>
+            onClick={() => setActiveTab("Đã hủy")}
+          >
             Đã hủy
           </li>
         </ul>
@@ -287,7 +295,8 @@ const OrderProfile = () => {
           <div className="popup-content">
             <span
               className="close-popup"
-              onClick={() => setShowCancelPopup(false)}>
+              onClick={() => setShowCancelPopup(false)}
+            >
               &times;
             </span>
             <p>Bạn chắc chắn muốn hủy đơn hàng?</p>
@@ -304,7 +313,8 @@ const OrderProfile = () => {
           <div className="popup-content">
             <span
               className="close-popup"
-              onClick={() => setShowConfirmPopup(false)}>
+              onClick={() => setShowConfirmPopup(false)}
+            >
               &times;
             </span>
             <p>Bạn chắc chắn đã nhận được hàng?</p>
