@@ -98,6 +98,7 @@ button.rate-button:hover {
   align-items: center;
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
+  text-decoration: none;
 }
 
 .order-item img {
@@ -107,10 +108,12 @@ button.rate-button:hover {
 .item-details {
   flex: 1;
   margin-left: 10px;
+  text-decoration: none;
 }
 
 .item-price {
   text-align: right;
+  text-decoration: none;
 }
 
 .total-price {
@@ -172,5 +175,3 @@ button.rate-button:hover {
   background-color: green;
   color: #fff;
 }
-
-

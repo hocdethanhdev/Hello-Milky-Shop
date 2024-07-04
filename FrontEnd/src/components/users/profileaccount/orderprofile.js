@@ -24,9 +24,9 @@ const OrderProfile = () => {
       const orders = response.data;
       const filteredOrders = status
         ? orders.filter(
-            (order) =>
-              getStatusFromStatusOrderName(order.StatusOrderName) === status
-          )
+          (order) =>
+            getStatusFromStatusOrderName(order.StatusOrderName) === status
+        )
         : orders;
       const groupedOrders = filteredOrders.reduce((acc, order) => {
         const existingOrder = acc.find((o) => o.OrderID === order.OrderID);
@@ -183,8 +183,13 @@ const OrderProfile = () => {
             )}
           </div>
           {order.items.map((item, idx) => (
+
             <div key={idx} className="order-item">
-              <img src={item.Image} alt="Product" />
+              <Link
+                to={`/product/${item.ProductID}`}
+                title={item.ProductName}
+              >
+                <img src={item.Image} alt="Product" /></Link>
               <div className="item-details">
                 <p>{item.ProductName}</p>
                 <p>Phân loại hàng: {item.ProductCategoryName}</p>
@@ -224,17 +229,18 @@ const OrderProfile = () => {
                     )}
                   {item.NewPrice
                     ? item.NewPrice.toLocaleString("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      })
+                      style: "currency",
+                      currency: "VND",
+                    })
                     : item.OldPrice &&
-                      item.OldPrice.toLocaleString("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      })}
+                    item.OldPrice.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                 </p>
               </div>
             </div>
+
           ))}
           <div className="total-price">
             <p>Thành tiền: {order.totalPrice}</p>
