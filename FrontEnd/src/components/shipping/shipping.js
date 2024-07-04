@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Modal } from "antd"; // Removed unused Button import
+import { Modal, message } from "antd"; // Removed unused Button import
 import 'antd/dist/reset.css';
 import Loading from "../layout/Loading";
 
@@ -52,6 +52,7 @@ function Shipping() {
       );
       setOrders(orders.filter((order) => order.OrderID !== confirmingOrderId));
       setModalVisible(false);
+      message.success('Xác nhận đơn hàng thành công!');
     } catch (error) {
       console.error("Error updating order status:", error);
     }
@@ -62,7 +63,7 @@ function Shipping() {
   };
 
   if (loading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   return (
