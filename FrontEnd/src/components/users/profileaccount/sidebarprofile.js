@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "./sidebarprofile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { getUserIdFromToken } from "../../store/actions/authAction";
+import axios from "axios";
 
-function SidebarProfile({ userData }) {
+function SidebarProfile() {
   const [dropDown, setDropDown] = useState(false);
   const location = useLocation();
+  const { token } = useSelector((state) => state.auth);
+  const userId = getUserIdFromToken(token);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`
+      );
+      setUserData(response.data.data);
+    };
+    fetchUserData();
+  }, [userId]);
 
   const isActiveLink = (path) => {
     return location.pathname === path;
@@ -32,7 +48,9 @@ function SidebarProfile({ userData }) {
             style={{ marginLeft: "5px" }}
           />
         </a>
-        <div className={`dropdown-content-st-thinh ${dropDown ? "active" : ""}`}>
+        <div
+          className={`dropdown-content-st-thinh ${dropDown ? "active" : ""}`}
+        >
           <NavLink
             className={isActiveLink("/account") ? "active-st-thinh" : ""}
             to="/account"
@@ -45,9 +63,11 @@ function SidebarProfile({ userData }) {
             />{" "}
             Hồ sơ
           </NavLink>
-          {userData && userData.Email && (
+          {userData && userData.PhoneNumber !== null && (
             <NavLink
-              className={isActiveLink("/ChangePassword") ? "active-st-thinh" : ""}
+              className={
+                isActiveLink("/ChangePassword") ? "active-st-thinh" : ""
+              }
               to="/ChangePassword"
             >
               <img
@@ -59,6 +79,7 @@ function SidebarProfile({ userData }) {
               Đổi mật khẩu
             </NavLink>
           )}
+
           <NavLink
             className={isActiveLink("/Address") ? "active-st-thinh" : ""}
             to="/Address"

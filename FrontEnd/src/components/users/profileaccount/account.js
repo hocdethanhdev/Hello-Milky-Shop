@@ -145,7 +145,7 @@ function Account() {
   return (
     <div className="account-container">
       <div className="sidebar-wrapper">
-        <SidebarProfile userData={userData} />
+        <SidebarProfile />
       </div>
 
       <div className="account-content">
@@ -194,55 +194,58 @@ function Account() {
                 </div>
               )}
             </div>
-
-            <div className="obj-account">
-              <strong>Email: </strong>
-              {userData.Email || "Chưa cập nhật"}
-            </div>
-            <div className="obj-account">
-              <strong>Số điện thoại:</strong>{" "}
-              {!popupPhoneUpdate ? (
-                <>
-                  {userData.PhoneNumber || "Chưa cập nhật"}
-                  {userData.PhoneNumber && (
-                    <CiEdit
-                      className="update-account"
-                      onClick={() => {
-                        setPopupUserNameUpdate(false);
-                        setUserNameUpdate(userData.UserName);
-                        setPopupEmailUpdate(false);
-                        setEmailUpdate(userData.Email);
-                        setPopupPhoneUpdate(true);
-                      }}
+            {userData.Email && (
+              <div className="obj-account">
+                <strong>Email: </strong>
+                {userData.Email}
+              </div>
+            )}
+            {userData.PhoneNumber && (
+              <div className="obj-account">
+                <strong>Số điện thoại:</strong>{" "}
+                {!popupPhoneUpdate ? (
+                  <>
+                    {userData.PhoneNumber}
+                    {userData.PhoneNumber && (
+                      <CiEdit
+                        className="update-account"
+                        onClick={() => {
+                          setPopupUserNameUpdate(false);
+                          setUserNameUpdate(userData.UserName);
+                          setPopupEmailUpdate(false);
+                          setEmailUpdate(userData.Email);
+                          setPopupPhoneUpdate(true);
+                        }}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <div>
+                    <input
+                      type="text"
+                      value={phoneUpdate}
+                      onChange={handleChangePhoneNumber}
                     />
-                  )}
-                </>
-              ) : (
-                <div>
-                  <input
-                    type="text"
-                    value={phoneUpdate}
-                    onChange={handleChangePhoneNumber}
-                  />
-                  <br />
-                  <button
-                    onClick={handleUpdatePhoneNumber}
-                    className="btn btn-warning"
-                  >
-                    Cập nhật
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => {
-                      setPopupPhoneUpdate(false);
-                      setPhoneUpdate(userData.PhoneNumber);
-                    }}
-                  >
-                    Hủy
-                  </button>
-                </div>
-              )}
-            </div>
+                    <br />
+                    <button
+                      onClick={handleUpdatePhoneNumber}
+                      className="btn btn-warning"
+                    >
+                      Cập nhật
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        setPopupPhoneUpdate(false);
+                        setPhoneUpdate(userData.PhoneNumber);
+                      }}
+                    >
+                      Hủy
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="obj-account">
               <strong>Xu hiện có:</strong>{" "}

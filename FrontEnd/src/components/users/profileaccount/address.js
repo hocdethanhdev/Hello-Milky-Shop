@@ -190,7 +190,7 @@ function Address() {
 
   return (
     <div className="account-container-account-address">
-      <div className="sidebar-wrapper-account-address">
+      <div className="sidebar-wrapper">
         <SidebarProfile />
       </div>
       <div className="address-account">
