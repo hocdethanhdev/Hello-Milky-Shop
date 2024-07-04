@@ -27,7 +27,7 @@ const News = () => {
 
     const fetchNews = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/article/getAllArticles/');
+        const response = await axios.get('http://localhost:5000/api/v1/article/getAllArticlesForViewer/');
         if (response.data.length === 0) {
           setErrorMessage("Hiện tại chưa có bài viết nào.");
         }

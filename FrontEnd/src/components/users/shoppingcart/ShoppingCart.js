@@ -106,7 +106,7 @@ const ShoppingCart = () => {
   };
 
   const startDecrement = (productId) => {
-    stopIncrement(); // Stop increment if it's running
+    stopIncrement();
     const intervalId = setInterval(() => {
       setProductQuantities((prevQuantities) => {
         const newQuantity = (prevQuantities[productId] || 1) - 1;
@@ -161,8 +161,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       message.warning(
-        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }

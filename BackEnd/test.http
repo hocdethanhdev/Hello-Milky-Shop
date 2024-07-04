@@ -324,6 +324,8 @@ POST http://localhost:5000/api/v1/order/applyVoucherToOrder
 ###
 GET http://localhost:5000/api/v1/article/getAllArticles/
 ###
+GET http://localhost:5000/api/v1/article/getAllArticlesForViewer/
+###
 GEt http://localhost:5000/api/v1/article/getArticlesByID/M0000001/
 ###
 GEt http://localhost:5000/api/v1/article/getArticlesByArticleID/33/
