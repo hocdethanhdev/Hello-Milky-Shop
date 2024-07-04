@@ -251,7 +251,7 @@ const EditArticleModal = () => {
               selected={formData.PublishDate}
               onChange={handleDateChange}
               className="form-control"
-              dateFormat="yyyy-MM-dd"
+              dateFormat="dd/MM/yyyy"
             />
           </label>
         </div>
