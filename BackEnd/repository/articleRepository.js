@@ -17,6 +17,9 @@ const articleRepository = {
   getAllArticles: async () => {
     return await articleDAO.findAllArticles();
   },
+  getAllArticlesforViewer: async () => {
+    return await articleDAO.findAllArticlesForViewer();
+  },
   getAllArticleCategory: async () => {
     return await articleDAO.findAllArticleCategory();
   },
