@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./orderprofile.css";
 import { useSelector } from "react-redux";
@@ -16,7 +16,7 @@ const OrderProfile = () => {
   const userIdd = getUserIdFromToken(token);
   const [canRateMap, setCanRateMap] = useState({});
 
-  const fetchOrders = async (status) => {
+  const fetchOrders = useCallback(async (status) => {
     try {
       const response = await axios.get(
         `http://localhost:5000/api/v1/order/getOrdersByUserID/${userIdd}`
@@ -24,9 +24,9 @@ const OrderProfile = () => {
       const orders = response.data;
       const filteredOrders = status
         ? orders.filter(
-          (order) =>
-            getStatusFromStatusOrderName(order.StatusOrderName) === status
-        )
+            (order) =>
+              getStatusFromStatusOrderName(order.StatusOrderName) === status
+          )
         : orders;
       const groupedOrders = filteredOrders.reduce((acc, order) => {
         const existingOrder = acc.find((o) => o.OrderID === order.OrderID);
@@ -56,7 +56,7 @@ const OrderProfile = () => {
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
-  };
+  }, [userIdd]);
 
   const getStatusFromStatusOrderName = (statusOrderName) => {
     switch (statusOrderName) {
@@ -78,7 +78,6 @@ const OrderProfile = () => {
       .reduce((total, item) => {
         const discountedPrice = item.NewPrice || item.OldPrice;
         return total + item.Quantity * discountedPrice;
-
       }, 0)
       .toLocaleString("vi-VN", { style: "currency", currency: "VND" });
   };
@@ -86,7 +85,7 @@ const OrderProfile = () => {
   useEffect(() => {
     const statusCode = activeTab === "Tất cả" ? "" : activeTab;
     fetchOrders(statusCode);
-  }, [activeTab]);
+  }, [activeTab, fetchOrders]);
 
   const handleCancelOrder = async () => {
     if (!orderToCancel) return;
@@ -225,14 +224,14 @@ const OrderProfile = () => {
                     )}
                   {item.NewPrice
                     ? item.NewPrice.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })
+                        style: "currency",
+                        currency: "VND",
+                      })
                     : item.OldPrice &&
-                    item.OldPrice.toLocaleString("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
+                      item.OldPrice.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
                 </p>
               </div>
             </div>

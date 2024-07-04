@@ -4,7 +4,7 @@ import "./Posts.css";
 import { Link, useNavigate } from "react-router-dom";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort } from "@fortawesome/free-solid-svg-icons"; // Removed unused faFilter import
+import { faSort } from "@fortawesome/free-solid-svg-icons";
 import DeleteConfirmationPopupForArticle from "./DeleteConfirmationPopupForArticle";
 
 function Posts() {
@@ -53,10 +53,7 @@ function Posts() {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentArticles = sortedArticles.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  const currentArticles = sortedArticles.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const handleEditClick = (articleID) => {
     navigate(`/edit-article/${articleID}`);
@@ -123,20 +120,20 @@ function Posts() {
                   <img
                     className="header-img-post"
                     src={article.HeaderImage}
-                    alt="Header Image"
+                    alt={article.Title}
                     style={{ width: "100px" }}
                   />
                 </td>
                 <td className="col-md-3">{new Date(article.PublishDate).toLocaleDateString()}</td>
-                <td className="col-md-2  ">
+                <td className="col-md-2">
                   <div className="nutchung-post">
                     <button
-                      className="btn btn-warning  sua-post-nut"
+                      className="btn btn-warning sua-post-nut"
                       onClick={() => handleEditClick(article.ArticleID)}>
                       Sửa
                     </button>
                     <button
-                      className="btn btn-danger "
+                      className="btn btn-danger"
                       onClick={() => handleDeleteClick(article.ArticleID)}>
                       Xóa
                     </button>

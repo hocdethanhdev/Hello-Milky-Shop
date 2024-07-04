@@ -4,7 +4,6 @@ import ProductSelectionModal from "./ProductSelectionModal ";
 import { uploadImage } from "../uimg/UpImage";
 import moment from "moment";
 import "./EditPromotionModal.css";
-import axios from "axios";
 
 const EditPromotionModal = ({ promotion, onClose, onSave }) => {
   const [promotionName, setPromotionName] = useState(promotion.PromotionName);
@@ -20,28 +19,13 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
   );
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(promotion.Image || null);
-  const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [productSelectionVisible, setProductSelectionVisible] = useState(false);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/v1/product/getInfoProductsDetail"
-        );
-        setProducts(response.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
     setSelectedProducts([]);
-  }, [selectedProducts]);
+  }, [promotion]);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
