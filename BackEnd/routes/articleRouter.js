@@ -18,7 +18,7 @@ router.put('/deleteArticle/:article_id', articleController.deleteArticle);
 
 router.put('/editArticle/:article_id', articleController.updateArticle);
 
-router.get('/getAllArticles', articleController.getAllArticles);
+router.get('/getAllArticlesforViewer', articleController.getAllArticlesforViewer);
 
 router.get('/getAuthorName', articleController.getAuthorName);
 

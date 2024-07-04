@@ -57,7 +57,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("chat message", async (msg) => {
-    if (!unreadMessages[msg.roomId]) {
+    if (!unreadMessages[msg.roomId] || msg.userId.startsWith("S")) {
       unreadMessages[msg.roomId] = 0;
     }
     if (msg.userId.startsWith("M")) {

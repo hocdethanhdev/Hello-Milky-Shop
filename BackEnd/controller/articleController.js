@@ -58,6 +58,16 @@ const getAllArticles = async (rep, res) => {
     }
 };
 
+const getAllArticlesforViewer = async (rep, res) => {
+    try {
+        const obj = await articleService.getAllArticlesforViewer();
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all server", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 const getAllArticleCategory = async (req, res) => {
     try {
         const obj = await articleService.getAllArticleCategory();
@@ -122,6 +132,7 @@ module.exports = {
     getArticlesByID,
     getArticlesByContent,
     getAllArticles,
+    getAllArticlesforViewer,
     getAllArticleCategory,
     createArticle,
     deleteArticle,

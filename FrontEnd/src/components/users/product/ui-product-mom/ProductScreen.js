@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ProductContentMom from './ProductContentMom';
@@ -22,7 +22,7 @@ const ProductScreen = () => {
     const userId = getUserIdFromToken(token);
     const [ratingCount, setRatingCount] = useState(0);
 
-    const fetchComments = async () => {
+    const fetchComments = useCallback(async () => {
         try {
             const response = await axios.get(
                 `http://localhost:5000/api/v1/comment/getCommentByProductID/${productId}`
@@ -40,7 +40,7 @@ const ProductScreen = () => {
         } catch (error) {
             console.error("Error fetching comments:", error);
         }
-    };
+    }, [productId]);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -54,7 +54,6 @@ const ProductScreen = () => {
             }
         };
 
-
         const checkUserOrder = async () => {
             if (isLoggedIn) {
                 try {
@@ -66,17 +65,15 @@ const ProductScreen = () => {
                 } catch (err) {
                     console.error("Error checking user order:", err);
                 }
-            } else {
-                return;
             }
         };
 
         fetchProduct();
         checkUserOrder();
         fetchComments();
-    }, [productId, userId, isLoggedIn]);
+    }, [productId, userId, isLoggedIn, fetchComments]);
 
-    if (loading) return <Loading/>;
+    if (loading) return <Loading />;
     if (error) return <div>Error: {error.message}</div>;
 
     return (

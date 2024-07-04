@@ -14,7 +14,7 @@ function SidebarProfile() {
   return (
     <div className="sidebar-container-st-tri">
       <nav className="sidebar-st-thinh">
-        
+
         <a className="manage-st-thinh" onClick={toggleDropdown} href="#">
           <img
             src="https://cdn-icons-png.flaticon.com/128/8188/8188338.png"
@@ -65,17 +65,17 @@ function SidebarProfile() {
           </NavLink>
         </div>
         <NavLink
-            className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
-            to="/profile">
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/2728/2728577.png"
-              alt="Order Icon"
-              style={{ width: "24px" }}
-              className="icon-staff-slidebar"
-            />{" "}
-            Đơn hàng của bạn
-          </NavLink>
-        
+          className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
+          to="/profile">
+          <img
+            src="https://cdn-icons-png.flaticon.com/128/2728/2728577.png"
+            alt="Order Icon"
+            style={{ width: "24px" }}
+            className="icon-staff-slidebar"
+          />{" "}
+          Đơn hàng của bạn
+        </NavLink>
+
       </nav>
     </div>
   );

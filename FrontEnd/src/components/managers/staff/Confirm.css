@@ -53,6 +53,7 @@ table td {
 table th {
   background-color: #f8f8f8;
   font-weight: bold;
+  cursor: pointer;
 }
 
 table tbody tr:nth-child(even) {
@@ -272,6 +273,5 @@ table tbody tr:nth-child(even) {
 }
 
 .sort-icon-order {
-  background-color: white;
   border: none;
 }

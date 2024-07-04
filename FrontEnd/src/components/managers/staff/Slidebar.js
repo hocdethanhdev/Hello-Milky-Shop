@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

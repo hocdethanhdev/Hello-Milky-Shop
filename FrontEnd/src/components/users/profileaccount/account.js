@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import SidebarProfile from "./sidebarprofile";
 import "./account.css";
 import { useSelector } from "react-redux";
@@ -20,7 +20,7 @@ function Account() {
   const [userNameUpdate, setUserNameUpdate] = useState(null);
   const [phoneUpdate, setPhoneUpdate] = useState(null);
 
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`
@@ -32,11 +32,11 @@ function Account() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
     fetchUserData();
-  }, [userId]);
+  }, [fetchUserData]);
 
   useEffect(() => {
     setEmailUpdate(userData?.Email);
@@ -72,9 +72,9 @@ function Account() {
         }
       );
       fetchUserData();
-      if(updateEmail.data.err === 0){
+      if (updateEmail.data.err === 0) {
         message.success("Cập nhật thành công");
-      }else message.error("Cập nhật thất bại");
+      } else message.error("Cập nhật thất bại");
     } catch (error) {
       console.error("Error updating email:", error);
     }
@@ -96,9 +96,9 @@ function Account() {
         }
       );
       fetchUserData();
-      if(updateUserName.data.err === 0){
+      if (updateUserName.data.err === 0) {
         message.success("Cập nhật thành công");
-      }else message.error("Cập nhật thất bại");
+      } else message.error("Cập nhật thất bại");
     } catch (error) {
       console.error("Error updating username:", error);
     }
@@ -120,9 +120,10 @@ function Account() {
         }
       );
       fetchUserData();
-      if(updatePhoneNumber.data.err === 0){
+      if (updatePhoneNumber.data.err === 0) {
         message.success("Cập nhật thành công");
-      }else message.error("Cập nhật thất bại");    } catch (error) {
+      } else message.error("Cập nhật thất bại");
+    } catch (error) {
       console.error("Error updating phone number:", error);
     }
     setPopupPhoneUpdate(false);
@@ -196,61 +197,25 @@ function Account() {
 
             <div className="obj-account">
               <strong>Email: </strong>
-              {!popupEmailUpdate ? (
-                <>
-                  {userData.Email || "Chưa cập nhật"}
-                  <CiEdit
-                    className="update-account"
-                    onClick={() => {
-                      setPopupUserNameUpdate(false);
-                      setUserNameUpdate(userData.UserName);
-                      setPopupEmailUpdate(true);
-                      setPopupPhoneUpdate(false);
-                      setPhoneUpdate(userData.PhoneNumber);
-                    }}
-                  />
-                </>
-              ) : (
-                <div>
-                  <input
-                    type="email"
-                    value={emailUpdate}
-                    onChange={handleChangeEmail}
-                  />
-                  <br />
-                  <button
-                    onClick={handleUpdateEmail}
-                    className="btn btn-warning"
-                  >
-                    Cập nhật
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => {
-                      setPopupEmailUpdate(false);
-                      setEmailUpdate(userData.Email);
-                    }}
-                  >
-                    Hủy
-                  </button>
-                </div>
-              )}
+              {userData.Email || "Chưa cập nhật"}
             </div>
             <div className="obj-account">
               <strong>Số điện thoại:</strong>{" "}
               {!popupPhoneUpdate ? (
                 <>
                   {userData.PhoneNumber || "Chưa cập nhật"}
-                  <CiEdit
-                    className="update-account"
-                    onClick={() => {
-                      setPopupUserNameUpdate(false);
-                      setUserNameUpdate(userData.UserName);
-                      setPopupEmailUpdate(false);
-                      setEmailUpdate(userData.Email);
-                      setPopupPhoneUpdate(true);
-                    }}
-                  />
+                  {userData.PhoneNumber && (
+                    <CiEdit
+                      className="update-account"
+                      onClick={() => {
+                        setPopupUserNameUpdate(false);
+                        setUserNameUpdate(userData.UserName);
+                        setPopupEmailUpdate(false);
+                        setEmailUpdate(userData.Email);
+                        setPopupPhoneUpdate(true);
+                      }}
+                    />
+                  )}
                 </>
               ) : (
                 <div>

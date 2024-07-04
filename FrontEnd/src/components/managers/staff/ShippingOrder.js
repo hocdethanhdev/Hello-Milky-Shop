@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort, faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { faSort } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 function ShippingOrder() {
@@ -78,7 +78,10 @@ function ShippingOrder() {
   const handleSort = (key) => {
     let direction = "ascending";
     setSortConfig((prevSortConfig) => {
-      if (prevSortConfig.key === key && prevSortConfig.direction === "ascending") {
+      if (
+        prevSortConfig.key === key &&
+        prevSortConfig.direction === "ascending"
+      ) {
         direction = "descending";
       }
 
@@ -86,7 +89,9 @@ function ShippingOrder() {
         if (key === "OrderID" || key === "TotalAmount") {
           return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
         } else if (key === "OrderDate") {
-          return direction === "ascending" ? new Date(a[key]) - new Date(b[key]) : new Date(b[key]) - new Date(a[key]);
+          return direction === "ascending"
+            ? new Date(a[key]) - new Date(b[key])
+            : new Date(b[key]) - new Date(a[key]);
         } else {
           if (a[key] < b[key]) {
             return direction === "ascending" ? -1 : 1;
@@ -103,20 +108,12 @@ function ShippingOrder() {
     });
   };
 
-  const sortIcon = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === "ascending" ? (
-        <FontAwesomeIcon icon={faSortUp} />
-      ) : (
-        <FontAwesomeIcon icon={faSortDown} />
-      );
-    }
-    return <FontAwesomeIcon icon={faSort} />;
-  };
-
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const currentOrders = filteredOrders.slice(
+    indexOfFirstOrder,
+    indexOfLastOrder
+  );
 
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -127,26 +124,38 @@ function ShippingOrder() {
       <table>
         <thead>
           <tr className="row">
-            <th className="col-md-2">
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "OrderID" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("OrderID")}>
               Mã đơn hàng
-              <button className="sort-icon-order" onClick={() => handleSort("OrderID")}>
-                {sortIcon("OrderID")}
+              <button className={`sort-icon-order `}>
+                <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-2">
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "OrderDate" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("OrderDate")}>
               Ngày đặt hàng
-              <button className="sort-icon-order" onClick={() => handleSort("OrderDate")}>
-                {sortIcon("OrderDate")}
+              <button className={`sort-icon-order`}>
+                <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-2">
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "TotalAmount" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("TotalAmount")}>
               Tổng
-              <button className="sort-icon-order" onClick={() => handleSort("TotalAmount")}>
-                {sortIcon("TotalAmount")}
+              <button className={`sort-icon-order`}>
+                <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="col-md-3">Địa chỉ</th>
-            <th className="col-md-3">Thao tác</th>
+            <th className="promo-th col-md-3">Địa chỉ</th>
+            <th className="promo-th col-md-3">Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -160,14 +169,15 @@ function ShippingOrder() {
                   year: "numeric",
                 })}
               </td>
-              <td className="col-md-2">{formatPrice(parseInt(order.TotalAmount))}</td>
+              <td className="col-md-2">
+                {formatPrice(parseInt(order.TotalAmount))}
+              </td>
               <td className="col-md-3">{order.Address}</td>
               <td className="col-md-3">
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => viewOrderDetails(order)}
-                >
+                  onClick={() => viewOrderDetails(order)}>
                   Thông tin
                 </button>
               </td>
@@ -191,8 +201,7 @@ function ShippingOrder() {
             <Button key="close" onClick={handleModalClose}>
               Đóng
             </Button>,
-          ]}
-        >
+          ]}>
           <div className="modal-content-scrollable-thinhh">
             <div className="ttdh-thinh">
               <h2>Thông tin đơn hàng</h2>

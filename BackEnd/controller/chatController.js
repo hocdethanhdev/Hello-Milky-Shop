@@ -10,6 +10,15 @@ const getChatUnseen = async (req, res) => {
   }
 };
 
+const getAllChatUnseen = async () => {
+  try {
+    const obj = await chatService.getAllChatUnseen();
+    return obj;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getAllMessageByChatRoom = async (req, res) => {
   try {
     const {ChatRoom} = req.body;
@@ -60,4 +69,5 @@ module.exports = {
   saveMessage,
   getAllMessageByChatRoom,
   getChatUnseen,
+  getAllChatUnseen,
 };

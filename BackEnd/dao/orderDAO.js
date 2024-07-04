@@ -96,7 +96,7 @@ const orderDAO = {
             if (err) reject(err);
 
             resolve({
-              err: res.recordset[0] !== null ? 0 :1,
+              err: res.recordset[0] !== null ? 0 : 1,
               data: res.recordset ?? null
             });
           }

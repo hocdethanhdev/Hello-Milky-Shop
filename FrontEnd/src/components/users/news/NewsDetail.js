@@ -34,7 +34,7 @@ const NewsDetail = () => {
     fetchArticle();
   }, [id]);
 
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
   if (errorMessage) return <div className="error-message">{errorMessage}</div>;
   if (!article) return null;
   return (
@@ -67,7 +67,11 @@ const NewsDetail = () => {
           <div className="article-header">
             <h2>{article.Title}</h2>
             <p className="article-meta">
-              Đăng bởi: {authorName} | Ngày đăng: {new Date(article.PublishDate).toLocaleDateString()}
+              Đăng bởi: {authorName} | Ngày đăng:  {new Date(article.PublishDate).toLocaleDateString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
             </p>
           </div>
           <div className="article-content">

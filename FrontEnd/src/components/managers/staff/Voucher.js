@@ -8,7 +8,6 @@ import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import DeleteConfirmationPopupForVoucher from "./DeleteConfirmationPopupForVoucher";
 import { message } from "antd";
 import VoucherDetailModal from "./VoucherDetailModal";
-import { formatPrice } from "../../utils/formatPrice";
 
 function Voucher() {
   const [currentPage, setCurrentPage] = useState(1);

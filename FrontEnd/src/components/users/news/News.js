@@ -27,11 +27,20 @@ const News = () => {
 
     const fetchNews = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/article/getAllArticles/');
+        const response = await axios.get('http://localhost:5000/api/v1/article/getAllArticlesForViewer/');
         if (response.data.length === 0) {
           setErrorMessage("Hiện tại chưa có bài viết nào.");
+        } else {
+
+          const sortedNews = response.data.sort((a, b) => {
+            const dateA = new Date(a.PublishDate);
+            const dateB = new Date(b.PublishDate);
+            if (dateA > dateB) return -1;
+            if (dateA < dateB) return 1;
+            return b.ArticleID - a.ArticleID;
+          });
+          setNews(sortedNews);
         }
-        setNews(response.data);
       } catch (error) {
         console.error('Error fetching news:', error);
         setErrorMessage("Error fetching news: " + (error.response?.data || error.message));
@@ -97,7 +106,7 @@ const News = () => {
               </select>
             </div>
           </div>
-          {loading && <Loading/>}
+          {loading && <Loading />}
           {errorMessage && <div className="error-message">{errorMessage}</div>}
 
           <ul className="news-list">
@@ -112,7 +121,13 @@ const News = () => {
                     <div className="news-item-summary">
                       <div dangerouslySetInnerHTML={{ __html: article.Content.substring(0, 100) + '...' }} />
                     </div>
-                    <p>Ngày đăng: {new Date(article.PublishDate).toLocaleDateString()}</p>
+                    <p>Ngày đăng:
+                      {new Date(article.PublishDate).toLocaleDateString("vi-VN", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </p>
                   </div>
                 </li>
               </Link>

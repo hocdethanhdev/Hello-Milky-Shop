@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import {
   Modal,
@@ -41,7 +41,7 @@ const ProductSelectionModal = ({
     }
   };
 
-  const fetchPromotionProducts = async () => {
+  const fetchPromotionProducts = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://localhost:5000/api/v1/promotion/getProductsApplyAnPromotion/${promotionID}`
@@ -50,12 +50,12 @@ const ProductSelectionModal = ({
     } catch (error) {
       console.error("Error fetching promotion products:", error);
     }
-  };
+  }, [promotionID, setSelectedProducts]);
 
   useEffect(() => {
     fetchProducts();
     fetchPromotionProducts();
-  }, []);
+  }, [fetchPromotionProducts]);
 
   const handleCheckboxChange = (productID) => {
     if (selectedProducts.includes(productID)) {
@@ -94,7 +94,7 @@ const ProductSelectionModal = ({
       (selectedCategory === "All" ||
         product.ProductCategoryName === selectedCategory)
   );
-
+  console.log(selectedProducts);
   return (
     <Modal
       visible

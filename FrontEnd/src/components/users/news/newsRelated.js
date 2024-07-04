@@ -41,7 +41,7 @@ const NewsRelated = ({ articleCategoryID, articleID }) => {
         fetchRelatedArticles();
     }, [articleCategoryID, articleID]);
 
-    if (loading) return <Loading/>;
+    if (loading) return <Loading />;
     if (errorMessage) return <div className="error-message">{errorMessage}</div>;
 
     return (
@@ -58,7 +58,11 @@ const NewsRelated = ({ articleCategoryID, articleID }) => {
                         <div className="related-article-content">
                             <h3 className="related-article-title">{article.Title}</h3>
                             <div dangerouslySetInnerHTML={{ __html: article.Content.substring(0, 105) + '...' }} />
-                            <p className="related-article-date">{new Date(article.PublishDate).toLocaleDateString()}</p>
+                            <p className="related-article-date"> {new Date(article.PublishDate).toLocaleDateString("vi-VN", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                            })}</p>
                         </div>
                     </div>
                 </Link>
