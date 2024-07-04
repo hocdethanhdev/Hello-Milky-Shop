@@ -253,6 +253,25 @@ const articleDAO = {
         }
       });
     });
-  }
+  },
+  findTop4ArticlesforViewer: () => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function () {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT TOP 4 *
+           FROM Article
+           WHERE PublishDate <= GETDATE()
+           ORDER BY ArticleID DESC;
+          `,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve(res.recordset);
+          }
+        );
+      });
+    });
+  },
 }
 module.exports = articleDAO;
