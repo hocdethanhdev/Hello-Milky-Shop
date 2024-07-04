@@ -3,6 +3,7 @@
 /* Container and Header */
 .voucher-container-thinhvcher {
   margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .voucher-header-thinhvcher {
   background-color: #007bff;
@@ -40,7 +41,7 @@
 
 /* Table */
 .voucher-list-thinhvcher table {
-  width: 98.5%;
+  width: 97%;
   border-collapse: collapse;
   flex: 1;
   padding: 20px;
@@ -164,7 +165,7 @@
   text-align: center;
   width: 100%;
   margin: 20px 20px 0px 20px;
-  padding: 20px;
+  padding-bottom: 20px;
 }
 
 /* Adjustments based on your specific layout needs */
@@ -296,4 +297,8 @@
 .button-add-voucher-thinhvcher {
   border: none;
   background-color: white;
+}
+
+.voucher-action button{
+  margin-right: 2px;
 }

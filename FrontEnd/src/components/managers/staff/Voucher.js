@@ -263,7 +263,7 @@ function Voucher() {
                     <FontAwesomeIcon icon={faFilter} />
                   </button>
                 </th>
-                <th>Thao tác</th>
+                <th className="col-md-2">Thao tác</th>
               </tr>
             </thead>
             <tbody>
@@ -280,7 +280,7 @@ function Voucher() {
                     })}
                   </td>
                   <td>{voucher.Status ? "Khả dụng" : "Không khả dụng"}</td>
-                  <td>
+                  <td className="voucher-action">
                     <button
                       type="button"
                       className="btn btn-primary"

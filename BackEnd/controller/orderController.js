@@ -1,5 +1,15 @@
 const orderService = require('../service/orderService');
 
+const transferOrderDetailsToNewOrder = async (req, res) => {
+    try {
+        const { OrderID } = req.body;
+        const orders = await orderService.transferOrderDetailsToNewOrder(OrderID);
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 const countOrdersPayed = async (req, res) => {
     try {
         const orders = await orderService.countOrdersPayed();
@@ -311,4 +321,5 @@ module.exports = {
     getReasonCancleOrderByUserID,
     getInfoToShip,
     countOrdersPayed,
+    transferOrderDetailsToNewOrder,
 };

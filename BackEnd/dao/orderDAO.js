@@ -2,6 +2,26 @@ const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 
 const orderDAO = {
+  transferOrderDetailsToNewOrder: (OrderID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function () {
+        const request = new mssql.Request();
+        request.query(
+          `SELECT count(OrderID) as count
+          FROM Orders o
+          WHERE Status = 1;`,
+          (err, res) => {
+            if (err) reject(err);
+
+            resolve({
+              err: res?.recordset[0] !== null ? 0 : 1,
+              count: res.recordset[0].count,
+            });
+          }
+        );
+      });
+    });
+  },
   countOrdersPayed: () => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function () {
@@ -97,7 +117,7 @@ const orderDAO = {
 
             resolve({
               err: res.recordset[0] !== null ? 0 : 1,
-              data: res.recordset ?? null
+              data: res.recordset ?? null,
             });
           }
         );
@@ -544,74 +564,106 @@ const orderDAO = {
     });
   },
 
-  checkoutOrder: (orderID) => {
+  transferOrderDetailsToNewOrder: (OrderID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
 
-        const transaction = new mssql.Transaction();
-        transaction.begin((err) => {
-          if (err) return reject(err);
+        const request = new mssql.Request().input(
+          "OrderID",
+          mssql.Int,
+          OrderID
+        );
 
-          const request = new mssql.Request(transaction);
-          request.input("orderID", mssql.Int, orderID);
+        const transferOrderDetailsToNewOrderQuery = `
+          BEGIN TRANSACTION;
+  
+          INSERT INTO Orders (orderDate, totalAmount, status, userID)
+          SELECT orderDate, 0, 0, userID
+          FROM Orders
+          WHERE OrderID = @OrderID;
+  
+          DECLARE @newOrderID INT = SCOPE_IDENTITY();
+  
+          UPDATE OrderDetail
+          SET OrderID = @newOrderID
+          WHERE OrderID = @OrderID;
+  
+          DELETE FROM Orders WHERE OrderID = @OrderID;
+  
+          COMMIT TRANSACTION;
+        `;
 
-          // Update order status
-          const updateOrderQuery = `
-                    UPDATE Orders
-                    SET status = 1, StatusOrderID = 1, OrderDate = GETDATE()
-                    WHERE orderID = @orderID;
-                `;
+        request.query(transferOrderDetailsToNewOrderQuery, (err, res) => {
+          if (err) {
+            return reject(err);
+          }
 
-          // Get the order details
-          const getOrderDetailsQuery = `
-                    SELECT ProductID, Quantity
-                    FROM OrderDetail
-                    WHERE OrderID = @orderID;
-                `;
-
-          request.query(updateOrderQuery, (err) => {
-            if (err) {
-              transaction.rollback();
-              return reject(err);
-            }
-
-            request.query(getOrderDetailsQuery, (err, orderDetailsResult) => {
-              if (err) {
-                transaction.rollback();
-                return reject(err);
-              }
-
-              const orderDetails = orderDetailsResult.recordset;
-              const updateProductQueries = orderDetails
-                .map((detail) => {
-                  return `
-                    UPDATE Product
-                    SET StockQuantity = StockQuantity - ${detail.Quantity}
-                     WHERE ProductID = '${detail.ProductID}';
-                      `;
-                })
-                .join(" ");
-
-              request.query(updateProductQueries, (err, result) => {
-                if (err) {
-                  transaction.rollback();
-                  return reject(err);
-                }
-
-                transaction.commit((err) => {
-                  if (err) {
-                    transaction.rollback();
-                    return reject(err);
-                  }
-                  resolve(result);
-                });
-              });
-            });
+          resolve({
+            err: res.rowsAffected[0] > 0 ? 0 : 1,
           });
         });
       });
     });
+  },
+
+  checkoutOrder: async (orderID) => {
+    try {
+      await mssql.connect(dbConfig);
+
+      const transaction = new mssql.Transaction();
+      await transaction.begin();
+
+      const request = new mssql.Request(transaction);
+      request.input("orderID", mssql.Int, orderID);
+
+      const checkStatusOrderQuery =
+        "SELECT Status FROM Orders WHERE OrderID = @orderID";
+      const checkStatusOrderResult = await request.query(checkStatusOrderQuery);
+
+      if (!checkStatusOrderResult.recordset[0].Status) {
+        const getOrderDetailsQuery = `
+        SELECT ProductID, Quantity
+        FROM OrderDetail
+        WHERE OrderID = @orderID;
+      `;
+        const orderDetailsResult = await request.query(getOrderDetailsQuery);
+        const orderDetails = orderDetailsResult.recordset;
+
+        const updateProductQueries = orderDetails
+          .map((detail) => {
+            return `
+            UPDATE Product
+            SET StockQuantity = StockQuantity - ${detail.Quantity}
+            WHERE ProductID = '${detail.ProductID}';
+          `;
+          })
+          .join("; ");
+
+        await request.query(updateProductQueries);
+
+        const updateOrderQuery = `
+        UPDATE Orders
+        SET status = 1, StatusOrderID = 1, OrderDate = GETDATE()
+        WHERE orderID = @orderID;
+      `;
+        await request.query(updateOrderQuery);
+
+        await transaction.commit();
+        return { err: 0 };
+      } else {
+        await transaction.rollback();
+        return { err: 1, message: "Order status is already updated." };
+      }
+    } catch (err) {
+      console.error(err);
+      try {
+        await transaction.rollback();
+      } catch (rollbackError) {
+        console.error("Rollback failed:", rollbackError);
+      }
+      throw err;
+    }
   },
 
   updateStatusOrderID: (orderID, statusOrderID) => {

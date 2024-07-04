@@ -2,10 +2,12 @@
     margin: 20px;
     background-color: white;
     border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .comments-section-thinh-cmt {
     margin-bottom: 20px;
+    padding: 0px 20px 20px;
 }
 
 .new-comment-section-thinh-cmt textarea {
@@ -117,8 +119,9 @@
     width: 65%;
 }
 .chuyen-trang-fb {
-    padding-left: 550px;
+    display: ruby-text;
     padding-top: 20px;
+    padding-bottom: 10px;
 }
 .filters-section-thinh-cmt {
     padding-left: 740px;

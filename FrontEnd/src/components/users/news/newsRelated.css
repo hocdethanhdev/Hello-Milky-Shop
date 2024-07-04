@@ -12,7 +12,7 @@
     border-radius: 8px;
 }
 .related-article:hover {
-    background-color: rgb(232, 245, 255);
+    transform: scale(1.02);
 }
 
 .related-article-image {
