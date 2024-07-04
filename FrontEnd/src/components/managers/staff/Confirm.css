@@ -275,3 +275,7 @@ table tbody tr:nth-child(even) {
 .sort-icon-order {
   border: none;
 }
+
+.throw-page-confirm{
+  padding-bottom: 0;
+}
