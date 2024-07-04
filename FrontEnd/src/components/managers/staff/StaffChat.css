@@ -1,29 +1,32 @@
 .staff-chat-container {
   display: flex;
   height: 96%;
-  margin: 20px 20px 0px 0px;
-  padding: 20px;
+  margin: 20px 10px 0px 0px;
+  padding: 60px 10px 10px 10px;
+
   background-color: white;
-  border-radius: 15px;
+ 
 }
+
 .chat-room-list {
   width: 30%;
   background-color: #ffffff;
   padding: 0;
-  border-radius: 15px 15px;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Đảm bảo thanh cuộn dọc xuất hiện */
+  height: 100%; /* Hoặc một giá trị cố định như 500px */
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .chat-room-list h4 {
   margin: 0;
-  padding: 20px;
+  padding: 15px;
   background-color: #4a90e2;
   color: white;
-  border-radius: 15px 15px 0 0;
+  border-radius: 10px 10px 0 0;
   text-align: center;
   font-weight: bold;
+  font-size: 16px;
 }
 
 .chat-room-list ul {
@@ -34,17 +37,16 @@
 }
 
 .chat-room-list ul li {
-  padding: 15px 20px;
+  padding: 10px 15px;
   border-bottom: 1px solid #f0f0f0;
-  transition:
-    background-color 0.3s,
-    transform 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 14px;
 }
 
 .chat-room-list ul li:hover {
   background-color: #e6f7ff;
-  transform: translateX(5px);
 }
+
 .chat-window-and-rooms {
   flex: 1;
   display: flex;
@@ -54,16 +56,16 @@
   flex: 1;
 }
 
-.notify-chat{
+.notify-chat {
   color: red;
   float: right;
   font-weight: bolder;
 }
 
 .tbao-chat-st-thinh {
-  padding-left: 280px;
-  padding-top: 160px;
-  font-size: 20px;
+  padding-left: 200px;
+  padding-top: 120px;
+  font-size: 18px;
   color: rgb(181, 181, 181);
   font-weight: 500;
 }
@@ -73,11 +75,10 @@
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 50%;
-  padding: 5px 10px;
+  padding: 3px 8px;
   font-size: 12px;
-  margin-left: 10px;
+  margin-left: 8px;
   display: inline-block;
-  min-width: 20px;
+  min-width: 18px;
   text-align: center;
 }
-

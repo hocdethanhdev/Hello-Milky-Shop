@@ -13,7 +13,6 @@ const EditProductModal = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(null);
   const [brands, setBrands] = useState([]);
-  const [progress, setProgress] = useState(0);
   const editor = useRef(null);
 
   useEffect(() => {
@@ -51,7 +50,7 @@ const EditProductModal = () => {
     if (name === "Image" && files && files[0]) {
       const file = files[0];
       try {
-        const imageUrl = await uploadImage(file, setProgress);
+        const imageUrl = await uploadImage(file);
         setFormData((prevData) => ({ ...prevData, Image: imageUrl }));
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -227,11 +226,6 @@ const EditProductModal = () => {
     () => ({
       readonly: false,
       toolbar: true,
-      toolbarButtonSize: "middle",
-      toolbarSticky: false,
-      showCharsCounter: false,
-      showWordsCounter: false,
-      showXPathInStatusbar: false,
       buttons: [
         "bold",
         "italic",
@@ -271,7 +265,7 @@ const EditProductModal = () => {
               const file = event.target.files[0];
               if (file) {
                 try {
-                  const url = await uploadImage(file, setProgress);
+                  const url = await uploadImage(file);
                   const img = document.createElement("img");
                   img.src = url;
                   img.alt = "Image";
@@ -314,7 +308,7 @@ const EditProductModal = () => {
         }
       }
     }),
-    [setProgress]
+    []
   );
 
   if (!formData) {

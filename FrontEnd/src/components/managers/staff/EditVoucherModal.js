@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // Import PropTypes
 import { message } from "antd";
 import "./EditVoucherModal.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { formatPrice } from "../../utils/formatPrice";
 
 message.config({
@@ -41,6 +43,9 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
       ...prevState,
       [name]: value,
     }));
+  };
+  const handleDateChange = (date, fieldName) => {
+    setFormData((prevData) => ({ ...prevData, [fieldName]: date }));
   };
 
   const handleSubmit = (e) => {
@@ -145,15 +150,21 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                   onChange={handleChange}
                 />
               </label>
-              <label>
-                Ngày bắt đầu:
-                <input
-                  type="date"
-                  name="startDate"
-                  value={formData.startDate}
-                  onChange={handleChange}
-                />
-              </label>
+              <label >
+            Ngày bắt đầu:
+            <DatePicker
+              selected={
+                formData.startDate
+                  ? new Date(formData.startDate)
+                  : null
+              }
+              onChange={(date) => handleDateChange(date, "startDate")}
+              dateFormat="dd/MM/yyyy"
+            />
+            {message.startDate && (
+              <p className="error-message">{message.startDate}</p>
+            )}
+          </label>
               <label>
                 Phần trăm giảm giá:
                 <input
@@ -184,15 +195,21 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
                 />
               </label>
               <label>
-                Ngày hết hạn:
-                <input
-                  type="date"
-                  name="expiryDate"
-                  value={formData.expiryDate}
-                  onChange={handleChange}
-                />
-              </label>
-              <button className="ant-btn ant-btn-primary" type="submit">
+            Ngày kết thúc:
+            <DatePicker
+              selected={
+                formData.expiryDate
+                  ? new Date(formData.expiryDate)
+                  : null
+              }
+              onChange={(date) => handleDateChange(date, "expiryDate")}
+              dateFormat="dd/MM/yyyy"
+            />
+            {message.expiryDate && (
+              <p className="error-message">{message.expiryDate}</p>
+            )}
+          </label>
+              <button className="ant-btn ant-btn-primary nutlong-voucher" type="submit">
                 Lưu
               </button>
             </div>

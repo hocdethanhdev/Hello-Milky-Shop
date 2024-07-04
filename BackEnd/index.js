@@ -33,7 +33,7 @@ app.use(
     secret: "HelloMilkyShop",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, // Dùng true khi sử dụng HTTPS
+    cookie: { secure: false },
   })
 );
 
@@ -42,14 +42,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 initRouters(app);
 
-const unreadMessages = {}; // Object to store unread messages count for each room
+const unreadMessages = {};
+var sumUnreadMessages = 0;
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", async (roomId) => {
     socket.join(roomId);
-    // Reset the unread message count for the staff who joined the room
+
     unreadMessages[roomId] = 0;
     io.emit("updateUnreadMessageCount", unreadMessages);
+    io.emit("sumUnreadMessageCount", sumUnreadMessages);
   });
 
   socket.on("leaveRoom", (roomId) => {
@@ -57,26 +59,23 @@ io.on("connection", (socket) => {
   });
 
   socket.on("chat message", async (msg) => {
-    const currentDate = new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
-    
-    // Increment the unread message count for the room
-    if (!unreadMessages[msg.roomId]) {
+    if (!unreadMessages[msg.roomId] || msg.userId.startsWith("S")) {
+      sumUnreadMessages -= unreadMessages[msg.roomId];
       unreadMessages[msg.roomId] = 0;
     }
-    unreadMessages[msg.roomId]++;
-    
+    if (msg.userId.startsWith("M")) {
+      unreadMessages[msg.roomId]++;
+      sumUnreadMessages++;
+    }
+
     io.to(msg.roomId).emit("chat message", {
       content: msg.content,
       userId: msg.userId,
-      date: currentDate,
     });
-    io.emit("updateUnreadMessageCount", unreadMessages); // Notify all clients about the updated unread message count
+    io.emit("updateUnreadMessageCount", unreadMessages);
+    io.emit("sumUnreadMessageCount", sumUnreadMessages);
 
-    await chatController.saveMessage(msg.content, msg.userId, msg.roomId, currentDate);
+    await chatController.saveMessage(msg.content, msg.userId, msg.roomId);
   });
 
   socket.on("disconnect", () => {});

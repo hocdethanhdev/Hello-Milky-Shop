@@ -141,7 +141,7 @@ const ManageMember = () => {
       </div>
 
       <Modal
-        title="Confirm Delete"
+        title="Xác nhận khóa tài khoản"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
