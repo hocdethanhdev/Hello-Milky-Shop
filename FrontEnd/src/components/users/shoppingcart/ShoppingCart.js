@@ -671,7 +671,7 @@ const ShoppingCart = () => {
               </button>
               {selectedVoucher && (
                 <p>
-                  Voucher đã chọn: {selectedVoucher.DiscountPercentage || 0}%
+                  Voucher đã chọn: -{selectedVoucher.DiscountPercentage || 0}%
                 </p>
               )}
             </div>

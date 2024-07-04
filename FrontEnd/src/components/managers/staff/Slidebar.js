@@ -4,7 +4,6 @@ import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { io } from "socket.io-client";
-import axios from "axios";
 
 const socket = io("http://localhost:5000");
 
@@ -23,16 +22,6 @@ function Sidebar() {
   };
 
   useEffect(() => {
-    const fetchChatRooms = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/v1/chat/getAllChatRoom");
-        const rooms = response.data.data;
-      } catch (error) {
-        console.error("Error fetching chat rooms", error);
-      }
-    };
-
-    fetchChatRooms();
 
     // Listen for unread message count updates
     socket.on("sumUnreadMessageCount", (counts) => {
@@ -43,6 +32,10 @@ function Sidebar() {
       socket.off("sumUnreadMessageCount");
     };
   }, []);
+
+  const handleClickChat = () => {
+
+  }
 
   return (
     <div className="sidebar-container-st-thinh">
@@ -242,6 +235,7 @@ function Sidebar() {
         <NavLink
           className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
           to="/chat-page"
+          onClick={handleClickChat}
         >
          <img
               src="https://cdn-icons-png.flaticon.com/128/1370/1370907.png"
@@ -249,7 +243,7 @@ function Sidebar() {
               style={{ width: "24px" }}
               className="icon-staff-slidebar"
             />
-          Tư vấn mua hàng {unreadMessageCounts > 0 && unreadMessageCounts}
+          Tư vấn mua hàng {unreadMessageCounts > 0 && <span className="unread-count">{unreadMessageCounts}</span>}
         </NavLink>
       </nav>
     </div>
