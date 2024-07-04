@@ -326,48 +326,90 @@ function Confirm() {
         ]}
       >
         {selectedOrder && (
-          <div>
-            <p>
-              <strong>Mã đơn hàng:</strong> {selectedOrder.OrderID}
-            </p>
-            <p>
-              <strong>Ngày đặt hàng:</strong>{" "}
-              {new Date(selectedOrder.OrderDate).toLocaleDateString("vi-VN", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              })}
-            </p>
-            <p>
-              <strong>Tổng tiền:</strong>{" "}
-              {formatPrice(parseInt(selectedOrder.TotalAmount))}
-            </p>
-            <p>
-              <strong>Địa chỉ:</strong> {selectedOrder.Address}
-            </p>
-            <ul>
-              {selectedOrder.details.map((item) => (
-                <li key={item.ProductID}>
-                  {item.ProductName} - Số lượng: {item.Quantity} - Đơn giá:{" "}
-                  {formatPrice(parseInt(item.UnitPrice))}
-                </li>
-              ))}
-            </ul>
-            {shippingAddress && (
-              <div>
-               
-                <p>
-                  <strong>Tên người nhận:</strong> {shippingAddress.ContactName}
-                </p>
-                <p>
-                  <strong>Số điện thoại:</strong> {shippingAddress.Phone}
-                </p>
-                <p>
-                  <strong>Địa chỉ:</strong> {shippingAddress.Address}
-                </p>
-              </div>
-            )}
-          </div>
+           <div className="modal-content-scrollable-thinhh">
+           <div className="ttdh-thinh">
+             <h2>Thông tin đơn hàng</h2>
+             <table className="table-info-order">
+               <tbody>
+                 <tr>
+                   <td className="mdh">
+                     <strong>Mã đơn hàng:</strong>
+                   </td>
+                   <td>{selectedOrder.OrderID}</td>
+                 </tr>
+                 <tr>
+                   <td className="mdh">
+                     <strong>Ngày đặt hàng:</strong>
+                   </td>
+                   <td>
+                     {new Date(selectedOrder.OrderDate).toLocaleDateString(
+                       "vi-VN",
+                       {
+                         day: "2-digit",
+                         month: "2-digit",
+                         year: "numeric",
+                       }
+                     )}
+                   </td>
+                 </tr>
+                 <tr>
+                   <td className="mdh">
+                     <strong>Tổng:</strong>
+                   </td>
+                   <td>{formatPrice(selectedOrder.TotalAmount)}</td>
+                 </tr>
+                 {shippingAddress && (
+                   <>
+                     <tr>
+                       <td className="mdh">
+                         <strong>Người nhận:</strong>
+                       </td>
+                       <td>{shippingAddress[0].Receiver}</td>
+                     </tr>
+                     <tr>
+                       <td className="mdh">
+                         <strong>Số điện thoại:</strong>
+                       </td>
+                       <td>{shippingAddress[0].PhoneNumber}</td>
+                     </tr>
+                     <tr>
+                       <td className="mdh">
+                         <strong>Địa chỉ:</strong>
+                       </td>
+                       <td>{shippingAddress[0].Address}</td>
+                     </tr>
+                   </>
+                 )}
+               </tbody>
+             </table>
+             <table className="table-products-order">
+               <thead>
+                 <tr>
+                   <th>Mã sản phẩm</th>
+                   <th>Tên sản phẩm</th>
+                   <th>Hình ảnh</th>
+                   <th>Số lượng</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 {selectedOrder.details.map((detail) => (
+                   <tr key={detail.ProductID}>
+                     <td>{detail.ProductID}</td>
+                     <td>{detail.ProductName}</td>
+                     <td>
+                       <img
+                         src={detail.Image}
+                         alt={detail.ProductName}
+                         width="50"
+                       />
+                     </td>
+                     <td>{detail.Quantity}</td>
+                   </tr>
+                 ))}
+               </tbody>
+             </table>
+           </div>
+         </div>
         )}
       </Modal>
 
