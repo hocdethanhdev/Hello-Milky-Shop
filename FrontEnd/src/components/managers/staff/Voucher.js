@@ -122,6 +122,42 @@ function Voucher() {
   const toggleStatusDropdown = () => {
     setShowStatusDropdown(!showStatusDropdown);
   };
+  const handleToggleStatus = (voucher) => {
+    const updatedProduct = {
+      ...voucher,
+      Status: voucher.Status === 1 ? 0 : 1,
+    };
+
+    fetch(
+      `http://localhost:5000/api/v1/voucher/openVoucher/${voucher.VoucherID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProduct),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setVouchers((prevVouchers) =>
+          prevVouchers.map((p) =>
+            p.VoucherID === voucher.VoucherID ? updatedProduct : p
+          )
+        );
+        console.log(data);
+        message.success("Trạng thái sản phẩm đã được cập nhật!");
+        fetchVouchers();
+      })
+      .catch((error) => {
+        message.error("Lỗi khi cập nhật trạng thái sản phẩm: " + error.message);
+      });
+  };
 
   const sortedVouchers = [...vouchers].sort((a, b) => {
     if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -257,11 +293,21 @@ function Voucher() {
                       onClick={() => handleEditClick(voucher)}>
                       Sửa
                     </button>
-                    {voucher.Status && ( // Render delete button only if voucher is active
+                    {voucher.Status === true ? (
                       <button
+                        type="button"
                         className="btn btn-danger"
-                        onClick={() => handleDelete(voucher.VoucherID)}>
+                        onClick={() => handleDelete(voucher.VoucherID)}
+                      >
                         Xóa
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-success"
+                        onClick={() => handleToggleStatus(voucher)}
+                      >
+                        Mở
                       </button>
                     )}
                   </td>
