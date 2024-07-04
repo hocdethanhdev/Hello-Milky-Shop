@@ -128,6 +128,16 @@ const getCurrentCategoriesInArticles = async (req, res) => {
     }
 };
 
+const getTop4ArticlesforViewer = async (rep, res) => {
+    try {
+        const obj = await articleService.getTop4ArticlesforViewer();
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all server", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 module.exports = {
     getArticlesByID,
     getArticlesByContent,
@@ -140,5 +150,6 @@ module.exports = {
     getArticlesByArticleID,
     getAuthorName,
     getTop5ArticleSameType,
-    getCurrentCategoriesInArticles
+    getCurrentCategoriesInArticles,
+    getTop4ArticlesforViewer
 }

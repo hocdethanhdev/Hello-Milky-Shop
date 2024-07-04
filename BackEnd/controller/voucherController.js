@@ -98,6 +98,17 @@ const getVouchersforUser = async (req, res) => {
     }
 };
 
+const openVoucher = async (req, res) => {
+    try {
+        const voucherID = req.params.voucherID;
+        await voucherService.openVoucher(voucherID);
+        res.status(200).json({ message: 'Voucher have been opened successfully' });
+    } catch (error) {
+        console.error("Error while openning the voucher: ", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 
 
 module.exports = {
@@ -109,5 +120,6 @@ module.exports = {
     getVouchersByUserID,
     getVouchersforUser,
     removeVoucherFromUser,
-    deleteVoucher
+    deleteVoucher,
+    openVoucher
 };

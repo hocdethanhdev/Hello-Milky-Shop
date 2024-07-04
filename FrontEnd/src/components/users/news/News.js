@@ -31,7 +31,14 @@ const News = () => {
         if (response.data.length === 0) {
           setErrorMessage("Hiện tại chưa có bài viết nào.");
         } else {
-          const sortedNews = response.data.sort((a, b) => b.PublishDate - a.PublishDate);
+
+          const sortedNews = response.data.sort((a, b) => {
+            const dateA = new Date(a.PublishDate);
+            const dateB = new Date(b.PublishDate);
+            if (dateA > dateB) return -1;
+            if (dateA < dateB) return 1;
+            return b.ArticleID - a.ArticleID;
+          });
           setNews(sortedNews);
         }
       } catch (error) {

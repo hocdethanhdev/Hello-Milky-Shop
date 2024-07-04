@@ -35,6 +35,10 @@ const voucherRepository = {
         return voucherDAO.updateVoucherStatusAndRemoveFromUser(oldStatus, newStatus);
     },
 
+    openVoucher: async (VoucherID) => {
+        return await voucherDAO.openVoucher(VoucherID);
+    },
+
 
 
 }

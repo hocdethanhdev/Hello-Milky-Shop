@@ -2,6 +2,9 @@ const orderDAO = require('../dao/orderDAO');
 
 const orderRepository = {
 
+    transferOrderDetailsToNewOrder: (OrderID) => {
+        return orderDAO.transferOrderDetailsToNewOrder(OrderID);
+    },
     getInfoToShip: (StatusOrderID) => {
         return orderDAO.getInfoToShip(StatusOrderID);
     },

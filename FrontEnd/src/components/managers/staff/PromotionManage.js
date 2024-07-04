@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./PromotionManage.css"; // Import the CSS file
+import "./PromotionManage.css";
 import { Link } from "react-router-dom";
-import EditPromotionModal from "./EditPromotionModal"; // Import the EditPromotionModal
+import EditPromotionModal from "./EditPromotionModal";
 import { Modal, message } from "antd";
-import PropTypes from "prop-types"; // Import PropTypes for type checking
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSort } from "@fortawesome/free-solid-svg-icons";
+import PromotionDetailModal from "./PromotionDetailModal";
+import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 
 function PromotionManage() {
   const [promotions, setPromotions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterType, setFilterType] = useState("all");
-  const [editingPromotion, setEditingPromotion] = useState(null); // State for the promotion being edited
+  const [editingPromotion, setEditingPromotion] = useState(null);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [promotionToDelete, setPromotionToDelete] = useState(null);
-  const promotionsPerPage = 5;
+  const promotionsPerPage = 5; // Adjust this value as needed
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
+  const [selectedPromotion, setSelectedPromotion] = useState(null);
 
   const fetchPromotions = async () => {
     try {
@@ -34,6 +40,10 @@ function PromotionManage() {
     setEditingPromotion(promotion);
   };
 
+  const handleCloseModal = () => {
+    setSelectedPromotion(null);
+  };
+
   const handleDelete = (promotionId) => {
     setPromotionToDelete(promotionId);
     setDeleteModalVisible(true);
@@ -49,10 +59,10 @@ function PromotionManage() {
           (promotion) => promotion.PromotionID !== promotionToDelete
         )
       );
-      message.success("Đã xóa khuyến mãi thành công"); // Show success message
+      message.success("Đã xóa khuyến mãi thành công");
     } catch (error) {
       console.error("Error deleting promotion:", error);
-      message.error("Xảy ra lỗi khi xóa khuyến mãi"); // Show error message
+      message.error("Xảy ra lỗi khi xóa khuyến mãi");
     } finally {
       setDeleteModalVisible(false);
     }
@@ -75,15 +85,11 @@ function PromotionManage() {
             : promotion
         )
       );
-      setEditingPromotion(null); // Close the modal
+      setEditingPromotion(null);
       fetchPromotions();
     } catch (error) {
       console.error("Error updating promotion:", error);
     }
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
   };
 
   const handleFilterChange = (event) => {
@@ -101,6 +107,46 @@ function PromotionManage() {
     return true;
   });
 
+  const handleDetailClick = (promotion) => {
+    setSelectedPromotion(promotion);
+  };
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    const sortedPromotions = [...promotions].sort((a, b) => {
+      if (key === "PromotionID") {
+        return direction === "ascending"
+          ? a.PromotionID - b.PromotionID
+          : b.PromotionID - a.PromotionID;
+      } else if (key === "PromotionName") {
+        return direction === "ascending"
+          ? a.PromotionName.localeCompare(b.PromotionName)
+          : b.PromotionName.localeCompare(a.PromotionName);
+      } else if (key === "DiscountPercentage") {
+        return direction === "ascending"
+          ? a.DiscountPercentage - b.DiscountPercentage
+          : b.DiscountPercentage - a.DiscountPercentage;
+      } else if (key === "StartDate") {
+        return direction === "ascending"
+          ? new Date(a.StartDate) - new Date(b.StartDate)
+          : new Date(b.StartDate) - new Date(a.StartDate);
+      } else if (key === "EndDate") {
+        return direction === "ascending"
+          ? new Date(a.EndDate) - new Date(b.EndDate)
+          : new Date(b.EndDate) - new Date(a.EndDate);
+      }
+      return 0;
+    });
+
+    setPromotions(sortedPromotions);
+    setSortConfig({ key, direction });
+  };
+
   const indexOfLastPromotion = currentPage * promotionsPerPage;
   const indexOfFirstPromotion = indexOfLastPromotion - promotionsPerPage;
   const currentPromotions = filteredPromotions.slice(
@@ -114,7 +160,8 @@ function PromotionManage() {
         <select
           className="filter-dropdown-promotion"
           value={filterType}
-          onChange={handleFilterChange}>
+          onChange={handleFilterChange}
+        >
           <option value="all">Tất cả</option>
           <option value="active">Còn hạn</option>
           <option value="expired">Hết hạn</option>
@@ -128,14 +175,44 @@ function PromotionManage() {
       <table className="promo-table">
         <thead className="promo-thead">
           <tr>
-            <th className="promo-th">Stt</th>
-            <th className="promo-th">Tên khuyến mãi</th>
-            <th className="promo-th">Ảnh</th>
-            <th className="promo-th">Mô tả</th>
-            <th className="promo-th">Giảm giá</th>
-            <th className="promo-th">Bắt đầu</th>
-            <th className="promo-th">Kết thúc</th>
-            <th className="promo-th">Thao tác</th>
+            <th className="promo-th col-md-1">Stt</th>
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "PromotionName" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("PromotionName")}
+            >
+              Tên khuyến mãi
+              <button className={`sort-icon-order`}>
+                <FontAwesomeIcon icon={faSort} />
+              </button>
+            </th>
+            <th className="promo-th col-md-2">Ảnh</th>
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "DiscountPercentage"
+                  ? sortConfig.direction
+                  : ""
+              }`}
+              onClick={() => handleSort("DiscountPercentage")}
+            >
+              Giảm giá
+              <button className={`sort-icon-order`}>
+                <FontAwesomeIcon icon={faSort} />
+              </button>
+            </th>
+            <th
+              className={`promo-th col-md-2 ${
+                sortConfig.key === "StartDate" ? sortConfig.direction : ""
+              }`}
+              onClick={() => handleSort("StartDate")}
+            >
+              Bắt đầu
+              <button className={`sort-icon-order`}>
+                <FontAwesomeIcon icon={faSort} />
+              </button>
+            </th>
+            <th className="promo-th col-md-3">Thao tác</th>
           </tr>
         </thead>
         <tbody className="promo-tbody">
@@ -150,7 +227,6 @@ function PromotionManage() {
                   alt={promotion.PromotionName}
                 />
               </td>
-              <td className="promo-td">{promotion.Description}</td>
               <td className="promo-td">{promotion.DiscountPercentage}%</td>
               <td className="promo-td">
                 {new Date(promotion.StartDate).toLocaleDateString("vi-VN", {
@@ -160,22 +236,26 @@ function PromotionManage() {
                 })}
               </td>
               <td className="promo-td">
-                {new Date(promotion.EndDate).toLocaleDateString("vi-VN", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
-              </td>
-              <td className="promo-td">
-                <div className="promo-buttons">
+                <div className="promo-actions">
                   <button
-                    className="promo-button promo-button-edit"
-                    onClick={() => handleEdit(promotion)}>
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => handleDetailClick(promotion)}
+                  >
+                    Xem
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-warning edit-vch-bt"
+                    onClick={() => handleEdit(promotion)}
+                  >
                     Sửa
                   </button>
                   <button
-                    className="promo-button promo-button-delete"
-                    onClick={() => handleDelete(promotion.PromotionID)}>
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(promotion.PromotionID)}
+                  >
                     Xóa
                   </button>
                 </div>
@@ -184,77 +264,55 @@ function PromotionManage() {
           ))}
         </tbody>
       </table>
-      <div className="pagination-container-promotion">
-        <ThrowPage
-          current={currentPage}
-          onChange={handlePageChange}
-          total={filteredPromotions.length}
-          itemsPerPage={promotionsPerPage}
-        />
-      </div>
+
       {editingPromotion && (
         <EditPromotionModal
           promotion={editingPromotion}
-          onClose={() => setEditingPromotion(null)}
           onSave={handleSave}
+          onCancel={() => setEditingPromotion(null)}
         />
       )}
+      {selectedPromotion && (
+        <PromotionDetailModal
+          promotion={selectedPromotion}
+          onClose={handleCloseModal}
+        />
+      )}
+
       <Modal
         title="Xác nhận xóa khuyến mãi"
         visible={deleteModalVisible}
         onOk={confirmDelete}
         onCancel={handleCancelDelete}
+        okText="Xác nhận"
+        cancelText="Hủy"
       >
-        <p>Bạn có chắc chắn muốn xóa khuyến mãi này?</p>
+        Bạn có chắc muốn xóa khuyến mãi này?
       </Modal>
+      <div className="pagination-container-thinhvcher">
+        <ThrowPage
+          current={currentPage}
+          onChange={handlePageChange}
+          total={filteredPromotions.length}
+          productsPerPage={promotionsPerPage}
+        />
+      </div>
     </div>
   );
 }
 
-const ThrowPage = ({ current, onChange, total, itemsPerPage }) => {
-  const totalPages = Math.ceil(total / itemsPerPage);
-
-  const handleClick = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      onChange(page);
-    }
-  };
-
-  return (
-    <div className="pagination">
-      <button
-        className="page-button"
-        disabled={current === 1}
-        onClick={() => handleClick(current - 1)}
-      >
-        &lt;
-      </button>
-      {[...Array(totalPages)].map((_, index) => (
-        <button
-          key={index}
-          className={`page-button ${current === index + 1 ? "active" : ""}`}
-          onClick={() => handleClick(index + 1)}
-        >
-          {index + 1}
-        </button>
-      ))}
-      <button
-        className="page-button"
-        disabled={current === totalPages}
-        onClick={() => handleClick(current + 1)}
-      >
-        &gt;
-      </button>
-    </div>
-  );
-};
-
-// PropTypes validation for ThrowPage component props
-ThrowPage.propTypes = {
-  current: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  total: PropTypes.number.isRequired,
-  itemsPerPage: PropTypes.number.isRequired,
+PromotionManage.propTypes = {
+  promotions: PropTypes.arrayOf(
+    PropTypes.shape({
+      PromotionID: PropTypes.number.isRequired,
+      PromotionName: PropTypes.string.isRequired,
+      Image: PropTypes.string.isRequired,
+      Description: PropTypes.string.isRequired,
+      DiscountPercentage: PropTypes.number.isRequired,
+      StartDate: PropTypes.string.isRequired,
+      EndDate: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default PromotionManage;

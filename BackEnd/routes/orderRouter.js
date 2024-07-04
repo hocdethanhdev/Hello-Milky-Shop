@@ -73,4 +73,6 @@ router.get('/getReasonCancleOrderByUserID/:userID', orderController.getReasonCan
 
 router.post('/getInfoToShip', orderController.getInfoToShip);
 
+router.post('/transferOrderDetailsToNewOrder', orderController.transferOrderDetailsToNewOrder);
+
 module.exports = router

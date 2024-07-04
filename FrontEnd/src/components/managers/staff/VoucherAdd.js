@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import "./Voucher.css";
 import { message } from "antd";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { formatPrice } from "../../utils/formatPrice";
+
+message.config({
+  top: 10, 
+  duration: 2, 
+});
 
 function VoucherAdd() {
   const [voucherData, setVoucherData] = useState({
@@ -9,13 +16,12 @@ function VoucherAdd() {
     discountPercentage: "",
     minDiscount: "",
     maxDiscount: "",
-    startDate: "",
-    expiryDate: "",
+    startDate: null,
+    expiryDate: null,
     quantity: "",
   });
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,15 +30,15 @@ function VoucherAdd() {
       const formattedMinDiscount = formatPrice(value);
       setVoucherData((prevData) => ({
         ...prevData,
-        minDiscount: value.replace(/\D/g, ''), // Store numeric value
-        formattedMinDiscount // Store formatted value for display
+        minDiscount: value.replace(/\D/g, ''), // Lưu giá trị số
+        formattedMinDiscount // Lưu giá trị đã được định dạng để hiển thị
       }));
     } else if (name === "maxDiscount") {
       const formattedMaxDiscount = formatPrice(value);
       setVoucherData((prevData) => ({
         ...prevData,
-        maxDiscount: value.replace(/\D/g, ''), // Store numeric value
-        formattedMaxDiscount // Store formatted value for display
+        maxDiscount: value.replace(/\D/g, ''), // Lưu giá trị số
+        formattedMaxDiscount // Lưu giá trị đã được định dạng để hiển thị
       }));
     } else {
       setVoucherData({
@@ -42,10 +48,16 @@ function VoucherAdd() {
     }
   };
 
+  const handleDateChange = (date, fieldName) => {
+    setVoucherData((prevData) => ({
+      ...prevData,
+      [fieldName]: date,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Destructure voucherData from state
     const {
       voucherName,
       discountPercentage,
@@ -56,7 +68,6 @@ function VoucherAdd() {
       quantity,
     } = voucherData;
 
-    // Validation checks
     if (!voucherName) {
       message.warning("Tên voucher không được bỏ trống.");
       return;
@@ -94,19 +105,11 @@ function VoucherAdd() {
       return;
     }
 
-    // Check if startDate is after today
-    const today = new Date();
-    const start = new Date(startDate);
-    if (start < today) {
-      message.warning("Ngày bắt đầu không được sau ngày hiện tại.");
-      return;
-    }
-
     if (!expiryDate) {
       message.warning("Ngày kết thúc không được bỏ trống.");
       return;
     }
-    if (new Date(expiryDate) < start) {
+    if (new Date(expiryDate) < new Date(startDate)) {
       message.warning("Ngày kết thúc phải sau hoặc bằng ngày bắt đầu.");
       return;
     }
@@ -119,7 +122,6 @@ function VoucherAdd() {
       return;
     }
 
-    // If all validations pass, proceed with API call
     fetch("http://localhost:5000/api/v1/voucher/addVoucher", {
       method: "POST",
       headers: {
@@ -134,19 +136,24 @@ function VoucherAdd() {
         return response.json();
       })
       .then(() => {
-        setSuccessMessage("Voucher created successfully!");
+        // Hiển thị thông báo thành công
+        message.success('Voucher đã được tạo thành công');
+        
+        // Đặt lại trạng thái của form và thông báo
+        setSuccessMessage("");
         setErrorMessage("");
         setVoucherData({
           voucherName: "",
           discountPercentage: "",
           minDiscount: "",
           maxDiscount: "",
-          startDate: "",
-          expiryDate: "",
+          startDate: null,
+          expiryDate: null,
           quantity: "",
         });
       })
       .catch((error) => {
+        // Xử lý lỗi khi gọi API
         setErrorMessage("Error creating voucher: " + error.message);
         setSuccessMessage("");
       });
@@ -182,12 +189,11 @@ function VoucherAdd() {
           />
 
           <label htmlFor="startDate">Ngày bắt đầu</label>
-          <input
-            type="date"
-            id="startDate"
-            name="startDate"
-            value={voucherData.startDate}
-            onChange={handleChange}
+          <DatePicker
+            selected={voucherData.startDate}
+            onChange={(date) => handleDateChange(date, "startDate")}
+            dateFormat="dd/MM/yyyy"
+            placeholderText="dd/mm/yyyy"
           />
 
           <label htmlFor="discountPercentage">Phần trăm giảm giá (%)</label>
@@ -200,12 +206,12 @@ function VoucherAdd() {
           />
         </div>
         <div className="half-width">
-          <label htmlFor="minDiscount"> Giảm tối thiểu</label>
+          <label htmlFor="minDiscount">Giảm tối thiểu</label>
           <input
-            type="text"
+            type="number"
             id="minDiscount"
             name="minDiscount"
-            value={voucherData.formattedMinDiscount}
+            value={voucherData.minDiscount}
             onChange={handleChange}
           />
 
@@ -214,17 +220,16 @@ function VoucherAdd() {
             type="number"
             id="maxDiscount"
             name="maxDiscount"
-            value={voucherData.formattedMaxDiscount}
+            value={voucherData.maxDiscount}
             onChange={handleChange}
           />
 
           <label htmlFor="expiryDate">Ngày kết thúc</label>
-          <input
-            type="date"
-            id="expiryDate"
-            name="expiryDate"
-            value={voucherData.expiryDate}
-            onChange={handleChange}
+          <DatePicker
+            selected={voucherData.expiryDate}
+            onChange={(date) => handleDateChange(date, "expiryDate")}
+            dateFormat="dd/MM/yyyy"
+            placeholderText="dd/mm/yyyy"
           />
 
           <button type="submit" className="create-voucher">
