@@ -197,61 +197,25 @@ function Account() {
 
             <div className="obj-account">
               <strong>Email: </strong>
-              {!popupEmailUpdate ? (
-                <>
-                  {userData.Email || "Chưa cập nhật"}
-                  <CiEdit
-                    className="update-account"
-                    onClick={() => {
-                      setPopupUserNameUpdate(false);
-                      setUserNameUpdate(userData.UserName);
-                      setPopupEmailUpdate(true);
-                      setPopupPhoneUpdate(false);
-                      setPhoneUpdate(userData.PhoneNumber);
-                    }}
-                  />
-                </>
-              ) : (
-                <div>
-                  <input
-                    type="email"
-                    value={emailUpdate}
-                    onChange={handleChangeEmail}
-                  />
-                  <br />
-                  <button
-                    onClick={handleUpdateEmail}
-                    className="btn btn-warning"
-                  >
-                    Cập nhật
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => {
-                      setPopupEmailUpdate(false);
-                      setEmailUpdate(userData.Email);
-                    }}
-                  >
-                    Hủy
-                  </button>
-                </div>
-              )}
+              {userData.Email || "Chưa cập nhật"}
             </div>
             <div className="obj-account">
               <strong>Số điện thoại:</strong>{" "}
               {!popupPhoneUpdate ? (
                 <>
                   {userData.PhoneNumber || "Chưa cập nhật"}
-                  <CiEdit
-                    className="update-account"
-                    onClick={() => {
-                      setPopupUserNameUpdate(false);
-                      setUserNameUpdate(userData.UserName);
-                      setPopupEmailUpdate(false);
-                      setEmailUpdate(userData.Email);
-                      setPopupPhoneUpdate(true);
-                    }}
-                  />
+                  {userData.PhoneNumber && (
+                    <CiEdit
+                      className="update-account"
+                      onClick={() => {
+                        setPopupUserNameUpdate(false);
+                        setUserNameUpdate(userData.UserName);
+                        setPopupEmailUpdate(false);
+                        setEmailUpdate(userData.Email);
+                        setPopupPhoneUpdate(true);
+                      }}
+                    />
+                  )}
                 </>
               ) : (
                 <div>
