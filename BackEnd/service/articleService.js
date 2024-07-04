@@ -41,6 +41,9 @@ const articleService = {
   getCurrentCategoriesInArticles: async () => {
     return await articleRepository.getCurrentCategoriesInArticles();
   },
+  getTop4ArticlesforViewer: async () => {
+    return await articleRepository.getTop4ArticlesforViewer();
+  },
 };
 
 module.exports = articleService;

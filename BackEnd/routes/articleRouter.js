@@ -26,4 +26,6 @@ router.post('/getTop5ArticleSameType', articleController.getTop5ArticleSameType)
 
 router.get('/getCurrentCategoriesInArticles', articleController.getCurrentCategoriesInArticles);
 
+router.get('/getTop4ArticlesforViewer', articleController.getTop4ArticlesforViewer);
+
 module.exports = router

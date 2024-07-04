@@ -621,3 +621,6 @@ Content-Type: application/json
     "UserID": "M0000001", 
     "UserName": "Nhan"
 }
+
+###
+GET http://localhost:5000/api/v1/article/getTop4ArticlesForViewer/

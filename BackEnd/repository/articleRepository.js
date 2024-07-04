@@ -38,6 +38,9 @@ const articleRepository = {
   getCurrentCategoriesInArticles: async () => {
     return await articleDAO.getCurrentCategoriesInArticles();
   },
+  getTop4ArticlesforViewer: async () => {
+    return await articleDAO.findTop4ArticlesforViewer();
+  },
 }
 
 module.exports = articleRepository;
