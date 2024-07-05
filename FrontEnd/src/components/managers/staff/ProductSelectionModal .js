@@ -16,6 +16,8 @@ import {
 import axios from "axios";
 import { SearchOutlined } from "@ant-design/icons";
 import "./ProductSelectionModal.css";
+import { config } from "../../../config";
+
 const { Option } = Select;
 
 const ProductSelectionModal = ({
@@ -32,7 +34,7 @@ const ProductSelectionModal = ({
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail"
+        `${config.API_ROOT}/api/v1/product/getInfoProductsDetail`
       );
       setProducts(response.data);
       setLoading(false);
@@ -44,7 +46,7 @@ const ProductSelectionModal = ({
   const fetchPromotionProducts = useCallback(async () => {
     try {
       const response = await axios.get(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getProductsApplyAnPromotion/${promotionID}`
+        `${config.API_ROOT}/api/v1/promotion/getProductsApplyAnPromotion/${promotionID}`
       );
       setSelectedProducts(response.data.result);
     } catch (error) {
@@ -68,7 +70,7 @@ const ProductSelectionModal = ({
   const handleSave = async () => {
     try {
       await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/applyPromotionToProduct",
+        `${config.API_ROOT}/api/v1/promotion/applyPromotionToProduct`,
         { productIDs: selectedProducts, promotionID },
         { headers: { "Content-Type": "application/json" } }
       );

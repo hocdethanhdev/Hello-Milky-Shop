@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import SidebarProfile from "./sidebarprofile";
 import { message } from "antd";
+import { config } from "../../../config";
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState("");
@@ -32,7 +33,7 @@ function ChangePassword() {
     }
 
     try {
-      const response = await fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/auth/changePassword", {
+      const response = await fetch(`${config.API_ROOT}/api/v1/auth/changePassword`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

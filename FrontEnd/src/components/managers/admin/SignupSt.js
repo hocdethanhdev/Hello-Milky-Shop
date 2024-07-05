@@ -4,6 +4,7 @@ import axios from "axios";
 import { MDBContainer, MDBCard, MDBCardBody, MDBInput } from "mdb-react-ui-kit";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { config } from "../../../config";
 
 function SignupSt() {
   const [formData, setFormData] = useState({
@@ -76,7 +77,7 @@ function SignupSt() {
 
     try {
       const response = await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/auth/register",
+        `${config.API_ROOT}/api/v1/auth/register`,
         {
           UserName: formData.name,
           PhoneNumber: formData.phone,

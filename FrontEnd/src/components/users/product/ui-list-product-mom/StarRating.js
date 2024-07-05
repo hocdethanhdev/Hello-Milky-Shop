@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types'; // Import PropTypes
 import "./StarRating.css";
+import { config } from "../../../../config";
 
 const StarRating = ({ productId }) => {
     const [ratingData, setRatingData] = useState({ count: 0, avg: 0 });
@@ -9,7 +10,7 @@ const StarRating = ({ productId }) => {
     useEffect(() => {
         const fetchRatingData = async () => {
             try {
-                const response = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/comment/countRatingAndAvgRating/${productId}`);
+                const response = await axios.get(`${config.API_ROOT}/api/v1/comment/countRatingAndAvgRating/${productId}`);
                 const data = response.data;
                 if (data.err === 0) {
                     setRatingData({ count: data.count, avg: data.avg });

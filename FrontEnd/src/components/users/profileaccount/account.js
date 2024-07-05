@@ -7,7 +7,7 @@ import axios from "axios";
 import { CiEdit } from "react-icons/ci";
 import { message } from "antd";
 import Loading from "../../layout/Loading";
-
+import { config } from "../../../config";
 function Account() {
   const [userData, setUserData] = useState(null);
   const { token } = useSelector((state) => state.auth);
@@ -23,7 +23,7 @@ function Account() {
   const fetchUserData = useCallback(async () => {
     try {
       const response = await axios.get(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/user/getUserByID?UserID=${userId}`
+        `${config.API_ROOT}/api/v1/user/getUserByID?UserID=${userId}`
       );
 
       if (response.data && response.data.data) {
@@ -65,7 +65,7 @@ function Account() {
     }
     try {
       const updateEmail = await axios.put(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/user/updateUserEmail",
+        `${config.API_ROOT}/api/v1/user/updateUserEmail`,
         {
           UserID: userId,
           Email: emailUpdate,
@@ -89,7 +89,7 @@ function Account() {
     }
     try {
       const updateUserName = await axios.put(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/user/updateUserName",
+        `${config.API_ROOT}/api/v1/user/updateUserName`,
         {
           UserID: userId,
           UserName: userNameUpdate,
@@ -113,7 +113,7 @@ function Account() {
     }
     try {
       const updatePhoneNumber = await axios.put(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/user/updateUserPhoneNumber",
+        `${config.API_ROOT}/api/v1/user/updateUserPhoneNumber`,
         {
           UserID: userId,
           PhoneNumber: phoneUpdate,

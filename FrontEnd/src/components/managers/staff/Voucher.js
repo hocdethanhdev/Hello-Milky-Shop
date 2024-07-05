@@ -8,6 +8,7 @@ import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import DeleteConfirmationPopupForVoucher from "./DeleteConfirmationPopupForVoucher";
 import { message } from "antd";
 import VoucherDetailModal from "./VoucherDetailModal";
+import { config } from "../../../config";
 
 function Voucher() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,7 +31,7 @@ function Voucher() {
   }, []);
 
   const fetchVouchers = () => {
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/getAllVouchers")
+    fetch(`${config.API_ROOT}/api/v1/voucher/getAllVouchers`)
       .then((response) => response.json())
       .then((data) => setVouchers(data))
       .catch((error) => console.error("Error fetching vouchers:", error));
@@ -50,7 +51,7 @@ function Voucher() {
   };
 
   const confirmDelete = (voucherID) => {
-    fetch(`https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/deleteVoucher/${voucherID}`, {
+    fetch(`${config.API_ROOT}/api/v1/voucher/deleteVoucher/${voucherID}`, {
       method: "PUT",
     })
       .then((response) => {
@@ -89,7 +90,7 @@ function Voucher() {
 
   const handleSaveVoucher = (updatedVoucher) => {
     fetch(
-      `https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/updateVoucher/${updatedVoucher.VoucherID}`,
+      `${config.API_ROOT}/api/v1/voucher/updateVoucher/${updatedVoucher.VoucherID}`,
       {
         method: "PUT",
         headers: {
@@ -128,7 +129,7 @@ function Voucher() {
     };
 
     fetch(
-      `https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/openVoucher/${voucher.VoucherID}`,
+      `${config.API_ROOT}/api/v1/voucher/openVoucher/${voucher.VoucherID}`,
       {
         method: "PUT",
         headers: {

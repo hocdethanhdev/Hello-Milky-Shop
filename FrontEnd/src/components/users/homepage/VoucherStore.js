@@ -7,9 +7,10 @@ import "./VoucherStore.css";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { toast } from "react-hot-toast";
-import PropTypes from "prop-types"; // Import PropTypes for prop validation
+import PropTypes from "prop-types";
+import { config } from "../../../config";
 
-// Helper function to format numbers with commas
+
 const formatNumber = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
@@ -22,7 +23,7 @@ function VoucherStore() {
   const fetchVouchersForUser = useCallback(async () => {
     try {
       const response = await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/getVouchersForUser",
+        `${config.API_ROOT}/api/v1/voucher/getVouchersForUser`,
         { UserID: userIdd }
       );
       setVouchers(response.data);
@@ -43,7 +44,7 @@ function VoucherStore() {
       };
 
       const response = await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/saveVoucherForUser",
+        `${config.API_ROOT}/api/v1/voucher/saveVoucherForUser`,
         requestBody
       );
 

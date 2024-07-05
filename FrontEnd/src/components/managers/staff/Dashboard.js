@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Card.css"; // Ensure you have appropriate styles
 import { Line, Doughnut } from "react-chartjs-2";
 import "chart.js/auto"; // Import the auto module from chart.js
+import { config } from "../../../config";
 
 function Dashboard() {
   const [orderCount, setOrderCount] = useState(0);
@@ -14,31 +15,31 @@ function Dashboard() {
 
   useEffect(() => {
     // Fetch data from APIs
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersPayed")
+    fetch(`${config.API_ROOT}/api/v1/order/countOrdersPayed`)
       .then((response) => response.json())
       .then((data) => setOrderCount(data.count));
 
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countNewOrders")
+    fetch(`${config.API_ROOT}/api/v1/order/countNewOrders`)
       .then((response) => response.json())
       .then((data) => setNewOrdersCount(data.count));
 
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersByStatusOrderID/1")
+    fetch(`${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/1`)
       .then((response) => response.json())
       .then((data) => setWaitingOrdersCount(data.count));
 
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersByStatusOrderID/4")
+    fetch(`${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/4`)
       .then((response) => response.json())
       .then((data) => setFinishedOrdersCount(data.count));
 
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersByStatusOrderID/3")
+    fetch(`${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/3`)
       .then((response) => response.json())
       .then((data) => setCanceledOrdersCount(data.count));
 
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersByStatusOrderID/2")
+    fetch(`${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/2`)
       .then((response) => response.json())
       .then((data) => setShippingOrdersCount(data.count));
 
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersIn7Days")
+    fetch(`${config.API_ROOT}/api/v1/order/countOrdersIn7Days`)
       .then((response) => response.json())
       .then((data) => setOrdersIn7Days(data.data));
   }, []);

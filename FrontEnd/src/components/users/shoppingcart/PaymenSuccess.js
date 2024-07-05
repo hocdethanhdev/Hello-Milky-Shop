@@ -4,6 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { toast } from "react-hot-toast";
+import { config } from "../../../config";
 
 const PaymemSuccess = () => {
   const { token } = useSelector((state) => state.auth);
@@ -23,7 +24,7 @@ const PaymemSuccess = () => {
         if (list !== null) {
           localStorage.removeItem("productQuantitiesToUpdate");
           await axios.post(
-            "https://hellomilkyshop123.azurewebsites.net/api/v1/order/changeQuantityOfProductInOrder",
+            `${config.API_ROOT}/api/v1/order/changeQuantityOfProductInOrder`,
             {
               orderID: orderID,
               productQuantities: list,
@@ -33,7 +34,7 @@ const PaymemSuccess = () => {
 
         if (totalAmount) {
           await axios.post(
-            "https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateTotalAmountOfOrder",
+            `${config.API_ROOT}/api/v1/order/updateTotalAmountOfOrder`,
             {
               orderID: orderID,
               totalAmount: totalAmount,
@@ -44,13 +45,13 @@ const PaymemSuccess = () => {
 
         if (orderID) {
           await axios.post(
-            `https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateStatusOrderID/${orderID}`,
+            `${config.API_ROOT}/api/v1/order/updateStatusOrderID/${orderID}`,
             {
               statusOrderID: 1,
             }
           );
 
-          await axios.post(`https://hellomilkyshop123.azurewebsites.net/api/v1/order/checkoutOrder`, {
+          await axios.post(`${config.API_ROOT}/api/v1/order/checkoutOrder`, {
             orderID: orderID,
           });
 
@@ -59,7 +60,7 @@ const PaymemSuccess = () => {
         const voucher = localStorage.getItem("selectedVoucher");
         if (voucher) {
           await axios.post(
-            "https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/removeVoucherFromUser",
+            `${config.API_ROOT}/api/v1/voucher/removeVoucherFromUser`,
             {
               userID: getUserIdFromToken(token),
               voucherID: parseInt(voucher),
@@ -71,7 +72,7 @@ const PaymemSuccess = () => {
 
         const usePoints = localStorage.getItem("usePoints");
         if (usePoints === "true") {
-          await axios.put("https://hellomilkyshop123.azurewebsites.net/api/v1/user/usePoint", {
+          await axios.put(`${config.API_ROOT}/api/v1/user/usePoint`, {
             UserID: getUserIdFromToken(token),
           });
 
@@ -108,7 +109,7 @@ const PaymemSuccess = () => {
 
     const transferOrderDetailsToNewOrder = async (orderID) => {
       await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/order/transferOrderDetailsToNewOrder",
+        `${config.API_ROOT}/api/v1/order/transferOrderDetailsToNewOrder`,
         {
           OrderID: orderID,
         }

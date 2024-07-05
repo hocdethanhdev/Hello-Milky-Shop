@@ -4,7 +4,7 @@ import "./ListProductMom.css";
 import SliderMoney from "./SliderMoney";
 import ThrowPage from "./ThrowPage";
 import StarRating from "./StarRating";
-
+import { config } from "../../../../config";
 const formatPrice = (price) => {
   if (price == null || isNaN(price)) {
     return "0";
@@ -27,7 +27,7 @@ const AllProduct = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        let apiUrl = `https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail`;
+        let apiUrl = `${config.API_ROOT}/api/v1/product/getInfoProductsDetail`;
 
         if (keyword) {
           let modifiedKeyword = keyword.toLowerCase();
@@ -37,7 +37,7 @@ const AllProduct = () => {
             modifiedKeyword.includes("me")
           ) {
             modifiedKeyword = "Sữa cho mẹ bầu";
-            apiUrl = `https://hellomilkyshop123.azurewebsites.net/api/v1/product/searchWithProductCategory/${encodeURIComponent(
+            apiUrl = `${config.API_ROOT}/api/v1/product/searchWithProductCategory/${encodeURIComponent(
               modifiedKeyword
             )}`;
           } else if (
@@ -45,11 +45,11 @@ const AllProduct = () => {
             modifiedKeyword.includes("be")
           ) {
             modifiedKeyword = "Sữa cho em bé";
-            apiUrl = `https://hellomilkyshop123.azurewebsites.net/api/v1/product/searchWithProductCategory/${encodeURIComponent(
+            apiUrl = `${config.API_ROOT}/api/v1/product/searchWithProductCategory/${encodeURIComponent(
               modifiedKeyword
             )}`;
           } else {
-            apiUrl = `https://hellomilkyshop123.azurewebsites.net/api/v1/product/searchWithName?search=${keyword}`;
+            apiUrl = `${config.API_ROOT}/api/v1/product/searchWithName?search=${keyword}`;
           }
         }
 
@@ -59,7 +59,7 @@ const AllProduct = () => {
         if (data.err === "Do not have any product with this names") {
           setErr(true);
           response = await fetch(
-            `https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail`
+            `${config.API_ROOT}/api/v1/product/getInfoProductsDetail`
           );
           data = await response.json();
         }
@@ -81,7 +81,7 @@ const AllProduct = () => {
     const fetchBrands = async () => {
       try {
         const response = await fetch(
-          "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllBrands"
+          `${config.API_ROOT}/api/v1/product/getAllBrands`
         );
         const data = await response.json();
         setBrands(data);

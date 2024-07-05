@@ -30,7 +30,7 @@ Hello Milky Shop is a full-stack e-commerce application built with ReactJS and N
 1. **Run the back-end** (Node.js):
 
    ```bash
-   Server will start at https://hellomilkyshop123.azurewebsites.net
+   Server will start at ${config.API_ROOT}
    ```
 
 2. **Run the front-end** (ReactJS):

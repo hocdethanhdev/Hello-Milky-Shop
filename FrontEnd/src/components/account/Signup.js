@@ -18,6 +18,7 @@ import { auth } from "../config/firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 import { message } from "antd";
+import { config } from "../../config";
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -204,7 +205,7 @@ function Signup() {
   const completeSignup = async () => {
     try {
       const response = await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/auth/register",
+        `${config.API_ROOT}/api/v1/auth/register`,
         {
           UserName: formData.name,
           PhoneNumber: formData.phone,
@@ -214,7 +215,7 @@ function Signup() {
 
       if (response.data.err === 0) {
         const login = await axios.post(
-          "https://hellomilkyshop123.azurewebsites.net/api/v1/auth/login",
+          `${config.API_ROOT}/api/v1/auth/login`,
           {
             PhoneNumber: formData.phone,
             Password: formData.password,
@@ -222,7 +223,7 @@ function Signup() {
         );
         if (login.data.err === 0) {
           window.open(
-            `https://hellomilkyshop123.azurewebsites.net/api/v1/auth/loginSuccess?token=${login.data.token}`,
+            `${config.API_ROOT}/api/v1/auth/loginSuccess?token=${login.data.token}`,
             "_self"
           );
         } else {
@@ -238,7 +239,7 @@ function Signup() {
   };
 
   const loginGoogle = () => {
-    window.open("https://hellomilkyshop123.azurewebsites.net/api/v1/auth/google", "_self");
+    window.open(`${config.API_ROOT}/api/v1/auth/google", "_self`);
   };
 
   return (

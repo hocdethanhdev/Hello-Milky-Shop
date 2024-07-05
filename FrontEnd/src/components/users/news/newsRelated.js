@@ -4,6 +4,7 @@ import axios from 'axios';
 import './newsRelated.css';
 import { Link } from 'react-router-dom';
 import Loading from '../../layout/Loading';
+import { config } from "../../../config";
 
 const NewsRelated = ({ articleCategoryID, articleID }) => {
     const [relatedArticles, setRelatedArticles] = useState([]);
@@ -18,7 +19,7 @@ const NewsRelated = ({ articleCategoryID, articleID }) => {
         const fetchRelatedArticles = async () => {
             try {
                 const response = await axios.post(
-                    'https://hellomilkyshop123.azurewebsites.net/api/v1/article/getTop5ArticleSameType',
+                    `${config.API_ROOT}/api/v1/article/getTop5ArticleSameType`,
                     {
                         ArticleID: articleID,
                         ArticleCategoryID: articleCategoryID

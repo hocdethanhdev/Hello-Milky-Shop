@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import DeleteConfirmationPopupForArticle from "./DeleteConfirmationPopupForArticle";
 import { message } from "antd";
+import { config } from "../../../config";
 
 function Posts() {
   const [articles, setArticles] = useState([]);
@@ -24,7 +25,7 @@ function Posts() {
 
   useEffect(() => {
     axios
-      .get("https://hellomilkyshop123.azurewebsites.net/api/v1/article/getAllArticles")
+      .get(`${config.API_ROOT}/api/v1/article/getAllArticles`)
       .then((response) => {
         setArticles(response.data);
       })
@@ -67,7 +68,7 @@ function Posts() {
 
   const confirmDelete = () => {
     axios
-      .put(`https://hellomilkyshop123.azurewebsites.net/api/v1/article/deleteArticle/${deleteArticleId}`)
+      .put(`${config.API_ROOT}/api/v1/article/deleteArticle/${deleteArticleId}`)
       .then(() => {
         setArticles(
           articles.filter((article) => article.ArticleID !== deleteArticleId)

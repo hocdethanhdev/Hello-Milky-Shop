@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import PromotionDetailModal from "./PromotionDetailModal";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
+import { config } from "../../../config";
 
 function PromotionManage() {
   const [promotions, setPromotions] = useState([]);
@@ -24,7 +25,7 @@ function PromotionManage() {
   const fetchPromotions = async () => {
     try {
       const response = await axios.get(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getAllPromotions"
+        `${config.API_ROOT}/api/v1/promotion/getAllPromotions`
       );
       setPromotions(response.data);
     } catch (error) {
@@ -52,7 +53,7 @@ function PromotionManage() {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/deletePromotion/${promotionToDelete}`
+        `${config.API_ROOT}/api/v1/promotion/deletePromotion/${promotionToDelete}`
       );
       setPromotions(
         promotions.filter(
@@ -75,7 +76,7 @@ function PromotionManage() {
   const handleSave = async (updatedPromotion) => {
     try {
       const response = await axios.put(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/updatePromotion/${updatedPromotion.PromotionID}`,
+        `${config.API_ROOT}/api/v1/promotion/updatePromotion/${updatedPromotion.PromotionID}`,
         updatedPromotion
       );
       setPromotions(

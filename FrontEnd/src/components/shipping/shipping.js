@@ -3,7 +3,7 @@ import axios from "axios";
 import { Modal, message } from "antd"; // Removed unused Button import
 import 'antd/dist/reset.css';
 import Loading from "../layout/Loading";
-
+import { config } from "../../../config";
 import "./shipping.css";
 
 function Shipping() {
@@ -19,7 +19,7 @@ function Shipping() {
   const fetchOrders = async () => {
     try {
       const response = await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/order/getInfoToShip",
+        `${config.API_ROOT}/api/v1/order/getInfoToShip`,
         {
           StatusOrderID: 2,
         }
@@ -45,7 +45,7 @@ function Shipping() {
   const handleModalOk = async () => {
     try {
       await axios.post(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateStatusOrderID/${confirmingOrderId}`,
+        `${config.API_ROOT}/api/v1/order/updateStatusOrderID/${confirmingOrderId}`,
         {
           statusOrderID: 4,
         }

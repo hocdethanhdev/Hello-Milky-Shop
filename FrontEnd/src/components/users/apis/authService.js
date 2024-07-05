@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { config } from "../../../config";
 
 export const apiLoginEmail = (email) => {
     return new Promise((resolve, reject) => {
         axios({
             method: 'post',
-            url: 'https://hellomilkyshop123.azurewebsites.net/api/v1/auth/loginEmail',
+            url: `${config.API_ROOT}/api/v1/auth/loginEmail`,
             data: { email }
         })
             .then(response => {

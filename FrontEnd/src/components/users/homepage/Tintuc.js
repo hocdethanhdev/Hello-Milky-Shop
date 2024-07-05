@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Tintuc.css';
+import { config } from "../../../config";
 
 const Tintuc = () => {
     const [articles, setArticles] = useState([]);
 
     useEffect(() => {
-        fetch('https://hellomilkyshop123.azurewebsites.net/api/v1/article/getTop4ArticlesForViewer/')
+        fetch(`${config.API_ROOT}/api/v1/article/getTop4ArticlesForViewer/`)
             .then(response => response.json())
             .then(data => setArticles(data))
             .catch(error => console.error('Error fetching articles:', error));

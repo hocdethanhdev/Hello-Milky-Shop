@@ -4,6 +4,7 @@ import "./address.css"; // Import the CSS file
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { message } from "antd"; // Import Ant Design message component
+import { config } from "../../../config";
 
 function Address() {
   const [addressData, setAddressData] = useState([]);
@@ -25,7 +26,7 @@ function Address() {
     const fetchAddresses = async () => {
       try {
         const response = await fetch(
-          `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByUserID/${userId}`
+          `${config.API_ROOT}/api/v1/shippingAddress/getInfoShippingByUserID/${userId}`
         );
         const data = await response.json();
         setAddressData(data);
@@ -37,7 +38,7 @@ function Address() {
     const fetchCities = async () => {
       try {
         const response = await fetch(
-          "https://hellomilkyshop123.azurewebsites.net/api/v1/city/getAllCities/"
+          `${config.API_ROOT}/api/v1/city/getAllCities/`
         );
         const data = await response.json();
         setCities(data);
@@ -53,7 +54,7 @@ function Address() {
   const fetchDistricts = async (cityId) => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/district/getDistrictByID/${cityId}`
+        `${config.API_ROOT}/api/v1/district/getDistrictByID/${cityId}`
       );
       const data = await response.json();
       setDistricts(data);
@@ -109,7 +110,7 @@ function Address() {
       return;
     }
 
-    const apiURL = "https://hellomilkyshop123.azurewebsites.net/api/v1/order/addInfoCusToOrder";
+    const apiURL = `${config.API_ROOT}/api/v1/order/addInfoCusToOrder`;
 
     try {
       const response = await fetch(apiURL, {
@@ -148,7 +149,7 @@ function Address() {
   };
 
   const handleDelete = async (shippingAddressID) => {
-    const apiURL = `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/updateDeleted/${shippingAddressID}`;
+    const apiURL = `${config.API_ROOT}/api/v1/shippingAddress/updateDeleted/${shippingAddressID}`;
 
     try {
       const response = await fetch(apiURL, {
@@ -179,7 +180,7 @@ function Address() {
   const fetchAddresses = async () => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByUserID/${userId}`
+        `${config.API_ROOT}/api/v1/shippingAddress/getInfoShippingByUserID/${userId}`
       );
       const data = await response.json();
       setAddressData(data);

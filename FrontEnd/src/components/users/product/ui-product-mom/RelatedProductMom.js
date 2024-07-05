@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './RelatedProductMom.css';
 import StarRating from '../ui-list-product-mom/StarRating';
 import Loading from '../../../layout/Loading';
+import { config } from "../../../../config";
 
 const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -30,7 +31,7 @@ const RelatedProducts = ({ product }) => {
     useEffect(() => {
         const fetchRelatedProducts = async () => {
             try {
-                const response = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop6ProductByBrand/${product.ProductID}`);
+                const response = await axios.get(`${config.API_ROOT}/api/v1/product/getTop6ProductByBrand/${product.ProductID}`);
 
                 if (Array.isArray(response.data)) {
                     setRelatedProducts(response.data);

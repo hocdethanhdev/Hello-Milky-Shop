@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Product1.css";
 import StarRating from "../product/ui-list-product-mom/StarRating";
+import { config } from "../../../config";
 
 function Combo2() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop6MilkForBaby")
+    fetch(`${config.API_ROOT}/api/v1/product/getTop6MilkForBaby`)
       .then((response) => response.json())
       .then((data) => {
         if (data.err !== "Not found") {

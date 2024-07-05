@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import './AddressPopup.css';
+import { config } from "../../../config";
 
 const AddressPopup = ({ userID, onSelect, onClose }) => {
     const [addresses, setAddresses] = useState([]);
@@ -9,7 +10,7 @@ const AddressPopup = ({ userID, onSelect, onClose }) => {
     useEffect(() => {
         const fetchAddresses = async () => {
             try {
-                const response = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByUserID/${userID}`);
+                const response = await axios.get(`${config.API_ROOT}/api/v1/shippingAddress/getInfoShippingByUserID/${userID}`);
                 setAddresses(response.data);
             } catch (err) {
                 console.error('Lỗi khi lấy địa chỉ:', err);

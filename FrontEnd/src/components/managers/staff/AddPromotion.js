@@ -5,6 +5,7 @@ import { message } from "antd";
 import "./AddPromotion.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { config } from "../../../config";
 
 const AddPromotion = () => {
   const [promotionName, setPromotionName] = useState("");
@@ -22,7 +23,7 @@ const AddPromotion = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail"
+          `${config.API_ROOT}/api/v1/product/getInfoProductsDetail`
         );
         setProducts(response.data);
       } catch (error) {
@@ -108,14 +109,14 @@ const AddPromotion = () => {
       };
 
       const response = await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/addPromotion",
+        `${config.API_ROOT}/api/v1/promotion/addPromotion`,
         promotionData,
         { headers: { "Content-Type": "application/json" } }
       );
 
       const promotionID = response.data.PromotionID;
       await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/applyPromotionToProduct",
+        `${config.API_ROOT}/api/v1/promotion/applyPromotionToProduct`,
         {
           productIDs: selectedProducts,
           promotionID,

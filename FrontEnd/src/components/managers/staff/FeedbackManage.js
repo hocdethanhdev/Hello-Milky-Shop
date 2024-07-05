@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import "./FeedbackManage.css";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { useSelector } from "react-redux";
+import { config } from "../../../config";
 
 const { Option } = Select;
 
@@ -24,7 +25,7 @@ const FeedbackManage = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getUnansweredComments?page=${currentPage}&limit=${commentsPerPage}`
+        `${config.API_ROOT}/api/v1/comment/getUnansweredComments?page=${currentPage}&limit=${commentsPerPage}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch comments");
@@ -62,7 +63,7 @@ const FeedbackManage = () => {
   const handleCommentSubmit = async (commentId, rep) => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/comment/repComment/${commentId}`,
+        `${config.API_ROOT}/api/v1/comment/repComment/${commentId}`,
         {
           method: "POST",
           headers: {
@@ -148,7 +149,7 @@ const Comment = ({ comment, onSubmit }) => {
   const fetchProduct = async () => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductInforID/${comment.ProductID}`
+        `${config.API_ROOT}/api/v1/product/getProductInforID/${comment.ProductID}`
       );
       const data = await response.json();
       setProduct(data);
