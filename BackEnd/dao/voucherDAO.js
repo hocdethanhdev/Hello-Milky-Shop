@@ -135,7 +135,7 @@ const voucherDAO = {
           .input("minDiscount", mssql.Int, voucher.minDiscount)
           .input("startDate", mssql.Date, voucher.startDate)
           .input("expiryDate", mssql.Date, voucher.expiryDate)
-          .input("voucherName", mssql.VarChar, voucher.voucherName);
+          .input("voucherName", mssql.NVarChar, voucher.voucherName);
         insertRequest.query(
           `
                         INSERT INTO Voucher(Quantity, DiscountPercentage, MaxDiscount, MinDiscount, StartDate, ExpiryDate, VoucherName)
@@ -209,7 +209,7 @@ const voucherDAO = {
           .input("minDiscount", mssql.Int, voucher.minDiscount)
           .input("startDate", mssql.Date, voucher.startDate)
           .input("expiryDate", mssql.Date, voucher.expiryDate)
-          .input("voucherName", mssql.VarChar, voucher.voucherName);
+          .input("voucherName", mssql.NVarChar, voucher.voucherName);
 
         const updateQuery = `
                     UPDATE Voucher

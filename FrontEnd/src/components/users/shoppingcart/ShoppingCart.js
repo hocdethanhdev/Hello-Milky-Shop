@@ -134,40 +134,6 @@ const ShoppingCart = () => {
   }, [token]);
 
   useEffect(() => {
-    const fetchVouchers = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/api/v1/voucher/getVouchersByUserID/${userID}`
-        );
-        setVouchers(response.data);
-      } catch (err) {
-        console.error(
-          "Error fetching vouchers:",
-          err.response ? err.response.data.message : err.message
-        );
-      }
-    };
-
-    if (userID) {
-      fetchVouchers();
-    }
-  }, [userID]);
-
-  const handleVoucherSelect = (voucher) => {
-    const subtotal = calculateTotal();
-    if (voucher.MinDiscount !== undefined && subtotal >= voucher.MinDiscount) {
-      setSelectedVoucher(voucher);
-      localStorage.setItem("selectedVoucher", voucher.VoucherID);
-      setShowVoucherPopup(false);
-    } else {
-      message.warning(
-        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
-        } đ.`
-      );
-    }
-  };
-
-  useEffect(() => {
     const fetchUserOrders = async () => {
       try {
         const userId = userID;
@@ -256,7 +222,7 @@ const ShoppingCart = () => {
   useEffect(() => {
     const checkOldAddress = async () => {
       try {
-        const userId = userID;
+        const userId = getUserIdFromToken(token);
         const oldAddress = await axios.post(
           "http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest",
           {
@@ -273,6 +239,10 @@ const ShoppingCart = () => {
         console.log(err.response ? err.response.data.message : err.message);
       }
     };
+    checkOldAddress();
+  }, [token]);
+
+  useEffect(() => {
     const fetchDistricts = async () => {
       if (selectedCityID) {
         try {
@@ -288,10 +258,43 @@ const ShoppingCart = () => {
         }
       }
     };
-
-    checkOldAddress();
     fetchDistricts();
-  }, [selectedCityID, userID]);
+  }, [selectedCityID]);
+
+  useEffect(() => {
+    const fetchVouchers = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/voucher/getVouchersByUserID/${userID}`
+        );
+        setVouchers(response.data);
+      } catch (err) {
+        console.error(
+          "Error fetching vouchers:",
+          err.response ? err.response.data.message : err.message
+        );
+      }
+    };
+
+    if (userID) {
+      fetchVouchers();
+    }
+  }, [userID]);
+
+  const handleVoucherSelect = (voucher) => {
+    const subtotal = calculateTotal();
+    if (voucher.MinDiscount !== undefined && subtotal >= voucher.MinDiscount) {
+      setSelectedVoucher(voucher);
+      localStorage.setItem("selectedVoucher", voucher.VoucherID);
+      setShowVoucherPopup(false);
+    } else {
+      message.warning(
+        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${
+          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        } đ.`
+      );
+    }
+  };
 
   const calculateSubtotal = () => {
     return orderDetails.reduce((acc, item) => {

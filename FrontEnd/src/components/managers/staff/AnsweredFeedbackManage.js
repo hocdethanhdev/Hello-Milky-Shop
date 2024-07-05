@@ -154,7 +154,11 @@ const Comment = ({ comment }) => {
                                 {comment.Description}
                             </div>
                             <div className="time-thinh-cmt">
-                                {new Date(comment.CommentDate).toLocaleDateString()}
+                                {new Date(comment.CommentDate).toLocaleDateString("vi-VN", {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                })}
                             </div>
                         </div>
                     </div>
@@ -171,7 +175,11 @@ const Comment = ({ comment }) => {
                                     {comment.Rep}
                                 </div>
                                 <div className="time-thinh-cmt">
-                                    {new Date(comment.RepDate).toLocaleDateString()}
+                                {new Date(comment.RepDate).toLocaleDateString("vi-VN", {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                })}
                                 </div>
                             </div>
                         </div>

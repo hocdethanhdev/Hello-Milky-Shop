@@ -27,10 +27,10 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
   useEffect(() => {
     setSelectedProducts([]);
   }, [promotion]);
-  
+
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     if (promotionName.trim().length > 255) {
       message.error("Tên khuyến mãi không quá 255 kí tự.");
@@ -84,13 +84,14 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
         promotionName,
         description,
         discountPercentage: parseInt(discountPercentage),
-        StartDate: moment(startDate).format("YYYY-MM-DD"),
-        EndDate: moment(endDate).format("YYYY-MM-DD"),
+        startDate: moment(startDate).format("YYYY-MM-DD"),
+        endDate: moment(endDate).format("YYYY-MM-DD"),
         image: downloadURL,
       };
 
-      onSave(updatedPromotion, selectedProducts);
+      await onSave(updatedPromotion, selectedProducts);
       message.success("Đã cập nhật thành công");
+      onClose();
     } catch (error) {
       message.error("Error saving promotion.");
     }
@@ -113,7 +114,7 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
 
   return (
     <Modal
-      visible
+      open={true}
       title="Chỉnh sửa khuyến mãi"
       onCancel={onClose}
       onOk={handleSubmit}
@@ -146,9 +147,12 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
+              <Button className='nut-chon-sp-thinh-promo' type="primary" onClick={() => setProductSelectionVisible(true)}>
+                Chọn sản phẩm áp dụng khuyến mãi
+              </Button>
             </div>
             <div className="promo-half1">
-            <div>
+              <div>
                 <label>Ngày bắt đầu:</label>
                 <DatePicker
                   selected={startDate}
@@ -182,13 +186,12 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
                 )}
               </div>
               <button className="longdanglam" type="submit">Lưu</button>
+
             </div>
           </div>
         </form>
       </div>
-      <Button type="primary" onClick={() => setProductSelectionVisible(true)}>
-        Chọn sản phẩm áp dụng khuyến mãi
-      </Button>
+
       {productSelectionVisible && (
         <ProductSelectionModal
           promotionID={promotion.PromotionID}

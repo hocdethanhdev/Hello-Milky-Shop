@@ -16,6 +16,10 @@ const News = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/v1/article/getCurrentCategoriesInArticles');

@@ -9,6 +9,11 @@ import { getUserIdFromToken } from "../../store/actions/authAction";
 import { toast } from "react-hot-toast";
 import PropTypes from "prop-types"; // Import PropTypes for prop validation
 
+// Helper function to format numbers with commas
+const formatNumber = (num) => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
 function VoucherStore() {
   const [vouchers, setVouchers] = useState([]);
   const { token } = useSelector((state) => state.auth);
@@ -178,7 +183,7 @@ function VoucherItem({ voucher, onSaveVoucher }) {
               <div className="details-text">
                 <div className="text-title">Đơn tối thiểu</div>
                 <div className="text-description-gia text-primary">
-                  {voucher.MinDiscount}đ
+                  {formatNumber(voucher.MinDiscount)}đ
                 </div>
               </div>
             </div>
@@ -186,7 +191,7 @@ function VoucherItem({ voucher, onSaveVoucher }) {
               <div className="details-text">
                 <div className="text-title">Giảm tối đa</div>
                 <div className="text-description-gia text-primary">
-                  {voucher.MaxDiscount}đ
+                  {formatNumber(voucher.MaxDiscount)}đ
                 </div>
               </div>
             </div>

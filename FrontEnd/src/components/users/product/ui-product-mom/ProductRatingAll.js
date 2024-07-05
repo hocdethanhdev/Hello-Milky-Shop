@@ -107,7 +107,11 @@ const ProductRatingAll = ({ ratings }) => {
                   {renderStars(rating.rating)}
                 </div>
                 <div className="rating-text-thinhrt">{rating.text}</div>
-                <div className="rating-date-thinhrt">{rating.date}</div>
+                <div className="rating-date-thinhrt">{new Date(rating.date).toLocaleDateString("vi-VN", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}</div>
               </div>
             </div>
             {rating.rep && (
@@ -123,7 +127,11 @@ const ProductRatingAll = ({ ratings }) => {
                     <span className="rep-tag-thinhrt">Quản trị viên</span>
                   </div>
                   <div className="rep-text-thinhrt">{rating.rep}</div>
-                  <div className="rep-date-thinhrt">{rating.repDate}</div>
+                  <div className="rep-date-thinhrt">{new Date(rating.repDate).toLocaleDateString("vi-VN", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}</div>
                 </div>
               </div>
             )}

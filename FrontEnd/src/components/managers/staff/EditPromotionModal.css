@@ -2,16 +2,16 @@
   width: 100%;
 }
 
-.longdanglam{
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 16px;
+.longdanglam {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .promo-half1 {
@@ -40,5 +40,7 @@
   resize: vertical;
   height: 100px;
 }
-
-
+.nut-chon-sp-thinh-promo {
+  margin-top: 20px;
+  margin-left: 20px;
+}
