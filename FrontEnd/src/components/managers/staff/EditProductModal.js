@@ -108,6 +108,10 @@ const EditProductModal = () => {
       message.warning("Giá không được nhỏ hơn 0.");
       return;
     }
+    if (formData.Price > 1000000000) {
+      message.warning("Giá không được lớn hơn 1 tỷ.");
+      return;
+    }
 
 
     if (!formData.ManufacturingDate) {

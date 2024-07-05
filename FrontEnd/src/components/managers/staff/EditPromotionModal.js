@@ -50,10 +50,17 @@ const EditPromotionModal = ({ promotion, onClose, onSave }) => {
       message.error("Phần trăm khuyến mãi phải lớn hơn 0");
       return;
     }
+
+    if (discountPercentage > 100) {
+      message.error("Phần trăm khuyến mãi không được lớn hơn 100");
+      return;
+    }
+
     if (description.trim().length === 0) {
       message.error("Mô tả không được để trống.");
       return;
     }
+
     if (!startDate) {
       message.error("Vui lòng chọn ngày bắt đầu.");
       return;
