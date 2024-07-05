@@ -1,6 +1,6 @@
 .staff-chat-container {
   display: flex;
-  height: 96%;
+  max-height: 96%;
   margin: 20px 10px 0px 0px;
   padding: 20px 10px 10px 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -12,28 +12,51 @@
   background-color: #ffffff;
   padding: 0;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  overflow-y: auto; /* Đảm bảo thanh cuộn dọc xuất hiện */
-  height: 100%;/* Hoặc một giá trị cố định như 500px */
+  height: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px 10px 0 0;
 }
 
 .chat-room-list h4 {
+  display: flex;
+  align-items: center;
   margin: 0;
-  padding: 15px;
+  padding: 22px;
   background-color: #4a90e2;
   color: white;
   border-radius: 10px 10px 0 0;
   text-align: center;
   font-weight: bold;
-  font-size: 16px;
+  height: 13%;
+  font-size: 1.2em;
 }
 
 .chat-room-list ul {
+  overflow-y: auto;
   cursor: pointer;
   padding: 0;
   list-style: none;
   margin: 0;
-  max-height: 55vh;
+  max-height: 68vh;
+}
+
+/* Tùy chỉnh thanh cuộn cho ul trong Danh sách khách hàng */
+.chat-room-list ul::-webkit-scrollbar {
+  width: 8px; /* Chiều rộng của thanh cuộn */
+}
+
+.chat-room-list ul::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của thanh cuộn */
+  border-radius: 10px;
+}
+
+.chat-room-list ul::-webkit-scrollbar-thumb {
+  background: #c1c1c1; /* Màu của thanh cuộn */
+  border-radius: 10px;
+}
+
+.chat-room-list ul::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1; /* Màu của thanh cuộn khi hover */
 }
 
 .chat-room-list ul li {

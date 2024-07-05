@@ -10,7 +10,7 @@ const ProductDetail = ({ product }) => {
         <div className="wrap">
           <div
             dangerouslySetInnerHTML={{
-              __html: product.Description.substring(0, 10000),
+              __html: product.Description.substring(0, 20000),
             }}
           />
         </div>

@@ -128,7 +128,7 @@ Content-Type: application/json
     "UserName": "SWP",
     "PhoneNumber": "84909090909",
     "Password": "1",
-    "RoleID": 3
+    "RoleID": 2
 }
 ### login
 POST http://localhost:5000/api/v1/auth/login

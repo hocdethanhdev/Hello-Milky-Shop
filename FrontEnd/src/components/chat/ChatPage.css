@@ -42,6 +42,25 @@
   max-height: 55vh;
 }
 
+/* Tùy chỉnh thanh cuộn cho message-list-Nhan */
+.message-list-Nhan::-webkit-scrollbar {
+  width: 8px; /* Chiều rộng của thanh cuộn */
+}
+
+.message-list-Nhan::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của thanh cuộn */
+  border-radius: 10px;
+}
+
+.message-list-Nhan::-webkit-scrollbar-thumb {
+  background: #c1c1c1; /* Màu của thanh cuộn */
+  border-radius: 10px;
+}
+
+.message-list-Nhan::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1; /* Màu của thanh cuộn khi hover */
+}
+
 .message-list-Nhan li {
   padding: 8px 12px;
   margin-bottom: 10px;

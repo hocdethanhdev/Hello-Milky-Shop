@@ -77,6 +77,25 @@
   word-wrap: break-word;
 }
 
+/* Tùy chỉnh thanh cuộn cho message-list-Nhan */
+.message-list::-webkit-scrollbar {
+  width: 8px; /* Chiều rộng của thanh cuộn */
+}
+
+.message-list::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của thanh cuộn */
+  border-radius: 10px;
+}
+
+.message-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1; /* Màu của thanh cuộn */
+  border-radius: 10px;
+}
+
+.message-list-Nhan::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1; /* Màu của thanh cuộn khi hover */
+}
+
 .message-list .own-message {
   background-color: #007bff;
   color: white;

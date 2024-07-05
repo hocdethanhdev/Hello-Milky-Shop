@@ -375,9 +375,10 @@ const productDAO = {
       mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
-          `SELECT ProductID, ProductName, Description, Price, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status
+          `SELECT p.ProductID, ProductName, Description, Price, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status, ppl.PriceAfterDiscount as PriceAfterDiscounts
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
+		    LEFT JOIN ProductPromotionList ppl ON ppl.ProductID = p.ProductID
         JOIN Brand b ON p.BrandID = b.BrandID
         `,
           (err, res) => {
