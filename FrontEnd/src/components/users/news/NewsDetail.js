@@ -75,7 +75,7 @@ const NewsDetail = () => {
             </p>
           </div>
           <div className="article-content">
-            <div dangerouslySetInnerHTML={{ __html: article.Content.substring(0, 10000) }} />
+            <div dangerouslySetInnerHTML={{ __html: article.Content.substring(0, 50000) }} />
           </div>
         </div>
         <div className='edit-thinh-new-detail'>
