@@ -292,7 +292,7 @@ const productDAO = {
                    END), p.Price) AS PriceAfterDiscounts, ProductCategoryName
           From Product p
           JOIN Brand b ON b.BrandID = p.BrandID
-		  JOIN ProductCategory pcc ON pcc.ProductCategoryID = p.ProductCategoryID
+		      JOIN ProductCategory pcc ON pcc.ProductCategoryID = p.ProductCategoryID
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
           LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
           WHERE StockQuantity > 0 AND Status =1 AND ProductCategoryName LIKE @pc
@@ -375,11 +375,18 @@ const productDAO = {
       mssql.connect(dbConfig, function () {
         const request = new mssql.Request();
         request.query(
-          `SELECT p.ProductID, ProductName, Description, Price, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status, ppl.PriceAfterDiscount as PriceAfterDiscounts
+          `SELECT p.ProductID, ProductName, p.Description, Price, StockQuantity, p.Image, ExpirationDate, ManufacturingDate, BrandName, ProductCategoryName, Status, COALESCE(MIN(CASE 
+                      WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() 
+                      THEN ppl.PriceAfterDiscount 
+                      ELSE NULL 
+                   END), p.Price) AS PriceAfterDiscounts
         FROM Product p 
         JOIN ProductCategory pc ON p.ProductCategoryID = pc.ProductCategoryID 
 		    LEFT JOIN ProductPromotionList ppl ON ppl.ProductID = p.ProductID
+			  LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
         JOIN Brand b ON p.BrandID = b.BrandID
+        GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName, p.Description, StockQuantity, ExpirationDate, ManufacturingDate, ProductCategoryName, p.Status
+
         `,
           (err, res) => {
             if (err) reject(err);
