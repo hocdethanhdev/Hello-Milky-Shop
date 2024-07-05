@@ -89,8 +89,8 @@ const ProductScreen = () => {
                                         <ul className="breadcrumb-thinh-url">
                                             <li className="breadcrumb-item-thinh-url"><Link to="/"><i className="fa fa-home"></i></Link></li>
                                             {product.ProductID.includes("SE") ?
-                                                <li className="breadcrumb-item-thinh-url"><a href="/sua-cho-be">Sữa cho bé</a></li>
-                                                : <li className="breadcrumb-item-thinh-url"><a href="/sua-cho-me">Sữa cho mẹ</a></li>}
+                                                <li className="breadcrumb-item-thinh-url"><Link to="/sua-cho-be">Sữa cho bé</Link></li>
+                                                : <li className="breadcrumb-item-thinh-url"><Link to="/sua-cho-me">Sữa cho mẹ</Link></li>}
                                             <li className="breadcrumb-item-thinh-url active" aria-current="page">{product.ProductName}</li>
                                         </ul>
                                     </nav>

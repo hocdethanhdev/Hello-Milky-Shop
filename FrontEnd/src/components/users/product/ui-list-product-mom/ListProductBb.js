@@ -234,14 +234,14 @@ const ListProductBb = () => {
                 >
                   <div className="product_child">
                     <div className="pro_img">
-                      <a href="#" title={product.ProductName}>
+                      <Link to="#" title={product.ProductName}>
                         <img src={product.Image} alt={product.ProductName} />
-                      </a>
+                      </Link>
                     </div>
                     <h3 className="name_pro">
-                      <a href="#" title={product.ProductName}>
+                      <Link to="#" title={product.ProductName}>
                         {product.ProductName}
-                      </a>
+                      </Link>
                     </h3>
                     <div className="saoduoithinh">
                       <StarRating productId={product.ProductID} />

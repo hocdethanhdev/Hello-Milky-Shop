@@ -112,9 +112,9 @@ function Login() {
 
               <p className="small mb-3 pb-lg-2">
                 <Link to="/ResetPassword">
-                  <a className="text-dark-50" href="#!">
+                  <Link to="#!"className="text-dark-50" >
                     Quên mật khẩu?
-                  </a>
+                  </Link>
                 </Link>
               </p>
               <button className="login-button-trid" type="button" onClick={handleSubmit}>
@@ -122,10 +122,10 @@ function Login() {
               </button>
 
               <div className="flex-row">
-                <a href="#" className="google-signup-button-trid" onClick={loginGoogle}>
+                <Link to="#" className="google-signup-button-trid" onClick={loginGoogle}>
                   <MDBIcon fab icon="google" size="lg" className="google-icon-trid" />
                   <span className="button-text-trid">Đăng nhập với Google</span>
-                </a>
+                </Link>
               </div>
 
               <div>

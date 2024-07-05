@@ -50,7 +50,7 @@ const NewsDetail = () => {
                     <ul className="breadcrumb-thinh-url">
                       <li className="breadcrumb-item-thinh-url"><Link to="/"><i className="fa fa-home"></i></Link></li>
 
-                      <li className="breadcrumb-item-thinh-url"><a href="/News">Tin tức</a></li>
+                      <li className="breadcrumb-item-thinh-url"><Link to="/News">Tin tức</Link></li>
                       <li className="breadcrumb-item-thinh-url active" aria-current="page">
                         {article.Title.substring(0, 50) + '...'}
                       </li>

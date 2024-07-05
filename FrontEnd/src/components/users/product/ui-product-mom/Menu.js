@@ -19,63 +19,63 @@ function Menu() {
         <tbody>
           <tr>
             <td>
-              <a href="KhuyenMaiLon.html" className="cate_li_title">
+              <Link to="KhuyenMaiLon.html" className="cate_li_title">
                 <img
                   className="img_icon icon_hover"
                   src="https://shoptretho.com.vn/Content/images/khuyen-mai.png?mode=max&width=60&height=60"
                   alt="Khuyến mại lớn"
                 />
                 Khuyến mại lớn
-              </a>
+              </Link>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="SuaChoMe.html" className="cate_li_title">
+              <Link to="SuaChoMe.html" className="cate_li_title">
                 <img
                   className="img_icon icon_hover"
                   src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
                   alt="Đồ dùng cho mẹ"
                 />
                 Sữa cho mẹ
-              </a>
+              </Link>
             </td>
           </tr>
           <tr>
             <td>
-              <a href="SuaChoBe.html" className="cate_li_title">
+              <Link to="SuaChoBe.html" className="cate_li_title">
                 <img
                   className="img_icon icon_hover"
                   src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
                   alt="Đồ dùng cho mẹ"
                 />
                 Sữa cho bé
-              </a>
+              </Link>
             </td>
           </tr>
           <tr>
             <td>
-              <a href="/Voucher" className="cate_li_title">
+              <Link to="/Voucher" className="cate_li_title">
                 <img
                   className="img_icon icon_hover"
                   src="D:\demotest\public\ImageMilkShop\CreateVoucher.jpg"
                   alt="Voucher"
                 />
                 Voucher
-              </a>
+              </Link>
             </td>
           </tr>
           <tr>
             <td>
-              <a href="/" className="cate_li_title">
+              <Link to="/" className="cate_li_title">
                 <img
                   className="img_icon icon_hover"
                   src="./news.png"
                   alt="Tin tức"
                 />
                 Tin tức
-              </a>
+              </Link>
             </td>
           </tr>
         </tbody>

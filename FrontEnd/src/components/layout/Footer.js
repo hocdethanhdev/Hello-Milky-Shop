@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { MDBFooter, MDBContainer, MDBRow, MDBIcon } from "mdb-react-ui-kit";
 import "./Footer.css";
 import ScollToTopButton from "../users/product/ui-product-mom/ScrollToTopButton";
+import { Link } from "react-router-dom";
 
 function Footer() {
   useEffect(() => {
@@ -32,15 +33,15 @@ function Footer() {
           </div>
 
           <div>
-            <a href="https://www.facebook.com/" className="me-4 text-reset">
+            <Link to="https://www.facebook.com/" className="me-4 text-reset">
               <MDBIcon fab icon="facebook-f" />
-            </a>
-            <a href="https://www.google.com" className="me-4 text-reset">
+            </Link>
+            <Link to="https://www.google.com" className="me-4 text-reset">
               <MDBIcon fab icon="google" />
-            </a>
-            <a href="https://www.instagram.com" className="me-4 text-reset">
+            </Link>
+            <Link to="https://www.instagram.com" className="me-4 text-reset">
               <MDBIcon fab icon="instagram" />
-            </a>
+            </Link>
           </div>
         </section>
 
