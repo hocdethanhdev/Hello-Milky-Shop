@@ -20,14 +20,14 @@ const OrderProfile = () => {
     async (status) => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/order/getOrdersByUserID/${userIdd}`
+          `https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersByUserID/${userIdd}`
         );
         const orders = response.data;
         const filteredOrders = status
           ? orders.filter(
-              (order) =>
-                getStatusFromStatusOrderName(order.StatusOrderName) === status
-            )
+            (order) =>
+              getStatusFromStatusOrderName(order.StatusOrderName) === status
+          )
           : orders;
         const groupedOrders = filteredOrders.reduce((acc, order) => {
           const existingOrder = acc.find((o) => o.OrderID === order.OrderID);
@@ -93,7 +93,7 @@ const OrderProfile = () => {
   const handleCancelOrder = async () => {
     if (!orderToCancel) return;
     try {
-      await axios.post("http://localhost:5000/api/v1/order/cancelOrder", {
+      await axios.post("https://hellomilkyshop123.azurewebsites.net/api/v1/order/cancelOrder", {
         orderID: orderToCancel,
         reasonCancelContent: "Đã hủy bởi bạn",
         userID: userIdd,
@@ -112,7 +112,7 @@ const OrderProfile = () => {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/v1/order/updateStatusOrderID/${orderToConfirm}`,
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateStatusOrderID/${orderToConfirm}`,
         {
           statusOrderID: 4,
         }
@@ -130,9 +130,9 @@ const OrderProfile = () => {
 
   const checkUserOrder = async (userId, productId) => {
     try {
-      if(!userId || !productId) return false;
+      if (!userId || !productId) return false;
       const response = await axios.post(
-        "http://localhost:5000/api/v1/comment/checkUserOrdered",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/comment/checkUserOrdered",
         {
           UserID: userId,
           ProductID: productId,
@@ -233,14 +233,14 @@ const OrderProfile = () => {
                     )}
                   {item.NewPrice
                     ? item.NewPrice.toLocaleString("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      })
+                      style: "currency",
+                      currency: "VND",
+                    })
                     : item.OldPrice &&
-                      item.OldPrice.toLocaleString("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      })}
+                    item.OldPrice.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                 </p>
               </div>
             </div>

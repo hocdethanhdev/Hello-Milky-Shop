@@ -22,7 +22,7 @@ const AddPromotion = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/product/getInfoProductsDetail"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail"
         );
         setProducts(response.data);
       } catch (error) {
@@ -39,8 +39,8 @@ const AddPromotion = () => {
 
   const filteredProducts = selectedCategory
     ? products.filter(
-        (product) => product.ProductCategoryName === selectedCategory
-      )
+      (product) => product.ProductCategoryName === selectedCategory
+    )
     : products;
 
   useEffect(() => {
@@ -102,20 +102,20 @@ const AddPromotion = () => {
         promotionName,
         description,
         discountPercentage: parseInt(discountPercentage),
-        startDate: startDate.toLocaleDateString("vi-VN"), 
-        endDate: endDate.toLocaleDateString("vi-VN"), 
+        startDate: startDate.toLocaleDateString("vi-VN"),
+        endDate: endDate.toLocaleDateString("vi-VN"),
         image: downloadURL,
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/v1/promotion/addPromotion",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/addPromotion",
         promotionData,
         { headers: { "Content-Type": "application/json" } }
       );
 
       const promotionID = response.data.PromotionID;
       await axios.post(
-        "http://localhost:5000/api/v1/promotion/applyPromotionToProduct",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/applyPromotionToProduct",
         {
           productIDs: selectedProducts,
           promotionID,
@@ -258,7 +258,7 @@ const PromotionForm = ({
             </div>
           </div>
           <div className="promo-half2">
-          <div >
+            <div >
               <label>Ngày bắt đầu:</label>
               <DatePicker
                 selected={startDate}

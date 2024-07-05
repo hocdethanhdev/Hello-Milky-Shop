@@ -24,7 +24,7 @@ function PromotionManage() {
   const fetchPromotions = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/v1/promotion/getAllPromotions"
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getAllPromotions"
       );
       setPromotions(response.data);
     } catch (error) {
@@ -52,7 +52,7 @@ function PromotionManage() {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/v1/promotion/deletePromotion/${promotionToDelete}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/deletePromotion/${promotionToDelete}`
       );
       setPromotions(
         promotions.filter(
@@ -75,7 +75,7 @@ function PromotionManage() {
   const handleSave = async (updatedPromotion) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/v1/promotion/updatePromotion/${updatedPromotion.PromotionID}`,
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/updatePromotion/${updatedPromotion.PromotionID}`,
         updatedPromotion
       );
       setPromotions(

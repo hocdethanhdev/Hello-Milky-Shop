@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import "./ChatPage.css";
 import { getUserIdFromToken } from "../store/actions/authAction";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://hellomilkyshop123.azurewebsites.net");
 
 function ChatWindow({ roomId, userName, onClose }) {
   const [messages, setMessages] = useState([]);
@@ -24,7 +24,7 @@ function ChatWindow({ roomId, userName, onClose }) {
     const fetchChatHistory = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/v1/chat/getAllMessageByChatRoom",
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/chat/getAllMessageByChatRoom",
           {
             method: "POST",
             headers: {

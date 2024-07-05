@@ -30,17 +30,13 @@ Hello Milky Shop is a full-stack e-commerce application built with ReactJS and N
 1. **Run the back-end** (Node.js):
 
    ```bash
-   cd BackEnd
-   npm start
-   Server will start at http://localhost:5000
+   Server will start at https://hellomilkyshop123.azurewebsites.net
    ```
 
 2. **Run the front-end** (ReactJS):
 
    ```bash
-   cd FrontEnd
-   npm start
-   Access: Open your browser and go to http://localhost:3000
+   Access: Open your browser and go to http://68.183.237.72/
    ```
 ## Features
 - **Shopping Cart**: Manage products in the cart

@@ -32,7 +32,7 @@ function ChangePassword() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/auth/changePassword", {
+      const response = await fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/auth/changePassword", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

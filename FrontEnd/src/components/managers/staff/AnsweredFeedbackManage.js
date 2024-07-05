@@ -19,7 +19,7 @@ const AnsweredFeedbackManage = () => {
     const fetchComments = async () => {
         try {
             const response = await fetch(
-                `http://localhost:5000/api/v1/comment/getAnsweredComments`
+                `https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getAnsweredComments`
             );
             if (!response.ok) {
                 throw new Error("Failed to fetch comments");
@@ -112,7 +112,7 @@ const Comment = ({ comment }) => {
     const fetchProduct = async () => {
         try {
             const response = await fetch(
-                `http://localhost:5000/api/v1/product/getProductInforID/${comment.ProductID}`
+                `https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductInforID/${comment.ProductID}`
             );
             const data = await response.json();
             setProduct(data);
@@ -175,11 +175,11 @@ const Comment = ({ comment }) => {
                                     {comment.Rep}
                                 </div>
                                 <div className="time-thinh-cmt">
-                                {new Date(comment.RepDate).toLocaleDateString("vi-VN", {
-                                    day: "2-digit",
-                                    month: "2-digit",
-                                    year: "numeric",
-                                })}
+                                    {new Date(comment.RepDate).toLocaleDateString("vi-VN", {
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                    })}
                                 </div>
                             </div>
                         </div>

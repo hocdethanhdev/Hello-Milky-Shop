@@ -27,7 +27,7 @@ const EditArticleModal = () => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/api/v1/article/getArticlesByArticleID/${articleID}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/article/getArticlesByArticleID/${articleID}`
       )
       .then((response) => {
         const article = response.data[0];
@@ -113,7 +113,7 @@ const EditArticleModal = () => {
       };
 
       await axios.put(
-        `http://localhost:5000/api/v1/article/editArticle/${articleID}`,
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/article/editArticle/${articleID}`,
         postData,
         {
           headers: {

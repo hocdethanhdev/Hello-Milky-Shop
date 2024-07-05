@@ -18,10 +18,10 @@ const NewsDetail = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/v1/article/getArticlesByArticleID/${id}`);
+        const response = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/article/getArticlesByArticleID/${id}`);
         const fetchedArticle = response.data[0];
         setArticle(fetchedArticle);
-        const authorResponse = await axios.get(`http://localhost:5000/api/v1/user/getUserByID?UserID=${fetchedArticle.AuthorID}`);
+        const authorResponse = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/user/getUserByID?UserID=${fetchedArticle.AuthorID}`);
         setAuthorName(authorResponse.data.data.UserName);
       } catch (error) {
         console.error('Error fetching article:', error);

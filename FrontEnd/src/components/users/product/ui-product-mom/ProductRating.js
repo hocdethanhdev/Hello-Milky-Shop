@@ -53,7 +53,7 @@ export default function ProductRating({ productID, userID, fetchComments, setRat
         if (number > 0 && description) {
             setIsSubmitting(true);
             try {
-                await axios.post("http://localhost:5000/api/v1/comment/userComment", {
+                await axios.post("https://hellomilkyshop123.azurewebsites.net/api/v1/comment/userComment", {
                     UserID: userID,
                     ProductID: productID,
                     Rating: parseInt(number),
@@ -114,7 +114,7 @@ export default function ProductRating({ productID, userID, fetchComments, setRat
                     onClick={handleSubmit}
                     disabled={!number || isSubmitting}
                 >
-                    {isSubmitting ? <Loading/> : "Gửi"}
+                    {isSubmitting ? <Loading /> : "Gửi"}
                 </button>
             </div>
         </div>

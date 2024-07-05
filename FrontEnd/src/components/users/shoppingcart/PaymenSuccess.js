@@ -23,7 +23,7 @@ const PaymemSuccess = () => {
         if (list !== null) {
           localStorage.removeItem("productQuantitiesToUpdate");
           await axios.post(
-            "http://localhost:5000/api/v1/order/changeQuantityOfProductInOrder",
+            "https://hellomilkyshop123.azurewebsites.net/api/v1/order/changeQuantityOfProductInOrder",
             {
               orderID: orderID,
               productQuantities: list,
@@ -33,7 +33,7 @@ const PaymemSuccess = () => {
 
         if (totalAmount) {
           await axios.post(
-            "http://localhost:5000/api/v1/order/updateTotalAmountOfOrder",
+            "https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateTotalAmountOfOrder",
             {
               orderID: orderID,
               totalAmount: totalAmount,
@@ -44,13 +44,13 @@ const PaymemSuccess = () => {
 
         if (orderID) {
           await axios.post(
-            `http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`,
+            `https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateStatusOrderID/${orderID}`,
             {
               statusOrderID: 1,
             }
           );
 
-          await axios.post(`http://localhost:5000/api/v1/order/checkoutOrder`, {
+          await axios.post(`https://hellomilkyshop123.azurewebsites.net/api/v1/order/checkoutOrder`, {
             orderID: orderID,
           });
 
@@ -59,7 +59,7 @@ const PaymemSuccess = () => {
         const voucher = localStorage.getItem("selectedVoucher");
         if (voucher) {
           await axios.post(
-            "http://localhost:5000/api/v1/voucher/removeVoucherFromUser",
+            "https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/removeVoucherFromUser",
             {
               userID: getUserIdFromToken(token),
               voucherID: parseInt(voucher),
@@ -71,7 +71,7 @@ const PaymemSuccess = () => {
 
         const usePoints = localStorage.getItem("usePoints");
         if (usePoints === "true") {
-          await axios.put("http://localhost:5000/api/v1/user/usePoint", {
+          await axios.put("https://hellomilkyshop123.azurewebsites.net/api/v1/user/usePoint", {
             UserID: getUserIdFromToken(token),
           });
 
@@ -108,7 +108,7 @@ const PaymemSuccess = () => {
 
     const transferOrderDetailsToNewOrder = async (orderID) => {
       await axios.post(
-        "http://localhost:5000/api/v1/order/transferOrderDetailsToNewOrder",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/order/transferOrderDetailsToNewOrder",
         {
           OrderID: orderID,
         }

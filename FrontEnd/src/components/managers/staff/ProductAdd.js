@@ -23,7 +23,7 @@ const ProductAdd = () => {
   const editor = useRef(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/product/getAllBrands")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllBrands")
       .then((response) => response.json())
       .then((data) => setBrands(data))
       .catch((error) => console.error("Error fetching brands:", error));
@@ -131,7 +131,7 @@ const ProductAdd = () => {
       };
 
       await axios.post(
-        "http://localhost:5000/api/v1/product/createProduct",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/product/createProduct",
         productData,
         {
           headers: {

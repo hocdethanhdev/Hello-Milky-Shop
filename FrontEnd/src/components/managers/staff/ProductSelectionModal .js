@@ -32,7 +32,7 @@ const ProductSelectionModal = ({
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/v1/product/getInfoProductsDetail"
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail"
       );
       setProducts(response.data);
       setLoading(false);
@@ -44,7 +44,7 @@ const ProductSelectionModal = ({
   const fetchPromotionProducts = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/v1/promotion/getProductsApplyAnPromotion/${promotionID}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getProductsApplyAnPromotion/${promotionID}`
       );
       setSelectedProducts(response.data.result);
     } catch (error) {
@@ -68,7 +68,7 @@ const ProductSelectionModal = ({
   const handleSave = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/v1/promotion/applyPromotionToProduct",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/applyPromotionToProduct",
         { productIDs: selectedProducts, promotionID },
         { headers: { "Content-Type": "application/json" } }
       );

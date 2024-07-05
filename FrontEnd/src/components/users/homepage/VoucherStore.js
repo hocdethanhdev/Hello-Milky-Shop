@@ -22,7 +22,7 @@ function VoucherStore() {
   const fetchVouchersForUser = useCallback(async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/voucher/getVouchersForUser",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/getVouchersForUser",
         { UserID: userIdd }
       );
       setVouchers(response.data);
@@ -43,7 +43,7 @@ function VoucherStore() {
       };
 
       const response = await axios.post(
-        "http://localhost:5000/api/v1/voucher/saveVoucherForUser",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/saveVoucherForUser",
         requestBody
       );
 

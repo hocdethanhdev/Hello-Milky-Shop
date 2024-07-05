@@ -17,7 +17,7 @@ const ManageAdmin = () => {
   const accountsPerPage = 10;
 
   const fetchUsers = () => {
-    fetch("http://localhost:5000/api/v1/user/getAllUsers/")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/user/getAllUsers/")
       .then((response) => response.json())
       .then((data) => {
         const staffAccounts = data.filter((account) => account.RoleID === 2);
@@ -81,7 +81,7 @@ const ManageAdmin = () => {
       return;
     }
 
-    fetch("http://localhost:5000/api/v1/user/updateInforUser", {
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/user/updateInforUser", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -19,7 +19,7 @@ function Shipping() {
   const fetchOrders = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/order/getInfoToShip",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/order/getInfoToShip",
         {
           StatusOrderID: 2,
         }
@@ -45,7 +45,7 @@ function Shipping() {
   const handleModalOk = async () => {
     try {
       await axios.post(
-        `http://localhost:5000/api/v1/order/updateStatusOrderID/${confirmingOrderId}`,
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateStatusOrderID/${confirmingOrderId}`,
         {
           statusOrderID: 4,
         }

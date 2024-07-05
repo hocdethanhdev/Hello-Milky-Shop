@@ -84,7 +84,7 @@ function SignupAd() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/auth/register",
         {
           UserName: formData.name,
           PhoneNumber: formData.phone,
