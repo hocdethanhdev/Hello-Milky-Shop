@@ -18,7 +18,7 @@ const NewsRelated = ({ articleCategoryID, articleID }) => {
         const fetchRelatedArticles = async () => {
             try {
                 const response = await axios.post(
-                    'http://localhost:5000/api/v1/article/getTop5ArticleSameType',
+                    'https://hellomilkyshop123.azurewebsites.net/api/v1/article/getTop5ArticleSameType',
                     {
                         ArticleID: articleID,
                         ArticleCategoryID: articleCategoryID

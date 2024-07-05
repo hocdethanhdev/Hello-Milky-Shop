@@ -25,7 +25,7 @@ function Address() {
     const fetchAddresses = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/${userId}`
+          `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByUserID/${userId}`
         );
         const data = await response.json();
         setAddressData(data);
@@ -37,7 +37,7 @@ function Address() {
     const fetchCities = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/v1/city/getAllCities/"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/city/getAllCities/"
         );
         const data = await response.json();
         setCities(data);
@@ -53,7 +53,7 @@ function Address() {
   const fetchDistricts = async (cityId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/district/getDistrictByID/${cityId}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/district/getDistrictByID/${cityId}`
       );
       const data = await response.json();
       setDistricts(data);
@@ -104,12 +104,12 @@ function Address() {
       message.error("Vui lòng chọn quận/huyện.");
       return;
     }
-    if(!newAddress.address) {
+    if (!newAddress.address) {
       message.error("Vui lòng nhập địa chỉ.");
       return;
     }
 
-    const apiURL = "http://localhost:5000/api/v1/order/addInfoCusToOrder";
+    const apiURL = "https://hellomilkyshop123.azurewebsites.net/api/v1/order/addInfoCusToOrder";
 
     try {
       const response = await fetch(apiURL, {
@@ -148,7 +148,7 @@ function Address() {
   };
 
   const handleDelete = async (shippingAddressID) => {
-    const apiURL = `http://localhost:5000/api/v1/shippingAddress/updateDeleted/${shippingAddressID}`;
+    const apiURL = `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/updateDeleted/${shippingAddressID}`;
 
     try {
       const response = await fetch(apiURL, {
@@ -179,7 +179,7 @@ function Address() {
   const fetchAddresses = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/${userId}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByUserID/${userId}`
       );
       const data = await response.json();
       setAddressData(data);

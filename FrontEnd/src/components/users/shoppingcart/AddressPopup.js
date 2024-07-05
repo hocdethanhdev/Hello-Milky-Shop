@@ -9,7 +9,7 @@ const AddressPopup = ({ userID, onSelect, onClose }) => {
     useEffect(() => {
         const fetchAddresses = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/v1/shippingAddress/getInfoShippingByUserID/${userID}`);
+                const response = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByUserID/${userID}`);
                 setAddresses(response.data);
             } catch (err) {
                 console.error('Lỗi khi lấy địa chỉ:', err);

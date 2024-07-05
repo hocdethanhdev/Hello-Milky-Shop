@@ -23,7 +23,7 @@ function Giasoc() {
 
   useEffect(() => {
     fetch(
-      "http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion"
+      "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getCurrentProductsHavingPromotion"
     )
       .then((response) => response.json())
       .then((data) => {

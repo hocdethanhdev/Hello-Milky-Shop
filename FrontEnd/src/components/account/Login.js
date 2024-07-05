@@ -16,7 +16,7 @@ import { message } from 'antd';
 
 function Login() {
   const loginGoogle = () => {
-    window.open('http://localhost:5000/api/v1/auth/google', '_self');
+    window.open('https://hellomilkyshop123.azurewebsites.net/api/v1/auth/google', '_self');
   };
 
   const [formData, setFormData] = useState({
@@ -51,14 +51,14 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/login",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/auth/login",
         {
           PhoneNumber: formData.phone,
           Password: formData.password
         }
       );
       if (response.data.err === 0) {
-        window.open(`http://localhost:5000/api/v1/auth/loginSuccess?token=${response.data.token}`, '_self');
+        window.open(`https://hellomilkyshop123.azurewebsites.net/api/v1/auth/loginSuccess?token=${response.data.token}`, '_self');
       } else if (response.data.err === 1) {
         message.error("Số điện thoại " + formData.phone + " chưa được đăng kí");
       } else {

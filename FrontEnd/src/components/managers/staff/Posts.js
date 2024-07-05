@@ -24,7 +24,7 @@ function Posts() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/v1/article/getAllArticles")
+      .get("https://hellomilkyshop123.azurewebsites.net/api/v1/article/getAllArticles")
       .then((response) => {
         setArticles(response.data);
       })
@@ -67,7 +67,7 @@ function Posts() {
 
   const confirmDelete = () => {
     axios
-      .put(`http://localhost:5000/api/v1/article/deleteArticle/${deleteArticleId}`)
+      .put(`https://hellomilkyshop123.azurewebsites.net/api/v1/article/deleteArticle/${deleteArticleId}`)
       .then(() => {
         setArticles(
           articles.filter((article) => article.ArticleID !== deleteArticleId)

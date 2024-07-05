@@ -27,7 +27,7 @@ const Products = () => {
   const navigate = useNavigate();
 
   const fetchInforProductDetail = () => {
-    fetch("http://localhost:5000/api/v1/product/getInfoProductsDetail")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -150,7 +150,7 @@ const Products = () => {
     };
 
     fetch(
-      `http://localhost:5000/api/v1/product/editProduct/${product.ProductID}`,
+      `https://hellomilkyshop123.azurewebsites.net/api/v1/product/editProduct/${product.ProductID}`,
       {
         method: "PUT",
         headers: {
@@ -182,7 +182,7 @@ const Products = () => {
 
   const confirmDelete = () => {
     fetch(
-      `http://localhost:5000/api/v1/product/deleteProduct/${productToDelete}`,
+      `https://hellomilkyshop123.azurewebsites.net/api/v1/product/deleteProduct/${productToDelete}`,
       {
         method: "PUT",
         headers: {
@@ -340,8 +340,8 @@ const Products = () => {
                       ? "Tạm ẩn"
                       : product.Status === true &&
                         parseInt(product.StockQuantity) > 0
-                      ? "Còn hàng"
-                      : "Hết hàng"}
+                        ? "Còn hàng"
+                        : "Hết hàng"}
                   </td>
                   <td className="nut-act col-md-3">
                     <button

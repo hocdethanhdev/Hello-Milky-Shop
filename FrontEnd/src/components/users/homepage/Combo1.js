@@ -12,7 +12,7 @@ function Combo1() {
     // Call API to fetch product data
     axios
       .get(
-        "http://localhost:5000/api/v1/product/getTop6MilksForPregnantMother/"
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop6MilksForPregnantMother/"
       )
       .then((response) => {
         setProducts(response.data);

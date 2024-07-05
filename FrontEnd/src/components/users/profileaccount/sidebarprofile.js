@@ -17,7 +17,7 @@ function SidebarProfile() {
   useEffect(() => {
     const fetchUserData = async () => {
       const response = await axios.get(
-        `http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/user/getUserByID?UserID=${userId}`
       );
       setUserData(response.data.data);
     };

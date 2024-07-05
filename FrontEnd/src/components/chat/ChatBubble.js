@@ -5,7 +5,7 @@ import { getUserIdFromToken } from "../store/actions/authAction";
 import PropTypes from "prop-types"; // Import PropTypes
 import "./Chat.css";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://hellomilkyshop123.azurewebsites.net");
 
 function ChatBubble({ onClick }) {
   const [showMiniMessage, setShowMiniMessage] = useState(true);
@@ -46,7 +46,7 @@ function ChatWindow({ onClose }) {
   useEffect(() => {
     const fetchChatHistory = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/v1/chat/getAllMessageByChatRoom', {
+        const response = await fetch('https://hellomilkyshop123.azurewebsites.net/api/v1/chat/getAllMessageByChatRoom', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

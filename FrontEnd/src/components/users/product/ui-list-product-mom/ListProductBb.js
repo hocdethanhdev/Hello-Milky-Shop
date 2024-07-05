@@ -28,7 +28,7 @@ const ListProductBb = () => {
   const fetchProducts = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/v1/product/getProductByCategory/2/"
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductByCategory/2/"
       );
       const data = await response.json();
       if (data.err !== "Do not have any product with this category") {
@@ -43,10 +43,10 @@ const ListProductBb = () => {
   const fetchBrands = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/v1/product/getAllBrandByCategory/2"
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllBrandByCategory/2"
       );
       const data = await response.json();
-      if(data.err !== 1){
+      if (data.err !== 1) {
         setBrands(data);
       }
     } catch (error) {
