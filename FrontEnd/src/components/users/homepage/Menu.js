@@ -2,6 +2,7 @@ import React from "react";
 import { TiThMenu } from "react-icons/ti";
 import "./Menu.css";
 import { Link } from 'react-router-dom';
+
 function Menu() {
   return (
     <div className="menu_cate-trid">
@@ -43,26 +44,26 @@ function Menu() {
           </tr>
           <tr>
             <td>
-              <a href="/sua-cho-be" className="cate_li_title-trid">
+              <Link to="/sua-cho-be" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
                   src="https://momslove.com.vn/wp-content/uploads/2021/07/icon-sua.svg"
                   alt="Sữa cho bé"
                 />
                 Sữa cho bé
-              </a>
+              </Link>
             </td>
           </tr>
           <tr>
             <td>
-              <a href="/News" className="cate_li_title-trid">
+              <Link to="/News" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
                   src="./news.png"
                   alt="Tin tức"
                 />
                 Tin tức
-              </a>
+              </Link>
             </td>
           </tr>
         </tbody>

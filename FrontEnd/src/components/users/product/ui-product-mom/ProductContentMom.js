@@ -283,9 +283,9 @@ const ProductContentMom = ({ product }) => {
           </div>
           <div className="box_phone">
             Tổng đài mua hàng{" "}
-            <a href="tel:0852793879 - Zalo:0393892623" className="hot_phone">
+            <Link to="tel:0852793879 - Zalo:0393892623" className="hot_phone">
               0852793879 - Zalo:0393892623
-            </a>{" "}
+            </Link>{" "}
             (Từ 8h00 đến 21h30 hàng ngày)
           </div>
           <div className="box_banner"></div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import "./sidebarprofile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
@@ -35,7 +35,7 @@ function SidebarProfile() {
   return (
     <div className="sidebar-container-st-tri">
       <nav className="sidebar-st-thinh">
-        <a className="manage-st-thinh" onClick={toggleDropdown} href="#">
+        <Link to="#"className="manage-st-thinh" onClick={toggleDropdown} >
           <img
             src="https://cdn-icons-png.flaticon.com/128/8188/8188338.png"
             alt="Manage Orders Icon"
@@ -47,14 +47,12 @@ function SidebarProfile() {
             icon={dropDown ? faCaretUp : faCaretDown}
             style={{ marginLeft: "5px" }}
           />
-        </a>
+        </Link>
         <div
-          className={`dropdown-content-st-thinh ${dropDown ? "active" : ""}`}
-        >
+          className={`dropdown-content-st-thinh ${dropDown ? "active" : ""}`}>
           <NavLink
             className={isActiveLink("/account") ? "active-st-thinh" : ""}
-            to="/account"
-          >
+            to="/account">
             <img
               src="https://cdn-icons-png.flaticon.com/128/942/942799.png"
               alt="Confirm Icon"
@@ -68,8 +66,7 @@ function SidebarProfile() {
               className={
                 isActiveLink("/ChangePassword") ? "active-st-thinh" : ""
               }
-              to="/ChangePassword"
-            >
+              to="/ChangePassword">
               <img
                 src="https://cdn-icons-png.flaticon.com/128/159/159478.png"
                 alt="Confirm Icon"
@@ -82,8 +79,7 @@ function SidebarProfile() {
 
           <NavLink
             className={isActiveLink("/Address") ? "active-st-thinh" : ""}
-            to="/Address"
-          >
+            to="/Address">
             <img
               src="https://cdn-icons-png.flaticon.com/128/3607/3607275.png"
               alt="Confirm Icon"
@@ -95,8 +91,7 @@ function SidebarProfile() {
         </div>
         <NavLink
           className={isActiveLink("/profile") ? "active-st-thinh" : ""}
-          to="/profile"
-        >
+          to="/profile">
           <img
             src="https://cdn-icons-png.flaticon.com/128/2728/2728577.png"
             alt="Order Icon"

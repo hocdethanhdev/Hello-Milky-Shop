@@ -128,23 +128,25 @@ function Bigsales() {
                   {products.map((product) => (
                     <div className="item_product" key={product.id}>
                       <div className="pro-image">
-                        <a href={`/product/${product.id}`} rel="noopener noreferrer">
+                        <Link
+                          to={`/product/${product.id}`}
+                          rel="noopener noreferrer">
                           <img
                             src={product.imageUrl}
                             alt={product.name}
                             style={{ display: "block" }}
                           />
-                        </a>
+                        </Link>
                       </div>
                       <div className="item_product_detail">
                         <div className="info">
-                          <a
-                            href={`/product/${product.id}`}
+                          <Link
+                            to={`/product/${product.id}`}
                             title={product.name}
                             target="_blank"
                             rel="noopener noreferrer">
                             {product.name}
-                          </a>
+                          </Link>
                           <span className="barCode">Mã SP: {product.id}</span>
                         </div>
                         <div className="saoduoithinh">

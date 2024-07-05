@@ -19,7 +19,7 @@ const NavCate = () => {
                 <div>
                   <ul>
                     <li className="cate_li menu-30">
-                      <a href="/Bigsales" className="cate_li_title">
+                      <Link to="/Bigsales" className="cate_li_title">
                         <img
                           className="img_icon icon_color"
                           src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fkhuyen-mai.png?alt=media&token=2d072039-d089-4da5-bd04-e43c01d80113"
@@ -31,10 +31,10 @@ const NavCate = () => {
                           alt="Khuyến mại lớn"
                         />
                         Khuyến mại lớn
-                      </a>
+                      </Link>
                     </li>
                     <li className="cate_li menu-30">
-                      <a href="/sua-cho-me" className="cate_li_title">
+                      <Link to="/sua-cho-me" className="cate_li_title">
                         <img
                           className="img_icon icon_color"
                           src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
@@ -46,10 +46,10 @@ const NavCate = () => {
                           alt="Sữa cho mẹ"
                         />
                         Sữa cho mẹ
-                      </a>
+                      </Link>
                     </li>
                     <li className="cate_li menu-66569036">
-                      <a href="/sua-cho-be" className="cate_li_title">
+                      <Link to="/sua-cho-be" className="cate_li_title">
                         <img
                           className="img_icon icon_color"
                           src="https://momslove.com.vn/wp-content/uploads/2021/07/icon-sua.svg"
@@ -61,12 +61,12 @@ const NavCate = () => {
                           alt=" Sữa cho bé"
                         />
                         Sữa cho bé
-                      </a>
+                      </Link>
                     </li>
 
 
                     <li className="cate_li menu-2011021743240">
-                      <a href="/News" className="cate_li_title">
+                      <Link to="/News" className="cate_li_title">
                         <img
                           className="img_icon icon_color"
                           src="https://raw.githubusercontent.com/hocdethanhdev/Hello-Milky-Shop/main/FrontEnd/public/news.png?token=GHSAT0AAAAAACSSV3OT5ZRWNUSLY3IVED5SZSW24UQ"
@@ -78,7 +78,7 @@ const NavCate = () => {
                           alt="Tin tức"
                         />
                         Tin tức
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>

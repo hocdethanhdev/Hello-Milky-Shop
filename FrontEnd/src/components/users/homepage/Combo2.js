@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Product1.css";
 import StarRating from "../product/ui-list-product-mom/StarRating";
 
@@ -31,7 +31,7 @@ function Combo2() {
       <div className="combo-2f-wrap">
         <div className="combo-2f-content">
           <div className="combo-2f-header">
-            <a href="/sua-cho-be" className="cate_li_title-trid">
+            <Link to="/sua-cho-be" className="cate_li_title-trid">
               <div className="combo-2f-icon">
                 <img
                   src="https://momslove.com.vn/wp-content/uploads/2021/07/icon-sua.svg"
@@ -41,7 +41,7 @@ function Combo2() {
               <div className="combo-2f-title">
                 <h2>Sữa dành cho bé</h2>
               </div>
-            </a>
+            </Link>
           </div>
           <div className="combo-2f-main">
             <img

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Product1.css";
 import StarRating from "../product/ui-list-product-mom/StarRating";
@@ -40,7 +40,7 @@ function Combo1() {
       <div className="combo-1f-wrap">
         <div className="combo-1f-content">
           <div className="combo-1f-header">
-            <a href="/sua-cho-me" className="cate_li_title-trid">
+            <Link to="/sua-cho-me" className="cate_li_title-trid">
               <div className="combo-1f-icon">
                 <img
                   src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
@@ -50,7 +50,7 @@ function Combo1() {
               <div className="combo-1f-title">
                 <h2>Sữa dành cho mẹ</h2>
               </div>
-            </a>
+            </Link>
           </div>
           <div className="combo-1f-main">
             <img

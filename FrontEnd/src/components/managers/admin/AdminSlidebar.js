@@ -27,7 +27,7 @@ function AdminSlidebar() {
           />{" "}
           Dashboard
         </NavLink>
-        <a className="manage-st-thinh" onClick={toggleDropdown} href="#">
+        <Link to="#" className="manage-st-thinh" onClick={toggleDropdown} >
           <img
             src="https://cdn-icons-png.flaticon.com/512/839/839860.png"
             alt="Manage Orders Icon"
@@ -39,7 +39,7 @@ function AdminSlidebar() {
             icon={dropDown ? faCaretUp : faCaretDown}
             style={{ marginLeft: "5px" }}
           />
-        </a>
+        </Link>
         <div
           className={`dropdown-content-st-thinh ${dropDown ? "active" : ""}`}>
           <NavLink

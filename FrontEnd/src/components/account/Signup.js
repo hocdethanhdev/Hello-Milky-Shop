@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Signup.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   MDBContainer,
   MDBCard,
@@ -321,9 +322,9 @@ function Signup() {
                 className="form-check-input"
               />
               Đồng ý với
-              <a href="/termofuse" className="terms-link">
+              <Link to="/termofuse" className="terms-link">
                 điều khoản sử dụng
-              </a>
+              </Link>
               tại Hello Milky Shop
             </label>
           </div>
@@ -373,12 +374,12 @@ function Signup() {
             <p>hoặc</p>
 
             <div className="google-button-signup">
-              <a href="#" className="google-signup-button">
+              <Link to="#" className="google-signup-button">
                 <MDBIcon fab icon="google" size="lg" className="google-icon" />
                 <span onClick={loginGoogle} className="button-text">
                   Đăng nhập với Google
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
         </MDBCardBody>
