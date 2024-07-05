@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MDBContainer,
   MDBRow,
@@ -12,17 +12,19 @@ import {
 } from "mdb-react-ui-kit";
 import axios from "axios";
 import PhoneInput from "react-phone-input-2";
-import { message } from 'antd';
+import { message } from "antd";
 import config from "../config/config";
 
 function Login() {
+  const navigate = useNavigate();
+
   const loginGoogle = () => {
-    window.open(`${config.API_ROOT}/api/v1/auth/google`, '_self');
+    window.open(`${config.API_ROOT}/api/v1/auth/google`, "_self");
   };
 
   const [formData, setFormData] = useState({
-    phone: '',
-    password: ''
+    phone: "",
+    password: "",
   });
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -31,7 +33,7 @@ function Login() {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value
+      [name]: value,
     }));
   }, []);
 
@@ -55,11 +57,12 @@ function Login() {
         `${config.API_ROOT}/api/v1/auth/login`,
         {
           PhoneNumber: formData.phone,
-          Password: formData.password
+          Password: formData.password,
         }
       );
       if (response.data.err === 0) {
-        await axios.get(`${config.API_ROOT}/api/v1/auth/loginSuccess?token=${response.data.token}`);
+        console.log(response.data.token);
+        navigate(`/LoginSuccess/${response.data.token}`);
       } else if (response.data.err === 1) {
         message.error("Số điện thoại " + formData.phone + " chưa được đăng kí");
       } else {
@@ -74,12 +77,19 @@ function Login() {
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
         <MDBCol>
-          <MDBCard className="bg-light text-dark my-5 mx-auto" style={{ borderRadius: "1rem", maxWidth: "500px" }}>
-            <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100" style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.2)' }}>
+          <MDBCard
+            className="bg-light text-dark my-5 mx-auto"
+            style={{ borderRadius: "1rem", maxWidth: "500px" }}
+          >
+            <MDBCardBody
+              className="p-5 d-flex flex-column align-items-center mx-auto w-100"
+              style={{ boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)" }}
+            >
               <h2 className="fw-bold mb-2 text-uppercase">Đăng nhập</h2>
               <p className="text-dark-50 mb-5"></p>
 
-              <PhoneInput className="login-nd"
+              <PhoneInput
+                className="login-nd"
                 country={"vn"}
                 value={formData.phone}
                 wrapperClass="mb-4 mx-5 w-100"
@@ -92,7 +102,8 @@ function Login() {
                 onChange={handlePhoneChange}
               />
               <div className="position-relative mb-4 mx-5 w-100">
-                <MDBInput className="login-nd"
+                <MDBInput
+                  className="login-nd"
                   wrapperClass="w-100"
                   labelClass="text-dark"
                   placeholder="Mật khẩu"
@@ -113,18 +124,31 @@ function Login() {
 
               <p className="small mb-3 pb-lg-2">
                 <Link to="/ResetPassword">
-                  <Link to="#!" className="text-dark-50" >
+                  <Link to="#!" className="text-dark-50">
                     Quên mật khẩu?
                   </Link>
                 </Link>
               </p>
-              <button className="login-button-trid" type="button" onClick={handleSubmit}>
+              <button
+                className="login-button-trid"
+                type="button"
+                onClick={handleSubmit}
+              >
                 <span className="button-text-trid">Đăng nhập</span>
               </button>
 
               <div className="flex-row">
-                <Link to="#" className="google-signup-button-trid" onClick={loginGoogle}>
-                  <MDBIcon fab icon="google" size="lg" className="google-icon-trid" />
+                <Link
+                  to="#"
+                  className="google-signup-button-trid"
+                  onClick={loginGoogle}
+                >
+                  <MDBIcon
+                    fab
+                    icon="google"
+                    size="lg"
+                    className="google-icon-trid"
+                  />
                   <span className="button-text-trid">Đăng nhập với Google</span>
                 </Link>
               </div>

@@ -1,6 +1,6 @@
 
 ### change password
-PUT ${config.API_ROOT}/api/v1/auth/changePassword
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/auth/changePassword
 Content-Type: application/json
 
 {
@@ -10,14 +10,14 @@ Content-Type: application/json
 }
 
 ### check reset password
-POST ${config.API_ROOT}/api/v1/auth/checkPhoneNumber
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/auth/checkPhoneNumber
 Content-Type: application/json
 
 {
     "PhoneNumber": "0909090908"
 }
 ### forgetPassword
-PUT ${config.API_ROOT}/api/v1/auth/forgetPassword
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/auth/forgetPassword
 Content-Type: application/json
 
 {
@@ -26,58 +26,58 @@ Content-Type: application/json
 }
 
 ### lay user by id
-GET ${config.API_ROOT}/api/v1/user/getUserByID?UserID=M0000001
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/user/getUserByID?UserID=M0000001
 
 
 ### đem so don hang tung ngay trong vong 7 ngay
-GET ${config.API_ROOT}/api/v1/order/countOrdersIn7Days
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersIn7Days
 
 ### count don hang theo statusOrderID
-GET ${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/1
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersByStatusOrderID/1
 
 ### count tong don hang
-GET ${config.API_ROOT}/api/v1/order/countOrdersPayed
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersPayed
 
 ### dem don hang moi
-GET ${config.API_ROOT}/api/v1/order/countNewOrders
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/countNewOrders
 
 ### get order chua thanh toan cua user
-GET ${config.API_ROOT}/api/v1/order/getOpenOrderForUser/M0000001
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOpenOrderForUser/M0000001
 ### top 6 product by brand
-GET ${config.API_ROOT}/api/v1/product/getTop6ProductByBrand/SE0001
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop6ProductByBrand/SE0001
 
 ### lay tat ca user
-GET ${config.API_ROOT}/api/v1/user/getAllUsers
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/user/getAllUsers
 ### lay san pham bang id 
-GET ${config.API_ROOT}/api/v1/product/getProductInforID/SE0001
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductInforID/SE0001
 ### lay tat ca san pham thong tin don gian
-GET ${config.API_ROOT}/api/v1/product/getAllProducts
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllProducts
 ### lay Brand theo category cho me
-GET ${config.API_ROOT}/api/v1/product/getAllBrandByCategory/1
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllBrandByCategory/1
 ### lay Brand theo category cho be
-GET ${config.API_ROOT}/api/v1/product/getAllBrandByCategory/2
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllBrandByCategory/2
 ### lay tat ca brand dang co
-GET ${config.API_ROOT}/api/v1/product/getAllBrands
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllBrands
 ### tim sua theo brand
-GET ${config.API_ROOT}/api/v1/product/searchWithBrand/Phy/Enfamil
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/searchWithBrand/Phy/Enfamil
 ### lay tat ca san pham cho me
-GET ${config.API_ROOT}/api/v1/product/getProductByCategory/1
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductByCategory/1
 ### lay tat ca san pham cho be
-GET ${config.API_ROOT}/api/v1/product/getProductByCategory/2/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductByCategory/2/
 ### lay tat ca category
-GET ${config.API_ROOT}/api/v1/product/getAllProductCategory
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllProductCategory
 ### tim kiem sua bang cate
-GET ${config.API_ROOT}/api/v1/product/searchWithProductCategory/Sữa
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/searchWithProductCategory/Sữa
 ### tim voi gia
-GET ${config.API_ROOT}/api/v1/product/searchWithPrice/En/0/10000000
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/searchWithPrice/En/0/10000000
 ### tim theo ten
-GET ${config.API_ROOT}/api/v1/product/searchWithName?search=en   
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/searchWithName?search=en   
 ### lay tat ca san pham voi day du thong tin
-GET ${config.API_ROOT}/api/v1/product/getInfoProductsDetail
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail
 ### lấy tất cả sản phẩm cho user
-GET ${config.API_ROOT}/api/v1/product/getAllProductForUser
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllProductForUser
 ### tao san pham
-POST ${config.API_ROOT}/api/v1/product/createProduct
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/product/createProduct
 Content-Type: application/json
 
 {
@@ -93,7 +93,7 @@ Content-Type: application/json
     "Status": 1
 }
 ### sua san pham
-PUT ${config.API_ROOT}/api/v1/product/editProduct/SE0003
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/product/editProduct/SE0003
 Content-Type: application/json
 
 {
@@ -109,19 +109,19 @@ Content-Type: application/json
     "Status": 1
 }
 ### xoa san pham
-PUT ${config.API_ROOT}/api/v1/product/deleteProduct/SE0002
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/product/deleteProduct/SE0002
 ### mo san pham
-PUT ${config.API_ROOT}/api/v1/product/openProduct/SE0002
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/product/openProduct/SE0002
 ###
-GET ${config.API_ROOT}/api/v1/product/getProductInfoByID/SE0009
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductInfoByID/SE0009
 ###
-GET ${config.API_ROOT}/api/v1/product/get5ProductsLowestFinalPrice/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/get5ProductsLowestFinalPrice/
 ###
-GET ${config.API_ROOT}/api/v1/product/getTop6MilksForPregnantMother/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop6MilksForPregnantMother/
 ###
-GET ${config.API_ROOT}/api/v1/product/getTop6MilkForBaby/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop6MilkForBaby/
 ### dang ki user
-POST ${config.API_ROOT}/api/v1/auth/register
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/auth/register
 Content-Type: application/json
 
 {
@@ -131,7 +131,7 @@ Content-Type: application/json
     "RoleID": 3
 }
 ### login
-POST ${config.API_ROOT}/api/v1/auth/login
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/auth/login
 Content-Type: application/json
 
 {
@@ -139,15 +139,15 @@ Content-Type: application/json
     "Password": "1"
 }
 ### logout
-POST ${config.API_ROOT}/api/v1/auth/logout
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/auth/logout
 ### 
-GET ${config.API_ROOT}/api/v1/comment/getAllComments
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getAllComments
 ###
-GET ${config.API_ROOT}/api/v1/comment/getUnansweredComments
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getUnansweredComments
 ###
-GET ${config.API_ROOT}/api/v1/comment/getAnsweredComments
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getAnsweredComments
 ###
-POST ${config.API_ROOT}/api/v1/comment/repComment/2
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/comment/repComment/2
 Content-Type: application/json
 
 {
@@ -155,16 +155,16 @@ Content-Type: application/json
     "Rep": "Cảm ơn bạn"
 }
 ### lấy rep của 1 comment
-POST ${config.API_ROOT}/api/v1/comment/getCommentByID
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getCommentByID
 Content-Type: application/json
 
 {
     "CommentID": 2
 }
 ### dang nhap gg
-GET ${config.API_ROOT}/api/v1/auth/google
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/auth/google
 ### paymen vnpay
-POST  ${config.API_ROOT}/api/v1/payment/create_payment_url
+POST  https://hellomilkyshop123.azurewebsites.net/api/v1/payment/create_payment_url
 Content-Type: application/json
 
 {
@@ -184,9 +184,9 @@ Content-Type: application/x-www-form-urlencoded
 
 tmn_code=8VGHK1JI
 ###
-GET ${config.API_ROOT}/api/v1/voucher/getAllVouchers
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/getAllVouchers
 ###
-POST ${config.API_ROOT}/api/v1/voucher/addVoucher
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/addVoucher
 Content-Type: application/json
 
 {
@@ -199,10 +199,10 @@ Content-Type: application/json
     "voucherName": "Voucher More"
 }
 ###
-GET ${config.API_ROOT}/api/v1/voucher/searchVoucherByDate?startDate=2023-01-01&expiryDate=2024-12-31
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/searchVoucherByDate?startDate=2023-01-01&expiryDate=2024-12-31
 
 ###
-PUT ${config.API_ROOT}/api/v1/voucher/updateVoucher/2
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/updateVoucher/2
 Content-Type: application/json
 
 {
@@ -216,7 +216,7 @@ Content-Type: application/json
 }
 
 ### Lưu mã voucher cho user
-POST ${config.API_ROOT}/api/v1/voucher/saveVoucherForUser
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/saveVoucherForUser
 Content-Type: application/json
 
 {
@@ -225,7 +225,7 @@ Content-Type: application/json
 }
 
 ### Xóa mã voucher từ user
-POST ${config.API_ROOT}/api/v1/voucher/removeVoucherFromUser
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/removeVoucherFromUser
 Content-Type: application/json
 
 {
@@ -234,17 +234,17 @@ Content-Type: application/json
 }
 
 ###
-GET ${config.API_ROOT}/api/v1/voucher/getVouchersByUserID/M0000001
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/getVouchersByUserID/M0000001
 
 ###
-GET ${config.API_ROOT}/api/v1/promotion/getAllPromotions
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getAllPromotions
 
 
 ###
-GET ${config.API_ROOT}/api/v1/promotion/searchPromotionByName?name=Summer      
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/searchPromotionByName?name=Summer      
 
 ###
-POST ${config.API_ROOT}/api/v1/promotion/addPromotion
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/addPromotion
 Content-Type: application/json
 
 {
@@ -258,7 +258,7 @@ Content-Type: application/json
 
 ###
 
-PUT ${config.API_ROOT}/api/v1/promotion/updatePromotion/1
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/updatePromotion/1
 Content-Type: application/json
 
 {
@@ -271,10 +271,10 @@ Content-Type: application/json
 }
 
 ###
-GET ${config.API_ROOT}/api/v1/promotion/getProductsApplyAnPromotion/1
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getProductsApplyAnPromotion/1
 
 ###
-POST ${config.API_ROOT}/api/v1/promotion/applyPromotionToProduct
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/applyPromotionToProduct
 Content-Type: application/json
 
 {
@@ -283,14 +283,14 @@ Content-Type: application/json
 }
 
 ###
-DELETE ${config.API_ROOT}/api/v1/promotion/deletePromotion/8
+DELETE https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/deletePromotion/8
 
 
 ###
-GET ${config.API_ROOT}/api/v1/order/getAllOrders
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getAllOrders
 
 ### Thêm sản phẩm vào đơn hàng hiện tại
-POST ${config.API_ROOT}/api/v1/order/addProductToOrder
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/addProductToOrder
 Content-Type: application/json  
 
 {
@@ -301,12 +301,12 @@ Content-Type: application/json
 }
 
 ### Trả về orders dựa vào orderID
-GET ${config.API_ROOT}/api/v1/order/getOrder/280
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrder/280
 
 
 
 ### Check out đơn hàng để có thể tạo ra đơn mới
-POST ${config.API_ROOT}/api/v1/order/checkoutOrder
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/checkoutOrder
 Content-Type: application/json
 
 {
@@ -314,27 +314,27 @@ Content-Type: application/json
 }
 
 ### Lấy tất cả các đơn hàng của một user theo userID
-GET ${config.API_ROOT}/api/v1/order/getOrdersByUserID/M0000001
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersByUserID/M0000001
 
 ### Lấy các voucher có thể áp dụng cho đơn hàng
-GET  ${config.API_ROOT}/api/v1/order/getApplicableVouchers/M0000001/1
+GET  https://hellomilkyshop123.azurewebsites.net/api/v1/order/getApplicableVouchers/M0000001/1
 
 ### Áp dụng voucher vào đơn hàng
-POST ${config.API_ROOT}/api/v1/order/applyVoucherToOrder
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/applyVoucherToOrder
 ###
-GET ${config.API_ROOT}/api/v1/article/getAllArticles/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/article/getAllArticles/
 ###
-GET ${config.API_ROOT}/api/v1/article/getAllArticlesForViewer/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/article/getAllArticlesForViewer/
 ###
-GEt ${config.API_ROOT}/api/v1/article/getArticlesByID/M0000001/
+GEt https://hellomilkyshop123.azurewebsites.net/api/v1/article/getArticlesByID/M0000001/
 ###
-GEt ${config.API_ROOT}/api/v1/article/getArticlesByArticleID/33/
+GEt https://hellomilkyshop123.azurewebsites.net/api/v1/article/getArticlesByArticleID/33/
 ###
-GEt ${config.API_ROOT}/api/v1/article/getArticlesByContent/Tin tức/
+GEt https://hellomilkyshop123.azurewebsites.net/api/v1/article/getArticlesByContent/Tin tức/
 ###
-GET ${config.API_ROOT}/api/v1/article/getAllArticleCategory/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/article/getAllArticleCategory/
 ###
-POST ${config.API_ROOT}/api/v1/article/createArticle/
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/article/createArticle/
 Content-Type: application/json
 
 {
@@ -347,9 +347,9 @@ Content-Type: application/json
 }
 
 ###
-PUT ${config.API_ROOT}/api/v1/article/deleteArticle/2
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/article/deleteArticle/2
 ###
-PUT ${config.API_ROOT}/api/v1/article/editArticle/31
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/article/editArticle/31
 Content-Type: application/json
 
 {
@@ -361,25 +361,25 @@ Content-Type: application/json
     "ArticleCategoryID": 2
 }
 ###
-GET ${config.API_ROOT}/api/v1/user/getAllUsers/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/user/getAllUsers/
 ###
-PUT ${config.API_ROOT}/api/v1/user/editUser/M0000001/
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/user/editUser/M0000001/
 Content-Type: application/json
 
 {
     "RoleID": "2"
 }
 ###
-GET ${config.API_ROOT}/api/v1/user/getUserByRoleID/3
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/user/getUserByRoleID/3
 ###
-PUT ${config.API_ROOT}/api/v1/user/disableUser/M0000002/
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/user/disableUser/M0000002/
 Content-Type: application/json
 
 {
     "Status": 0
 }
 ### Lấy những voucher mà có thể lưu cho user
-POST ${config.API_ROOT}/api/v1/voucher/getVouchersForUser
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/getVouchersForUser
 Content-Type: application/json
 
 {
@@ -387,18 +387,18 @@ Content-Type: application/json
 }
 
 ### Lấy order trước đó của user
-GET  ${config.API_ROOT}/api/v1/order/getPreviousOrderAddress/M0000001
+GET  https://hellomilkyshop123.azurewebsites.net/api/v1/order/getPreviousOrderAddress/M0000001
 
 ### Search order dựa vào username
-GET ${config.API_ROOT}/api/v1/order/searchOrderByUserName/A
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/searchOrderByUserName/A
 ###
-GET ${config.API_ROOT}/api/v1/promotion/getPormotionByDate
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getPormotionByDate
 
 ### Lấy chi tiết đơn hàng dựa vào orderID
-GET ${config.API_ROOT}/api/v1/order/getOrderDetailByOrderID/2
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrderDetailByOrderID/2
 
 ### Thay đổi số lương đơn hàng dựa vào những productID truyền về
-POST ${config.API_ROOT}/api/v1/order/changeQuantityOfProductInOrder
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/changeQuantityOfProductInOrder
 Content-Type: application/json
 
 {
@@ -412,7 +412,7 @@ Content-Type: application/json
 }
 
 ### Thay đổi trạng thái đơn hàng
-POST ${config.API_ROOT}/api/v1/order/updateStatusOrderID/1
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateStatusOrderID/1
 Content-Type: application/json
 
 {
@@ -420,13 +420,13 @@ Content-Type: application/json
 }
 
 ### Lấy những sản phảm của hiện tại mà có áp dụng khuyến mãi 
-GET ${config.API_ROOT}/api/v1/promotion/getCurrentProductsHavingPromotion
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getCurrentProductsHavingPromotion
 ###
-GET ${config.API_ROOT}/api/v1/city/getAllCities/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/city/getAllCities/
 ###
-GET ${config.API_ROOT}/api/v1/district/getDistrictByID/1
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/district/getDistrictByID/1
 ###
-POST ${config.API_ROOT}/api/v1/order/addInfoCusToOrder
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/addInfoCusToOrder
 Content-Type: application/json
 
 { 
@@ -438,7 +438,7 @@ Content-Type: application/json
 
 
 ### xóa sốp bing card
-POST ${config.API_ROOT}/api/v1/order/removeProductFromOrder
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/removeProductFromOrder
 Content-Type: application/json
 
 {
@@ -447,16 +447,16 @@ Content-Type: application/json
 }
 
 ### 
-GET ${config.API_ROOT}/api/v1/shippingAddress/getInfoShippingByUserID/M0000001
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByUserID/M0000001
 
 ### 
-GET ${config.API_ROOT}/api/v1/shippingAddress/getInfoShippingByOrderID/1
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByOrderID/1
 
 
 ### Lấy chi tiết đơn hàng dựa vào orderID
-GET ${config.API_ROOT}/api/v1/order/getOrdersByStatusOrderID/1
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersByStatusOrderID/1
 ### check user mua hàng
-POST ${config.API_ROOT}/api/v1/comment/checkUserOrdered
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/comment/checkUserOrdered
 Content-Type: application/json
 
 {
@@ -465,7 +465,7 @@ Content-Type: application/json
 }
 
 ### userComment
-POST ${config.API_ROOT}/api/v1/comment/userComment
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/comment/userComment
 Content-Type: application/json
 
 {
@@ -475,19 +475,19 @@ Content-Type: application/json
     "Description": "tot"
 }
 ### lấy comment của 1 sản phẩm
-GET ${config.API_ROOT}/api/v1/comment/getCommentByProductID/SM0001
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getCommentByProductID/SM0001
 
 ### lấy trung bình đánh giá và số lượt đánh giá của 1 sản phẩm
-GET ${config.API_ROOT}/api/v1/comment/countRatingAndAvgRating/SM0001
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/comment/countRatingAndAvgRating/SM0001
 
 ### Danh thu trong ngay hom nay
-GET ${config.API_ROOT}/api/v1/order/getTodayRevenue
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getTodayRevenue
 
 ### Danh thu trong 7 thang
-GET ${config.API_ROOT}/api/v1/order/getRevenueLastSevenMonths
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getRevenueLastSevenMonths
 
 ### Thay doi diem cua user 
-POST ${config.API_ROOT}/api/v1/user/changePointOfUser
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/user/changePointOfUser
 Content-Type: application/json
 
 {
@@ -496,10 +496,10 @@ Content-Type: application/json
 }
 
 ### Lấy những orders cho user phân theo statusOrderID
-GET ${config.API_ROOT}/api/v1/order/getOrdersForUserByStatusOrderID/M0000001/1
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersForUserByStatusOrderID/M0000001/1
 
 ### Hủy đơn hàng
-POST ${config.API_ROOT}/api/v1/order/cancelOrder
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/cancelOrder
 Content-Type: application/json
 
  {
@@ -508,7 +508,7 @@ Content-Type: application/json
     "userID": "M0000001"
  }
 ### Cập nhật tổng giá trị của đơn hàng
-POST ${config.API_ROOT}/api/v1/order/updateTotalAmountOfOrder
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateTotalAmountOfOrder
 Content-Type: application/json
 
  {
@@ -517,7 +517,7 @@ Content-Type: application/json
  }
 
 ###
-POST ${config.API_ROOT}/api/v1/order/updateShippingAddressID
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateShippingAddressID
 Content-Type: application/json
 
  {
@@ -526,42 +526,42 @@ Content-Type: application/json
  }
 
 ###đếm tất cả user by role
-GET ${config.API_ROOT}/api/v1/user/countUserByRole/3
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/user/countUserByRole/3
 ### đếm tất cả product
-GET ${config.API_ROOT}/api/v1/product/countProduct
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/countProduct
 
 ### đếm tất cả brand
-GET ${config.API_ROOT}/api/v1/product/countBrand
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/countBrand
 
 ### lấy top 5 sản phẩm bán nhiều nhất
-GET ${config.API_ROOT}/api/v1/product/getTop5ProductBestSeller
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop5ProductBestSeller
 ### remove point of user
-PUT ${config.API_ROOT}/api/v1/user/usePoint
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/user/usePoint
 Content-Type: application/json
 
 {
     "UserID": "M0000001"
 }
 ### Lấy lí do hủy đơn hàng
-GET ${config.API_ROOT}/api/v1/order/getReasonCancleOrderByUserID/M0000003/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getReasonCancleOrderByUserID/M0000003/
 ### Lấy author name
-GET ${config.API_ROOT}/api/v1/article/getAuthorName/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/article/getAuthorName/
 ### lấy info shipping is deleted
-GET ${config.API_ROOT}/api/v1/shippingAddress/getShippingAddressIsDeleted/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getShippingAddressIsDeleted/
 ### update IsDeleted bằng 
-PUT ${config.API_ROOT}/api/v1/shippingAddress/updateDeleted/1
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/updateDeleted/1
 ### lấy thông tin giao hàng statusorderID mặc định là 2
-POST ${config.API_ROOT}/api/v1/order/getInfoToShip
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/getInfoToShip
 Content-Type: application/json
 
 {
     "StatusOrderID": 2
 }
 ### 
-GET ${config.API_ROOT}/api/v1/product/getTop5ProductBestSellerForUser
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop5ProductBestSellerForUser
 
 ###
-POST ${config.API_ROOT}/api/v1/article/getTop5ArticleSameType
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/article/getTop5ArticleSameType
 Content-Type: application/json
 
 {
@@ -569,19 +569,19 @@ Content-Type: application/json
     "ArticleCategoryID": 1
 }
 ###
-PUT ${config.API_ROOT}/api/v1/voucher/deleteVoucher/10
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/deleteVoucher/10
 ###
-PUT ${config.API_ROOT}/api/v1/voucher/openVoucher/10
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/openVoucher/10
 
 ### lay dia chi gan nhat cua 1 user
-POST ${config.API_ROOT}/api/v1/shippingAddress/getInfoAddressWithOrderNearest
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoAddressWithOrderNearest
 Content-Type: application/json
 
 {
     "UserID": "M0000001"
 }
 ### sua thong tin user
-PUT ${config.API_ROOT}/api/v1/user/updateInforUser
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/user/updateInforUser
 Content-Type: application/json
 
 {
@@ -592,10 +592,10 @@ Content-Type: application/json
 }
 
 ### get all chat
-GET ${config.API_ROOT}/api/v1/chat/getAllChatRoom
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/chat/getAllChatRoom
 
 ### get message by chatroom
-POST ${config.API_ROOT}/api/v1/chat/getAllMessageByChatRoom
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/chat/getAllMessageByChatRoom
 Content-Type: application/json
 
 {
@@ -603,7 +603,7 @@ Content-Type: application/json
 }
 
 ### get tin nhắn chưa đọc
-POST ${config.API_ROOT}/api/v1/chat/getChatUnseen
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/chat/getChatUnseen
 Content-Type: application/json
 
 {
@@ -611,10 +611,10 @@ Content-Type: application/json
 }
 
 ### Get all current category in article
-GET ${config.API_ROOT}/api/v1/article/getCurrentCategoriesInArticles
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/article/getCurrentCategoriesInArticles
 
 ### Update UserName
-PUT ${config.API_ROOT}/api/v1/user/updateUserName
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/user/updateUserName
 Content-Type: application/json
 
 {
@@ -623,10 +623,10 @@ Content-Type: application/json
 }
 
 ###
-GET ${config.API_ROOT}/api/v1/article/getTop4ArticlesForViewer/
+GET https://hellomilkyshop123.azurewebsites.net/api/v1/article/getTop4ArticlesForViewer/
 
 ### transferOrderDetailsToNewOrder
-POST ${config.API_ROOT}/api/v1/order/transferOrderDetailsToNewOrder
+POST https://hellomilkyshop123.azurewebsites.net/api/v1/order/transferOrderDetailsToNewOrder
 Content-Type: application/json
 
 {
