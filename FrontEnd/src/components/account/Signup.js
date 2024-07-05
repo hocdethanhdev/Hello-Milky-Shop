@@ -204,7 +204,7 @@ function Signup() {
   const completeSignup = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/auth/register",
         {
           UserName: formData.name,
           PhoneNumber: formData.phone,
@@ -214,7 +214,7 @@ function Signup() {
 
       if (response.data.err === 0) {
         const login = await axios.post(
-          "http://localhost:5000/api/v1/auth/login",
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/auth/login",
           {
             PhoneNumber: formData.phone,
             Password: formData.password,
@@ -222,7 +222,7 @@ function Signup() {
         );
         if (login.data.err === 0) {
           window.open(
-            `http://localhost:5000/api/v1/auth/loginSuccess?token=${login.data.token}`,
+            `https://hellomilkyshop123.azurewebsites.net/api/v1/auth/loginSuccess?token=${login.data.token}`,
             "_self"
           );
         } else {
@@ -238,7 +238,7 @@ function Signup() {
   };
 
   const loginGoogle = () => {
-    window.open("http://localhost:5000/api/v1/auth/google", "_self");
+    window.open("https://hellomilkyshop123.azurewebsites.net/api/v1/auth/google", "_self");
   };
 
   return (

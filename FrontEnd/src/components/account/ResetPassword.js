@@ -94,7 +94,7 @@ const ResetPassword = () => {
     const phApi = "0" + ph.substring(2);
     try {
       const checkPH = await axios.post(
-        "http://localhost:5000/api/v1/auth/checkPhoneNumber",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/auth/checkPhoneNumber",
         {
           PhoneNumber: phApi,
         }
@@ -120,7 +120,7 @@ const ResetPassword = () => {
 
     setLoading(true);
 
-    fetch("http://localhost:5000/api/v1/auth/forgetPassword", {
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/auth/forgetPassword", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -172,7 +172,7 @@ const ResetPassword = () => {
               />
             </div>
             <button onClick={handlePasswordReset} disabled={loading}>
-              {loading ? <Loading/> : "Đặt lại mật khẩu"}
+              {loading ? <Loading /> : "Đặt lại mật khẩu"}
             </button>
           </div>
         ) : user ? (
@@ -195,7 +195,7 @@ const ResetPassword = () => {
               />
             </div>
             <button onClick={handlePasswordReset} disabled={loading}>
-              {loading ? <Loading/> : "Đặt lại mật khẩu"}
+              {loading ? <Loading /> : "Đặt lại mật khẩu"}
             </button>
           </div>
         ) : (

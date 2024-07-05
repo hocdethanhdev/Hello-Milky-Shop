@@ -30,7 +30,7 @@ const RelatedProducts = ({ product }) => {
     useEffect(() => {
         const fetchRelatedProducts = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/v1/product/getTop6ProductByBrand/${product.ProductID}`);
+                const response = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop6ProductByBrand/${product.ProductID}`);
 
                 if (Array.isArray(response.data)) {
                     setRelatedProducts(response.data);
@@ -52,7 +52,7 @@ const RelatedProducts = ({ product }) => {
         window.scrollTo(0, 0);
     };
 
-    if (loading) return <Loading/>;
+    if (loading) return <Loading />;
     if (error) return <div>Error: {error.message}</div>;
 
     return (

@@ -14,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: process.env.CLIENT_URL,
+    origin: [process.env.CLIENT_URL, 'http://68.183.237.72'],
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
@@ -23,7 +23,7 @@ app.use(express.static("public"));
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: [process.env.CLIENT_URL, 'http://68.183.237.72'],
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
@@ -73,7 +73,7 @@ io.on("connection", (socket) => {
     await chatController.saveMessage(msg.content, msg.userId, msg.roomId);
   });
 
-  socket.on("disconnect", () => {});
+  socket.on("disconnect", () => { });
 });
 
 const PORT = process.env.PORT || 8888;

@@ -14,31 +14,31 @@ function Dashboard() {
 
   useEffect(() => {
     // Fetch data from APIs
-    fetch("http://localhost:5000/api/v1/order/countOrdersPayed")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersPayed")
       .then((response) => response.json())
       .then((data) => setOrderCount(data.count));
 
-    fetch("http://localhost:5000/api/v1/order/countNewOrders")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countNewOrders")
       .then((response) => response.json())
       .then((data) => setNewOrdersCount(data.count));
 
-    fetch("http://localhost:5000/api/v1/order/countOrdersByStatusOrderID/1")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersByStatusOrderID/1")
       .then((response) => response.json())
       .then((data) => setWaitingOrdersCount(data.count));
 
-    fetch("http://localhost:5000/api/v1/order/countOrdersByStatusOrderID/4")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersByStatusOrderID/4")
       .then((response) => response.json())
       .then((data) => setFinishedOrdersCount(data.count));
 
-    fetch("http://localhost:5000/api/v1/order/countOrdersByStatusOrderID/3")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersByStatusOrderID/3")
       .then((response) => response.json())
       .then((data) => setCanceledOrdersCount(data.count));
 
-    fetch("http://localhost:5000/api/v1/order/countOrdersByStatusOrderID/2")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersByStatusOrderID/2")
       .then((response) => response.json())
       .then((data) => setShippingOrdersCount(data.count));
 
-    fetch("http://localhost:5000/api/v1/order/countOrdersIn7Days")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/countOrdersIn7Days")
       .then((response) => response.json())
       .then((data) => setOrdersIn7Days(data.data));
   }, []);

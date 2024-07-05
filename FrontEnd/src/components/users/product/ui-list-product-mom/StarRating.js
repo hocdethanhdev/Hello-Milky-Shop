@@ -9,7 +9,7 @@ const StarRating = ({ productId }) => {
     useEffect(() => {
         const fetchRatingData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/v1/comment/countRatingAndAvgRating/${productId}`);
+                const response = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/comment/countRatingAndAvgRating/${productId}`);
                 const data = response.data;
                 if (data.err === 0) {
                     setRatingData({ count: data.count, avg: data.avg });

@@ -1,7 +1,7 @@
 import React from "react";
 import { TiThMenu } from "react-icons/ti";
 import "./Menu.css";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 function Menu() {
   return (

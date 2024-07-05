@@ -6,8 +6,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { formatPrice } from "../../utils/formatPrice";
 
 message.config({
-  top: 10, 
-  duration: 2, 
+  top: 10,
+  duration: 2,
 });
 
 function VoucherAdd() {
@@ -122,7 +122,7 @@ function VoucherAdd() {
       return;
     }
 
-    fetch("http://localhost:5000/api/v1/voucher/addVoucher", {
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/addVoucher", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -138,7 +138,7 @@ function VoucherAdd() {
       .then(() => {
         // Hiển thị thông báo thành công
         message.success('Voucher đã được tạo thành công');
-        
+
         // Đặt lại trạng thái của form và thông báo
         setSuccessMessage("");
         setErrorMessage("");

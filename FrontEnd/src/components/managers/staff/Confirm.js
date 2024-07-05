@@ -24,7 +24,7 @@ function Confirm() {
   const fetchOrders = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/1"
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersByStatusOrderID/1"
       );
       const data = await response.json();
       setOrders(data.address);
@@ -47,7 +47,7 @@ function Confirm() {
       content: "Bạn có chắc muốn thay đổi trạng thái đơn hàng này không?",
       onOk: () => {
         fetch(
-          `http://localhost:5000/api/v1/order/updateStatusOrderID/${orderID}`,
+          `https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateStatusOrderID/${orderID}`,
           {
             method: "POST",
             headers: {
@@ -67,10 +67,10 @@ function Confirm() {
               prevOrders.map((order) =>
                 order.OrderID === orderID
                   ? {
-                      ...order,
-                      StatusOrderID: [2, 2],
-                      StatusOrderName: "Đã xác nhận",
-                    }
+                    ...order,
+                    StatusOrderID: [2, 2],
+                    StatusOrderName: "Đã xác nhận",
+                  }
                   : order
               )
             );
@@ -93,7 +93,7 @@ function Confirm() {
   };
 
   const handleCancelModalOk = () => {
-    fetch("http://localhost:5000/api/v1/order/cancelOrder", {
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/cancelOrder", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -134,7 +134,7 @@ function Confirm() {
   const fetchOrderDetails = async (orderID) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/order/getOrderDetailByOrderID/${orderID}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrderDetailByOrderID/${orderID}`
       );
       const data = await response.json();
       return data.address;
@@ -147,7 +147,7 @@ function Confirm() {
   const fetchShippingAddress = async (orderID) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
       );
       const data = await response.json();
       setShippingAddress(data);
@@ -228,9 +228,8 @@ function Confirm() {
         <thead>
           <tr className="row">
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "OrderID" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "OrderID" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("OrderID")}
             >
               Mã đơn hàng
@@ -239,9 +238,8 @@ function Confirm() {
               </button>
             </th>
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "OrderDate" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "OrderDate" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("OrderDate")}
             >
               Ngày đặt hàng
@@ -250,9 +248,8 @@ function Confirm() {
               </button>
             </th>
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "TotalAmount" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "TotalAmount" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("TotalAmount")}
             >
               Tổng
@@ -326,90 +323,90 @@ function Confirm() {
         ]}
       >
         {selectedOrder && (
-           <div className="modal-content-scrollable-thinhh">
-           <div className="ttdh-thinh">
-             <h2>Thông tin đơn hàng</h2>
-             <table className="table-info-order">
-               <tbody>
-                 <tr>
-                   <td className="mdh">
-                     <strong>Mã đơn hàng:</strong>
-                   </td>
-                   <td>{selectedOrder.OrderID}</td>
-                 </tr>
-                 <tr>
-                   <td className="mdh">
-                     <strong>Ngày đặt hàng:</strong>
-                   </td>
-                   <td>
-                     {new Date(selectedOrder.OrderDate).toLocaleDateString(
-                       "vi-VN",
-                       {
-                         day: "2-digit",
-                         month: "2-digit",
-                         year: "numeric",
-                       }
-                     )}
-                   </td>
-                 </tr>
-                 <tr>
-                   <td className="mdh">
-                     <strong>Tổng:</strong>
-                   </td>
-                   <td>{formatPrice(selectedOrder.TotalAmount)}</td>
-                 </tr>
-                 {shippingAddress && (
-                   <>
-                     <tr>
-                       <td className="mdh">
-                         <strong>Người nhận:</strong>
-                       </td>
-                       <td>{shippingAddress[0].Receiver}</td>
-                     </tr>
-                     <tr>
-                       <td className="mdh">
-                         <strong>Số điện thoại:</strong>
-                       </td>
-                       <td>{shippingAddress[0].PhoneNumber}</td>
-                     </tr>
-                     <tr>
-                       <td className="mdh">
-                         <strong>Địa chỉ:</strong>
-                       </td>
-                       <td>{shippingAddress[0].Address}</td>
-                     </tr>
-                   </>
-                 )}
-               </tbody>
-             </table>
-             <table className="table-products-order">
-               <thead>
-                 <tr>
-                   <th>Mã sản phẩm</th>
-                   <th>Tên sản phẩm</th>
-                   <th>Hình ảnh</th>
-                   <th>Số lượng</th>
-                 </tr>
-               </thead>
-               <tbody>
-                 {selectedOrder.details.map((detail) => (
-                   <tr key={detail.ProductID}>
-                     <td>{detail.ProductID}</td>
-                     <td>{detail.ProductName}</td>
-                     <td>
-                       <img
-                         src={detail.Image}
-                         alt={detail.ProductName}
-                         width="50"
-                       />
-                     </td>
-                     <td>{detail.Quantity}</td>
-                   </tr>
-                 ))}
-               </tbody>
-             </table>
-           </div>
-         </div>
+          <div className="modal-content-scrollable-thinhh">
+            <div className="ttdh-thinh">
+              <h2>Thông tin đơn hàng</h2>
+              <table className="table-info-order">
+                <tbody>
+                  <tr>
+                    <td className="mdh">
+                      <strong>Mã đơn hàng:</strong>
+                    </td>
+                    <td>{selectedOrder.OrderID}</td>
+                  </tr>
+                  <tr>
+                    <td className="mdh">
+                      <strong>Ngày đặt hàng:</strong>
+                    </td>
+                    <td>
+                      {new Date(selectedOrder.OrderDate).toLocaleDateString(
+                        "vi-VN",
+                        {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        }
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="mdh">
+                      <strong>Tổng:</strong>
+                    </td>
+                    <td>{formatPrice(selectedOrder.TotalAmount)}</td>
+                  </tr>
+                  {shippingAddress && (
+                    <>
+                      <tr>
+                        <td className="mdh">
+                          <strong>Người nhận:</strong>
+                        </td>
+                        <td>{shippingAddress[0].Receiver}</td>
+                      </tr>
+                      <tr>
+                        <td className="mdh">
+                          <strong>Số điện thoại:</strong>
+                        </td>
+                        <td>{shippingAddress[0].PhoneNumber}</td>
+                      </tr>
+                      <tr>
+                        <td className="mdh">
+                          <strong>Địa chỉ:</strong>
+                        </td>
+                        <td>{shippingAddress[0].Address}</td>
+                      </tr>
+                    </>
+                  )}
+                </tbody>
+              </table>
+              <table className="table-products-order">
+                <thead>
+                  <tr>
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Số lượng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedOrder.details.map((detail) => (
+                    <tr key={detail.ProductID}>
+                      <td>{detail.ProductID}</td>
+                      <td>{detail.ProductName}</td>
+                      <td>
+                        <img
+                          src={detail.Image}
+                          alt={detail.ProductName}
+                          width="50"
+                        />
+                      </td>
+                      <td>{detail.Quantity}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         )}
       </Modal>
 

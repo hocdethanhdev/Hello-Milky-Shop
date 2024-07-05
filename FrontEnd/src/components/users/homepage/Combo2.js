@@ -8,7 +8,7 @@ function Combo2() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/product/getTop6MilkForBaby")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop6MilkForBaby")
       .then((response) => response.json())
       .then((data) => {
         if (data.err !== "Not found") {

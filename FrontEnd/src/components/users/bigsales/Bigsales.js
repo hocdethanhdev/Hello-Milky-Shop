@@ -7,7 +7,7 @@ import StarRating from "../product/ui-list-product-mom/StarRating";
 const fetchPromotions = async () => {
   try {
     const response = await fetch(
-      "http://localhost:5000/api/v1/promotion/getPromotionByDate"
+      "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getPromotionByDate"
     );
     if (!response.ok) {
       throw new Error("Failed to fetch promotions");
@@ -35,7 +35,7 @@ const formatPrice = (price) => {
 const fetchProducts = async () => {
   try {
     const response = await fetch(
-      "http://localhost:5000/api/v1/promotion/getCurrentProductsHavingPromotion"
+      "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getCurrentProductsHavingPromotion"
     );
     const data = await response.json();
     if (data.productsWithPromotion === null) {

@@ -6,7 +6,7 @@ const Tintuc = () => {
     const [articles, setArticles] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/v1/article/getTop4ArticlesForViewer/')
+        fetch('https://hellomilkyshop123.azurewebsites.net/api/v1/article/getTop4ArticlesForViewer/')
             .then(response => response.json())
             .then(data => setArticles(data))
             .catch(error => console.error('Error fetching articles:', error));

@@ -25,7 +25,7 @@ const ProductScreen = () => {
     const fetchComments = useCallback(async () => {
         try {
             const response = await axios.get(
-                `http://localhost:5000/api/v1/comment/getCommentByProductID/${productId}`
+                `https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getCommentByProductID/${productId}`
             );
             const fetchedRatings = response.data.data.map((comment) => ({
                 name: comment.UserName,
@@ -45,7 +45,7 @@ const ProductScreen = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/v1/product/getProductInforID/${productId}`);
+                const response = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductInforID/${productId}`);
                 setProduct(response.data[0]);
                 setLoading(false);
             } catch (err) {
@@ -57,7 +57,7 @@ const ProductScreen = () => {
         const checkUserOrder = async () => {
             if (isLoggedIn) {
                 try {
-                    const response = await axios.post("http://localhost:5000/api/v1/comment/checkUserOrdered", {
+                    const response = await axios.post("https://hellomilkyshop123.azurewebsites.net/api/v1/comment/checkUserOrdered", {
                         UserID: userId,
                         ProductID: productId,
                     });

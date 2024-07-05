@@ -141,7 +141,7 @@ const ShoppingCart = () => {
         if (!userId) throw new Error("Failed to fetch user ID");
 
         const ordersResponse = await axios.get(
-          `http://localhost:5000/api/v1/order/getOpenOrderForUser/${userId}`
+          `https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOpenOrderForUser/${userId}`
         );
         const orders = ordersResponse.data;
 
@@ -154,13 +154,13 @@ const ShoppingCart = () => {
         setOrderID(orderID);
 
         const orderDetailsResponse = await axios.get(
-          `http://localhost:5000/api/v1/order/getOrder/${orderID}`
+          `https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrder/${orderID}`
         );
         const orderDetails = orderDetailsResponse.data;
 
         const productDetailsPromises = orderDetails.map(async (orderItem) => {
           const productResponse = await axios.get(
-            `http://localhost:5000/api/v1/product/getProductInforID/${orderItem.ProductID}`
+            `https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductInforID/${orderItem.ProductID}`
           );
           return {
             ...orderItem,
@@ -189,7 +189,7 @@ const ShoppingCart = () => {
     const fetchCities = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/city/getAllCities/"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/city/getAllCities/"
         );
         setCities(response.data);
       } catch (err) {
@@ -203,7 +203,7 @@ const ShoppingCart = () => {
       try {
         const userId = userID;
         const userDetailsResponse = await axios.get(
-          `http://localhost:5000/api/v1/user/getUserByID?UserID=${userId}`
+          `https://hellomilkyshop123.azurewebsites.net/api/v1/user/getUserByID?UserID=${userId}`
         );
         const userPoints = userDetailsResponse.data.data.Point;
         setPoints(userPoints);
@@ -224,7 +224,7 @@ const ShoppingCart = () => {
       try {
         const userId = getUserIdFromToken(token);
         const oldAddress = await axios.post(
-          "http://localhost:5000/api/v1/shippingAddress/getInfoAddressWithOrderNearest",
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoAddressWithOrderNearest",
           {
             UserID: userId,
           }
@@ -247,7 +247,7 @@ const ShoppingCart = () => {
       if (selectedCityID) {
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/v1/district/getDistrictByID/${selectedCityID}`
+            `https://hellomilkyshop123.azurewebsites.net/api/v1/district/getDistrictByID/${selectedCityID}`
           );
           setDistricts(response.data);
         } catch (err) {
@@ -265,7 +265,7 @@ const ShoppingCart = () => {
     const fetchVouchers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/voucher/getVouchersByUserID/${userID}`
+          `https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/getVouchersByUserID/${userID}`
         );
         setVouchers(response.data);
       } catch (err) {
@@ -289,8 +289,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       message.warning(
-        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -413,7 +412,7 @@ const ShoppingCart = () => {
       if (orderID) {
         if (usingSavedAddress && selectedShippingAddressID) {
           await axios.post(
-            "http://localhost:5000/api/v1/order/updateShippingAddressID",
+            "https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateShippingAddressID",
             {
               orderID,
               shippingAddressID: selectedShippingAddressID,
@@ -428,7 +427,7 @@ const ShoppingCart = () => {
           )?.DistrictName;
 
           await axios.post(
-            "http://localhost:5000/api/v1/order/addInfoCusToOrder",
+            "https://hellomilkyshop123.azurewebsites.net/api/v1/order/addInfoCusToOrder",
             {
               receiver: receiver,
               phoneNumber: phoneNumber,
@@ -459,7 +458,7 @@ const ShoppingCart = () => {
         localStorage.setItem("usePoints", usePoints);
 
         const response = await axios.post(
-          "http://localhost:5000/api/v1/payment/create_payment_url",
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/payment/create_payment_url",
           {
             orderID,
             amount: parseInt(totalAmount),
@@ -484,7 +483,7 @@ const ShoppingCart = () => {
     try {
       if (orderID && productToRemove) {
         await axios.post(
-          "http://localhost:5000/api/v1/order/removeProductFromOrder",
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/order/removeProductFromOrder",
           {
             OrderID: orderID,
             ProductID: productToRemove,

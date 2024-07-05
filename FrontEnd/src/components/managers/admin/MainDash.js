@@ -25,32 +25,32 @@ function MainDash() {
     async function fetchData() {
       try {
         const productRes = await fetch(
-          "http://localhost:5000/api/v1/product/countProduct"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/product/countProduct"
         );
         const productData = await productRes.json();
         setProductCount(productData.count);
 
         const brandRes = await fetch(
-          "http://localhost:5000/api/v1/product/countBrand"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/product/countBrand"
         );
         const brandData = await brandRes.json();
         setBrandCount(brandData.count);
 
         const userRes = await fetch(
-          "http://localhost:5000/api/v1/user/countUserByRole/3"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/user/countUserByRole/3"
         );
         const userData = await userRes.json();
         setUserCount(userData.count);
 
         const revenueRess = await fetch(
-          "http://localhost:5000/api/v1/order/getTodayRevenue"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/order/getTodayRevenue"
         );
         const revenueDatas = await revenueRess.json();
         setRevenue(revenueDatas);
 
 
         const top5BestSellRes = await fetch(
-          "http://localhost:5000/api/v1/product/getTop5ProductBestSeller"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop5ProductBestSeller"
         );
         const top5BestSellData = await top5BestSellRes.json();
         const ProductID = top5BestSellData.data.map((item) => item.ProductID);
@@ -61,7 +61,7 @@ function MainDash() {
         setTop5BestSell({ ProductID, SumSell, ProductName });
 
         const revenueRes = await fetch(
-          "http://localhost:5000/api/v1/order/getRevenueLastSevenMonths"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/order/getRevenueLastSevenMonths"
         );
         const revenueData = await revenueRes.json();
         const months = revenueData.map((item) => item.Month);

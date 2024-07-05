@@ -16,7 +16,7 @@ function ShippingOrder() {
     const fetchOrders = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/v1/order/getOrdersByStatusOrderID/2"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersByStatusOrderID/2"
         );
         const data = await response.json();
         setFilteredOrders(data.address);
@@ -35,7 +35,7 @@ function ShippingOrder() {
   const fetchOrderDetails = async (orderID) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/order/getOrderDetailByOrderID/${orderID}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrderDetailByOrderID/${orderID}`
       );
       const data = await response.json();
       return data.address;
@@ -48,7 +48,7 @@ function ShippingOrder() {
   const fetchShippingAddress = async (orderID) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
       );
       const data = await response.json();
       return data;
@@ -125,9 +125,8 @@ function ShippingOrder() {
         <thead>
           <tr className="row">
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "OrderID" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "OrderID" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("OrderID")}>
               Mã đơn hàng
               <button className={`sort-icon-order `}>
@@ -135,9 +134,8 @@ function ShippingOrder() {
               </button>
             </th>
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "OrderDate" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "OrderDate" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("OrderDate")}>
               Ngày đặt hàng
               <button className={`sort-icon-order`}>
@@ -145,9 +143,8 @@ function ShippingOrder() {
               </button>
             </th>
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "TotalAmount" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "TotalAmount" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("TotalAmount")}>
               Tổng
               <button className={`sort-icon-order`}>

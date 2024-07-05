@@ -29,7 +29,7 @@ const ProductContentMom = ({ product }) => {
     const fetchRatingData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/comment/countRatingAndAvgRating/${product.ProductID}`
+          `https://hellomilkyshop123.azurewebsites.net/api/v1/comment/countRatingAndAvgRating/${product.ProductID}`
         );
         setRatingData({
           avg: parseFloat(response.data.avg.toFixed(1)),
@@ -50,7 +50,7 @@ const ProductContentMom = ({ product }) => {
 
   const handleAddToCart = async () => {
     try {
-      await axios.post("http://localhost:5000/api/v1/order/addProductToOrder", {
+      await axios.post("https://hellomilkyshop123.azurewebsites.net/api/v1/order/addProductToOrder", {
         userID: userId,
         productID: product.ProductID,
         quantity: quantity,
@@ -67,7 +67,7 @@ const ProductContentMom = ({ product }) => {
 
   const handleBuyNow = async () => {
     try {
-      await axios.post("http://localhost:5000/api/v1/order/addProductToOrder", {
+      await axios.post("https://hellomilkyshop123.azurewebsites.net/api/v1/order/addProductToOrder", {
         userID: userId,
         productID: product.ProductID,
         quantity: quantity,
@@ -216,7 +216,7 @@ const ProductContentMom = ({ product }) => {
                       </span>
                       <div className="clear"></div>
                     </div>
-                    {}
+                    { }
                     <div className="quantity-selector-thinh-cart">
                       <p>Số lượng: </p>
                       <button

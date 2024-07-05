@@ -24,7 +24,7 @@ const FeedbackManage = () => {
   const fetchComments = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/comment/getUnansweredComments?page=${currentPage}&limit=${commentsPerPage}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getUnansweredComments?page=${currentPage}&limit=${commentsPerPage}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch comments");
@@ -62,7 +62,7 @@ const FeedbackManage = () => {
   const handleCommentSubmit = async (commentId, rep) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/comment/repComment/${commentId}`,
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/comment/repComment/${commentId}`,
         {
           method: "POST",
           headers: {
@@ -148,7 +148,7 @@ const Comment = ({ comment, onSubmit }) => {
   const fetchProduct = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/product/getProductInforID/${comment.ProductID}`
+        `https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductInforID/${comment.ProductID}`
       );
       const data = await response.json();
       setProduct(data);
@@ -198,12 +198,12 @@ const Comment = ({ comment, onSubmit }) => {
               <div className="comment-content-thinh-cmt">
                 {comment.Description}
               </div>
-              <div className="time-thinh-cmt"> 
-              {new Date(comment.CommentDate).toLocaleDateString("vi-VN", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
+              <div className="time-thinh-cmt">
+                {new Date(comment.CommentDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </div>
             </div>
           </div>

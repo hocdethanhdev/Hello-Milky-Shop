@@ -84,7 +84,7 @@ function PostsAdd() {
       };
 
       await axios.post(
-        "http://localhost:5000/api/v1/article/createArticle/",
+        "https://hellomilkyshop123.azurewebsites.net/api/v1/article/createArticle/",
         postData,
         {
           headers: {

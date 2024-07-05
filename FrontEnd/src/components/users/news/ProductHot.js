@@ -31,7 +31,7 @@ function ProductHot() {
   useEffect(() => {
     const fetchHotProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/product/getTop5ProductBestSellerForUser');
+        const response = await axios.get('https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop5ProductBestSellerForUser');
 
         if (response.data && response.data.err === 0) {
           setHotProducts(response.data.data);
@@ -53,7 +53,7 @@ function ProductHot() {
     window.scrollTo(0, 0); // Scroll to the top of the page
   };
 
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (

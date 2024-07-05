@@ -11,7 +11,7 @@ const ManageMember = () => {
   const accountsPerPage = 10;
 
   const fetchUser = () => {
-    fetch("http://localhost:5000/api/v1/user/getAllUsers/")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/user/getAllUsers/")
       .then((response) => response.json())
       .then((data) => {
         const staffAccounts = data.filter((account) => account.RoleID === 3);
@@ -35,7 +35,7 @@ const ManageMember = () => {
 
   const handleOk = () => {
     fetch(
-      `http://localhost:5000/api/v1/user/disableUser/${selectedUser.UserID}`,
+      `https://hellomilkyshop123.azurewebsites.net/api/v1/user/disableUser/${selectedUser.UserID}`,
       {
         method: "PUT",
         headers: {
@@ -65,7 +65,7 @@ const ManageMember = () => {
   };
 
   const handleEnableUser = (user) => {
-    fetch(`http://localhost:5000/api/v1/user/disableUser/${user.UserID}`, {
+    fetch(`https://hellomilkyshop123.azurewebsites.net/api/v1/user/disableUser/${user.UserID}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

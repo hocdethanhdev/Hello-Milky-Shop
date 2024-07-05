@@ -27,7 +27,7 @@ const AllProduct = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        let apiUrl = `http://localhost:5000/api/v1/product/getInfoProductsDetail`;
+        let apiUrl = `https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail`;
 
         if (keyword) {
           let modifiedKeyword = keyword.toLowerCase();
@@ -37,7 +37,7 @@ const AllProduct = () => {
             modifiedKeyword.includes("me")
           ) {
             modifiedKeyword = "Sữa cho mẹ bầu";
-            apiUrl = `http://localhost:5000/api/v1/product/searchWithProductCategory/${encodeURIComponent(
+            apiUrl = `https://hellomilkyshop123.azurewebsites.net/api/v1/product/searchWithProductCategory/${encodeURIComponent(
               modifiedKeyword
             )}`;
           } else if (
@@ -45,11 +45,11 @@ const AllProduct = () => {
             modifiedKeyword.includes("be")
           ) {
             modifiedKeyword = "Sữa cho em bé";
-            apiUrl = `http://localhost:5000/api/v1/product/searchWithProductCategory/${encodeURIComponent(
+            apiUrl = `https://hellomilkyshop123.azurewebsites.net/api/v1/product/searchWithProductCategory/${encodeURIComponent(
               modifiedKeyword
             )}`;
           } else {
-            apiUrl = `http://localhost:5000/api/v1/product/searchWithName?search=${keyword}`;
+            apiUrl = `https://hellomilkyshop123.azurewebsites.net/api/v1/product/searchWithName?search=${keyword}`;
           }
         }
 
@@ -59,7 +59,7 @@ const AllProduct = () => {
         if (data.err === "Do not have any product with this names") {
           setErr(true);
           response = await fetch(
-            `http://localhost:5000/api/v1/product/getInfoProductsDetail`
+            `https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail`
           );
           data = await response.json();
         }
@@ -81,7 +81,7 @@ const AllProduct = () => {
     const fetchBrands = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/v1/product/getAllBrands"
+          "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllBrands"
         );
         const data = await response.json();
         setBrands(data);

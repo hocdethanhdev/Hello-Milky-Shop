@@ -30,7 +30,7 @@ function Voucher() {
   }, []);
 
   const fetchVouchers = () => {
-    fetch("http://localhost:5000/api/v1/voucher/getAllVouchers")
+    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/getAllVouchers")
       .then((response) => response.json())
       .then((data) => setVouchers(data))
       .catch((error) => console.error("Error fetching vouchers:", error));
@@ -50,7 +50,7 @@ function Voucher() {
   };
 
   const confirmDelete = (voucherID) => {
-    fetch(`http://localhost:5000/api/v1/voucher/deleteVoucher/${voucherID}`, {
+    fetch(`https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/deleteVoucher/${voucherID}`, {
       method: "PUT",
     })
       .then((response) => {
@@ -89,7 +89,7 @@ function Voucher() {
 
   const handleSaveVoucher = (updatedVoucher) => {
     fetch(
-      `http://localhost:5000/api/v1/voucher/updateVoucher/${updatedVoucher.VoucherID}`,
+      `https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/updateVoucher/${updatedVoucher.VoucherID}`,
       {
         method: "PUT",
         headers: {
@@ -128,7 +128,7 @@ function Voucher() {
     };
 
     fetch(
-      `http://localhost:5000/api/v1/voucher/openVoucher/${voucher.VoucherID}`,
+      `https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/openVoucher/${voucher.VoucherID}`,
       {
         method: "PUT",
         headers: {
@@ -190,8 +190,8 @@ function Voucher() {
         {showSuccess && (
           <div
             className={`success-message-thinhvcher ${successMessage.includes("Lỗi")
-                ? "error-thinhvcher"
-                : "success-thinhvcher"
+              ? "error-thinhvcher"
+              : "success-thinhvcher"
               } success-message-show`}>
             {successMessage}
           </div>
