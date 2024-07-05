@@ -5,8 +5,7 @@ import './News.css';
 import ProductHot from './ProductHot';
 import NavCate from '../product/ui-product-mom/NavCate';
 import Loading from '../../layout/Loading';
-import { config } from "../../../config";
-
+import config from "../../config/config";
 const News = () => {
   const [news, setNews] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");

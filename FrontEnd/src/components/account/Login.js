@@ -13,7 +13,7 @@ import {
 import axios from "axios";
 import PhoneInput from "react-phone-input-2";
 import { message } from 'antd';
-import { config } from "../../config";
+import config from "../config/config";
 
 function Login() {
   const loginGoogle = () => {
@@ -59,7 +59,7 @@ function Login() {
         }
       );
       if (response.data.err === 0) {
-        window.open(`${config.API_ROOT}/api/v1/auth/loginSuccess?token=${response.data.token}`, '_self');
+        await axios.get(`${config.API_ROOT}/api/v1/auth/loginSuccess?token=${response.data.token}`);
       } else if (response.data.err === 1) {
         message.error("Số điện thoại " + formData.phone + " chưa được đăng kí");
       } else {

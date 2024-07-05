@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, message } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const ManageMember = () => {
   const [accounts, setAccounts] = useState([]);

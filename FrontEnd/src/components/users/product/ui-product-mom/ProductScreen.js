@@ -11,7 +11,7 @@ import ProductRatingAll from './ProductRatingAll';
 import { getUserIdFromToken } from "../../../store/actions/authAction";
 import { useSelector } from "react-redux";
 import Loading from '../../../layout/Loading';
-import { config } from "../../../../config";
+import config from "../../../config/config";
 
 const ProductScreen = () => {
     const { productId } = useParams();

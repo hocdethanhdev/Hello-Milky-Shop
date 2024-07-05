@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 import { getUserIdFromToken } from "../store/actions/authAction";
 import PropTypes from "prop-types"; // Import PropTypes
 import "./Chat.css";
-import { config } from "../../config";
+import config from "../config/config";
 
 const socket = io(`${config.API_ROOT}`);
 

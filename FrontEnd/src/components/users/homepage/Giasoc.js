@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types"; // Import PropTypes for prop type validation
 import StarRating from "../product/ui-list-product-mom/StarRating";
 import Loading from "../../layout/Loading";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function Giasoc() {
   const navigate = useNavigate();

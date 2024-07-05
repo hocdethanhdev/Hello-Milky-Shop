@@ -10,7 +10,7 @@ import { toast, Toaster } from "react-hot-toast";
 import "./ResetPassword.css";
 import axios from "axios";
 import Loading from "../layout/Loading";
-import { config } from "../../config";
+import config from "../config/config";
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState("");

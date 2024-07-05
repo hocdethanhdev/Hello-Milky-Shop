@@ -4,7 +4,7 @@ import { message } from "antd";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatPrice } from "../../utils/formatPrice";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 message.config({
   top: 10,

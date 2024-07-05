@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import "./ChatPage.css";
 import { getUserIdFromToken } from "../store/actions/authAction";
-import { config } from "../../config";
+import config from "../config/config";
 
 const socket = io(`${config.API_ROOT}`);
 

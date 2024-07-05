@@ -4,7 +4,7 @@ import "./ListProductMom.css";
 import SliderMoney from "./SliderMoney";
 import ThrowPage from "./ThrowPage";
 import StarRating from "./StarRating";
-import { config } from "../../../../config";
+import config from "../../../config/config";
 
 const formatPrice = (price) => {
   return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;

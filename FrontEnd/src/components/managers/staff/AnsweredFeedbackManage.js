@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Pagination, Select } from "antd";
 import "./FeedbackManage.css";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const { Option } = Select;
 

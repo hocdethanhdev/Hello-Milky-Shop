@@ -6,7 +6,7 @@ import { uploadImage } from "../uimg/UpImage";
 import { message } from "antd";
 import "./Products.css";
 import { formatPrice } from "../../utils/formatPrice";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const ProductAdd = () => {
   const [productName, setProductName] = useState("");

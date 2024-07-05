@@ -4,7 +4,7 @@ import axios from 'axios';
 import './newsRelated.css';
 import { Link } from 'react-router-dom';
 import Loading from '../../layout/Loading';
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const NewsRelated = ({ articleCategoryID, articleID }) => {
     const [relatedArticles, setRelatedArticles] = useState([]);

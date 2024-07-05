@@ -4,7 +4,7 @@ import ChatWindow from "../../chat/ChatPage";
 import "./StaffChat.css";
 import Loading from "../../layout/Loading";
 import { io } from "socket.io-client";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const socket = io(`${config.API_ROOT}`);
 

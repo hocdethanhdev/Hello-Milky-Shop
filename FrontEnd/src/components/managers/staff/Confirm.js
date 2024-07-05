@@ -6,7 +6,7 @@ import { faSort } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function Confirm() {
   const [orders, setOrders] = useState([]);

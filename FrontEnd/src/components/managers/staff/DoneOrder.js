@@ -3,7 +3,7 @@ import { Modal, Button } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function DoneOrder() {
   const [orders, setOrders] = useState([]);

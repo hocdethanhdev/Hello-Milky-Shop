@@ -11,7 +11,7 @@ import { getUserIdFromToken } from "../../store/actions/authAction";
 import DOMPurify from "dompurify";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function PostsAdd() {
   const [title, setTitle] = useState("");

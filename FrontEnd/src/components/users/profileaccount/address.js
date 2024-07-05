@@ -4,7 +4,7 @@ import "./address.css"; // Import the CSS file
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { message } from "antd"; // Import Ant Design message component
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function Address() {
   const [addressData, setAddressData] = useState([]);

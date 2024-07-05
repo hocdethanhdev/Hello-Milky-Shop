@@ -4,7 +4,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { toast } from "react-hot-toast";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const PaymemSuccess = () => {
   const { token } = useSelector((state) => state.auth);

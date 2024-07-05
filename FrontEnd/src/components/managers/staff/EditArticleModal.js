@@ -8,7 +8,7 @@ import "./EditArticleModal.css";
 import DOMPurify from "dompurify";
 import { message } from "antd";
 import { uploadImage } from "../uimg/UpImage";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const EditArticleModal = () => {
   const { articleID } = useParams();

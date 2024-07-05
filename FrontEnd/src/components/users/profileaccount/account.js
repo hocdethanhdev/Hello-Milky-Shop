@@ -7,7 +7,7 @@ import axios from "axios";
 import { CiEdit } from "react-icons/ci";
 import { message } from "antd";
 import Loading from "../../layout/Loading";
-import { config } from "../../../config";
+import config from "../../config/config";
 function Account() {
   const [userData, setUserData] = useState(null);
   const { token } = useSelector((state) => state.auth);
