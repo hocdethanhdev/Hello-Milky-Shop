@@ -43,7 +43,7 @@ CREATE TABLE Article (
 ArticleID int IDENTITY NOT NULL, 
 Title nvarchar(150) NOT NULL,
 HeaderImage varchar(255),
-Content nvarchar(4000) NOT NULL, 
+Content nvarchar(MAX) NOT NULL, 
 PublishDate date default getdate() NOT NULL, 
 AuthorID varchar(8) foreign key references Users(UserID), 
 ArticleCategoryID int foreign key references ArticleCategory(ArticleCategoryID), 
@@ -62,7 +62,7 @@ go
 CREATE TABLE Product (
 ProductID varchar(6) NOT NULL, 
 ProductName nvarchar(100) NULL, 
-Description nvarchar(4000) NULL, 
+Description nvarchar(MAX) NULL, 
 Price int NULL, 
 StockQuantity int NULL, 
 Image varchar(255) NULL, 

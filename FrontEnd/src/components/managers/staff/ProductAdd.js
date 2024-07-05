@@ -110,10 +110,6 @@ const ProductAdd = () => {
       message.error("Mô tả không được để trống.");
       return;
     }
-    if (description.length > 4000) {
-      message.error("Mô tả không được vượt quá 4000 ký tự.");
-      return;
-    }
 
     try {
       const downloadURL = await uploadImage(image);
@@ -239,7 +235,7 @@ const ProductAdd = () => {
           handleResizeImage(editor);
         },
         change: (newContent) => {
-          const maxChars = 4000;
+          const maxChars = 20000;
           if (newContent.length > maxChars) {
             editor.value = newContent.substring(0, maxChars);
             message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);

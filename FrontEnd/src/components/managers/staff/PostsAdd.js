@@ -177,7 +177,7 @@ function PostsAdd() {
           handleResizeImage(editor);
         },
         change: (newContent) => {
-          const maxChars = 4000;
+          const maxChars = 50000;
           if (newContent.length > maxChars) {
             editor.value = newContent.substring(0, maxChars);
             message.warning(`Nội dung không được vượt quá ${maxChars} ký tự.`);
