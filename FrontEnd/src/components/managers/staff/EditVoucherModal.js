@@ -66,6 +66,10 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
       message.warning("Giảm tối thiểu không được nhỏ hơn 0.");
       return;
     }
+    if (formData.minDiscount > 1000000000) {
+      message.warning("Giảm tối thiểu không được quá 1 tỷ");
+      return;
+    }
     if (formData.quantity === null || formData.quantity === "") {
       message.warning("Số lượng không được bỏ trống.");
       return;
@@ -80,6 +84,10 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
     }
     if (formData.maxDiscount < 0) {
       message.warning("Giảm tối đa không được nhỏ hơn 0.");
+      return;
+    }
+    if (formData.maxDiscount > 1000000000) {
+      message.warning("Giảm tối đa không được quá 1 tỷ");
       return;
     }
     if (!formData.startDate) {
@@ -100,6 +108,10 @@ const EditVoucherModal = ({ voucher, onClose, onSave }) => {
     }
     if (formData.discountPercentage < 0) {
       message.warning("Phần trăm giảm giá không được nhỏ hơn 0.");
+      return;
+    }
+    if (formData.discountPercentage > 100) {
+      message.warning("Phần trăm giảm giá không được quá 100.");
       return;
     }
     const minDiscountNumber = parseFloat(formData.minDiscount.replace(/\./g, ''));

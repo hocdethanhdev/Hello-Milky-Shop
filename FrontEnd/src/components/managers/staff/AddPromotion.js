@@ -71,6 +71,10 @@ const AddPromotion = () => {
       message.error("Phần trăm khuyến mãi không được để trống");
       return;
     }
+    if (discountPercentage > 100) {
+      message.error("Phần trăm khuyến mãi không được lớn hơn 100");
+      return;
+    }
     if (description.trim().length === 0) {
       message.error("Mô tả không được để trống.");
       return;
@@ -124,7 +128,7 @@ const AddPromotion = () => {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      message.success("New Promotion and products added!");
+      message.success("Đã thêm mã khuyến mãi và sản phẩm được khuyến mãi!");
 
       setPromotionName("");
       setDescription("");

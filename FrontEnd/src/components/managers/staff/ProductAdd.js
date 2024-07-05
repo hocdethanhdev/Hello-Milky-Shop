@@ -23,6 +23,7 @@ const ProductAdd = () => {
   const [previewImage, setPreviewImage] = useState(null);
   const editor = useRef(null);
 
+
   useEffect(() => {
     fetch(`${config.API_ROOT}/api/v1/product/getAllBrands`)
       .then((response) => response.json())
@@ -67,8 +68,13 @@ const ProductAdd = () => {
       message.error("Giá sản phẩm không được để trống.");
       return;
     }
-    if (price < 0 || price === 0) {
-      message.error("Giá sản phẩm phải lớn hơn hoặc bằng 0.");
+    const parsedPrice = parseInt(price.replace(/\D/g, ""), 10);
+    if (isNaN(parsedPrice) || parsedPrice <= 0) {
+      message.error("Giá sản phẩm phải lớn hơn 0.");
+      return;
+    }
+    if (parsedPrice > 1000000000) {
+      message.error("Giá sản phẩm không được quá 1 tỷ.");
       return;
     }
     if (!stockQuantity) {
@@ -280,7 +286,6 @@ const ProductAdd = () => {
             name="product-price"
             value={price}
             onChange={handlePriceChange}
-            required
           />
         </div>
         <div className="form-group">

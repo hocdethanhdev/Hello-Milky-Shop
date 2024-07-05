@@ -85,6 +85,10 @@ function VoucherAdd() {
       message.warning("Giảm tối thiểu không được nhỏ hơn 0.");
       return;
     }
+    if (minDiscount > 1000000000) {
+      message.warning("Giảm tối thiểu không được quá 1 tỷ.");
+      return;
+    }
     if (quantity === null || quantity === "") {
       message.warning("Số lượng không được bỏ trống.");
       return;
@@ -99,6 +103,10 @@ function VoucherAdd() {
     }
     if (maxDiscount < 0) {
       message.warning("Giảm tối đa không được nhỏ hơn 0.");
+      return;
+    }
+    if (maxDiscount > 1000000000) {
+      message.warning("Giảm tối đa không được quá 1 tỷ");
       return;
     }
     if (!startDate) {
@@ -120,6 +128,10 @@ function VoucherAdd() {
     }
     if (discountPercentage < 0) {
       message.warning("Phần trăm giảm giá không được nhỏ hơn 0.");
+      return;
+    }
+    if (discountPercentage > 100) {
+      message.warning("Phần trăm giảm giá không được quá 100.");
       return;
     }
 
