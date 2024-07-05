@@ -16,6 +16,11 @@ function ChatWindow({ roomId, userName, onClose }) {
   const messageListRef = useRef(null);
 
   useEffect(() => {
+    const handleNewMessage = (msg) => {
+      if (msg.userId !== userId) {
+        setMessages((prevMessages) => [...prevMessages, msg]);
+      }
+    };
     const fetchChatHistory = async () => {
       try {
         const response = await fetch(
@@ -29,8 +34,9 @@ function ChatWindow({ roomId, userName, onClose }) {
           }
         );
         const result = await response.json();
-        if (result.err === 0 && result.data.length === 0) {
-          setMessages(null);
+        console.log(result);
+        if (result.err === 1 && result.data.length === 0) {
+          setMessages([]);
         } else if (result.err === 0) {
           const messages = result.data.map((msg) => ({
             content: msg.Message,
@@ -58,7 +64,7 @@ function ChatWindow({ roomId, userName, onClose }) {
       socket.off("connect");
       socket.off("chat message", handleNewMessage);
     };
-  }, [roomId]);
+  }, [roomId, userId]);
 
   useEffect(() => {
     scrollToBottom();
@@ -67,12 +73,6 @@ function ChatWindow({ roomId, userName, onClose }) {
   const scrollToBottom = () => {
     if (messageListRef.current) {
       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
-    }
-  };
-
-  const handleNewMessage = (msg) => {
-    if (msg.userId !== userId) {
-      setMessages((prevMessages) => [...prevMessages, msg]);
     }
   };
 
