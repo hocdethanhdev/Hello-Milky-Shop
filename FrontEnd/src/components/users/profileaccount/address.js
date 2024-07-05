@@ -196,20 +196,20 @@ function Address() {
       <div className="address-account">
         <table className="address-table">
           <thead>
-            <tr>
-              <th>Tên người đặt</th>
-              <th>Số điện thoại</th>
-              <th>Địa chỉ</th>
-              <th>Thao tác</th>
+            <tr className="row">
+              <th className="col-md-2">Tên người đặt</th>
+              <th className="col-md-2">Số điện thoại</th>
+              <th className="col-md-6">Địa chỉ</th>
+              <th className="col-md-2">Thao tác</th>
             </tr>
           </thead>
           <tbody>
             {addressData.map((address) => (
-              <tr key={address.ShippingAddressID}>
-                <td>{address.Receiver}</td>
-                <td>{address.PhoneNumber}</td>
-                <td>{address.Address}</td>
-                <td>
+              <tr className="row" key={address.ShippingAddressID}>
+                <td className="col-md-2">{address.Receiver}</td>
+                <td className="col-md-2">{address.PhoneNumber}</td>
+                <td className="col-md-6">{address.Address}</td>
+                <td className="col-md-2">
                   <button
                     style={{
                       backgroundColor: "#CC0000",
