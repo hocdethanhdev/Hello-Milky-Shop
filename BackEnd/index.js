@@ -14,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: [process.env.CLIENT_URL, 'http://68.183.237.72'],
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
@@ -23,7 +23,7 @@ app.use(express.static("public"));
 
 app.use(
   cors({
-    origin: [process.env.CLIENT_URL, 'http://68.183.237.72'],
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );

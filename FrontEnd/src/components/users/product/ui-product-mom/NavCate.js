@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./NavCate.css";
+import { Link } from "react-router-dom";
 
 const NavCate = () => {
   const [showMenu, setShowMenu] = useState(false);
