@@ -269,18 +269,18 @@ function Voucher() {
             <tbody>
               {filteredVouchers.map((voucher) => (
                 <tr key={voucher.VoucherID}>
-                  <td>{voucher.VoucherName}</td>
-                  <td>{voucher.Quantity}</td>
-                  <td>{voucher.DiscountPercentage}%</td>
-                  <td>
+                  <td className="col-md-2">{voucher.VoucherName}</td>
+                  <td className="col-md-2">{voucher.Quantity}</td>
+                  <td className="col-md-2">{voucher.DiscountPercentage}%</td>
+                  <td className="col-md-2">
                     {new Date(voucher.StartDate).toLocaleDateString("vi-VN", {
                       day: "2-digit",
                       month: "2-digit",
                       year: "numeric",
                     })}
                   </td>
-                  <td>{voucher.Status ? "Khả dụng" : "Không khả dụng"}</td>
-                  <td className="voucher-action">
+                  <td className="col-md-2">{voucher.Status ? "Khả dụng" : "Không khả dụng"}</td>
+                  <td className="voucher-action col-md-2">
                     <button
                       type="button"
                       className="btn btn-primary"
