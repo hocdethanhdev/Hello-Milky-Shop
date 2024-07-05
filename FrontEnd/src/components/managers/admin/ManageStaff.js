@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Modal, message } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
+import { config } from "../../../config";
 
 const ManageStaff = () => {
   const [accounts, setAccounts] = useState([]);
@@ -19,7 +20,7 @@ const ManageStaff = () => {
   const accountsPerPage = 10;
 
   const fetchUsers = () => {
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/user/getAllUsers/")
+    fetch(`${config.API_ROOT}/api/v1/user/getAllUsers/`)
       .then((response) => response.json())
       .then((data) => {
         const staffAccounts = data.filter((account) => account.RoleID === 2);
@@ -53,7 +54,7 @@ const ManageStaff = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/user/updateInforUser", {
+    fetch(`${config.API_ROOT}/api/v1/user/updateInforUser`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +94,7 @@ const ManageStaff = () => {
 
   const handleOk = () => {
     fetch(
-      `https://hellomilkyshop123.azurewebsites.net/api/v1/user/disableUser/${selectedUser.UserID}`,
+      `${config.API_ROOT}/api/v1/user/disableUser/${selectedUser.UserID}`,
       {
         method: "PUT",
         headers: {
@@ -124,7 +125,7 @@ const ManageStaff = () => {
   };
 
   const handleEnableUser = (user) => {
-    fetch(`https://hellomilkyshop123.azurewebsites.net/api/v1/user/disableUser/${user.UserID}`, {
+    fetch(`${config.API_ROOT}/api/v1/user/disableUser/${user.UserID}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

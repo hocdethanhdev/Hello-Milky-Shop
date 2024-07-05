@@ -6,6 +6,7 @@ import { faSort } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
+import { config } from "../../../config";
 
 function Confirm() {
   const [orders, setOrders] = useState([]);
@@ -24,7 +25,7 @@ function Confirm() {
   const fetchOrders = async () => {
     try {
       const response = await fetch(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersByStatusOrderID/1"
+        `${config.API_ROOT}/api/v1/order/getOrdersByStatusOrderID/1`
       );
       const data = await response.json();
       setOrders(data.address);
@@ -47,7 +48,7 @@ function Confirm() {
       content: "Bạn có chắc muốn thay đổi trạng thái đơn hàng này không?",
       onOk: () => {
         fetch(
-          `https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateStatusOrderID/${orderID}`,
+          `${config.API_ROOT}/api/v1/order/updateStatusOrderID/${orderID}`,
           {
             method: "POST",
             headers: {
@@ -93,7 +94,7 @@ function Confirm() {
   };
 
   const handleCancelModalOk = () => {
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/order/cancelOrder", {
+    fetch(`${config.API_ROOT}/api/v1/order/cancelOrder`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -134,7 +135,7 @@ function Confirm() {
   const fetchOrderDetails = async (orderID) => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrderDetailByOrderID/${orderID}`
+        `${config.API_ROOT}/api/v1/order/getOrderDetailByOrderID/${orderID}`
       );
       const data = await response.json();
       return data.address;
@@ -147,7 +148,7 @@ function Confirm() {
   const fetchShippingAddress = async (orderID) => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
+        `${config.API_ROOT}/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
       );
       const data = await response.json();
       setShippingAddress(data);

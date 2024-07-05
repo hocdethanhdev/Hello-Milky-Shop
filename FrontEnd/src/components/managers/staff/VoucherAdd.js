@@ -4,6 +4,7 @@ import { message } from "antd";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatPrice } from "../../utils/formatPrice";
+import { config } from "../../../config";
 
 message.config({
   top: 10,
@@ -122,7 +123,7 @@ function VoucherAdd() {
       return;
     }
 
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/voucher/addVoucher", {
+    fetch(`${config.API_ROOT}/api/v1/voucher/addVoucher`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

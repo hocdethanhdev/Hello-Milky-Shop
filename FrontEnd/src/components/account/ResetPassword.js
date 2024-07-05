@@ -10,6 +10,7 @@ import { toast, Toaster } from "react-hot-toast";
 import "./ResetPassword.css";
 import axios from "axios";
 import Loading from "../layout/Loading";
+import { config } from "../../config";
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState("");
@@ -94,7 +95,7 @@ const ResetPassword = () => {
     const phApi = "0" + ph.substring(2);
     try {
       const checkPH = await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/auth/checkPhoneNumber",
+        `${config.API_ROOT}/api/v1/auth/checkPhoneNumber`,
         {
           PhoneNumber: phApi,
         }
@@ -120,7 +121,7 @@ const ResetPassword = () => {
 
     setLoading(true);
 
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/auth/forgetPassword", {
+    fetch(`${config.API_ROOT}/api/v1/auth/forgetPassword`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

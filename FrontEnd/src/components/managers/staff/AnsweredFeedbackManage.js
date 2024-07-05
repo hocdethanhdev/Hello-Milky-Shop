@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Pagination, Select } from "antd";
 import "./FeedbackManage.css";
+import { config } from "../../../config";
 
 const { Option } = Select;
 
@@ -19,7 +20,7 @@ const AnsweredFeedbackManage = () => {
     const fetchComments = async () => {
         try {
             const response = await fetch(
-                `https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getAnsweredComments`
+                `${config.API_ROOT}/api/v1/comment/getAnsweredComments`
             );
             if (!response.ok) {
                 throw new Error("Failed to fetch comments");
@@ -112,7 +113,7 @@ const Comment = ({ comment }) => {
     const fetchProduct = async () => {
         try {
             const response = await fetch(
-                `https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductInforID/${comment.ProductID}`
+                `${config.API_ROOT}/api/v1/product/getProductInforID/${comment.ProductID}`
             );
             const data = await response.json();
             setProduct(data);

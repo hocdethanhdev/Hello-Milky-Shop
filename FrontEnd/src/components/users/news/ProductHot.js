@@ -3,6 +3,7 @@ import axios from 'axios';
 import './ProductHot.css';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../layout/Loading';
+import { config } from "../../../config";
 
 // Formatting functions
 const formatPrice = (price) => {
@@ -31,7 +32,7 @@ function ProductHot() {
   useEffect(() => {
     const fetchHotProducts = async () => {
       try {
-        const response = await axios.get('https://hellomilkyshop123.azurewebsites.net/api/v1/product/getTop5ProductBestSellerForUser');
+        const response = await axios.get(`${config.API_ROOT}/api/v1/product/getTop5ProductBestSellerForUser`);
 
         if (response.data && response.data.err === 0) {
           setHotProducts(response.data.data);

@@ -7,6 +7,7 @@ import ProductDetailModal from "./ProductDetailModal";
 import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
 import { message } from "antd";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
+import { config } from "../../../config";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -27,7 +28,7 @@ const Products = () => {
   const navigate = useNavigate();
 
   const fetchInforProductDetail = () => {
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/product/getInfoProductsDetail")
+    fetch(`${config.API_ROOT}/api/v1/product/getInfoProductsDetail`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -150,7 +151,7 @@ const Products = () => {
     };
 
     fetch(
-      `https://hellomilkyshop123.azurewebsites.net/api/v1/product/editProduct/${product.ProductID}`,
+      `${config.API_ROOT}/api/v1/product/editProduct/${product.ProductID}`,
       {
         method: "PUT",
         headers: {
@@ -182,7 +183,7 @@ const Products = () => {
 
   const confirmDelete = () => {
     fetch(
-      `https://hellomilkyshop123.azurewebsites.net/api/v1/product/deleteProduct/${productToDelete}`,
+      `${config.API_ROOT}/api/v1/product/deleteProduct/${productToDelete}`,
       {
         method: "PUT",
         headers: {

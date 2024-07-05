@@ -7,6 +7,7 @@ import NewsRelated from './newsRelated';
 import ProductHot from './ProductHot';
 import { Link } from 'react-router-dom';
 import Loading from '../../layout/Loading';
+import { config } from "../../../config";
 
 const NewsDetail = () => {
   const { id } = useParams();
@@ -18,10 +19,10 @@ const NewsDetail = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/article/getArticlesByArticleID/${id}`);
+        const response = await axios.get(`${config.API_ROOT}/api/v1/article/getArticlesByArticleID/${id}`);
         const fetchedArticle = response.data[0];
         setArticle(fetchedArticle);
-        const authorResponse = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/user/getUserByID?UserID=${fetchedArticle.AuthorID}`);
+        const authorResponse = await axios.get(`${config.API_ROOT}/api/v1/user/getUserByID?UserID=${fetchedArticle.AuthorID}`);
         setAuthorName(authorResponse.data.data.UserName);
       } catch (error) {
         console.error('Error fetching article:', error);

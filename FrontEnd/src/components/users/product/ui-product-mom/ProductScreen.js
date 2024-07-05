@@ -11,6 +11,7 @@ import ProductRatingAll from './ProductRatingAll';
 import { getUserIdFromToken } from "../../../store/actions/authAction";
 import { useSelector } from "react-redux";
 import Loading from '../../../layout/Loading';
+import { config } from "../../../../config";
 
 const ProductScreen = () => {
     const { productId } = useParams();
@@ -25,7 +26,7 @@ const ProductScreen = () => {
     const fetchComments = useCallback(async () => {
         try {
             const response = await axios.get(
-                `https://hellomilkyshop123.azurewebsites.net/api/v1/comment/getCommentByProductID/${productId}`
+                `${config.API_ROOT}/api/v1/comment/getCommentByProductID/${productId}`
             );
             const fetchedRatings = response.data.data.map((comment) => ({
                 name: comment.UserName,
@@ -45,7 +46,7 @@ const ProductScreen = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductInforID/${productId}`);
+                const response = await axios.get(`${config.API_ROOT}/api/v1/product/getProductInforID/${productId}`);
                 setProduct(response.data[0]);
                 setLoading(false);
             } catch (err) {
@@ -57,7 +58,7 @@ const ProductScreen = () => {
         const checkUserOrder = async () => {
             if (isLoggedIn) {
                 try {
-                    const response = await axios.post("https://hellomilkyshop123.azurewebsites.net/api/v1/comment/checkUserOrdered", {
+                    const response = await axios.post(`${config.API_ROOT}/api/v1/comment/checkUserOrdered`, {
                         UserID: userId,
                         ProductID: productId,
                     });

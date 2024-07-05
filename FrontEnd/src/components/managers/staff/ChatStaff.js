@@ -4,8 +4,9 @@ import ChatWindow from "../../chat/ChatPage";
 import "./StaffChat.css";
 import Loading from "../../layout/Loading";
 import { io } from "socket.io-client";
+import { config } from "../../../config";
 
-const socket = io("https://hellomilkyshop123.azurewebsites.net");
+const socket = io(`${config.API_ROOT}`);
 
 function StaffChat() {
   const [chatRooms, setChatRooms] = useState([]);
@@ -17,12 +18,12 @@ function StaffChat() {
   useEffect(() => {
     const fetchChatRooms = async () => {
       try {
-        const response = await axios.get("https://hellomilkyshop123.azurewebsites.net/api/v1/chat/getAllChatRoom");
+        const response = await axios.get(`${config.API_ROOT}/api/v1/chat/getAllChatRoom`);
         const rooms = response.data.data;
 
         const roomsWithUsers = await Promise.all(
           rooms.map(async (room) => {
-            const userResponse = await axios.get(`https://hellomilkyshop123.azurewebsites.net/api/v1/user/getUserByID?UserID=${room.ChatRoom}`);
+            const userResponse = await axios.get(`${config.API_ROOT}/api/v1/user/getUserByID?UserID=${room.ChatRoom}`);
             return {
               roomId: room.ChatRoom,
               userName: userResponse.data.data.UserName,

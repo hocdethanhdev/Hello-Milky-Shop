@@ -4,8 +4,9 @@ import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import "./ChatPage.css";
 import { getUserIdFromToken } from "../store/actions/authAction";
+import { config } from "../../config";
 
-const socket = io("https://hellomilkyshop123.azurewebsites.net");
+const socket = io(`${config.API_ROOT}`);
 
 function ChatWindow({ roomId, userName, onClose }) {
   const [messages, setMessages] = useState([]);
@@ -24,7 +25,7 @@ function ChatWindow({ roomId, userName, onClose }) {
     const fetchChatHistory = async () => {
       try {
         const response = await fetch(
-          "https://hellomilkyshop123.azurewebsites.net/api/v1/chat/getAllMessageByChatRoom",
+          `${config.API_ROOT}/api/v1/chat/getAllMessageByChatRoom`,
           {
             method: "POST",
             headers: {

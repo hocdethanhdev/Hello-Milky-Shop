@@ -11,6 +11,7 @@ import { getUserIdFromToken } from "../../store/actions/authAction";
 import DOMPurify from "dompurify";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { config } from "../../../config";
 
 function PostsAdd() {
   const [title, setTitle] = useState("");
@@ -84,7 +85,7 @@ function PostsAdd() {
       };
 
       await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/article/createArticle/",
+        `${config.API_ROOT}/api/v1/article/createArticle/`,
         postData,
         {
           headers: {

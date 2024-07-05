@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types"; // Import PropTypes for prop type validation
 import StarRating from "../product/ui-list-product-mom/StarRating";
 import Loading from "../../layout/Loading";
+import { config } from "../../../config";
 
 function Giasoc() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ function Giasoc() {
 
   useEffect(() => {
     fetch(
-      "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getCurrentProductsHavingPromotion"
+      `${config.API_ROOT}/api/v1/promotion/getCurrentProductsHavingPromotion`
     )
       .then((response) => response.json())
       .then((data) => {

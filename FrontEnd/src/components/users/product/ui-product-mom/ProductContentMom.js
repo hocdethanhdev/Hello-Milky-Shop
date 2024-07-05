@@ -8,6 +8,7 @@ import { getUserIdFromToken } from "../../../store/actions/authAction";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import Loading from "../../../layout/Loading";
 import PropTypes from "prop-types";
+import { config } from "../../../../config";
 
 const formatPrice = (price) =>
   `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -29,7 +30,7 @@ const ProductContentMom = ({ product }) => {
     const fetchRatingData = async () => {
       try {
         const response = await axios.get(
-          `https://hellomilkyshop123.azurewebsites.net/api/v1/comment/countRatingAndAvgRating/${product.ProductID}`
+          `${config.API_ROOT}/api/v1/comment/countRatingAndAvgRating/${product.ProductID}`
         );
         setRatingData({
           avg: parseFloat(response.data.avg.toFixed(1)),
@@ -50,7 +51,7 @@ const ProductContentMom = ({ product }) => {
 
   const handleAddToCart = async () => {
     try {
-      await axios.post("https://hellomilkyshop123.azurewebsites.net/api/v1/order/addProductToOrder", {
+      await axios.post(`${config.API_ROOT}/api/v1/order/addProductToOrder`, {
         userID: userId,
         productID: product.ProductID,
         quantity: quantity,
@@ -67,7 +68,7 @@ const ProductContentMom = ({ product }) => {
 
   const handleBuyNow = async () => {
     try {
-      await axios.post("https://hellomilkyshop123.azurewebsites.net/api/v1/order/addProductToOrder", {
+      await axios.post(`${config.API_ROOT}/api/v1/order/addProductToOrder`, {
         userID: userId,
         productID: product.ProductID,
         quantity: quantity,

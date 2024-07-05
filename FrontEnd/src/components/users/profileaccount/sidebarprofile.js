@@ -6,6 +6,7 @@ import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import axios from "axios";
+import { config } from "../../../config";
 
 function SidebarProfile() {
   const [dropDown, setDropDown] = useState(false);
@@ -17,7 +18,7 @@ function SidebarProfile() {
   useEffect(() => {
     const fetchUserData = async () => {
       const response = await axios.get(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/user/getUserByID?UserID=${userId}`
+        `${config.API_ROOT}/api/v1/user/getUserByID?UserID=${userId}`
       );
       setUserData(response.data.data);
     };
@@ -35,7 +36,7 @@ function SidebarProfile() {
   return (
     <div className="sidebar-container-st-tri">
       <nav className="sidebar-st-thinh">
-        <Link to="#"className="manage-st-thinh" onClick={toggleDropdown} >
+        <Link to="#" className="manage-st-thinh" onClick={toggleDropdown} >
           <img
             src="https://cdn-icons-png.flaticon.com/128/8188/8188338.png"
             alt="Manage Orders Icon"

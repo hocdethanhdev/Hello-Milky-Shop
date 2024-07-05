@@ -4,6 +4,7 @@ import "./orderprofile.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUserIdFromToken } from "../../store/actions/authAction";
+import { config } from "../../../config";
 
 const OrderProfile = () => {
   const [activeTab, setActiveTab] = useState("Tất cả");
@@ -20,7 +21,7 @@ const OrderProfile = () => {
     async (status) => {
       try {
         const response = await axios.get(
-          `https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersByUserID/${userIdd}`
+          `${config.API_ROOT}/api/v1/order/getOrdersByUserID/${userIdd}`
         );
         const orders = response.data;
         const filteredOrders = status
@@ -93,7 +94,7 @@ const OrderProfile = () => {
   const handleCancelOrder = async () => {
     if (!orderToCancel) return;
     try {
-      await axios.post("https://hellomilkyshop123.azurewebsites.net/api/v1/order/cancelOrder", {
+      await axios.post(`${config.API_ROOT}/api/v1/order/cancelOrder`, {
         orderID: orderToCancel,
         reasonCancelContent: "Đã hủy bởi bạn",
         userID: userIdd,
@@ -112,7 +113,7 @@ const OrderProfile = () => {
 
     try {
       await axios.post(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/order/updateStatusOrderID/${orderToConfirm}`,
+        `${config.API_ROOT}/api/v1/order/updateStatusOrderID/${orderToConfirm}`,
         {
           statusOrderID: 4,
         }
@@ -132,7 +133,7 @@ const OrderProfile = () => {
     try {
       if (!userId || !productId) return false;
       const response = await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/comment/checkUserOrdered",
+        `${config.API_ROOT}/api/v1/comment/checkUserOrdered`,
         {
           UserID: userId,
           ProductID: productId,

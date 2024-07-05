@@ -5,6 +5,7 @@ import './News.css';
 import ProductHot from './ProductHot';
 import NavCate from '../product/ui-product-mom/NavCate';
 import Loading from '../../layout/Loading';
+import { config } from "../../../config";
 
 const News = () => {
   const [news, setNews] = useState([]);
@@ -22,7 +23,7 @@ const News = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('https://hellomilkyshop123.azurewebsites.net/api/v1/article/getCurrentCategoriesInArticles');
+        const response = await axios.get(`${config.API_ROOT}/api/v1/article/getCurrentCategoriesInArticles`);
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -31,7 +32,7 @@ const News = () => {
 
     const fetchNews = async () => {
       try {
-        const response = await axios.get('https://hellomilkyshop123.azurewebsites.net/api/v1/article/getAllArticlesForViewer/');
+        const response = await axios.get(`${config.API_ROOT}/api/v1/article/getAllArticlesForViewer/`);
         if (response.data.length === 0) {
           setErrorMessage("Hiện tại chưa có bài viết nào.");
         } else {

@@ -3,6 +3,7 @@ import { Modal, Button } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
+import { config } from "../../../config";
 
 function DoneOrder() {
   const [orders, setOrders] = useState([]);
@@ -16,7 +17,7 @@ function DoneOrder() {
     const fetchOrders = async () => {
       try {
         const response = await fetch(
-          "https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersByStatusOrderID/4"
+          `${config.API_ROOT}/api/v1/order/getOrdersByStatusOrderID/4`
         );
         const data = await response.json();
         setOrders(data.address);
@@ -35,7 +36,7 @@ function DoneOrder() {
   const fetchOrderDetails = async (orderID) => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrderDetailByOrderID/${orderID}`
+        `${config.API_ROOT}/api/v1/order/getOrderDetailByOrderID/${orderID}`
       );
       const data = await response.json();
       return data.address;
@@ -48,7 +49,7 @@ function DoneOrder() {
   const fetchShippingAddress = async (orderID) => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
+        `${config.API_ROOT}/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
       );
       const data = await response.json();
       return data;

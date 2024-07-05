@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -94,8 +94,8 @@ function Sidebar() {
         <NavLink
           className={({ isActive }) =>
             isActive ||
-            location.pathname.includes("/products") ||
-            location.pathname.includes("/addingproduct")
+              location.pathname.includes("/products") ||
+              location.pathname.includes("/addingproduct")
               ? "active-st-thinh"
               : ""
           }
@@ -111,8 +111,8 @@ function Sidebar() {
         <NavLink
           className={({ isActive }) =>
             isActive ||
-            location.pathname.includes("/voucher-staff") ||
-            location.pathname.includes("/addingvoucher")
+              location.pathname.includes("/voucher-staff") ||
+              location.pathname.includes("/addingvoucher")
               ? "active-st-thinh"
               : ""
           }
@@ -129,8 +129,8 @@ function Sidebar() {
         <NavLink
           className={({ isActive }) =>
             isActive ||
-            location.pathname.includes("/posts") ||
-            location.pathname.includes("/addingpost")
+              location.pathname.includes("/posts") ||
+              location.pathname.includes("/addingpost")
               ? "active-st-thinh"
               : ""
           }
@@ -147,8 +147,8 @@ function Sidebar() {
         <NavLink
           className={({ isActive }) =>
             isActive ||
-            location.pathname.includes("/promotionmanage") ||
-            location.pathname.includes("/addpromotion")
+              location.pathname.includes("/promotionmanage") ||
+              location.pathname.includes("/addpromotion")
               ? "active-st-thinh"
               : ""
           }
@@ -179,9 +179,8 @@ function Sidebar() {
           />
         </Link>
         <div
-          className={`dropdown-content-st-thinh ${
-            feedbackDropDown ? "active" : ""
-          }`}>
+          className={`dropdown-content-st-thinh ${feedbackDropDown ? "active" : ""
+            }`}>
           <NavLink
             className={({ isActive }) => (isActive ? "active-st-thinh" : "")}
             to="/feedbackManage">

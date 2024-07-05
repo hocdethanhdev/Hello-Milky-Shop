@@ -6,6 +6,7 @@ import { uploadImage } from "../uimg/UpImage";
 import { message } from "antd";
 import "./Products.css";
 import { formatPrice } from "../../utils/formatPrice";
+import { config } from "../../../config";
 
 const ProductAdd = () => {
   const [productName, setProductName] = useState("");
@@ -23,7 +24,7 @@ const ProductAdd = () => {
   const editor = useRef(null);
 
   useEffect(() => {
-    fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllBrands")
+    fetch(`${config.API_ROOT}/api/v1/product/getAllBrands`)
       .then((response) => response.json())
       .then((data) => setBrands(data))
       .catch((error) => console.error("Error fetching brands:", error));
@@ -131,7 +132,7 @@ const ProductAdd = () => {
       };
 
       await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/product/createProduct",
+        `${config.API_ROOT}/api/v1/product/createProduct`,
         productData,
         {
           headers: {

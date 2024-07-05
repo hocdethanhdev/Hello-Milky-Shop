@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import "./Confirm.css";
+import { config } from "../../../config";
 
 function CancelOrder() {
   const [orders, setOrders] = useState([]);
@@ -23,7 +24,7 @@ function CancelOrder() {
     const fetchOrders = async () => {
       try {
         const response = await fetch(
-          "https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersByStatusOrderID/3"
+          `${config.API_ROOT}/api/v1/order/getOrdersByStatusOrderID/3`
         );
         const data = await response.json();
         setOrders(data.address);
@@ -56,7 +57,7 @@ function CancelOrder() {
   const fetchOrderDetails = async (orderID) => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrderDetailByOrderID/${orderID}`
+        `${config.API_ROOT}/api/v1/order/getOrderDetailByOrderID/${orderID}`
       );
       const data = await response.json();
       return data.address; // Assuming 'address' is the array containing order details
@@ -69,7 +70,7 @@ function CancelOrder() {
   const fetchShippingAddress = async (orderID) => {
     try {
       const response = await fetch(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
+        `${config.API_ROOT}/api/v1/shippingAddress/getInfoShippingByOrderID/${orderID}`
       );
       const data = await response.json();
       setShippingAddress(data);

@@ -13,10 +13,11 @@ import {
 import axios from "axios";
 import PhoneInput from "react-phone-input-2";
 import { message } from 'antd';
+import { config } from "../../config";
 
 function Login() {
   const loginGoogle = () => {
-    window.open('https://hellomilkyshop123.azurewebsites.net/api/v1/auth/google', '_self');
+    window.open(`${config.API_ROOT}/api/v1/auth/google`, '_self');
   };
 
   const [formData, setFormData] = useState({
@@ -51,14 +52,14 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/auth/login",
+        `${config.API_ROOT}/api/v1/auth/login`,
         {
           PhoneNumber: formData.phone,
           Password: formData.password
         }
       );
       if (response.data.err === 0) {
-        window.open(`https://hellomilkyshop123.azurewebsites.net/api/v1/auth/loginSuccess?token=${response.data.token}`, '_self');
+        window.open(`${config.API_ROOT}/api/v1/auth/loginSuccess?token=${response.data.token}`, '_self');
       } else if (response.data.err === 1) {
         message.error("Số điện thoại " + formData.phone + " chưa được đăng kí");
       } else {
@@ -112,7 +113,7 @@ function Login() {
 
               <p className="small mb-3 pb-lg-2">
                 <Link to="/ResetPassword">
-                  <Link to="#!"className="text-dark-50" >
+                  <Link to="#!" className="text-dark-50" >
                     Quên mật khẩu?
                   </Link>
                 </Link>

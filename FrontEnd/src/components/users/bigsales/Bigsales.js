@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import "./Bigsales.css";
 import NavCate from "../product/ui-product-mom/NavCate";
 import StarRating from "../product/ui-list-product-mom/StarRating";
+import { config } from "../../../config";
 
 const fetchPromotions = async () => {
   try {
     const response = await fetch(
-      "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getPromotionByDate"
+      `${config.API_ROOT}/api/v1/promotion/getPromotionByDate`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch promotions");
@@ -35,7 +36,7 @@ const formatPrice = (price) => {
 const fetchProducts = async () => {
   try {
     const response = await fetch(
-      "https://hellomilkyshop123.azurewebsites.net/api/v1/promotion/getCurrentProductsHavingPromotion"
+      `${config.API_ROOT}/api/v1/promotion/getCurrentProductsHavingPromotion`
     );
     const data = await response.json();
     if (data.productsWithPromotion === null) {

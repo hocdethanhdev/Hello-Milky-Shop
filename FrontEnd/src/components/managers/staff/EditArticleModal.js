@@ -8,6 +8,7 @@ import "./EditArticleModal.css";
 import DOMPurify from "dompurify";
 import { message } from "antd";
 import { uploadImage } from "../uimg/UpImage";
+import { config } from "../../../config";
 
 const EditArticleModal = () => {
   const { articleID } = useParams();
@@ -27,7 +28,7 @@ const EditArticleModal = () => {
   useEffect(() => {
     axios
       .get(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/article/getArticlesByArticleID/${articleID}`
+        `${config.API_ROOT}/api/v1/article/getArticlesByArticleID/${articleID}`
       )
       .then((response) => {
         const article = response.data[0];
@@ -113,7 +114,7 @@ const EditArticleModal = () => {
       };
 
       await axios.put(
-        `https://hellomilkyshop123.azurewebsites.net/api/v1/article/editArticle/${articleID}`,
+        `${config.API_ROOT}/api/v1/article/editArticle/${articleID}`,
         postData,
         {
           headers: {

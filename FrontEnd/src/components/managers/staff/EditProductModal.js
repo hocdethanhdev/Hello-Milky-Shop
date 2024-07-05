@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { message } from "antd";
 import { formatPrice } from "../../utils/formatPrice";
+import { config } from "../../../config";
 const EditProductModal = () => {
   const { productID } = useParams();
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const EditProductModal = () => {
     const fetchProductData = async () => {
       try {
         const response = await fetch(
-          `https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductInfoByID/${productID}`
+          `${config.API_ROOT}/api/v1/product/getProductInfoByID/${productID}`
         );
         const productData = await response.json();
         setFormData({
@@ -33,7 +34,7 @@ const EditProductModal = () => {
 
     const fetchBrands = async () => {
       try {
-        const response = await fetch("https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllBrands");
+        const response = await fetch(`${config.API_ROOT}/api/v1/product/getAllBrands`);
         const brandData = await response.json();
         setBrands(brandData);
       } catch (error) {
@@ -183,7 +184,7 @@ const EditProductModal = () => {
 
     try {
       console.log("Starting fetch to update product");
-      const response = await fetch(`https://hellomilkyshop123.azurewebsites.net/api/v1/product/editProduct/${productID}`, {
+      const response = await fetch(`${config.API_ROOT}/api/v1/product/editProduct/${productID}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

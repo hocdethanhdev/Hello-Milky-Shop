@@ -4,6 +4,7 @@ import "./ListProductMom.css";
 import SliderMoney from "./SliderMoney";
 import ThrowPage from "./ThrowPage";
 import StarRating from "./StarRating";
+import { config } from "../../../../config";
 
 const formatPrice = (price) => {
   return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -27,7 +28,7 @@ const ListProductMom = () => {
   const fetchProducts = async () => {
     try {
       const response = await fetch(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getProductByCategory/1/"
+        `${config.API_ROOT}/api/v1/product/getProductByCategory/1/`
       );
       const data = await response.json();
       if (data.err !== "Do not have any product with this category") {
@@ -42,7 +43,7 @@ const ListProductMom = () => {
   const fetchBrands = async () => {
     try {
       const response = await fetch(
-        "https://hellomilkyshop123.azurewebsites.net/api/v1/product/getAllBrandByCategory/1"
+        `${config.API_ROOT}/api/v1/product/getAllBrandByCategory/1`
       );
       const data = await response.json();
       if (data.err !== 1) {
