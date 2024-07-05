@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { message } from "antd";
 import { formatPrice } from "../../utils/formatPrice";
-import { config } from "../../../config";
+import config from "../../config/config";
 const EditProductModal = () => {
   const { productID } = useParams();
   const navigate = useNavigate();

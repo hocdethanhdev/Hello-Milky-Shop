@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { toast } from "react-hot-toast";
 import PropTypes from "prop-types";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 
 const formatNumber = (num) => {

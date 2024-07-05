@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import './AddressPopup.css';
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const AddressPopup = ({ userID, onSelect, onClose }) => {
     const [addresses, setAddresses] = useState([]);

@@ -8,7 +8,7 @@ import { getUserIdFromToken } from "../../../store/actions/authAction";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import Loading from "../../../layout/Loading";
 import PropTypes from "prop-types";
-import { config } from "../../../../config";
+import config from "../../../config/config";
 
 const formatPrice = (price) =>
   `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;

@@ -1,6 +1,6 @@
 // productService.js
 import axios from 'axios';
-import { config } from "../../../config";
+import config from "../../config/config";
 export const getMaxQuantity = async (productId) => {
     try {
 

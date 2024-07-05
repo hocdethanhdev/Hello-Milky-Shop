@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Card.css"; // Ensure you have appropriate styles
 import { Line, Doughnut } from "react-chartjs-2";
 import "chart.js/auto"; // Import the auto module from chart.js
-import { config } from "../../../config";
-
+import config from "../../config/config";
 function Dashboard() {
   const [orderCount, setOrderCount] = useState(0);
   const [newOrdersCount, setNewOrdersCount] = useState(0);

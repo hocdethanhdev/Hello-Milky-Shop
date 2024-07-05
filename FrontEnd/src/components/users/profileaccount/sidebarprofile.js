@@ -6,7 +6,7 @@ import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import axios from "axios";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function SidebarProfile() {
   const [dropDown, setDropDown] = useState(false);

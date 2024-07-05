@@ -4,7 +4,7 @@ import axios from "axios";
 import { MDBContainer, MDBCard, MDBCardBody, MDBInput } from "mdb-react-ui-kit";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function SignupSt() {
   const [formData, setFormData] = useState({

@@ -4,8 +4,7 @@ import Chart from "react-apexcharts";
 import { HiUsers } from "react-icons/hi";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBillTrendUp } from '@fortawesome/free-solid-svg-icons';
-import { config } from "../../../config";
-
+import config from "../../config/config";
 function MainDash() {
   const [productCount, setProductCount] = useState(0);
   const [brandCount, setBrandCount] = useState(0);

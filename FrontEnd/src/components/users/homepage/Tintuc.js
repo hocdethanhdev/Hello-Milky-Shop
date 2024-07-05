@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Tintuc.css';
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const Tintuc = () => {
     const [articles, setArticles] = useState([]);

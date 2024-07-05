@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import SidebarProfile from "./sidebarprofile";
 import { message } from "antd";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState("");

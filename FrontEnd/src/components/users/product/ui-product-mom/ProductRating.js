@@ -5,7 +5,7 @@ import "./ProductRating.css";
 import Notification from "./Notification"; // Import the Notification component
 import Loading from "../../../layout/Loading";
 import PropTypes from 'prop-types'; // Import PropTypes
-import { config } from "../../../../config";
+import config from "../../../config/config";
 
 export default function ProductRating({ productID, userID, fetchComments, setRatingCount }) {
     const [number, setNumber] = useState(0);

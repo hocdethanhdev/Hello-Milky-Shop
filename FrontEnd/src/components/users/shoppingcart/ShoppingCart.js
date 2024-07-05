@@ -7,7 +7,7 @@ import VoucherPopup from "./VoucherPopup";
 import AddressPopup from "./AddressPopup";
 import { getMaxQuantity } from "./productMax";
 import { message } from "antd";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const ShoppingCart = () => {
   const { token } = useSelector((state) => state.auth);

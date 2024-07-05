@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { message } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const ManageAdmin = () => {
   const [accounts, setAccounts] = useState([]);

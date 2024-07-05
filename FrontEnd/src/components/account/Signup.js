@@ -18,7 +18,7 @@ import { auth } from "../config/firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 import { message } from "antd";
-import { config } from "../../config";
+import config from "../config/config";
 
 function Signup() {
   const [formData, setFormData] = useState({

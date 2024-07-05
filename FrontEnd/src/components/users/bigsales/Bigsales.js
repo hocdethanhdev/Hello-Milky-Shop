@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Bigsales.css";
 import NavCate from "../product/ui-product-mom/NavCate";
 import StarRating from "../product/ui-list-product-mom/StarRating";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const fetchPromotions = async () => {
   try {

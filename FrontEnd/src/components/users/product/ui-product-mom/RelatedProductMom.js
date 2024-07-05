@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './RelatedProductMom.css';
 import StarRating from '../ui-list-product-mom/StarRating';
 import Loading from '../../../layout/Loading';
-import { config } from "../../../../config";
+import config from "../../../config/config";
 
 const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types'; // Import PropTypes
 import "./StarRating.css";
-import { config } from "../../../../config";
+import config from "../../../config/config";
 
 const StarRating = ({ productId }) => {
     const [ratingData, setRatingData] = useState({ count: 0, avg: 0 });

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import "./Confirm.css";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function CancelOrder() {
   const [orders, setOrders] = useState([]);

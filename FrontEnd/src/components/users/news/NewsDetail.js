@@ -7,7 +7,7 @@ import NewsRelated from './newsRelated';
 import ProductHot from './ProductHot';
 import { Link } from 'react-router-dom';
 import Loading from '../../layout/Loading';
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const NewsDetail = () => {
   const { id } = useParams();

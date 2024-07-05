@@ -16,7 +16,7 @@ import {
 import axios from "axios";
 import { SearchOutlined } from "@ant-design/icons";
 import "./ProductSelectionModal.css";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const { Option } = Select;
 

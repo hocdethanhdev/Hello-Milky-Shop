@@ -3,7 +3,7 @@ import axios from "axios";
 import { Modal, message } from "antd"; // Removed unused Button import
 import 'antd/dist/reset.css';
 import Loading from "../layout/Loading";
-import { config } from "../../../config";
+import config from "../../components/config/config";
 import "./shipping.css";
 
 function Shipping() {

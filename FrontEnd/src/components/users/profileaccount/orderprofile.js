@@ -4,7 +4,7 @@ import "./orderprofile.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUserIdFromToken } from "../../store/actions/authAction";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const OrderProfile = () => {
   const [activeTab, setActiveTab] = useState("Tất cả");

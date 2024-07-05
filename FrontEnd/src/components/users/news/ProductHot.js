@@ -3,7 +3,7 @@ import axios from 'axios';
 import './ProductHot.css';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../layout/Loading';
-import { config } from "../../../config";
+import config from "../../config/config";
 
 // Formatting functions
 const formatPrice = (price) => {

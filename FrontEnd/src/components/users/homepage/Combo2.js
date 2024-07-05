@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Product1.css";
 import StarRating from "../product/ui-list-product-mom/StarRating";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function Combo2() {
   const [products, setProducts] = useState([]);

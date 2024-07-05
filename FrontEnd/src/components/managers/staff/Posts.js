@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import DeleteConfirmationPopupForArticle from "./DeleteConfirmationPopupForArticle";
 import { message } from "antd";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 function Posts() {
   const [articles, setArticles] = useState([]);

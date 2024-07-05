@@ -7,7 +7,7 @@ import ProductDetailModal from "./ProductDetailModal";
 import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
 import { message } from "antd";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const Products = () => {
   const [products, setProducts] = useState([]);

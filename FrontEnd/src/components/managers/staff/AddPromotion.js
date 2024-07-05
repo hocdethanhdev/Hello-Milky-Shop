@@ -5,7 +5,7 @@ import { message } from "antd";
 import "./AddPromotion.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { config } from "../../../config";
+import config from "../../config/config";
 
 const AddPromotion = () => {
   const [promotionName, setPromotionName] = useState("");
