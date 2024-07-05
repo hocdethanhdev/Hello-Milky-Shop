@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
@@ -12,6 +12,7 @@ const PaymemSuccess = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   let status = params.get("status");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkoutOrder = async (orderID, totalAmount) => {
@@ -114,24 +115,27 @@ const PaymemSuccess = () => {
           OrderID: orderID,
         }
       );
-      localStorage.removeItem('orderID');
-      localStorage.removeItem('usePoints');
-      localStorage.removeItem('productQuantitiesToUpdate');
-      localStorage.removeItem('totalAmount');
+      localStorage.removeItem("orderID");
+      localStorage.removeItem("usePoints");
+      localStorage.removeItem("productQuantitiesToUpdate");
+      localStorage.removeItem("totalAmount");
     };
 
     const code = params.get("code");
     const orderID = localStorage.getItem("orderID");
     const totalAmount = localStorage.getItem("totalAmount");
     if (status === "1") {
-      checkoutOrder(orderID, totalAmount);
+      checkoutOrder(orderID, totalAmount).then(() =>
+        navigate("/", { replace: true })
+      );
     } else if (status === "0" && code) {
-      transferOrderDetailsToNewOrder(orderID);
-      handlePaymentFailure(code);
+      transferOrderDetailsToNewOrder(orderID).then(() =>
+        handlePaymentFailure(code)
+      );
     }
-  });
+  }, [navigate, token, status, params]);
 
-  return <Navigate to="/" replace />;
+  return null;
 };
 
 export default PaymemSuccess;
