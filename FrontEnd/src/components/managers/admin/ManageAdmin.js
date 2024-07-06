@@ -21,7 +21,7 @@ const ManageAdmin = () => {
     fetch(`${config.API_ROOT}/api/v1/user/getAllUsers/`)
       .then((response) => response.json())
       .then((data) => {
-        const staffAccounts = data.filter((account) => account.RoleID === 2);
+        const staffAccounts = data.filter((account) => account.RoleID === 1);
         setAccounts(staffAccounts);
       })
       .catch((error) => console.error("Error fetching users:", error));
@@ -63,14 +63,6 @@ const ManageAdmin = () => {
     }
     if (editForm.UserName.length > 50) {
       message.error("Tên tài khoản không được vượt quá 50 kí tự.");
-      return;
-    }
-    if (!editForm.Email.trim()) {
-      message.error("Vui lòng nhập địa chỉ email.");
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(editForm.Email)) {
-      message.error("Địa chỉ email không hợp lệ. Vui lòng nhập đúng định dạng.");
       return;
     }
     if (!editForm.PhoneNumber.trim()) {

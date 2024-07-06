@@ -23,7 +23,7 @@ function Menu() {
               <Link to="/Bigsales" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
-                  src="./khuyenmailon/ngoi-sao.jpg"
+                  src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fngoi-sao.jpg?alt=media&token=712904a9-b3f7-46ea-93f3-bfc58f575d95"
                   alt="Khuyến mại lớn"
                 />
                 Khuyến mại lớn
@@ -35,7 +35,7 @@ function Menu() {
               <Link to="/sua-cho-me" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
-                  src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
+                  src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fdo-dung-cho-me-1.png?alt=media&token=7d86a69a-f13b-4572-a873-ed8b35a0de38"
                   alt="Đồ dùng cho mẹ"
                 />
                 Sữa cho mẹ
@@ -59,7 +59,7 @@ function Menu() {
               <Link to="/News" className="cate_li_title-trid">
                 <img
                   className="img_icon-trid icon_hover-trid"
-                  src="./news.png"
+                  src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fnews.png?alt=media&token=3cf9cab0-717d-4288-8dcb-bd2cd0e499f4"
                   alt="Tin tức"
                 />
                 Tin tức
