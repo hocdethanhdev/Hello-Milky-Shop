@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Signup.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MDBContainer,
   MDBCard,
@@ -44,6 +44,7 @@ function Signup() {
   const [confirmOTP, setConfirmOTP] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     function initializeRecaptcha() {
@@ -217,10 +218,7 @@ function Signup() {
           Password: formData.password,
         });
         if (login.data.err === 0) {
-          window.open(
-            `${config.API_ROOT}/api/v1/auth/loginSuccess?token=${login.data.token}`,
-            "_self"
-          );
+          navigate(`/LoginSuccess/${response.data.token}`);
         } else {
           message.error("Số điện thoại chưa được đăng kí hoặc sai mật khẩu");
         }
