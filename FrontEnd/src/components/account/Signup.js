@@ -46,32 +46,30 @@ function Signup() {
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   useEffect(() => {
-    onCaptchVerify();
-  }, []);
-
-  function onCaptchVerify() {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: () => {
-            // No need to call onSignup here, it will be called separately
+    function initializeRecaptcha() {
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          auth,
+          "recaptcha-container",
+          {
+            size: "invisible",
+            callback: () => {
+              // No need to call onSignup here, it will be called separately
+            },
+            "expired-callback": () => {
+              toast.error("Recaptcha hết hạn. Hãy thử lại.");
+              window.recaptchaVerifier.clear();
+              initializeRecaptcha();
+            },
           },
-          "expired-callback": () => {
-            toast.error("Recaptcha hết hạn. Hãy thử lại.");
-            // Re-verify captcha when expired
-            window.recaptchaVerifier.clear();
-            onCaptchVerify();
-          },
-        },
-        auth
-      );
-    } else {
-      window.recaptchaVerifier.render();
+          auth
+        );
+      } else {
+        window.recaptchaVerifier.render();
+      }
     }
-  }
+    initializeRecaptcha();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -101,7 +99,7 @@ function Signup() {
     onSignup();
   };
 
-  function onSignup() {
+  async function onSignup() {
     if (isSignupAttempted) return;
     setIsSignupAttempted(true);
     setLoading(true);
@@ -109,7 +107,7 @@ function Signup() {
     const appVerifier = window.recaptchaVerifier;
     const formatPh = "+" + formData.phone;
 
-    signInWithPhoneNumber(auth, formatPh, appVerifier)
+    await signInWithPhoneNumber(auth, formatPh, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
         setLoading(false);
@@ -214,13 +212,10 @@ function Signup() {
       );
 
       if (response.data.err === 0) {
-        const login = await axios.post(
-          `${config.API_ROOT}/api/v1/auth/login`,
-          {
-            PhoneNumber: formData.phone,
-            Password: formData.password,
-          }
-        );
+        const login = await axios.post(`${config.API_ROOT}/api/v1/auth/login`, {
+          PhoneNumber: formData.phone,
+          Password: formData.password,
+        });
         if (login.data.err === 0) {
           window.open(
             `${config.API_ROOT}/api/v1/auth/loginSuccess?token=${login.data.token}`,
@@ -245,13 +240,15 @@ function Signup() {
   return (
     <MDBContainer
       fluid
-      className="d-flex justify-content-center align-items-center h-100">
+      className="d-flex justify-content-center align-items-center h-100"
+    >
       <Toaster toastOptions={{ duration: 4000 }} />
 
       <div id="recaptcha-container"></div>
       <MDBCard
         className="signup-card mx-auto mb-5 p-5 shadow-5"
-        style={{ maxWidth: "550px", marginTop: "50px", marginBottom: "200px" }}>
+        style={{ maxWidth: "550px", marginTop: "50px", marginBottom: "200px" }}
+      >
         <MDBCardBody className="p-5">
           <h2 className="fw-bold mb-5 text-center">Tạo một tài khoản mới</h2>
           <div className="mb-4">
@@ -352,7 +349,8 @@ function Signup() {
                     onOTPVerify();
                   }}
                   disabled={loading}
-                  className="btn btn-success m-4">
+                  className="btn btn-success m-4"
+                >
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
                   )}
@@ -367,7 +365,8 @@ function Signup() {
             type="button"
             onClick={() => {
               handleSubmit();
-            }}>
+            }}
+          >
             <span className="button-text">Đăng kí</span>
           </button>
 
