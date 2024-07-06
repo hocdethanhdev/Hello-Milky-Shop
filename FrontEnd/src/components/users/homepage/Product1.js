@@ -45,10 +45,10 @@ function Product1() {
                   />
                 </div>
                 <div className="box_slider">
-                  <img src="/banner2.jpg" alt="Banner 2" />
+                  <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fbanner2.jpg?alt=media&token=c0f1ad76-6c99-4700-9186-1aaf563e875a" alt="Banner 2" />
                 </div>
                 <div className="box_slider">
-                  <img src="/banner3.png" alt="Banner 3" />
+                  <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fbanner3.png?alt=media&token=4206c916-ebcf-4789-bb3e-36b194c55cd8" alt="Banner 3" />
                 </div>
               </Slider>
               <div className="box_product_suggest">

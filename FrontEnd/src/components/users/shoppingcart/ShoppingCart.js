@@ -688,7 +688,7 @@ const ShoppingCart = () => {
                 <span className="icon-long"></span>
                 <span className="icon-wrapper-long">
                   <img
-                    src="/ImageMilkShop/icon xu.png"
+                    src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Ficon%20xu.png?alt=media&token=f5800217-e7df-4952-a01c-a691db2a036b"
                     alt="Xu icon"
                     className="points-icon"
                   />

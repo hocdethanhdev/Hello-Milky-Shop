@@ -44,7 +44,7 @@ function Combo1() {
             <Link to="/sua-cho-me" className="cate_li_title-trid">
               <div className="combo-1f-icon">
                 <img
-                  src="https://media.shoptretho.com.vn/upload/image/menu/20150803/do-dung-cho-me-1.png?mode=max&width=60&height=60"
+                  src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fdo-dung-cho-me-1.png?alt=media&token=7d86a69a-f13b-4572-a873-ed8b35a0de38"
                   alt=""
                 />
               </div>

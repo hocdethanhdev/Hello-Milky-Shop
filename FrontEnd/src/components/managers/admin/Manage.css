@@ -44,11 +44,10 @@
   background-color: #f1f1f1;
 }
 
-
-.edit-button-staff{
+.edit-button-staff {
   padding: 6px 12px;
   margin-right: 5px;
-  background-color: #007bff;  
+  background-color: #007bff;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -59,19 +58,18 @@
   background-color: #0056b3;
 }
 
-.delete-button-staff{
+.delete-button-staff {
   padding: 6px 12px;
   margin-right: 5px;
-  background-color: rgb(255, 58, 58);  
+  background-color: rgb(255, 58, 58);
   color: #fff;
   border: none;
   cursor: pointer;
   border-radius: 10px;
 }
-.delete-button-staff:hover{
+.delete-button-staff:hover {
   background-color: red;
 }
-
 
 .add-account-link {
   display: inline-block;
@@ -118,7 +116,6 @@
   z-index: 999; /* Đảm bảo pop-up hiển thị trên top của các phần còn lại */
 }
 
-
 .edit-popup h2 {
   margin-top: 0;
   margin-bottom: 20px;
@@ -159,7 +156,6 @@
   cursor: pointer;
   border-radius: 4px;
   font-size: 1rem;
- 
 }
 
 .edit-popup-buttons button[type="submit"] {
@@ -195,11 +191,10 @@
 
 .pagination-container-cf {
   display: ruby-text;
+  margin: 20px 20px;
   text-align: center;
-  width: 100%;
-  margin: 20px 20px 0px 20px;
+  width: 65%;
 }
-
 .manager-container {
   background-color: white;
   margin: 20px;

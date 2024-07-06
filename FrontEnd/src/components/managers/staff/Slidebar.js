@@ -24,7 +24,7 @@ function Sidebar() {
           to="/"
           end>
           <img
-            src="/ImageMilkShop/dashboard.png"
+            src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fdashboard.png?alt=media&token=b8123657-7011-4cc9-9e1d-25fe5f7e7866"
             alt="Dashboard Icon"
             style={{ width: "24px" }}
             className="icon-staff-slidebar"
