@@ -123,10 +123,8 @@ function Login() {
               </div>
 
               <p className="small mb-3 pb-lg-2">
-                <Link to="/ResetPassword">
-                  <Link to="#!" className="text-dark-50">
-                    Quên mật khẩu?
-                  </Link>
+                <Link to="/ResetPassword" className="text-dark-50">
+                  Quên mật khẩu?
                 </Link>
               </p>
               <button
