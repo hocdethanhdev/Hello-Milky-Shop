@@ -502,12 +502,12 @@ const userDAO = {
       });
     });
   },
-  findOrCreate: (profile) => {
+  findOrCreate: (email, name) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function () {
         const checkMail = new mssql.Request().input(
           "Email",
-          profile.emails[0].value
+          email
         );
         checkMail.query(
           `SELECT UserID FROM Users WHERE Email = @Email;`,
@@ -517,8 +517,8 @@ const userDAO = {
             else {
               const request = new mssql.Request()
                 .input("UserID", UserID)
-                .input("UserName", mssql.NVarChar, profile.displayName)
-                .input("Email", profile.emails[0]?.value)
+                .input("UserName", mssql.NVarChar, name)
+                .input("Email", email)
                 .input("Point", mssql.Int, 1000)
                 .input("RoleID", mssql.Int, 3);
               request.query(

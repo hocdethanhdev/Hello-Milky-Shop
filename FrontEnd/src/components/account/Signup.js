@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Signup.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import {
   MDBContainer,
   MDBCard,
@@ -231,8 +232,22 @@ function Signup() {
     }
   };
 
-  const loginGoogle = () => {
-    window.open(`${config.API_ROOT}/api/v1/auth/google", "_self`);
+  const loginGoogle = async (response) => {
+    try {
+      const res = await axios.post(
+        `${config.API_ROOT}/api/v1/auth/google-login`,
+        {
+          token: response.credential,
+        }
+      );
+      navigate(`/login-email/${res.data.email}`);
+    } catch (error) {
+      console.error("Login Failed:", error);
+    }
+  };
+
+  const handleLoginFailure = (response) => {
+    console.error("Login Failed:", response);
   };
 
   return (
@@ -372,12 +387,12 @@ function Signup() {
             <p>hoặc</p>
 
             <div className="google-button-signup">
-              <Link to="#" className="google-signup-button">
-                <MDBIcon fab icon="google" size="lg" className="google-icon" />
-                <span onClick={loginGoogle} className="button-text">
-                  Đăng nhập với Google
-                </span>
-              </Link>
+              <GoogleOAuthProvider clientId={config.CLIENT_ID}>
+                <GoogleLogin
+                  onSuccess={loginGoogle}
+                  onError={handleLoginFailure}
+                />
+              </GoogleOAuthProvider>
             </div>
           </div>
         </MDBCardBody>
