@@ -85,7 +85,9 @@ const ManageMember = () => {
       })
       .catch((error) => console.error("Error enabling user:", error));
   };
-
+  const startIndex = (currentPage - 1) * accountsPerPage;
+  const endIndex = startIndex + accountsPerPage;
+  const currentAccounts = accounts.slice(startIndex, endIndex);
   return (
     <div className="table-container-staff manager-container">
       <div className="css-class-account-manager css-class-account-manager-only-member">
@@ -101,7 +103,7 @@ const ManageMember = () => {
             </tr>
           </thead>
           <tbody>
-            {accounts.map((account, index) => (
+            {currentAccounts.map((account, index) => (
               <tr className="row" key={account.UserID}>
                 <td className="col-md-1">{index + 1}</td>
                 <td className="col-md-2">{account.UserName}</td>
