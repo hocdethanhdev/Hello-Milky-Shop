@@ -9,22 +9,9 @@ router.post("/register", authController.register);
 
 router.post("/logout", authController.logout);
 
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"], session: false }));
-
-router.get("/google/callback", (req, res, next) => {
-  passport.authenticate("google", (err, profile) => {
-    req.user = profile;
-    next();
-  })(req, res, next);
-}, (req, res) => {
-    res.redirect(`${process.env.CLIENT_URL}/login-email/${req.user?.emails[0].value}`)
-});
+router.post("/google-login", authController.loginGoogle);
 
 router.post('/loginEmail', authController.loginEmail);
-
-router.get("/loginSuccess", (req, res) => {
-  res.redirect(`${process.env.CLIENT_URL}/LoginSuccess/${req?.query.token}`)
-});
 
 router.post("/checkPhoneNumber", authController.checkPhoneNumber);
 

@@ -1,3 +1,4 @@
+const { OAuth2Client } = require("google-auth-library");
 const authService = require("../service/authService");
 const chatService = require("../service/chatService");
 const userService = require("../service/userService");
@@ -17,6 +18,28 @@ const changePassword = async (req, res) => {
   } catch (error) {
     console.error("Error in changePassword controller:", error);
     res.status(500).send("Internal Server Error");
+  }
+};
+
+const loginGoogle = async (req, res) => {
+  try {
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    const { token } = req.body;
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+
+    await authService.findOrCreate(payload.email, payload.name);
+
+    res.json({ email: payload.email });
+  } catch (error) {
+    console.error("Login Failed:", error);
+    res.status(500).json({
+      success: false,
+      message: "Đã xảy ra lỗi khi đăng nhập với Google.",
+    });
   }
 };
 
@@ -134,4 +157,5 @@ module.exports = {
   checkPhoneNumber,
   forgetPassword,
   changePassword,
+  loginGoogle,
 };

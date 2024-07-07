@@ -33,7 +33,7 @@ app.use(
     secret: "HelloMilkyShop",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false },
+    cookie: { secure: true },
   })
 );
 

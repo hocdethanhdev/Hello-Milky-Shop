@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+
 import {
   MDBContainer,
   MDBRow,
@@ -18,10 +20,19 @@ import config from "../config/config";
 function Login() {
   const navigate = useNavigate();
 
-  const loginGoogle = () => {
-    window.open(`${config.API_ROOT}/api/v1/auth/google`, "_self");
+  const loginGoogle = async (response) => {
+    try {
+      const res = await axios.post(
+        `${config.API_ROOT}/api/v1/auth/google-login`,
+        {
+          token: response.credential,
+        }
+      );
+      navigate(`/login-email/${res.data.email}`);
+    } catch (error) {
+      console.error("Login Failed:", error);
+    }
   };
-
   const [formData, setFormData] = useState({
     phone: "",
     password: "",
@@ -71,6 +82,10 @@ function Login() {
     } catch (error) {
       message.error("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
     }
+  };
+
+  const handleLoginFailure = (response) => {
+    console.error("Login Failed:", response);
   };
 
   return (
@@ -136,23 +151,16 @@ function Login() {
               </button>
 
               <div className="flex-row">
-                <Link
-                  to="#"
-                  className="google-signup-button-trid"
-                  onClick={loginGoogle}
-                >
-                  <MDBIcon
-                    fab
-                    icon="google"
-                    size="lg"
-                    className="google-icon-trid"
+                <GoogleOAuthProvider clientId={config.CLIENT_ID}>
+                  <GoogleLogin
+                    onSuccess={loginGoogle}
+                    onError={handleLoginFailure}
                   />
-                  <span className="button-text-trid">Đăng nhập với Google</span>
-                </Link>
+                </GoogleOAuthProvider>
               </div>
 
               <div>
-                <p className="mb-0">
+                <p className="mb-0 register-ask-in-login">
                   Bạn chưa có tài khoản?{" "}
                   <Link to="/Signup" className="text-dark-50 fw-bold">
                     Đăng kí ngay

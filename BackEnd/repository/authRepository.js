@@ -2,6 +2,10 @@ const userDAO = require("../dao/userDAO");
 
 const authRepository = {
 
+  findOrCreate : async (email, name) => {
+    return await userDAO.findOrCreate(email, name);
+  },
+
   changePassword : async (Password, UserID) => {
     return await userDAO.changePassword(Password, UserID);
   },

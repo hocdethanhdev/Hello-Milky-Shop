@@ -158,7 +158,12 @@
   justify-content: center;
 }
 .google-button-signup {
-  margin-left: -65px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .checkbox-label-tri {
