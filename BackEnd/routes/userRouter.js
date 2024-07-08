@@ -28,4 +28,8 @@ router.put("/updateUserPhoneNumber", userController.updateUserPhoneNumber);
 
 router.put("/updateInforUser", userController.updateInforUser);
 
+router.post("/getUserByPhoneNumber", userController.getUserByPhoneNumber);
+
+router.post("/getUserByEmail", userController.getUserByEmail);
+
 module.exports = router;

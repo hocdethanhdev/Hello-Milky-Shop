@@ -28,7 +28,17 @@ function Login() {
           token: response.credential,
         }
       );
-      navigate(`/login-email/${res.data.email}`);
+      const checkEmail = await axios.post(
+        `${config.API_ROOT}/api/v1/user/getUserByEmail`,
+        {
+          Email: res.data.email,
+        }
+      );
+      if (checkEmail.data.data.Status === true) {
+        navigate(`/login-email/${res.data.email}`);
+      } else {
+        message.error("Tài khoản của bạn đã bị khóa");
+      }
     } catch (error) {
       console.error("Login Failed:", error);
     }
@@ -64,20 +74,31 @@ function Login() {
     }
 
     try {
-      const response = await axios.post(
-        `${config.API_ROOT}/api/v1/auth/login`,
+      const res = await axios.post(
+        `${config.API_ROOT}/api/v1/user/getUserByPhoneNumber`,
         {
           PhoneNumber: formData.phone,
-          Password: formData.password,
         }
       );
-      if (response.data.err === 0) {
-        console.log(response.data.token);
-        navigate(`/LoginSuccess/${response.data.token}`);
-      } else if (response.data.err === 1) {
-        message.error("Số điện thoại " + formData.phone + " chưa được đăng kí");
+      if (res.data.data.Status === true) {
+        const response = await axios.post(
+          `${config.API_ROOT}/api/v1/auth/login`,
+          {
+            PhoneNumber: formData.phone,
+            Password: formData.password,
+          }
+        );
+        if (response.data.err === 0) {
+          navigate(`/LoginSuccess/${response.data.token}`);
+        } else if (response.data.err === 1) {
+          message.error(
+            "Số điện thoại " + formData.phone + " chưa được đăng kí"
+          );
+        } else {
+          message.error("Sai mật khẩu");
+        }
       } else {
-        message.error("Sai mật khẩu");
+        message.error("Tài khoản của bạn đã bị khóa");
       }
     } catch (error) {
       message.error("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
