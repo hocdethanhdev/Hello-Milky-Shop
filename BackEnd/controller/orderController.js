@@ -21,7 +21,7 @@ const countOrdersPayed = async (req, res) => {
 
 const getInfoToShip = async (req, res) => {
     try {
-        const {StatusOrderID} = req.body;
+        const { StatusOrderID } = req.body;
         const orders = await orderService.getInfoToShip(StatusOrderID);
         res.status(200).json(orders);
     } catch (error) {
@@ -41,12 +41,13 @@ const countOrdersIn7Days = async (req, res) => {
 const countOrdersByStatusOrderID = async (req, res) => {
     try {
         const statusOrderID = req.params.id;
-        const orders = await orderService.countOrdersByStatusOrderID(statusOrderID);
+        const timePeriod = req.query.timePeriod || 'day';
+        const orders = await orderService.countOrdersByStatusOrderID(statusOrderID, timePeriod);
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 const countNewOrders = async (req, res) => {
     try {

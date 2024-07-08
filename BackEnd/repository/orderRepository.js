@@ -17,8 +17,8 @@ const orderRepository = {
     countNewOrders: () => {
         return orderDAO.countNewOrders();
     },
-    countOrdersByStatusOrderID: (statusOrderID) => {
-        return orderDAO.countOrdersByStatusOrderID(statusOrderID);
+    countOrdersByStatusOrderID: (statusOrderID, timePeriod) => {
+        return orderDAO.countOrdersByStatusOrderID(statusOrderID, timePeriod);
     },
     removeProductFromOrder: (orderID, productID) => {
         return orderDAO.removeProductFromOrder(orderID, productID);
