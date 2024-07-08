@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const initRouters = require("./routes");
-require("./config/passport");
 const http = require("http");
 const socketIo = require("socket.io");
 require("./scheduler/voucherScheduler");

@@ -44,12 +44,25 @@ function StaffChat() {
     // Listen for unread message count updates
     socket.on("updateUnreadMessageCount", (counts) => {
       setUnreadMessageCounts(counts);
+      updateChatRoomsOrder(counts);
     });
 
     return () => {
       socket.off("updateUnreadMessageCount");
     };
   }, []);
+
+  const updateChatRoomsOrder = (counts) => {
+    setChatRooms((prevChatRooms) => {
+      const newChatRooms = [...prevChatRooms];
+      newChatRooms.sort((a, b) => {
+        const countA = counts[a.roomId] || 0;
+        const countB = counts[b.roomId] || 0;
+        return countB - countA;
+      });
+      return newChatRooms;
+    });
+  };
 
   const handleRoomClick = (roomId, userName) => {
     setSelectedRoom(roomId);

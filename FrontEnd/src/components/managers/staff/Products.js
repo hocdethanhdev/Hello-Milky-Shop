@@ -218,7 +218,6 @@ const Products = () => {
         setShowDeletePopup(false);
       });
   };
-
   const cancelDelete = () => {
     setShowDeletePopup(false);
     setProductToDelete(null);
@@ -254,16 +253,16 @@ const Products = () => {
                   onClick={() => handleSort("ProductID")}
                   style={{ cursor: "pointer" }}>
                   Mã
-                  <FontAwesomeIcon icon={faSort} />
+                  <FontAwesomeIcon icon={faSort} style={{ marginLeft: "10" }} />
                 </th>
                 <th
                   className="col-md-4"
                   onClick={() => handleSort("ProductName")}
                   style={{ cursor: "pointer" }}>
                   Tên sản phẩm
-                  <FontAwesomeIcon icon={faSort} />
+                  <FontAwesomeIcon icon={faSort} style={{ marginLeft: "10" }} />
                 </th>
-                <th className="category-header col-md-2">
+                <th className="category-header col-md-3">
                   Loại sản phẩm{" "}
                   <FontAwesomeIcon
                     icon={faFilter}
@@ -327,7 +326,7 @@ const Products = () => {
                     </ul>
                   )}
                 </th>
-                <th className="col-md-3">Thao tác</th>
+                <th className="col-md-2 ">Thao tác</th>
               </tr>
             </thead>
             <tbody>
@@ -335,16 +334,17 @@ const Products = () => {
                 <tr className="row" key={product.ProductID}>
                   <td className="col-md-1">{product.ProductID}</td>
                   <td className="col-md-4">{product.ProductName}</td>
-                  <td className="col-md-2">{product.ProductCategoryName}</td>
+                  <td className="col-md-3">{product.ProductCategoryName}</td>
                   <td className="col-md-2">
                     {product.Status === null || product.Status === false
                       ? "Tạm ẩn"
                       : product.Status === true &&
                         parseInt(product.StockQuantity) > 0
-                        ? "Còn hàng"
-                        : "Hết hàng"}
+                      ? `Còn hàng (${product.StockQuantity})`
+                      : "Hết hàng"}
                   </td>
-                  <td className="nut-act col-md-3">
+
+                  <td className="nut-act col-md-2">
                     <button
                       type="button"
                       className="btn btn-primary"

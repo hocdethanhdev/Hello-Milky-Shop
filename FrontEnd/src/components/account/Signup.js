@@ -145,7 +145,7 @@ function Signup() {
       });
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {};
 
     // Validate name field
@@ -198,8 +198,18 @@ function Signup() {
       }
       return;
     }
+    const checkPhone = await axios.post(
+      `${config.API_ROOT}/api/v1/auth/checkPhoneNumber`,
+      {
+        PhoneNumber: formData.phone,
+      }
+    );
 
-    handleSendOTP();
+    if (checkPhone.data.err === 0) {
+      message.warning("Số điện thoại đã được đăng kí");
+    } else {
+      handleSendOTP();
+    }
   };
 
   const completeSignup = async () => {
@@ -240,7 +250,17 @@ function Signup() {
           token: response.credential,
         }
       );
-      navigate(`/login-email/${res.data.email}`);
+      const checkEmail = await axios.post(
+        `${config.API_ROOT}/api/v1/user/getUserByEmail`,
+        {
+          Email: res.data.email,
+        }
+      );
+      if (checkEmail.data.data.Status === true) {
+        navigate(`/login-email/${res.data.email}`);
+      } else {
+        message.error("Tài khoản của bạn đã bị khóa");
+      }
     } catch (error) {
       console.error("Login Failed:", error);
     }
