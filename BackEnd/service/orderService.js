@@ -23,9 +23,9 @@ const orderService = {
         return await orderRepository.countOrdersIn7Days();
     },
 
-    countOrdersByStatusOrderID: async (statusOrderID) => {
+    countOrdersByStatusOrderID: async (statusOrderID, timePeriod) => {
         try {
-            const orders = await orderRepository.countOrdersByStatusOrderID(statusOrderID);
+            const orders = await orderRepository.countOrdersByStatusOrderID(statusOrderID, timePeriod);
             return orders;
         } catch (error) {
             throw new Error(`Error counting order by status order ID: ${error.message}`);

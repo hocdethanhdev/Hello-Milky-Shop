@@ -125,7 +125,7 @@ const orderDAO = {
     });
   },
 
-  countOrdersByStatusOrderID: (statusOrderID) => {
+  countOrdersByStatusOrderID: (statusOrderID, timePeriod) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
         if (err) return reject(err);
@@ -133,10 +133,24 @@ const orderDAO = {
         const request = new mssql.Request();
         request.input("statusOrderID", mssql.Int, statusOrderID);
 
+        let timeCondition;
+        switch (timePeriod) {
+          case 'week':
+            timeCondition = "AND OrderDate >= DATEADD(day, -7, GETDATE())";
+            break;
+          case 'month':
+            timeCondition = "AND OrderDate >= DATEADD(month, -1, GETDATE())";
+            break;
+          case 'day':
+          default:
+            timeCondition = "AND OrderDate >= DATEADD(day, -1, GETDATE())";
+            break;
+        }
+
         const query = `
           SELECT COUNT(OrderID) as count 
           FROM Orders 
-          WHERE StatusOrderID = @statusOrderID AND Status = 1;
+          WHERE StatusOrderID = @statusOrderID AND Status = 1 ${timeCondition};
         `;
 
         request.query(query, (err, res) => {
@@ -156,7 +170,8 @@ const orderDAO = {
           `SELECT COUNT(OrderID) as count
           FROM Orders 
           WHERE Status = 1 
-          AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);`,
+          AND YEAR(OrderDate) = YEAR(GETUTCDATE()) 
+          AND MONTH(OrderDate) = MONTH(GETUTCDATE());`,
           (err, res) => {
             if (err) reject(err);
 
