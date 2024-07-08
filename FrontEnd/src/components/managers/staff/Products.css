@@ -155,6 +155,8 @@ select {
 }
 .nut-act button {
   margin-right: 5px;
+  width: 50px;
+  padding-left: 8px;
 }
 
 /* Add product */

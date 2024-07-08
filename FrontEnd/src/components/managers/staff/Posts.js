@@ -6,8 +6,10 @@ import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import DeleteConfirmationPopupForArticle from "./DeleteConfirmationPopupForArticle";
-import { message } from "antd";
+import { message, Select } from "antd"; // Import Select from antd
 import config from "../../config/config";
+
+const { Option } = Select; // Destructure Option from Select
 
 function Posts() {
   const [articles, setArticles] = useState([]);
@@ -19,6 +21,7 @@ function Posts() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [deleteArticleId, setDeleteArticleId] = useState(null);
+  const [categoryFilter, setCategoryFilter] = useState("all"); // State for category filter
 
   const productsPerPage = 10;
   const navigate = useNavigate();
@@ -39,7 +42,8 @@ function Posts() {
   };
 
   const handleSort = (key) => {
-    let direction = sortConfig.direction === "ascending" ? "descending" : "ascending";
+    let direction =
+      sortConfig.direction === "ascending" ? "descending" : "ascending";
     setSortConfig({ key, direction });
   };
 
@@ -53,9 +57,22 @@ function Posts() {
     return 0;
   });
 
+  const filteredArticles = sortedArticles.filter((article) => {
+    if (categoryFilter === "all") {
+      return true; // Show all articles if "all" is selected
+    } else {
+      return (
+        article.ArticleCategoryID === (categoryFilter === "suc-khoe" ? 1 : 2)
+      );
+    }
+  });
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentArticles = sortedArticles.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentArticles = filteredArticles.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   const handleEditClick = (articleID) => {
     navigate(`/edit-article/${articleID}`);
@@ -74,13 +91,13 @@ function Posts() {
           articles.filter((article) => article.ArticleID !== deleteArticleId)
         );
         setShowDeletePopup(false);
-        message.success('Xóa bài viết thành công');
+        message.success("Xóa bài viết thành công");
       })
       .catch((error) => {
         console.error("There was an error deleting the article!", error);
         setErrorMessage(
           "There was an error deleting the article: " +
-          (error.response?.data || error.message)
+            (error.response?.data || error.message)
         );
         setShowDeletePopup(false);
       });
@@ -90,35 +107,54 @@ function Posts() {
     setShowDeletePopup(false);
   };
 
+  const handleCategoryFilterChange = (value) => {
+    setCategoryFilter(value);
+  };
+
   return (
     <div className="posts-container">
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <div className="d-flex justify-content-end align-items-end">
+      <div className="d-flex justify-content-end align-items-end" style={{marginBottom: 10}}>
         <Link to="/addingpost">
           <button type="button" className="button-add-voucher">
             <span className="far fa-plus-square btn btn-secondary"></span>
           </button>
         </Link>
+        <Select
+          defaultValue="all"
+          style={{ width: 120, marginRight: 10}}
+          onChange={handleCategoryFilterChange}>
+          <Option value="all">Tất cả</Option>
+          <Option value="suc-khoe">Sức khỏe</Option>
+          <Option value="khuyen-mai">Khuyến mãi</Option>
+        </Select>
       </div>
       <div className="post-list">
         <table>
           <thead>
             <tr className="row">
-              <th className="col-md-4" onClick={() => handleSort("Title")} style={{ cursor: "pointer" }}>
+              <th
+                className="col-md-3"
+                onClick={() => handleSort("Title")}
+                style={{ cursor: "pointer" }}>
                 Tiêu đề <FontAwesomeIcon icon={faSort} />
               </th>
               <th className="col-md-3">Ảnh</th>
-              <th className="col-md-3" onClick={() => handleSort("PublishDate")} style={{ cursor: "pointer" }}>
+              <th
+                className="col-md-3"
+                onClick={() => handleSort("PublishDate")}
+                style={{ cursor: "pointer" }}>
                 Ngày công bố <FontAwesomeIcon icon={faSort} />
               </th>
-              <th className="col-md-2">Thao tác</th>
+
+              <th className="col-md-3">Thao tác</th>
             </tr>
           </thead>
           <tbody>
             {currentArticles.map((article) => (
               <tr className="row" key={article.ArticleID}>
-                <td className="col-md-4">{article.Title}</td>
+                <td className="col-md-3">{article.Title}</td>
                 <td className="col-md-3">
                   <img
                     className="header-img-post"
@@ -134,7 +170,8 @@ function Posts() {
                     year: "numeric",
                   })}
                 </td>
-                <td className="col-md-2">
+
+                <td className="col-md-3">
                   <div className="nutchung-post">
                     <button
                       className="btn btn-warning sua-post-nut"
@@ -156,7 +193,7 @@ function Posts() {
           <ThrowPage
             current={currentPage}
             onChange={handlePageChange}
-            total={articles.length}
+            total={filteredArticles.length}
             productsPerPage={productsPerPage}
           />
         </div>
