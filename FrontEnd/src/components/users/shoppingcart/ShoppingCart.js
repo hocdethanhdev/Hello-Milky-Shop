@@ -39,13 +39,19 @@ const ShoppingCart = () => {
   const [decrementIntervalId, setDecrementIntervalId] = useState(null);
 
   const increaseOne = async (productId) => {
-    setProductQuantities((prevQuantities) => {
-      const newQuantity = (prevQuantities[productId] || 1) + 1;
+    // Fetch the maximum quantity for the product
+    const maxQuantity = await getMaxQuantity(productId);
 
-      if (newQuantity < 1) {
-        setProductToRemove(productId);
-        return prevQuantities;
+    setProductQuantities((prevQuantities) => {
+      const currentQuantity = prevQuantities[productId] || 0;
+
+      // Check if current quantity is already at max
+      if (currentQuantity >= maxQuantity) {
+        return prevQuantities; // Return unchanged quantities
       }
+
+      // Increase quantity by 1
+      const newQuantity = currentQuantity + 1;
 
       return {
         ...prevQuantities,
@@ -68,31 +74,6 @@ const ShoppingCart = () => {
         [productId]: newQuantity,
       };
     });
-  };
-
-  const startIncrement = async (productId) => {
-    stopDecrement(); // Stop decrement if it's running
-
-    // Fetch the maximum quantity for the product
-    const maxQuantity = await getMaxQuantity(productId);
-    const intervalId = setInterval(() => {
-      setProductQuantities((prevQuantities) => {
-        const newQuantity = (prevQuantities[productId] || 1) + 1;
-
-        // Check if the new quantity exceeds the maximum quantity
-        if (newQuantity > maxQuantity) {
-          clearInterval(intervalId); // Stop incrementing if the max is reached
-          return prevQuantities;
-        }
-
-        return {
-          ...prevQuantities,
-          [productId]: newQuantity,
-        };
-      });
-    }, 300);
-
-    setIncrementIntervalId(intervalId);
   };
 
   const stopIncrement = () => {
@@ -284,7 +265,8 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       message.warning(
-        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${
+          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -635,14 +617,7 @@ const ShoppingCart = () => {
                         -
                       </button>
                       <span>Số lượng: {quantity}</span>
-                      <button
-                        onClick={() => increaseOne(productId)}
-                        onMouseDown={() => startIncrement(productId)}
-                        onMouseUp={stopIncrement}
-                        onMouseLeave={stopIncrement}
-                      >
-                        +
-                      </button>
+                      <button onClick={() => increaseOne(productId)}>+</button>
                     </div>
                   </div>
                 </div>
