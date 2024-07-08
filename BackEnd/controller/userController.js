@@ -172,6 +172,28 @@ const changePointOfUser = async (req, res) => {
   }
 };
 
+const getUserByEmail = async (req, res) => {
+  try {
+    const { Email } = req.body;
+    const obj = await userService.getUserByEmail(Email);
+    res.send(obj);
+  } catch (error) {
+    console.error("Error in changePointOfUser controller:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const getUserByPhoneNumber = async (req, res) => {
+  try {
+    const { PhoneNumber } = req.body;
+    const obj = await userService.getUserByPhoneNumber(PhoneNumber);
+    res.send(obj);
+  } catch (error) {
+    console.error("Error in changePointOfUser controller:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   getAllUsers,
   deleteUser,
@@ -186,4 +208,6 @@ module.exports = {
   updateUserEmail,
   updateUserPhoneNumber,
   updateInforUser,
+  getUserByPhoneNumber,
+  getUserByEmail,
 };
