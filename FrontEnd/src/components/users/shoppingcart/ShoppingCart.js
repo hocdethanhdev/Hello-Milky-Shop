@@ -39,19 +39,13 @@ const ShoppingCart = () => {
   const [decrementIntervalId, setDecrementIntervalId] = useState(null);
 
   const increaseOne = async (productId) => {
-    // Fetch the maximum quantity for the product
-    const maxQuantity = await getMaxQuantity(productId);
-
     setProductQuantities((prevQuantities) => {
-      const currentQuantity = prevQuantities[productId] || 0;
+      const newQuantity = (prevQuantities[productId] || 1) + 1;
 
-      // Check if current quantity is already at max
-      if (currentQuantity >= maxQuantity) {
-        return prevQuantities; // Return unchanged quantities
+      if (newQuantity < 1) {
+        setProductToRemove(productId);
+        return prevQuantities;
       }
-
-      // Increase quantity by 1
-      const newQuantity = currentQuantity + 1;
 
       return {
         ...prevQuantities,
