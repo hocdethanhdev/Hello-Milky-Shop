@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -11,6 +11,7 @@ const PaymemSuccess = () => {
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
+  let code = params.get("code");
   let status = params.get("status");
   const navigate = useNavigate();
 
@@ -121,21 +122,20 @@ const PaymemSuccess = () => {
       localStorage.removeItem("totalAmount");
     };
 
-    const code = params.get("code");
     const orderID = localStorage.getItem("orderID");
     const totalAmount = localStorage.getItem("totalAmount");
     if (status === "1") {
       checkoutOrder(orderID, totalAmount).then(() =>
         navigate("/", { replace: true })
       );
-    } else if (status === "0" && code) {
+    } else if (status === "0") {
       transferOrderDetailsToNewOrder(orderID).then(() =>
         handlePaymentFailure(code)
       );
     }
-  }, [navigate, token, status, params]);
+  }, [navigate, token, status, code]);
 
-  return null;
+  navigate("/", { replace: true });
 };
 
 export default PaymemSuccess;

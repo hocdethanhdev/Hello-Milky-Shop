@@ -124,8 +124,8 @@ export default function ProductRating({ productID, userID, fetchComments, setRat
 
 // Prop types definition
 ProductRating.propTypes = {
-    productID: PropTypes.number.isRequired,
-    userID: PropTypes.number.isRequired,
+    productID: PropTypes.string.isRequired,
+    userID: PropTypes.string.isRequired,
     fetchComments: PropTypes.func.isRequired,
     setRatingCount: PropTypes.func.isRequired,
 };
