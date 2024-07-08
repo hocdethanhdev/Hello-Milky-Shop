@@ -144,7 +144,11 @@ function VoucherItem({ voucher, onSaveVoucher }) {
             </div>
             <div className="details-text">
               <div className="text-description text-primary">
-                {new Date(voucher.StartDate).toLocaleDateString()}
+                {new Date(voucher.StartDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </div>
             </div>
             <div className="details-text">
@@ -175,7 +179,11 @@ function VoucherItem({ voucher, onSaveVoucher }) {
                 </div>
               </div>
               <div className="text-description text-primary">
-                {new Date(voucher.ExpiryDate).toLocaleDateString()}
+                {new Date(voucher.ExpiryDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </div>
             </div>
           </div>
