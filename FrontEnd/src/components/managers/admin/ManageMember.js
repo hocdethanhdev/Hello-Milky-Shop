@@ -17,7 +17,7 @@ const ManageMember = () => {
   const accountsPerPage = 10;
 
   const fetchUser = () => {
-    fetch(` ${config.api_root}/api/v1/user/getAllUsers/`)
+    fetch(`${config.API_ROOT}/api/v1/user/getAllUsers/`)
       .then((response) => response.json())
       .then((data) => {
         const staffAccounts = data.filter((account) => account.RoleID === 3);
@@ -52,7 +52,7 @@ const ManageMember = () => {
 
   const handleOk = () => {
     fetch(
-      ` ${config.api_root}/api/v1/user/disableUser/${selectedUser.UserID}`,
+      `${config.API_ROOT}/api/v1/user/disableUser/${selectedUser.UserID}`,
       {
         method: "PUT",
         headers: {
@@ -82,7 +82,7 @@ const ManageMember = () => {
   };
 
   const handleEnableUser = (user) => {
-    fetch(` ${config.api_root}/api/v1/user/disableUser/${user.UserID}`, {
+    fetch(`${config.API_ROOT}/api/v1/user/disableUser/${user.UserID}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
