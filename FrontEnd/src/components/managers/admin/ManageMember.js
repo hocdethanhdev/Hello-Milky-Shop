@@ -35,8 +35,8 @@ const ManageMember = () => {
     setFilteredAccounts(
       accounts.filter(
         (account) =>
-          account.UserName.toLowerCase().includes(searchText.toLowerCase()) ||
-          account.PhoneNumber.includes(searchText)
+          (account.UserName && account.UserName.toLowerCase().includes(searchText.toLowerCase())) ||
+          (account.PhoneNumber && account.PhoneNumber.includes(searchText))
       )
     );
   }, [searchText, accounts]);
@@ -201,7 +201,7 @@ const ManageMember = () => {
 
       <Modal
         title="Xác nhận khóa tài khoản"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
