@@ -248,7 +248,7 @@ function Voucher() {
                     Trạng thái
                     {showStatusDropdown && (
                       <ul className="dropdown-content-thinhvcher">
-                        <li onClick={() => handleStatusFilter("All")}>All</li>
+                        <li onClick={() => handleStatusFilter("All")}>Tất cả</li>
                         <li onClick={() => handleStatusFilter("active")}>
                           Khả dụng
                         </li>
