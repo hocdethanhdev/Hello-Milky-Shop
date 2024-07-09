@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Modal, message, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import axios from "axios";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import config from "../../config/config";
@@ -35,7 +36,10 @@ const ManageMember = () => {
     setFilteredAccounts(
       accounts.filter(
         (account) =>
-          (account.UserName && account.UserName.toLowerCase().includes(searchText.toLowerCase())) ||
+          (account.UserName &&
+            account.UserName.toLowerCase().includes(
+              searchText.toLowerCase()
+            )) ||
           (account.PhoneNumber && account.PhoneNumber.includes(searchText))
       )
     );
@@ -50,31 +54,41 @@ const ManageMember = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
-    fetch(
-      `${config.API_ROOT}/api/v1/user/disableUser/${selectedUser.UserID}`,
+  const handleOk = async () => {
+    const check = await axios.post(
+      `${config.API_ROOT}/api/v1/order/checkOrderOfUser`,
       {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ Status: 0 }),
+        UserID: selectedUser.UserID,
       }
-    )
-      .then((response) => response.json())
-      .then(() => {
-        setAccounts(
-          accounts.map((account) =>
-            account.UserID === selectedUser.UserID
-              ? { ...account, Status: 0 }
-              : account
-          )
-        );
-        setIsModalVisible(false);
-        message.success("Khóa tài khoản thành công");
-        fetchUser();
-      })
-      .catch((error) => console.error("Error updating user status:", error));
+    );
+    if (check.data.status === 0) {
+      message.error("Tài khoản đang có đơn hàng không thể chặn");
+    } else {
+      fetch(
+        `${config.API_ROOT}/api/v1/user/disableUser/${selectedUser.UserID}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ Status: 0 }),
+        }
+      )
+        .then((response) => response.json())
+        .then(() => {
+          setAccounts(
+            accounts.map((account) =>
+              account.UserID === selectedUser.UserID
+                ? { ...account, Status: 0 }
+                : account
+            )
+          );
+          setIsModalVisible(false);
+          message.success("Khóa tài khoản thành công");
+          fetchUser();
+        })
+        .catch((error) => console.error("Error updating user status:", error));
+    }
   };
 
   const handleCancel = () => {
@@ -165,10 +179,12 @@ const ManageMember = () => {
 
   const startIndex = (currentPage - 1) * accountsPerPage;
   const endIndex = startIndex + accountsPerPage;
-  const currentAccounts = filteredAccounts.slice(startIndex, endIndex).map((account, index) => ({
-    ...account,
-    index: startIndex + index + 1,
-  }));
+  const currentAccounts = filteredAccounts
+    .slice(startIndex, endIndex)
+    .map((account, index) => ({
+      ...account,
+      index: startIndex + index + 1,
+    }));
 
   return (
     <div className="table-container-staff manager-container">
