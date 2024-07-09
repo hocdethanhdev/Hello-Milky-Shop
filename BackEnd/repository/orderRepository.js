@@ -2,6 +2,14 @@ const orderDAO = require('../dao/orderDAO');
 
 const orderRepository = {
 
+    refundQuantityOfProduct: (orderID) => {
+        return orderDAO.refundQuantityOfProduct(orderID);
+    },
+
+    checkOrderOfUser: (UserID) => {
+        return orderDAO.checkOrderOfUser(UserID);
+    },
+
     transferOrderDetailsToNewOrder: (OrderID) => {
         return orderDAO.transferOrderDetailsToNewOrder(OrderID);
     },

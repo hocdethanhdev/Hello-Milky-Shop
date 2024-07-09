@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Modal, message, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import axios from "axios";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import config from "../../config/config";
@@ -17,7 +18,7 @@ const ManageMember = () => {
   const accountsPerPage = 10;
 
   const fetchUser = () => {
-    fetch(` ${config.api_root}/api/v1/user/getAllUsers/`)
+    fetch(`${config.API_ROOT}/api/v1/user/getAllUsers/`)
       .then((response) => response.json())
       .then((data) => {
         const staffAccounts = data.filter((account) => account.RoleID === 3);
@@ -35,8 +36,11 @@ const ManageMember = () => {
     setFilteredAccounts(
       accounts.filter(
         (account) =>
-          account.UserName.toLowerCase().includes(searchText.toLowerCase()) ||
-          account.PhoneNumber.includes(searchText)
+          (account.UserName &&
+            account.UserName.toLowerCase().includes(
+              searchText.toLowerCase()
+            )) ||
+          (account.PhoneNumber && account.PhoneNumber.includes(searchText))
       )
     );
   }, [searchText, accounts]);
@@ -50,31 +54,42 @@ const ManageMember = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
-    fetch(
-      ` ${config.api_root}/api/v1/user/disableUser/${selectedUser.UserID}`,
+  const handleOk = async () => {
+    const check = await axios.post(
+      `${config.API_ROOT}/api/v1/order/checkOrderOfUser`,
       {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ Status: 0 }),
+        UserID: selectedUser.UserID,
       }
-    )
-      .then((response) => response.json())
-      .then(() => {
-        setAccounts(
-          accounts.map((account) =>
-            account.UserID === selectedUser.UserID
-              ? { ...account, Status: 0 }
-              : account
-          )
-        );
-        setIsModalVisible(false);
-        message.success("Khóa tài khoản thành công");
-        fetchUser();
-      })
-      .catch((error) => console.error("Error updating user status:", error));
+    );
+    if (check.data.status === 1) {
+      message.error("Tài khoản đang có đơn hàng không thể chặn");
+      setIsModalVisible(false);
+    } else {
+      fetch(
+        `${config.API_ROOT}/api/v1/user/disableUser/${selectedUser.UserID}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ Status: 0 }),
+        }
+      )
+        .then((response) => response.json())
+        .then(() => {
+          setAccounts(
+            accounts.map((account) =>
+              account.UserID === selectedUser.UserID
+                ? { ...account, Status: 0 }
+                : account
+            )
+          );
+          setIsModalVisible(false);
+          message.success("Khóa tài khoản thành công");
+          fetchUser();
+        })
+        .catch((error) => console.error("Error updating user status:", error));
+    }
   };
 
   const handleCancel = () => {
@@ -82,7 +97,7 @@ const ManageMember = () => {
   };
 
   const handleEnableUser = (user) => {
-    fetch(` ${config.api_root}/api/v1/user/disableUser/${user.UserID}`, {
+    fetch(`${config.API_ROOT}/api/v1/user/disableUser/${user.UserID}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -165,10 +180,12 @@ const ManageMember = () => {
 
   const startIndex = (currentPage - 1) * accountsPerPage;
   const endIndex = startIndex + accountsPerPage;
-  const currentAccounts = filteredAccounts.slice(startIndex, endIndex).map((account, index) => ({
-    ...account,
-    index: startIndex + index + 1,
-  }));
+  const currentAccounts = filteredAccounts
+    .slice(startIndex, endIndex)
+    .map((account, index) => ({
+      ...account,
+      index: startIndex + index + 1,
+    }));
 
   return (
     <div className="table-container-staff manager-container">
@@ -201,7 +218,7 @@ const ManageMember = () => {
 
       <Modal
         title="Xác nhận khóa tài khoản"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >

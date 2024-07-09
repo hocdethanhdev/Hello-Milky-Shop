@@ -2,20 +2,24 @@ const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 
 const orderDAO = {
-  transferOrderDetailsToNewOrder: (OrderID) => {
+  checkOrderOfUser: (UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function () {
-        const request = new mssql.Request();
+        const request = new mssql.Request().input(
+          "UserID",
+          mssql.VarChar,
+          UserID
+        );
         request.query(
           `SELECT count(OrderID) as count
           FROM Orders o
-          WHERE Status = 1;`,
+          JOIN Users u ON u.UserID = o.UserID
+          WHERE u.UserID = @UserID AND (o.StatusOrderID = 2 OR o.StatusOrderID = 1);`,
           (err, res) => {
             if (err) reject(err);
 
             resolve({
-              err: res?.recordset[0] !== null ? 0 : 1,
-              count: res.recordset[0].count,
+              status: res.recordset[0].count > 0 ? 1 : 0,
             });
           }
         );
@@ -135,13 +139,13 @@ const orderDAO = {
 
         let timeCondition;
         switch (timePeriod) {
-          case 'week':
+          case "week":
             timeCondition = "AND OrderDate >= DATEADD(day, -7, GETDATE())";
             break;
-          case 'month':
+          case "month":
             timeCondition = "AND OrderDate >= DATEADD(month, -1, GETDATE())";
             break;
-          case 'day':
+          case "day":
           default:
             timeCondition = "AND OrderDate >= DATEADD(day, -1, GETDATE())";
             break;
@@ -621,7 +625,49 @@ const orderDAO = {
       });
     });
   },
+  refundQuantityOfProduct: async (OrderID) => {
+    try {
+      await mssql.connect(dbConfig);
 
+      const transaction = new mssql.Transaction();
+      await transaction.begin();
+
+      const request = new mssql.Request(transaction);
+      request.input("orderID", mssql.Int, OrderID);
+
+      const getOrderDetailsQuery = `
+        SELECT ProductID, Quantity
+        FROM Orders o
+        JOIN OrderDetail od ON o.OrderID = od.OrderID
+        WHERE o.OrderID = @OrderID;
+      `;
+      const orderDetailsResult = await request.query(getOrderDetailsQuery);
+      const orderDetails = orderDetailsResult.recordset;
+
+      const updateProductQueries = orderDetails
+        .map((detail) => {
+          return `
+            UPDATE Product
+            SET StockQuantity = StockQuantity + ${detail.Quantity}
+            WHERE ProductID = '${detail.ProductID}';
+          `;
+        })
+        .join("; ");
+
+      await request.query(updateProductQueries);
+
+      await transaction.commit();
+      return { err: 0 };
+    } catch (err) {
+      console.error(err);
+      try {
+        await transaction.rollback();
+      } catch (rollbackError) {
+        console.error("Rollback failed:", rollbackError);
+      }
+      throw err;
+    }
+  },
   checkoutOrder: async (orderID) => {
     try {
       await mssql.connect(dbConfig);
