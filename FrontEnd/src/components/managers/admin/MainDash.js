@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./MainDash.css";
 import Chart from "react-apexcharts";
 import { HiUsers } from "react-icons/hi";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoneyBillTrendUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyBillTrendUp } from "@fortawesome/free-solid-svg-icons";
 import config from "../../config/config";
+import axios from "axios";
 function MainDash() {
   const [productCount, setProductCount] = useState(0);
   const [brandCount, setBrandCount] = useState(0);
@@ -16,6 +17,7 @@ function MainDash() {
     ProductName: [],
   });
   const [revenueData, setRevenueData] = useState({ months: [], revenue: [] });
+  const [timePeriod, setTimePeriod] = useState("day");
 
   const formattedRevenue = (revenue) => {
     return `${revenue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -48,16 +50,20 @@ function MainDash() {
         const revenueDatas = await revenueRess.json();
         setRevenue(revenueDatas);
 
-
-        const top5BestSellRes = await fetch(
-          `${config.API_ROOT}/api/v1/product/getTop5ProductBestSeller`
+        const top5BestSellRes = await axios.post(
+          `${config.API_ROOT}/api/v1/product/getTop5ProductBestSeller`,
+          {
+            Option: timePeriod,
+          }
         );
-        const top5BestSellData = await top5BestSellRes.json();
-        const ProductID = top5BestSellData.data.map((item) => item.ProductID);
-        const ProductName = top5BestSellData.data.map(
+
+        const ProductID = top5BestSellRes.data.data.map(
+          (item) => item.ProductID
+        );
+        const ProductName = top5BestSellRes.data.data.map(
           (item) => item.ProductName
         );
-        const SumSell = top5BestSellData.data.map((item) => item.SumSell);
+        const SumSell = top5BestSellRes.data.data.map((item) => item.SumSell);
         setTop5BestSell({ ProductID, SumSell, ProductName });
 
         const revenueRes = await fetch(
@@ -65,8 +71,7 @@ function MainDash() {
         );
         const revenueData = await revenueRes.json();
         const months = revenueData.map((item) => item.Month);
-        const revenue = revenueData.map((item) => (parseInt(item.revenue)));
-        console.log(revenue);
+        const revenue = revenueData.map((item) => parseInt(item.revenue));
         setRevenueData({ months, revenue });
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -74,6 +79,25 @@ function MainDash() {
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchTop5BestSell = async () => {
+      const top5BestSellRes = await axios.post(
+        `${config.API_ROOT}/api/v1/product/getTop5ProductBestSeller`,
+        {
+          Option: timePeriod,
+        }
+      );
+
+      const ProductID = top5BestSellRes.data.data.map((item) => item.ProductID);
+      const ProductName = top5BestSellRes.data.data.map(
+        (item) => item.ProductName
+      );
+      const SumSell = top5BestSellRes.data.data.map((item) => item.SumSell);
+      setTop5BestSell({ ProductID, SumSell, ProductName });
+    };
+    fetchTop5BestSell();
+  }, [timePeriod]);
 
   const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -306,7 +330,6 @@ function MainDash() {
     },
   };
 
-
   return (
     <div className="grid-container-dasha">
       <main className="main-container-dasha">
@@ -346,7 +369,23 @@ function MainDash() {
         </div>
         <div className="charts-dasha">
           <div className="charts-card-dasha">
-            <h2 className="chart-title-dasha">Top 5 Sản phẩm bán chạy</h2>
+            <div className="top5-header row">
+              <h2 className="chart-title-dasha col-md-9">
+                Top 5 Sản phẩm bán chạy
+              </h2>
+              <select
+                className="col-md-3 top5-option"
+                id="Option"
+                value={timePeriod}
+                onChange={(e) => setTimePeriod(e.target.value)}
+              >
+                <option value="day">Ngày</option>
+                <option value="month">Tháng</option>
+                <option value="year">Năm</option>
+                <option value="all">Tất cả</option>
+              </select>
+            </div>
+
             <Chart
               options={barChartOptions.options}
               series={barChartOptions.series}

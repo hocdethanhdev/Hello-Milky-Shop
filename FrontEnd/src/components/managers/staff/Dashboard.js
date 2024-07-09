@@ -23,19 +23,27 @@ function Dashboard() {
       .then((response) => response.json())
       .then((data) => setNewOrdersCount(data.count));
 
-    fetch(`${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/1?timePeriod=${timePeriod}`)
+    fetch(
+      `${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/1?timePeriod=${timePeriod}`
+    )
       .then((response) => response.json())
       .then((data) => setWaitingOrdersCount(data.count));
 
-    fetch(`${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/4?timePeriod=${timePeriod}`)
+    fetch(
+      `${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/4?timePeriod=${timePeriod}`
+    )
       .then((response) => response.json())
       .then((data) => setFinishedOrdersCount(data.count));
 
-    fetch(`${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/3?timePeriod=${timePeriod}`)
+    fetch(
+      `${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/3?timePeriod=${timePeriod}`
+    )
       .then((response) => response.json())
       .then((data) => setCanceledOrdersCount(data.count));
 
-    fetch(`${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/2?timePeriod=${timePeriod}`)
+    fetch(
+      `${config.API_ROOT}/api/v1/order/countOrdersByStatusOrderID/2?timePeriod=${timePeriod}`
+    )
       .then((response) => response.json())
       .then((data) => setShippingOrdersCount(data.count));
 
@@ -87,10 +95,11 @@ function Dashboard() {
       <div className="stats-st-thinh">
         <div className="stat-card-st-thinh">
           <h2>Tổng đơn hàng: {orderCount}</h2>
+          <p style={{ color: "gray" }}>trong tháng</p>
         </div>
         <div className="stat-card-st-thinh">
           <h2>Đơn hàng mới: {newOrdersCount}</h2>
-          <p style={{ color: "gray" }}>theo ngày</p>
+          <p style={{ color: "gray" }}>trong ngày</p>
         </div>
         <div className="stat-card-st-thinh">
           <h2>Đơn hàng chờ xác nhận: {waitingOrdersCount}</h2>
@@ -98,10 +107,11 @@ function Dashboard() {
       </div>
       <div className="charts-st-thinh">
         <div className="chart-container-st-thinh pie-chart-st-thinh">
-          <h2>Đơn hàng</h2>
-          <div>
-            <label htmlFor="timePeriod">Chọn khoảng thời gian: </label>
+          <div className="row order-header-doughnut-header">
+            <h2 className="order-header-doughnut">Đơn hàng</h2>
+
             <select
+            className="order-option-doughnut"
               id="timePeriod"
               value={timePeriod}
               onChange={(e) => setTimePeriod(e.target.value)}
