@@ -11,7 +11,8 @@ const getAllProductForUser = async (req, res) => {
 
 const getTop5ProductBestSeller = async (req, res) => {
   try {
-    const obj = await productService.getTop5ProductBestSeller();
+    const { Option } = req.body;
+    const obj = await productService.getTop5ProductBestSeller(Option);
     res.status(200).json(obj)
   } catch (error) {
     res.status(500).send("Internal Server Error");

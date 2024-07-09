@@ -5,8 +5,8 @@ const productService = {
     return await productRepository.getAllProductForUser();
   },
 
-  getTop5ProductBestSeller: async () => {
-    return await productRepository.getTop5ProductBestSeller();
+  getTop5ProductBestSeller: async (Option) => {
+    return await productRepository.getTop5ProductBestSeller(Option);
   },
 
   countBrand: async () => {
