@@ -1,5 +1,5 @@
 class Promotion {
-    constructor(promotionID, promotionName, description, discountPercentage, image, startDate, endDate) {
+    constructor(promotionID, promotionName, description, discountPercentage, image, startDate, endDate, status) {
         this.promotionID = promotionID;
         this.promotionName = promotionName;
         this.description = description;
@@ -7,6 +7,7 @@ class Promotion {
         this.image = image;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.status = status;
     }
 }
 

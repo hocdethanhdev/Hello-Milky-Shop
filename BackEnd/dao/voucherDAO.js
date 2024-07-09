@@ -346,8 +346,8 @@ const voucherDAO = {
         var request = new mssql.Request().input("voucherID", VoucherID);
         request.query(
           `UPDATE Voucher
-                    SET Status = 1
-                    WHERE VoucherID = @voucherID;`,
+           SET Status = 1
+           WHERE VoucherID = @voucherID;`,
           (err) => {
             if (err) reject(err);
             resolve({
