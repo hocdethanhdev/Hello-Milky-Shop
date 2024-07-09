@@ -2,6 +2,9 @@
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
+    refundQuantityOfProduct: async (orderID) => {
+        return await orderRepository.refundQuantityOfProduct(orderID);
+    },
 
     transferOrderDetailsToNewOrder: async (OrderID) => {
         return await orderRepository.transferOrderDetailsToNewOrder(OrderID);
