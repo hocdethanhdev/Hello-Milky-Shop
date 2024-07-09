@@ -17,7 +17,6 @@ const orderDAO = {
           WHERE u.UserID = @UserID AND (o.StatusOrderID = 2 OR o.StatusOrderID = 1);`,
           (err, res) => {
             if (err) reject(err);
-
             resolve({
               status: res.recordset[0].count > 0 ? 1 : 0,
             });
