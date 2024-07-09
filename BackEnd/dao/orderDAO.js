@@ -33,7 +33,9 @@ const orderDAO = {
         request.query(
           `SELECT count(OrderID) as count
           FROM Orders o
-          WHERE Status = 1;`,
+          WHERE Status = 1
+          AND YEAR(OrderDate) = YEAR(GETUTCDATE()) 
+          AND MONTH(OrderDate) = MONTH(GETUTCDATE());`,
           (err, res) => {
             if (err) reject(err);
 
@@ -174,8 +176,8 @@ const orderDAO = {
           `SELECT COUNT(OrderID) as count
           FROM Orders 
           WHERE Status = 1 
-          AND YEAR(OrderDate) = YEAR(GETUTCDATE()) 
-          AND MONTH(OrderDate) = MONTH(GETUTCDATE());`,
+          AND CAST(OrderDate AS DATE) = CAST(GETUTCDATE() AS DATE);
+          `,
           (err, res) => {
             if (err) reject(err);
 
