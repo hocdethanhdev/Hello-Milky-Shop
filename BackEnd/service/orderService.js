@@ -6,6 +6,10 @@ const orderService = {
         return await orderRepository.refundQuantityOfProduct(orderID);
     },
 
+    checkOrderOfUser: async (UserID) => {
+        return await orderRepository.checkOrderOfUser(UserID);
+    },
+
     transferOrderDetailsToNewOrder: async (OrderID) => {
         return await orderRepository.transferOrderDetailsToNewOrder(OrderID);
     },

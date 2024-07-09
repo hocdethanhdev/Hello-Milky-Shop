@@ -2,20 +2,24 @@ const mssql = require("mssql");
 const dbConfig = require("../config/db.config");
 
 const orderDAO = {
-  transferOrderDetailsToNewOrder: (OrderID) => {
+  checkOrderOfUser: (UserID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function () {
-        const request = new mssql.Request();
+        const request = new mssql.Request().input(
+          "UserID",
+          mssql.VarChar,
+          UserID
+        );
         request.query(
           `SELECT count(OrderID) as count
           FROM Orders o
-          WHERE Status = 1;`,
+          JOIN Users u ON u.UserID = o.UserID
+          WHERE u.UserID = @UserID AND (o.StatusOrderID = 2 OR o.StatusOrderID = 1);`,
           (err, res) => {
             if (err) reject(err);
 
             resolve({
-              err: res?.recordset[0] !== null ? 0 : 1,
-              count: res.recordset[0].count,
+              status: res.recordset[0].count > 0 ? 1 : 0,
             });
           }
         );

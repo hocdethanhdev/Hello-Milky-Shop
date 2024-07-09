@@ -6,6 +6,10 @@ const orderRepository = {
         return orderDAO.refundQuantityOfProduct(orderID);
     },
 
+    checkOrderOfUser: (UserID) => {
+        return orderDAO.checkOrderOfUser(UserID);
+    },
+
     transferOrderDetailsToNewOrder: (OrderID) => {
         return orderDAO.transferOrderDetailsToNewOrder(OrderID);
     },

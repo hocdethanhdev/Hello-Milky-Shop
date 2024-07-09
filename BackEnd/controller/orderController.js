@@ -10,6 +10,16 @@ const transferOrderDetailsToNewOrder = async (req, res) => {
     }
 }
 
+const checkOrderOfUser = async (req, res) => {
+    try {
+        const { UserID } = req.body;
+        const orders = await orderService.checkOrderOfUser(UserID);
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 const countOrdersPayed = async (req, res) => {
     try {
         const orders = await orderService.countOrdersPayed();
@@ -326,4 +336,5 @@ module.exports = {
     getInfoToShip,
     countOrdersPayed,
     transferOrderDetailsToNewOrder,
+    checkOrderOfUser,
 };
