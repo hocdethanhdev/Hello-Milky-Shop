@@ -61,8 +61,9 @@ const ManageMember = () => {
         UserID: selectedUser.UserID,
       }
     );
-    if (check.data.status === 0) {
+    if (check.data.status === 1) {
       message.error("Tài khoản đang có đơn hàng không thể chặn");
+      setIsModalVisible(false);
     } else {
       fetch(
         `${config.API_ROOT}/api/v1/user/disableUser/${selectedUser.UserID}`,
