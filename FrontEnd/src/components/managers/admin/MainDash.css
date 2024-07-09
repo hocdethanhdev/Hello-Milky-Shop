@@ -107,3 +107,10 @@ body {
 .main-container-dasha h1{
   color: rgb(71, 70, 70);
 }
+
+.top5-option{
+  color: black;
+  padding: 8px;
+  margin-bottom: 20px;
+}
+

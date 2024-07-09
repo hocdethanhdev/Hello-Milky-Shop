@@ -9,8 +9,6 @@ const productDAO = {
         if (err) return reject(err);
 
         const request = new mssql.Request();
-        request.input("statusOrderID", mssql.Int, statusOrderID);
-
         let timeCondition;
         switch (Option) {
           case "year":
@@ -21,6 +19,7 @@ const productDAO = {
           case "day":
             timeCondition =
               "AND CONVERT(date, o.OrderDate) = CONVERT(date, GETDATE())";
+          case "all":
           default:
             timeCondition = "";
             break;
