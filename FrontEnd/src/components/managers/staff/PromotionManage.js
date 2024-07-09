@@ -94,6 +94,43 @@ function PromotionManage() {
     }
   };
 
+  const handleToggleStatus = (promotion) => {
+    const updatedProduct = {
+      ...promotion,
+      Status: promotion.Status === 1 ? 0 : 1,
+    };
+
+    fetch(
+      `${config.API_ROOT}/api/v1/promotion/openPromotion/${promotion.PromotionID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProduct),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPromotions((prePromotions) =>
+          prePromotions.map((p) =>
+            p.PromotionID === promotion.PromotionID ? updatedProduct : p
+          )
+        );
+        console.log(data);
+        message.success("Trạng thái promotion đã được cập nhật!");
+        fetchPromotions();
+      })
+      .catch((error) => {
+        message.error("Lỗi khi cập nhật trạng thái promotion: " + error.message);
+      });
+  };
+
   const handleFilterChange = (event) => {
     setFilterType(event.target.value);
     setCurrentPage(1);
@@ -178,9 +215,8 @@ function PromotionManage() {
           <tr>
             <th className="promo-th col-md-1">Stt</th>
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "PromotionName" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "PromotionName" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("PromotionName")}>
               Tên khuyến mãi
               <button className={`sort-icon-order`}>
@@ -190,9 +226,8 @@ function PromotionManage() {
             <th className="promo-th col-md-2">Ảnh</th>
 
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "StartDate" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "StartDate" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("StartDate")}>
               Bắt đầu
               <button className={`sort-icon-order`}>
@@ -200,9 +235,8 @@ function PromotionManage() {
               </button>
             </th>
             <th
-              className={`promo-th col-md-2 ${
-                sortConfig.key === "EndDate" ? sortConfig.direction : ""
-              }`}
+              className={`promo-th col-md-2 ${sortConfig.key === "EndDate" ? sortConfig.direction : ""
+                }`}
               onClick={() => handleSort("EndDate")}>
               Kết thúc
               <button className={`sort-icon-order`}>
@@ -255,12 +289,21 @@ function PromotionManage() {
                     onClick={() => handleEdit(promotion)}>
                     Sửa
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => handleDelete(promotion.PromotionID)}>
-                    Xóa
-                  </button>
+                  {promotion.Status === true ? (
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(promotion.PromotionID)}>
+                      Xóa
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={() => handleToggleStatus(promotion)}>
+                      Mở
+                    </button>
+                  )}
                 </div>
               </td>
             </tr>

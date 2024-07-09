@@ -36,7 +36,13 @@ const promotionRepository = {
     },
 
     deletePromotion: async (promotion_id) => {
-        return await promotionDAO.deletePromotions(promotion_id);
+        return await promotionDAO.deletePromotion(promotion_id);
+    },
+    openPromotion: async (promotion_id) => {
+        return await promotionDAO.openPromotion(promotion_id);
+    },
+    updatePromotionStatusAuto: (oldStatus, newStatus) => {
+        return promotionDAO.updatePromotionStatusAuto(oldStatus, newStatus);
     },
 
 };

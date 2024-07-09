@@ -45,6 +45,17 @@ const promotionService = {
     deletePromotion: async (promotion_id) => {
         return await promotionRepository.deletePromotion(promotion_id);
     },
+    openPromotion: async (promotion_id) => {
+        return await promotionRepository.openPromotion(promotion_id);
+    },
+    updatePromotionStatusAuto: async (oldStatus, newStatus) => {
+        try {
+            await promotionRepository.updatePromotionStatusAuto(oldStatus, newStatus);
+        } catch (error) {
+            throw new Error(`Error updating promotion status: ${error.message}`);
+        }
+    },
+
 };
 
 module.exports = promotionService;
