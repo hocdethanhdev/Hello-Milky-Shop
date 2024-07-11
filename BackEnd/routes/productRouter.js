@@ -54,12 +54,10 @@ router.get('/countProduct', productController.countProduct);
 
 router.get('/countBrand', productController.countBrand);
 
-router.get('/getTop5ProductBestSeller', productController.getTop5ProductBestSeller);
+router.post('/getTop5ProductBestSeller', productController.getTop5ProductBestSeller);
 
 router.get('/getAllProductForUser', productController.getAllProductForUser);
 
 router.get('/getTop5ProductBestSellerForUser', productController.getTop5ProductBestSellerForUser);
-
-
 
 module.exports = router;

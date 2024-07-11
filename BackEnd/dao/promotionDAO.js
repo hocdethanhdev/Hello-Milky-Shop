@@ -290,16 +290,15 @@ const promotionDAO = {
       });
     });
   },
-  deletePromotions: (param_id) => {
+  deletePromotion: (param_id) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("PromotionID", param_id);
         request.query(
-          `
-          DELETE FROM ProductPromotionList WHERE PromotionID = @PromotionID;
-          DELETE FROM Promotion WHERE PromotionID = @PromotionID;
-
+          `UPDATE Promotion
+          SET Status = 0
+          Where PromotionID = @promotionID
           `,
           (err) => {
             if (err) reject(err);
@@ -311,6 +310,53 @@ const promotionDAO = {
       });
     });
   },
+  openPromotion: (PromotionID) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        var request = new mssql.Request().input("promotionID", PromotionID);
+        request.query(
+          `UPDATE Promotion
+           SET Status = 1
+           WHERE PromotionID = @promotionID;`,
+          (err) => {
+            if (err) reject(err);
+            resolve({
+              message: "Open successfully",
+            });
+          }
+        );
+      });
+    });
+  },
+
+  updatePromotionStatusAuto: (oldStatus, newStatus) => {
+    return new Promise((resolve, reject) => {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
+        const request = new mssql.Request();
+        request
+          .input("oldStatus", mssql.Int, oldStatus)
+          .input("newStatus", mssql.Int, newStatus);
+
+        const updateQuery = `
+                    UPDATE Promotion
+                    SET Status = @newStatus
+                    WHERE endDate < GETDATE() AND status = @oldStatus;
+                `;
+        request.query(updateQuery, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      });
+    });
+  },
+
 };
 
 module.exports = promotionDAO;

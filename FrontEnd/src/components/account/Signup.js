@@ -252,7 +252,17 @@ function Signup() {
           token: response.credential,
         }
       );
-      navigate(`/login-email/${res.data.email}`);
+      const checkEmail = await axios.post(
+        `${config.API_ROOT}/api/v1/user/getUserByEmail`,
+        {
+          Email: res.data.email,
+        }
+      );
+      if (checkEmail.data.data.Status === true) {
+        navigate(`/login-email/${res.data.email}`);
+      } else {
+        message.error("Tài khoản của bạn đã bị khóa");
+      }
     } catch (error) {
       console.error("Login Failed:", error);
     }

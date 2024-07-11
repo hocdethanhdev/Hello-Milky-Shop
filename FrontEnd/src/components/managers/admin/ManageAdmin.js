@@ -4,6 +4,8 @@ import { message } from "antd";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import config from "../../config/config";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const ManageAdmin = () => {
   const [accounts, setAccounts] = useState([]);
@@ -14,8 +16,18 @@ const ManageAdmin = () => {
     PhoneNumber: "",
   });
   const [showEditPopup, setShowEditPopup] = useState(false);
+  const [showPasswordPopup, setShowPasswordPopup] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const accountsPerPage = 10;
+
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
   const fetchUsers = () => {
     fetch(`${config.API_ROOT}/api/v1/user/getAllUsers/`)
@@ -46,7 +58,9 @@ const ManageAdmin = () => {
     if (name === "Email") {
       // Validate email format
       if (value.trim() && !/\S+@\S+\.\S+/.test(value)) {
-        message.error("Địa chỉ email không hợp lệ. Vui lòng nhập đúng định dạng.");
+        message.error(
+          "Địa chỉ email không hợp lệ. Vui lòng nhập đúng định dạng."
+        );
       }
     }
     setEditForm({
@@ -107,6 +121,52 @@ const ManageAdmin = () => {
     setCurrentPage(page);
   };
 
+  const toggleShowPassword = (setShowPassword) => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+
+    if (passwordForm.newPassword !== passwordForm.confirmNewPassword) {
+      message.error("Mật khẩu mới và xác nhận mật khẩu không khớp.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${config.API_ROOT}/api/v1/auth/changePassword`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            UserID: editingUser.UserID,
+            OldPass: passwordForm.oldPassword,
+            NewPass: passwordForm.newPassword,
+          }),
+        }
+      );
+      const data = await response.json();
+
+      if (data.err === 0) {
+        message.success("Đổi mật khẩu thành công!");
+        setPasswordForm({
+          oldPassword: "",
+          newPassword: "",
+          confirmNewPassword: "",
+        });
+        setShowPasswordPopup(false);
+      } else {
+        message.error(data.msg || "Mật khẩu cũ không đúng. Vui lòng nhập lại");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      message.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+    }
+  };
+
   return (
     <div className="table-container-staff manager-container">
       <div className="css-class-account-manager">
@@ -135,8 +195,17 @@ const ManageAdmin = () => {
                 <td className="col-md-3">
                   <button
                     className="btn btn-warning"
+                    style={{marginRight: (10)}}
                     onClick={() => handleEdit(account)}>
                     Sửa
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      setEditingUser(account);
+                      setShowPasswordPopup(true);
+                    }}>
+                    Đổi mật khẩu
                   </button>
                 </td>
               </tr>
@@ -156,6 +225,11 @@ const ManageAdmin = () => {
       {showEditPopup && (
         <div className="edit-popup">
           <div className="edit-popup-content">
+            <button
+              className="close-button"
+              onClick={() => setShowEditPopup(false)}>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
             <form onSubmit={handleSubmit}>
               <label>
                 Tên tài khoản:
@@ -189,6 +263,96 @@ const ManageAdmin = () => {
                 <button type="button" onClick={() => setShowEditPopup(false)}>
                   Hủy bỏ
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showPasswordPopup && (
+        <div className="edit-popup">
+          <div className="change-password-form">
+            <div
+              className="close-changepass-admin"
+              onClick={() => setShowPasswordPopup(false)}>
+              <FontAwesomeIcon icon={faTimes} />
+            </div>
+            <form onSubmit={handlePasswordChange}>
+              <div className="password-input">
+                <label htmlFor="oldPassword">
+                  Mật khẩu cũ:
+                  <div className="input-container">
+                    <input
+                      type={showOldPassword ? "text" : "password"}
+                      value={passwordForm.oldPassword}
+                      onChange={(e) =>
+                        setPasswordForm({
+                          ...passwordForm,
+                          oldPassword: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                    <FontAwesomeIcon
+                      icon={faEye}
+                      className="password-toggle"
+                      onClick={() => toggleShowPassword(setShowOldPassword)}
+                    />
+                  </div>
+                </label>
+              </div>
+              <div className="password-input">
+                <label>
+                  Mật khẩu mới:
+                  <div className="input-container">
+                    <input
+                      type={showNewPassword ? "text" : "password"}
+                      value={passwordForm.newPassword}
+                      onChange={(e) =>
+                        setPasswordForm({
+                          ...passwordForm,
+                          newPassword: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                    <FontAwesomeIcon
+                      icon={faEye}
+                      className="password-toggle"
+                      onClick={() => toggleShowPassword(setShowNewPassword)}
+                    />
+                  </div>
+                </label>
+              </div>
+              <div className="password-input">
+                <label htmlFor="confirmNewPassword">
+                  Nhập lại mật khẩu mới:
+                  <div className="input-container">
+                    <input
+                      type={showConfirmNewPassword ? "text" : "password"}
+                      value={passwordForm.confirmNewPassword}
+                      onChange={(e) =>
+                        setPasswordForm({
+                          ...passwordForm,
+                          confirmNewPassword: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                    <FontAwesomeIcon
+                      icon={faEye}
+                      className="password-toggle"
+                      onClick={() =>
+                        toggleShowPassword(setShowConfirmNewPassword)
+                      }
+                    />
+                  </div>
+                </label>
+                <div className="edit-popup-buttons">
+                  <button type="submit" className="button-changepass">
+                    Đổi mật khẩu
+                  </button>
+                </div>
               </div>
             </form>
           </div>

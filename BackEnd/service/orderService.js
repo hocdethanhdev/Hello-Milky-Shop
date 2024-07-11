@@ -2,6 +2,13 @@
 const orderRepository = require('../repository/orderRepository');
 
 const orderService = {
+    refundQuantityOfProduct: async (orderID) => {
+        return await orderRepository.refundQuantityOfProduct(orderID);
+    },
+
+    checkOrderOfUser: async (UserID) => {
+        return await orderRepository.checkOrderOfUser(UserID);
+    },
 
     transferOrderDetailsToNewOrder: async (OrderID) => {
         return await orderRepository.transferOrderDetailsToNewOrder(OrderID);
@@ -23,9 +30,9 @@ const orderService = {
         return await orderRepository.countOrdersIn7Days();
     },
 
-    countOrdersByStatusOrderID: async (statusOrderID) => {
+    countOrdersByStatusOrderID: async (statusOrderID, timePeriod) => {
         try {
-            const orders = await orderRepository.countOrdersByStatusOrderID(statusOrderID);
+            const orders = await orderRepository.countOrdersByStatusOrderID(statusOrderID, timePeriod);
             return orders;
         } catch (error) {
             throw new Error(`Error counting order by status order ID: ${error.message}`);

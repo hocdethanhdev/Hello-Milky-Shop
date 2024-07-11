@@ -6,8 +6,8 @@ const productRepository = {
     return await productDAO.getAllProductForUser();
   },
 
-  getTop5ProductBestSeller: async() => {
-    return await productDAO.getTop5ProductBestSeller();
+  getTop5ProductBestSeller: async(Option) => {
+    return await productDAO.getTop5ProductBestSeller(Option);
   },
 
   countBrand: async() => {

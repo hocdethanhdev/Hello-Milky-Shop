@@ -75,4 +75,6 @@ router.post('/getInfoToShip', orderController.getInfoToShip);
 
 router.post('/transferOrderDetailsToNewOrder', orderController.transferOrderDetailsToNewOrder);
 
+router.post('/checkOrderOfUser', orderController.checkOrderOfUser);
+
 module.exports = router

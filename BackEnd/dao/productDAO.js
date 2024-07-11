@@ -3,26 +3,46 @@ const dbConfig = require("../config/db.config");
 const Product = require("../bo/product");
 
 const productDAO = {
-  getTop5ProductBestSeller: () => {
+  getTop5ProductBestSeller: (Option) => {
     return new Promise((resolve, reject) => {
-      mssql.connect(dbConfig, function () {
+      mssql.connect(dbConfig, function (err) {
+        if (err) return reject(err);
+
         const request = new mssql.Request();
-        request.query(
-          `SELECT TOP 5 p.ProductID, ProductName, SUM(Quantity) AS SumSell
-          FROM Product p
-          JOIN OrderDetail od ON od.ProductID = p.ProductID
-          JOIN Orders o ON o.OrderID = od.OrderID
-          WHERE o.Status = 1 AND o.StatusOrderID = 4
-          GROUP BY p.ProductID, p.ProductName
-          ORDER BY SumSell DESC;`,
-          (err, res) => {
-            if (err) reject(err);
-            resolve({
-              err: res.recordset[0] !== null ? 0 : 1,
-              data: res?.recordset,
-            });
-          }
-        );
+        let timeCondition;
+        switch (Option) {
+          case "year":
+            timeCondition = "AND YEAR(o.OrderDate) = YEAR(GETDATE()";
+          case "month":
+            timeCondition = "AND MONTH(o.OrderDate) = MONTH(GETDATE())";
+            break;
+          case "day":
+            timeCondition =
+              "AND CONVERT(date, o.OrderDate) = CONVERT(date, GETDATE())";
+          case "all":
+          default:
+            timeCondition = "";
+            break;
+        }
+
+        const query = `
+          SELECT TOP 5 p.ProductID, p.ProductName, SUM(od.Quantity) AS SumSell
+             FROM Product p
+             JOIN OrderDetail od ON od.ProductID = p.ProductID
+             JOIN Orders o ON o.OrderID = od.OrderID
+             WHERE o.Status = 1 AND o.StatusOrderID = 4 
+             ${timeCondition}
+             GROUP BY p.ProductID, p.ProductName
+             ORDER BY SumSell DESC;
+        `;
+
+        request.query(query, (err, res) => {
+          if (err) reject(err);
+          resolve({
+            err: res.recordset[0] !== null ? 0 : 1,
+            data: res?.recordset,
+          });
+        });
       });
     });
   },

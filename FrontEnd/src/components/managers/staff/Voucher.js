@@ -190,10 +190,11 @@ function Voucher() {
       <div className="voucher-body-thinhvcher">
         {showSuccess && (
           <div
-            className={`success-message-thinhvcher ${successMessage.includes("Lỗi")
-              ? "error-thinhvcher"
-              : "success-thinhvcher"
-              } success-message-show`}>
+            className={`success-message-thinhvcher ${
+              successMessage.includes("Lỗi")
+                ? "error-thinhvcher"
+                : "success-thinhvcher"
+            } success-message-show`}>
             {successMessage}
           </div>
         )}
@@ -218,14 +219,6 @@ function Voucher() {
                   </button>
                 </th>
                 <th className="col-md-2">
-                  Số lượng
-                  <button
-                    className="sort-vch-thinh"
-                    onClick={() => handleSort("Quantity")}>
-                    <FontAwesomeIcon icon={faSort} />
-                  </button>
-                </th>
-                <th className="col-md-2">
                   Phần trăm giảm giá
                   <button
                     className="sort-vch-thinh"
@@ -242,13 +235,21 @@ function Voucher() {
                     <FontAwesomeIcon icon={faSort} />
                   </button>
                 </th>
+                <th className="col-md-2">
+                  Ngày kết thúc
+                  <button
+                    className="sort-vch-thinh"
+                    onClick={() => handleSort("EndDate")}>
+                    <FontAwesomeIcon icon={faSort} />
+                  </button>
+                </th>
 
                 <th className="col-md-2">
                   <div className="filter-dropdown-thinhvcher">
                     Trạng thái
                     {showStatusDropdown && (
                       <ul className="dropdown-content-thinhvcher">
-                        <li onClick={() => handleStatusFilter("All")}>All</li>
+                        <li onClick={() => handleStatusFilter("All")}>Tất cả</li>
                         <li onClick={() => handleStatusFilter("active")}>
                           Khả dụng
                         </li>
@@ -271,7 +272,6 @@ function Voucher() {
               {filteredVouchers.map((voucher) => (
                 <tr key={voucher.VoucherID}>
                   <td className="col-md-2">{voucher.VoucherName}</td>
-                  <td className="col-md-2">{voucher.Quantity}</td>
                   <td className="col-md-2">{voucher.DiscountPercentage}%</td>
                   <td className="col-md-2">
                     {new Date(voucher.StartDate).toLocaleDateString("vi-VN", {
@@ -280,7 +280,21 @@ function Voucher() {
                       year: "numeric",
                     })}
                   </td>
-                  <td className="col-md-2">{voucher.Status ? "Khả dụng" : "Không khả dụng"}</td>
+                  <td className="col-md-2">
+                    {new Date(voucher.ExpiryDate).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </td>
+                  <td className="col-md-2">
+                    {voucher.Status ? (
+                      <>Khả dụng ({voucher.Quantity})</>
+                    ) : (
+                      "Không khả dụng"
+                    )}
+                  </td>
+
                   <td className="voucher-action col-md-2">
                     <button
                       type="button"
@@ -297,16 +311,14 @@ function Voucher() {
                       <button
                         type="button"
                         className="btn btn-danger"
-                        onClick={() => handleDelete(voucher.VoucherID)}
-                      >
+                        onClick={() => handleDelete(voucher.VoucherID)}>
                         Xóa
                       </button>
                     ) : (
                       <button
                         type="button"
                         className="btn btn-success"
-                        onClick={() => handleToggleStatus(voucher)}
-                      >
+                        onClick={() => handleToggleStatus(voucher)}>
                         Mở
                       </button>
                     )}

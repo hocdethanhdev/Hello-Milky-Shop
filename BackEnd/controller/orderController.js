@@ -10,6 +10,16 @@ const transferOrderDetailsToNewOrder = async (req, res) => {
     }
 }
 
+const checkOrderOfUser = async (req, res) => {
+    try {
+        const { UserID } = req.body;
+        const orders = await orderService.checkOrderOfUser(UserID);
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 const countOrdersPayed = async (req, res) => {
     try {
         const orders = await orderService.countOrdersPayed();
@@ -21,7 +31,7 @@ const countOrdersPayed = async (req, res) => {
 
 const getInfoToShip = async (req, res) => {
     try {
-        const {StatusOrderID} = req.body;
+        const { StatusOrderID } = req.body;
         const orders = await orderService.getInfoToShip(StatusOrderID);
         res.status(200).json(orders);
     } catch (error) {
@@ -41,12 +51,13 @@ const countOrdersIn7Days = async (req, res) => {
 const countOrdersByStatusOrderID = async (req, res) => {
     try {
         const statusOrderID = req.params.id;
-        const orders = await orderService.countOrdersByStatusOrderID(statusOrderID);
+        const timePeriod = req.query.timePeriod || 'day';
+        const orders = await orderService.countOrdersByStatusOrderID(statusOrderID, timePeriod);
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 const countNewOrders = async (req, res) => {
     try {
@@ -195,6 +206,9 @@ const updateStatusOrderID = async (req, res) => {
     const { statusOrderID } = req.body;
     try {
         await orderService.updateStatusOrderID(orderID, statusOrderID);
+        if ( statusOrderID === 3 ){
+            await orderService.refundQuantityOfProduct(orderID);
+        }
         res.status(200).json({ message: 'Status order ID have been updated successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -322,4 +336,5 @@ module.exports = {
     getInfoToShip,
     countOrdersPayed,
     transferOrderDetailsToNewOrder,
+    checkOrderOfUser,
 };

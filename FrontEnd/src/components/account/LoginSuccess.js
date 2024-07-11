@@ -10,7 +10,6 @@ const LoginSuccess = () => {
 
   useEffect(() => {
     if (token) {
-      console.log(token);
       dispatch(login(token));
       navigate("/", { replace: true });
     }

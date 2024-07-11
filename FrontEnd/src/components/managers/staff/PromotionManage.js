@@ -45,14 +45,14 @@ function PromotionManage() {
     setSelectedPromotion(null);
   };
 
-  const handleDelete = (promotionId) => {
-    setPromotionToDelete(promotionId);
+  const handleDelete = (PromotionID) => {
+    setPromotionToDelete(PromotionID);
     setDeleteModalVisible(true);
   };
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(
+      await axios.put(
         `${config.API_ROOT}/api/v1/promotion/deletePromotion/${promotionToDelete}`
       );
       setPromotions(
@@ -61,6 +61,7 @@ function PromotionManage() {
         )
       );
       message.success("Đã xóa khuyến mãi thành công");
+      fetchPromotions();
     } catch (error) {
       console.error("Error deleting promotion:", error);
       message.error("Xảy ra lỗi khi xóa khuyến mãi");
@@ -94,6 +95,42 @@ function PromotionManage() {
     }
   };
 
+  const handleToggleStatus = (promotion) => {
+    const updatedProduct = {
+      ...promotion,
+      Status: promotion.Status === 1 ? 0 : 1,
+    };
+
+    fetch(
+      `${config.API_ROOT}/api/v1/promotion/openPromotion/${promotion.PromotionID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProduct),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPromotions((prePromotions) =>
+          prePromotions.map((p) =>
+            p.PromotionID === promotion.PromotionID ? updatedProduct : p
+          )
+        );
+        console.log(data);
+        message.success("Trạng thái promotion đã được cập nhật!");
+        fetchPromotions();
+      })
+      .catch((error) => {
+        message.error("Lỗi khi cập nhật trạng thái promotion: " + error.message);
+      });
+  };
 
   const handleFilterChange = (event) => {
     setFilterType(event.target.value);
@@ -163,8 +200,7 @@ function PromotionManage() {
         <select
           className="filter-dropdown-promotion"
           value={filterType}
-          onChange={handleFilterChange}
-        >
+          onChange={handleFilterChange}>
           <option value="all">Tất cả</option>
           <option value="active">Còn hạn</option>
           <option value="expired">Hết hạn</option>
@@ -182,32 +218,28 @@ function PromotionManage() {
             <th
               className={`promo-th col-md-2 ${sortConfig.key === "PromotionName" ? sortConfig.direction : ""
                 }`}
-              onClick={() => handleSort("PromotionName")}
-            >
+              onClick={() => handleSort("PromotionName")}>
               Tên khuyến mãi
               <button className={`sort-icon-order`}>
                 <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
             <th className="promo-th col-md-2">Ảnh</th>
+
             <th
-              className={`promo-th col-md-2 ${sortConfig.key === "DiscountPercentage"
-                ? sortConfig.direction
-                : ""
+              className={`promo-th col-md-2 ${sortConfig.key === "StartDate" ? sortConfig.direction : ""
                 }`}
-              onClick={() => handleSort("DiscountPercentage")}
-            >
-              Giảm giá
+              onClick={() => handleSort("StartDate")}>
+              Bắt đầu
               <button className={`sort-icon-order`}>
                 <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
             <th
-              className={`promo-th col-md-2 ${sortConfig.key === "StartDate" ? sortConfig.direction : ""
+              className={`promo-th col-md-2 ${sortConfig.key === "EndDate" ? sortConfig.direction : ""
                 }`}
-              onClick={() => handleSort("StartDate")}
-            >
-              Bắt đầu
+              onClick={() => handleSort("EndDate")}>
+              Kết thúc
               <button className={`sort-icon-order`}>
                 <FontAwesomeIcon icon={faSort} />
               </button>
@@ -218,46 +250,61 @@ function PromotionManage() {
         <tbody className="promo-tbody">
           {currentPromotions.map((promotion, index) => (
             <tr key={promotion.PromotionID}>
-              <td className="promo-td">{indexOfFirstPromotion + index + 1}</td>
-              <td className="promo-td">{promotion.PromotionName}</td>
-              <td className="promo-td">
+              <td className="promo-td col-md-1">
+                {indexOfFirstPromotion + index + 1}
+              </td>
+              <td className="promo-td col-md-2">{promotion.PromotionName}</td>
+              <td className="promo-td col-md-2">
                 <img
                   className="promo-img"
                   src={promotion.Image}
                   alt={promotion.PromotionName}
                 />
               </td>
-              <td className="promo-td">{promotion.DiscountPercentage}%</td>
-              <td className="promo-td">
+
+              <td className="promo-td col-md-2">
                 {new Date(promotion.StartDate).toLocaleDateString("vi-VN", {
                   day: "2-digit",
                   month: "2-digit",
                   year: "numeric",
                 })}
               </td>
-              <td className="promo-td">
+              <td className="promo-td col-md-2">
+                {new Date(promotion.EndDate).toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </td>
+              <td className="promo-td col-md-3">
                 <div className="promo-actions">
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={() => handleDetailClick(promotion)}
-                  >
+                    onClick={() => handleDetailClick(promotion)}>
                     Xem
                   </button>
                   <button
                     type="button"
                     className="btn btn-warning edit-vch-bt"
-                    onClick={() => handleEdit(promotion)}
-                  >
+                    onClick={() => handleEdit(promotion)}>
                     Sửa
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => handleDelete(promotion.PromotionID)}
-                  >
-                    Xóa
-                  </button>
+                  {promotion.Status === true ? (
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(promotion.PromotionID)}>
+                      Xóa
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={() => handleToggleStatus(promotion)}>
+                      Mở
+                    </button>
+                  )}
                 </div>
               </td>
             </tr>
@@ -285,8 +332,7 @@ function PromotionManage() {
         onOk={confirmDelete}
         onCancel={handleCancelDelete}
         okText="Xác nhận"
-        cancelText="Hủy"
-      >
+        cancelText="Hủy">
         Bạn có chắc muốn xóa khuyến mãi này?
       </Modal>
       <div className="pagination-container-thinhvcher">

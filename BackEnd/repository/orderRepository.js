@@ -2,6 +2,14 @@ const orderDAO = require('../dao/orderDAO');
 
 const orderRepository = {
 
+    refundQuantityOfProduct: (orderID) => {
+        return orderDAO.refundQuantityOfProduct(orderID);
+    },
+
+    checkOrderOfUser: (UserID) => {
+        return orderDAO.checkOrderOfUser(UserID);
+    },
+
     transferOrderDetailsToNewOrder: (OrderID) => {
         return orderDAO.transferOrderDetailsToNewOrder(OrderID);
     },
@@ -17,8 +25,8 @@ const orderRepository = {
     countNewOrders: () => {
         return orderDAO.countNewOrders();
     },
-    countOrdersByStatusOrderID: (statusOrderID) => {
-        return orderDAO.countOrdersByStatusOrderID(statusOrderID);
+    countOrdersByStatusOrderID: (statusOrderID, timePeriod) => {
+        return orderDAO.countOrdersByStatusOrderID(statusOrderID, timePeriod);
     },
     removeProductFromOrder: (orderID, productID) => {
         return orderDAO.removeProductFromOrder(orderID, productID);
