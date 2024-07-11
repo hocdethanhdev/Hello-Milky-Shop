@@ -67,7 +67,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
         onClick={toggleMenu}
       >
         <img className="w-5 h-auto rounded-full" src={lang} alt="current language" />
-        <span className="font-medium truncate">{lang === us ? 'US' : 'VI'}</span>
+        <span className="font-medium truncate">{lang === vn ? 'VI' : 'US'}</span>
         <img src={down} className={`w-4 transform ${isOpen ? 'rotate-180' : ''}`} alt="chevron-down" />
       </button>
 

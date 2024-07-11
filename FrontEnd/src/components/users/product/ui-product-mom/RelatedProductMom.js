@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './RelatedProductMom.css';
-import StarRating from '../ui-list-product-mom/StarRating';
 import Loading from '../../../layout/Loading';
 import config from "../../../config/config";
 
@@ -74,7 +73,6 @@ const RelatedProducts = ({ product }) => {
                             </div>
                             <div className="product-details-minith">
                                 <h3>{product.ProductName}</h3>
-                                <div className='saoduoithinh1'><StarRating productId={product.ProductID} /></div>
                                 <div className="product-price-minith">
                                     <span className="price-show price-item-minith">{formatPrice(product.PriceAfterDiscounts)}₫</span>
                                     {product.Price !== product.PriceAfterDiscounts && (

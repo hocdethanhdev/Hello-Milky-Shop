@@ -262,7 +262,7 @@ const ProductContentMom = ({ product }) => {
                   <div className="out-of-stock-message-thinh">TẠM HẾT HÀNG</div>
                 )
               ) : (
-                <Link to="/login">Đăng nhập để mua hàng</Link>
+                <Link to="/login"><div className="login-to-buy">Đăng nhập để mua hàng</div></Link>
               )}
             </div>
           </div>
