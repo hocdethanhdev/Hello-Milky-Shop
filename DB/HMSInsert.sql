@@ -2,7 +2,7 @@ use HelloMilkyShop
 go
 INSERT INTO Role VALUES ('Admin'), ('Staff'), ('Member'), ('Shipper')
 go
-INSERT INTO ArticleCategory VALUES (N'Sức Khỏe'), (N'Tin khuyến mãi')
+INSERT INTO ArticleCategory VALUES (N'Sức Khỏe cho bé'), (N'Sức Khỏe cho mẹ'), (N'Tin khuyến mãi')
 go
 insert into ProductCategory values (N'Sữa cho mẹ bầu'), (N'Sữa cho em bé')
 go
