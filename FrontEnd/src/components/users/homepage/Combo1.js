@@ -4,11 +4,12 @@ import axios from "axios";
 import "./Product1.css";
 import StarRating from "../product/ui-list-product-mom/StarRating";
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 function Combo1() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   useEffect(() => {
     // Call API to fetch product data
     axios
@@ -49,7 +50,7 @@ function Combo1() {
                 />
               </div>
               <div className="combo-1f-title">
-                <h2>Sữa dành cho mẹ</h2>
+                <h2>{t('milkForMom')}</h2>
               </div>
             </Link>
           </div>

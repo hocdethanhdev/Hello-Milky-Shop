@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { useTranslation } from 'react-i18next';
 
 import {
   MDBContainer,
@@ -17,9 +18,10 @@ import PhoneInput from "react-phone-input-2";
 import { message } from "antd";
 import config from "../config/config";
 
+
 function Login() {
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const loginGoogle = async (response) => {
     try {
       const res = await axios.post(
@@ -69,7 +71,7 @@ function Login() {
     e.preventDefault();
 
     if (!formData.phone || !formData.password) {
-      message.error("Vui lòng điền đầy đủ thông tin!");
+      message.error(`${t('pleaseCompleteAllInformation!')}`);
       return;
     }
 
@@ -92,10 +94,10 @@ function Login() {
           navigate(`/LoginSuccess/${response.data.token}`);
         } else if (response.data.err === 1) {
           message.error(
-            "Số điện thoại " + formData.phone + " chưa được đăng kí"
+            `${t('phoneNumber')} ` + formData.phone + ` ${t('notYetSignUp')}`
           );
         } else {
-          message.error("Sai mật khẩu");
+          message.error(`${t('wrongPassword')}`);
         }
       } else {
         message.error("Tài khoản của bạn đã bị khóa");
@@ -121,7 +123,7 @@ function Login() {
               className="p-5 d-flex flex-column align-items-center mx-auto w-100"
               style={{ boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)" }}
             >
-              <h2 className="fw-bold mb-2 text-uppercase">Đăng nhập</h2>
+              <h2 className="fw-bold mb-2 text-uppercase">{t('logIn')}</h2>
               <p className="text-dark-50 mb-5"></p>
 
               <PhoneInput
@@ -130,7 +132,7 @@ function Login() {
                 value={formData.phone}
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-dark"
-                placeholder="Số điện thoại"
+                placeholder= {t('phoneNumber')}
                 id="phone"
                 name="phone"
                 type="tel"
@@ -142,7 +144,7 @@ function Login() {
                   className="login-nd"
                   wrapperClass="w-100"
                   labelClass="text-dark"
-                  placeholder="Mật khẩu"
+                  placeholder={t('password')}
                   id="password"
                   name="password"
                   type={passwordVisible ? "text" : "password"}
@@ -160,7 +162,7 @@ function Login() {
 
               <p className="small mb-3 pb-lg-2">
                 <Link to="/ResetPassword" className="text-dark-50">
-                  Quên mật khẩu?
+                {t('forgotPassword?')}
                 </Link>
               </p>
               <button
@@ -168,7 +170,7 @@ function Login() {
                 type="button"
                 onClick={handleSubmit}
               >
-                <span className="button-text-trid">Đăng nhập</span>
+                <span className="button-text-trid">{t('logIn')}</span>
               </button>
 
               <div className="flex-row">
@@ -182,9 +184,9 @@ function Login() {
 
               <div>
                 <p className="mb-0 register-ask-in-login">
-                  Bạn chưa có tài khoản?{" "}
+                  {t('doNotHaveAnAccount?')}{" "}
                   <Link to="/Signup" className="text-dark-50 fw-bold">
-                    Đăng kí ngay
+                  {t('signUpNow')}
                   </Link>
                 </p>
               </div>
