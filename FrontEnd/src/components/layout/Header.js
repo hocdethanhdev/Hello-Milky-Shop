@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import "./Header.css";
 import { logout } from "../store/actions/authAction";
 import { apiGetOne } from "../users/apis/userService";
+import LanguageSelector from "../users/language/LanguageSelector.tsx";
+import { useTranslation } from 'react-i18next';
+
 
 function Header() {
   const navigate = useNavigate();
@@ -12,6 +15,8 @@ function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [userData, setUserData] = useState({});
+  const { t } = useTranslation();
+
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -85,7 +90,7 @@ function Header() {
                 className="tim-kiem"
                 type="text"
                 name="keyword"
-                placeholder="Bố mẹ tìm gì cho bé hôm nay?"
+                placeholder={t('whatAreParentsLookingForTheirChildrenToday?')}
                 id="search_suggest-compo-tri"
               />
               <button className="search-button-header" type="submit" id="btnSearch">
@@ -106,16 +111,16 @@ function Header() {
           ) : (
             <div className="box_user-compo-tri">
               <i className="fa fa-user"></i>
-              <Link to="/login">Đăng nhập</Link>
+              <Link to="/login">{t('logIn')}</Link>
               <span> | </span>
-              <Link to="/signup">Đăng ký</Link>
+              <Link to="/signup">{t('signUp')}</Link>
             </div>
           )}
           {role === 3 && (
             <div className="box_cart-compo-tri">
               <Link to="/ShoppingCart">
                 <i className="fa fa-shopping-cart"></i>
-                <p>Giỏ hàng</p>
+                <p>{t('cart')}</p>
               </Link>
             </div>
           )}
@@ -123,25 +128,26 @@ function Header() {
             <div>
               <div className="dangxuatNhan">
                 <span className="logout-link" onClick={confirmLogout}>
-                  <i className="fas fa-sign-out-alt"></i> Đăng xuất
+                  <i className="fas fa-sign-out-alt"></i> {t('logOut')}
                 </span>
               </div>
               {showConfirmation && (
                 <div className="confirmation-dialog">
-                  <p>Bạn có chắc chắn muốn đăng xuất không?</p>
+                  <p>{t('areYouSureWantToSignOut?')}</p>
                   <button
                     className="DongY btn btn-success"
                     onClick={handleLogout}
                   >
-                    Đồng ý
+                    {t('yes')}
                   </button>
                   <button className="Huy btn btn-danger" onClick={cancelLogout}>
-                    Hủy bỏ
+                    {t('cancle')}
                   </button>
                 </div>
               )}
             </div>
           )}
+          <LanguageSelector /> 
         </div>
       </div>
     </header>

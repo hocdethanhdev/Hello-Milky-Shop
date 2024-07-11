@@ -20,6 +20,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 import { message } from "antd";
 import config from "../config/config";
+import { useTranslation } from 'react-i18next';
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -29,6 +30,7 @@ function Signup() {
     confirmPassword: "",
     termsAccepted: false,
   });
+  const { t } = useTranslation();
 
   const [errors, setErrors] = useState({
     name: "",
@@ -114,10 +116,10 @@ function Signup() {
         window.confirmationResult = confirmationResult;
         setLoading(false);
         setShowOTP(true);
-        toast.success("Gửi OTP thành công.");
+        toast.success(`${t('sendOTPSuscessfully')}`);
       })
       .catch((error) => {
-        console.error("Gửi OTP lỗi:", error);
+        console.error(`${t('sendOTPError')}`, error);
         setLoading(false);
         setIsSignupAttempted(false);
         if (error.code === "auth/quota-exceeded") {
@@ -135,13 +137,13 @@ function Signup() {
       .then(async () => {
         setLoading(false);
         setConfirmOTP(true);
-        toast.success("Xác nhận OTP thành công");
+        toast.success(`${t('confirmOTPSuccessfully')}`);
         // Proceed with signup after OTP is verified
         await completeSignup();
       })
       .catch(() => {
         setLoading(false);
-        toast.error("Xác nhận OTP thất bại. Hãy thử lại.");
+        toast.error(`${t('OTPConfirmationFailed.TryAgain.')}`);
       });
   }
 
@@ -157,21 +159,21 @@ function Signup() {
     if (!formData.phone.trim()) {
       newErrors.phone = "Hãy nhập số điện thoại.";
     } else if (!/^\d{9,11}$/i.test(formData.phone)) {
-      newErrors.phone = "Số điện thoại không phù hợp.";
+      newErrors.phone = `${t('phoneNumberDoesNotMatch')}`;
     }
 
     // Validate password field
     if (!formData.password.trim()) {
       newErrors.password = "Hãy nhập mật khẩu.";
     } else if (formData.password.length < 6) {
-      newErrors.password = "Mật khẩu phải chứa ít nhất 6 kí tự.";
+      newErrors.password = `${t('passwordMustContainAtLeast6Characters.')}`;
     }
 
     // Validate confirm password field
     if (!formData.confirmPassword.trim()) {
       newErrors.confirmPassword = "Hãy xác nhận mật khẩu.";
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Mật khẩu xác nhận không khớp.";
+      newErrors.confirmPassword = `${t('confirmationPasswordDoesNotMatch')}`;
     }
 
     // Validate terms accepted
@@ -186,7 +188,7 @@ function Signup() {
       !formData.confirmPassword ||
       !formData.termsAccepted
     ) {
-      message.error("Xin nhập đầy đủ thông tin.");
+      message.error(`${t('pleaseCompleteAllInformation!')}`);
       setErrors(newErrors);
       return;
     }
@@ -206,7 +208,7 @@ function Signup() {
     );
 
     if (checkPhone.data.err === 0) {
-      message.warning("Số điện thoại đã được đăng kí");
+      message.warning(`${t('phoneNumberHasBeenSignedUp')}`);
     } else {
       handleSendOTP();
     }
@@ -234,7 +236,7 @@ function Signup() {
           message.error("Số điện thoại chưa được đăng kí hoặc sai mật khẩu");
         }
       } else {
-        message.error("Số điện thoại đã được đăng kí");
+        message.error(`${t('phoneNumberHasBeenSignedUp')}`);
       }
     } catch (error) {
       console.error(error);
@@ -273,11 +275,11 @@ function Signup() {
         style={{ maxWidth: "550px", marginTop: "50px", marginBottom: "200px" }}
       >
         <MDBCardBody className="p-5">
-          <h2 className="fw-bold mb-5 text-center">Tạo một tài khoản mới</h2>
+          <h2 className="fw-bold mb-5 text-center">{t('createANewAccount')}</h2>
           <div className="mb-4">
             <MDBInput
               wrapperClass="input-wrapper-sign"
-              placeholder="Họ và tên"
+              placeholder= {t('name')}
               id="name"
               type="text"
               name="name"
@@ -292,14 +294,14 @@ function Signup() {
               value={formData.phone}
               onChange={handlePhoneChange}
               inputClass="input-wrapper-sign"
-              placeholder="Số điện thoại"
+              placeholder= {t('phoneNumber')}
             />
           </div>
 
           <div className="mb-4 position-relative">
             <MDBInput
               wrapperClass="input-wrapper-sign"
-              placeholder="Mật khẩu"
+              placeholder= {t('password')}
               id="password"
               type={passwordVisible ? "text" : "password"}
               name="password"
@@ -317,7 +319,7 @@ function Signup() {
           <div className="mb-4 position-relative">
             <MDBInput
               wrapperClass="input-wrapper-sign"
-              placeholder="Nhập lại mật khẩu"
+              placeholder= {t('enterThePassword')}
               id="confirmPassword"
               type={confirmPasswordVisible ? "text" : "password"}
               name="confirmPassword"
@@ -342,11 +344,11 @@ function Signup() {
                 onChange={handleChange}
                 className="form-check-input"
               />
-              Đồng ý với
+             {t('agreeWith')}
               <Link to="/termofuse" className="terms-link">
-                điều khoản sử dụng
+              {t('termsOfUse')}
               </Link>
-              tại Hello Milky Shop
+              {t('atHelloMilkyShop')}
             </label>
           </div>
           {isSignupAttempted && showOTP && !confirmOTP && (
@@ -356,7 +358,7 @@ function Signup() {
                   <BsFillShieldLockFill size={30} />
                 </div>
                 <label htmlFor="otp" className="otp-label">
-                  Nhập OTP
+                {t('enterOTP')}
                 </label>
                 <OtpInput
                   value={otp}
@@ -377,7 +379,7 @@ function Signup() {
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
                   )}
-                  <span>Xác nhận</span>
+                  <span>{t('confirm')}</span>
                 </button>
               </div>
             </div>
@@ -390,11 +392,11 @@ function Signup() {
               handleSubmit();
             }}
           >
-            <span className="button-text">Đăng kí</span>
+            <span className="button-text">{t('signUp')}</span>
           </button>
 
           <div className="text-center social-buttons">
-            <p>hoặc</p>
+            <p>{t('or')}</p>
 
             <div className="google-button-signup">
               <GoogleOAuthProvider clientId={config.CLIENT_ID}>

@@ -11,6 +11,7 @@ import "./ResetPassword.css";
 import axios from "axios";
 import Loading from "../layout/Loading";
 import config from "../config/config";
+import { useTranslation } from 'react-i18next';
 
 const ResetPassword = () => {
   const [otp, setOtp] = useState("");
@@ -22,6 +23,7 @@ const ResetPassword = () => {
   const [isSignupAttempted, setIsSignupAttempted] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { t } = useTranslation();
 
   useEffect(() => {
     onCaptchVerify();
@@ -201,14 +203,14 @@ const ResetPassword = () => {
           </div>
         ) : (
           <div className="reset-form">
-            <h1 className="title text-center">Quên mật khẩu</h1>
+            <h1 className="title text-center">{t('forgotPassword?')}</h1>
             {showOTP ? (
               <>
                 <div className="icon-container">
                   <BsFillShieldLockFill size={30} />
                 </div>
                 <label htmlFor="otp" className="otp-label">
-                  Nhập OTP
+                {t('enterOTP')}
                 </label>
                 <OtpInput
                   value={otp}
@@ -232,7 +234,7 @@ const ResetPassword = () => {
                   <BsTelephoneFill size={30} />
                 </div>
                 <label htmlFor="" className="phone-label ">
-                  Nhập số điện thoại của bạn
+                {t('enterYourPhoneNumber')}
                 </label>
                 <PhoneInput country={"vn"} value={ph} onChange={setPh} />
                 <button
@@ -242,7 +244,7 @@ const ResetPassword = () => {
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
                   )}
-                  <span>Gửi OTP</span>
+                  <span>{t('sendOTP')}</span>
                 </button>
               </>
             )}

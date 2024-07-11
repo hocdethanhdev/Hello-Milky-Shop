@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Product1.css";
 import StarRating from "../product/ui-list-product-mom/StarRating";
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 function Combo2() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetch(`${config.API_ROOT}/api/v1/product/getTop6MilkForBaby`)
@@ -40,7 +42,7 @@ function Combo2() {
                 />
               </div>
               <div className="combo-2f-title">
-                <h2>Sữa dành cho bé</h2>
+                <h2>{t('milkForBaby')}</h2>
               </div>
             </Link>
           </div>
