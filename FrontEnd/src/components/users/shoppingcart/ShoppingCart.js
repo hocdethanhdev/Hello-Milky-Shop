@@ -265,8 +265,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       message.warning(
-        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -641,9 +640,17 @@ const ShoppingCart = () => {
                 Chọn Voucher
               </button>
               {selectedVoucher && (
-                <p>
-                  Voucher đã chọn: -{selectedVoucher.DiscountPercentage || 0}%
-                </p>
+                <div className="voucher-dis-x">
+                  <p>
+                    Voucher đã chọn: -{selectedVoucher.DiscountPercentage || 0}%
+                  </p>
+                  <button
+                    className="cancel-voucher-btn btn btn-danger"
+                    onClick={() => setSelectedVoucher(null)}
+                  >
+                    X
+                  </button>
+                </div>
               )}
             </div>
             <div className="points-usage-long points-container">
