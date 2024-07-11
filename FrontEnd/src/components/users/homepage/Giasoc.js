@@ -8,11 +8,13 @@ import PropTypes from "prop-types"; // Import PropTypes for prop type validation
 import StarRating from "../product/ui-list-product-mom/StarRating";
 import Loading from "../../layout/Loading";
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 function Giasoc() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`); // Navigate to specific product page
@@ -68,7 +70,7 @@ function Giasoc() {
 
   return (
     <div className="giasoc-store">
-      <h1 className="thinh-gia-soc-lam">Giá sốc hôm nay</h1>
+      <h1 className="thinh-gia-soc-lam">{t('bigSalesToday')}</h1>
       <div className="slider-container">
         <Slider {...settings}>
           {products.map((product, index) => (

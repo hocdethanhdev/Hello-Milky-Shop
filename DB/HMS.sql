@@ -160,6 +160,7 @@ Description nvarchar(3000)null,
 DiscountPercentage Float NOT NULL,
 StartDate date NOT NULL,
 EndDate date NOT NULL, 
+Status bit default 1,
 PRIMARY KEY (PromotionID));
 go
 CREATE TABLE ProductPromotionList (

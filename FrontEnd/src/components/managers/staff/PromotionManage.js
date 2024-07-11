@@ -45,8 +45,8 @@ function PromotionManage() {
     setSelectedPromotion(null);
   };
 
-  const handleDelete = (promotionId) => {
-    setPromotionToDelete(promotionId);
+  const handleDelete = (PromotionID) => {
+    setPromotionToDelete(PromotionID);
     setDeleteModalVisible(true);
   };
 
@@ -61,6 +61,7 @@ function PromotionManage() {
         )
       );
       message.success("Đã xóa khuyến mãi thành công");
+      fetchPromotions();
     } catch (error) {
       console.error("Error deleting promotion:", error);
       message.error("Xảy ra lỗi khi xóa khuyến mãi");
