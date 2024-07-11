@@ -52,7 +52,7 @@ function PromotionManage() {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(
+      await axios.put(
         `${config.API_ROOT}/api/v1/promotion/deletePromotion/${promotionToDelete}`
       );
       setPromotions(
