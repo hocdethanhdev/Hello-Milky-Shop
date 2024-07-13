@@ -40,7 +40,9 @@ body {
 
   font-size: 14px;
   position: relative;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Thêm hiệu ứng chuyển đổi cho box-shadow */
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease; /* Thêm hiệu ứng chuyển đổi cho box-shadow */
 }
 .thinhdan {
   padding-right: 380px;
@@ -150,6 +152,17 @@ body {
   transition: color 0.3s ease;
   font-weight: 700;
 }
-.register-ask-in-login{
+.register-ask-in-login {
   margin-top: 30px;
+}
+.logo-login-thinh {
+  margin-bottom: 5%;
+  width: 150px;
+  height: 100px;
+}
+.logo-sign-up-thinh {
+  margin-bottom: 5%;
+  width: 150px;
+  height: 100px;
+  margin-left: 30%;
 }

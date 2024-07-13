@@ -272,7 +272,7 @@ const promotionDAO = {
         JOIN ProductCategory pc ON pc.ProductCategoryID = p.ProductCategoryID
         JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
         JOIN Promotion promo ON ppl.PromotionID = promo.PromotionID
-        WHERE p.Status = 1 AND StockQuantity > 0 AND Status =1
+        WHERE p.Status = 1 AND p.StockQuantity > 0
         GROUP BY 
         p.ProductID, p.ProductName, p.Price, p.Description, p.StockQuantity, p.Image, 
         p.ExpirationDate, p.ManufacturingDate, p.Status, p.BrandID, p.ProductCategoryID, b.BrandName
