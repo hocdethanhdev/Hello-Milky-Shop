@@ -60,20 +60,24 @@ function Voucher() {
         }
         return response.json();
       })
-      .then(() => {
-        message.success("Voucher đã được xóa thành công!");
-        fetchVouchers();
+      .then((data) => {
+        if (data.success) {
+          message.success("Voucher đã được xóa thành công!");
+          fetchVouchers();
+        } else {
+          message.error("Voucher không thể xóa vì đã có người lưu voucher này.");
+        }
       })
       .catch((error) => {
         message.error("Lỗi khi xóa voucher: " + error.message);
       })
       .finally(() => {
-        setShowDeletePopup(false); // Hide delete confirmation popup
+        setShowDeletePopup(false);
       });
   };
 
   const cancelDelete = () => {
-    setShowDeletePopup(false); // Hide delete confirmation popup
+    setShowDeletePopup(false);
   };
 
   const handleEditClick = (voucher) => {
@@ -190,11 +194,10 @@ function Voucher() {
       <div className="voucher-body-thinhvcher">
         {showSuccess && (
           <div
-            className={`success-message-thinhvcher ${
-              successMessage.includes("Lỗi")
-                ? "error-thinhvcher"
-                : "success-thinhvcher"
-            } success-message-show`}>
+            className={`success-message-thinhvcher ${successMessage.includes("Lỗi")
+              ? "error-thinhvcher"
+              : "success-thinhvcher"
+              } success-message-show`}>
             {successMessage}
           </div>
         )}

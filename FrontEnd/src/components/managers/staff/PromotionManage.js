@@ -52,21 +52,36 @@ function PromotionManage() {
 
   const confirmDelete = async () => {
     try {
-      await axios.put(
+      const response = await axios.put(
         `${config.API_ROOT}/api/v1/promotion/deletePromotion/${promotionToDelete}`
       );
-      setPromotions(
-        promotions.filter(
-          (promotion) => promotion.PromotionID !== promotionToDelete
-        )
-      );
-      message.success("Đã xóa khuyến mãi thành công");
-      fetchPromotions();
+      if (response.data.success) {
+        setPromotions(
+          promotions.filter(
+            (promotion) => promotion.PromotionID !== promotionToDelete
+          )
+        );
+        message.success("Đã xóa khuyến mãi thành công");
+        fetchPromotions();
+      } else {
+        handleDeleteError(response.data.code);
+      }
     } catch (error) {
       console.error("Error deleting promotion:", error);
       message.error("Xảy ra lỗi khi xóa khuyến mãi");
     } finally {
       setDeleteModalVisible(false);
+    }
+  };
+
+  const handleDeleteError = (errorCode) => {
+    switch (errorCode) {
+      case "PROMOTION_ONGOING":
+        message.error("Không thể xóa khuyến mãi đang diễn ra");
+        break;
+      default:
+        message.error("Xảy ra lỗi khi xóa khuyến mãi");
+        break;
     }
   };
 
