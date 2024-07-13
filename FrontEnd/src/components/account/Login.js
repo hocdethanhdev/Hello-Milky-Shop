@@ -121,9 +121,11 @@ function Login() {
             style={{ borderRadius: "1rem", maxWidth: "500px" }}
           >
             <MDBCardBody
-              className="p-5 d-flex flex-column align-items-center mx-auto w-100"
+              className="p-5 d-flex flex-column align-items-center mx-auto w-100 card-body-login"
               style={{ boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)" }}
             >
+
+              <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FScreenshot%202024-07-11%20211033.png?alt=media&token=bddfe08e-1a54-4de3-9c2d-9da50ba09d21" alt="LogoMilky" className="logo-login-thinh" />
               <h2 className="fw-bold mb-2 text-uppercase">{t('logIn')}</h2>
               <p className="text-dark-50 mb-5"></p>
 
@@ -133,7 +135,7 @@ function Login() {
                 value={formData.phone}
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-dark"
-                placeholder= {t('phoneNumber')}
+                placeholder={t('phoneNumber')}
                 id="phone"
                 name="phone"
                 type="tel"
@@ -163,7 +165,7 @@ function Login() {
 
               <p className="small mb-3 pb-lg-2">
                 <Link to="/ResetPassword" className="text-dark-50">
-                {t('forgotPassword?')}
+                  {t('forgotPassword?')}
                 </Link>
               </p>
               <button
@@ -187,7 +189,7 @@ function Login() {
                 <p className="mb-0 register-ask-in-login">
                   {t('doNotHaveAnAccount?')}{" "}
                   <Link to="/Signup" className="text-dark-50 fw-bold">
-                  {t('signUpNow')}
+                    {t('signUpNow')}
                   </Link>
                 </p>
               </div>

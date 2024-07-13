@@ -275,7 +275,7 @@ function Signup() {
   return (
     <MDBContainer
       fluid
-      className="d-flex justify-content-center align-items-center h-100"
+      className="d-flex justify-content-center align-items-center h-100 sign-up-container"
     >
       <Toaster toastOptions={{ duration: 4000 }} />
 
@@ -285,11 +285,13 @@ function Signup() {
         style={{ maxWidth: "550px", marginTop: "50px", marginBottom: "200px" }}
       >
         <MDBCardBody className="p-5">
+          <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2FScreenshot%202024-07-09%20114412.png?alt=media&token=c9c39100-0525-4281-bfe7-b3cbc3783184" alt="LogoMilky" className="logo-sign-up-thinh" />
+
           <h2 className="fw-bold mb-5 text-center">{t('createANewAccount')}</h2>
           <div className="mb-4">
             <MDBInput
               wrapperClass="input-wrapper-sign"
-              placeholder= {t('name')}
+              placeholder={t('name')}
               id="name"
               type="text"
               name="name"
@@ -304,14 +306,14 @@ function Signup() {
               value={formData.phone}
               onChange={handlePhoneChange}
               inputClass="input-wrapper-sign"
-              placeholder= {t('phoneNumber')}
+              placeholder={t('phoneNumber')}
             />
           </div>
 
           <div className="mb-4 position-relative">
             <MDBInput
               wrapperClass="input-wrapper-sign"
-              placeholder= {t('password')}
+              placeholder={t('password')}
               id="password"
               type={passwordVisible ? "text" : "password"}
               name="password"
@@ -329,7 +331,7 @@ function Signup() {
           <div className="mb-4 position-relative">
             <MDBInput
               wrapperClass="input-wrapper-sign"
-              placeholder= {t('enterThePassword')}
+              placeholder={t('enterThePassword')}
               id="confirmPassword"
               type={confirmPasswordVisible ? "text" : "password"}
               name="confirmPassword"
@@ -354,9 +356,9 @@ function Signup() {
                 onChange={handleChange}
                 className="form-check-input"
               />
-             {t('agreeWith')}
+              {t('agreeWith')}
               <Link to="/termofuse" className="terms-link">
-              {t('termsOfUse')}
+                {t('termsOfUse')}
               </Link>
               {t('atHelloMilkyShop')}
             </label>
@@ -368,7 +370,7 @@ function Signup() {
                   <BsFillShieldLockFill size={30} />
                 </div>
                 <label htmlFor="otp" className="otp-label">
-                {t('enterOTP')}
+                  {t('enterOTP')}
                 </label>
                 <OtpInput
                   value={otp}

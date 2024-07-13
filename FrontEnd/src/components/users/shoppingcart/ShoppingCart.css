@@ -357,7 +357,7 @@ body {
   background: #555;
 }
 
-.voucher-selection-long button {
+.choose-voucher-btn {
   background-color: #ff7f00;
   /* Màu nền */
   color: white;
@@ -380,7 +380,7 @@ body {
   /* Hiệu ứng khi hover */
 }
 
-.voucher-selection-long button:hover {
+.choose-voucher-btn:hover {
   background-color: #ff7f00;
   /* Màu nền khi hover */
 }
@@ -410,7 +410,7 @@ body {
   border-radius: 50%;
 }
 
-.custom-radio input[type="radio"]:checked~.checkmark {
+.custom-radio input[type="radio"]:checked ~ .checkmark {
   border-color: #007bff;
 }
 
@@ -427,7 +427,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.custom-radio input[type="radio"]:checked~.checkmark:after {
+.custom-radio input[type="radio"]:checked ~ .checkmark:after {
   display: block;
 }
 
@@ -460,8 +460,8 @@ body {
   position: relative;
 }
 
-.points-usage-long input[type="checkbox"]:checked+label .icon-long::after {
-  content: '✓';
+.points-usage-long input[type="checkbox"]:checked + label .icon-long::after {
+  content: "✓";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -520,4 +520,17 @@ body {
   box-sizing: border-box;
   font-family: inherit;
   font-size: inherit;
+}
+.cancel-voucher-btn {
+  margin-left: 10px;
+  padding: 5px 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  max-height: 25px;
+}
+.voucher-dis-x {
+  display: flex;
 }

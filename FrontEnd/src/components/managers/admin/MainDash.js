@@ -50,22 +50,6 @@ function MainDash() {
         const revenueDatas = await revenueRess.json();
         setRevenue(revenueDatas);
 
-        const top5BestSellRes = await axios.post(
-          `${config.API_ROOT}/api/v1/product/getTop5ProductBestSeller`,
-          {
-            Option: timePeriod,
-          }
-        );
-
-        const ProductID = top5BestSellRes.data.data.map(
-          (item) => item.ProductID
-        );
-        const ProductName = top5BestSellRes.data.data.map(
-          (item) => item.ProductName
-        );
-        const SumSell = top5BestSellRes.data.data.map((item) => item.SumSell);
-        setTop5BestSell({ ProductID, SumSell, ProductName });
-
         const revenueRes = await fetch(
           `${config.API_ROOT}/api/v1/order/getRevenueLastSevenMonths`
         );

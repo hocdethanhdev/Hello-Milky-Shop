@@ -79,7 +79,7 @@ function Bigsales() {
     <div className="box-banner">
       <NavCate />
       <div className="main-banner">
-        {promotions.map((promo) => (
+        {promotions && promotions.map((promo) => (
           <div key={promo.id}>
             <Link to={promo.link} className="imgbanner">
               <img src={promo.imageUrl} alt="banner" className="imgbanner" />

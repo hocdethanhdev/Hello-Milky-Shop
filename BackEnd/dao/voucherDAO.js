@@ -26,14 +26,31 @@ const voucherDAO = {
 
         var request = new mssql.Request().input("voucherID", VoucherID);
         request.query(
-          `UPDATE Voucher
-                    SET Status = 0
-                    WHERE VoucherID = @voucherID;`,
-          (err) => {
-            if (err) reject(err);
-            resolve({
-              message: "Delete successfully",
-            });
+          `IF NOT EXISTS (SELECT 1 FROM UserVoucher WHERE VoucherID = @voucherID)
+           BEGIN
+             UPDATE Voucher
+             SET Status = 0
+             WHERE VoucherID = @voucherID;
+             SELECT 1 AS success;
+           END
+           ELSE
+           BEGIN
+             SELECT 0 AS success;
+           END`,
+          (err, result) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+            if (result.recordset[0].success === 1) {
+              resolve({
+                success: true,
+              });
+            } else {
+              resolve({
+                success: false,
+              });
+            }
           }
         );
       });

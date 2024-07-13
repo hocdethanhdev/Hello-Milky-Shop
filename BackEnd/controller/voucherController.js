@@ -15,8 +15,12 @@ const getAllVouchers = async (req, res) => {
 const deleteVoucher = async (req, res) => {
     try {
         const voucherID = req.params.voucherID;
-        await voucherService.deleteVoucher(voucherID);
-        res.status(200).json({ message: 'Voucher have been deleted successfully' });
+        const result = await voucherService.deleteVoucher(voucherID);
+        if (result.success) {
+            res.status(200).json({ success: true });
+        } else {
+            res.status(200).json({ success: false });
+        }
     } catch (error) {
         console.error("Error while deleting the voucher: ", error);
         res.status(500).send("Internal Server Error");

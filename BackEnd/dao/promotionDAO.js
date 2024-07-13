@@ -272,7 +272,7 @@ const promotionDAO = {
         JOIN ProductCategory pc ON pc.ProductCategoryID = p.ProductCategoryID
         JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
         JOIN Promotion promo ON ppl.PromotionID = promo.PromotionID
-        WHERE p.Status = 1 AND StockQuantity > 0 AND Status =1
+        WHERE p.Status = 1 AND p.StockQuantity > 0 AND promo.Status = 1
         GROUP BY 
         p.ProductID, p.ProductName, p.Price, p.Description, p.StockQuantity, p.Image, 
         p.ExpirationDate, p.ManufacturingDate, p.Status, p.BrandID, p.ProductCategoryID, b.BrandName
@@ -295,21 +295,44 @@ const promotionDAO = {
       mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("PromotionID", param_id);
+
+
         request.query(
-          `UPDATE Promotion
-          SET Status = 0
-          Where PromotionID = @promotionID
-          `,
-          (err) => {
+          `SELECT StartDate, EndDate FROM Promotion WHERE PromotionID = @PromotionID`,
+          (err, result) => {
             if (err) reject(err);
-            resolve({
-              message: "Delete successfully"
-            });
+
+            const { StartDate, EndDate } = result.recordset[0];
+            const now = new Date();
+
+            if (now < StartDate || now > EndDate) {
+              // Proceed with delete
+              request.query(
+                `UPDATE Promotion
+                 SET Status = 0
+                 WHERE PromotionID = @PromotionID`,
+                (err) => {
+                  if (err) reject(err);
+                  resolve({
+                    success: true,
+                    message: "Delete successfully"
+                  });
+                }
+              );
+            } else {
+              // Cannot delete promotion if it's ongoing
+              resolve({
+                success: false,
+                code: "PROMOTION_ONGOING",
+                message: "Cannot delete ongoing promotion"
+              });
+            }
           }
         );
       });
     });
   },
+
   openPromotion: (PromotionID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
