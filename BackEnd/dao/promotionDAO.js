@@ -296,7 +296,7 @@ const promotionDAO = {
         var request = new mssql.Request()
           .input("PromotionID", param_id);
 
-        // First, check if the promotion can be deleted
+
         request.query(
           `SELECT StartDate, EndDate FROM Promotion WHERE PromotionID = @PromotionID`,
           (err, result) => {
@@ -309,8 +309,8 @@ const promotionDAO = {
               // Proceed with delete
               request.query(
                 `UPDATE Promotion
-                             SET Status = 0
-                             WHERE PromotionID = @PromotionID`,
+                 SET Status = 0
+                 WHERE PromotionID = @PromotionID`,
                 (err) => {
                   if (err) reject(err);
                   resolve({
@@ -321,7 +321,7 @@ const promotionDAO = {
               );
             } else {
               // Cannot delete promotion if it's ongoing
-              reject({
+              resolve({
                 success: false,
                 code: "PROMOTION_ONGOING",
                 message: "Cannot delete ongoing promotion"
