@@ -193,7 +193,7 @@ const orderDAO = {
         const request = new mssql.Request();
         request.query(
           `SELECT * FROM Orders 
-                                WHERE ORDERS.STATUS=1;`,
+          WHERE ORDERS.STATUS=1;`,
           (err, res) => {
             if (err) reject(err);
 
@@ -215,7 +215,7 @@ const orderDAO = {
         request.input("userName", mssql.VarChar, `%${trimmedUserName}%`);
 
         const selectQuery = `
-                    SELECT o.*
+                SELECT o.*
                 FROM Orders o
                 JOIN Users u ON o.UserID = u.UserID
                 WHERE u.UserName COLLATE SQL_Latin1_General_CP1_CI_AS LIKE @userName
@@ -381,7 +381,7 @@ const orderDAO = {
       });
     });
   },
-  //Chức năng cho phép lấy những voucher đã lưu mà có thể áp dụng cho đơn hàng
+
   getApplicableVouchers: (userID, orderTotal, currentDate) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {

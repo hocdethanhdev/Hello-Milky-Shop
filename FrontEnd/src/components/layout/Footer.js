@@ -33,7 +33,7 @@ function Footer() {
           </div>
 
           <div>
-            <Link to="https://www.facebook.com/" className="me-4 text-reset">
+            <Link to="https://www.facebook.com/profile.php?id=61561027203872" className="me-4 text-reset">
               <MDBIcon fab icon="facebook-f" />
             </Link>
             <Link to="https://www.google.com" className="me-4 text-reset">

@@ -295,21 +295,44 @@ const promotionDAO = {
       mssql.connect(dbConfig, function () {
         var request = new mssql.Request()
           .input("PromotionID", param_id);
+
+        // First, check if the promotion can be deleted
         request.query(
-          `UPDATE Promotion
-          SET Status = 0
-          Where PromotionID = @promotionID
-          `,
-          (err) => {
+          `SELECT StartDate, EndDate FROM Promotion WHERE PromotionID = @PromotionID`,
+          (err, result) => {
             if (err) reject(err);
-            resolve({
-              message: "Delete successfully"
-            });
+
+            const { StartDate, EndDate } = result.recordset[0];
+            const now = new Date();
+
+            if (now < StartDate || now > EndDate) {
+              // Proceed with delete
+              request.query(
+                `UPDATE Promotion
+                             SET Status = 0
+                             WHERE PromotionID = @PromotionID`,
+                (err) => {
+                  if (err) reject(err);
+                  resolve({
+                    success: true,
+                    message: "Delete successfully"
+                  });
+                }
+              );
+            } else {
+              // Cannot delete promotion if it's ongoing
+              reject({
+                success: false,
+                code: "PROMOTION_ONGOING",
+                message: "Cannot delete ongoing promotion"
+              });
+            }
           }
         );
       });
     });
   },
+
   openPromotion: (PromotionID) => {
     return new Promise((resolve, reject) => {
       mssql.connect(dbConfig, function (err) {
