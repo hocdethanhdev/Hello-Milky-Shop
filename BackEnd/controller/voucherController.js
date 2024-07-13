@@ -19,7 +19,7 @@ const deleteVoucher = async (req, res) => {
         if (result.success) {
             res.status(200).json({ success: true });
         } else {
-            res.status(400).json({ success: false });
+            res.status(200).json({ success: false });
         }
     } catch (error) {
         console.error("Error while deleting the voucher: ", error);
