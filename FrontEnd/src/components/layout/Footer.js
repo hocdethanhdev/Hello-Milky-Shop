@@ -3,6 +3,7 @@ import { MDBFooter, MDBContainer, MDBRow, MDBIcon } from "mdb-react-ui-kit";
 import "./Footer.css";
 import ScollToTopButton from "../users/product/ui-product-mom/ScrollToTopButton";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 function Footer() {
   useEffect(() => {
@@ -19,6 +20,8 @@ function Footer() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const { t } = useTranslation();
 
   return (
     <div>
@@ -53,7 +56,7 @@ function Footer() {
                   <MDBIcon fas icon="shopping-bag" className="me-3" />
                   Hello Milky Shop
                 </h6>
-                <p className="text-dark">Địa chỉ liên hệ</p>
+                <p className="text-dark">{t('address')}</p>
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.609941530484!2d106.80730807451795!3d10.841132857997918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752731176b07b1%3A0xb752b24b379bae5e!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgVFAuIEhDTQ!5e0!3m2!1svi!2s!4v1718555179040!5m2!1svi!2s"
                   className="embed-responsive-item"
@@ -72,11 +75,10 @@ function Footer() {
                   </h6>
                   <p className="text-dark">
                     <MDBIcon icon="home" className="me-2" />
-                    Đại học FPT Thành phố Hồ Chí Minh
+                    {t('FPTUniversityHoChiMinhCityCampus')}
                   </p>
                   <p className="address">
-                    Địa chỉ: Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố
-                    Thủ Đức, Thành phố Hồ Chí Minh
+                  {t('address:LotE2a-7,StreetD1,D.D1,LongThanhMy,CityThuDuc,HoChiMinhCity')}
                   </p>
                   <p className="text-dark">
                     <MDBIcon icon="envelope" className="me-3" />

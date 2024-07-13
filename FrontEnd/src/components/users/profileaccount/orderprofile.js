@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 const OrderProfile = () => {
   const [activeTab, setActiveTab] = useState("Tất cả");
@@ -16,6 +17,7 @@ const OrderProfile = () => {
   const { token } = useSelector((state) => state.auth);
   const userIdd = getUserIdFromToken(token);
   const [canRateMap, setCanRateMap] = useState({});
+  const { t } = useTranslation();
 
   const fetchOrders = useCallback(
     async (status) => {
@@ -96,7 +98,7 @@ const OrderProfile = () => {
     try {
       await axios.post(`${config.API_ROOT}/api/v1/order/cancelOrder`, {
         orderID: orderToCancel,
-        reasonCancelContent: "Đã hủy bởi bạn",
+        reasonCancelContent: `${t('canceledByYou')} `,
         userID: userIdd,
       });
       const statusCode = activeTab === "Tất cả" ? "" : activeTab;
@@ -178,14 +180,14 @@ const OrderProfile = () => {
                   setOrderToCancel(order.OrderID);
                 }}
               >
-                Hủy đơn hàng
+                {t('cancelOrder')}
               </button>
             )}
             {order.status === "Đã hủy" && (
               <p>
                 {order.items[0].ReasonCancelContent
-                  ? `Lí do hủy: ${order.items[0].ReasonCancelContent}`
-                  : "Đã hủy"}
+                  ? `${t('reasonForCancellation')}: ${order.items[0].ReasonCancelContent}`
+                  : `${t('cancelled')} `}
               </p>
             )}
           </div>
@@ -196,11 +198,11 @@ const OrderProfile = () => {
               </Link>
               <div className="item-details">
                 <p>{item.ProductName}</p>
-                <p>Phân loại hàng: {item.ProductCategoryName}</p>
-                <p>Số lượng: {item.Quantity}</p>
+                <p>{t('goodsClassification')}: {item.ProductCategoryName}</p>
+                <p>{t('quantity')}: {item.Quantity}</p>
                 <div className="date-oderProfile">
                   <p>
-                    <strong>Ngày tạo đơn: </strong>
+                    <strong>{t('orderCreationDate')}: </strong>
                     {new Date(item.OrderDate).toLocaleDateString("vi-VN", {
                       day: "2-digit",
                       month: "2-digit",
@@ -217,7 +219,7 @@ const OrderProfile = () => {
                       to={`/product/${item.ProductID}`}
                       className="rate-button btn btn-warning"
                     >
-                      Đánh giá
+                      {t('rate2')}
                     </Link>
                   )}
 
@@ -247,7 +249,7 @@ const OrderProfile = () => {
             </div>
           ))}
           <div className="total-price">
-            <p>Thành tiền: {order.totalPrice}</p>
+            <p>{t('price2')}: {order.totalPrice}</p>
           </div>
         </div>
       );
@@ -262,31 +264,31 @@ const OrderProfile = () => {
             className={activeTab === "Tất cả" ? "active" : ""}
             onClick={() => setActiveTab("Tất cả")}
           >
-            Tất cả
+            {t('all')}
           </li>
           <li
             className={activeTab === "Chờ xác nhận" ? "active" : ""}
             onClick={() => setActiveTab("Chờ xác nhận")}
           >
-            Chờ xác nhận
+            {t('pending')}
           </li>
           <li
             className={activeTab === "Đang giao" ? "active" : ""}
             onClick={() => setActiveTab("Đang giao")}
           >
-            Đang giao
+            {t('delivering')}
           </li>
           <li
-            className={activeTab === "Hoàn thành" ? "active" : ""}
+            className={activeTab === "Hoàn Thành" ? "active" : ""}
             onClick={() => setActiveTab("Hoàn thành")}
           >
-            Hoàn thành
+           {t('complete')}
           </li>
           <li
             className={activeTab === "Đã hủy" ? "active" : ""}
             onClick={() => setActiveTab("Đã hủy")}
           >
-            Đã hủy
+            {t('cancelled')}
           </li>
         </ul>
       </header>
@@ -300,7 +302,7 @@ const OrderProfile = () => {
             >
               &times;
             </span>
-            <p>Bạn chắc chắn muốn hủy đơn hàng?</p>
+            <p>{t('areYouSureWantToCancelYourOrder?')}</p>
             <div className="popup-buttons">
               <button onClick={() => setShowCancelPopup(false)}>Không</button>
               <button onClick={handleCancelOrder}>Có</button>
@@ -318,7 +320,7 @@ const OrderProfile = () => {
             >
               &times;
             </span>
-            <p>Bạn chắc chắn đã nhận được hàng?</p>
+            <p>{t('areYouSureReceivedYourOrder?')}</p>
             <div className="popup-buttons">
               <button onClick={() => setShowConfirmPopup(false)}>Không</button>
               <button onClick={handleConfirmReceipt}>Có</button>

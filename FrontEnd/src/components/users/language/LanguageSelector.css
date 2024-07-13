@@ -155,5 +155,7 @@ button:focus {
 .focus\:ring-blue-400:focus {
   box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.5);
 }
-
+.nut-lag{
+  bolder : none;
+}
 

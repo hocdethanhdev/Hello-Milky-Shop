@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import './AddressPopup.css';
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 const AddressPopup = ({ userID, onSelect, onClose }) => {
     const [addresses, setAddresses] = useState([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchAddresses = async () => {
@@ -22,7 +24,7 @@ const AddressPopup = ({ userID, onSelect, onClose }) => {
     return (
         <div className="address-popup-overlay-long">
             <div className="address-popup-long">
-                <h2>Chọn địa chỉ cũ</h2>
+                <h2>{t('selectOldAddress')}</h2>
                 <div className="address-list-container">
                     <ul>
                         {addresses.map((address) => (
@@ -41,7 +43,7 @@ const AddressPopup = ({ userID, onSelect, onClose }) => {
                         ))}
                     </ul>
                 </div>
-                <button onClick={onClose} className="close-button">Đóng</button>
+                <button onClick={onClose} className="close-button">{t('close')}</button>
             </div>
         </div>
     );

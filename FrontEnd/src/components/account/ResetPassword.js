@@ -157,9 +157,9 @@ const ResetPassword = () => {
         <div id="recaptcha-container"></div>
         {showResetForm ? (
           <div className="password-reset-form">
-            <h2>Đặt lại mật khẩu</h2>
+            <h2>{t('resetPassword')}</h2>
             <div>
-              <label>Mật khẩu mới:</label>
+              <label>{t('newPassword')}:</label>
               <input
                 type="password"
                 value={password}
@@ -167,7 +167,7 @@ const ResetPassword = () => {
               />
             </div>
             <div>
-              <label>Xác nhận mật khẩu:</label>
+              <label>{t('comfirmPassword')}:</label>
               <input
                 type="password"
                 value={confirmPassword}
@@ -180,9 +180,9 @@ const ResetPassword = () => {
           </div>
         ) : user ? (
           <div className="password-reset-form">
-            <h2>Đặt lại mật khẩu</h2>
+            <h2>{t('resetPassword')}</h2>
             <div>
-              <label>Mật khẩu mới:</label>
+              <label>{t('newPassword')}:</label>
               <input
                 type="password"
                 value={password}
@@ -190,7 +190,7 @@ const ResetPassword = () => {
               />
             </div>
             <div>
-              <label>Xác nhận mật khẩu:</label>
+              <label>{t('comfirmPassword')}:</label>
               <input
                 type="password"
                 value={confirmPassword}
@@ -225,7 +225,7 @@ const ResetPassword = () => {
                   {loading && (
                     <CgSpinner size={20} className="mt-1 animate-spin" />
                   )}
-                  <span>Xác nhận OTP</span>
+                  <span>{t('comfirmOTP')}</span>
                 </button>
               </>
             ) : (

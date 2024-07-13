@@ -6,6 +6,7 @@ import './RelatedProductMom.css';
 import StarRating from '../ui-list-product-mom/StarRating';
 import Loading from '../../../layout/Loading';
 import config from "../../../config/config";
+import { useTranslation } from 'react-i18next';
 
 const formatPrice = (price) => {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -27,6 +28,7 @@ const RelatedProducts = ({ product }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchRelatedProducts = async () => {
@@ -58,7 +60,7 @@ const RelatedProducts = ({ product }) => {
 
     return (
         <div className="related-products-minith">
-            <h2>Sản phẩm tương tự</h2>
+            <h2>{t('similarProduct')}</h2>
             <ul>
                 {relatedProducts.map((product) => {
                     const discountAmount = calculateDiscount(product.Price, product.PriceAfterDiscounts);

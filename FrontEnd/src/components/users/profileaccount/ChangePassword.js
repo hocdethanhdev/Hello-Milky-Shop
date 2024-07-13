@@ -7,12 +7,14 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import SidebarProfile from "./sidebarprofile";
 import { message } from "antd";
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [userId, setUserId] = useState("");
+  const { t } = useTranslation();
 
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -28,7 +30,7 @@ function ChangePassword() {
     e.preventDefault();
 
     if (newPassword !== confirmNewPassword) {
-      message.error("Mật khẩu mới và xác nhận mật khẩu không khớp.");
+      message.error(`${t('newPasswordAndConfirmPasswordDoNotMatch.')}`);
       return;
     }
 
@@ -49,16 +51,16 @@ function ChangePassword() {
 
 
       if (data.err === 0) {
-        message.success("Đổi mật khẩu thành công!");
+        message.success(`${t('changePasswordSuscessfully')}`);
         setOldPassword("");
         setNewPassword("");
         setConfirmNewPassword("");
       } else {
-        message.error(data.msg || "Mật khẩu cũ không đúng. Vui lòng nhập lại");
+        message.error(data.msg || `${t('theOldPasswordIsIncorrectPleaseReEnter')}`);
       }
     } catch (error) {
       console.error("Error:", error);
-      message.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+      message.error(`${t('errorAnErrorOccurredPleaseTryAgainLater')}`);
     }
   };
 
@@ -72,10 +74,10 @@ function ChangePassword() {
         <SidebarProfile />
       </div>
       <div className="change-password-form">
-        <h2>Đổi mật khẩu</h2>
+        <h2>{t('changePassword')}</h2>
         <form onSubmit={handleChangePassword}>
           <div className="password-input">
-            <label htmlFor="oldPassword">Mật khẩu cũ:</label>
+            <label htmlFor="oldPassword">{t('oldPassword')}:</label>
             <div className="input-container">
               <input
                 type={showOldPassword ? "text" : "password"}
@@ -92,7 +94,7 @@ function ChangePassword() {
             </div>
           </div>
           <div className="password-input">
-            <label htmlFor="newPassword">Mật khẩu mới:</label>
+            <label htmlFor="newPassword">{t('newPassword')}:</label>
             <div className="input-container">
               <input
                 type={showNewPassword ? "text" : "password"}
@@ -109,7 +111,7 @@ function ChangePassword() {
             </div>
           </div>
           <div className="password-input">
-            <label htmlFor="confirmNewPassword">Nhập lại mật khẩu mới:</label>
+            <label htmlFor="confirmNewPassword">{t('enterANewPassword')}:</label>
             <div className="input-container">
               <input
                 type={showConfirmNewPassword ? "text" : "password"}
@@ -126,7 +128,7 @@ function ChangePassword() {
             </div>
           </div>
           <div>
-            <button type="submit">Đổi mật khẩu</button>
+            <button type="submit">{t('changePassword')}</button>
           </div>
         </form>
       </div>

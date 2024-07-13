@@ -8,6 +8,7 @@ import AddressPopup from "./AddressPopup";
 import { getMaxQuantity } from "./productMax";
 import { message } from "antd";
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 const ShoppingCart = () => {
   const { token } = useSelector((state) => state.auth);
@@ -37,6 +38,7 @@ const ShoppingCart = () => {
   let totalAmount = 0;
   const [incrementIntervalId, setIncrementIntervalId] = useState(null);
   const [decrementIntervalId, setDecrementIntervalId] = useState(null);
+  const { t } = useTranslation();
 
   const increaseOne = async (productId) => {
     // Fetch the maximum quantity for the product
@@ -265,7 +267,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       message.warning(
-        `Phiếu giảm giá này yêu cầy đơn hàng tối thiểu từ ${
+        `${t('thisCoupon')} ${
           voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
@@ -372,17 +374,17 @@ const ShoppingCart = () => {
       );
 
       if (selectedProductIds.length === 0) {
-        message.warning("Vui lòng chọn ít nhất một sản phẩm.");
+        message.warning(`${t('pleaseProduct')}`);
         return;
       }
 
       if (!paymentMethod) {
-        message.warning("Vui lòng chọn hình thức thanh toán.");
+        message.warning(`${t('pleasePaymentMethod')}`);
         return;
       }
 
       if (!receiver || !phoneNumber || !address) {
-        message.warning("Vui lòng nhập hoặc chọn địa chỉ giao hàng.");
+        message.warning(`${t('pleaseAddress')}`);
         return;
       }
 
@@ -509,17 +511,17 @@ const ShoppingCart = () => {
       <div className="checkout">
         <div className="customer-info">
           <div className="address-section">
-            <h2 className="address-title-long">ĐỊA CHỈ</h2>
+            <h2 className="address-title-long">{t('address3')}</h2>
             <input
               type="text"
-              placeholder="Người nhận"
+              placeholder={t('receiver')}
               value={receiver}
               onChange={(e) => setReceiver(e.target.value)}
               disabled={usingSavedAddress}
             />
             <input
               type="text"
-              placeholder="Số điện thoại"
+              placeholder={t('phoneNumber')}
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               disabled={usingSavedAddress}
@@ -527,7 +529,7 @@ const ShoppingCart = () => {
             <textarea
               className="address-input-long"
               type="text"
-              placeholder="Địa chỉ"
+              placeholder={t('address2')}
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               disabled={usingSavedAddress}
@@ -539,7 +541,7 @@ const ShoppingCart = () => {
                   onChange={(e) => setSelectedCityID(e.target.value)}
                   disabled={usingSavedAddress}
                 >
-                  <option value="">Chọn thành phố</option>
+                  <option value="">{t('selectCity')}</option>
                   {cities.map((city) => (
                     <option key={city.ID} value={city.ID}>
                       {city.CityName}
@@ -551,7 +553,7 @@ const ShoppingCart = () => {
                   onChange={(e) => setSelectedDistrictID(e.target.value)}
                   disabled={usingSavedAddress}
                 >
-                  <option value="">Chọn quận huyện</option>
+                  <option value="">{t('selectDistrict')}</option>
                   {districts.map((district) => (
                     <option
                       key={district.DistrictID}
@@ -568,21 +570,21 @@ const ShoppingCart = () => {
                 className="custom-button-long"
                 onClick={handleUseNewAddressSelect}
               >
-                Thêm địa chỉ mới
+                {t('addNewAddress')}
               </button>
             ) : (
               <button
                 className="custom-button-long"
                 onClick={() => setShowAddressPopup(true)}
               >
-                Dùng địa chỉ cũ
+                {t('selectOldAddress')}
               </button>
             )}
           </div>
         </div>
 
         <div className="product-info-container-long">
-          <h3>SẢN PHẨM ({orderDetails.length} sản phẩm)</h3>
+          <h3>{t('product')} ({orderDetails.length} {t('product2')})</h3>
           <div className="product-info-long">
             {orderDetails.map((item) => {
               const productInfo = item.productInfo[0];
@@ -616,7 +618,7 @@ const ShoppingCart = () => {
                       >
                         -
                       </button>
-                      <span>Số lượng: {quantity}</span>
+                      <span>{t('quantity')}: {quantity}</span>
                       <button onClick={() => increaseOne(productId)}>+</button>
                     </div>
                   </div>
@@ -627,10 +629,10 @@ const ShoppingCart = () => {
         </div>
 
         <div className="payment-info">
-          <h3>THANH TOÁN</h3>
+          <h3>{t('payment')}</h3>
           <div className="totals">
             <div className="total-row">
-              <span>Tạm tính</span>
+              <span>{t('provisional')}</span>
               <span>{subtotal.toLocaleString()} đ</span>
             </div>
             <div className="voucher-selection-long">
@@ -638,11 +640,11 @@ const ShoppingCart = () => {
                 className="choose-voucher-btn"
                 onClick={() => setShowVoucherPopup(true)}
               >
-                Chọn Voucher
+                {t('chooseVoucher')}
               </button>
               {selectedVoucher && (
                 <p>
-                  Voucher đã chọn: -{selectedVoucher.DiscountPercentage || 0}%
+                  {t('selectedVoucher')}: -{selectedVoucher.DiscountPercentage || 0}%
                 </p>
               )}
             </div>
@@ -662,12 +664,12 @@ const ShoppingCart = () => {
                     className="points-icon"
                   />
                 </span>
-                Dùng {points} xu - {formatPrice(points * 10)}₫
+                {t('use')} {points} {t('coins')} - {formatPrice(points * 10)}₫
               </label>
             </div>
 
             <div className="total-row">
-              <span>Khuyến mãi</span>
+              <span>{t('promotion')}</span>
               {kmai ? (
                 <span>-{kmai.toLocaleString()} đ</span>
               ) : (
@@ -676,12 +678,12 @@ const ShoppingCart = () => {
             </div>
 
             <div className="total-row total">
-              <span>Thành tiền</span>
+              <span>{t('price2')}</span>
               <span>{calculateTotal().toLocaleString()} đ</span>
             </div>
           </div>
 
-          <h4>HÌNH THỨC THANH TOÁN</h4>
+          <h4>{t('paymentMethods')}</h4>
           <div className="payment-methods">
             <div className="method">
               <input
@@ -694,13 +696,13 @@ const ShoppingCart = () => {
               />
               <label htmlFor="online">
                 <i className="fa fa-credit-card"></i>
-                Thanh toán Online
+                {t('onlinePayment')}
               </label>
             </div>
           </div>
 
           <button className="order-btn" onClick={handleOrder}>
-            ĐẶT HÀNG
+          {t('order')}
           </button>
         </div>
       </div>
@@ -708,19 +710,19 @@ const ShoppingCart = () => {
       {productToRemove && (
         <div className="popup-cart-thinh">
           <div className="popup-inner-cart-thinh">
-            <h2>Xóa sản phẩm</h2>
-            <p>Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?</p>
+            <h2>{t('deleteProduct')}</h2>
+            <p>{t('removeProduct')}</p>
             <button
               className="DongY btn btn-success"
               onClick={confirmRemoveProduct}
             >
-              Có
+              {t('yes')}
             </button>
             <button
               className="Huy btn btn-danger"
               onClick={() => setProductToRemove(null)}
             >
-              Không
+              {t('no')}
             </button>
           </div>
         </div>

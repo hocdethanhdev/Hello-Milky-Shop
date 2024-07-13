@@ -9,6 +9,7 @@ import { getUserIdFromToken } from "../../store/actions/authAction";
 import { toast } from "react-hot-toast";
 import PropTypes from "prop-types";
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 
 const formatNumber = (num) => {
@@ -19,6 +20,7 @@ function VoucherStore() {
   const [vouchers, setVouchers] = useState([]);
   const { token } = useSelector((state) => state.auth);
   const userIdd = getUserIdFromToken(token);
+  const { t } = useTranslation();
 
   const fetchVouchersForUser = useCallback(async () => {
     try {
@@ -50,7 +52,7 @@ function VoucherStore() {
 
       if (response.data.message === "Voucher saved for user successfully") {
         fetchVouchersForUser();
-        toast.success("Bạn đã lấy voucher thành công", { duration: 2000 });
+        toast.success(`${t('youHaveSuccessfullyReceivedYourVoucher')}`, { duration: 2000 });
       } else {
         toast.error("Bạn đã lưu voucher này rồi", { duration: 2000 });
       }
@@ -87,13 +89,14 @@ function VoucherStore() {
           </Slider>
         </div>
       ) : (
-        <p className="text-center">Hiện không còn voucher nào</p>
+        <p className="text-center">{t('thereAreCurrentlyNoVouchersLeft')}</p>
       )}
     </div>
   );
 }
 
 function VoucherItem({ voucher, onSaveVoucher }) {
+  const { t } = useTranslation();
   return (
     <div className="tri-voucher">
       <div className="voucher" onClick={() => onSaveVoucher(voucher)}>
@@ -139,7 +142,7 @@ function VoucherItem({ voucher, onSaveVoucher }) {
                     />
                   </svg>
                 </div>
-                <div>Ngày bắt đầu</div>
+                <div>{t('startDate')}</div>
               </div>
             </div>
             <div className="details-text">
@@ -175,7 +178,7 @@ function VoucherItem({ voucher, onSaveVoucher }) {
                       />
                     </svg>
                   </div>
-                  <div>Ngày kết thúc</div>
+                  <div>{t('endDate')}</div>
                 </div>
               </div>
               <div className="text-description text-primary">
@@ -190,7 +193,7 @@ function VoucherItem({ voucher, onSaveVoucher }) {
           <div className="nhandan">
             <div className="voucher-details">
               <div className="details-text">
-                <div className="text-title">Đơn tối thiểu</div>
+                <div className="text-title">{t('minOrderPrice')}</div>
                 <div className="text-description-gia text-primary">
                   {formatNumber(voucher.MinDiscount)}đ
                 </div>
@@ -198,7 +201,7 @@ function VoucherItem({ voucher, onSaveVoucher }) {
             </div>
             <div className="voucher-details">
               <div className="details-text">
-                <div className="text-title">Giảm tối đa</div>
+                <div className="text-title">{t('maxDiscount')}</div>
                 <div className="text-description-gia text-primary">
                   {formatNumber(voucher.MaxDiscount)}đ
                 </div>

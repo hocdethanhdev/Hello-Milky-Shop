@@ -1,14 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./VoucherModal.css";
+import { useTranslation } from 'react-i18next';
 
 const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
+  const { t } = useTranslation();
   return (
     <div className="voucher-popup-long">
       <span className="close-btn-long" onClick={closePopup}>
         X
       </span>
-      <h2>Chọn Voucher</h2>
+      <h2>{t('chooseVoucher')}</h2>
       <ul>
         {vouchers.map((voucher) => (
           <li key={voucher.UserVoucherID} className="tri-voucher1">
@@ -57,7 +59,7 @@ const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
                           />
                         </svg>
                       </div>
-                      <div>Ngày bắt đầu</div>
+                      <div>{t('startDate')}</div>
                     </div>
                   </div>
                   <div className="details-text">
@@ -89,7 +91,7 @@ const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
                             />
                           </svg>
                         </div>
-                        <div>Ngày kết thúc</div>
+                        <div>{t('endDate')}</div>
                       </div>
                     </div>
                     <div className="text-description text-primary">
@@ -100,7 +102,7 @@ const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
                 <div className="nhandan">
                   <div className="voucher-details">
                     <div className="details-text">
-                      <div className="text-title">Đơn tối thiểu</div>
+                      <div className="text-title">{t('minOrderPrice')}</div>
                       <div className="text-description-gia text-primary">
                         {voucher.MinDiscount}đ
                       </div>
@@ -108,7 +110,7 @@ const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
                   </div>
                   <div className="voucher-details">
                     <div className="details-text">
-                      <div className="text-title">Giảm tối đa</div>
+                      <div className="text-title">{t('maxDiscount')}</div>
                       <div className="text-description-gia text-primary">
                         {voucher.MaxDiscount}đ
                       </div>

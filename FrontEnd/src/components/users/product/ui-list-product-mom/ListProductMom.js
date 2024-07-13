@@ -5,6 +5,7 @@ import SliderMoney from "./SliderMoney";
 import ThrowPage from "./ThrowPage";
 import StarRating from "./StarRating";
 import config from "../../../config/config";
+import { useTranslation } from 'react-i18next';
 
 const formatPrice = (price) => {
   return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -19,6 +20,7 @@ const ListProductMom = () => {
   const [priceRange, setPriceRange] = useState([0, 5000000]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchProducts();
@@ -173,7 +175,7 @@ const ListProductMom = () => {
             />
             <div className="title_cate_right">
               <div className="loc-theo-gia-list-mom">
-                <div className="center-text-list-promom">Lọc theo giá</div>
+                <div className="center-text-list-promom">{t('filterByPrice')}</div>
                 <SliderMoney
                   min={0}
                   max={2000000}
@@ -185,7 +187,7 @@ const ListProductMom = () => {
 
               <div className="loc-theo-brand-list-mom">
                 <div className="center-text-list-promom">
-                  Lọc theo thương hiệu
+                {t('filterByBrand')}
                 </div>
                 <select
                   name="brandFilter"
@@ -193,7 +195,7 @@ const ListProductMom = () => {
                   value={selectedBrand}
                   onChange={handleBrandChange}
                 >
-                  <option value="">Tất cả</option>
+                  <option value="">{t('all')}</option>
                   {brands.map((brand, index) => (
                     <option key={index} value={brand.BrandName}>
                       {brand.BrandName}
@@ -203,19 +205,19 @@ const ListProductMom = () => {
               </div>
 
               <span className="title_filter">
-                <div className="center-text-list-promom">Sắp xếp theo</div>
+                <div className="center-text-list-promom">{t('sortedBy')}</div>
                 <select
                   name="sortProduct"
                   id="sortProduct"
                   value={sortOption}
                   onChange={handleSortChange}
                 >
-                  <option value="">Ngẫu nhiên</option>
-                  <option value="priceAsc">Giá tăng dần</option>
-                  <option value="priceDesc">Giá giảm dần</option>
-                  <option value="nameAsc">Tên A--Z</option>
-                  <option value="nameDesc">Tên Z--A</option>
-                  <option value="promotionDesc">Khuyến mại</option>
+                  <option value="">{t('random')}</option>
+                  <option value="priceAsc">{t('pricesGraduallyIncrease')}</option>
+                  <option value="priceDesc">{t('pricesGraduallyDecrease')}</option>
+                  <option value="nameAsc">{t('nameAZ')}</option>
+                  <option value="nameDesc">{t('nameZA')}</option>
+                  <option value="promotionDesc">{t('promotion')}</option>
                 </select>
               </span>
             </div>

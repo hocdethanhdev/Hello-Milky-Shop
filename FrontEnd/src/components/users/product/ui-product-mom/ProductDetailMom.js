@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types"; // Import PropTypes
 import "./ProductDetailMom.css";
+import { useTranslation } from 'react-i18next';
 
 const ProductDetail = ({ product }) => {
+  const { t } = useTranslation();
   return (
     <div>
       <section className="product_detail-all-thinh width-common">
-        <h2>Mô tả {product.ProductName}</h2>
+        <h2>{t('describe')} {product.ProductName}</h2>
         <div className="wrap">
           <div
             dangerouslySetInnerHTML={{

@@ -74,14 +74,14 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = () => {
       {isOpen && (
         <div className="absolute top-full right-0 w-40 bg-white shadow-lg rounded-lg py-2 mt-1 z-50">
           <button
-            className="flex items-center gap-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 w-full"
+            className="flex items-center gap-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 w-full nut-lag"
             onClick={() => handleChoose(us)}
           >
             <img src={us} className="w-4 rounded-full" alt="English (US)" />
             <span>English (US)</span>
           </button>
           <button
-            className="flex items-center gap-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 w-full"
+            className="flex items-center gap-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 w-full nut-lag"
             onClick={() => handleChoose(vn)}
           >
             <img src={vn} className="w-4 rounded-full" alt="Việt Nam (VI)" />

@@ -12,6 +12,7 @@ import { getUserIdFromToken } from "../../../store/actions/authAction";
 import { useSelector } from "react-redux";
 import Loading from '../../../layout/Loading';
 import config from "../../../config/config";
+import { useTranslation } from 'react-i18next';
 
 const ProductScreen = () => {
     const { productId } = useParams();
@@ -22,6 +23,7 @@ const ProductScreen = () => {
     const { token, isLoggedIn } = useSelector((state) => state.auth);
     const userId = getUserIdFromToken(token);
     const [ratingCount, setRatingCount] = useState(0);
+    const { t } = useTranslation();
 
     const fetchComments = useCallback(async () => {
         try {
@@ -90,8 +92,8 @@ const ProductScreen = () => {
                                         <ul className="breadcrumb-thinh-url">
                                             <li className="breadcrumb-item-thinh-url"><Link to="/"><i className="fa fa-home"></i></Link></li>
                                             {product.ProductID.includes("SE") ?
-                                                <li className="breadcrumb-item-thinh-url"><Link to="/sua-cho-be">Sữa cho bé</Link></li>
-                                                : <li className="breadcrumb-item-thinh-url"><Link to="/sua-cho-me">Sữa cho mẹ</Link></li>}
+                                                <li className="breadcrumb-item-thinh-url"><Link to="/sua-cho-be">{t('milkForBaby1')}</Link></li>
+                                                : <li className="breadcrumb-item-thinh-url"><Link to="/sua-cho-me">{t('milkForMom1')}</Link></li>}
                                             <li className="breadcrumb-item-thinh-url active" aria-current="page">{product.ProductName}</li>
                                         </ul>
                                     </nav>

@@ -6,6 +6,7 @@ import Notification from "./Notification"; // Import the Notification component
 import Loading from "../../../layout/Loading";
 import PropTypes from 'prop-types'; // Import PropTypes
 import config from "../../../config/config";
+import { useTranslation } from 'react-i18next';
 
 export default function ProductRating({ productID, userID, fetchComments, setRatingCount }) {
     const [number, setNumber] = useState(0);
@@ -13,40 +14,41 @@ export default function ProductRating({ productID, userID, fetchComments, setRat
     const [description, setDescription] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [notification, setNotification] = useState(null); // State for notification
+    const { t } = useTranslation();
 
     const handleText = () => {
         switch (number || hoverStar) {
             case 0:
-                return "Rất tệ";
+                return `${t('veryBad')}`;
             case 1:
-                return "Tệ";
+                return `${t('bad')}`;
             case 2:
-                return "Hàng kém";
+                return `${t('poorProduct')}`;
             case 3:
-                return "Ổn";
+                return `${t('good')}`;
             case 4:
-                return "Khá tốt";
+                return `${t('pretty good')}`;
             case 5:
-                return "Tuyệt vời";
+                return `${t('great')}`;
             default:
-                return "Đánh giá";
+                return `${t('rate')}`;
         }
     };
 
     const handlePlaceHolder = () => {
         switch (number || hoverStar) {
             case 0:
-                return "Bình luận..";
+                return `${t('comment')}`;
             case 1:
             case 2:
-                return "Bạn có vấn đề gì về sản phẩm";
+                return `${t('doYouHaveAnyProblemsWithTheProduct?')}`;
             case 3:
             case 4:
-                return "Bạn cảm thấy sản phẩm như thế nào";
+                return `${t('howDoYouFeelAboutTheProduct?')}`;
             case 5:
-                return "Tại sao bạn thích nó?";
+                return `${t('whyYouLiktIt')}`;
             default:
-                return "Bình luận..";
+                return `${t('comment')}`;
         }
     };
 
@@ -61,7 +63,7 @@ export default function ProductRating({ productID, userID, fetchComments, setRat
                     Description: description,
                 });
                 setIsSubmitting(false);
-                setNotification("Bình Luận Thành Công!");
+                setNotification(`${t('commentSuscessfully')}`);
                 setNumber(0);
                 setDescription("");
                 fetchComments();
@@ -115,7 +117,7 @@ export default function ProductRating({ productID, userID, fetchComments, setRat
                     onClick={handleSubmit}
                     disabled={!number || isSubmitting}
                 >
-                    {isSubmitting ? <Loading /> : "Gửi"}
+                   {isSubmitting ? <Loading /> : t('send')}
                 </button>
             </div>
         </div>
