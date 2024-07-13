@@ -68,11 +68,7 @@ const getCurrentProductsHavingPromotion = async (req, res) => {
 const deletePromotion = async (req, res) => {
     promotionService.deletePromotion(req.params.promotion_id)
         .then(result => {
-            if (result.success) {
-                res.status(200).json(result);
-            } else {
-                res.status(400).json(result);
-            }
+            res.status(200).json(result);
         })
         .catch(err => res.status(500).json({ message: err.message }));
 };
