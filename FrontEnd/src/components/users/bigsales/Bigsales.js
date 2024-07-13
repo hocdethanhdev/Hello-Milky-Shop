@@ -4,6 +4,7 @@ import "./Bigsales.css";
 import NavCate from "../product/ui-product-mom/NavCate";
 import StarRating from "../product/ui-list-product-mom/StarRating";
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 const fetchPromotions = async () => {
   try {
@@ -60,6 +61,7 @@ const fetchProducts = async () => {
 function Bigsales() {
   const [promotions, setPromotions] = useState([]);
   const [products, setProducts] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,7 +85,7 @@ function Bigsales() {
               <img src={promo.imageUrl} alt="banner" className="imgbanner" />
             </Link>
             <div className="tgkm-promo night">
-              Thời gian khuyến mại:{" "}
+            {t('promotionTime')}:{" "}
               <b>
                 {new Date(promo.startDate).toLocaleDateString("vi-VN", {
                   day: "2-digit",
@@ -99,7 +101,7 @@ function Bigsales() {
               </b>
             </div>
             <div className="promo-description">
-              {promo.description} - Giảm đến {promo.discount}%
+              {promo.description} - {t('saleTo')}:  {promo.discount}%
             </div>
           </div>
         ))}
@@ -116,7 +118,7 @@ function Bigsales() {
                   backgroundColor: "#0f7fc1",
                 }}>
                 <span className="box_product_textHead">
-                  Những sản phẩm khuyến mãi đang chờ bạn
+                {t('promotionalProductsAreWaitingForYou')}
                 </span>
               </div>
             </di>
@@ -148,7 +150,7 @@ function Bigsales() {
                             rel="noopener noreferrer">
                             {product.name}
                           </Link>
-                          <span className="barCode">Mã SP: {product.id}</span>
+                          <span className="barCode">{t('productCode')}: {product.id}</span>
                         </div>
                         <div className="saoduoithinh">
                           <StarRating productId={product.id} />

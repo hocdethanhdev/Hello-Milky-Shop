@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import "./ProductRatingAll.css";
+import { useTranslation } from 'react-i18next';
 
 const ProductRatingAll = ({ ratings }) => {
   const [visibleCount, setVisibleCount] = useState(2);
   const [sortOrder, setSortOrder] = useState("newest");
   const [filterStars, setFilterStars] = useState(null);
+  const { t } = useTranslation();
 
   const handleShowMore = () => {
     setVisibleCount((prevCount) => prevCount + 5);
@@ -63,7 +65,7 @@ const ProductRatingAll = ({ ratings }) => {
           {renderStars(Math.round(averageRating))}
         </div>
         <div className="rating-count-thinhrt">
-          Có {ratings.length} lượt đánh giá
+        {t('have')} {ratings.length} {t('reviews')}
         </div>
         <div className="rating-filters-thinhrt">
           <button
@@ -71,14 +73,14 @@ const ProductRatingAll = ({ ratings }) => {
               }`}
             onClick={() => handleSort("newest")}
           >
-            Mới nhất
+           {t('newest')}
           </button>
           <button
             className={`filter-btn-thinhrt ${sortOrder === "oldest" ? "active" : ""
               }`}
             onClick={() => handleSort("oldest")}
           >
-            Cũ nhất
+            {t('oldest')}
           </button>
         </div>
         <div className="rating-breakdown-thinhrt">
@@ -124,7 +126,7 @@ const ProductRatingAll = ({ ratings }) => {
                     <span className="rep-title-thinhrt">
                       {rating.staffName}
                     </span>
-                    <span className="rep-tag-thinhrt">Quản trị viên</span>
+                    <span className="rep-tag-thinhrt">{t('administrators')}</span>
                   </div>
                   <div className="rep-text-thinhrt">{rating.rep}</div>
                   <div className="rep-date-thinhrt">{new Date(rating.repDate).toLocaleDateString("vi-VN", {
@@ -141,9 +143,9 @@ const ProductRatingAll = ({ ratings }) => {
       {visibleCount < filteredRatings.length && (
         <div className="rating-more-thinhrt">
           <span>
-            Còn {filteredRatings.length - visibleCount} đánh giá khác,{" "}
+            Còn {filteredRatings.length - visibleCount} {t('otherReviews')},{" "}
           </span>
-          <button onClick={handleShowMore}>Bấm vào để xem</button>
+          <button onClick={handleShowMore}>{t('clickToView')}</button>
         </div>
       )}
     </div>

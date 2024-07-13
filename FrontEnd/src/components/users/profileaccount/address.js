@@ -5,9 +5,11 @@ import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { message } from "antd"; // Import Ant Design message component
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 function Address() {
   const [addressData, setAddressData] = useState([]);
+  const { t } = useTranslation();
   const [newAddress, setNewAddress] = useState({
     name: "",
     phone: "",
@@ -86,27 +88,27 @@ function Address() {
 
     // Validate inputs
     if (newAddress.name.length > 50) {
-      message.error("Tên người đặt không vượt quá 50 kí tự.");
+      message.error(`${t('accountNameMustNotExceed50Characters')}`);
       return;
     }
     if (newAddress.phone.length < 11 || newAddress.phone.length > 15) {
-      message.error("Số điện thoại phải lớn hơn 11 và bé hơn 15 kí tự.");
+      message.error(`${t('phoneNumberMustBeGreaterThan11AndLessThan15Characters.')}`);
       return;
     }
     if (newAddress.address.length > 150) {
-      message.error("Địa chỉ không vượt quá 150 kí tự.");
+      message.error(`${t('addressMustNotExceed150Characters')}`);
       return;
     }
     if (!newAddress.city) {
-      message.error("Vui lòng chọn thành phố.");
+      message.error(`${t('pleaseSelectACity')}`);
       return;
     }
     if (!newAddress.district) {
-      message.error("Vui lòng chọn quận/huyện.");
+      message.error(`${t('pleaseSelectaDistrict')}`);
       return;
     }
     if (!newAddress.address) {
-      message.error("Vui lòng nhập địa chỉ.");
+      message.error(`${t('pleaseSelectAAddress')}`);
       return;
     }
 
@@ -138,13 +140,13 @@ function Address() {
         });
         // Fetch updated address data after adding a new address
         fetchAddresses();
-        message.success("Địa chỉ mới đã được lưu thành công!");
+        message.success(`${t('newAddressSavedSucessfully')}`);
       } else {
-        message.error("Thêm địa chỉ thất bại.");
+        message.error(`${t('addAddressFailed')}`);
       }
     } catch (error) {
       console.error("Error adding customer info to order:", error);
-      message.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+      message.error(`${t('errorAnErrorOccurredPleaseTryAgainLater')}`);
     }
   };
 
@@ -167,13 +169,13 @@ function Address() {
             (address) => address.ShippingAddressID !== shippingAddressID
           )
         );
-        message.success("Địa chỉ đã được xóa thành công.");
+        message.success(`${t('addressDeletedSucessfully')}`);
       } else {
-        message.error("Xóa địa chỉ thất bại.");
+        message.error(`${t('deleteAddressFailed')}`);
       }
     } catch (error) {
       console.error("Error deleting address:", error);
-      message.error("Đã xảy ra lỗi. Vui lòng thử lại sau.");
+      message.error(`${t('errorAnErrorOccurredPleaseTryAgainLater')}`);
     }
   };
 
@@ -198,10 +200,10 @@ function Address() {
         <table className="address-table">
           <thead>
             <tr className="row">
-              <th className="col-md-2">Tên người đặt</th>
-              <th className="col-md-2">Số điện thoại</th>
-              <th className="col-md-6">Địa chỉ</th>
-              <th className="col-md-2">Thao tác</th>
+              <th className="col-md-2">{t('orderersName')}</th>
+              <th className="col-md-2">{t('phoneNumber')}</th>
+              <th className="col-md-6">{t('address2')}</th>
+              <th className="col-md-2">{t('operate')}</th>
             </tr>
           </thead>
           <tbody>
@@ -220,7 +222,7 @@ function Address() {
                       border: "none",
                     }}
                     onClick={() => handleDelete(address.ShippingAddressID)}>
-                    Xóa địa chỉ
+                    {t('deleteAddress')}
                   </button>
                 </td>
               </tr>
@@ -231,7 +233,7 @@ function Address() {
         <button
           className="button-address"
           onClick={() => setShowForm(!showForm)}>
-          Thêm địa chỉ
+          {t('addAddress')}
         </button>
 
         {showForm && (
@@ -244,7 +246,7 @@ function Address() {
                 ×
               </button>
               <div className="form-group-account">
-                <label htmlFor="newName">Tên người đặt:</label>
+                <label htmlFor="newName">{t('orderersName')}:</label>
                 <input
                   type="text"
                   id="newName"
@@ -254,7 +256,7 @@ function Address() {
                 />
               </div>
               <div className="form-group-account">
-                <label htmlFor="newPhone">Số điện thoại:</label>
+                <label htmlFor="newPhone">{t('phoneNumber')}:</label>
                 <input
                   type="text"
                   id="newPhone"
@@ -264,13 +266,13 @@ function Address() {
                 />
               </div>
               <div className="form-group-account">
-                <label htmlFor="newCity">Thành phố:</label>
+                <label htmlFor="newCity">{t('city')}:</label>
                 <select
                   id="newCity"
                   name="city"
                   value={newAddress.city}
                   onChange={handleCityChange}>
-                  <option value="">Chọn thành phố</option>
+                  <option value="">{t('selectCity')}</option>
                   {cities.map((city) => (
                     <option key={city.ID} value={city.ID}>
                       {city.CityName}
@@ -279,14 +281,14 @@ function Address() {
                 </select>
               </div>
               <div className="form-group-account">
-                <label htmlFor="newDistrict">Quận/Huyện:</label>
+                <label htmlFor="newDistrict">{t('district')}:</label>
                 <select
                   id="newDistrict"
                   name="district"
                   value={newAddress.district}
                   onChange={handleInputChange}
                   disabled={!newAddress.city}>
-                  <option value="">Chọn quận/huyện</option>
+                  <option value="">{t('selectDistrict')}</option>
                   {districts.map((district) => (
                     <option
                       key={district.DistrictID}
@@ -297,7 +299,7 @@ function Address() {
                 </select>
               </div>
               <div className="form-group-account">
-                <label htmlFor="newAddress">Địa chỉ:</label>
+                <label htmlFor="newAddress">{t('address2')}:</label>
                 <input
                   type="text"
                   id="newAddress"
@@ -308,7 +310,7 @@ function Address() {
               </div>
 
               <button className="button-address" type="submit">
-                Lưu
+              {t('save')}
               </button>
             </form>
           </div>

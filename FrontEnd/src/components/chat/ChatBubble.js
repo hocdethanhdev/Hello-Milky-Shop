@@ -5,11 +5,13 @@ import { getUserIdFromToken } from "../store/actions/authAction";
 import PropTypes from "prop-types"; // Import PropTypes
 import "./Chat.css";
 import config from "../config/config";
+import { useTranslation } from 'react-i18next';
 
 const socket = io(`${config.API_ROOT}`);
 
 function ChatBubble({ onClick }) {
   const [showMiniMessage, setShowMiniMessage] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,7 +25,7 @@ function ChatBubble({ onClick }) {
     <div className="chat-bubble" onClick={onClick}>
       {showMiniMessage && (
         <div className="mini-message">
-          <p className="info-mess-chat">Bạn cần chúng tôi hỗ trợ gì không?</p>
+          <p className="info-mess-chat">{t('doYouNeed')}</p>
         </div>
       )}
       <span className="fas fa-comments icon-chat-buble"></span>
@@ -41,6 +43,7 @@ function ChatWindow({ onClose }) {
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
   const roomId = userId; // Replace this with your room ID logic
+  const { t } = useTranslation();
 
   const messagesEndRef = useRef(null);
 
@@ -114,7 +117,7 @@ function ChatWindow({ onClose }) {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <span>Tư vấn</span>
+        <span>{t('consult')}</span>
         <button onClick={onClose}>×</button>
       </div>
       <ul className="message-list">
@@ -131,7 +134,7 @@ function ChatWindow({ onClose }) {
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
         />
-        <button type="submit">Gửi</button>
+        <button type="submit">{t('send')}</button>
       </form>
     </div>
   );

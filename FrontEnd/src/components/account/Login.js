@@ -22,6 +22,7 @@ import config from "../config/config";
 function Login() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  
   const loginGoogle = async (response) => {
     try {
       const res = await axios.post(
@@ -39,7 +40,7 @@ function Login() {
       if (checkEmail.data.data.Status === true) {
         navigate(`/login-email/${res.data.email}`);
       } else {
-        message.error("Tài khoản của bạn đã bị khóa");
+        message.error(`${t('yourAccountHasBeenLocked')}`);
       }
     } catch (error) {
       console.error("Login Failed:", error);
@@ -100,10 +101,10 @@ function Login() {
           message.error(`${t('wrongPassword')}`);
         }
       } else {
-        message.error("Tài khoản của bạn đã bị khóa");
+        message.error(`${t('yourAccountHasBeenLocked')}`);
       }
     } catch (error) {
-      message.error("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
+      message.error(`${t('anErrorOccurredWhileLoggingInPleaseTryAgain.')}`);
     }
   };
 

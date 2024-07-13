@@ -147,7 +147,8 @@ function Header() {
               )}
             </div>
           )}
-          <LanguageSelector /> 
+          <div className='i8-home-page'><LanguageSelector /> </div>
+          
         </div>
       </div>
     </header>

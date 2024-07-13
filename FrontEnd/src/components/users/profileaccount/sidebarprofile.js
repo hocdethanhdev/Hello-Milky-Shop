@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import axios from "axios";
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 function SidebarProfile() {
   const [dropDown, setDropDown] = useState(false);
@@ -14,6 +15,8 @@ function SidebarProfile() {
   const { token } = useSelector((state) => state.auth);
   const userId = getUserIdFromToken(token);
   const [userData, setUserData] = useState(null);
+  const { t } = useTranslation();
+ 
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -43,7 +46,7 @@ function SidebarProfile() {
             style={{ width: "24px", marginRight: "2px" }}
             className="icon-staff-slidebar"
           />
-          Tài khoản của tôi
+          {t('myAccount')}
           <FontAwesomeIcon
             icon={dropDown ? faCaretUp : faCaretDown}
             style={{ marginLeft: "5px" }}
@@ -60,7 +63,7 @@ function SidebarProfile() {
               style={{ width: "24px" }}
               className="icon-staff-slidebar"
             />{" "}
-            Hồ sơ
+            {t('profile')}
           </NavLink>
           {userData && userData.PhoneNumber !== null && (
             <NavLink
@@ -74,7 +77,7 @@ function SidebarProfile() {
                 style={{ width: "24px" }}
                 className="icon-staff-slidebar"
               />{" "}
-              Đổi mật khẩu
+              {t('changePassword')}
             </NavLink>
           )}
 
@@ -87,7 +90,7 @@ function SidebarProfile() {
               style={{ width: "24px" }}
               className="icon-staff-slidebar"
             />{" "}
-            Địa chỉ
+            {t('address2')}
           </NavLink>
         </div>
         <NavLink
@@ -99,7 +102,7 @@ function SidebarProfile() {
             style={{ width: "24px" }}
             className="icon-staff-slidebar"
           />{" "}
-          Đơn hàng của bạn
+          {t('yourOrder')}
         </NavLink>
       </nav>
     </div>

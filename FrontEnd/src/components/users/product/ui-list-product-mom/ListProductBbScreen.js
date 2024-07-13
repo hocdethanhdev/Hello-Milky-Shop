@@ -3,8 +3,10 @@ import "./ListProductMomScreen.css";
 import { Link } from "react-router-dom";
 import NavCate from "../ui-product-mom/NavCate";
 import ListProductBb from "./ListProductBb";
+import { useTranslation } from 'react-i18next';
 
 function ListProductBbScreen() {
+  const { t } = useTranslation();
   return (
     <div>
       <div className="url-list">
@@ -24,7 +26,7 @@ function ListProductBbScreen() {
                       <li
                         className="breadcrumb-item-thinh-url active"
                         aria-current="page">
-                        Sữa cho bé
+                        {t('milkForBaby1')}
                       </li>
                     </ul>
                   </nav>

@@ -154,6 +154,9 @@ button:focus {
 .language-selector-button:hover{
   background-color: rgb(219, 214, 214);
 }
+.nut-lag{
+  bolder : none;
+}
 .language-selector-button-1:focus {
   outline: none;
   box-shadow: none;

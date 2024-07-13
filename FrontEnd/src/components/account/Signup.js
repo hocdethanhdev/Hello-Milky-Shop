@@ -233,7 +233,7 @@ function Signup() {
         if (login.data.err === 0) {
           navigate(`/LoginSuccess/${response.data.token}`);
         } else {
-          message.error("Số điện thoại chưa được đăng kí hoặc sai mật khẩu");
+          message.error(`${t('unregistered')}`);
         }
       } else {
         message.error(`${t('phoneNumberHasBeenSignedUp')}`);
@@ -261,7 +261,7 @@ function Signup() {
       if (checkEmail.data.data.Status === true) {
         navigate(`/login-email/${res.data.email}`);
       } else {
-        message.error("Tài khoản của bạn đã bị khóa");
+        message.error(`${t('yourAccountHasBeenLocked')}`);
       }
     } catch (error) {
       console.error("Login Failed:", error);

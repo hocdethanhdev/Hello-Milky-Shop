@@ -9,6 +9,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import Loading from "../../../layout/Loading";
 import PropTypes from "prop-types";
 import config from "../../../config/config";
+import { useTranslation } from 'react-i18next';
 
 const formatPrice = (price) =>
   `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -25,6 +26,7 @@ const ProductContentMom = ({ product }) => {
   const navigate = useNavigate();
   const incrementRef = useRef(null);
   const decrementRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchRatingData = async () => {
@@ -171,13 +173,13 @@ const ProductContentMom = ({ product }) => {
             <h1>{product.ProductName}</h1>
             <div className="pro_detail_brand">
               <p className="thuong-hieu-san-pham">
-                Thương hiệu:{" "}
+              {t('trademark')}:{" "}
                 <span className="thuong-hieu-san-pham-api">
                   {product.BrandName}
                 </span>
               </p>
               <p>
-                Mã SP: <span id="barcodeMain">{product.ProductID}</span>
+              {t('productCode')}: <span id="barcodeMain">{product.ProductID}</span>
               </p>
             </div>
             <br />
@@ -185,7 +187,7 @@ const ProductContentMom = ({ product }) => {
               {renderStars(ratingData.avg)}
               <span className="rating-count">
                 {" "}
-                | {ratingData.count} đánh giá
+                | {ratingData.count} {t('rate')}
               </span>
             </div>
             <div className="pro_info">
@@ -193,7 +195,7 @@ const ProductContentMom = ({ product }) => {
                 <div className="clear"></div>
               </div>
               <div id="divPrice" className="box_info box_price">
-                <span className="box_info_txt right">Giá:</span>
+                <span className="box_info_txt right">{t('price')}:</span>
                 <span className="pro_price right">
                   <span className="price_show price_item">
                     {formatPrice(product.PriceAfterDiscounts)}₫
@@ -211,7 +213,7 @@ const ProductContentMom = ({ product }) => {
                 product.StockQuantity > 0 ? (
                   <>
                     <div className="box_info box_status">
-                      <span className="box_info_txt left">Kho: </span>
+                      <span className="box_info_txt left">{t('storage')}: </span>
                       <span className="pro_status left">
                         {product.StockQuantity}
                       </span>
@@ -219,7 +221,7 @@ const ProductContentMom = ({ product }) => {
                     </div>
                     { }
                     <div className="quantity-selector-thinh-cart">
-                      <p>Số lượng: </p>
+                      <p>{t('quantity')}: </p>
                       <button
                         className="quantity-button-thinh-cart"
                         onMouseDown={startDecrement}
@@ -247,22 +249,22 @@ const ProductContentMom = ({ product }) => {
                     </div>
                     <div className="box_btn">
                       <button className="btn_order_now" onClick={handleBuyNow}>
-                        Mua ngay
+                      {t('buyNow')}
                       </button>
                       <button
                         className="btn_add_cart"
                         onClick={handleAddToCart}
                       >
-                        Thêm vào giỏ hàng
+                        {t('addToCart')}
                       </button>
                       <div className="clear"></div>
                     </div>
                   </>
                 ) : (
-                  <div className="out-of-stock-message-thinh">TẠM HẾT HÀNG</div>
+                  <div className="out-of-stock-message-thinh">{t('temporarilyOutOfStock')}</div>
                 )
               ) : (
-                <Link to="/login"><div className="login-to-buy">Đăng nhập để mua hàng</div></Link>
+                <Link to="/login">{t('loginToPurchase')}</Link>
               )}
             </div>
           </div>
@@ -270,24 +272,24 @@ const ProductContentMom = ({ product }) => {
             <div className="cuc_icon_item left col-md-5 row">
               <span className="hinh_icon icon fas fa-shipping-fast col-md-4"></span>
               <span className="icon_title col-md-8">
-                <div>Giao hàng</div>
-                <div>toàn quốc</div>
+                <div>{t('delivery')}</div>
+                <div>{t('nationwide')}</div>
               </span>
             </div>
             <div className="cuc_icon_item left col-md-5">
               <span className="hinh_icon icon far fa-check-circle col-md-4"></span>
               <span className="icon_title col-md-8">
-                <div>Đảm bảo hàng</div>
-                <div>chính hãng</div>
+                <div>{t('guaranteed')}</div>
+                <div>{t('goodsGenuine')}</div>
               </span>
             </div>
           </div>
           <div className="box_phone">
-            Tổng đài mua hàng{" "}
+          {t('purchasingSwitchboard')}{" "}
             <Link to="tel:0852793879 - Zalo:0393892623" className="hot_phone">
               0852793879 - Zalo:0393892623
-            </Link>{" "}
-            (Từ 8h00 đến 21h30 hàng ngày)
+            </Link>{ "  " }
+            ({t('from800amTo930PMDaily')} )
           </div>
           <div className="box_banner"></div>
         </div>

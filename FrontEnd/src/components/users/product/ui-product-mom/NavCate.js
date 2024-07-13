@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./NavCate.css";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 const NavCate = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="nav_cate width-common">
@@ -13,7 +15,7 @@ const NavCate = () => {
           onMouseEnter={() => setShowMenu(true)}
           onMouseLeave={() => setShowMenu(false)}
         >
-          <i className="fa fa-bars"></i>Danh mục
+          <i className="fa fa-bars"></i>{t('menu')}
           {showMenu && (
             <div className="box_list_cate">
               <div className="menu_cate-thinh">
@@ -31,7 +33,7 @@ const NavCate = () => {
                           src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fkhuyen-mai.png?alt=media&token=2d072039-d089-4da5-bd04-e43c01d80113"
                           alt="Khuyến mại lớn"
                         />
-                        Khuyến mại lớn
+                        {t('bigSales')}
                       </Link>
                     </li>
                     <li className="cate_li menu-30">
@@ -46,7 +48,7 @@ const NavCate = () => {
                           src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fdo-dung-cho-me-1.png?alt=media&token=7d86a69a-f13b-4572-a873-ed8b35a0de38"
                           alt="Sữa cho mẹ"
                         />
-                        Sữa cho mẹ
+                        {t('milkForMom1')}
                       </Link>
                     </li>
                     <li className="cate_li menu-66569036">
@@ -61,7 +63,7 @@ const NavCate = () => {
                           src="https://momslove.com.vn/wp-content/uploads/2021/07/icon-sua.svg"
                           alt=" Sữa cho bé"
                         />
-                        Sữa cho bé
+                        {t('milkForBaby1')}
                       </Link>
                     </li>
 
@@ -78,7 +80,7 @@ const NavCate = () => {
                           src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fnews.png?alt=media&token=3cf9cab0-717d-4288-8dcb-bd2cd0e499f4"
                           alt="Tin tức"
                         />
-                        Tin tức
+                         {t('news')}
                       </Link>
                     </li>
                   </ul>

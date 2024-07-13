@@ -40,7 +40,7 @@ function Menu() {
                   src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fdo-dung-cho-me-1.png?alt=media&token=7d86a69a-f13b-4572-a873-ed8b35a0de38"
                   alt="Đồ dùng cho mẹ"
                 />
-                {t('milkForMom')}
+                {t('milkForMom1')}
               </Link>
             </td>
           </tr>
@@ -52,7 +52,7 @@ function Menu() {
                   src="https://momslove.com.vn/wp-content/uploads/2021/07/icon-sua.svg"
                   alt="Sữa cho bé"
                 />
-                {t('milkForBaby')}
+                {t('milkForBaby1')}
               </Link>
             </td>
           </tr>

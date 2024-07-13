@@ -8,6 +8,8 @@ import { CiEdit } from "react-icons/ci";
 import { message } from "antd";
 import Loading from "../../layout/Loading";
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
+
 function Account() {
   const [userData, setUserData] = useState(null);
   const { token } = useSelector((state) => state.auth);
@@ -15,10 +17,10 @@ function Account() {
   const [popupEmailUpdate, setPopupEmailUpdate] = useState(false);
   const [popupUserNameUpdate, setPopupUserNameUpdate] = useState(false);
   const [popupPhoneUpdate, setPopupPhoneUpdate] = useState(false);
-
   const [emailUpdate, setEmailUpdate] = useState(null);
   const [userNameUpdate, setUserNameUpdate] = useState(null);
   const [phoneUpdate, setPhoneUpdate] = useState(null);
+  const { t } = useTranslation();
 
   const fetchUserData = useCallback(async () => {
     try {
@@ -60,7 +62,7 @@ function Account() {
 
   const handleUpdateEmail = async () => {
     if (!validateEmail(emailUpdate)) {
-      message.error("Bạn đã nhập sai định dạng email");
+      message.error(`${t('youEnteredTheWrongEmailFormat')}`);
       return;
     }
     try {
@@ -73,8 +75,8 @@ function Account() {
       );
       fetchUserData();
       if (updateEmail.data.err === 0) {
-        message.success("Cập nhật thành công");
-      } else message.error("Cập nhật thất bại");
+        message.success(`${t('updateSuccessful')}`);
+      } else message.error(`${t('updateFailed')}`);
     } catch (error) {
       console.error("Error updating email:", error);
     }
@@ -84,7 +86,7 @@ function Account() {
 
   const handleUpdateUserName = async () => {
     if (userNameUpdate.length > 50) {
-      message.error("Tên tài khoản không được vượt quá 50 ký tự");
+      message.error(`${t('accountNameMustNotExceed50Characters')}`);
       return;
     }
     try {
@@ -97,8 +99,8 @@ function Account() {
       );
       fetchUserData();
       if (updateUserName.data.err === 0) {
-        message.success("Cập nhật thành công");
-      } else message.error("Cập nhật thất bại");
+        message.success(`${t('updateSuccessful')}`);
+      } else message.error(`${t('updateFailed')}`);
     } catch (error) {
       console.error("Error updating username:", error);
     }
@@ -108,7 +110,7 @@ function Account() {
 
   const handleUpdatePhoneNumber = async () => {
     if (!validatePhoneNumber(phoneUpdate)) {
-      message.error("Số điện thoại không hợp lệ");
+      message.error(`${t('invalidPhoneNumber')}`);
       return;
     }
     try {
@@ -121,8 +123,8 @@ function Account() {
       );
       fetchUserData();
       if (updatePhoneNumber.data.err === 0) {
-        message.success("Cập nhật thành công");
-      } else message.error("Cập nhật thất bại");
+        message.success(`${t('updateSuccessful')}`);
+      } else message.error(`${t('updateFailed')}`);
     } catch (error) {
       console.error("Error updating phone number:", error);
     }
@@ -149,11 +151,11 @@ function Account() {
       </div>
 
       <div className="account-content">
-        <h2>Thông tin tài khoản</h2>
+        <h2>{t('accountInformation')}</h2>
         {userData ? (
           <div>
             <div className="obj-account">
-              <strong>Tên tài khoản:</strong>
+              <strong>{t('nameAccount')}:</strong>
               {!popupUserNameUpdate ? (
                 <>
                   {userData.UserName}
@@ -180,7 +182,7 @@ function Account() {
                     onClick={handleUpdateUserName}
                     className="btn btn-warning"
                   >
-                    Cập nhật
+                   {t('update')}
                   </button>
                   <button
                     className="btn btn-danger"
@@ -189,20 +191,20 @@ function Account() {
                       setUserNameUpdate(userData.UserName);
                     }}
                   >
-                    Hủy
+                    {t('cancle')}
                   </button>
                 </div>
               )}
             </div>
             {userData.Email && (
               <div className="obj-account">
-                <strong>Email: </strong>
+                <strong>{t('email')}: </strong>
                 {userData.Email}
               </div>
             )}
             {userData.PhoneNumber && (
               <div className="obj-account">
-                <strong>Số điện thoại:</strong>{" "}
+                <strong>{t('phoneNumber')}:</strong>{" "}
                 {!popupPhoneUpdate ? (
                   <>
                     {userData.PhoneNumber}
@@ -231,7 +233,7 @@ function Account() {
                       onClick={handleUpdatePhoneNumber}
                       className="btn btn-warning"
                     >
-                      Cập nhật
+                      {t('update')}
                     </button>
                     <button
                       className="btn btn-danger"
@@ -240,7 +242,7 @@ function Account() {
                         setPhoneUpdate(userData.PhoneNumber);
                       }}
                     >
-                      Hủy
+                      {t('cancle')}
                     </button>
                   </div>
                 )}
@@ -248,7 +250,7 @@ function Account() {
             )}
 
             <div className="obj-account">
-              <strong>Xu hiện có:</strong>{" "}
+              <strong>{t('currentCoins')}:</strong>{" "}
               <span>
                 {userData.Point} = {formatPrice(userData.Point * 10)} VND
               </span>
