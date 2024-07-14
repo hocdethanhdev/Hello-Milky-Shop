@@ -199,5 +199,7 @@
   "dateOfPublication": "Ngày đăng",
   "previousPage": "Trang trước",
   "nextPage": "Trang sau",
-  "forYoyToday": "DÀNH CHO BẠN HÔM NAY"
+  "forYoyToday": "DÀNH CHO BẠN HÔM NAY",
+   "confirmDeletion": "Xác nhận xóa",
+    "wantToDeleteThisAddress": "Bạn có chắc chắn muốn xóa địa chỉ này không?"
 }
