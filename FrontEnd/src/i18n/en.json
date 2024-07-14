@@ -194,5 +194,10 @@
   "resetPassword": "Reset password",
   "comfirmPassword": "Comfirm Password",
   "comfirmOTP": "Comfirm OTP",
-  "unregistered": "Unregistered phone number or wrong password "
+  "unregistered": "Unregistered phone number or wrong password ",
+  "thereAre": "There are no articles yet.",
+  "dateOfPublication": "Date of publication",
+  "previousPage": "Previous page",
+  "nextPage": "Next page",
+  "forYoyToday": "FOR YOU TODAY"
 }

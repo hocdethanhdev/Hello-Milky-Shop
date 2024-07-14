@@ -8,6 +8,7 @@ import ProductHot from './ProductHot';
 import { Link } from 'react-router-dom';
 import Loading from '../../layout/Loading';
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 const NewsDetail = () => {
   const { id } = useParams();
@@ -15,6 +16,7 @@ const NewsDetail = () => {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [authorName, setAuthorName] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -51,7 +53,7 @@ const NewsDetail = () => {
                     <ul className="breadcrumb-thinh-url">
                       <li className="breadcrumb-item-thinh-url"><Link to="/"><i className="fa fa-home"></i></Link></li>
 
-                      <li className="breadcrumb-item-thinh-url"><Link to="/News">Tin tức</Link></li>
+                      <li className="breadcrumb-item-thinh-url"><Link to="/News">{t('news')}</Link></li>
                       <li className="breadcrumb-item-thinh-url active" aria-current="page">
                         {article.Title.substring(0, 50) + '...'}
                       </li>

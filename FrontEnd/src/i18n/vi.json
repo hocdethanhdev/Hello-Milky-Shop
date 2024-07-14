@@ -194,5 +194,10 @@
   "resetPassword": "Đật lại mật khẩu",
   "comfirmPassword": "Xác nhận mật khẩu",
   "comfirmOTP": "Xắc nhận OTP",
-  "unregistered": "Số điện thoại chưa được đăng kí hoặc sai mật khẩu "
+  "unregistered": "Số điện thoại chưa được đăng kí hoặc sai mật khẩu ",
+  "thereAre": "Hiện tại chưa có bài viết nào.",
+  "dateOfPublication": "Ngày đăng",
+  "previousPage": "Trang trước",
+  "nextPage": "Trang sau",
+  "forYoyToday": "DÀNH CHO BẠN HÔM NAY"
 }

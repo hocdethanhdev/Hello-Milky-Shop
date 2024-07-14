@@ -6,6 +6,7 @@ import ProductHot from './ProductHot';
 import NavCate from '../product/ui-product-mom/NavCate';
 import Loading from '../../layout/Loading';
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 const News = () => {
   const [news, setNews] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -14,6 +15,7 @@ const News = () => {
   const [postsPerPage] = useState(5);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,7 +35,7 @@ const News = () => {
       try {
         const response = await axios.get(`${config.API_ROOT}/api/v1/article/getAllArticlesForViewer/`);
         if (response.data.length === 0) {
-          setErrorMessage("Hiện tại chưa có bài viết nào.");
+          setErrorMessage(`${t('thereAre')}`);
         } else {
 
           const sortedNews = response.data.sort((a, b) => {
@@ -90,7 +92,7 @@ const News = () => {
                         <ul className="breadcrumb-thinh-url">
                           <li className="breadcrumb-item-thinh-url"><Link to="/"><i className="fa fa-home"></i></Link></li>
                           <li className="breadcrumb-item-thinh-url active" aria-current="page">
-                            Tin tức
+                          {t('news')}
                           </li>
                         </ul>
                       </nav>
@@ -101,7 +103,7 @@ const News = () => {
             </div>
             <div className="category-filter-news">
               <select id="category" value={selectedCategory} onChange={handleCategoryChange}>
-                <option value="">Tất cả</option>
+                <option value="">{t('all')}</option>
                 {categories.map((category) => (
                   <option key={category.ArticleCategoryID} value={category.ArticleCategoryID}>
                     {category.ArticleCategoryName}
@@ -125,7 +127,7 @@ const News = () => {
                     <div className="news-item-summary">
                       <div dangerouslySetInnerHTML={{ __html: article.Content.substring(0, 100) + '...' }} />
                     </div>
-                    <p>Ngày đăng:
+                    <p>{t('dateOfPublication')}:
                       {new Date(article.PublishDate).toLocaleDateString("vi-VN", {
                         day: "2-digit",
                         month: "2-digit",
@@ -140,7 +142,7 @@ const News = () => {
           <ul className="pagination chuyen-trang-new-thinh">
             <li className="page-item">
               <button onClick={prevPage} className="page-link" disabled={currentPage === 1}>
-                Trang trước
+              {t('previousPage')}
               </button>
             </li>
             {Array.from({ length: Math.ceil(filteredNews.length / postsPerPage) }, (_, index) => (
@@ -152,7 +154,7 @@ const News = () => {
             ))}
             <li className="page-item">
               <button onClick={nextPage} className="page-link" disabled={currentPage === Math.ceil(filteredNews.length / postsPerPage)}>
-                Trang sau
+              {t('nextPage')}
               </button>
             </li>
           </ul>
