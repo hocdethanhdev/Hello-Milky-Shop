@@ -10,7 +10,7 @@ import { toast } from "react-hot-toast";
 import PropTypes from "prop-types";
 import config from "../../config/config";
 import { useTranslation } from 'react-i18next';
-
+import { AES, enc } from 'crypto-js';
 
 const formatNumber = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -19,7 +19,8 @@ const formatNumber = (num) => {
 function VoucherStore() {
   const [vouchers, setVouchers] = useState([]);
   const { token } = useSelector((state) => state.auth);
-  const userIdd = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userIdd = getUserIdFromToken(decryptedToken);
   const { t } = useTranslation();
 
   const fetchVouchersForUser = useCallback(async () => {

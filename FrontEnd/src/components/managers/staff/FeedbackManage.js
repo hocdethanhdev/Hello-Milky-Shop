@@ -5,6 +5,7 @@ import "./FeedbackManage.css";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { useSelector } from "react-redux";
 import config from "../../config/config";
+import { AES, enc } from 'crypto-js';
 
 const { Option } = Select;
 
@@ -16,7 +17,8 @@ const FeedbackManage = () => {
   const [filterCommentID, setFilterCommentID] = useState("all");
   const commentsPerPage = 5;
   const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userId = getUserIdFromToken(decryptedToken);
 
   useEffect(() => {
     fetchComments();

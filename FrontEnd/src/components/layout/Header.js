@@ -6,12 +6,15 @@ import { logout } from "../store/actions/authAction";
 import { apiGetOne } from "../users/apis/userService";
 import LanguageSelector from "../users/language/LanguageSelector.tsx";
 import { useTranslation } from 'react-i18next';
-
+import { AES, enc } from 'crypto-js';
+import config from "../config/config.js";
 
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoggedIn, token, role } = useSelector((state) => state.auth); // Thêm role vào useSelector
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const decryptedRole = role ? parseInt(AES.decrypt(role, config.SECRET_KEY).toString(enc.Utf8)) : 0;
   const [showMenu, setShowMenu] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [userData, setUserData] = useState({});
@@ -39,11 +42,11 @@ function Header() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      let response = await apiGetOne(token);
+      let response = await apiGetOne(decryptedToken);
       if (response?.data.err === 0) setUserData(response.data?.data);
     };
-    token && fetchUser();
-  }, [token]);
+    decryptedToken && fetchUser();
+  }, [decryptedToken]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -75,7 +78,7 @@ function Header() {
     <header className="header-compo-tri">
       <div className="container-compo-tri">
         <div className="logo-compo-tri">
-          {role === 0 || role === 3 ? (
+          {decryptedRole === 0 || decryptedRole === 3 ? (
             <Link to="/">
               <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fz5605685075502_1381f9f86d72f76aca5de96e6cfbe0e8.jpg?alt=media&token=6fce3a72-15da-4345-be72-5497f315abea" alt="LogoMilky" />
             </Link>
@@ -83,7 +86,7 @@ function Header() {
             <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fz5605685075502_1381f9f86d72f76aca5de96e6cfbe0e8.jpg?alt=media&token=6fce3a72-15da-4345-be72-5497f315abea" alt="LogoMilky" />
           )}
         </div>
-        {(role === 0 || role === 3) && (
+        {(decryptedRole === 0 || decryptedRole === 3) && (
           <div className="box_search-compo-tri">
             <form onSubmit={handleSearch} id="fromSearch">
               <input
@@ -116,7 +119,7 @@ function Header() {
               <Link to="/signup">{t('signUp')}</Link>
             </div>
           )}
-          {role === 3 && (
+          {decryptedRole === 3 && (
             <div className="box_cart-compo-tri">
               <Link to="/ShoppingCart">
                 <i className="fa fa-shopping-cart"></i>

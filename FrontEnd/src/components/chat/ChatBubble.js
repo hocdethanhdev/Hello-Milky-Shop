@@ -6,6 +6,7 @@ import PropTypes from "prop-types"; // Import PropTypes
 import "./Chat.css";
 import config from "../config/config";
 import { useTranslation } from 'react-i18next';
+import { AES, enc } from 'crypto-js';
 
 const socket = io(`${config.API_ROOT}`);
 
@@ -41,7 +42,8 @@ function ChatWindow({ onClose }) {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userId = getUserIdFromToken(decryptedToken);
   const roomId = userId; // Replace this with your room ID logic
   const { t } = useTranslation();
 

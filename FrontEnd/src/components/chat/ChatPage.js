@@ -5,6 +5,7 @@ import { io } from "socket.io-client";
 import "./ChatPage.css";
 import { getUserIdFromToken } from "../store/actions/authAction";
 import config from "../config/config";
+import { AES, enc } from 'crypto-js';
 
 const socket = io(`${config.API_ROOT}`);
 
@@ -12,7 +13,8 @@ function ChatWindow({ roomId, userName, onClose }) {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userId = getUserIdFromToken(decryptedToken);
   const messagesEndRef = useRef(null);
   const messageListRef = useRef(null);
 

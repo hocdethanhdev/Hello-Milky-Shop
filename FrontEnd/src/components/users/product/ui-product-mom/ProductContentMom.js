@@ -10,6 +10,7 @@ import Loading from "../../../layout/Loading";
 import PropTypes from "prop-types";
 import config from "../../../config/config";
 import { useTranslation } from 'react-i18next';
+import { AES, enc } from 'crypto-js';
 
 const formatPrice = (price) =>
   `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -19,7 +20,8 @@ const formatDiscount = (discount) => `-${Math.round(discount / 1000)}K`;
 
 const ProductContentMom = ({ product }) => {
   const { token, isLoggedIn } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userId = getUserIdFromToken(decryptedToken);
   const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [ratingData, setRatingData] = useState({ avg: 0, count: 0 });

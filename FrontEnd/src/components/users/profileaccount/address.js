@@ -6,6 +6,7 @@ import { getUserIdFromToken } from "../../store/actions/authAction";
 import { message, Modal } from "antd"; // Import Ant Design message and Modal components
 import config from "../../config/config";
 import { useTranslation } from 'react-i18next';
+import { AES, enc } from 'crypto-js';
 
 function Address() {
   const [addressData, setAddressData] = useState([]);
@@ -22,7 +23,8 @@ function Address() {
   const [districts, setDistricts] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userId = getUserIdFromToken(decryptedToken);
 
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -119,7 +121,7 @@ function Address() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${decryptedToken}`,
         },
         body: JSON.stringify({
           receiver: newAddress.name,
@@ -166,7 +168,7 @@ function Address() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${decryptedToken}`,
         },
       });
 

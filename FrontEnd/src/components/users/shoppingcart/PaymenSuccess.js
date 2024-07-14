@@ -5,9 +5,11 @@ import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { toast } from "react-hot-toast";
 import config from "../../config/config";
+import { AES, enc } from 'crypto-js';
 
 const PaymemSuccess = () => {
   const { token } = useSelector((state) => state.auth);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -64,7 +66,7 @@ const PaymemSuccess = () => {
           await axios.post(
             `${config.API_ROOT}/api/v1/voucher/removeVoucherFromUser`,
             {
-              userID: getUserIdFromToken(token),
+              userID: getUserIdFromToken(decryptedToken),
               voucherID: parseInt(voucher),
             }
           );
@@ -75,7 +77,7 @@ const PaymemSuccess = () => {
         const usePoints = localStorage.getItem("usePoints");
         if (usePoints === "true") {
           await axios.put(`${config.API_ROOT}/api/v1/user/usePoint`, {
-            UserID: getUserIdFromToken(token),
+            UserID: getUserIdFromToken(decryptedToken),
           });
 
           localStorage.removeItem("usePoint");
@@ -133,7 +135,7 @@ const PaymemSuccess = () => {
         handlePaymentFailure(code)
       );
     }
-  }, [navigate, token, status, code]);
+  }, [navigate, decryptedToken, status, code]);
 
   navigate("/", { replace: true });
 };
