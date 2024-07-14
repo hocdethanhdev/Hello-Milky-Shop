@@ -64,7 +64,7 @@ import ChatPage from "./components/managers/staff/ChatStaff";
 
 function App() {
   const { role } = useSelector((state) => state.auth);
-  const decryptedRole = role ? AES.decrypt(role, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const decryptedRole = role ? parseInt(AES.decrypt(role, config.SECRET_KEY).toString(enc.Utf8)) : 0;
 
   // Staff Routes
   const staffRoutes = useMemo(
