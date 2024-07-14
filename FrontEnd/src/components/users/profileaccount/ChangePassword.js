@@ -8,6 +8,7 @@ import SidebarProfile from "./sidebarprofile";
 import { message } from "antd";
 import config from "../../config/config";
 import { useTranslation } from 'react-i18next';
+import { AES, enc } from 'crypto-js';
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState("");
@@ -21,10 +22,11 @@ function ChangePassword() {
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
   const { token } = useSelector((state) => state.auth);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
 
   useEffect(() => {
-    setUserId(getUserIdFromToken(token));
-  }, [token]);
+    setUserId(getUserIdFromToken(decryptedToken));
+  }, [decryptedToken]);
 
   const handleChangePassword = async (e) => {
     e.preventDefault();

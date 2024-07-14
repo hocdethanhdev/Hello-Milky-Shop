@@ -8,12 +8,14 @@ import { getUserIdFromToken } from "../../store/actions/authAction";
 import axios from "axios";
 import config from "../../config/config";
 import { useTranslation } from 'react-i18next';
+import { AES, enc } from 'crypto-js';
 
 function SidebarProfile() {
   const [dropDown, setDropDown] = useState(false);
   const location = useLocation();
   const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userId = getUserIdFromToken(decryptedToken);
   const [userData, setUserData] = useState(null);
   const { t } = useTranslation();
  

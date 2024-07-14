@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { AES, enc } from 'crypto-js';
+import config from "./components/config/config";
 
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -62,6 +64,7 @@ import ChatPage from "./components/managers/staff/ChatStaff";
 
 function App() {
   const { role } = useSelector((state) => state.auth);
+  const decryptedRole = role ? AES.decrypt(role, config.SECRET_KEY).toString(enc.Utf8) : null;
 
   // Staff Routes
   const staffRoutes = useMemo(
@@ -168,11 +171,11 @@ function App() {
     <div>
       <Router>
         <Header />
-        {role === 1
+        {decryptedRole === 1
           ? adminRoutes
-          : role === 2
+          : decryptedRole === 2
             ? staffRoutes
-            : role === 4
+            : decryptedRole === 4
               ? shipperRoutes
               : defaultRoutes}
 

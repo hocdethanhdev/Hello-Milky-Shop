@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import Loading from '../../../layout/Loading';
 import config from "../../../config/config";
 import { useTranslation } from 'react-i18next';
+import { AES, enc } from 'crypto-js';
 
 const ProductScreen = () => {
     const { productId } = useParams();
@@ -21,7 +22,8 @@ const ProductScreen = () => {
     const [error, setError] = useState(null);
     const [ratings, setRatings] = useState([]);
     const { token, isLoggedIn } = useSelector((state) => state.auth);
-    const userId = getUserIdFromToken(token);
+    const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+    const userId = getUserIdFromToken(decryptedToken);
     const [ratingCount, setRatingCount] = useState(0);
     const { t } = useTranslation();
 

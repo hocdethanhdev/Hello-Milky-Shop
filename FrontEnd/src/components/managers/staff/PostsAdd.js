@@ -12,6 +12,7 @@ import DOMPurify from "dompurify";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import config from "../../config/config";
+import { AES, enc } from 'crypto-js';
 
 function PostsAdd() {
   const [title, setTitle] = useState("");
@@ -20,7 +21,8 @@ function PostsAdd() {
   const [articleCategoryID, setArticleCategoryID] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
   const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userId = getUserIdFromToken(decryptedToken);
   const editor = useRef(null);
   const navigate = useNavigate();
   const [editorContent, setEditorContent] = useState("");
