@@ -4,6 +4,7 @@ import './ProductHot.css';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../layout/Loading';
 import config from "../../config/config";
+import { useTranslation } from 'react-i18next';
 
 // Formatting functions
 const formatPrice = (price) => {
@@ -28,6 +29,7 @@ function ProductHot() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchHotProducts = async () => {
@@ -59,7 +61,7 @@ function ProductHot() {
 
   return (
     <div className="sidebar-producthot">
-      <h3>DÀNH CHO BẠN HÔM NAY</h3>
+      <h3>{t('forYoyToday')}</h3>
       {hotProducts.map((product) => {
         const discountAmount = calculateDiscount(product.Price, product.PriceAfterDiscounts);
         let isDiscounted = product.Price !== product.PriceAfterDiscounts;
