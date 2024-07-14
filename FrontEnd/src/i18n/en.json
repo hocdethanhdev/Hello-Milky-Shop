@@ -199,5 +199,7 @@
   "dateOfPublication": "Date of publication",
   "previousPage": "Previous page",
   "nextPage": "Next page",
-  "forYoyToday": "FOR YOU TODAY"
+  "forYoyToday": "FOR YOU TODAY",
+  "confirmDeletion": "Confirm deletion",
+  "wantToDeleteThisAddress": "Are you sure want to delete this address?"
 }

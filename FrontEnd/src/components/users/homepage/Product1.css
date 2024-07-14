@@ -103,7 +103,9 @@
 
 .item {
   border: 1px solid #ddd;
-  flex-basis: calc(20% - 20px); /* Tính toán flex-basis để tránh cách biệt quá lớn */
+  flex-basis: calc(
+    20% - 20px
+  ); /* Tính toán flex-basis để tránh cách biệt quá lớn */
   margin: 10px;
   position: relative;
 }
@@ -215,8 +217,7 @@
 .combo-1f-title h2 {
   font-size: 20px;
   color: whitesmoke;
-
-  margin-left: 30px;
+  text-align: center;
 }
 
 .combo-1f-content {
@@ -368,8 +369,7 @@
 .combo-2f-title h2 {
   font-size: 20px;
   color: whitesmoke;
-
-  margin-left: 30px;
+  text-align: center;
 }
 
 .combo-2f-content {
@@ -535,9 +535,7 @@
   color: white;
   padding: 10px 20px;
   cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -765,9 +763,7 @@ span.discount-1 {
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  animation:
-    shine 5s linear infinite,
-    typing 5s steps(20) infinite;
+  animation: shine 5s linear infinite, typing 5s steps(20) infinite;
 }
 
 @keyframes shine {

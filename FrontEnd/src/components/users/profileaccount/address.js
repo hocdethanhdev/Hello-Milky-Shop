@@ -3,7 +3,7 @@ import SidebarProfile from "./sidebarprofile";
 import "./address.css"; // Import the CSS file
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
-import { message } from "antd"; // Import Ant Design message component
+import { message, Modal } from "antd"; // Import Ant Design message and Modal components
 import config from "../../config/config";
 import { useTranslation } from 'react-i18next';
 
@@ -91,7 +91,7 @@ function Address() {
       message.error(`${t('accountNameMustNotExceed50Characters')}`);
       return;
     }
-    if (newAddress.phone.length < 11 || newAddress.phone.length > 15) {
+    if (newAddress.phone.length < 9 || newAddress.phone.length > 11) {
       message.error(`${t('phoneNumberMustBeGreaterThan11AndLessThan15Characters.')}`);
       return;
     }
@@ -150,7 +150,15 @@ function Address() {
     }
   };
 
-  const handleDelete = async (shippingAddressID) => {
+  const handleDelete = (shippingAddressID) => {
+    Modal.confirm({
+      title: `${t('confirmDeletion')}`,
+      content: `${t('wantToDeleteThisAddress')}`,
+      onOk: () => deleteAddress(shippingAddressID),
+    });
+  };
+
+  const deleteAddress = async (shippingAddressID) => {
     const apiURL = `${config.API_ROOT}/api/v1/shippingAddress/updateDeleted/${shippingAddressID}`;
 
     try {
@@ -310,7 +318,7 @@ function Address() {
               </div>
 
               <button className="button-address" type="submit">
-              {t('save')}
+                {t('save')}
               </button>
             </form>
           </div>
