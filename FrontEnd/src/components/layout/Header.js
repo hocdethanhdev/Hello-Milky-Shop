@@ -47,13 +47,18 @@ function Header() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await axios.post(`${config.API_ROOT}/api/v1/user/getOne`, {
-        "token": decryptedToken,
-      });
-      if (response?.data.err === 0) setUserData(response.data?.data);
+      try {
+        const response = await axios.post(`${config.API_ROOT}/api/v1/user/getOne`, {
+          "token": decryptedToken,
+        });
+        console.log(response);
+        if (response?.data.err === 0) setUserData(response.data?.data);
+      } catch (error) {
+        dispatch(logout());
+      }
     };
     decryptedToken && fetchUser();
-  }, [decryptedToken]);
+  }, [decryptedToken, dispatch, navigate]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
