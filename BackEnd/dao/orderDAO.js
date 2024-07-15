@@ -650,7 +650,7 @@ const orderDAO = {
           return `
             UPDATE Product
             SET StockQuantity = StockQuantity + ${detail.Quantity}
-            WHERE ProductID = '${detail.ProductID}';
+            WHERE ProductID = '${detail.ProductID}'
           `;
         })
         .join("; ");

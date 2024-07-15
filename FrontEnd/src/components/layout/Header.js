@@ -3,27 +3,32 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./Header.css";
 import { logout } from "../store/actions/authAction";
-import { apiGetOne } from "../users/apis/userService";
 import LanguageSelector from "../users/language/LanguageSelector.tsx";
-import { useTranslation } from 'react-i18next';
-import { AES, enc } from 'crypto-js';
+import { useTranslation } from "react-i18next";
+import { AES, enc } from "crypto-js";
 import config from "../config/config.js";
+import axios from "axios";
 
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoggedIn, token, role } = useSelector((state) => state.auth); // Thêm role vào useSelector
-  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
-  const decryptedRole = role ? parseInt(AES.decrypt(role, config.SECRET_KEY).toString(enc.Utf8)) : 0;
+  const decryptedToken = token
+    ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8)
+    : null;
+  const decryptedRole = role
+    ? parseInt(AES.decrypt(role, config.SECRET_KEY).toString(enc.Utf8))
+    : 0;
   const [showMenu, setShowMenu] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [userData, setUserData] = useState({});
   const { t } = useTranslation();
 
-
   const handleSearch = (e) => {
     e.preventDefault();
-    let keyword = document.getElementById("search_suggest-compo-tri").value.trim();
+    let keyword = document
+      .getElementById("search_suggest-compo-tri")
+      .value.trim();
 
     const replacements = {
       "\\bbe\\b": "bé",
@@ -42,7 +47,9 @@ function Header() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      let response = await apiGetOne(decryptedToken);
+      const response = await axios.post(`${config.API_ROOT}/api/v1/user/getOne`, {
+        "token": decryptedToken,
+      });
       if (response?.data.err === 0) setUserData(response.data?.data);
     };
     decryptedToken && fetchUser();
@@ -80,10 +87,16 @@ function Header() {
         <div className="logo-compo-tri">
           {decryptedRole === 0 || decryptedRole === 3 ? (
             <Link to="/">
-              <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fz5605685075502_1381f9f86d72f76aca5de96e6cfbe0e8.jpg?alt=media&token=6fce3a72-15da-4345-be72-5497f315abea" alt="LogoMilky" />
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fz5605685075502_1381f9f86d72f76aca5de96e6cfbe0e8.jpg?alt=media&token=6fce3a72-15da-4345-be72-5497f315abea"
+                alt="LogoMilky"
+              />
             </Link>
           ) : (
-            <img src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fz5605685075502_1381f9f86d72f76aca5de96e6cfbe0e8.jpg?alt=media&token=6fce3a72-15da-4345-be72-5497f315abea" alt="LogoMilky" />
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/hellomilkyshop-4cf00.appspot.com/o/images%2Fz5605685075502_1381f9f86d72f76aca5de96e6cfbe0e8.jpg?alt=media&token=6fce3a72-15da-4345-be72-5497f315abea"
+              alt="LogoMilky"
+            />
           )}
         </div>
         {(decryptedRole === 0 || decryptedRole === 3) && (
@@ -93,10 +106,14 @@ function Header() {
                 className="tim-kiem"
                 type="text"
                 name="keyword"
-                placeholder={t('whatAreParentsLookingForTheirChildrenToday?')}
+                placeholder={t("whatAreParentsLookingForTheirChildrenToday?")}
                 id="search_suggest-compo-tri"
               />
-              <button className="search-button-header" type="submit" id="btnSearch">
+              <button
+                className="search-button-header"
+                type="submit"
+                id="btnSearch"
+              >
                 <i className="fa fa-search"></i>
               </button>
             </form>
@@ -114,16 +131,16 @@ function Header() {
           ) : (
             <div className="box_user-compo-tri">
               <i className="fa fa-user"></i>
-              <Link to="/login">{t('logIn')}</Link>
+              <Link to="/login">{t("logIn")}</Link>
               <span> | </span>
-              <Link to="/signup">{t('signUp')}</Link>
+              <Link to="/signup">{t("signUp")}</Link>
             </div>
           )}
           {decryptedRole === 3 && (
             <div className="box_cart-compo-tri">
               <Link to="/ShoppingCart">
                 <i className="fa fa-shopping-cart"></i>
-                <p>{t('cart')}</p>
+                <p>{t("cart")}</p>
               </Link>
             </div>
           )}
@@ -131,27 +148,28 @@ function Header() {
             <div>
               <div className="dangxuatNhan">
                 <span className="logout-link" onClick={confirmLogout}>
-                  <i className="fas fa-sign-out-alt"></i> {t('logOut')}
+                  <i className="fas fa-sign-out-alt"></i> {t("logOut")}
                 </span>
               </div>
               {showConfirmation && (
                 <div className="confirmation-dialog">
-                  <p>{t('areYouSureWantToSignOut?')}</p>
+                  <p>{t("areYouSureWantToSignOut?")}</p>
                   <button
                     className="DongY btn btn-success"
                     onClick={handleLogout}
                   >
-                    {t('yes')}
+                    {t("yes")}
                   </button>
                   <button className="Huy btn btn-danger" onClick={cancelLogout}>
-                    {t('cancle')}
+                    {t("cancle")}
                   </button>
                 </div>
               )}
             </div>
           )}
-          <div className='i8-home-page'><LanguageSelector /> </div>
-          
+          <div className="i8-home-page">
+            <LanguageSelector />{" "}
+          </div>
         </div>
       </div>
     </header>
