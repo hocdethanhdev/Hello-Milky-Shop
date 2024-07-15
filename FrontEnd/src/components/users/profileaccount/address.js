@@ -3,9 +3,10 @@ import SidebarProfile from "./sidebarprofile";
 import "./address.css"; // Import the CSS file
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
-import { message } from "antd"; // Import Ant Design message component
+import { message, Modal } from "antd"; // Import Ant Design message and Modal components
 import config from "../../config/config";
 import { useTranslation } from 'react-i18next';
+import { AES, enc } from 'crypto-js';
 
 function Address() {
   const [addressData, setAddressData] = useState([]);
@@ -22,7 +23,8 @@ function Address() {
   const [districts, setDistricts] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userId = getUserIdFromToken(decryptedToken);
 
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -91,7 +93,7 @@ function Address() {
       message.error(`${t('accountNameMustNotExceed50Characters')}`);
       return;
     }
-    if (newAddress.phone.length < 11 || newAddress.phone.length > 15) {
+    if (newAddress.phone.length < 9 || newAddress.phone.length > 11) {
       message.error(`${t('phoneNumberMustBeGreaterThan11AndLessThan15Characters.')}`);
       return;
     }
@@ -119,7 +121,7 @@ function Address() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${decryptedToken}`,
         },
         body: JSON.stringify({
           receiver: newAddress.name,
@@ -150,7 +152,15 @@ function Address() {
     }
   };
 
-  const handleDelete = async (shippingAddressID) => {
+  const handleDelete = (shippingAddressID) => {
+    Modal.confirm({
+      title: `${t('confirmDeletion')}`,
+      content: `${t('wantToDeleteThisAddress')}`,
+      onOk: () => deleteAddress(shippingAddressID),
+    });
+  };
+
+  const deleteAddress = async (shippingAddressID) => {
     const apiURL = `${config.API_ROOT}/api/v1/shippingAddress/updateDeleted/${shippingAddressID}`;
 
     try {
@@ -158,7 +168,7 @@ function Address() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${decryptedToken}`,
         },
       });
 
@@ -310,7 +320,7 @@ function Address() {
               </div>
 
               <button className="button-address" type="submit">
-              {t('save')}
+                {t('save')}
               </button>
             </form>
           </div>

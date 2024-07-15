@@ -9,15 +9,15 @@ import { message } from "antd";
 import Loading from "../../layout/Loading";
 import config from "../../config/config";
 import { useTranslation } from 'react-i18next';
+import { AES, enc } from 'crypto-js';
 
 function Account() {
   const [userData, setUserData] = useState(null);
   const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
-  const [popupEmailUpdate, setPopupEmailUpdate] = useState(false);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userId = getUserIdFromToken(decryptedToken);
   const [popupUserNameUpdate, setPopupUserNameUpdate] = useState(false);
   const [popupPhoneUpdate, setPopupPhoneUpdate] = useState(false);
-  const [emailUpdate, setEmailUpdate] = useState(null);
   const [userNameUpdate, setUserNameUpdate] = useState(null);
   const [phoneUpdate, setPhoneUpdate] = useState(null);
   const { t } = useTranslation();
@@ -41,7 +41,6 @@ function Account() {
   }, [fetchUserData]);
 
   useEffect(() => {
-    setEmailUpdate(userData?.Email);
     setPhoneUpdate(userData?.PhoneNumber);
     setUserNameUpdate(userData?.UserName);
   }, [userData]);
@@ -50,38 +49,9 @@ function Account() {
     return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
   };
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   const validatePhoneNumber = (phone) => {
     const phoneRegex = /^[0-9]+$/;
     return phoneRegex.test(phone) && phone.length <= 15;
-  };
-
-  const handleUpdateEmail = async () => {
-    if (!validateEmail(emailUpdate)) {
-      message.error(`${t('youEnteredTheWrongEmailFormat')}`);
-      return;
-    }
-    try {
-      const updateEmail = await axios.put(
-        `${config.API_ROOT}/api/v1/user/updateUserEmail`,
-        {
-          UserID: userId,
-          Email: emailUpdate,
-        }
-      );
-      fetchUserData();
-      if (updateEmail.data.err === 0) {
-        message.success(`${t('updateSuccessful')}`);
-      } else message.error(`${t('updateFailed')}`);
-    } catch (error) {
-      console.error("Error updating email:", error);
-    }
-    setPopupEmailUpdate(false);
-    setEmailUpdate(null);
   };
 
   const handleUpdateUserName = async () => {
@@ -132,10 +102,6 @@ function Account() {
     setPhoneUpdate(null);
   };
 
-  const handleChangeEmail = (e) => {
-    setEmailUpdate(e.target.value);
-  };
-
   const handleChangeUserName = (e) => {
     setUserNameUpdate(e.target.value);
   };
@@ -163,8 +129,6 @@ function Account() {
                     className="update-account"
                     onClick={() => {
                       setPopupUserNameUpdate(true);
-                      setPopupEmailUpdate(false);
-                      setEmailUpdate(userData.Email);
                       setPopupPhoneUpdate(false);
                       setPhoneUpdate(userData.PhoneNumber);
                     }}
@@ -214,8 +178,6 @@ function Account() {
                         onClick={() => {
                           setPopupUserNameUpdate(false);
                           setUserNameUpdate(userData.UserName);
-                          setPopupEmailUpdate(false);
-                          setEmailUpdate(userData.Email);
                           setPopupPhoneUpdate(true);
                         }}
                       />

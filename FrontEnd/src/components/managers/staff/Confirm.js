@@ -7,6 +7,7 @@ import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { useSelector } from "react-redux";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import config from "../../config/config";
+import { AES, enc } from 'crypto-js';
 
 function Confirm() {
   const [orders, setOrders] = useState([]);
@@ -19,7 +20,8 @@ function Confirm() {
   const [shippingAddress, setShippingAddress] = useState(null);
   const ordersPerPage = 10;
   const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userId = getUserIdFromToken(decryptedToken);
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
 
   const fetchOrders = async () => {

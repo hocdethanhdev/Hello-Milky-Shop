@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, message } from "antd";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSelector } from "react-redux";
-import { getUserIdFromToken } from "../../store/actions/authAction";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import "./Confirm.css";
 import config from "../../config/config";
@@ -17,8 +15,6 @@ function CancelOrder() {
   const [shippingAddress, setShippingAddress] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
   const ordersPerPage = 10;
-  const { token } = useSelector((state) => state.auth);
-  const userId = getUserIdFromToken(token);
 
   useEffect(() => {
     const fetchOrders = async () => {

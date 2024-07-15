@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import config from "../../config/config";
 import { useTranslation } from 'react-i18next';
+import { AES, enc } from 'crypto-js';
 
 const OrderProfile = () => {
   const [activeTab, setActiveTab] = useState("Tất cả");
@@ -15,7 +16,8 @@ const OrderProfile = () => {
   const [orderToConfirm, setOrderToConfirm] = useState(null);
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
   const { token } = useSelector((state) => state.auth);
-  const userIdd = getUserIdFromToken(token);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const userIdd = getUserIdFromToken(decryptedToken);
   const [canRateMap, setCanRateMap] = useState({});
   const { t } = useTranslation();
 

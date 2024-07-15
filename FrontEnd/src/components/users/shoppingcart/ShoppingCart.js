@@ -9,9 +9,11 @@ import { getMaxQuantity } from "./productMax";
 import { message } from "antd";
 import config from "../../config/config";
 import { useTranslation } from 'react-i18next';
+import { AES, enc } from 'crypto-js';
 
 const ShoppingCart = () => {
   const { token } = useSelector((state) => state.auth);
+  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
   const [orderDetails, setOrderDetails] = useState([]);
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -108,8 +110,8 @@ const ShoppingCart = () => {
   };
 
   useEffect(() => {
-    setUserID(getUserIdFromToken(token));
-  }, [token]);
+    setUserID(getUserIdFromToken(decryptedToken));
+  }, [decryptedToken]);
 
   useEffect(() => {
     const fetchUserOrders = async () => {
@@ -200,7 +202,7 @@ const ShoppingCart = () => {
   useEffect(() => {
     const checkOldAddress = async () => {
       try {
-        const userId = getUserIdFromToken(token);
+        const userId = getUserIdFromToken(decryptedToken);
         const oldAddress = await axios.post(
           `${config.API_ROOT}/api/v1/shippingAddress/getInfoAddressWithOrderNearest`,
           {
@@ -218,7 +220,7 @@ const ShoppingCart = () => {
       }
     };
     checkOldAddress();
-  }, [token]);
+  }, [decryptedToken]);
 
   useEffect(() => {
     const fetchDistricts = async () => {
