@@ -6,6 +6,9 @@ import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import config from "../../config/config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { AES, enc } from "crypto-js";
+import { useSelector } from "react-redux";
+import { getUserIdFromToken } from "../../store/actions/authAction";
 
 const ManageAdmin = () => {
   const [accounts, setAccounts] = useState([]);
@@ -25,6 +28,11 @@ const ManageAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const accountsPerPage = 10;
 
+  const { token } = useSelector((state) => state.auth); // Thêm role vào useSelector
+  const decryptedToken = token
+    ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8)
+    : null;
+  const userID = getUserIdFromToken(decryptedToken);
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
@@ -193,20 +201,26 @@ const ManageAdmin = () => {
                 <td className="col-md-3">{account.Email}</td>
                 <td className="col-md-3">{account.PhoneNumber}</td>
                 <td className="col-md-3">
-                  <button
-                    className="btn btn-warning"
-                    style={{marginRight: (10)}}
-                    onClick={() => handleEdit(account)}>
-                    Sửa
-                  </button>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => {
-                      setEditingUser(account);
-                      setShowPasswordPopup(true);
-                    }}>
-                    Đổi mật khẩu
-                  </button>
+                  {userID === account.UserID && (
+                    <>
+                      <button
+                        className="btn btn-warning"
+                        style={{ marginRight: 10 }}
+                        onClick={() => handleEdit(account)}
+                      >
+                        Sửa
+                      </button>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => {
+                          setEditingUser(account);
+                          setShowPasswordPopup(true);
+                        }}
+                      >
+                        Đổi mật khẩu
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}
@@ -227,7 +241,8 @@ const ManageAdmin = () => {
           <div className="edit-popup-content">
             <button
               className="close-button"
-              onClick={() => setShowEditPopup(false)}>
+              onClick={() => setShowEditPopup(false)}
+            >
               <FontAwesomeIcon icon={faTimes} />
             </button>
             <form onSubmit={handleSubmit}>
@@ -274,7 +289,8 @@ const ManageAdmin = () => {
           <div className="change-password-form">
             <div
               className="close-changepass-admin"
-              onClick={() => setShowPasswordPopup(false)}>
+              onClick={() => setShowPasswordPopup(false)}
+            >
               <FontAwesomeIcon icon={faTimes} />
             </div>
             <form onSubmit={handlePasswordChange}>
