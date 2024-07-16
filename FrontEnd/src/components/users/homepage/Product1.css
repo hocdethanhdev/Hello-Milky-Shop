@@ -794,16 +794,16 @@ span.discount-1 {
   border: 1px solid #ddd;
   margin-bottom: 50px;
 }
-.img {
+.big_sales_homep {
   cursor: pointer;
 }
-.item-giasoc :hover {
-  transform: scale(1.05);
-}
 
-.item-giasoc :hover img {
+.big_sales_homep :hover img {
   transform: scale(1);
 }
 .tri-voucher {
+  cursor: pointer;
+}
+.combo-1f-icon .combo-2f-icon {
   cursor: pointer;
 }
