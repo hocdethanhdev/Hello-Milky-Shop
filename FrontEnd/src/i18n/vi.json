@@ -227,7 +227,7 @@
   "discountCodes": "Mã giảm giá có thể được Shopmebi.com cấp cho từng khách hàng riêng biệt, hoặc phổ thông cho tất cả khách hàng tham gia vào chương trình. Điều kiện của từng mã giảm giá sẽ được quy định rõ ràng từng chương trình, và chỉ có giá trị khi khách hàng sử dụng đúng thời hạn, cách sử dụng đã được quy định.",
   "toTheCustomer": "HelloMilky.shop có quyền từ chối các yêu cầu sử dụng mã giảm giá không đáp ứng yêu cầu sử dụng của chương trình khuyến mãi mà không cần thông báo trước cho khách hàng.",
   "informationSercurity": "7. Bảo mật thông tin",
-  "atHelloMilkyShop": "Tại HelloMilky.shop, chúng tôi luôn cam kết bảo vệ quyền riêng tư thông tin của bạn một cách tối đa. Tuy nhiên, bạn vui lòng đọc kỹ những điều khoản trong Quy định và Điều kiện để hiểu rõ hơn về chính sách bảo mật của chúng tôi.",
+  "atHelloMilkyShop1": "Tại HelloMilky.shop, chúng tôi luôn cam kết bảo vệ quyền riêng tư thông tin của bạn một cách tối đa. Tuy nhiên, bạn vui lòng đọc kỹ những điều khoản trong Quy định và Điều kiện để hiểu rõ hơn về chính sách bảo mật của chúng tôi.",
   "storePersonalInformation": "HelloMilky.shop có quyền lưu trữ lại thông tin cá nhân và giao dịch của khách hàng để phục vụ mục đích điều tra, giải quyết khiếu nại, quản lý chương trình khách hàng, tuy nhiên chúng tôi sẽ không tiết lộ các thông tin này ra ngoài nếu không có sự đồng ý từ phía khách hàng.",
   "allFormOfPersonal": "Mọi hình thức tác quyền nhân thân và tài khoản trong tài khoản của khách hàng khi đăng ký có trách nhiệm với mật khẩu, tài khoản và hoạt động trên trang web của chúng tôi.",
   "productWarranty": "8. Bảo hành sản phẩm",
@@ -244,5 +244,6 @@
   "weAreYou": "Chúng tôi không chịu trách nhiệm pháp lý trong trường hợp chậm trễ hoặc ngừng cung cấp dịch vụ do lý do bất khả kháng như thiên tai, chiến tranh, biểu tình, pháp luật hoặc hành động của chính phủ.",
   "disputeResolution": "12. Giải quyết tranh chấp",
   "inCaseOf": "Trong trường hợp có tranh chấp xảy ra, vui lòng liên hệ với chúng tôi qua email hoặc số điện thoại để được hỗ trợ tốt nhất.",
-  "24Hours": "Chúng tôi sẽ giải quyết tranh chấp nhanh chóng và hiệu quả trong vòng 24 giờ."
+  "24Hours": "Chúng tôi sẽ giải quyết tranh chấp nhanh chóng và hiệu quả trong vòng 24 giờ.",
+  "atHelloMilkyShop2": "tại HelloMilky.shop."
 }
