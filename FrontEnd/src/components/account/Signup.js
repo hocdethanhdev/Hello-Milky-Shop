@@ -360,7 +360,7 @@ function Signup() {
               <Link to="/termofuse" className="terms-link">
                 {t('termsOfUse')}
               </Link>
-              {t('atHelloMilkyShop')}
+              {t('atHelloMilkyShop2')}
             </label>
           </div>
           {isSignupAttempted && showOTP && !confirmOTP && (
