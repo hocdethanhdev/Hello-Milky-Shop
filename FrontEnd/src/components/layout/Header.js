@@ -172,9 +172,11 @@ function Header() {
               )}
             </div>
           )}
-          <div className="i8-home-page">
-            <LanguageSelector />{" "}
-          </div>
+          {(decryptedRole === 0 || decryptedRole === 3) && (
+            <div className="i8-home-page">
+              <LanguageSelector />{" "}
+            </div>
+          )}
         </div>
       </div>
     </header>
