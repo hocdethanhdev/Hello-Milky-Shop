@@ -1,6 +1,7 @@
-import { apiLoginEmail } from '../../users/apis/authService';
 import { jwtDecode } from 'jwt-decode';
 import actionTypes from './actionTypes';
+import axios from 'axios';
+import config from '../../config/config';
 
 const getRoleFromToken = (token) => {
     try {
@@ -22,7 +23,11 @@ export const getUserIdFromToken = (token) => {
 
 export const loginEmail = (email) => async (dispatch) => {
     try {
-        let response = await apiLoginEmail(email);
+        let response = await axios({
+            method: 'post',
+            url: `${config.API_ROOT}/api/v1/auth/loginEmail`,
+            data: { email }
+        })
         if (response?.data.err === 0) {
             const role = getRoleFromToken(response.data.token);
             dispatch({

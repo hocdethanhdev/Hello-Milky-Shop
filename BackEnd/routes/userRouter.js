@@ -10,7 +10,7 @@ router.put("/editUser/:user_id", userController.updateUser);
 
 router.get("/getUserByRoleID/:ID", userController.getUserByRole);
 
-router.get("/getOne", verifyToken, userController.getOne);
+router.post("/getOne", verifyToken, userController.getOne);
 
 router.get("/getUserByID", userController.getUserByID);
 
