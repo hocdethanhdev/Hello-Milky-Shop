@@ -82,7 +82,7 @@ function Dashboard() {
     datasets: [
       {
         label: "Số đơn hàng",
-        data: ordersIn7Days.map((order) => order.count),
+        data: ordersIn7Days.map((order) => parseInt(order.count)),
         fill: false,
         backgroundColor: "#FF9F40",
         borderColor: "#FF9F40",
@@ -111,7 +111,7 @@ function Dashboard() {
             <h2 className="order-header-doughnut">Đơn hàng</h2>
 
             <select
-            className="order-option-doughnut"
+              className="order-option-doughnut"
               id="timePeriod"
               value={timePeriod}
               onChange={(e) => setTimePeriod(e.target.value)}
