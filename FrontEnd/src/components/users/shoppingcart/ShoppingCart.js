@@ -609,7 +609,7 @@ const ShoppingCart = () => {
                   <div>
                     <p className="ten-sp-cartth">{productInfo?.ProductName}</p>
                     <p className="gia-sp-cartth">
-                      {item.Price.toLocaleString()} đ
+                      {formatPrice(item.Price)} đ
                     </p>
                     <div className="quantity-control">
                       <button
@@ -635,7 +635,7 @@ const ShoppingCart = () => {
           <div className="totals">
             <div className="total-row">
               <span>{t('provisional')}</span>
-              <span>{subtotal.toLocaleString()} đ</span>
+              <span>{formatPrice(subtotal)} đ</span>
             </div>
             <div className="voucher-selection-long">
               <button
@@ -673,15 +673,15 @@ const ShoppingCart = () => {
             <div className="total-row">
               <span>{t('promotion')}</span>
               {kmai ? (
-                <span>-{kmai.toLocaleString()} đ</span>
+                <span>-{formatPrice(kmai)} đ</span>
               ) : (
-                <span>{kmai.toLocaleString()} đ</span>
+                <span>{formatPrice(kmai)} đ</span>
               )}
             </div>
 
             <div className="total-row total">
               <span>{t('price2')}</span>
-              <span>{calculateTotal().toLocaleString()} đ</span>
+              <span>{formatPrice(calculateTotal())} đ</span>
             </div>
           </div>
 

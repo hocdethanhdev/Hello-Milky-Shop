@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import "./VoucherModal.css";
 import { useTranslation } from 'react-i18next';
 
+
 const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
+  const formatPrice = (price) => {
+  return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  };
   const { t } = useTranslation();
   return (
     <div className="voucher-popup-long">
@@ -104,7 +108,7 @@ const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
                     <div className="details-text">
                       <div className="text-title">{t('minOrderPrice')}</div>
                       <div className="text-description-gia text-primary">
-                        {voucher.MinDiscount}đ
+                        {formatPrice(voucher.MinDiscount)}đ
                       </div>
                     </div>
                   </div>
@@ -112,7 +116,7 @@ const VoucherPopup = ({ vouchers, handleVoucherSelect, closePopup }) => {
                     <div className="details-text">
                       <div className="text-title">{t('maxDiscount')}</div>
                       <div className="text-description-gia text-primary">
-                        {voucher.MaxDiscount}đ
+                        {formatPrice(voucher.MaxDiscount)}đ
                       </div>
                     </div>
                   </div>
