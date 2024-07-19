@@ -74,36 +74,38 @@ function Giasoc() {
       <div className="slider-container">
         <Slider {...settings}>
           {products.map((product, index) => (
-            <div
-              key={index}
-              className="item item-giasoc"
-              onClick={() => handleProductClick(product.ProductID)}
-            >
-              <div className="image_item">
-                <img src={product.Image} alt={product.ProductName} />
-              </div>
-
-              <div className="price">
-                <h3 className="title-giasoc">{product.ProductName}</h3>
-                <div className="saoduoithinh">
-                  <StarRating productId={product.ProductID} />
+            <div className="big_sales_homep">
+              <div
+                key={index}
+                className="item item-giasoc"
+                onClick={() => handleProductClick(product.ProductID)}
+              >
+                <div className="image_item">
+                  <img src={product.Image} alt={product.ProductName} />
                 </div>
-                <span className="price_item price_item-Sgg">
-                  {product.PriceAfterDiscounts?.toLocaleString("de-DE")}đ
-                </span>
-                <span className="old_price">
-                  {product.Price?.toLocaleString("de-DE")}đ
-                </span>
+
+                <div className="price">
+                  <h3 className="title-giasoc">{product.ProductName}</h3>
+                  <div className="saoduoithinh">
+                    <StarRating productId={product.ProductID} />
+                  </div>
+                  <span className="price_item price_item-Sgg">
+                    {product.PriceAfterDiscounts?.toLocaleString("de-DE")}đ
+                  </span>
+                  <span className="old_price">
+                    {product.Price?.toLocaleString("de-DE")}đ
+                  </span>
+                </div>
+                {product.Price !== product.PriceAfterDiscounts && (
+                  <span className="discount">
+                    -
+                    {formatPrice(
+                      (product.Price - product.PriceAfterDiscounts) / 1000
+                    )}
+                    K
+                  </span>
+                )}
               </div>
-              {product.Price !== product.PriceAfterDiscounts && (
-                <span className="discount">
-                  -
-                  {formatPrice(
-                    (product.Price - product.PriceAfterDiscounts) / 1000
-                  )}
-                  K
-                </span>
-              )}
             </div>
           ))}
         </Slider>

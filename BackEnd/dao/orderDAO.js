@@ -114,7 +114,7 @@ const orderDAO = {
           SELECT dl.OrderDate, COUNT(o.OrderID) AS count
           FROM DateList dl
           LEFT JOIN Orders o ON dl.OrderDate = o.OrderDate
-          WHERE o.Status = 1
+          WHERE o.StatusOrderID = 4
           GROUP BY dl.OrderDate
           ORDER BY dl.OrderDate;`,
           (err, res) => {
