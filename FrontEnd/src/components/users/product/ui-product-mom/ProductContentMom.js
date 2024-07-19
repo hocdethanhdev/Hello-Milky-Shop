@@ -289,7 +289,7 @@ const ProductContentMom = ({ product }) => {
           <div className="box_phone">
           {t('purchasingSwitchboard')}{" "}
             <Link to="tel:0852793879 - Zalo:0393892623" className="hot_phone">
-              0852793879 - Zalo:0393892623
+              0852 793 879 - Zalo: 0393 892 623
             </Link>{ "  " }
             ({t('from800amTo930PMDaily')} )
           </div>
