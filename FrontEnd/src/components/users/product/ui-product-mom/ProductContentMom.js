@@ -175,13 +175,13 @@ const ProductContentMom = ({ product }) => {
             <h1>{product.ProductName}</h1>
             <div className="pro_detail_brand">
               <p className="thuong-hieu-san-pham">
-              {t('trademark')}:{" "}
+                {t('trademark')}:{" "}
                 <span className="thuong-hieu-san-pham-api">
                   {product.BrandName}
                 </span>
               </p>
               <p>
-              {t('productCode')}: <span id="barcodeMain">{product.ProductID}</span>
+                {t('productCode')}: <span id="barcodeMain">{product.ProductID}</span>
               </p>
             </div>
             <br />
@@ -212,7 +212,7 @@ const ProductContentMom = ({ product }) => {
               </div>
 
               {isLoggedIn ? (
-                product.StockQuantity > 0 ? (
+                (product.StockQuantity > 0 && product.status === 1) ? (
                   <>
                     <div className="box_info box_status">
                       <span className="box_info_txt left">{t('storage')}: </span>
@@ -251,7 +251,7 @@ const ProductContentMom = ({ product }) => {
                     </div>
                     <div className="box_btn">
                       <button className="btn_order_now" onClick={handleBuyNow}>
-                      {t('buyNow')}
+                        {t('buyNow')}
                       </button>
                       <button
                         className="btn_add_cart"
@@ -287,10 +287,10 @@ const ProductContentMom = ({ product }) => {
             </div>
           </div>
           <div className="box_phone">
-          {t('purchasingSwitchboard')}{" "}
+            {t('purchasingSwitchboard')}{" "}
             <Link to="tel:0852793879 - Zalo:0393892623" className="hot_phone">
               0852 793 879 - Zalo: 0393 892 623
-            </Link>{ "  " }
+            </Link>{"  "}
             ({t('from800amTo930PMDaily')} )
           </div>
           <div className="box_banner"></div>

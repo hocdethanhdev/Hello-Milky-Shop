@@ -165,7 +165,7 @@ function Header() {
                     {t("yes")}
                   </button>
                   <button className="Huy btn btn-danger" onClick={cancelLogout}>
-                    {t("cancle")}
+                    {t("cancel")}
                   </button>
                 </div>
               )}

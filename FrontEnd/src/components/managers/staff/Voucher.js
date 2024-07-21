@@ -62,14 +62,14 @@ function Voucher() {
       })
       .then((data) => {
         if (data.success) {
-          message.success("Voucher đã được xóa thành công!");
+          message.success("Voucher đã được ẩn thành công!");
           fetchVouchers();
         } else {
-          message.error("Voucher không thể xóa vì đã có người lưu voucher này.");
+          message.error("Voucher không thể ẩn vì đã có người lưu voucher này.");
         }
       })
       .catch((error) => {
-        message.error("Lỗi khi xóa voucher: " + error.message);
+        message.error("Lỗi khi ẩn voucher: " + error.message);
       })
       .finally(() => {
         setShowDeletePopup(false);
@@ -315,7 +315,7 @@ function Voucher() {
                         type="button"
                         className="btn btn-danger"
                         onClick={() => handleDelete(voucher.VoucherID)}>
-                        Xóa
+                        Ẩn
                       </button>
                     ) : (
                       <button

@@ -6,10 +6,10 @@ import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import DeleteConfirmationPopupForArticle from "./DeleteConfirmationPopupForArticle";
-import { message, Select } from "antd"; // Import Select from antd
+import { message, Select } from "antd";
 import config from "../../config/config";
 
-const { Option } = Select; // Destructure Option from Select
+const { Option } = Select;
 
 function Posts() {
   const [articles, setArticles] = useState([]);
@@ -21,7 +21,7 @@ function Posts() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [deleteArticleId, setDeleteArticleId] = useState(null);
-  const [categoryFilter, setCategoryFilter] = useState("all"); // State for category filter
+  const [categoryFilter, setCategoryFilter] = useState("all");
 
   const productsPerPage = 10;
   const navigate = useNavigate();
@@ -97,7 +97,7 @@ function Posts() {
         console.error("There was an error deleting the article!", error);
         setErrorMessage(
           "There was an error deleting the article: " +
-            (error.response?.data || error.message)
+          (error.response?.data || error.message)
         );
         setShowDeletePopup(false);
       });
@@ -115,7 +115,7 @@ function Posts() {
     <div className="posts-container">
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <div className="d-flex justify-content-end align-items-end" style={{marginBottom: 10}}>
+      <div className="d-flex justify-content-end align-items-end" style={{ marginBottom: 10 }}>
         <Link to="/addingpost">
           <button type="button" className="button-add-voucher">
             <span className="far fa-plus-square btn btn-secondary"></span>
@@ -123,7 +123,7 @@ function Posts() {
         </Link>
         <Select
           defaultValue="all"
-          style={{ width: 120, marginRight: 10}}
+          style={{ width: 120, marginRight: 10 }}
           onChange={handleCategoryFilterChange}>
           <Option value="all">Tất cả</Option>
           <Option value="suc-khoe">Sức khỏe</Option>
@@ -173,6 +173,14 @@ function Posts() {
 
                 <td className="col-md-3">
                   <div className="nutchung-post">
+                    <Link to={`/view-article/${article.ArticleID}`} key={article.ArticleID}>
+
+                      <button
+                        className="btn btn-primary sua-post-nut"
+                      >
+                        Xem
+                      </button>
+                    </Link>
                     <button
                       className="btn btn-warning sua-post-nut"
                       onClick={() => handleEditClick(article.ArticleID)}>

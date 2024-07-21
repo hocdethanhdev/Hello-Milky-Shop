@@ -261,8 +261,8 @@ const getOrdersForUserByStatusOrderID = async (req, res) => {
 
 const cancelOrder = async (req, res) => {
     try {
-        const { orderID, reasonCancelContent, userID } = req.body;
-        await orderService.cancelOrder(orderID, reasonCancelContent, userID);
+        const { orderID, reasonCancelContent } = req.body;
+        await orderService.cancelOrder(orderID, reasonCancelContent);
         await orderService.refundQuantityOfProduct(orderID);
         res.status(200).json({ message: 'Order canceled successfully' });
     } catch (error) {

@@ -121,5 +121,29 @@ const shippingAddressDAO = {
       });
     });
   },
+
+editShippingAddress: (param_id, shippingAddressObject) => {
+    return new Promise((resolve, reject) => {
+        mssql.connect(dbConfig, function () {
+            var request = new mssql.Request()
+                .input("ShippingAddressID", param_id)
+                .input("Receiver", mssql.NVarChar, shippingAddressObject.Receiver)
+                .input("PhoneNumber", mssql.VarChar, shippingAddressObject.PhoneNumber)
+                .input("Address", mssql.NVarChar, shippingAddressObject.Address)
+                .input("IsDeleted", mssql.Bit, shippingAddressObject.IsDeleted)
+                .input("UserID", mssql.VarChar, shippingAddressObject.UserID);
+            request.query(
+                `UPDATE ShippingAddress SET Receiver = @Receiver, PhoneNumber = @PhoneNumber, Address = @Address, IsDeleted = @IsDeleted, UserID = @UserID WHERE ShippingAddressID = @ShippingAddressID;`,
+                (err) => {
+                    if (err) return reject(err);
+                    resolve({
+                        message: "Edit successfully"
+                    });
+                }
+            );
+        });
+    });
+},
+
 };
 module.exports = shippingAddressDAO;

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Select } from "antd";
 import "./ListProductMom.css";
 import SliderMoney from "./SliderMoney";
 import ThrowPage from "./ThrowPage";
 import StarRating from "./StarRating";
 import config from "../../../config/config";
 import { useTranslation } from 'react-i18next';
+
+const { Option } = Select;
 
 const formatPrice = (price) => {
   return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -56,8 +59,7 @@ const ListProductMom = () => {
     }
   };
 
-  const handleSortChange = (e) => {
-    const { value } = e.target;
+  const handleSortChange = (value) => {
     setSortOption(value);
     applyFiltersAndSorting(priceRange, value, selectedBrand);
   };
@@ -67,8 +69,7 @@ const ListProductMom = () => {
     applyFiltersAndSorting(values, sortOption, selectedBrand);
   };
 
-  const handleBrandChange = (e) => {
-    const { value } = e.target;
+  const handleBrandChange = (value) => {
     setSelectedBrand(value);
     applyFiltersAndSorting(priceRange, sortOption, value);
   };
@@ -187,38 +188,36 @@ const ListProductMom = () => {
 
               <div className="loc-theo-brand-list-mom">
                 <div className="center-text-list-promom">
-                {t('filterByBrand')}
+                  {t('filterByBrand')}
                 </div>
-                <select
-                  name="brandFilter"
-                  id="brandFilter"
+                <Select
                   value={selectedBrand}
                   onChange={handleBrandChange}
+                  style={{ width: 200 }}
                 >
-                  <option value="">{t('all')}</option>
+                  <Option value="">{t('all')}</Option>
                   {brands.map((brand, index) => (
-                    <option key={index} value={brand.BrandName}>
+                    <Option key={index} value={brand.BrandName}>
                       {brand.BrandName}
-                    </option>
+                    </Option>
                   ))}
-                </select>
+                </Select>
               </div>
 
               <span className="title_filter">
                 <div className="center-text-list-promom">{t('sortedBy')}</div>
-                <select
-                  name="sortProduct"
-                  id="sortProduct"
+                <Select
                   value={sortOption}
                   onChange={handleSortChange}
+                  style={{ width: 200 }}
                 >
-                  <option value="">{t('random')}</option>
-                  <option value="priceAsc">{t('pricesGraduallyIncrease')}</option>
-                  <option value="priceDesc">{t('pricesGraduallyDecrease')}</option>
-                  <option value="nameAsc">{t('nameAZ')}</option>
-                  <option value="nameDesc">{t('nameZA')}</option>
-                  <option value="promotionDesc">{t('promotion')}</option>
-                </select>
+                  <Option value="">{t('random')}</Option>
+                  <Option value="priceAsc">{t('pricesGraduallyIncrease')}</Option>
+                  <Option value="priceDesc">{t('pricesGraduallyDecrease')}</Option>
+                  <Option value="nameAsc">{t('nameAZ')}</Option>
+                  <Option value="nameDesc">{t('nameZA')}</Option>
+                  <Option value="promotionDesc">{t('promotion')}</Option>
+                </Select>
               </span>
             </div>
 

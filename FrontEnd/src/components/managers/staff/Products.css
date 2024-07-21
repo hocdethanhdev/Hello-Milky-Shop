@@ -1,4 +1,9 @@
-
+.product-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
 .product-list table {
   width: 100%;
@@ -13,12 +18,10 @@
   padding: 12px;
   border: 1px solid #ddd;
   text-align: left;
-  background-color: white;
 }
 
 .product-list th {
   background-color: #f4f4f4;
-  background-color: white;
 }
 
 .product-image {
@@ -29,16 +32,6 @@
 .nut-pro {
   display: flex;
 }
-
-.product-container {
-  margin: 20px 20px 0px 20px;
-  padding-bottom: 50px;
-  background-color: white;
-  padding: 0px 20px 20px 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* ______________________________________________________________________ */
 
 .create-product {
   margin-top: 20px;
@@ -51,8 +44,7 @@
 .card {
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .row.mb-3 {
@@ -65,21 +57,26 @@ label {
   display: block;
 }
 
-.form-control, .form-control1, .form-control2 {
+.form-control,
+.form-control1,
+.form-control2 {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
 }
 
-.form-control1-container, .preview-image-container {
+.form-control1-container,
+.preview-image-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .preview-image-add-product {
-  max-width: 100%;
+  width: 100px;
   height: auto;
+  margin-left: 15px;
+  border: 1px solid #ddd;
 }
 
 .editor {
@@ -94,9 +91,36 @@ label {
   padding-left: 8px;
 }
 
-/* Add product */
-.preview-image-add-product {
-  height: auto;
+/* Dropdown styles */
+.category-header,
+.status-header {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
   border: 1px solid #ddd;
-  margin-top: 15px;
+}
+
+.dropdown-content .dropdown-item {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  margin-left: -25px;
+}
+
+.dropdown-content .dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.category-header:hover .dropdown-content,
+.status-header:hover .dropdown-content {
+  display: block;
 }
