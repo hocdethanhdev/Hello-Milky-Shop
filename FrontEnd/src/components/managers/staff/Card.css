@@ -57,15 +57,21 @@
 
 .order-header-doughnut {
   width: 50%;
-} 
+}
 
-.order-option-doughnut{
-    padding: 8px;
-    width: 20%;
-    margin-bottom: 20px;
-    margin-right: 20px;
-} 
+.order-option-doughnut {
+  padding: 8px;
+  width: 20%;
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
 .order-header-doughnut-header {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
+}
+.brandfl {
+  display: flex;
+}
+.add-br-bt {
+  margin-left: 400px;
 }

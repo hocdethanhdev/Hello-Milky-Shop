@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyBillTrendUp } from "@fortawesome/free-solid-svg-icons";
 import config from "../../config/config";
 import axios from "axios";
+import { Select } from "antd";
+const { Option } = Select;
 function MainDash() {
   const [productCount, setProductCount] = useState(0);
   const [brandCount, setBrandCount] = useState(0);
@@ -343,12 +345,14 @@ function MainDash() {
           </div>
           <div className="card-dasha4">
             <div className="card-inner-dasha">
-              <h3>Doanh thu</h3>
+              <h3>Doanh thu (ngày)</h3>
               <span className="material-icons-outlined">
                 <FontAwesomeIcon icon={faMoneyBillTrendUp} />
               </span>
+
             </div>
-            <h1>{formattedRevenue(revenue)}</h1>
+            <h1>{formattedRevenue(revenue)}đ</h1>
+
           </div>
         </div>
         <div className="charts-dasha">
@@ -357,7 +361,7 @@ function MainDash() {
               <h2 className="chart-title-dasha col-md-9">
                 Top 5 Sản phẩm bán chạy
               </h2>
-              <select
+              {/* <select
                 className="col-md-3 top5-option"
                 id="Option"
                 value={timePeriod}
@@ -367,7 +371,19 @@ function MainDash() {
                 <option value="month">Tháng</option>
                 <option value="year">Năm</option>
                 <option value="all">Tất cả</option>
-              </select>
+              </select> */}
+              <Select
+                className="col-md-3 top5-option"
+                id="Option"
+                value={timePeriod}
+                onChange={(value) => setTimePeriod(value)}
+              >
+                <Option value="all">Tất cả</Option>
+                <Option value="day">Ngày</Option>
+                <Option value="month">Tháng</Option>
+                <Option value="year">Năm</Option>
+
+              </Select>
             </div>
 
             <Chart

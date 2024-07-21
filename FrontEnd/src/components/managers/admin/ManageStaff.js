@@ -150,7 +150,7 @@ const ManageStaff = () => {
       <div className="css-class-account-manager">
         <Link to="/adding-account-staff">
           <button type="button" className="button-add-product">
-            <span className="far fa-plus-square btn btn-secondary"></span>
+            <span className="far fa-plus-square  btn btn-success"></span>
           </button>
         </Link>
         <table className="account-table-st">
@@ -176,7 +176,7 @@ const ManageStaff = () => {
                 </td>
                 <td className="col-md-2">
                   <button
-                    className="btn btn-warning"
+                    className="btn btn-warning nut-sua-adst"
                     onClick={() => handleEdit(account)}
                   >
                     Sửa
