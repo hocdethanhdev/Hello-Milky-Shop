@@ -142,7 +142,7 @@ const ProductAdd = () => {
 
     try {
       const downloadURL = await uploadImage(image);
-      if(!downloadURL){
+      if (!downloadURL) {
         message.error("Ảnh cho sản phẩm không hợp lệ.");
         return;
       }
@@ -245,7 +245,7 @@ const ProductAdd = () => {
               if (file) {
                 try {
                   const url = await uploadImage(file);
-                  if(!url){
+                  if (!url) {
                     message.error("Ảnh cho sản phẩm không hợp lệ.");
                     return;
                   }
