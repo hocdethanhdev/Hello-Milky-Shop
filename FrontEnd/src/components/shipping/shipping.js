@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Modal, message } from "antd"; // Removed unused Button import
+import { Modal, message, Input } from "antd";
 import 'antd/dist/reset.css';
 import Loading from "../layout/Loading";
 import config from "../../components/config/config";
@@ -9,8 +9,11 @@ import "./shipping.css";
 function Shipping() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
   const [confirmingOrderId, setConfirmingOrderId] = useState(null);
+  const [cancelingOrderId, setCancelingOrderId] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [cancelModalVisible, setCancelModalVisible] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
 
   useEffect(() => {
     fetchOrders();
@@ -62,6 +65,36 @@ function Shipping() {
     setModalVisible(false);
   };
 
+  const handleCancelOrder = (orderId) => {
+    setCancelingOrderId(orderId);
+    setCancelModalVisible(true);
+  };
+
+  const handleCancelModalOk = async () => {
+    if (!cancelReason.trim()) {
+      message.warning("Vui lòng nhập lí do.");
+      return;
+    }
+
+    try {
+      await axios.post(`${config.API_ROOT}/api/v1/order/cancelOrder`, {
+        orderID: cancelingOrderId,
+        reasonCancelContent: cancelReason,
+      });
+      setOrders(orders.filter((order) => order.OrderID !== cancelingOrderId));
+      setCancelModalVisible(false);
+      setCancelReason("");
+      message.success("Đơn hàng đã được hủy.");
+    } catch (error) {
+      message.error(`Có lỗi xảy ra khi hủy đơn hàng: ${error.message}`);
+    }
+  };
+
+  const handleCancelModalCancel = () => {
+    setCancelModalVisible(false);
+    setCancelReason("");
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -92,6 +125,12 @@ function Shipping() {
                 >
                   Xác nhận
                 </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleCancelOrder(order.OrderID)}
+                >
+                  Hủy đơn
+                </button>
               </td>
             </tr>
           ))}
@@ -107,6 +146,19 @@ function Shipping() {
         cancelText="Hủy"
       >
         <p>Bạn chắc chắn muốn xác nhận đơn hàng này?</p>
+      </Modal>
+
+      <Modal
+        title="Lý do hủy đơn hàng"
+        visible={cancelModalVisible}
+        onOk={handleCancelModalOk}
+        onCancel={handleCancelModalCancel}
+      >
+        <Input.TextArea
+          placeholder="Nhập lý do hủy đơn hàng"
+          value={cancelReason}
+          onChange={(e) => setCancelReason(e.target.value)}
+        />
       </Modal>
     </div>
   );

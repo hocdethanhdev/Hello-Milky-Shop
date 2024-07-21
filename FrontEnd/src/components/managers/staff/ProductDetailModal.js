@@ -40,7 +40,7 @@ const ProductDetailModal = ({ product, onClose }) => {
               />
             </p>
             <p>
-              <strong>Giá:</strong> {formatPrice(product.Price)}
+              <strong>Giá:</strong> {formatPrice(product.Price)} VND
             </p>
             <p>
               <strong>Số lượng:</strong> {product.StockQuantity}
@@ -72,8 +72,8 @@ const ProductDetailModal = ({ product, onClose }) => {
               {product.Status === null || product.Status === false
                 ? "Tạm ẩn"
                 : product.Status === true && parseInt(product.StockQuantity) > 0
-                ? "Còn hàng"
-                : "Hết hàng"}
+                  ? "Còn hàng"
+                  : "Hết hàng"}
             </p>
           </div>
         </div>
