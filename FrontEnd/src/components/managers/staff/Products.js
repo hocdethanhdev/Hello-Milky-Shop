@@ -355,7 +355,7 @@ const Products = () => {
                     {product.Status === true ? (
                       <button
                         type="button"
-                        className="btn btn-danger"
+                        className="btn btn-danger btstpr"
                         onClick={() => handleDeleteClick(product.ProductID)}>
                         Ẩn
                       </button>
