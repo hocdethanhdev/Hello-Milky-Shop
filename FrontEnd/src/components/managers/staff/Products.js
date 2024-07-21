@@ -193,13 +193,13 @@ const Products = () => {
     )
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error("Liên kết không ổn định");
         }
         return response.json();
       })
       .then((data) => {
         if (data.message !== "Deleted") {
-          message.error("Lỗi khi xóa sản phẩm.");
+          message.error("Lỗi khi ẩn sản phẩm.");
         } else {
           setProducts(
             products.map((product) =>
@@ -208,13 +208,13 @@ const Products = () => {
                 : product
             )
           );
-          message.success("Xóa sản phẩm thành công!");
+          message.success("Ẩn sản phẩm thành công!");
           fetchInforProductDetail();
         }
         setShowDeletePopup(false);
       })
       .catch((error) => {
-        message.error("Lỗi khi xóa sản phẩm: " + error.message);
+        message.error("Lỗi khi ẩn sản phẩm: " + error.message);
         setShowDeletePopup(false);
       });
   };
@@ -340,8 +340,8 @@ const Products = () => {
                       ? "Tạm ẩn"
                       : product.Status === true &&
                         parseInt(product.StockQuantity) > 0
-                      ? `Còn hàng (${product.StockQuantity})`
-                      : "Hết hàng"}
+                        ? `Còn hàng (${product.StockQuantity})`
+                        : "Hết hàng"}
                   </td>
 
                   <td className="nut-act col-md-2">
@@ -357,7 +357,7 @@ const Products = () => {
                         type="button"
                         className="btn btn-danger"
                         onClick={() => handleDeleteClick(product.ProductID)}>
-                        Xóa
+                        Ẩn
                       </button>
                     ) : (
                       <button
