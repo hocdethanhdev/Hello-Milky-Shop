@@ -151,7 +151,7 @@
   "added": "Đã thêm",
   "productsToCart": "sản phẩm vào giỏ hàng",
   "code": "Mã",
-  "continueShopping": "Tiếp tục thanh toán",
+  "continueShopping": "Tiếp tục mua hàng",
   "pay": "Thanh toán",
   "random": "Ngẫu nhiên",
   "filterByBrand": "Lọc theo thương hiệu",
@@ -245,5 +245,8 @@
   "disputeResolution": "12. Giải quyết tranh chấp",
   "inCaseOf": "Trong trường hợp có tranh chấp xảy ra, vui lòng liên hệ với chúng tôi qua email hoặc số điện thoại để được hỗ trợ tốt nhất.",
   "24Hours": "Chúng tôi sẽ giải quyết tranh chấp nhanh chóng và hiệu quả trong vòng 24 giờ.",
-  "atHelloMilkyShop2": "tại HelloMilky.shop."
+  "atHelloMilkyShop2": "tại HelloMilky.shop.",
+  "comfirmDeletion": "Xác nhận xóa",
+  "wantToDeleteThisAddress": "Bạn có chắc chắn muốn xóa địa chỉ này",
+  "contact": "Liên hệ"
 }

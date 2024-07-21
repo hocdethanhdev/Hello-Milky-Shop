@@ -154,7 +154,7 @@ function Address() {
 
   const handleDelete = (shippingAddressID) => {
     Modal.confirm({
-      title: `${t('confirmDeletion')}`,
+      title: `${t('comfirmDeletion')}`,
       content: `${t('wantToDeleteThisAddress')}`,
       onOk: () => deleteAddress(shippingAddressID),
     });
