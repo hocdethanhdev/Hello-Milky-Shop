@@ -187,10 +187,10 @@ const ManageAdmin = () => {
           <thead>
             <tr className="row">
               <th className="col-md-1">Stt</th>
-              <th className="col-md-2">Tên tài khoản</th>
+              <th className="col-md-2">Tên quản lí</th>
               <th className="col-md-3">Email</th>
               <th className="col-md-3">Số điện thoại</th>
-              <th className="col-md-3">Thao thác</th>
+              <th className="col-md-3">Thao tác</th>
             </tr>
           </thead>
           <tbody>
