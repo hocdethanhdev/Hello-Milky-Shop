@@ -157,7 +157,7 @@ const ManageStaff = () => {
           <thead>
             <tr className="row">
               <th className="col-md-1">Stt</th>
-              <th className="col-md-2">Tên tài khoản</th>
+              <th className="col-md-2">Tên nhân viên</th>
               <th className="col-md-3">Email</th>
               <th className="col-md-2">Số điện thoại</th>
               <th className="col-md-2">Trạng thái</th>

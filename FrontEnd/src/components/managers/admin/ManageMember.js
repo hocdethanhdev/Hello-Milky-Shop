@@ -124,7 +124,7 @@ const ManageMember = () => {
       sorter: (a, b) => a.index - b.index,
     },
     {
-      title: "Tên tài khoản",
+      title: "Tên người dùng",
       dataIndex: "UserName",
       key: "UserName",
       sorter: (a, b) => a.UserName.localeCompare(b.UserName),
