@@ -172,7 +172,6 @@ const Products = () => {
             p.ProductID === product.ProductID ? updatedProduct : p
           )
         );
-        console.log(data);
         message.success("Trạng thái sản phẩm đã được cập nhật!");
         fetchInforProductDetail();
       })
@@ -218,6 +217,7 @@ const Products = () => {
         setShowDeletePopup(false);
       });
   };
+
   const cancelDelete = () => {
     setShowDeletePopup(false);
     setProductToDelete(null);
@@ -262,28 +262,28 @@ const Products = () => {
                   Tên sản phẩm
                   <FontAwesomeIcon icon={faSort} style={{ marginLeft: "10" }} />
                 </th>
-                <th className="category-header col-md-3">
+                <th className="category-header col-md-2">
                   Loại sản phẩm{" "}
                   <FontAwesomeIcon
                     icon={faFilter}
                     onClick={toggleCategoryDropdown}
                   />
                   {showCategoryDropdown && (
-                    <ul className="dropdown-thinh-staff">
+                    <ul className="dropdown-content">
                       <li
-                        className="dropdown-li-thinh"
+                        className="dropdown-item"
                         data-value="All"
                         onClick={handleCategoryFilter}>
                         Tất cả
                       </li>
                       <li
-                        className="dropdown-li-thinh"
+                        className="dropdown-item"
                         data-value="Sữa cho em bé"
                         onClick={handleCategoryFilter}>
                         Sữa cho em bé
                       </li>
                       <li
-                        className="dropdown-li-thinh"
+                        className="dropdown-item"
                         data-value="Sữa cho mẹ bầu"
                         onClick={handleCategoryFilter}>
                         Sữa cho mẹ bầu
@@ -298,27 +298,27 @@ const Products = () => {
                     onClick={toggleStatusDropdown}
                   />
                   {showStatusDropdown && (
-                    <ul className="dropdown-thinh-staff">
+                    <ul className="dropdown-content">
                       <li
-                        className="dropdown-li-thinh"
+                        className="dropdown-item"
                         data-value="All"
                         onClick={handleStatusFilter}>
                         Tất cả
                       </li>
                       <li
-                        className="dropdown-li-thinh"
+                        className="dropdown-item"
                         data-value="Tạm ẩn"
                         onClick={handleStatusFilter}>
                         Tạm ẩn
                       </li>
                       <li
-                        className="dropdown-li-thinh"
+                        className="dropdown-item"
                         data-value="Còn hàng"
                         onClick={handleStatusFilter}>
                         Còn hàng
                       </li>
                       <li
-                        className="dropdown-li-thinh"
+                        className="dropdown-item"
                         data-value="Hết hàng"
                         onClick={handleStatusFilter}>
                         Hết hàng
@@ -326,7 +326,7 @@ const Products = () => {
                     </ul>
                   )}
                 </th>
-                <th className="col-md-2 ">Thao tác</th>
+                <th className="col-md-3">Thao tác</th>
               </tr>
             </thead>
             <tbody>
@@ -334,7 +334,7 @@ const Products = () => {
                 <tr className="row" key={product.ProductID}>
                   <td className="col-md-1">{product.ProductID}</td>
                   <td className="col-md-4">{product.ProductName}</td>
-                  <td className="col-md-3">{product.ProductCategoryName}</td>
+                  <td className="col-md-2">{product.ProductCategoryName}</td>
                   <td className="col-md-2">
                     {product.Status === null || product.Status === false
                       ? "Tạm ẩn"
@@ -344,7 +344,7 @@ const Products = () => {
                       : "Hết hàng"}
                   </td>
 
-                  <td className="nut-act col-md-2">
+                  <td className="actions col-md-3">
                     <button
                       type="button"
                       className="btn btn-primary"
