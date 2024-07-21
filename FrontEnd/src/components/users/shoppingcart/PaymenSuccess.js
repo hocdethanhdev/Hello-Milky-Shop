@@ -128,12 +128,13 @@ const PaymemSuccess = () => {
     const totalAmount = localStorage.getItem("totalAmount");
     if (status === "1") {
       checkoutOrder(orderID, totalAmount).then(() =>
-        navigate("/", { replace: true })
+        navigate("/Profile", { replace: true })
       );
     } else if (status === "0") {
       transferOrderDetailsToNewOrder(orderID).then(() =>
         handlePaymentFailure(code)
       );
+      navigate("/Profile", { replace: true })
     }
   }, [navigate, decryptedToken, status, code]);
 

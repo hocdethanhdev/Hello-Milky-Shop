@@ -5,7 +5,7 @@ import { Modal, Button } from 'antd';
 const DeleteConfirmationPopup = ({ visible, onConfirm, onCancel }) => {
     return (
         <Modal
-            title="Xác nhận xóa"
+            title="Xác nhận ẩn"
             visible={visible}
             onOk={onConfirm}
             onCancel={onCancel}
@@ -18,7 +18,7 @@ const DeleteConfirmationPopup = ({ visible, onConfirm, onCancel }) => {
                 </Button>,
             ]}
         >
-            <p>Bạn có chắc muốn xóa sản phẩm này không?</p>
+            <p>Bạn có chắc muốn ẩn sản phẩm này không?</p>
         </Modal>
     );
 };

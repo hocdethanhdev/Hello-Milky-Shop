@@ -61,14 +61,14 @@ function PromotionManage() {
             (promotion) => promotion.PromotionID !== promotionToDelete
           )
         );
-        message.success("Đã xóa khuyến mãi thành công");
+        message.success("Đã ẩn khuyến mãi thành công");
         fetchPromotions();
       } else {
         handleDeleteError(response.data.code);
       }
     } catch (error) {
       console.error("Error deleting promotion:", error);
-      message.error("Xảy ra lỗi khi xóa khuyến mãi");
+      message.error("Xảy ra lỗi khi ẩn khuyến mãi");
     } finally {
       setDeleteModalVisible(false);
     }
@@ -77,10 +77,10 @@ function PromotionManage() {
   const handleDeleteError = (errorCode) => {
     switch (errorCode) {
       case "PROMOTION_ONGOING":
-        message.error("Không thể xóa khuyến mãi đang diễn ra");
+        message.error("Không thể ẩn khuyến mãi đang diễn ra");
         break;
       default:
-        message.error("Xảy ra lỗi khi xóa khuyến mãi");
+        message.error("Xảy ra lỗi khi ẩn khuyến mãi");
         break;
     }
   };
@@ -310,7 +310,7 @@ function PromotionManage() {
                       type="button"
                       className="btn btn-danger"
                       onClick={() => handleDelete(promotion.PromotionID)}>
-                      Xóa
+                      Ẩn
                     </button>
                   ) : (
                     <button
@@ -342,13 +342,13 @@ function PromotionManage() {
       )}
 
       <Modal
-        title="Xác nhận xóa khuyến mãi"
+        title="Xác nhận ẩn khuyến mãi"
         visible={deleteModalVisible}
         onOk={confirmDelete}
         onCancel={handleCancelDelete}
         okText="Xác nhận"
         cancelText="Hủy">
-        Bạn có chắc muốn xóa khuyến mãi này?
+        Bạn có chắc muốn ẩn khuyến mãi này?
       </Modal>
       <div className="pagination-container-thinhvcher">
         <ThrowPage

@@ -122,7 +122,7 @@ const productDAO = {
       mssql.connect(dbConfig, function () {
         const request = new mssql.Request().input("id", mssql.VarChar, id);
         request.query(
-          `Select p.ProductID, ProductName, BrandName, StockQuantity, Price, COALESCE(MIN(CASE 
+          `Select p.ProductID, ProductName, BrandName, StockQuantity, Price, p.Status, COALESCE(MIN(CASE 
                       WHEN pm.StartDate <= GETDATE() AND pm.EndDate >= GETDATE() AND pm.Status = 1
                       THEN ppl.PriceAfterDiscount 
                       ELSE NULL 
@@ -750,7 +750,7 @@ const productDAO = {
           LEFT JOIN Orders o ON o.OrderID = od.OrderID
           LEFT JOIN ProductPromotionList ppl ON ppl.ProductID = p.ProductID
 		      LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
-          WHERE o.Status = 1 AND o.StatusOrderID = 4
+          WHERE o.Status = 1 AND o.StatusOrderID = 4 AND p.Status = 1
           GROUP BY p.ProductID, p.ProductName, p.Image, p.Price
           ORDER BY SumSell DESC;
         `,
