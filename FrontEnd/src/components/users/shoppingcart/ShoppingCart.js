@@ -269,8 +269,7 @@ const ShoppingCart = () => {
       setShowVoucherPopup(false);
     } else {
       message.warning(
-        `${t('thisCoupon')} ${
-          voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
+        `${t('thisCoupon')} ${voucher.MinDiscount ? voucher.MinDiscount.toLocaleString() : 0
         } đ.`
       );
     }
@@ -528,14 +527,7 @@ const ShoppingCart = () => {
               onChange={(e) => setPhoneNumber(e.target.value)}
               disabled={usingSavedAddress}
             />
-            <textarea
-              className="address-input-long"
-              type="text"
-              placeholder={t('address2')}
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              disabled={usingSavedAddress}
-            />
+
             {!usingSavedAddress && (
               <div>
                 <select
@@ -567,6 +559,14 @@ const ShoppingCart = () => {
                 </select>
               </div>
             )}
+            <textarea
+              className="address-input-long"
+              type="text"
+              placeholder={t('address2')}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              disabled={usingSavedAddress}
+            />
             {usingSavedAddress ? (
               <button
                 className="custom-button-long"
@@ -704,7 +704,7 @@ const ShoppingCart = () => {
           </div>
 
           <button className="order-btn" onClick={handleOrder}>
-          {t('order')}
+            {t('order')}
           </button>
         </div>
       </div>
