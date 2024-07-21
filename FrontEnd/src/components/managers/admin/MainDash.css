@@ -1,9 +1,10 @@
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   background-color: white;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  min-height: 50vh;
 }
 .app-container {
   display: flex;
@@ -50,7 +51,7 @@ body {
   border-radius: 10px;
   color: #fcf8f8;
   text-align: center;
-  background-color: #ffbb00; 
+  background-color: #ffbb00;
 }
 .card-dasha3 {
   display: flex;
@@ -96,7 +97,6 @@ body {
   border-radius: 10px;
   box-shadow: 0 6px 10px rgba(60, 42, 42, 0.381);
   color: white;
-  
 }
 
 .chart-title-dasha {
@@ -104,13 +104,15 @@ body {
   margin-bottom: 20px;
 }
 
-.main-container-dasha h1{
+.main-container-dasha h1 {
   color: rgb(71, 70, 70);
 }
 
-.top5-option{
+.top5-option {
   color: black;
   padding: 8px;
   margin-bottom: 20px;
 }
-
+.inday-ad {
+  font-size: 15px;
+}

@@ -132,11 +132,11 @@ function Dashboard() {
               onChange={(e) => setTimePeriod(e.target.value)}
             >
               <option value="day">Ngày</option>
-              <option value="week">Tuần</option>
+              <option value="week">7 ngày</option>
               <option value="month">Tháng</option>
             </select>
           </div>
-          <Doughnut data={doughnutData} options={options}/>
+          <Doughnut data={doughnutData} options={options} />
         </div>
         <div className="chart-container-st-thinh line-chart-st-thinh">
           <h2>Đơn hàng trong 7 ngày qua</h2>

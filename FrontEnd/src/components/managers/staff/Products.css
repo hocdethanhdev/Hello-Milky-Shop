@@ -124,3 +124,6 @@ label {
 .status-header:hover .dropdown-content {
   display: block;
 }
+.button-add-product {
+  border: none;
+}

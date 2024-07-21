@@ -3,7 +3,7 @@ import axios from "axios";
 import JoditEditor from "jodit-react";
 import DOMPurify from "dompurify";
 import { uploadImage } from "../uimg/UpImage";
-import { message } from "antd";
+import { message, Input, Modal } from "antd";
 import "./Products.css";
 import { formatPrice } from "../../utils/formatPrice";
 import config from "../../config/config";
@@ -25,6 +25,8 @@ const ProductAdd = () => {
   const [brands, setBrands] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
   const editor = useRef(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [newBrandName, setNewBrandName] = useState("");
 
 
   useEffect(() => {
@@ -33,6 +35,37 @@ const ProductAdd = () => {
       .then((data) => setBrands(data))
       .catch((error) => console.error("Error fetching brands:", error));
   }, []);
+  const handleAddBrand = () => {
+    setIsModalVisible(true);
+  };
+  const handleSaveBrand = async () => {
+    if (!newBrandName) {
+      message.error("Tên hãng không được để trống.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${config.API_ROOT}/api/v1/brand/addBrand`,
+        { BrandName: newBrandName },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        message.success("Thêm hãng thành công.");
+        setBrands([...brands, response.data]);
+        setNewBrandName("");
+        setIsModalVisible(false);
+      }
+    } catch (error) {
+      console.error("Error adding brand:", error);
+      message.error("Error adding brand: " + error.message);
+    }
+  };
 
   const handleFileChange = (e) => {
     const imageFile = e.target.files[0];
@@ -142,7 +175,7 @@ const ProductAdd = () => {
 
     try {
       const downloadURL = await uploadImage(image);
-      if(!downloadURL){
+      if (!downloadURL) {
         message.error("Ảnh cho sản phẩm không hợp lệ.");
         return;
       }
@@ -245,7 +278,7 @@ const ProductAdd = () => {
               if (file) {
                 try {
                   const url = await uploadImage(file);
-                  if(!url){
+                  if (!url) {
                     message.error("Ảnh cho sản phẩm không hợp lệ.");
                     return;
                   }
@@ -349,7 +382,14 @@ const ProductAdd = () => {
 
         <div className="row mb-3">
           <div className="col-md-6">
-            <label htmlFor="product-brand">Hãng:</label>
+            <div className="brandfl">
+              <label htmlFor="product-brand">Hãng:</label>
+              <button type="button" className="btn btn-secondary" onClick={handleAddBrand}>
+                Thêm Hãng
+              </button>
+
+            </div>
+
             <select
               className="form-control"
               id="product-brand"
@@ -446,6 +486,20 @@ const ProductAdd = () => {
           Tạo sản phẩm
         </button>
       </form>
+      <Modal
+        title="Thêm Hãng"
+        visible={isModalVisible}
+        onOk={handleSaveBrand}
+        onCancel={() => setIsModalVisible(false)}
+      >
+        <Input
+          value={newBrandName}
+          onChange={(e) => setNewBrandName(e.target.value)}
+          placeholder="Nhập tên hãng"
+          required
+        />
+      </Modal>
+
     </div>
   );
 };

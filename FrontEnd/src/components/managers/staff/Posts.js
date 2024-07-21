@@ -118,7 +118,7 @@ function Posts() {
       <div className="d-flex justify-content-end align-items-end" style={{ marginBottom: 10 }}>
         <Link to="/addingpost">
           <button type="button" className="button-add-voucher">
-            <span className="far fa-plus-square btn btn-secondary"></span>
+            <span className="far fa-plus-square btn btn-success"></span>
           </button>
         </Link>
         <Select

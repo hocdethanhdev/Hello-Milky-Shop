@@ -222,7 +222,7 @@ function PromotionManage() {
         </select>
         <Link to="/addpromotion">
           <button type="button" className="button-add-promotion">
-            <span className="far fa-plus-square btn btn-secondary"></span>
+            <span className="far fa-plus-square btn btn-success"></span>
           </button>
         </Link>
       </div>

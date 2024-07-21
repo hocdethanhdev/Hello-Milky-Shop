@@ -212,9 +212,6 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-
-
-
 /* Admin */
 /* ChangePassword.css */
 .change-password-form {
@@ -258,7 +255,9 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .change-password-form input:focus {
@@ -270,25 +269,19 @@
 .change-password-form button {
   width: 100%;
   padding: 0.75rem;
-  background: linear-gradient(
-    90deg,
-    #007bff,
-    #3cb371
-  ); /* Gradient from blue to purple */
+  background: linear-gradient(90deg, #007bff, #3cb371); /* Gradient from blue to purple */
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
+  transition:
+    background 0.3s,
+    transform 0.3s;
 }
 
 .change-password-form button:hover {
-  background: linear-gradient(
-    90deg,
-    #007bff,
-    #3cb371
-  ); /* Darker gradient on hover */
+  background: linear-gradient(90deg, #007bff, #3cb371); /* Darker gradient on hover */
   transform: scale(1.05);
 }
 
@@ -332,4 +325,20 @@
 .close-changepass-admin {
   margin-top: -10px;
   margin-left: 97%;
+}
+.pagination-container-cf {
+  padding-left: 420px;
+}
+.chart-title-dasha {
+  font-size: 30px;
+  font-weight: bold;
+}
+.top5-option {
+  padding: auto;
+}
+.plus-ad {
+  border: 0px;
+}
+.nut-sua-adst {
+  margin-right: 5px;
 }

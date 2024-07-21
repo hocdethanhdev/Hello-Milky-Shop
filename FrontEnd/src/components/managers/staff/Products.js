@@ -240,7 +240,7 @@ const Products = () => {
         <div className="d-flex justify-content-end align-items-end">
           <Link to="/addingproduct">
             <button type="button" className="button-add-product">
-              <span className="far fa-plus-square btn btn-secondary"></span>
+              <span className="far fa-plus-square btn btn-success"></span>
             </button>
           </Link>
         </div>

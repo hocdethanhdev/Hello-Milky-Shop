@@ -205,7 +205,7 @@ function Voucher() {
           <div className="d-flex justify-content-end align-items-end padding-0">
             <Link to="/addingvoucher">
               <button type="button" className="button-add-voucher-thinhvcher">
-                <span className="far fa-plus-square btn btn-secondary"></span>
+                <span className="far fa-plus-square btn btn-success vchst"></span>
               </button>
             </Link>
           </div>
