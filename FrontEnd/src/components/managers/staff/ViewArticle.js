@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import './ViewArticle.css';
 import Loading from '../../layout/Loading';
 import config from "../../config/config";
-import { useTranslation } from 'react-i18next';
 
 const ViewArticle = () => {
     const { id } = useParams();
@@ -12,7 +11,6 @@ const ViewArticle = () => {
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [authorName, setAuthorName] = useState(null);
-    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchArticle = async () => {
