@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, message } from "antd";
+import { Modal, Button } from "antd";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
@@ -7,7 +7,6 @@ import "./Confirm.css";
 import config from "../../config/config";
 
 function CancelOrder() {
-  const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -23,7 +22,6 @@ function CancelOrder() {
           `${config.API_ROOT}/api/v1/order/getOrdersByStatusOrderID/3`
         );
         const data = await response.json();
-        setOrders(data.address);
         setFilteredOrders(data.address);
       } catch (error) {
         console.error("Error fetching orders:", error);
