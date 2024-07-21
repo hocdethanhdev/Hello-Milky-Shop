@@ -57,7 +57,7 @@ const News = () => {
 
     fetchCategories();
     fetchNews();
-  }, []);
+  }, [t]);
 
   const filteredNews = selectedCategory
     ? news.filter(article => article.ArticleCategoryID === parseInt(selectedCategory))
