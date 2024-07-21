@@ -11,6 +11,7 @@ const order = require("./orderRouter");
 const city = require("./cityRouter");
 const district = require("./districtRouter");
 const shippingAddress = require("./shippingAddressRouter");
+const brand = require("./brandRouter");
 
 const initRouters = (app) => {
 
@@ -40,6 +41,7 @@ const initRouters = (app) => {
 
   app.use("/api/v1/shippingAddress", shippingAddress);
 
+  app.use("/api/v1/brand", brand);
 
   app.get("/", (req, res) => {
     res.send("Server on");
