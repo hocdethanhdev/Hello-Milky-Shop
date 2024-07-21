@@ -24,6 +24,7 @@ import FeedbackManage from "./components/managers/staff/FeedbackManage";
 import AnsweredFeedbackManage from "./components/managers/staff/AnsweredFeedbackManage";
 import EditArticletModal from "./components/managers/staff/EditArticleModal";
 import EditProductModal from "./components/managers/staff/EditProductModal";
+import ViewArticle from "./components/managers/staff/ViewArticle";
 // Admin Components (if needed)
 import MainDash from "./components/managers/admin/MainDash";
 import MangageAdmin from "./components/managers/admin/ManageAdmin";
@@ -89,6 +90,8 @@ function App() {
             <Route path="/cancel-order" element={<CancelOrder />} />
             <Route path="/order-in-transit" element={<ShippingOrder />} />
             <Route path="/completed-order" element={<DoneOrder />} />
+            <Route path="/view-article/:id" element={< ViewArticle />} />
+
             <Route
               path="/edit-article/:articleID"
               element={<EditArticletModal />}

@@ -87,7 +87,7 @@ const ProductAdd = () => {
       message.error("Số lượng sẩn phẩm phải lớn hơn 0.");
       return;
     }
-    if(!brandName){
+    if (!brandName) {
       message.error("Hãng không được bỏ trống.");
       return;
     }
@@ -272,157 +272,158 @@ const ProductAdd = () => {
 
   return (
     <div className="container create-product">
-  <form id="create-product-form" onSubmit={handleSubmit}>
-    <div className="row mb-3">
-      <div className="col-md-8">
-        <label htmlFor="product-name">Tên sản phẩm:</label>
-        <input
-          type="text"
-          className="form-control"
-          id="product-name"
-          name="product-name"
-          value={productName}
-          onChange={(e) => setProductName(e.target.value)}
-        />
-      </div>
-      <div className="col-md-4">
-        <label htmlFor="product-category">Loại sản phẩm:</label>
-        <select
-          className="form-control"
-          id="product-category"
-          name="product-category"
-          value={productCategoryName}
-          onChange={(e) => setProductCategoryName(e.target.value)}>
-          <option value="Sữa cho em bé">Sữa cho em bé</option>
-          <option value="Sữa cho mẹ bầu">Sữa cho mẹ bầu</option>
-        </select>
-      </div>
-    </div>
-
-    <div className="row mb-3">
-      <div className="col-md-6">
-        <label htmlFor="product-price">Giá:</label>
-        <input
-          type="text"
-          className="form-control"
-          id="product-price"
-          name="product-price"
-          value={price}
-          onChange={handlePriceChange}
-        />
-      </div>
-      <div className="col-md-6">
-        <label htmlFor="product-stock">Số lượng:</label>
-        <input
-          type="number"
-          className="form-control"
-          id="product-stock"
-          name="product-stock"
-          value={stockQuantity}
-          onChange={(e) => setStockQuantity(e.target.value)}
-        />
-      </div>
-    </div>
-
-    <div className="row mb-3">
-      <div className="col-md-6">
-      <label htmlFor="product-brand">Hãng:</label>
-        <select
-          className="form-control"
-          id="product-brand"
-          name="product-brand"
-          value={brandName}
-          onChange={(e) => setBrandName(e.target.value)}>
-          <option value="">Chọn hãng</option>
-          {brands.map((brand) => (
-            <option key={brand.BrandId} value={brand.BrandName}>
-              {brand.BrandName}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="col-md-6">
-      <label htmlFor="product-status">Tình trạng:</label>
-        <select
-          className="form-control"
-          id="product-status"
-          name="product-status"
-          value={status}
-          onChange={(e) => setStatus(parseInt(e.target.value))}>
-          <option value={1}>Kinh doanh</option>
-          <option value={0}>Ngừng kinh doanh</option>
-        </select>
-      </div>
-    </div>
-
-    <div className="row mb-3">
-      <div className="col-md-6">
-      <label htmlFor="product-manufacturing">Ngày sản xuất:</label>
-      <DatePicker
-          selected={manufacturingDate}
-          onChange={(date) => setManufacturingDate(date)}
-          className="form-control"
-          dateFormat="dd-MM-yyyy"
+      <form id="create-product-form" onSubmit={handleSubmit}>
+        <div className="row mb-3">
+          <div className="col-md-8">
+            <label htmlFor="product-name">Tên sản phẩm:</label>
+            <input
+              type="text"
+              className="form-control"
+              id="product-name"
+              name="product-name"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
             />
-      </div>
-      <div className="col-md-6">
-      <label htmlFor="product-expiration">Hạn sử dụng:</label>
-      <DatePicker
-          selected={expirationDate}
-          onChange={(date) => setExpirationDate(date)}
-          className="form-control"
-          dateFormat="dd-MM-yyyy"
+          </div>
+          <div className="col-md-4">
+            <label htmlFor="product-category">Loại sản phẩm:</label>
+            <select
+              className="form-control"
+              id="product-category"
+              name="product-category"
+              value={productCategoryName}
+              onChange={(e) => setProductCategoryName(e.target.value)}>
+              <option value="Sữa cho em bé">Sữa cho em bé</option>
+              <option value="Sữa cho mẹ bầu">Sữa cho mẹ bầu</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label htmlFor="product-price">Giá:</label>
+            <input
+              type="text"
+              className="form-control"
+              id="product-price"
+              name="product-price"
+              value={price}
+              onChange={handlePriceChange}
             />
-      </div>
-    </div>
-
-    <div className="row mb-3">
-      <div className="col-md-12">
-        <label htmlFor="product-image-url">Ảnh:</label>
-        <input
-          type="file"
-          className="form-control"
-          id="product-image-url"
-          name="product-image-url"
-          onChange={handleFileChange}
-        />
-      </div>
-    </div>
-
-    {previewImage && (
-      <div className="row mb-3">
-        <div className="col-md-12 preview-image-container">
-          <img
-            src={previewImage}
-            alt="Preview"
-            className="preview-image-add-product"
-          />
+          </div>
+          <div className="col-md-6">
+            <label htmlFor="product-stock">Số lượng:</label>
+            <input
+              type="number"
+              className="form-control"
+              id="product-stock"
+              name="product-stock"
+              value={stockQuantity}
+              onChange={(e) => setStockQuantity(e.target.value)}
+            />
+          </div>
         </div>
-      </div>
-    )}
 
-    <div className="row mb-3">
-      <div className="col">
-        <label htmlFor="product-description">Mô tả:</label>
-        <div className="editor">
-          <JoditEditor
-            ref={editor}
-            value={description}
-            config={editorConfig}
-            onChange={(newContent) => setDescription(newContent)}
-          />
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label htmlFor="product-brand">Hãng:</label>
+            <select
+              className="form-control"
+              id="product-brand"
+              name="product-brand"
+              value={brandName}
+              onChange={(e) => setBrandName(e.target.value)}>
+              <option value="">Chọn hãng</option>
+              {brands.map((brand) => (
+                <option key={brand.BrandId} value={brand.BrandName}>
+                  {brand.BrandName}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-md-6">
+            <label htmlFor="product-status">Tình trạng:</label>
+            <select
+              className="form-control"
+              id="product-status"
+              name="product-status"
+              value={status}
+              onChange={(e) => setStatus(parseInt(e.target.value))}>
+              <option value={1}>Kinh doanh</option>
+              <option value={0}>Ngừng kinh doanh</option>
+            </select>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <button
-      type="submit"
-      className="btn btn-success"
-      style={{ marginLeft: "40%" }}>
-      Tạo sản phẩm
-    </button>
-  </form>
-</div>
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label htmlFor="product-manufacturing">Ngày sản xuất:</label>
+            <DatePicker
+              selected={manufacturingDate}
+              onChange={(date) => setManufacturingDate(date)}
+              className="form-control"
+              dateFormat="dd-MM-yyyy"
+            />
+          </div>
+          <div className="col-md-6">
+            <label htmlFor="product-expiration">Hạn sử dụng:</label>
+            <DatePicker
+              selected={expirationDate}
+              onChange={(date) => setExpirationDate(date)}
+              className="form-control"
+              dateFormat="dd-MM-yyyy"
+            />
+          </div>
+        </div>
+        <div className="img-url-input-rv">
+          <div className="row mb-3">
+            <div className="col-md-12 input-imgae-url-addpro">
+              <label htmlFor="product-image-url">Ảnh:</label>
+              <input
+                type="file"
+                className="form-control"
+                id="product-image-url"
+                name="product-image-url"
+                onChange={handleFileChange}
+              />
+            </div>
+          </div>
+
+          {previewImage && (
+            <div className="row mb-3">
+              <div className="col-md-12 preview-image-container">
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  className="preview-image-add-product"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="row mb-3">
+          <div className="col">
+            <label htmlFor="product-description">Mô tả:</label>
+            <div className="editor">
+              <JoditEditor
+                ref={editor}
+                value={description}
+                config={editorConfig}
+                onChange={(newContent) => setDescription(newContent)}
+              />
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="btn btn-success"
+          style={{ marginLeft: "40%" }}>
+          Tạo sản phẩm
+        </button>
+      </form>
+    </div>
   );
 };
 

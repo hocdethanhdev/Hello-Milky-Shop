@@ -215,7 +215,7 @@ const orderService = {
             throw new Error(`Error getting the order for user: ${error.message}`);
         }
     },
-    cancelOrder: async (orderId, reasonCancelContent, userId) => {
+    cancelOrder: async (orderId, reasonCancelContent) => {
         try {
             const order = await orderRepository.getOrderByID(orderId);
 
@@ -223,9 +223,6 @@ const orderService = {
                 throw new Error('Order not found');
             }
 
-            if (order.userID === userId) {
-                reasonCancelContent = 'Đơn hàng đã bị hủy bởi khách hàng';
-            }
 
             await orderRepository.cancelOrder(orderId, reasonCancelContent);
         } catch (error) {
