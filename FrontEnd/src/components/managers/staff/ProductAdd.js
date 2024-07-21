@@ -9,6 +9,7 @@ import { formatPrice } from "../../utils/formatPrice";
 import config from "../../config/config";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
 
 const ProductAdd = () => {
   const [productName, setProductName] = useState("");
@@ -66,17 +67,21 @@ const ProductAdd = () => {
       message.error("Tên sản phẩm không được vượt quá 100 ký tự.");
       return;
     }
+    if (productName.length < 20) {
+      message.error("Tên sản phẩm không được nhỏ hơn 20 ký tự.");
+      return;
+    }
     if (!price) {
       message.error("Giá sản phẩm không được để trống.");
       return;
     }
     const parsedPrice = parseInt(price.replace(/\D/g, ""), 10);
-    if (isNaN(parsedPrice) || parsedPrice <= 0) {
-      message.error("Giá sản phẩm phải lớn hơn 0.");
+    if (isNaN(parsedPrice) || parsedPrice < 1000) {
+      message.error("Giá sản phẩm phải lớn hơn hoặc bằng 10,000 VND.");
       return;
     }
-    if (parsedPrice > 1000000000) {
-      message.error("Giá sản phẩm không được quá 1 tỷ.");
+    if (parsedPrice > 10000000) {
+      message.error("Giá sản phẩm không được quá 10,000,000 VND.");
       return;
     }
     if (!stockQuantity) {
@@ -103,10 +108,21 @@ const ProductAdd = () => {
       message.error("Hạn sử dụng không được để trống.");
       return;
     }
-    if (expirationDate <= manufacturingDate) {
+
+    const expirationDateMoment = moment(expirationDate);
+    const manufacturingDateMoment = moment(manufacturingDate);
+    const currentDateMoment = moment();
+
+    if (expirationDateMoment.isSameOrBefore(manufacturingDateMoment, 'day')) {
       message.error("Hạn sử dụng phải sau ngày sản xuất.");
       return;
     }
+
+    if (expirationDateMoment.isBefore(currentDateMoment, 'day')) {
+      message.error("Hạn sử dụng không được bé hơn ngày hiện tại.");
+      return;
+    }
+
     if (!brandName) {
       message.error("Vui lòng chọn hãng.");
       return;
