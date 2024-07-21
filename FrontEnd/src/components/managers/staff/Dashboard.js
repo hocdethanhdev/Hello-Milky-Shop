@@ -74,6 +74,21 @@ function Dashboard() {
     ],
   };
 
+  const options = {
+    plugins: {
+      datalabels: {
+        formatter: (value, context) => {
+          const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+          const percentage = ((value / total) * 100).toFixed(2);
+          return `${percentage}%`;
+        },
+        color: '#fff',
+        anchor: 'end',
+        align: 'end',
+      },
+    },
+  };
+
   // Data for the line chart
   const lineData = {
     labels: ordersIn7Days.map((order) =>
@@ -121,7 +136,7 @@ function Dashboard() {
               <option value="month">Tháng</option>
             </select>
           </div>
-          <Doughnut data={doughnutData} />
+          <Doughnut data={doughnutData} options={options}/>
         </div>
         <div className="chart-container-st-thinh line-chart-st-thinh">
           <h2>Đơn hàng trong 7 ngày qua</h2>

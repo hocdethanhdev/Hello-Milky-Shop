@@ -142,7 +142,10 @@ const ProductAdd = () => {
 
     try {
       const downloadURL = await uploadImage(image);
-
+      if(!downloadURL){
+        message.error("Ảnh cho sản phẩm không hợp lệ.");
+        return;
+      }
       const editorContent = editor.current.value;
       const sanitizedContent = DOMPurify.sanitize(editorContent);
 
@@ -242,6 +245,10 @@ const ProductAdd = () => {
               if (file) {
                 try {
                   const url = await uploadImage(file);
+                  if(!url){
+                    message.error("Ảnh cho sản phẩm không hợp lệ.");
+                    return;
+                  }
                   const img = document.createElement("img");
                   img.src = url;
                   img.alt = "Image";

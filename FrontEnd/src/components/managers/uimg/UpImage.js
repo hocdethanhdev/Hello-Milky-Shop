@@ -1,21 +1,22 @@
 import { storage } from "../../config/firebase.config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
+const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
+
 export const uploadImage = (image) => {
   return new Promise((resolve, reject) => {
-
-    if (image.type !== 'image/png') {
-      reject("Only .png files are allowed.");
+    if (!ALLOWED_IMAGE_TYPES.includes(image.type)) {
+      reject("Only image files are allowed. Allowed formats: .png, .jpg, .jpeg.");
       return;
     }
-    
+    console.log(456);
     const storageRef = ref(storage, `images/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
-  
+
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        console.log("Tải ảnh thành công");
+        console.log("Uploading image...");
       },
       (error) => {
         console.error("Upload failed:", error);
