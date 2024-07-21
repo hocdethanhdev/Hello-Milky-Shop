@@ -18,6 +18,7 @@ const PromotionDetailModal = ({ promotion, onClose }) => {
               <p>
                 <img
                   src={promotion.Image}
+                  alt={promotion.PromotionName}
                   style={{ maxWidth: "50%", marginLeft: "150px" }}
                 />
               </p>

@@ -5,7 +5,7 @@ import "./FeedbackManage.css";
 import { getUserIdFromToken } from "../../store/actions/authAction";
 import { useSelector } from "react-redux";
 import config from "../../config/config";
-import { AES, enc } from 'crypto-js';
+import { AES, enc } from "crypto-js";
 
 const { Option } = Select;
 
@@ -17,7 +17,9 @@ const FeedbackManage = () => {
   const [filterCommentID, setFilterCommentID] = useState("all");
   const commentsPerPage = 5;
   const { token } = useSelector((state) => state.auth);
-  const decryptedToken = token ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8) : null;
+  const decryptedToken = token
+    ? AES.decrypt(token, config.SECRET_KEY).toString(enc.Utf8)
+    : null;
   const userId = getUserIdFromToken(decryptedToken);
 
   useEffect(() => {
@@ -38,10 +40,9 @@ const FeedbackManage = () => {
       }
       let filteredComments = data.data;
       if (filterProductType !== "all") {
-        filteredComments = filteredComments.filter(comment =>
+        filteredComments = filteredComments.filter((comment) =>
           comment.ProductID.includes(filterProductType)
         );
-
       }
 
       if (filterCommentID === "newest") {
@@ -138,27 +139,24 @@ const FeedbackManage = () => {
   );
 };
 
-
-
 const Comment = ({ comment, onSubmit }) => {
   const [product, setProduct] = useState(null);
   const [reply, setReply] = useState("");
 
   useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(
+          `${config.API_ROOT}/api/v1/product/getProductInforID/${comment.ProductID}`
+        );
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
     fetchProduct();
-  }, []);
-
-  const fetchProduct = async () => {
-    try {
-      const response = await fetch(
-        `${config.API_ROOT}/api/v1/product/getProductInforID/${comment.ProductID}`
-      );
-      const data = await response.json();
-      setProduct(data);
-    } catch (error) {
-      console.error("Error fetching product:", error);
-    }
-  };
+  }, [comment]);
 
   const getInitial = (name) => name.charAt(0).toUpperCase();
   const renderStars = (count) => {

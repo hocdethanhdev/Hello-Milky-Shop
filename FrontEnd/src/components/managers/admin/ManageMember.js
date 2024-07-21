@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Table, Modal, message, Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
 import "./Manage.css";
 import ThrowPage from "../../users/product/ui-list-product-mom/ThrowPage";

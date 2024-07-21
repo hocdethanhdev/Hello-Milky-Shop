@@ -32,17 +32,27 @@ const getShippingAddressIsDeleted = async (req, res) => {
 
 const updateDeleted = async (req, res) => {
     try {
-      const obj = await shippingAddressService.updateDeleted(req.params.shippingAddress_id);
-      res.send(obj);
+        const obj = await shippingAddressService.updateDeleted(req.params.shippingAddress_id);
+        res.send(obj);
     } catch (error) {
-      res.status(500).send("Internal Server Error");
+        res.status(500).send("Internal Server Error");
     }
-  };
+};
 
-  const getInfoAddressWithOrderNearest = async (req, res) => {
+const getInfoAddressWithOrderNearest = async (req, res) => {
     try {
-        const {UserID} = req.body;
+        const { UserID } = req.body;
         const obj = await shippingAddressService.getInfoAddressWithOrderNearest(UserID);
+        res.send(obj);
+    } catch (error) {
+        console.error("Error while getting all users:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const updateShippingAddress = async (req, res) => {
+    try {
+        const obj = await shippingAddressService.updateShippingAddress(req.params.id, req.body);
         res.send(obj);
     } catch (error) {
         console.error("Error while getting all users:", error);
@@ -54,5 +64,6 @@ module.exports = {
     getInfoShippingByOrderID,
     getShippingAddressIsDeleted,
     updateDeleted,
-    getInfoAddressWithOrderNearest
+    getInfoAddressWithOrderNearest,
+    updateShippingAddress
 }

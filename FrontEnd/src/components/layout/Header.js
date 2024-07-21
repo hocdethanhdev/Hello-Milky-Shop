@@ -51,7 +51,6 @@ function Header() {
         const response = await axios.post(`${config.API_ROOT}/api/v1/user/getOne`, {
           "token": decryptedToken,
         });
-        console.log(response);
         if (response?.data.err === 0) setUserData(response.data?.data);
       } catch (error) {
         dispatch(logout());

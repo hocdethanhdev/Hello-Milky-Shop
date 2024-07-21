@@ -452,6 +452,19 @@ GET https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoSh
 ### 
 GET https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/getInfoShippingByOrderID/1
 
+###
+PUT https://hellomilkyshop123.azurewebsites.net/api/v1/shippingAddress/updateShippingAddress/1
+Content-Type: application/json
+
+{
+    "Receiver": "fsjfkasfn",
+    "PhoneNumber": "0377463765",
+    "Address": "5123/3432 hfuhfwqfw",
+    "IsDelete": true,
+    "UserID": "M0000001"
+    
+}
+
 
 ### Lấy chi tiết đơn hàng dựa vào orderID
 GET https://hellomilkyshop123.azurewebsites.net/api/v1/order/getOrdersByStatusOrderID/1

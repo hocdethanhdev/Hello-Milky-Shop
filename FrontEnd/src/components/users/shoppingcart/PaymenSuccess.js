@@ -137,7 +137,7 @@ const PaymemSuccess = () => {
     }
   }, [navigate, decryptedToken, status, code]);
 
-  navigate("/", { replace: true });
+  navigate("/Profile", { replace: true });
 };
 
 export default PaymemSuccess;
