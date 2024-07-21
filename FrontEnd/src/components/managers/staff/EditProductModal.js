@@ -9,6 +9,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { message } from "antd";
 import { formatPrice } from "../../utils/formatPrice";
 import config from "../../config/config";
+import moment from 'moment';
+
 const EditProductModal = () => {
   const { productID } = useParams();
   const navigate = useNavigate();
@@ -126,15 +128,21 @@ const EditProductModal = () => {
       return;
     }
 
-    const manufacturingDate = new Date(formData.ManufacturingDate);
-    const expirationDate = new Date(formData.ExpirationDate);
+    const expirationDateMoment = moment(formData.ExpirationDate);
+    const manufacturingDateMoment = moment(formData.ManufacturingDate);
+    const currentDateMoment = moment();
 
-    if (expirationDate <= manufacturingDate) {
-      message.warning("Ngày hết hạn phải diễn ra sau ngày sản xuất.");
+    if (expirationDateMoment.isSameOrBefore(manufacturingDateMoment, 'day')) {
+      message.error("Hạn sử dụng phải sau ngày sản xuất.");
       return;
     }
 
-    if(!formData.Image){
+    if (expirationDateMoment.isBefore(currentDateMoment, 'day')) {
+      message.error("Hạn sử dụng không được bé hơn ngày hiện tại.");
+      return;
+    }
+
+    if (!formData.Image) {
       message.warning("Ảnh cho sản phẩm không hợp lệ.");
       return;
     }

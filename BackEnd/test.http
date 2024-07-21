@@ -645,3 +645,10 @@ Content-Type: application/json
 {
     "OrderID": 3943
 }
+###
+POST  https://hellomilkyshop123.azurewebsites.net/api/v1/brand/addBrand 
+Content-Type: application/json
+
+{
+    "BrandName": "Hello"
+}
