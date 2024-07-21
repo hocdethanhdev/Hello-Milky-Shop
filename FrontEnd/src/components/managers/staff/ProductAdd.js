@@ -28,12 +28,14 @@ const ProductAdd = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [newBrandName, setNewBrandName] = useState("");
 
-
-  useEffect(() => {
-    fetch(`${config.API_ROOT}/api/v1/product/getAllBrands`)
+  const fetchBrands = () => {
+    fetch(`${config.API_ROOT}/api/v1/brand/getAll`)
       .then((response) => response.json())
       .then((data) => setBrands(data))
       .catch((error) => console.error("Error fetching brands:", error));
+  };
+  useEffect(() => {
+    fetchBrands();
   }, []);
   const handleAddBrand = () => {
     setIsModalVisible(true);
@@ -60,6 +62,7 @@ const ProductAdd = () => {
         setBrands([...brands, response.data]);
         setNewBrandName("");
         setIsModalVisible(false);
+        fetchBrands();
       }
     } catch (error) {
       console.error("Error adding brand:", error);
@@ -384,7 +387,7 @@ const ProductAdd = () => {
           <div className="col-md-6">
             <div className="brandfl">
               <label htmlFor="product-brand">Hãng:</label>
-              <button type="button" className="btn btn-secondary" onClick={handleAddBrand}>
+              <button type="button" className="btn btn-primary add-br-bt" onClick={handleAddBrand}>
                 Thêm Hãng
               </button>
 
