@@ -46,8 +46,8 @@ function Confirm() {
 
   const editOrder = (orderID) => {
     Modal.confirm({
-      title: "Xác nhận thay đổi trạng thái đơn hàng",
-      content: "Bạn có chắc muốn thay đổi trạng thái đơn hàng này không?",
+      title: "Xác nhận đơn hàng",
+      content: "Bạn có chắc là xác nhận đơn hàng này không?",
       onOk: () => {
         fetch(
           `${config.API_ROOT}/api/v1/order/updateStatusOrderID/${orderID}`,
@@ -96,6 +96,10 @@ function Confirm() {
   };
 
   const handleCancelModalOk = () => {
+    if (!cancelReason.trim()) {
+      message.warning("Vui lòng nhập lí do.");
+      return;
+    }
     fetch(`${config.API_ROOT}/api/v1/order/cancelOrder`, {
       method: "POST",
       headers: {
@@ -103,7 +107,7 @@ function Confirm() {
       },
       body: JSON.stringify({
         orderID: selectedOrderID,
-        reasonCancelContent: cancelReason || "Hủy bởi nhân viên",
+        reasonCancelContent: cancelReason,
         userID: userId,
       }),
     })
@@ -255,7 +259,7 @@ function Confirm() {
                 }`}
               onClick={() => handleSort("TotalAmount")}
             >
-              Tổng
+              Tổng tiền (VND)
               <button className={`sort-icon-order`}>
                 <FontAwesomeIcon icon={faSort} />
               </button>
@@ -354,7 +358,7 @@ function Confirm() {
                   </tr>
                   <tr>
                     <td className="mdh">
-                      <strong>Tổng:</strong>
+                      <strong>Tổng (VND):</strong>
                     </td>
                     <td>{formatPrice(selectedOrder.TotalAmount)}</td>
                   </tr>

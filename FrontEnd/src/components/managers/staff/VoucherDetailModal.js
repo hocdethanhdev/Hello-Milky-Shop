@@ -41,13 +41,13 @@ const VoucherDetailModal = ({ voucher, onClose }) => {
               <td>
                 <strong>Tối thiểu:</strong>
               </td>
-              <td>{formatPrice(voucher.MinDiscount)}</td>
+              <td>{formatPrice(voucher.MinDiscount)} VND</td>
             </tr>
             <tr>
               <td>
                 <strong>Tối đa:</strong>
               </td>
-              <td>{formatPrice(voucher.MaxDiscount)}</td>
+              <td>{formatPrice(voucher.MaxDiscount)} VND</td>
             </tr>
             <tr>
               <td>

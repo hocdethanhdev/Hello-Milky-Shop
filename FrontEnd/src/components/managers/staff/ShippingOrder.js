@@ -147,13 +147,13 @@ function ShippingOrder() {
               className={`promo-th col-md-2 ${sortConfig.key === "TotalAmount" ? sortConfig.direction : ""
                 }`}
               onClick={() => handleSort("TotalAmount")}>
-              Tổng
+              Tổng (VND)
               <button className={`sort-icon-order`}>
                 <FontAwesomeIcon icon={faSort} />
               </button>
             </th>
-            <th className="promo-th col-md-3">Địa chỉ</th>
-            <th className="promo-th col-md-3">Thao tác</th>
+            <th className="promo-th col-md-4">Địa chỉ</th>
+            <th className="promo-th col-md-2">Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -170,8 +170,8 @@ function ShippingOrder() {
               <td className="col-md-2">
                 {formatPrice(parseInt(order.TotalAmount))}
               </td>
-              <td className="col-md-3">{order.Address}</td>
-              <td className="col-md-3">
+              <td className="col-md-4">{order.Address}</td>
+              <td className="col-md-2">
                 <button
                   type="button"
                   className="btn btn-primary"
@@ -228,7 +228,7 @@ function ShippingOrder() {
                   </tr>
                   <tr>
                     <td className="mdh">
-                      <strong>Tổng:</strong>
+                      <strong>Tổng (VND):</strong>
                     </td>
                     <td>{formatPrice(selectedOrder.TotalAmount)}</td>
                   </tr>

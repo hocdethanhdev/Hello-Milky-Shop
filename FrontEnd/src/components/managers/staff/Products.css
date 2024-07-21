@@ -1,5 +1,3 @@
-
-
 .product-list table {
   width: 100%;
   border-collapse: collapse;
@@ -51,8 +49,8 @@
 .card {
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  /* padding: 20px; */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .row.mb-3 {
@@ -65,21 +63,25 @@ label {
   display: block;
 }
 
-.form-control, .form-control1, .form-control2 {
+.form-control,
+.form-control1,
+.form-control2 {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
 }
 
-.form-control1-container, .preview-image-container {
+.form-control1-container,
+.preview-image-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .preview-image-add-product {
-  max-width: 100%;
-  height: auto;
+  width: 100px;
+  height: 100px;
+  margin-left: 50px;
 }
 
 .editor {
@@ -99,4 +101,10 @@ label {
   height: auto;
   border: 1px solid #ddd;
   margin-top: 15px;
+}
+.input-imgae-url-addpro {
+  width: 600px;
+}
+.img-url-input-rv {
+  display: flex;
 }
