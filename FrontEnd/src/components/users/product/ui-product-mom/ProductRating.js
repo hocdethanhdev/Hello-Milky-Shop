@@ -27,7 +27,7 @@ export default function ProductRating({ productID, userID, fetchComments, setRat
             case 3:
                 return `${t('good')}`;
             case 4:
-                return `${t('pretty good')}`;
+                return `${t('prettyGood')}`;
             case 5:
                 return `${t('great')}`;
             default:
