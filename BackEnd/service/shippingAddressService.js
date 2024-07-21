@@ -1,4 +1,5 @@
 
+const { updateShippingAddress } = require("../controller/shippingAddressController");
 const shippingAddressRepository = require("../repository/shippingAddressRepository");
 
 const shippingAddressService = {
@@ -22,5 +23,8 @@ const shippingAddressService = {
   getInfoAddressWithOrderNearest: async (UserID) => {
     return await shippingAddressRepository.getInfoAddressWithOrderNearest(UserID);
   },
+  updateShippingAddress: async (id, shippingAddress) => {
+    return await shippingAddressRepository.updateShippingAddress(id, shippingAddress);
+  }
 }
 module.exports = shippingAddressService;
