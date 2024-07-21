@@ -12,4 +12,7 @@ router.put('/updateDeleted/:shippingAddress_id', shippingAddressController.updat
 
 router.post('/getInfoAddressWithOrderNearest', shippingAddressController.getInfoAddressWithOrderNearest);
 
+router.put('/updateShippingAddress/:id', shippingAddressController.updateShippingAddress);
+
+
 module.exports = router

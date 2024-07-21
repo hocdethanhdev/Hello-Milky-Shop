@@ -1,4 +1,5 @@
 const shippingAddressDAO = require("../dao/shippingAddressDAO");
+const { updateShippingAddress } = require("../service/shippingAddressService");
 
 const shippingAddressRepository = {
   getInfoShippingByUserID: async (ID) => {
@@ -20,6 +21,9 @@ const shippingAddressRepository = {
   getInfoAddressWithOrderNearest: async (UserID) => {
     return await shippingAddressDAO.findInfoAddressWithOrderNearest(UserID);
   },
+  updateShippingAddress: async (id, shippingAddress)=>{
+    return await shippingAddressDAO.editShippingAddress(id, shippingAddress);
+  }
 }
 
 module.exports = shippingAddressRepository;
