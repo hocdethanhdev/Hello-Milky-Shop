@@ -674,7 +674,7 @@ const ShoppingCart = () => {
                     className="points-icon"
                   />
                 </span>
-                {t('use')} {points} {t('coins')} - {formatPrice(points * 10)} <p>₫</p>
+                {t('use')} {points} {t('coins')} - {formatPrice(points * 10)} <span className="đ">đ</span>
               </label>
             </div>
 
