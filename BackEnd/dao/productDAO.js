@@ -132,7 +132,7 @@ const productDAO = {
           LEFT JOIN ProductPromotionList ppl ON p.ProductID = ppl.ProductID
           LEFT JOIN Promotion pm ON pm.PromotionID = ppl.PromotionID
           WHERE p.ProductID = @id
-          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName, StockQuantity, p.Description;
+          GROUP BY p.ProductID, p.ProductName, p.Image, p.Price, b.BrandName, StockQuantity, p.Description, p.Status;
         ;`,
           (err, res) => {
             if (err) reject(err);

@@ -212,7 +212,7 @@ const ProductContentMom = ({ product }) => {
               </div>
 
               {isLoggedIn ? (
-                (product.StockQuantity > 0 && product.status === 1) ? (
+                (product.StockQuantity > 0 && product.Status === true) ? (
                   <>
                     <div className="box_info box_status">
                       <span className="box_info_txt left">{t('storage')}: </span>
