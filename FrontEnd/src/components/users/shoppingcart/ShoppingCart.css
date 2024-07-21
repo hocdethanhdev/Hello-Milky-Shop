@@ -534,3 +534,16 @@ body {
 .voucher-dis-x {
   display: flex;
 }
+.cancel-voucher-btn {
+  margin-left: 10px;
+  padding: 5px 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  max-height: 25px;
+}
+.voucher-dis-x {
+  display: flex;
+}
