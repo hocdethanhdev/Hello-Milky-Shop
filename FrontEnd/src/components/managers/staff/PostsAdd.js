@@ -74,7 +74,10 @@ function PostsAdd() {
 
     try {
       const downloadURL = await uploadImage(headerImage);
-
+      if(!downloadURL){
+        message.error("Ảnh cho bài viết không hợp lệ.");
+        return;
+      }
       const sanitizedContent = DOMPurify.sanitize(editorContent);
 
       const postData = {
@@ -158,6 +161,10 @@ function PostsAdd() {
               if (file) {
                 try {
                   const url = await uploadImage(file);
+                  if(!url){
+                    message.error("Ảnh cho bài viết không hợp lệ.");
+                    return;
+                  }
                   const img = document.createElement("img");
                   img.src = url;
                   img.alt = "Image";

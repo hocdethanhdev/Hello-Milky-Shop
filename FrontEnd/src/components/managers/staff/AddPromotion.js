@@ -102,7 +102,10 @@ const AddPromotion = () => {
 
     try {
       const downloadURL = await uploadImage(image);
-
+      if(!downloadURL){
+        message.error("Ảnh cho khuyến mãi không hợp lệ.");
+        return;
+      }
       const promotionData = {
         promotionName,
         description,

@@ -52,6 +52,10 @@ const EditProductModal = () => {
       const file = files[0];
       try {
         const imageUrl = await uploadImage(file);
+        if(!imageUrl){
+          message.error("Ảnh cho sản phẩm không hợp lệ.");
+          return;
+        }
         setFormData((prevData) => ({ ...prevData, Image: imageUrl }));
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -272,6 +276,10 @@ const EditProductModal = () => {
               if (file) {
                 try {
                   const url = await uploadImage(file);
+                  if(!url){
+                    message.error("Ảnh cho sản phẩm không hợp lệ.");
+                    return;
+                  }
                   const img = document.createElement("img");
                   img.src = url;
                   img.alt = "Image";
