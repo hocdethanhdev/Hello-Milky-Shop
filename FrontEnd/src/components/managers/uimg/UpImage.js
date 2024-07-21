@@ -3,6 +3,12 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export const uploadImage = (image) => {
   return new Promise((resolve, reject) => {
+
+    if (image.type !== 'image/png') {
+      reject("Only .png files are allowed.");
+      return;
+    }
+    
     const storageRef = ref(storage, `images/${image.name}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
   
