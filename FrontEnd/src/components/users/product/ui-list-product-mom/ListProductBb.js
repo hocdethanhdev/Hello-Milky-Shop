@@ -5,7 +5,10 @@ import SliderMoney from "./SliderMoney";
 import ThrowPage from "./ThrowPage";
 import StarRating from "./StarRating";
 import config from "../../../config/config";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
+import { Select } from "antd";
+
+const { Option } = Select;
 
 const formatPrice = (price) => {
   return `${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -57,8 +60,7 @@ const ListProductBb = () => {
     }
   };
 
-  const handleSortChange = (e) => {
-    const { value } = e.target;
+  const handleSortChange = (value) => {
     setSortOption(value);
     applyFiltersAndSorting(priceRange, value, selectedBrand);
   };
@@ -68,8 +70,7 @@ const ListProductBb = () => {
     applyFiltersAndSorting(values, sortOption, selectedBrand);
   };
 
-  const handleBrandChange = (e) => {
-    const { value } = e.target;
+  const handleBrandChange = (value) => {
     setSelectedBrand(value);
     applyFiltersAndSorting(priceRange, sortOption, value);
   };
@@ -180,7 +181,9 @@ const ListProductBb = () => {
             />
             <div className="title_cate_right">
               <div className="loc-theo-gia-list-mom">
-                <div className="center-text-list-promom">{t('filterByPrice')}</div>
+                <div className="center-text-list-promom">
+                  {t("filterByPrice")}
+                </div>
                 <SliderMoney
                   min={0}
                   max={2000000}
@@ -192,38 +195,40 @@ const ListProductBb = () => {
 
               <div className="loc-theo-brand-list-mom">
                 <div className="center-text-list-promom">
-                {t('filterByBrand')}
+                  {t("filterByBrand")}
                 </div>
-                <select
-                  name="brandFilter"
-                  id="brandFilter"
+                <Select
+                  style={{ width: "100%" }}
                   value={selectedBrand}
                   onChange={handleBrandChange}
-                >
-                  <option value="">{t('all')}</option>
+                  placeholder={t("all")}>
+                  <Option value="">{t("all")}</Option>
                   {brands.map((brand, index) => (
-                    <option key={index} value={brand.BrandName}>
+                    <Option key={index} value={brand.BrandName}>
                       {brand.BrandName}
-                    </option>
+                    </Option>
                   ))}
-                </select>
+                </Select>
               </div>
 
               <span className="title_filter">
-                <div className="center-text-list-promom">{t('sortedBy')}</div>
-                <select
-                  name="sortProduct"
-                  id="sortProduct"
+                <div className="center-text-list-promom">{t("sortedBy")}</div>
+                <Select
+                  style={{ width: "100%" }}
                   value={sortOption}
                   onChange={handleSortChange}
-                >
-                  <option value="">{t('random')}</option>
-                  <option value="priceAsc">{t('pricesGraduallyIncrease')}</option>
-                  <option value="priceDesc">{t('pricesGraduallyDecrease')}</option>
-                  <option value="nameAsc">{t('nameAZ')} </option>
-                  <option value="nameDesc">{t('nameZA')}</option>
-                  <option value="promotionDesc">{t('promotion')}</option>
-                </select>
+                  placeholder={t("random")}>
+                  <Option value="">{t("random")}</Option>
+                  <Option value="priceAsc">
+                    {t("pricesGraduallyIncrease")}
+                  </Option>
+                  <Option value="priceDesc">
+                    {t("pricesGraduallyDecrease")}
+                  </Option>
+                  <Option value="nameAsc">{t("nameAZ")}</Option>
+                  <Option value="nameDesc">{t("nameZA")}</Option>
+                  <Option value="promotionDesc">{t("promotion")}</Option>
+                </Select>
               </span>
             </div>
 
@@ -233,8 +238,7 @@ const ListProductBb = () => {
                 <div
                   className="product"
                   key={index}
-                  onClick={() => handleProductClick(product.ProductID)}
-                >
+                  onClick={() => handleProductClick(product.ProductID)}>
                   <div className="product_child">
                     <div className="pro_img">
                       <Link to="#" title={product.ProductName}>

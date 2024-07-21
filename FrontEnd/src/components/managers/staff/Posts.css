@@ -105,3 +105,9 @@ h2 {
 .posts-container {
   box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
+
+.pagination-container{
+    display: flex;
+    justify-content: center;
+    padding: 20px 0px 0px 0px;
+}
