@@ -10,8 +10,9 @@ import config from "../../config/config";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
-
+import { useNavigate } from "react-router-dom";
 const ProductAdd = () => {
+  const navigate = useNavigate();
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -209,6 +210,7 @@ const ProductAdd = () => {
       );
 
       message.success("Tạo sản phẩm thành công.");
+      navigate("/products");
       // Reset form
       setProductName("");
       setDescription("");
