@@ -74,6 +74,7 @@ function PostsAdd() {
 
     try {
       const downloadURL = await uploadImage(headerImage);
+      
       if(!downloadURL){
         message.error("Ảnh cho bài viết không hợp lệ.");
         return;

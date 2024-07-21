@@ -52,12 +52,9 @@ const EditProductModal = () => {
       const file = files[0];
       try {
         const imageUrl = await uploadImage(file);
-        if(!imageUrl){
-          message.error("Ảnh cho sản phẩm không hợp lệ.");
-          return;
-        }
         setFormData((prevData) => ({ ...prevData, Image: imageUrl }));
       } catch (error) {
+        setFormData((prevData) => ({ ...prevData, Image: null }));
         console.error("Error uploading image:", error);
       }
     } else if (name === "Price") {
@@ -134,6 +131,11 @@ const EditProductModal = () => {
 
     if (expirationDate <= manufacturingDate) {
       message.warning("Ngày hết hạn phải diễn ra sau ngày sản xuất.");
+      return;
+    }
+
+    if(!formData.Image){
+      message.warning("Ảnh cho sản phẩm không hợp lệ.");
       return;
     }
 
@@ -276,10 +278,6 @@ const EditProductModal = () => {
               if (file) {
                 try {
                   const url = await uploadImage(file);
-                  if(!url){
-                    message.error("Ảnh cho sản phẩm không hợp lệ.");
-                    return;
-                  }
                   const img = document.createElement("img");
                   img.src = url;
                   img.alt = "Image";
