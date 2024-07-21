@@ -53,9 +53,11 @@ const EditArticleModal = () => {
     if (imageFile) {
       try {
         const imageUrl = await uploadImage(imageFile);
+
         setPreviewImage(imageUrl);
         setFormData({ ...formData, HeaderImage: imageUrl });
       } catch (error) {
+        setFormData({ ...formData, HeaderImage: null });
         console.error("Error uploading image:", error);
       }
     } else {
@@ -84,7 +86,7 @@ const EditArticleModal = () => {
       return;
     }
     if (!formData.HeaderImage) {
-      message.warning("Hãy thêm ảnh vào.");
+      message.warning("Ảnh đầu trang trống hoặc không hợp lệ");
       window.scrollTo(0, 0);
       return;
     }
