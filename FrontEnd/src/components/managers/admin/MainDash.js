@@ -394,7 +394,7 @@ function MainDash() {
             />
           </div>
           <div className="charts-card-dasha">
-            <h2 className="chart-title-dasha">Doanh thu trong 7 tháng</h2>
+            <h2 className="chart-title-dasha">Doanh thu trong 6 tháng</h2>
             <Chart
               options={areaChartOptions.options}
               series={areaChartOptions.series}
