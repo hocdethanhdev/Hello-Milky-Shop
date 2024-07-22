@@ -897,7 +897,7 @@ const orderDAO = {
             SELECT 
               DATEADD(MONTH, -1, MonthStart)
             FROM MonthList
-            WHERE MonthStart > DATEADD(MONTH, -6, DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1))
+            WHERE MonthStart > DATEADD(MONTH, -5, DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1))
           )
           SELECT 
             FORMAT(MonthStart, 'yyyy-MM') AS Month, 
