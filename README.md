@@ -56,6 +56,3 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ## Contact
 For questions or feedback, please contact us at passmonswp@gmail.com
-
-## External Links
-- [Original Source Repository](https://github.com/hocdethanhdev/Hello-Milky-Shop)
