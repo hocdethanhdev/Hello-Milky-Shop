@@ -34,10 +34,12 @@ const OrderProfile = () => {
               getStatusFromStatusOrderName(order.StatusOrderName) === status
           )
           : orders;
+
         const groupedOrders = filteredOrders.reduce((acc, order) => {
-          const existingOrder = acc.find((o) => o.OrderID === order.OrderID);
-          if (existingOrder) {
-            existingOrder.items.push(order);
+          const existingOrderIndex = acc.findIndex((o) => o.OrderID === order.OrderID);
+          if (existingOrderIndex > -1) {
+            acc[existingOrderIndex].items.push(order);
+            acc[existingOrderIndex].totalPrice = calculateTotalPrice(acc[existingOrderIndex].items);
           } else {
             acc.push({
               OrderID: order.OrderID,
@@ -66,6 +68,16 @@ const OrderProfile = () => {
     [userIdd]
   );
 
+  const calculateTotalPrice = (items) => {
+    return items
+      .reduce((total, item) => {
+        const discountedPrice = item.NewPrice || item.OldPrice;
+        return total + item.Quantity * discountedPrice;
+      }, 0)
+      .toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+  };
+
+
   const getStatusFromStatusOrderName = (statusOrderName) => {
     switch (statusOrderName) {
       case "Chờ xác nhận":
@@ -81,14 +93,7 @@ const OrderProfile = () => {
     }
   };
 
-  const calculateTotalPrice = (items) => {
-    return items
-      .reduce((total, item) => {
-        const discountedPrice = item.NewPrice || item.OldPrice;
-        return total + item.Quantity * discountedPrice;
-      }, 0)
-      .toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-  };
+
 
   useEffect(() => {
     const statusCode = activeTab === "Tất cả" ? "" : activeTab;
@@ -284,7 +289,7 @@ const OrderProfile = () => {
             className={activeTab === "Hoàn Thành" ? "active" : ""}
             onClick={() => setActiveTab("Hoàn thành")}
           >
-           {t('complete')}
+            {t('complete')}
           </li>
           <li
             className={activeTab === "Đã hủy" ? "active" : ""}
